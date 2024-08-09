@@ -139,7 +139,7 @@ const _ContentModel = types
 
       const params = {
         context: this.context,
-        filters: self.filters.values,
+        filters: self.filters.valuesForPayload,
       };
       return {
         ...params,
@@ -156,7 +156,7 @@ const _ContentModel = types
           ...self.mock_context.current,
           ...context,
         },
-        filters: self.filters.values,
+        filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
     },
     get dashboardState() {

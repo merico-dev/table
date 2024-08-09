@@ -1,16 +1,54 @@
 import dayjs from 'dayjs';
 
-import { getParent, Instance, types } from 'mobx-state-tree';
+import { getParent, Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
-export type TDateRangePickerValue = [string | null, string | null];
 
-function postProcessDefaultValue(default_value: Array<number | string | null>, inputFormat: string) {
+export type DateRangeValue_Value = [Date | null, Date | null];
+export type DateRangeValue = {
+  value: [Date | null, Date | null];
+  shortcut: string | null;
+};
+
+export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnapshotOut): DateRangeValue {
+  try {
+    if (config.default_shortcut) {
+      const range = getDateRangeShortcutValue(config.default_shortcut);
+      if (range) {
+        return {
+          value: range.value.map((d) => dayjs(d).toDate()) as DateRangeValue_Value,
+          shortcut: config.default_shortcut,
+        };
+      }
+    }
+
+    const value = config.default_value.map((v) => {
+      if (v === null) {
+        return v;
+      }
+      const d = dayjs.tz(v, 'UTC').toDate();
+      return d ?? v;
+    }) as DateRangeValue_Value;
+
+    return {
+      value,
+      shortcut: null,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      value: [null, null],
+      shortcut: null,
+    };
+  }
+}
+
+function postProcessDefaultValue(default_value: Array<number | Date | null>, inputFormat: string) {
   return default_value.map((v) => {
     try {
       if (!v) {
         return null;
       }
-      return dayjs.tz(v, 'UTC').format(inputFormat);
+      return dayjs.tz(v, 'UTC').toISOString();
     } catch (error) {
       console.log(`[date-range] failed parsing ${v}`);
       return null;
@@ -23,7 +61,7 @@ const _FilterDateRangeConfigMeta = types
     _name: types.literal('date-range'),
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
-    default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
+    default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
     default_shortcut: types.optional(types.string, ''),
     clearable: types.boolean, // TODO: will be deprecated
     max_days: types.optional(types.number, 0),
@@ -52,15 +90,33 @@ const _FilterDateRangeConfigMeta = types
         allowSingleDateInRange,
       };
     },
-    truthy(value: any) {
-      return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
+    truthy(fullValue: DateRangeValue) {
+      try {
+        const { value } = fullValue;
+        return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
     },
     get filter(): any {
       return getParent(self);
     },
+    get dateStringsValue(): [string, string] {
+      try {
+        const fullValue = this.filter.value;
+        const [begin, end] = fullValue.value;
+        const beginStr = begin ? dayjs(begin).format(self.inputFormat) : '';
+        const endStr = end ? dayjs(end).format(self.inputFormat) : '';
+        return [beginStr, endStr];
+      } catch (error) {
+        console.error(error);
+        return ['', ''];
+      }
+    },
   }))
   .actions((self) => ({
-    setFilterValue(v: TDateRangePickerValue) {
+    setFilterValue(v: DateRangeValue) {
       try {
         self.filter.setValue(v);
       } catch (error) {
@@ -78,22 +134,20 @@ const _FilterDateRangeConfigMeta = types
     setInputFormat(inputFormat: string) {
       self.inputFormat = inputFormat;
     },
-    setDefaultValue(v: TDateRangePickerValue) {
+    setDefaultValue(v: DateRangeValue) {
       self.default_value.length = 0;
-      self.default_value.push(...v);
+      self.default_value.push(...v.value);
       self.setFilterValue(v);
     },
     setDefaultShortcut(v: string) {
-      self.default_shortcut = v;
+      self.default_shortcut = v ?? '';
       if (!v) {
         return;
       }
 
       const range = getDateRangeShortcutValue(self.default_shortcut);
-      console.log(range);
       if (range) {
-        const newValue = range.map((d) => dayjs(d).format(self.inputFormat)) as TDateRangePickerValue;
-        self.setFilterValue(newValue);
+        self.setFilterValue(range);
       }
     },
     setMaxDays(v: number) {
@@ -112,7 +166,7 @@ export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRang
     return {
       ...rest,
       default_value: default_value.map((v: string | null) => {
-        return v === null ? null : dayjs.tz(v, 'UTC').toISOString();
+        return v === null ? null : dayjs.tz(v, 'UTC').toDate();
       }),
     };
   },
@@ -126,6 +180,7 @@ export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRang
 });
 
 export type FilterDateRangeConfigInstance = Instance<typeof FilterDateRangeConfigMeta>;
+export type FilterDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterDateRangeConfigMeta>;
 
 export const createFilterDateRangeConfig = () =>
   FilterDateRangeConfigMeta.create({

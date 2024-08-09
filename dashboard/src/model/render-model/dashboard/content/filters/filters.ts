@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Instance, getRoot, types } from 'mobx-state-tree';
+import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, ContextRecordType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters } from './utils';
@@ -15,6 +15,20 @@ export const FiltersRenderModel = types
     },
     get valuesString() {
       return JSON.stringify(self.values);
+    },
+    get filter(): any {
+      return getParent(self);
+    },
+    get valuesForPayload() {
+      const ret: Record<string, any> = {};
+      Object.entries(self.values).forEach(([k, v]) => {
+        ret[k] = v;
+        const f = this.findByKey(k);
+        if (f && f.config._name === 'date-range') {
+          ret[k] = f.config.dateStringsValue;
+        }
+      });
+      return ret;
     },
     get contentModel(): any {
       // @ts-expect-error typeof getRoot
@@ -40,6 +54,9 @@ export const FiltersRenderModel = types
     },
     findByID(id: string) {
       return self.current.find((f) => f.id === id);
+    },
+    findByKey(key: string) {
+      return self.current.find((f) => f.key === key);
     },
     findByIDSet(idset: Set<string>) {
       return self.current.filter((f) => idset.has(f.id));

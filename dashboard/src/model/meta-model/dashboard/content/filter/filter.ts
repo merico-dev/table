@@ -8,7 +8,6 @@ import { FilterMultiSelectConfigMeta, createFilterMultiSelectConfig } from './wi
 import { FilterSelectConfigMeta, createFilterSelectConfig } from './widgets/select';
 import { FilterTextInputConfigMeta, createFilterTextInputConfig } from './widgets/text-input';
 import { FilterTreeSelectConfigMeta, createFilterTreeSelectConfig } from './widgets/tree-select';
-import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
 
 export const FilterMeta = types
   .model('FilterMeta', {
