@@ -84,7 +84,7 @@ export const ContentRenderModel = types
           ...self.mock_context.current,
           ...context,
         },
-        filters: self.filters.values,
+        filters: self.filters.valuesForPayload,
       };
       return {
         ...params,
@@ -101,7 +101,7 @@ export const ContentRenderModel = types
           ...self.mock_context.current,
           ...context,
         },
-        filters: self.filters.values,
+        filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
     },
     get dashboardState() {

@@ -1,6 +1,6 @@
 import { Checkbox, Group, NumberInput, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { FilterDateRangeConfigInstance, FilterMetaInstance } from '~/model';
+import { DateRangeValue_Value, FilterDateRangeConfigInstance, FilterMetaInstance } from '~/model';
 import { FilterDateRange } from './render';
 import { useMemo } from 'react';
 import { getDateRangeShortcuts } from './widget/shortcuts/shortcuts';
@@ -22,7 +22,6 @@ const inputFormatOptions = [
 export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ filter }: IFilterEditorDateRange) {
   const { t } = useTranslation();
   const config = filter.config as FilterDateRangeConfigInstance;
-
   const shortcuts = useMemo(
     () =>
       getDateRangeShortcuts().map(({ key, value, group }) => ({
@@ -32,6 +31,8 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
       })),
     [],
   );
+
+  const defaultValue = [...config.default_value] as DateRangeValue_Value;
   return (
     <>
       <Group>
@@ -65,8 +66,7 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         <FilterDateRange
           label={t('filter.widget.date_range.default_value')}
           config={config}
-          // @ts-expect-error type of default_value
-          value={config.default_value}
+          value={{ value: defaultValue, shortcut: null }}
           onChange={config.setDefaultValue}
           disabled={!!config.default_shortcut}
         />

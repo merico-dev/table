@@ -7,6 +7,9 @@ import { useTranslation } from 'react-i18next';
 export const CountDays = ({ begin, end }: { begin: DateValue; end: DateValue }) => {
   const { t } = useTranslation();
   const count = useMemo(() => {
+    if (!end && !begin) {
+      return Number.NaN;
+    }
     return dayjs(end).diff(dayjs(begin), 'days') + 1;
   }, [begin, end]);
 
