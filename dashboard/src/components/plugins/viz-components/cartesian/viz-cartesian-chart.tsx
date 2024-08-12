@@ -1,16 +1,18 @@
-import { Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { ReadonlyRichText } from '~/components/widgets';
+import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable, templateToJSX } from '~/utils';
+import { ITemplateVariable, parseRichTextContent } from '~/utils';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
@@ -96,7 +98,9 @@ function Chart({
   );
 }
 
-export function VizCartesianChart({ context, instance }: VizViewProps) {
+export const VizCartesianChart = observer(({ context, instance }: VizViewProps) => {
+  const contentModel = useRenderContentModelContext();
+  const { panel } = useRenderPanelContext();
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
     instance,
@@ -109,13 +113,11 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const { width, height } = context.viewport;
   const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
-  const templates = React.useMemo(() => {
-    const {
-      stats: { templates },
-    } = conf;
+  const statsContent = React.useMemo(() => {
+    const { stats } = conf;
     return {
-      top: templateToJSX(templates.top, variables, data),
-      bottom: templateToJSX(templates.bottom, variables, data),
+      top: parseRichTextContent(stats.top, variables, contentModel.payloadForViz, data),
+      bottom: parseRichTextContent(stats.bottom, variables, contentModel.payloadForViz, data),
     };
   }, [conf, data]);
 
@@ -123,17 +125,30 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const finalWidth = getBoxContentWidth(width);
   return (
     <DefaultVizBox width={width} height={height}>
-      <Text
+      <ReadonlyRichText
         ref={topStatsRef}
-        align="left"
-        size="xs"
-        pl="sm"
-        sx={{ display: templateNotEmpty(conf.stats.templates.top) ? 'block' : 'none' }}
-      >
-        {Object.values(templates.top).map((c, i) => (
-          <React.Fragment key={i}>{c}</React.Fragment>
-        ))}
-      </Text>
+        value={statsContent.top}
+        styles={{
+          root: {
+            border: 'none',
+            maxWidth: width,
+            '&.mantine-RichTextEditor-root': {
+              overflow: 'auto !important',
+            },
+          },
+          content: {
+            '&.mantine-RichTextEditor-content .ProseMirror': {
+              padding: 0,
+            },
+            '&.mantine-RichTextEditor-content .ProseMirror > p': {
+              fontSize: '12px',
+              lineHeight: 1.55,
+            },
+          },
+        }}
+        dashboardState={contentModel.dashboardState}
+        variableAggValueMap={panel.variableAggValueMap}
+      />
 
       <Chart
         variables={variables}
@@ -144,17 +159,30 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
         interactionManager={interactionManager}
       />
 
-      <Text
+      <ReadonlyRichText
         ref={bottomStatsRef}
-        align="left"
-        size="xs"
-        pl="sm"
-        sx={{ display: templateNotEmpty(conf.stats.templates.bottom) ? 'block' : 'none' }}
-      >
-        {Object.values(templates.bottom).map((c, i) => (
-          <React.Fragment key={i}>{c}</React.Fragment>
-        ))}
-      </Text>
+        value={statsContent.bottom}
+        styles={{
+          root: {
+            border: 'none',
+            maxWidth: width,
+            '&.mantine-RichTextEditor-root': {
+              overflow: 'auto !important',
+            },
+          },
+          content: {
+            '&.mantine-RichTextEditor-content .ProseMirror': {
+              padding: 0,
+            },
+            '&.mantine-RichTextEditor-content .ProseMirror > p': {
+              fontSize: '12px',
+              lineHeight: 1.55,
+            },
+          },
+        }}
+        dashboardState={contentModel.dashboardState}
+        variableAggValueMap={panel.variableAggValueMap}
+      />
     </DefaultVizBox>
   );
-}
+});
