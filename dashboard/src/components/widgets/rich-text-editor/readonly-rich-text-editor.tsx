@@ -15,7 +15,7 @@ import Underline from '@tiptap/extension-underline';
 import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
-import { useEffect, useMemo } from 'react';
+import { forwardRef, useEffect, useMemo } from 'react';
 import { TDashboardState, VariableAggValueMap } from '~/model';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { getEmptyDashboardState } from '~/utils';
@@ -32,78 +32,74 @@ interface IReadonlyRichText {
   variableAggValueMap?: VariableAggValueMap;
 }
 
-export const ReadonlyRichText = ({
-  value,
-  styles = {},
-  sx = {},
-  dashboardState = getEmptyDashboardState(),
-  variableAggValueMap = {},
-}: IReadonlyRichText) => {
-  const inPanelContext = useIsInRenderPanelContext();
-  const extensions: Extensions = useMemo(() => {
-    const ret = [
-      StarterKit,
-      Underline,
-      Link,
-      Superscript,
-      SubScript,
-      Highlight,
-      Table.configure({
-        resizable: false, // https://github.com/ueberdosis/tiptap/issues/2041
-        HTMLAttributes: {
-          class: 'rich-text-table-render',
-        },
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-      TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: 'This is placeholder' }),
-      TextStyle,
-      Color,
-      FontSize,
-      DynamicColorMark,
-    ];
-    if (inPanelContext) {
-      ret.push(ColorMappingMark);
-    }
-    return ret;
-  }, [inPanelContext]);
+export const ReadonlyRichText = forwardRef<HTMLDivElement, IReadonlyRichText>(
+  ({ value, styles = {}, sx = {}, dashboardState = getEmptyDashboardState(), variableAggValueMap = {} }, ref) => {
+    const inPanelContext = useIsInRenderPanelContext();
+    const extensions: Extensions = useMemo(() => {
+      const ret = [
+        StarterKit,
+        Underline,
+        Link,
+        Superscript,
+        SubScript,
+        Highlight,
+        Table.configure({
+          resizable: false, // https://github.com/ueberdosis/tiptap/issues/2041
+          HTMLAttributes: {
+            class: 'rich-text-table-render',
+          },
+        }),
+        TableRow,
+        TableHeader,
+        TableCell,
+        TextAlign.configure({ types: ['heading', 'paragraph'] }),
+        Placeholder.configure({ placeholder: 'This is placeholder' }),
+        TextStyle,
+        Color,
+        FontSize,
+        DynamicColorMark,
+      ];
+      if (inPanelContext) {
+        ret.push(ColorMappingMark);
+      }
+      return ret;
+    }, [inPanelContext]);
 
-  const editor = useEditor({
-    extensions,
-    content: value,
-    editable: false,
-  });
+    const editor = useEditor({
+      extensions,
+      content: value,
+      editable: false,
+    });
 
-  useEffect(() => {
-    editor?.commands.setContent(value);
-  }, [value, editor]);
+    useEffect(() => {
+      editor?.commands.setContent(value);
+    }, [value, editor]);
 
-  const doc = useMemo(() => {
-    const parser = new DOMParser();
-    return parser.parseFromString(value, 'text/html');
-  }, [value]);
+    const doc = useMemo(() => {
+      const parser = new DOMParser();
+      return parser.parseFromString(value, 'text/html');
+    }, [value]);
 
-  const dynamicColorStyles = useMemo(() => {
-    return getDynamicColorStyles(doc, dashboardState, variableAggValueMap);
-  }, [doc, dashboardState, variableAggValueMap]);
+    const dynamicColorStyles = useMemo(() => {
+      return getDynamicColorStyles(doc, dashboardState, variableAggValueMap);
+    }, [doc, dashboardState, variableAggValueMap]);
 
-  const colorMappingStyles = useMemo(() => {
-    return getColorMappingStyle(doc, variableAggValueMap);
-  }, [doc, variableAggValueMap]);
+    const colorMappingStyles = useMemo(() => {
+      return getColorMappingStyle(doc, variableAggValueMap);
+    }, [doc, variableAggValueMap]);
 
-  const finalStyles = useMemo(() => {
-    return _.defaultsDeep(
-      {},
-      { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles, ...colorMappingStyles } },
-      styles,
+    const finalStyles = useMemo(() => {
+      return _.defaultsDeep(
+        {},
+        { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles, ...colorMappingStyles } },
+        styles,
+      );
+    }, [styles, dynamicColorStyles, colorMappingStyles]);
+
+    return (
+      <RichTextEditor editor={editor} styles={finalStyles} sx={sx}>
+        <RichTextEditor.Content ref={ref} />
+      </RichTextEditor>
     );
-  }, [styles, dynamicColorStyles, colorMappingStyles]);
-
-  return (
-    <RichTextEditor editor={editor} styles={finalStyles} sx={sx}>
-      <RichTextEditor.Content />
-    </RichTextEditor>
-  );
-};
+  },
+);
