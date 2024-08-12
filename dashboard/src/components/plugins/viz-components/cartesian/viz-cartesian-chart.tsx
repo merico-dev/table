@@ -7,12 +7,11 @@ import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
-import { ReadonlyRichText } from '~/components/widgets';
-import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable, parseRichTextContent } from '~/utils';
+import { ITemplateVariable } from '~/utils';
+import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
@@ -26,10 +25,6 @@ interface IClickEchartsSeries {
   name: string;
   color: string;
   value: string; // string-typed number
-}
-
-function templateNotEmpty(str: string) {
-  return str.trim().length > 0;
 }
 
 function Chart({
@@ -99,8 +94,6 @@ function Chart({
 }
 
 export const VizCartesianChart = observer(({ context, instance }: VizViewProps) => {
-  const contentModel = useRenderContentModelContext();
-  const { panel } = useRenderPanelContext();
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
     instance,
@@ -111,44 +104,17 @@ export const VizCartesianChart = observer(({ context, instance }: VizViewProps) 
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
-  const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
-  const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
-  const statsContent = React.useMemo(() => {
-    const { stats } = conf;
-    return {
-      top: parseRichTextContent(stats.top, variables, contentModel.payloadForViz, data),
-      bottom: parseRichTextContent(stats.bottom, variables, contentModel.payloadForViz, data),
-    };
-  }, [conf, data]);
+  const topStats = useElementSize();
+  const bottomStats = useElementSize();
+  const { ref: topStatsRef, height: topStatsHeight } = topStats;
+  const { ref: bottomStatsRef, height: bottomStatsHeight } = bottomStats;
 
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
+
   return (
     <DefaultVizBox width={width} height={height}>
-      <ReadonlyRichText
-        ref={topStatsRef}
-        value={statsContent.top}
-        styles={{
-          root: {
-            border: 'none',
-            maxWidth: width,
-            '&.mantine-RichTextEditor-root': {
-              overflow: 'auto !important',
-            },
-          },
-          content: {
-            '&.mantine-RichTextEditor-content .ProseMirror': {
-              padding: 0,
-            },
-            '&.mantine-RichTextEditor-content .ProseMirror > p': {
-              fontSize: '12px',
-              lineHeight: 1.55,
-            },
-          },
-        }}
-        dashboardState={contentModel.dashboardState}
-        variableAggValueMap={panel.variableAggValueMap}
-      />
+      <StatsAroundViz ref={topStatsRef} value={conf.stats.top} context={context} />
 
       <Chart
         variables={variables}
@@ -159,30 +125,7 @@ export const VizCartesianChart = observer(({ context, instance }: VizViewProps) 
         interactionManager={interactionManager}
       />
 
-      <ReadonlyRichText
-        ref={bottomStatsRef}
-        value={statsContent.bottom}
-        styles={{
-          root: {
-            border: 'none',
-            maxWidth: width,
-            '&.mantine-RichTextEditor-root': {
-              overflow: 'auto !important',
-            },
-          },
-          content: {
-            '&.mantine-RichTextEditor-content .ProseMirror': {
-              padding: 0,
-            },
-            '&.mantine-RichTextEditor-content .ProseMirror > p': {
-              fontSize: '12px',
-              lineHeight: 1.55,
-            },
-          },
-        }}
-        dashboardState={contentModel.dashboardState}
-        variableAggValueMap={panel.variableAggValueMap}
-      />
+      <StatsAroundViz ref={bottomStatsRef} value={conf.stats.bottom} context={context} />
     </DefaultVizBox>
   );
 });
