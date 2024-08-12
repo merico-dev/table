@@ -833,8 +833,8 @@ export const en = {
       stats: {
         label: 'Stats',
         template: {
-          above_chart: 'Template for stats above the chart',
-          under_chart: 'Template for stats under the chart',
+          above_chart: 'Stats above the chart',
+          under_chart: 'Stats under the chart',
         },
       },
       legend: {
