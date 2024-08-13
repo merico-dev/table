@@ -1,5 +1,5 @@
 import { Stack } from '@mantine/core';
-import _, { defaults } from 'lodash';
+import { defaults } from 'lodash';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -21,21 +21,16 @@ function Editor({ conf, setConf }: EditorProps) {
   const defaultValues = React.useMemo(() => {
     return defaults({}, conf);
   }, [conf]);
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IVizStatsConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IVizStatsConf>({ defaultValues });
   React.useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
   watch(['content', 'vertical_align']);
-  const values = getValues();
-  const changed = React.useMemo(() => {
-    return !_.isEqual(values, conf);
-  }, [values, conf]);
-
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Controller
           control={control}
           name="vertical_align"

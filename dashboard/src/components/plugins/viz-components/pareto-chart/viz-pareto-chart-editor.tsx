@@ -1,8 +1,9 @@
 import { Tabs } from '@mantine/core';
-import { defaults, isEqual } from 'lodash';
+import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
@@ -10,11 +11,10 @@ import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field'
 import { BarField } from './editors/bar';
 import { LineField } from './editors/line';
 import { MarkLineField } from './editors/mark-line';
+import { ReferenceLinesField } from './editors/reference-lines';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
-import { useTranslation } from 'react-i18next';
-import { ReferenceLinesField } from './editors/reference-lines';
 
 export function VizParetoChartEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -22,20 +22,15 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
   const { variables } = context;
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IParetoChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IParetoChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
   watch(['x_axis', 'data_key', 'bar', 'line', 'dataZoom']);
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
-
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <VizConfigBanner canSubmit={changed} />
+      <VizConfigBanner canSubmit={formState.isDirty} />
 
       <Tabs
         defaultValue="X Axis"

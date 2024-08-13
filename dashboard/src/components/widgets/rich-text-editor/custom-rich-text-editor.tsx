@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack, Sx, Text } from '@mantine/core';
+import { Button, Group, Stack, Sx, Text } from '@mantine/core';
 import { Link, RichTextEditor, RichTextEditorProps, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconBorderAll, IconDeviceFloppy } from '@tabler/icons-react';
 import { Color } from '@tiptap/extension-color';
@@ -17,12 +17,13 @@ import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useIsInEditPanelContext } from '~/contexts';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
-import { ChooseFontSize, FontSize } from './font-size-extension';
-import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
-import { ColorPickerControl } from './color-picker-control';
 import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
-import { useIsInEditPanelContext, useRenderPanelContext } from '~/contexts';
+import { ColorPickerControl } from './color-picker-control';
+import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
+import { ChooseFontSize, FontSize } from './font-size-extension';
 
 const RTEContentStyle: Sx = {
   'dynamic-color': {
@@ -77,6 +78,7 @@ interface ICustomRichTextEditor {
 
 export const CustomRichTextEditor = forwardRef(
   ({ value, onChange, styles = {}, label, autoSubmit, onSubmit }: ICustomRichTextEditor, ref: any) => {
+    const { t } = useTranslation();
     const inPanelContext = useIsInEditPanelContext();
     const extensions: Extensions = useMemo(() => {
       const ret = [
@@ -161,9 +163,17 @@ export const CustomRichTextEditor = forwardRef(
             {label}
           </Text>
           {!autoSubmit && (
-            <ActionIcon color="green" disabled={!changed} onClick={submit}>
-              <IconDeviceFloppy size={18} />
-            </ActionIcon>
+            <Button
+              variant="filled"
+              color="blue"
+              size="xs"
+              compact
+              disabled={!changed}
+              onClick={submit}
+              leftIcon={<IconDeviceFloppy size={16} />}
+            >
+              {t('common.actions.save_changes')}
+            </Button>
           )}
         </Group>
         <RichTextEditor editor={editor} styles={finalStyles}>

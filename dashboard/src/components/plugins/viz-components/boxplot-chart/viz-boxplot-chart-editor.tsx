@@ -1,5 +1,5 @@
 import { Stack, Tabs, Text } from '@mantine/core';
-import { defaults, isEqual } from 'lodash';
+import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -22,21 +22,17 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   const { variables } = context;
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IBoxplotChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IBoxplotChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
   watch(['x_axis', 'y_axis', 'reference_lines', 'color', 'dataZoom']);
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
 
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

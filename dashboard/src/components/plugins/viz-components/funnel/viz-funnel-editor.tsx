@@ -13,21 +13,15 @@ export function VizFunnelEditor({ context }: VizConfigProps) {
   const { variables } = context;
   const conf: IFunnelConf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IFunnelConf>({ defaultValues: conf });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IFunnelConf>({ defaultValues: conf });
   useEffect(() => {
     reset(conf);
   }, [conf]);
 
-  watch([]);
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !_.isEqual(values, conf);
-  }, [values, conf]);
-
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         {/* <Tabs
           defaultValue="Basics"
           orientation="vertical"

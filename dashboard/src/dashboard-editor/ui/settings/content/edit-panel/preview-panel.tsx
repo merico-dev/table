@@ -8,6 +8,11 @@ import { ErrorBoundary } from '~/utils';
 
 const PreviewTitleBar = observer(() => {
   const { panel } = useRenderPanelContext();
+
+  if (!panel.title.show) {
+    return null;
+  }
+
   return (
     <Group grow position="center" className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
       <Text align="center" lineClamp={1} className="panel-title-text">

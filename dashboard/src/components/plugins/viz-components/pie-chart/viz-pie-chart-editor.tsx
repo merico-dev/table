@@ -2,12 +2,12 @@ import { Stack } from '@mantine/core';
 import _, { defaultsDeep } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
-import { useTranslation } from 'react-i18next';
 
 export function VizPieChartEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -15,22 +15,17 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
   const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IPieChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IPieChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
-
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !_.isEqual(values, conf);
-  }, [values, conf]);
 
   watch(['label_field', 'value_field', 'color_field']);
 
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <Controller
             control={control}

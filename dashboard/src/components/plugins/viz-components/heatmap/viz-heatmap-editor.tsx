@@ -9,11 +9,11 @@ import { VizConfigProps } from '~/types/plugin';
 import { VisualMapEditor } from '../../common-echarts-fields/visual-map';
 import { VizConfigBanner } from '../../editor-components';
 import { HeatBlockField } from './editors/heat_block';
+import { PaginationField } from './editors/pagination';
 import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
-import { PaginationField } from './editors/pagination';
 
 export function VizHeatmapEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -37,20 +37,15 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
   }, [conf, defaultValues]);
 
   const form = useForm<IHeatmapConf>({ defaultValues });
-  const { control, handleSubmit, watch, getValues, reset } = form;
+  const { control, handleSubmit, watch, formState, reset } = form;
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
-
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1 }}>
       <Stack spacing="xs" sx={{ height: '100%' }}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

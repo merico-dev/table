@@ -1,9 +1,9 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import { defaults } from 'lodash';
 import { useEffect, useMemo, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
 import { VizConfigProps } from '~/types/plugin';
@@ -35,8 +35,8 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
           sx={{ borderBottom: '1px solid #eee', background: '#efefef', display: 'none' }}
         >
           <Text>{t('rich_text.content.label')}</Text>
-          <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="green">
-            <DeviceFloppy size={20} />
+          <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="blue">
+            <IconDeviceFloppy size={20} />
           </ActionIcon>
         </Group>
         <Controller
