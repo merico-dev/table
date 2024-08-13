@@ -1,5 +1,7 @@
 import { Box } from '@mantine/core';
-import { forwardRef, useMemo, useRef } from 'react';
+import { useElementSize } from '@mantine/hooks';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useMemo } from 'react';
 import { ReadonlyRichText } from '~/components/widgets';
 import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { VizViewContext } from '~/types/plugin';
@@ -8,9 +10,10 @@ import { parseRichTextContent } from '~/utils';
 type Props = {
   value: string;
   context: VizViewContext;
+  onHeightChange?: (v: number) => void;
 };
-export const StatsAroundViz = forwardRef<HTMLDivElement, Props>(({ value, context }, ref) => {
-  const rootRef = useRef<HTMLDivElement>(null);
+export const StatsAroundViz = observer(({ value, context, onHeightChange }: Props) => {
+  const { ref } = useElementSize();
   const contentModel = useRenderContentModelContext();
   const { panel } = useRenderPanelContext();
   const { variables, data } = context;
@@ -19,9 +22,21 @@ export const StatsAroundViz = forwardRef<HTMLDivElement, Props>(({ value, contex
     return parseRichTextContent(value, variables, contentModel.payloadForViz, data);
   }, [value, variables, data]);
 
-  const display = rootRef.current?.textContent === '' ? 'none' : 'block';
+  const textContentEmpty = ref.current?.textContent === '';
+  useEffect(() => {
+    if (!onHeightChange || !ref.current) {
+      return;
+    }
+    const h = textContentEmpty ? 0 : ref.current.offsetHeight;
+    onHeightChange(h);
+  }, [textContentEmpty, ref.current]);
+
+  const display = useMemo(() => {
+    return textContentEmpty ? 'none' : 'block';
+  }, [textContentEmpty]);
+
   return (
-    <Box sx={{ display }} ref={rootRef}>
+    <Box sx={{ display }}>
       <ReadonlyRichText
         ref={ref}
         value={content}
