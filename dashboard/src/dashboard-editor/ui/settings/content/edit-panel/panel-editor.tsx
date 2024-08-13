@@ -1,6 +1,13 @@
 import { Box, Button, Group, LoadingOverlay, Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconTrash } from '@tabler/icons-react';
+import {
+  IconAppWindow,
+  IconChartHistogram,
+  IconDatabase,
+  IconRoute,
+  IconTrash,
+  IconVariable,
+} from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -116,21 +123,25 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       </Group>
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
-          <Tabs.Tab value="Data" disabled={loading}>
+          <Tabs.Tab value="Data" icon={<IconDatabase size={14} />} disabled={loading}>
             {t('data.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Panel">{t('panel.label')}</Tabs.Tab>
-          <Tabs.Tab value="Variables" disabled={dataNotReady}>
+          <Tabs.Tab value="Panel" icon={<IconAppWindow size={14} />}>
+            {t('panel.label')}
+          </Tabs.Tab>
+          <Tabs.Tab value="Variables" icon={<IconVariable size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Visualization" disabled={dataNotReady}>
+          <Tabs.Tab value="Visualization" icon={<IconChartHistogram size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Interactions">{t('interactions.label')}</Tabs.Tab>
+          <Tabs.Tab value="Interactions" icon={<IconRoute size={14} />}>
+            {t('interactions.label')}
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">

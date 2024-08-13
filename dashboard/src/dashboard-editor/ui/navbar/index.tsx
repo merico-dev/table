@@ -1,8 +1,8 @@
 import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
-import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons-react';
+import { IconDatabase, IconFilter, IconRoute, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
@@ -54,7 +54,7 @@ export const DashboardEditorNavbar = observer(() => {
           </Tooltip>
           <Tooltip label={t('interactions.interactions_viewer')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openInteractions}>
-              <IconLink size={18} />
+              <IconRoute size={18} />
             </ActionIcon>
           </Tooltip>
         </Group>
