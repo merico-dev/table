@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import { forwardRef, useEffect, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { ReadonlyRichText } from '~/components/widgets';
 import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { VizViewContext } from '~/types/plugin';
@@ -21,7 +21,7 @@ export const StatsAroundViz = forwardRef<HTMLDivElement, Props>(({ value, contex
 
   const display = rootRef.current?.textContent === '' ? 'none' : 'block';
   return (
-    <Box sx={{ maxHeight: '20px', display }} ref={rootRef}>
+    <Box sx={{ display }} ref={rootRef}>
       <ReadonlyRichText
         ref={ref}
         value={content}
