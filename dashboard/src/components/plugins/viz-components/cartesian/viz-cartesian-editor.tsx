@@ -1,5 +1,5 @@
 import { Stack, Tabs } from '@mantine/core';
-import { defaults, isEqual } from 'lodash';
+import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -30,21 +30,16 @@ function Editor({ conf, setConf, context }: EditorProps) {
   const { variables } = context;
   const defaultValues: ICartesianChartConf = useMemo(() => defaults({}, conf), [conf]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<ICartesianChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, reset, formState } = useForm<ICartesianChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
-
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, defaultValues);
-  }, [values, defaultValues]);
 
   watch(['dataZoom']);
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="Series"
           orientation="vertical"
