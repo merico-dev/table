@@ -1,8 +1,7 @@
-import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { defaults } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
@@ -91,10 +90,8 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
-  const topStats = useElementSize();
-  const bottomStats = useElementSize();
-  const { ref: topStatsRef, height: topStatsHeight } = topStats;
-  const { ref: bottomStatsRef, height: bottomStatsHeight } = bottomStats;
+  const [topStatsHeight, setTopStatsHeight] = useState(0);
+  const [bottomStatsHeight, setBottomStatsHeight] = useState(0);
 
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
@@ -104,7 +101,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
   }
   return (
     <DefaultVizBox width={width} height={height}>
-      <StatsAroundViz ref={topStatsRef} value={conf.stats.top} context={context} />
+      <StatsAroundViz onHeightChange={setTopStatsHeight} value={conf.stats.top} context={context} />
 
       <Chart
         variables={variables}
@@ -115,7 +112,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
         interactionManager={interactionManager}
       />
 
-      <StatsAroundViz ref={bottomStatsRef} value={conf.stats.bottom} context={context} />
+      <StatsAroundViz onHeightChange={setBottomStatsHeight} value={conf.stats.bottom} context={context} />
     </DefaultVizBox>
   );
 }
