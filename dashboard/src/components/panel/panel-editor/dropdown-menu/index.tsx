@@ -1,10 +1,18 @@
 import { Box, Divider, Menu } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconCamera, IconCode } from '@tabler/icons-react';
+import {
+  IconArrowsMaximize,
+  IconCamera,
+  IconCode,
+  IconCopy,
+  IconDownload,
+  IconRefresh,
+  IconSettings,
+  IconTrash,
+} from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useEditPanelContext } from '~/contexts/panel-context';
@@ -51,10 +59,10 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
             <Box className="panel-dropdown-target" sx={{ width: '100%' }}></Box>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item onClick={panel.refreshData} icon={<Refresh size={14} />}>
+            <Menu.Item onClick={panel.refreshData} icon={<IconRefresh size={14} />}>
               {t('common.actions.refresh')}
             </Menu.Item>
-            <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
+            <Menu.Item onClick={panel.downloadData} icon={<IconDownload size={14} />}>
               {t('common.actions.download_data')}
             </Menu.Item>
             <Menu.Item onClick={panel.downloadSchema} icon={<IconCode size={14} />}>
@@ -64,7 +72,7 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
               {t('common.actions.download_screenshot')}
             </Menu.Item>
             {showFullScreenOption && (
-              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled>
+              <Menu.Item onClick={enterFullScreen} icon={<IconArrowsMaximize size={14} />} disabled>
                 {t('common.actions.enter_fullscreen')}
               </Menu.Item>
             )}
@@ -72,13 +80,13 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
             <QueryMenuItems />
 
             <Divider label={t('common.actions.edit')} labelPosition="center" />
-            <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
+            <Menu.Item onClick={openPanelEditor} icon={<IconSettings size={14} />}>
               {t('common.titles.settings')}
             </Menu.Item>
-            <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
+            <Menu.Item onClick={duplicate} icon={<IconCopy size={14} />}>
               {t('common.actions.duplicate')}
             </Menu.Item>
-            <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>
+            <Menu.Item color="red" onClick={remove} icon={<IconTrash size={14} />}>
               {t('common.actions.delete')}
             </Menu.Item>
           </Menu.Dropdown>

@@ -1,10 +1,11 @@
 import { ActionIcon, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeviceFloppy } from 'tabler-icons-react';
+
 import { PluginContext } from '~/components/plugins';
 
 type OptionType = { label: string; value: string; group: string };
@@ -44,7 +45,7 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
       data={selectData}
       rightSection={
         <ActionIcon variant="filled" color="green" disabled={!changed} onClick={() => submit(type)}>
-          <DeviceFloppy size={20} />
+          <IconDeviceFloppy size={20} />
         </ActionIcon>
       }
       maxDropdownHeight={600}

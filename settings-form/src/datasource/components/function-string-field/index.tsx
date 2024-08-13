@@ -1,11 +1,10 @@
 import { Button, Group, Modal, Stack } from '@mantine/core';
+import { IconDeviceFloppy, IconMathFunction, IconRecycle } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
-import { Recycle } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { IStyles } from '../../styles';
 import { FunctionStringEditor } from './function-string-editor';
-import { useTranslation } from 'react-i18next';
-import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 
 interface IFunctionStringField {
   value: TFunctionString;
@@ -68,7 +67,7 @@ export const FunctionStringField = forwardRef(
                   size={styles.button.size}
                   onClick={resetFuncContent}
                   color="red"
-                  leftIcon={<Recycle size={20} />}
+                  leftIcon={<IconRecycle size={20} />}
                 >
                   {t('common.actions.reset_to_default')}
                 </Button>

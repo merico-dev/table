@@ -2,12 +2,13 @@ import { Box, Button, Group, Stack, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
-import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
+
+import { IconPlaylistAdd, IconRecycle, IconTrash } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { DashboardFilterType, FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
-import { useTranslation } from 'react-i18next';
 
 export const FilterSettings = observer(function _FilterSettings() {
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ export const FilterSettings = observer(function _FilterSettings() {
         <Button
           size="xs"
           color="red"
-          leftIcon={<Recycle size={20} />}
+          leftIcon={<IconRecycle size={20} />}
           disabled={!model.filtersChanged}
           onClick={model.resetFilters}
         >
@@ -66,7 +67,7 @@ export const FilterSettings = observer(function _FilterSettings() {
       >
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
-            <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addFilter}>
+            <Button size="xs" color="blue" leftIcon={<IconPlaylistAdd size={20} />} onClick={addFilter}>
               {t('filter.add')}
             </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
@@ -88,7 +89,7 @@ export const FilterSettings = observer(function _FilterSettings() {
                     <Button
                       size="xs"
                       color="red"
-                      leftIcon={<Trash size={20} />}
+                      leftIcon={<IconTrash size={20} />}
                       onClick={() => removeWithConfirmation(filter.id)}
                     >
                       {t('filter.delete')}

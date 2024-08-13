@@ -1,13 +1,13 @@
 import { Box, Menu } from '@mantine/core';
-import { IconCamera } from '@tabler/icons-react';
+import { IconArrowsMaximize, IconCamera, IconDownload, IconRefresh } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ArrowsMaximize, Download, Refresh } from 'tabler-icons-react';
+
+import { useTranslation } from 'react-i18next';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useRenderPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { doesVizRequiresData } from '../../utils';
-import { useTranslation } from 'react-i18next';
 
 export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInstance; title: string }) => {
   const { t } = useTranslation();
@@ -33,17 +33,17 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
           <Box className="panel-dropdown-target" />
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item onClick={panel.refreshData} icon={<Refresh size={14} />}>
+          <Menu.Item onClick={panel.refreshData} icon={<IconRefresh size={14} />}>
             {t('common.actions.refresh')}
           </Menu.Item>
-          <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
+          <Menu.Item onClick={panel.downloadData} icon={<IconDownload size={14} />}>
             {t('common.actions.download_data')}
           </Menu.Item>
           <Menu.Item onClick={downloadPanelScreenshot} icon={<IconCamera size={14} />}>
             {t('common.actions.download_screenshot')}
           </Menu.Item>
           {showFullScreenOption && (
-            <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>
+            <Menu.Item onClick={enterFullScreen} icon={<IconArrowsMaximize size={14} />}>
               {t('common.actions.enter_fullscreen')}
             </Menu.Item>
           )}

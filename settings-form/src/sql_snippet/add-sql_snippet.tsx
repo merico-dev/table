@@ -1,15 +1,14 @@
 import { Box, Button, Group, Modal, Stack, Text, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconDeviceFloppy } from '@tabler/icons-react';
+import { IconPlaylistAdd } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { PlaylistAdd } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
 import { TCreateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
+import { SubmitFormButton } from '../components';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
-import { SubmitFormButton } from '../components';
-import { useTranslation } from 'react-i18next';
 
 type TFormValues = TCreateSQLSnippetPayload;
 
@@ -124,7 +123,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
       >
         <AddSQLSnippetForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={18} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={18} />}>
         {t('global_sql_snippet.add')}
       </Button>
     </>

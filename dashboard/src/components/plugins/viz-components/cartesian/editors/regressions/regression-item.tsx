@@ -1,12 +1,11 @@
-import { Button, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
+import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { useMemo } from 'react';
+import { Control, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { ICartesianChartConf, IRegressionConf } from '../../type';
-import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
+import { ICartesianChartConf, IRegressionConf } from '../../type';
 
 interface IRegressionField {
   control: Control<ICartesianChartConf, $TSFixMe>;

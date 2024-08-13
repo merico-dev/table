@@ -2,7 +2,8 @@ import { ActionIcon } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ItemCallback, Responsive, WidthProvider } from 'react-grid-layout';
-import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
+
+import { IconArrowsMove, IconChevronDownRight } from '@tabler/icons-react';
 import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
@@ -23,7 +24,7 @@ const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) 
     }}
     variant="transparent"
   >
-    <ArrowsMove size={16} />
+    <IconArrowsMove size={16} />
   </ActionIcon>
 ));
 
@@ -43,7 +44,7 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
     variant="transparent"
     {...rest}
   >
-    <ChevronDownRight size={16} />
+    <IconChevronDownRight size={16} />
   </ActionIcon>
 ));
 

@@ -1,11 +1,12 @@
 import { ActionIcon, Alert, Button, Group, LoadingOverlay, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
+import { IconAlertCircle, IconTrash } from '@tabler/icons-react';
 import { useAsyncEffect, useCreation, useRequest } from 'ahooks';
 import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, Trash } from 'tabler-icons-react';
+
 import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
 import { useRenderPanelContext } from '~/contexts';
 import { OperationSelect } from '~/interactions/components/operation-select';
@@ -65,7 +66,7 @@ const InteractionItem = observer(
             operationManager={manager.operationManager}
           />
           <ActionIcon aria-label="delete-interaction" variant="filled" color="red" onClick={() => onRemove(item)}>
-            <Trash size={16} />
+            <IconTrash size={16} />
           </ActionIcon>
         </Group>
       );
@@ -110,7 +111,7 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
     <Stack>
       <LoadingOverlay visible={loading} />
       {data === 0 && (
-        <Alert icon={<AlertCircle size={16} />} title={t('interactions.unavailable')} color="gray">
+        <Alert icon={<IconAlertCircle size={16} />} title={t('interactions.unavailable')} color="gray">
           {t('interactions.unavailable_reason')}
         </Alert>
       )}

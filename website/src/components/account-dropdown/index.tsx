@@ -2,10 +2,10 @@ import { Group, Menu, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AddressBook, ChevronRight, Logout, ShieldLock } from 'tabler-icons-react';
 import { useAccountContext } from '../../frames/require-auth/account-context';
 import { ChangePassword } from './change-password';
 import { UpdateProfileModal } from './update-profile';
+import { IconAddressBook, IconChevronRight, IconLogout, IconShieldLock } from '@tabler/icons-react';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   username: string;
@@ -43,7 +43,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
           )}
         </Stack>
 
-        <ChevronRight size={16} />
+        <IconChevronRight size={16} />
       </Group>
     </UnstyledButton>
   ),
@@ -69,17 +69,17 @@ export function AccountDropdown({ height }: { height: number }) {
         <Menu.Dropdown>
           <Menu.Label>Account Settings</Menu.Label>
 
-          <Menu.Item icon={<AddressBook size={14} />} onClick={openProfile}>
+          <Menu.Item icon={<IconAddressBook size={14} />} onClick={openProfile}>
             Profile
           </Menu.Item>
 
-          <Menu.Item icon={<ShieldLock size={14} />} onClick={openPassword}>
+          <Menu.Item icon={<IconShieldLock size={14} />} onClick={openPassword}>
             Password
           </Menu.Item>
 
           <Menu.Divider />
 
-          <Menu.Item color="red" icon={<Logout size={14} />} onClick={logout}>
+          <Menu.Item color="red" icon={<IconLogout size={14} />} onClick={logout}>
             Logout
           </Menu.Item>
         </Menu.Dropdown>

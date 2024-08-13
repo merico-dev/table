@@ -1,11 +1,10 @@
-import { Button, Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
+import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { IScatterChartConf } from '../../type';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 import { OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
-import { useTranslation } from 'react-i18next';
+import { IScatterChartConf } from '../../type';
 
 interface IReferenceLineField {
   control: Control<IScatterChartConf, $TSFixMe>;

@@ -2,12 +2,13 @@ import { ActionIcon, Button, Group, Stack, Tabs, TextInput } from '@mantine/core
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { DeviceFloppy, Trash } from 'tabler-icons-react';
-import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
-import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
-import { PreviewSnippet } from './preview-snippet';
-import { SQLSnippetRenderModelInstance } from '~/model';
+
+import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
+import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
+import { SQLSnippetRenderModelInstance } from '~/model';
+import { PreviewSnippet } from './preview-snippet';
 
 interface ISQLSnippetItemEditor {
   item: SQLSnippetRenderModelInstance;
@@ -16,10 +17,8 @@ interface ISQLSnippetItemEditor {
 }
 export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: ISQLSnippetItemEditor) => {
   const { t } = useTranslation();
-  // tab
   const [tab, setTab] = useState<string | null>('SQL');
 
-  // key
   const [key, setKey] = useState(item.key);
   const submitKeyChange = () => {
     item.setKey(key);
@@ -28,7 +27,6 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   const keyChanged = key !== item.key;
   const isADuplicatedKey = item.isADuplicatedKey(key);
 
-  // value
   const [value, setValue] = useState(item.value);
   const submitValueChange = () => {
     item.setValue(value);
@@ -70,12 +68,12 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
               onClick={submitKeyChange}
               disabled={!keyChanged || isADuplicatedKey}
             >
-              <DeviceFloppy size={16} />
+              <IconDeviceFloppy size={16} />
             </ActionIcon>
           }
           error={isADuplicatedKey}
         />
-        <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
+        <Button leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
           {t('sql_snippet.delete')}
         </Button>
       </Group>
@@ -91,7 +89,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
             disabled={!valueChanged}
             sx={{ position: 'absolute', top: 0, right: 10 }}
           >
-            <DeviceFloppy size={18} />
+            <IconDeviceFloppy size={18} />
           </ActionIcon>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">

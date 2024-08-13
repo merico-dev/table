@@ -1,7 +1,7 @@
-import { ActionIcon, Group, Text, ColorInput, useMantineTheme } from '@mantine/core';
+import { ActionIcon, ColorInput, Group, Text, useMantineTheme } from '@mantine/core';
+import { IconDeviceFloppy, IconPlaylistAdd, IconTrash } from '@tabler/icons-react';
 import _ from 'lodash';
 import React from 'react';
-import { DeviceFloppy, PlaylistAdd, Trash } from 'tabler-icons-react';
 
 interface IColorArrayInput {
   label: React.ReactNode;
@@ -46,7 +46,7 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
       <Group position="left" ref={ref}>
         <Text>{label}</Text>
         <ActionIcon mr={5} variant="filled" color="blue" disabled={!changed} onClick={submit}>
-          <DeviceFloppy size={20} />
+          <IconDeviceFloppy size={20} />
         </ActionIcon>
       </Group>
       <Group>
@@ -62,14 +62,14 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
             swatches={swatches}
             rightSection={
               <ActionIcon onClick={() => del(i)} color="red">
-                <Trash size={14} />
+                <IconTrash size={14} />
               </ActionIcon>
             }
             sx={{ width: '45%' }}
           />
         ))}
         <ActionIcon onClick={add} color="blue" variant="outline">
-          <PlaylistAdd size={20} />
+          <IconPlaylistAdd size={20} />
         </ActionIcon>
       </Group>
     </>

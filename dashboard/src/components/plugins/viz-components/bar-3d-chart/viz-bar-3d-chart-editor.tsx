@@ -1,11 +1,12 @@
 import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { defaults } from 'lodash';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { defaults } from 'lodash';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
-import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/components/plugins/hooks';
-import { DeviceFloppy } from 'tabler-icons-react';
+import { VizConfigProps } from '~/types/plugin';
+
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 export function VizBar3dChartEditor({ context }: VizConfigProps) {
@@ -67,7 +68,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
         </Group>
         <Group position="center" mt="xl" grow sx={{ width: '60%' }} mx="auto">
           <Button color="blue" type="submit">
-            <DeviceFloppy size={20} />
+            <IconDeviceFloppy size={20} />
             <Text ml="md">Save</Text>
           </Button>
         </Group>

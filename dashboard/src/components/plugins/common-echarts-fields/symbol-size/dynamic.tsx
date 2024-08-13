@@ -1,9 +1,9 @@
 import { Box, Button, Divider, Group, Modal, Stack } from '@mantine/core';
-import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconMathFunction, IconRecycle } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Recycle } from 'tabler-icons-react';
+
 import { DynamicSizeFunctionEditor } from './dynamic-size-function-editor';
 import { DEFAULT_SCATTER_SIZE, SymbolSize, SymbolSize_Dynamic } from './types';
 
@@ -79,7 +79,7 @@ const Field = ({ value, onChange }: IField) => {
             />
             <DynamicSizeFunctionEditor value={localValue.func_content} onChange={changeFuncContent} />
             <Group position="apart">
-              <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
+              <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>
               <Group position="right">

@@ -1,12 +1,11 @@
-import { ActionIcon, Tabs } from '@mantine/core';
 import { useMemo } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
+import { Control, UseFormWatch } from 'react-hook-form';
+
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
+import { ITemplateVariable } from '~/utils';
 import { ICartesianChartConf, ICartesianReferenceArea } from '../../type';
 import { ReferenceAreaField } from './reference-area';
-import { ITemplateVariable } from '~/utils';
-import { FieldArrayTabs } from '~/components/plugins/editor-components';
-import { useTranslation } from 'react-i18next';
 
 interface IReferenceAreasField {
   control: Control<ICartesianChartConf, $TSFixMe>;

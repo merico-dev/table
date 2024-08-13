@@ -1,12 +1,11 @@
 import { Box, Button, Group, Modal, Stack } from '@mantine/core';
 import Editor from '@monaco-editor/react';
+import { IconDeviceFloppy, IconMathFunction, IconRecycle } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
-import { Recycle } from 'tabler-icons-react';
-import { DEFAULT_CELL_FUNC_CONTENT } from '../../type';
 import { useTranslation } from 'react-i18next';
-import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 import { AboutFunctionUtils } from '~/components/widgets/about-function-utils';
+import { DEFAULT_CELL_FUNC_CONTENT } from '../../type';
 
 interface IFuncContentEditor {
   value: string;
@@ -77,7 +76,7 @@ export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEd
               />
             </Box>
             <Group position="apart">
-              <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
+              <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>
               <Group position="right">

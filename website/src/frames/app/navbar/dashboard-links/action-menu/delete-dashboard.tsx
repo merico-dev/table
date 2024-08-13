@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import { Trash } from 'tabler-icons-react';
+import { IconTrash } from '@tabler/icons-react';
 import { APICaller } from '../../../../../api-caller';
 import { useDashboardStore } from '../../../models/dashboard-store-context';
 
@@ -47,7 +47,7 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
     return null;
   }
   return (
-    <Menu.Item color="red" icon={<Trash size={16} />} onClick={confirmAndDelete}>
+    <Menu.Item color="red" icon={<IconTrash size={16} />} onClick={confirmAndDelete}>
       Delete this dashboard
     </Menu.Item>
   );

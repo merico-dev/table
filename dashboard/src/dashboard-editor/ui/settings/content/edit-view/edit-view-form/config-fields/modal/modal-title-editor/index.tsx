@@ -1,10 +1,11 @@
 import { ActionIcon, Button, Checkbox, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { useState } from 'react';
-import { Edit, Recycle, Settings } from 'tabler-icons-react';
-import { CustomModalTitleFunctionEditor } from './function-editor';
-import { DEFAULT_CUSTOM_MODAL_TITLE, ICustomModalTitle } from '~/model';
+
+import { IconRecycle, IconSettings } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_CUSTOM_MODAL_TITLE, ICustomModalTitle } from '~/model';
+import { CustomModalTitleFunctionEditor } from './function-editor';
 
 interface ICustomModalTitleField {
   value: ICustomModalTitle;
@@ -54,7 +55,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
   return (
     <>
       <ActionIcon size="lg" color="blue" variant="filled" mt={26} onClick={setTrue} sx={{ flexGrow: 0 }}>
-        <Settings size={14} />
+        <IconSettings size={14} />
       </ActionIcon>
       <Modal
         size={800}
@@ -79,7 +80,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
               disabled={!localValue.enabled}
             />
             <Group position="apart">
-              <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
+              <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                 {t('common.actions.revert')}
               </Button>
               <Group position="right">

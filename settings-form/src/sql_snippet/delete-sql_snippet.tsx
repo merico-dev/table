@@ -1,10 +1,10 @@
 import { Button } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { Trash } from 'tabler-icons-react';
+import { IconTrash } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
 import { IStyles, defaultStyles } from './styles';
-import { useTranslation } from 'react-i18next';
 
 interface IDeleteSQLSnippet {
   id: string;
@@ -64,7 +64,7 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
     });
 
   return (
-    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
+    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<IconTrash size={20} />}>
       {t('common.actions.edit')}
     </Button>
   );

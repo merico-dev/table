@@ -1,11 +1,12 @@
 import { Divider, Group, Text } from '@mantine/core';
 import { Control, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { InfoCircle } from 'tabler-icons-react';
+
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { IMericoEstimationChartConf } from '../../type';
 import { TooltipMetricField } from './metric';
+import { IconInfoCircle } from '@tabler/icons-react';
 
 interface IMetricsField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
@@ -32,7 +33,7 @@ export const MetricsField = ({ control, watch }: IMetricsField) => {
   return (
     <>
       <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
-        <InfoCircle size={14} color="#888" />
+        <IconInfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
           设置可以展示在基线图的指标，例如代码当量
         </Text>

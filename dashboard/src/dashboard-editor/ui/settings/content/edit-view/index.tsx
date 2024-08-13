@@ -1,8 +1,8 @@
 import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
+import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { EditViewForm } from '~/dashboard-editor/ui/settings/content/edit-view/edit-view-form';
 
@@ -38,7 +38,7 @@ export const EditView = observer(({ id }: { id: string }) => {
   return (
     <Stack sx={{ maxWidth: '600px', height: '100%' }} spacing="sm">
       <Group position="right" pt={10}>
-        <Button size="xs" color="red" leftIcon={<Trash size={16} />} onClick={removeWithConfirmation}>
+        <Button size="xs" color="red" leftIcon={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('view.delete')}
         </Button>
       </Group>

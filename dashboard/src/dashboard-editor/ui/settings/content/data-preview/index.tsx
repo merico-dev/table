@@ -1,11 +1,12 @@
 import { ActionIcon, Box, Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useCallback, useEffect } from 'react';
-import { Download, Refresh } from 'tabler-icons-react';
+
+import { IconDownload, IconRefresh } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
 import { DataTableWithPagination } from './data-table-with-pagination';
 import { QueryStateMessage } from './query-state-message';
-import { useTranslation } from 'react-i18next';
 
 export const DataPreview = observer(
   ({ id, moreActions, refreshOnMount }: { id: string; moreActions: ReactNode | null; refreshOnMount?: boolean }) => {
@@ -35,10 +36,10 @@ export const DataPreview = observer(
           <Group pr={15}>
             {moreActions}
             <ActionIcon variant="subtle" color="blue" disabled={loading} onClick={refresh}>
-              <Refresh size={16} />
+              <IconRefresh size={16} />
             </ActionIcon>
             <ActionIcon variant="subtle" color="blue" disabled={loading || dataEmpty} onClick={download}>
-              <Download size={16} />
+              <IconDownload size={16} />
             </ActionIcon>
           </Group>
         </Group>
