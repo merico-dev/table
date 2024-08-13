@@ -1729,7 +1729,7 @@ __metadata:
     react-hook-form: ^7.31.2
     react-i18next: ^14.1.0
     reactflow: ^11.6.0
-    rollup-plugin-visualizer: 5.9.0
+    rollup-plugin-visualizer: 5.12.0
     typescript: ^4.6.3
     uuid: 9.0.1
     vite-plugin-static-copy: ^0.17.0
@@ -1853,7 +1853,7 @@ __metadata:
     intl-pluralrules: ^2.0.1
     monaco-editor: 0.36.0
     react-i18next: ^14.1.0
-    rollup-plugin-visualizer: 5.9.0
+    rollup-plugin-visualizer: 5.12.0
     typescript: ^4.6.3
     vite-plugin-static-copy: ^0.17.0
   peerDependencies:
@@ -16867,22 +16867,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-visualizer@npm:5.9.0":
-  version: 5.9.0
-  resolution: "rollup-plugin-visualizer@npm:5.9.0"
+"rollup-plugin-visualizer@npm:5.12.0":
+  version: 5.12.0
+  resolution: "rollup-plugin-visualizer@npm:5.12.0"
   dependencies:
     open: ^8.4.0
     picomatch: ^2.3.1
     source-map: ^0.7.4
     yargs: ^17.5.1
   peerDependencies:
-    rollup: 2.x || 3.x
+    rollup: 2.x || 3.x || 4.x
   peerDependenciesMeta:
     rollup:
       optional: true
   bin:
     rollup-plugin-visualizer: dist/bin/cli.js
-  checksum: 362d4fac0295c14bd205dbc85c20c31f4b6c47604868da21d9565ed47e0333759f08b9fe0acb82f78221f5173ea01e4eb70d47351eb6012216afe71b5492ed5f
+  checksum: 17dc10a93d4bd457c8bb7796a57c284487fb00f4b9703a33a1a954f5d40c66a89b24aca98564569922456f4fa8f72281c3ef96a95502195e6930b3fac62fce8e
   languageName: node
   linkType: hard
 
