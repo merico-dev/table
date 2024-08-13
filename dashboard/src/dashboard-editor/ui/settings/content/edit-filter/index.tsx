@@ -1,8 +1,9 @@
 import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
+import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { Trash } from 'tabler-icons-react';
+
 import { FilterSetting } from '~/components/filter/filter-settings/filter-setting';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 
@@ -40,7 +41,7 @@ export const EditFilter = observer(({ id }: { id: string }) => {
   return (
     <Stack sx={{ maxWidth: '1100px', height: '100vh' }} spacing="sm" pb={30}>
       <Group position="right" pt={10}>
-        <Button size="xs" color="red" leftIcon={<Trash size={16} />} onClick={removeWithConfirmation}>
+        <Button size="xs" color="red" leftIcon={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('filter.delete')}
         </Button>
       </Group>

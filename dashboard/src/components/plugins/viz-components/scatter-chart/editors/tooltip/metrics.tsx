@@ -1,7 +1,7 @@
 import { Group, Text } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { Control, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { InfoCircle } from 'tabler-icons-react';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { IScatterChartConf } from '../../type';
@@ -32,7 +32,7 @@ export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) =>
   return (
     <>
       <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
-        <InfoCircle size={14} color="#888" />
+        <IconInfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
           {t('chart.tooltip.additional_metrics.description')}
         </Text>

@@ -1,9 +1,9 @@
 import { Button, Checkbox, Group, Modal, Stack } from '@mantine/core';
-import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconMathFunction, IconRecycle } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Recycle } from 'tabler-icons-react';
+
 import { XAxisLabelFormatterFunctionEditor } from './function-editor';
 import { IXAxisLabelFormatter, getDefaultXAxisLabelFormatter } from './types';
 
@@ -93,7 +93,7 @@ export const XAxisLabelFormatterField = forwardRef(
                 disabled={!localValue.enabled}
               />
               <Group position="apart">
-                <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
+                <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                   {t('common.actions.reset_to_default')}
                 </Button>
                 <Group position="right">

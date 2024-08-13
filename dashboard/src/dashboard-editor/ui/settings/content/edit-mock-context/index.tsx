@@ -1,9 +1,9 @@
 import { ActionIcon, Group, JsonInput, Stack, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { useEditContentModelContext } from '~/contexts';
 
 export const EditMockContext = observer(() => {
@@ -62,7 +62,7 @@ export const EditMockContext = observer(() => {
           disabled={!changed}
           onClick={submit}
         >
-          <DeviceFloppy size={20} />
+          <IconDeviceFloppy size={20} />
         </ActionIcon>
       </Group>
     </Stack>

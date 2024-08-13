@@ -14,12 +14,12 @@ import {
   TextInput,
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { FilterMetaInstance, FilterMultiSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { useTranslation } from 'react-i18next';
+import { IconPlaylistAdd, IconTrash } from '@tabler/icons-react';
 
 interface IFilterEditorMultiSelect {
   filter: FilterMetaInstance;
@@ -104,7 +104,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
               onClick={() => config.removeStaticOption(optionIndex)}
               sx={{ position: 'absolute', top: 28, right: 5 }}
             >
-              <Trash size={16} />
+              <IconTrash size={16} />
             </ActionIcon>
           </Flex>
         ))}
@@ -112,7 +112,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
           mt={10}
           size="xs"
           color="blue"
-          leftIcon={<PlaylistAdd size={20} />}
+          leftIcon={<IconPlaylistAdd size={20} />}
           onClick={addStaticOption}
           sx={{ width: '50%' }}
           mx="auto"

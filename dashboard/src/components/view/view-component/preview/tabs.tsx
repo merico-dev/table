@@ -1,10 +1,10 @@
 import { Box, Button, ColorInput, NumberInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
+import { IconArrowsLeftRight, IconPlus, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus } from 'tabler-icons-react';
+
 import { DashboardViewRender } from '~/components/view';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType, TabModelInstance, ViewRenderModelInstance, ViewTabsConfigInstance } from '~/model';
@@ -88,7 +88,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={config.addTab} value="add" className="add-a-tab">
-          <Plus size={18} color="#228be6" />
+          <IconPlus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
       {config.tabsInOrder.map((tab, i) => {

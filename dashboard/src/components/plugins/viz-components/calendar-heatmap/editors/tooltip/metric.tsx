@@ -1,9 +1,9 @@
-import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
+
+import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { ICalendarHeatmapConf } from '../../type';
-import { useTranslation } from 'react-i18next';
 
 interface ITooltipMetricField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;

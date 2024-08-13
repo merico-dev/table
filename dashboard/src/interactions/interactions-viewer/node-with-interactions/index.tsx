@@ -1,7 +1,8 @@
 import { Box, HoverCard, List, Text } from '@mantine/core';
 import { memo, useMemo } from 'react';
 import { Handle, Position } from 'reactflow';
-import { ChevronsUpRight } from 'tabler-icons-react';
+
+import { IconChevronsUpRight } from '@tabler/icons-react';
 import './index.css';
 import { getInteractionLines } from './lines';
 
@@ -26,7 +27,7 @@ export const InteractionNode = memo(
         <Handle type="target" position={targetPosition} isConnectable={isConnectable} />
 
         <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
-          <ChevronsUpRight size={12} />
+          <IconChevronsUpRight size={12} />
         </Box>
         <HoverCard shadow="xl" withinPortal>
           <HoverCard.Target>

@@ -1,9 +1,8 @@
-import { ActionIcon, Button, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
-import { ICartesianChartConf } from '../../type';
-import { useTranslation } from 'react-i18next';
+import { Divider, Group, Select, Stack, TextInput } from '@mantine/core';
 import { useMemo } from 'react';
+import { Control, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { ICartesianChartConf } from '../../type';
 
 interface IReferenceAreaField {
   control: Control<ICartesianChartConf, $TSFixMe>;

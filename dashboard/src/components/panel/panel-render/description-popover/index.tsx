@@ -1,8 +1,9 @@
 import { ActionIcon, Modal, Tooltip } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { InfoCircle } from 'tabler-icons-react';
+
 import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
 import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { parseRichTextContent } from '~/utils';
@@ -64,7 +65,7 @@ export const DescriptionPopover = observer(() => {
           onClick={() => setOpened((v) => !v)}
           sx={{ verticalAlign: 'baseline', cursor: 'pointer' }}
         >
-          <InfoCircle size={20} />
+          <IconInfoCircle size={20} />
         </ActionIcon>
       </Tooltip>
     </>
