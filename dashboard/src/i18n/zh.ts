@@ -290,6 +290,7 @@ export const zh = {
       copied: '已复制到剪切板',
       action: '操作',
       actions: {
+        actions: '操作',
         open: '打开',
         close: '关闭',
         save: '保存',

@@ -290,6 +290,7 @@ export const en = {
       copied: 'Copied to clipboard',
       action: 'Action',
       actions: {
+        actions: 'Actions',
         open: 'Open',
         close: 'Close',
         save: 'Save',
