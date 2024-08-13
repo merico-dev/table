@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { CustomRichTextEditor } from '~/components/widgets';
 import { ICartesianChartConf } from '../../type';
 
-interface IVariablesField {
+type Props = {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-}
+};
 
-export function StatsField({ control, watch }: IVariablesField) {
+export function StatsField({ control, watch }: Props) {
   const { t } = useTranslation();
   return (
     <Stack>
