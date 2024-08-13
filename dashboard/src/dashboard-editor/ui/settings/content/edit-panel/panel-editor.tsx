@@ -9,7 +9,7 @@ import {
   IconVariable,
 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PanelContextProvider, useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
@@ -22,6 +22,7 @@ import { ErrorBoundary } from '~/utils';
 import { ChangeViewOfPanel } from './change-view-of-panel';
 import { PanelVariablesGuide } from './panel-variables-guide';
 import { VariablesEditor } from './variable-config';
+import { PanelTab } from '~/dashboard-editor/model/editor';
 
 const TabsStyles = {
   root: {
@@ -71,7 +72,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
-  const [tab, setTab] = useState<string | null>('Data');
+  const [tab, setTab] = useState<PanelTab | null>(model.editor.panelTab);
   const queries = panel.queries;
 
   const panelNeedData = doesVizRequiresData(panel.viz.type);
@@ -88,6 +89,11 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       return tab;
     });
   }, [panel.id, dataNotReady]);
+
+  const handleTabChange = useCallback((t: string | null) => {
+    setTab(t as PanelTab | null);
+    model.editor.setPanelTab(tab);
+  }, []);
 
   const resetEditorPath = () => {
     model.editor.setPath(['_VIEWS_', viewID]);
@@ -121,7 +127,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           </Button>
         </Group>
       </Group>
-      <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
+      <Tabs value={tab} onTabChange={handleTabChange} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
           <Tabs.Tab value="Data" icon={<IconDatabase size={14} />} disabled={loading}>
             {t('data.label')}

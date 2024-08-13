@@ -37,5 +37,5 @@ export function isView(path: ValidEditorPathType) {
 }
 
 export function isPanel(path: ValidEditorPathType) {
-  return path.length === 4 && path[0] === '_VIEWS_' && path[2] === '_PANELS_';
+  return path.length === 6 && path[0] === '_VIEWS_' && path[2] === '_PANELS_';
 }

@@ -15,7 +15,7 @@ export const QueryMenuItems = observer(({ view }: { view: ViewMetaInstance }) =>
   };
 
   const openTabData = () => {
-    model.editor.open(['_VIEWS_', view.id, '_PANELS_', panel.id]);
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', panel.id, '_TABS_', 'Data']);
   };
 
   if (queries.length === 0) {

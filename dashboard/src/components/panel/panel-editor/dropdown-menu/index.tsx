@@ -37,20 +37,16 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
   };
 
   const openTabPanel = () => {
-    // TODO
-    // model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Panel']);
   };
   const openTabVar = () => {
-    // TODO
-    // model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Variables']);
   };
   const openTabViz = () => {
-    // TODO
-    // model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Visualization']);
   };
   const openTabInteraction = () => {
-    // TODO
-    // model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Interactions']);
   };
 
   const remove = () =>
@@ -100,7 +96,7 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
               {t('panel.label')}
             </Menu.Item>
             <Menu.Item onClick={openTabVar} icon={<IconVariable size={14} />}>
-              {t('panel.variable.label')}
+              {t('panel.variable.labels')}
             </Menu.Item>
             <Menu.Item onClick={openTabViz} icon={<IconChartHistogram size={14} />}>
               {t('visualization.label')}

@@ -21,7 +21,7 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
 
     if (u.type === 'panel') {
       const viewID = u.views[0].id;
-      editor.setPath(['_VIEWS_', viewID, '_PANELS_', u.id]);
+      editor.setPath(['_VIEWS_', viewID, '_PANELS_', u.id, '_TABS_', 'Data']);
       return;
     }
   };
