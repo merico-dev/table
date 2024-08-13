@@ -3,12 +3,12 @@ import { closeAllModals, useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { PlaylistAdd } from 'tabler-icons-react';
 import { RoleSelector } from '../account/role-selector';
 import { APICaller } from '../api-caller';
 import { SubmitFormButton } from '../components';
 import { IStyles, defaultStyles } from './styles';
 import { useTranslation } from 'react-i18next';
+import { IconPlaylistAdd } from '@tabler/icons-react';
 
 interface IFormValues {
   name: string;
@@ -144,7 +144,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
       >
         <AddAPIKeyForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
         {t('api_key.add')}
       </Button>
     </>

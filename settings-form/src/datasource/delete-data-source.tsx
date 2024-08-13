@@ -1,12 +1,11 @@
 import { Button, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconLock } from '@tabler/icons-react';
-import { Trash } from 'tabler-icons-react';
+import { IconLock, IconTrash } from '@tabler/icons-react';
 
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
-import { useTranslation } from 'react-i18next';
 
 interface IDeleteDataSource {
   id: string;
@@ -79,7 +78,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
   }
 
   return (
-    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={16} />}>
+    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<IconTrash size={16} />}>
       {t('common.actions.delete')}
     </Button>
   );

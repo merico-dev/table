@@ -62,7 +62,6 @@
     "lodash": "^4.17.21",
     "react": "^16.8.0 || 17.x || 18.x",
     "react-dom": "^16.8.0 || 17.x || 18.x",
-    "react-hook-form": "^7.31.2",
-    "tabler-icons-react": "^1.48.0"
+    "react-hook-form": "^7.31.2"
   }
 }

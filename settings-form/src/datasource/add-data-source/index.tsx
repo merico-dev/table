@@ -1,15 +1,15 @@
 import { Box, Button, Modal, SegmentedControl } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconPlaylistAdd } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { PlaylistAdd } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../../api-caller';
 import { DataSourceType } from '../../api-caller/datasource.typed';
 import { defaultStyles, IStyles } from '../styles';
+import { DBPermissionTips } from './db-permission-tips';
 import { AddDataSourceForm_DB } from './forms/database';
 import { AddDataSourceForm_HTTP } from './forms/http';
 import { IFormValues } from './types';
-import { DBPermissionTips } from './db-permission-tips';
-import { useTranslation } from 'react-i18next';
 
 interface IAddDataSourceForm {
   postSubmit: () => void;
@@ -101,7 +101,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
       >
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
         {t('datasource.add')}
       </Button>
     </>

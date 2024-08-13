@@ -2,7 +2,7 @@ import { Box, Button, Group, Modal, PasswordInput, TextInput } from '@mantine/co
 import { showNotification, updateNotification } from '@mantine/notifications';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { PlaylistAdd } from 'tabler-icons-react';
+import { IconPlaylistAdd } from '@tabler/icons-react';
 import { APICaller } from '../api-caller';
 import { SubmitFormButton } from '../components';
 import { RoleSelector } from './role-selector';
@@ -139,7 +139,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       >
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
         {t('account.add')}
       </Button>
     </>

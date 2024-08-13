@@ -1,15 +1,14 @@
 import { Box, Button, Divider, Group, Modal, PasswordInput, Switch, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconDeviceFloppy } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Edit } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
 import { IAccount } from '../api-caller/account.typed';
+import { SubmitFormButton } from '../components';
 import { RoleSelector } from './role-selector';
 import { IStyles, defaultStyles } from './styles';
-import { SubmitFormButton } from '../components';
-import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   name: string;
@@ -180,7 +179,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
       >
         <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<Edit size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<IconEdit size={20} />}>
         {t('common.actions.edit')}
       </Button>
     </>
