@@ -6,6 +6,9 @@ import { random } from 'chroma-js';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR } from '../editors/scatter/series-color-select/types';
 import _ from 'lodash';
+import { PanelModelInstance } from '~/dashboard-editor';
+import { ICartesianChartConf } from '../../cartesian/type';
+import { transformTemplateToRichText } from '~/utils';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -115,6 +118,19 @@ function v10(legacyConf: $TSFixMe): IScatterChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v11(legacyConf: any, panelModel: PanelModelInstance): ICartesianChartConf {
+  const { stats, ...rest } = legacyConf;
+  const top = transformTemplateToRichText(stats.templates.top, panelModel);
+  const bottom = transformTemplateToRichText(stats.templates.bottom, panelModel);
+  return {
+    stats: {
+      top: top ?? '',
+      bottom: bottom ?? '',
+    },
+    ...rest,
+  };
+}
+
 export class VizScatterChartMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -165,6 +181,10 @@ export class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 10, config: v10(config) };
     });
+    this.version(11, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 11, config: v11(config, env.panelModel) };
+    });
   }
-  readonly VERSION = 10;
+  readonly VERSION = 11;
 }

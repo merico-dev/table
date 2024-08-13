@@ -16,7 +16,7 @@ export const ScatterChartVizComponent: VizComponent = {
   configRender: VizScatterChartEditor,
   createConfig() {
     return {
-      version: 10,
+      version: 11,
       config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
     };
   },

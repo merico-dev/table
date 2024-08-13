@@ -42,10 +42,8 @@ export interface IScatterChartConf {
     label_overflow: IScatterLabelOverflow;
   };
   stats: {
-    templates: {
-      top: string;
-      bottom: string;
-    };
+    top: string;
+    bottom: string;
   };
   tooltip: {
     trigger: 'item' | 'axis' | 'none';
@@ -77,10 +75,8 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     label_overflow: getDefaultScatterLabelOverfow(),
   },
   stats: {
-    templates: {
-      top: '',
-      bottom: '',
-    },
+    top: '',
+    bottom: '',
   },
   x_axis: {
     name: '',
