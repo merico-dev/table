@@ -2,7 +2,7 @@ import { ActionIcon, Menu, Sx, Tooltip } from '@mantine/core';
 import { IconLock, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import { Edit, FileImport, Paint } from 'tabler-icons-react';
+import { IconEdit, IconFileImport, IconPaint } from '@tabler/icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
 import { DashboardBriefModelInstance } from '../../../models/dashboard-brief-model';
 import { DeleteDashboard } from './delete-dashboard';
@@ -58,15 +58,15 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item icon={<Paint size={16} />} onClick={visitDashboardDesign}>
+        <Menu.Item icon={<IconPaint size={16} />} onClick={visitDashboardDesign}>
           Design
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openEditModal(model.id)} icon={<Edit size={16} />}>
+        <Menu.Item onClick={() => openEditModal(model.id)} icon={<IconEdit size={16} />}>
           Rename
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openOverwriteModal(model.id)} icon={<FileImport size={16} />}>
+        <Menu.Item onClick={() => openOverwriteModal(model.id)} icon={<IconFileImport size={16} />}>
           Overwrite with JSON file
         </Menu.Item>
         <Menu.Divider />
