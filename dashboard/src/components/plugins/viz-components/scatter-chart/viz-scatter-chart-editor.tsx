@@ -1,11 +1,12 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
-import { defaultsDeep, isEqual } from 'lodash';
+import { Stack, Tabs } from '@mantine/core';
+import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { DeviceFloppy } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
 import { ReferenceAreasField } from './editors/reference-areas';
 import { ReferenceLinesField } from './editors/reference-lines';
@@ -14,62 +15,30 @@ import { StatsField } from './editors/stats';
 import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
-import { DEFAULT_CONFIG, IScatterChartConf } from './type';
-import { VizConfigBanner } from '../../editor-components';
-import { useTranslation } from 'react-i18next';
+import { IScatterChartConf } from './type';
 
-function normalizeStats(stats?: IScatterChartConf['stats']) {
-  if (!stats) {
-    return {
-      templates: {
-        top: '',
-        bottom: '',
-      },
-    };
-  }
-  return stats;
-}
+type StorageData = ReturnType<typeof useStorageData<IScatterChartConf>>;
 
-function normalizeConf({ reference_lines = [], stats, ...rest }: IScatterChartConf): IScatterChartConf {
-  return {
-    reference_lines,
-    stats: normalizeStats(stats),
-    ...rest,
-  };
-}
+type EditorProps = {
+  conf: StorageData['value'];
+  setConf: StorageData['set'];
+} & VizConfigProps;
 
-export function VizScatterChartEditor({ context }: VizConfigProps) {
+function Editor({ conf, setConf, context }: EditorProps) {
   const { t } = useTranslation();
-  const { value: confValue, set: setConf } = useStorageData<IScatterChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const conf: IScatterChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const defaultValues: IScatterChartConf = useMemo(() => {
-    return normalizeConf(conf);
-  }, [conf]);
+  const defaultValues: IScatterChartConf = useMemo(() => defaults({}, conf), [conf]);
 
-  useEffect(() => {
-    const configMalformed = !isEqual(conf, defaultValues);
-    if (configMalformed) {
-      console.log('config malformed, resetting to defaults', conf, defaultValues);
-      void setConf(defaultValues);
-    }
-  }, [conf, defaultValues]);
-
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IScatterChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, reset, formState } = useForm<IScatterChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
-
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
 
   watch(['dataZoom']);
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"
@@ -130,4 +99,12 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
       </form>
     </Stack>
   );
+}
+
+export function VizScatterChartEditor(props: VizConfigProps) {
+  const { value, set } = useStorageData<IScatterChartConf>(props.context.instanceData, 'config');
+  if (!value) {
+    return null;
+  }
+  return <Editor conf={value} setConf={set} {...props} />;
 }

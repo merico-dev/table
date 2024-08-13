@@ -1,16 +1,17 @@
-import { Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable, templateToJSX } from '~/utils';
+import { ITemplateVariable } from '~/utils';
+import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
@@ -24,10 +25,6 @@ interface IClickEchartsSeries {
   name: string;
   color: string;
   value: string; // string-typed number
-}
-
-function templateNotEmpty(str: string) {
-  return str.trim().length > 0;
 }
 
 function Chart({
@@ -96,7 +93,7 @@ function Chart({
   );
 }
 
-export function VizCartesianChart({ context, instance }: VizViewProps) {
+export const VizCartesianChart = observer(({ context, instance }: VizViewProps) => {
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
     instance,
@@ -107,33 +104,17 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
-  const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
-  const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
-  const templates = React.useMemo(() => {
-    const {
-      stats: { templates },
-    } = conf;
-    return {
-      top: templateToJSX(templates.top, variables, data),
-      bottom: templateToJSX(templates.bottom, variables, data),
-    };
-  }, [conf, data]);
+  const topStats = useElementSize();
+  const bottomStats = useElementSize();
+  const { ref: topStatsRef, height: topStatsHeight } = topStats;
+  const { ref: bottomStatsRef, height: bottomStatsHeight } = bottomStats;
 
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
+
   return (
     <DefaultVizBox width={width} height={height}>
-      <Text
-        ref={topStatsRef}
-        align="left"
-        size="xs"
-        pl="sm"
-        sx={{ display: templateNotEmpty(conf.stats.templates.top) ? 'block' : 'none' }}
-      >
-        {Object.values(templates.top).map((c, i) => (
-          <React.Fragment key={i}>{c}</React.Fragment>
-        ))}
-      </Text>
+      <StatsAroundViz ref={topStatsRef} value={conf.stats.top} context={context} />
 
       <Chart
         variables={variables}
@@ -144,17 +125,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
         interactionManager={interactionManager}
       />
 
-      <Text
-        ref={bottomStatsRef}
-        align="left"
-        size="xs"
-        pl="sm"
-        sx={{ display: templateNotEmpty(conf.stats.templates.bottom) ? 'block' : 'none' }}
-      >
-        {Object.values(templates.bottom).map((c, i) => (
-          <React.Fragment key={i}>{c}</React.Fragment>
-        ))}
-      </Text>
+      <StatsAroundViz ref={bottomStatsRef} value={conf.stats.bottom} context={context} />
     </DefaultVizBox>
   );
-}
+});

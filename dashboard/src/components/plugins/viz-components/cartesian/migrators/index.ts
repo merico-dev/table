@@ -3,9 +3,10 @@ import _, { cloneDeep, omit } from 'lodash';
 import { IMigrationEnv } from '~/components/plugins';
 import { getDefaultXAxisLabelFormatter } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { AnyObject } from '~/types';
-import { DefaultAggregation, ITemplateVariable } from '~/utils';
+import { DefaultAggregation, ITemplateVariable, transformTemplateToRichText } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
 import { ICartesianChartConf } from '../type';
+import { PanelModelInstance } from '~/dashboard-editor';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -289,5 +290,18 @@ export function v19(legacyConf: any): ICartesianChartConf {
   return {
     ...legacyConf,
     tooltip,
+  };
+}
+
+export function v20(legacyConf: $TSFixMe, panelModel: PanelModelInstance): ICartesianChartConf {
+  const { stats, ...rest } = legacyConf;
+  const top = transformTemplateToRichText(stats.templates.top, panelModel);
+  const bottom = transformTemplateToRichText(stats.templates.bottom, panelModel);
+  return {
+    stats: {
+      top: top ?? '',
+      bottom: bottom ?? '',
+    },
+    ...rest,
   };
 }

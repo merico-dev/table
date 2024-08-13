@@ -833,8 +833,8 @@ export const zh = {
       stats: {
         label: '统计内容',
         template: {
-          above_chart: '统计内容模板（图表上方）',
-          under_chart: '统计内容模板（图表下方）',
+          above_chart: '统计内容（图表上方）',
+          under_chart: '统计内容（图表下方）',
         },
       },
       legend: {

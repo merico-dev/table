@@ -101,10 +101,8 @@ export interface ICartesianChartConf {
   series: ICartesianChartSeriesItem[];
   regressions: IRegressionConf[];
   stats: {
-    templates: {
-      top: string;
-      bottom: string;
-    };
+    top: string;
+    bottom: string;
   };
   tooltip: {
     metrics: IEchartsTooltipMetric[];
@@ -117,7 +115,7 @@ export interface ICartesianChartConf {
 export const DEFAULT_CONFIG: ICartesianChartConf = {
   regressions: [],
   series: [],
-  stats: { templates: { bottom: '', top: '' } },
+  stats: { bottom: '', top: '' },
   x_axis: {
     type: 'category',
     axisLabel: {
