@@ -1,5 +1,5 @@
 import { Stack, Tabs } from '@mantine/core';
-import { defaults, isEqual } from 'lodash';
+import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -14,20 +14,16 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IRegressionChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IRegressionChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
   watch(['x_axis', 'y_axis', 'regression']);
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="X轴"
           orientation="vertical"

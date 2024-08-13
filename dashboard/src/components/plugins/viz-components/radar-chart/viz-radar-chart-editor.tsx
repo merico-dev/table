@@ -1,17 +1,16 @@
-import { ActionIcon, Checkbox, Group, Stack, Tabs, Text } from '@mantine/core';
-import { defaultsDeep, isEqual } from 'lodash';
+import { Checkbox, Group, Stack, Tabs } from '@mantine/core';
+import { defaultsDeep } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { AdditionalSeriesField } from './editors/additional-series';
 import { DimensionsField } from './editors/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
-import { VizConfigBanner } from '../../editor-components';
-import { useTranslation } from 'react-i18next';
 
 export function VizRadarChartEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -19,7 +18,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   const { variables } = context;
   const conf: IRadarChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { control, handleSubmit, watch, getValues, reset, formState } = useForm<IRadarChartConf>({
+  const { control, handleSubmit, watch, reset, formState } = useForm<IRadarChartConf>({
     defaultValues: conf,
     mode: 'all',
   });
@@ -28,15 +27,11 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   }, [conf]);
 
   watch(['series_name_key', 'background', 'label']);
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <VizConfigBanner canSubmit={changed && formState.isValid} />
+        <VizConfigBanner canSubmit={formState.isDirty && formState.isValid} />
         <Tabs defaultValue="series">
           <Tabs.List>
             <Tabs.Tab value="series">{t('chart.series.label')}</Tabs.Tab>

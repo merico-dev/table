@@ -1,8 +1,8 @@
 import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
-import { defaultsDeep, isEqual } from 'lodash';
+import { IconDeviceFloppy } from '@tabler/icons-react';
+import { defaultsDeep } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
@@ -11,17 +11,12 @@ export function VizMericoGQMEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
   const defaultValues: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IMericoGQMConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IMericoGQMConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
   watch(['expertSystemURL', 'goal', 'path', 'question']);
-
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, defaultValues);
-  }, [values, defaultValues]);
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
@@ -55,8 +50,8 @@ export function VizMericoGQMEditor({ context }: VizConfigProps) {
           type="submit"
           variant="filled"
           color="blue"
-          leftIcon={<DeviceFloppy size={20} />}
-          disabled={!changed}
+          leftIcon={<IconDeviceFloppy size={20} />}
+          disabled={!formState.isDirty}
           sx={{ alignSelf: 'flex-end' }}
         >
           Submit Changes

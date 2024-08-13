@@ -5,8 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { MantineColorSwatches } from '~/components/panel/settings/common/mantine-color-swatches';
 import { MantineSizeSelector } from '~/components/panel/settings/common/mantine-size-selector';
 import { VizConfigProps } from '~/types/plugin';
-import { VizConfigBanner } from '../../editor-components';
-import { HorizontalAlignSelector, VerticalAlignSelector } from '../../editor-components';
+import { HorizontalAlignSelector, VerticalAlignSelector, VizConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 
@@ -34,20 +33,15 @@ export function VizButtonEditor({ context }: VizConfigProps) {
     }
   }, [conf, defaultValues]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IButtonConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<IButtonConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
-
   watch(['content', 'variant', 'color', 'size', 'compact', 'horizontal_align', 'vertical_align']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <VizConfigBanner canSubmit={changed} />
+      <VizConfigBanner canSubmit={formState.isDirty} />
       <Stack>
         <Controller
           control={control}

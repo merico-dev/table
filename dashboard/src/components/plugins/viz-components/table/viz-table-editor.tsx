@@ -40,20 +40,15 @@ export function VizTableEditor({ context }: VizConfigProps) {
     }
   }, [conf, defaultValues]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<ITableConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<ITableConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
-
   watch(['query_id']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <VizConfigBanner canSubmit={changed} />
+      <VizConfigBanner canSubmit={formState.isDirty} />
       <Tabs
         defaultValue="Columns"
         orientation="vertical"

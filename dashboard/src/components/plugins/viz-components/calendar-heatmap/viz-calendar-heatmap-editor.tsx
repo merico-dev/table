@@ -37,20 +37,15 @@ export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
   }, [conf, defaultValues]);
 
   const form = useForm<ICalendarHeatmapConf>({ defaultValues });
-  const { control, handleSubmit, watch, getValues, reset } = form;
+  const { control, handleSubmit, watch, formState, reset } = form;
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
-
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="Calendar"
           orientation="vertical"

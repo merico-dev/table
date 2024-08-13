@@ -1,15 +1,14 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import _, { defaultsDeep } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { DataField } from './editors/data-field';
 import { LevelsField } from './editors/levels';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
-import { useTranslation } from 'react-i18next';
-import { VizConfigBanner } from '../../editor-components';
 
 export function VizSunburstEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -18,15 +17,10 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
   const conf: ISunburstConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ISunburstConf = useMemo(() => _.clone(conf), [conf]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<ISunburstConf>({ defaultValues });
+  const { control, handleSubmit, watch, formState, reset } = useForm<ISunburstConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
-
-  const values = getValues();
-  const changed = useMemo(() => {
-    return !_.isEqual(values, conf);
-  }, [values, conf]);
 
   watch(['label_key', 'value_key', 'group_key', 'levels']);
 
@@ -34,7 +28,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <VizConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           value={tab}
           onTabChange={setTab}
