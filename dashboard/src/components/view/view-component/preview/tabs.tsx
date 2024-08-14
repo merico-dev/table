@@ -72,12 +72,13 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
     });
 
   const onlyOneTabLeft = config.tabs.length === 0;
+  const defaultTab = config.tabsInOrder.length === 0 ? undefined : config.tabsInOrder[0].id;
   return (
     <Tabs
       className="preview-view-tabs"
       variant={config.variant}
       orientation={config.orientation}
-      value={view.tab}
+      value={view.tab || defaultTab}
       onTabChange={view.setTab}
       styles={getStyles(config)}
     >
