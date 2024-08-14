@@ -9,6 +9,8 @@ import {
 } from '@tabler/icons-react';
 import { Instance, getRoot, types } from 'mobx-state-tree';
 import { ContentModelInstance } from '../content';
+import _ from 'lodash';
+import { isPanel } from '~/dashboard-editor/ui/settings/content/utils';
 
 type PartialRootInstanceType = {
   content: ContentModelInstance;
@@ -45,6 +47,10 @@ function getActionOption(_action_type: NavActionType['_action_type']): NavAction
   return { label: _action_type, value: _action_type, _type: 'ACTION', _action_type, Icon: null, children: null };
 }
 
+export type PanelTab = 'Data' | 'Panel' | 'Variables' | 'Visualization' | 'Interactions';
+
+export type PanelPathType = ['_VIEWS_', string, '_PANELS_', string, '_TABS_', PanelTab];
+
 export type ValidEditorPathType =
   | ['_QUERY_VARS_']
   | ['_MOCK_CONTEXT_']
@@ -55,7 +61,7 @@ export type ValidEditorPathType =
   | ['_QUERIES_']
   | ['_QUERIES_', string]
   | ['_VIEWS_', string]
-  | ['_VIEWS_', string, '_PANELS_', string]
+  | PanelPathType
   | [];
 
 function getPathFromOption(o: NavOptionType): ValidEditorPathType | null {
@@ -80,7 +86,7 @@ function getPathFromOption(o: NavOptionType): ValidEditorPathType | null {
         console.error('[getPathFromOption] parentID is required');
         return null;
       }
-      return ['_VIEWS_', o.parentID, '_PANELS_', o.value];
+      return ['_VIEWS_', o.parentID, '_PANELS_', o.value, '_TABS_', 'Data'];
   }
 }
 
@@ -90,6 +96,15 @@ export const EditorModel = types
     settings_open: types.optional(types.boolean, false),
   })
   .views((self) => ({
+    get isPanelPath() {
+      return isPanel(self.path);
+    },
+    get panelTab() {
+      if (!this.isPanelPath) {
+        return null;
+      }
+      return _.get(self.path, 5, 'Data') as PanelTab;
+    },
     get navOptions() {
       const { content } = getRoot(self) as PartialRootInstanceType;
       const { filters, views, sqlSnippets, queries } = content;
@@ -170,6 +185,14 @@ export const EditorModel = types
     },
   }))
   .actions((self) => ({
+    setPanelTab(tab: PanelTab | null) {
+      if (!self.isPanelPath || self.panelTab === tab || !tab) {
+        return;
+      }
+      const newPath = _.clone(self.path) as PanelPathType;
+      newPath[5] = tab;
+      self.setPath(newPath);
+    },
     open(path: ValidEditorPathType) {
       self.setPath(path);
       self.setSettingsOpen(true);

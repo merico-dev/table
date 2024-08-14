@@ -1,14 +1,17 @@
 import { Box, Divider, Menu } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import {
+  IconAppWindow,
   IconArrowsMaximize,
   IconCamera,
+  IconChartHistogram,
   IconCode,
   IconCopy,
   IconDownload,
   IconRefresh,
-  IconSettings,
+  IconRoute,
   IconTrash,
+  IconVariable,
 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -33,8 +36,17 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
     content.duplicatePanelByID(id, view.id);
   };
 
-  const openPanelEditor = () => {
-    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
+  const openTabPanel = () => {
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Panel']);
+  };
+  const openTabVar = () => {
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Variables']);
+  };
+  const openTabViz = () => {
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Visualization']);
+  };
+  const openTabInteraction = () => {
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id, '_TABS_', 'Interactions']);
   };
 
   const remove = () =>
@@ -77,12 +89,23 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
               </Menu.Item>
             )}
 
-            <QueryMenuItems />
+            <QueryMenuItems view={view} />
 
             <Divider label={t('common.actions.edit')} labelPosition="center" />
-            <Menu.Item onClick={openPanelEditor} icon={<IconSettings size={14} />}>
-              {t('common.titles.settings')}
+            <Menu.Item onClick={openTabPanel} icon={<IconAppWindow size={14} />}>
+              {t('panel.label')}
             </Menu.Item>
+            <Menu.Item onClick={openTabVar} icon={<IconVariable size={14} />}>
+              {t('panel.variable.labels')}
+            </Menu.Item>
+            <Menu.Item onClick={openTabViz} icon={<IconChartHistogram size={14} />}>
+              {t('visualization.label')}
+            </Menu.Item>
+            <Menu.Item onClick={openTabInteraction} icon={<IconRoute size={14} />}>
+              {t('interactions.label')}
+            </Menu.Item>
+
+            <Divider label={t('common.actions.actions')} labelPosition="center" />
             <Menu.Item onClick={duplicate} icon={<IconCopy size={14} />}>
               {t('common.actions.duplicate')}
             </Menu.Item>

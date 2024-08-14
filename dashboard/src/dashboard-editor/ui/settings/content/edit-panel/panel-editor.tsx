@@ -1,8 +1,15 @@
 import { Box, Button, Group, LoadingOverlay, Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconTrash } from '@tabler/icons-react';
+import {
+  IconAppWindow,
+  IconChartHistogram,
+  IconDatabase,
+  IconRoute,
+  IconTrash,
+  IconVariable,
+} from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PanelContextProvider, useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
@@ -15,6 +22,7 @@ import { ErrorBoundary } from '~/utils';
 import { ChangeViewOfPanel } from './change-view-of-panel';
 import { PanelVariablesGuide } from './panel-variables-guide';
 import { VariablesEditor } from './variable-config';
+import { PanelTab } from '~/dashboard-editor/model/editor';
 
 const TabsStyles = {
   root: {
@@ -64,7 +72,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
-  const [tab, setTab] = useState<string | null>('Data');
+  const [tab, setTab] = useState<PanelTab | null>(model.editor.panelTab);
   const queries = panel.queries;
 
   const panelNeedData = doesVizRequiresData(panel.viz.type);
@@ -81,6 +89,11 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       return tab;
     });
   }, [panel.id, dataNotReady]);
+
+  const handleTabChange = useCallback((t: string | null) => {
+    setTab(t as PanelTab | null);
+    model.editor.setPanelTab(tab);
+  }, []);
 
   const resetEditorPath = () => {
     model.editor.setPath(['_VIEWS_', viewID]);
@@ -114,23 +127,27 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           </Button>
         </Group>
       </Group>
-      <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
+      <Tabs value={tab} onTabChange={handleTabChange} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
-          <Tabs.Tab value="Data" disabled={loading}>
+          <Tabs.Tab value="Data" icon={<IconDatabase size={14} />} disabled={loading}>
             {t('data.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Panel">{t('panel.label')}</Tabs.Tab>
-          <Tabs.Tab value="Variables" disabled={dataNotReady}>
+          <Tabs.Tab value="Panel" icon={<IconAppWindow size={14} />}>
+            {t('panel.label')}
+          </Tabs.Tab>
+          <Tabs.Tab value="Variables" icon={<IconVariable size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Visualization" disabled={dataNotReady}>
+          <Tabs.Tab value="Visualization" icon={<IconChartHistogram size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Interactions">{t('interactions.label')}</Tabs.Tab>
+          <Tabs.Tab value="Interactions" icon={<IconRoute size={14} />}>
+            {t('interactions.label')}
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">
