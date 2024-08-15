@@ -1,44 +1,16 @@
-import { Text, TextProps } from '@mantine/core';
 import { reaction } from 'mobx';
 import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
-import React from 'react';
-import { queryDataToTree } from '~/components/filter/filter-tree-select/render/query-data-to-tree';
-import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree-select/types';
-import { FilterBaseSelectConfigMeta } from './select-base';
-
-function addLabelToData(data: ITreeDataQueryOption[]) {
-  return data.map((d) => {
-    const { label, description, ...rest } = d;
-    const ret: ITreeDataRenderItem = {
-      ...rest,
-      filterBasis: `${label}___${description ?? ''}`,
-      description,
-      label,
-    };
-    if (description) {
-      ret.label = React.createElement('div', {}, [
-        React.createElement<TextProps>(Text, { key: 0, title: d.label } as TextProps, d.label),
-        React.createElement<TextProps>(
-          Text,
-          { key: 1, className: 'rc-tree-select-tree-title-desc', color: 'dimmed', title: d.description } as TextProps,
-          d.description,
-        ),
-      ]);
-    }
-    return ret;
-  });
-}
+import { FilterBaseTreeSelectConfigMeta } from './tree-select-base';
 
 export const FilterTreeSelectConfigMeta = types
   .compose(
     'FilterTreeSelectConfigMeta',
     types.model({
       _name: types.literal('tree-select'),
-      min_width: types.optional(types.string, ''),
       default_value: types.optional(types.array(types.string), []),
       treeCheckStrictly: types.optional(types.boolean, false),
     }),
-    FilterBaseSelectConfigMeta,
+    FilterBaseTreeSelectConfigMeta,
   )
   .views((self) => ({
     get json() {
@@ -63,23 +35,6 @@ export const FilterTreeSelectConfigMeta = types
         default_selection_count,
       };
     },
-    get plainData() {
-      const { data } = self.contentModel.getDataStuffByID(self.options_query_id);
-      return data;
-    },
-    get treeData() {
-      const data = this.plainData;
-      const dataWithCustomLabel = addLabelToData(data);
-      return queryDataToTree(dataWithCustomLabel);
-    },
-    get errorMessage() {
-      const { error } = self.contentModel.getDataStuffByID(self.options_query_id);
-      return error;
-    },
-    get treeDataLoading() {
-      const { state } = self.contentModel.getDataStuffByID(self.options_query_id);
-      return state === 'loading';
-    },
     get defaultSelection() {
       const defaultValue = self.filter.formattedDefaultValue;
       if (Array.isArray(defaultValue) && defaultValue.length > 0) {
@@ -90,12 +45,12 @@ export const FilterTreeSelectConfigMeta = types
       if (!default_selection_count) {
         return [];
       }
-      const treeData = this.treeData;
+      const treeData = self.treeData;
       return treeData.slice(0, default_selection_count).map((o) => o.value);
     },
     valueObjects(value: string[]) {
       const set = new Set(value);
-      return this.plainData.filter((d: any) => set.has(d.value));
+      return self.plainData.filter((d: any) => set.has(d.value));
     },
     initialSelection(value: string[] | null) {
       if (!value) {
@@ -110,9 +65,6 @@ export const FilterTreeSelectConfigMeta = types
   .actions((self) => ({
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
-    },
-    setMinWidth(v: string) {
-      self.min_width = v;
     },
     setTreeCheckStrictly(v: boolean) {
       self.treeCheckStrictly = v;
