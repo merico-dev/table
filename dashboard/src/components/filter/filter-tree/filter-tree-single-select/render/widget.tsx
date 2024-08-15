@@ -65,7 +65,6 @@ export const FilterTreeSingleSelectWidget = ({
       <TreeSelect
         disabled={disabled}
         allowClear
-        open
         multiple={false}
         labelInValue={true}
         className={cx(classes.root, 'check-select')}

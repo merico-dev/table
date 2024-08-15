@@ -34,17 +34,17 @@ export const FilterTreeSingleSelectConfigMeta = types
       }
       return self.filter.formattedDefaultValue;
     },
-    valueObject(value: string) {
+    valueObject(value: string | null) {
+      if (!value) {
+        return null;
+      }
       return self.plainData.find((d: any) => d.value === value);
     },
     initialSelection(value: string | null) {
-      if (!value) {
-        return this.valueObject(this.defaultSelection);
-      }
       return this.valueObject(value);
     },
     truthy(value: any) {
-      return Array.isArray(value) && value.length > 0;
+      return typeof value === 'string' && value !== '';
     },
   }))
   .actions((self) => ({
@@ -54,10 +54,7 @@ export const FilterTreeSingleSelectConfigMeta = types
     applyDefaultSelection() {
       const currentSelection = self.filter.value;
       const options = new Set(self.plainData.map((o: any) => o.value));
-      const validValues = (currentSelection ?? []).filter((v: any) => options.has(v));
-      if (validValues.length > 0) {
-        self.filter.setValue(validValues);
-      } else {
+      if (!options.has(currentSelection)) {
         self.filter.setValue(self.defaultSelection);
       }
     },
