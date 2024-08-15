@@ -1,8 +1,7 @@
 import { Text, TextProps } from '@mantine/core';
 import { Instance, types } from 'mobx-state-tree';
 import React from 'react';
-import { queryDataToTree } from '~/components/filter/filter-tree-select/render/query-data-to-tree';
-import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree-select/types';
+import { queryDataToTree, ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree';
 import { FilterBaseSelectConfigMeta } from './select-base';
 
 function addLabelToData(data: ITreeDataQueryOption[]) {

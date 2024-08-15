@@ -8,7 +8,7 @@ import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';
 import { FilterEditorSelect } from '../filter-select/editor';
 import { FilterEditorTextInput } from '../filter-text-input/editor';
-import { FilterEditorTreeSelect } from '../filter-tree-select/editor';
+import { FilterEditorTreeSelect } from '../filter-tree/';
 import { PreviewFilter } from './preview-filter';
 import { useTranslation } from 'react-i18next';
 
