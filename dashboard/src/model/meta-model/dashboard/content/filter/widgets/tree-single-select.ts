@@ -1,4 +1,4 @@
-import { reaction } from 'mobx';
+import { reaction, toJS } from 'mobx';
 import { addDisposer, Instance, types } from 'mobx-state-tree';
 import { FilterBaseTreeSelectConfigMeta } from './tree-select-base';
 
@@ -29,18 +29,30 @@ export const FilterTreeSingleSelectConfigMeta = types
       return self.default_selection_count === 1;
     },
     get defaultSelection() {
+      if (self.treeDataLoading) {
+        return '';
+      }
+      const v = self.filter.formattedDefaultValue;
+      if (v) {
+        return v;
+      }
+
       if (this.selectFirstByDefault && self.treeData.length > 0) {
         return self.treeData[0].value;
       }
-      return self.filter.formattedDefaultValue;
+      return '';
     },
     valueObject(value: string | null) {
       if (!value) {
-        return null;
+        return undefined;
       }
       return self.plainData.find((d: any) => d.value === value);
     },
     initialSelection(value: string | null) {
+      if (!value) {
+        return undefined;
+      }
+
       return this.valueObject(value);
     },
     truthy(value: any) {
@@ -52,17 +64,22 @@ export const FilterTreeSingleSelectConfigMeta = types
       self.default_value = default_value;
     },
     applyDefaultSelection() {
+      if (self.treeDataLoading) {
+        return;
+      }
+
       const currentSelection = self.filter.value;
-      const options = new Set(self.plainData.map((o: any) => o.value));
-      if (!options.has(currentSelection)) {
+      if (self.optionValuesSet.has(currentSelection)) {
+        self.filter.setValue(currentSelection);
+      } else {
         self.filter.setValue(self.defaultSelection);
       }
     },
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => JSON.stringify(self.defaultSelection), this.applyDefaultSelection, {
-          fireImmediately: true,
+        reaction(() => toJS(self.defaultSelection), this.applyDefaultSelection, {
+          fireImmediately: false,
           delay: 0,
         }),
       );
