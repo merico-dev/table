@@ -13,8 +13,8 @@ import { TreeItem } from 'performant-array-to-tree';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
 import { useState } from 'react';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
-import { SwitcherIcon } from './switcher-icon';
-import { TreeIcon } from './tree-icon';
+import { SwitcherIcon } from '../../common/switcher-icon';
+import { TreeIcon } from '../../common/tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
 import { useTranslation } from 'react-i18next';
 

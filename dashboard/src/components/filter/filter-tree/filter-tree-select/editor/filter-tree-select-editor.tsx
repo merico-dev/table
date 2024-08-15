@@ -1,7 +1,7 @@
 import { Checkbox, Divider, Group, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { FilterMetaInstance, FilterTreeSelectConfigInstance } from '~/model';
-import { ExpectedStructureForTreeSelect } from './expected-structure';
+import { ExpectedStructureForTreeSelect } from '../../common/expected-structure';
 import { useTranslation } from 'react-i18next';
 import { CustomDefaultValueEditor } from '~/components/filter/custom-default-value-editor';
 import { PickQueryForFilter } from '~/components/filter/pick-query-for-filter';
