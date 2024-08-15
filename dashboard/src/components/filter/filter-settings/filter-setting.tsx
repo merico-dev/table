@@ -1,8 +1,8 @@
 import { Box, Checkbox, Divider, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React, { useMemo } from 'react';
+import React, { ReactComponentElement, ReactElement, ReactNode, useMemo } from 'react';
 import { useEditContentModelContext } from '~/contexts';
-import { FilterMetaInstance } from '~/model';
+import { DashboardFilterType, FilterMetaInstance } from '~/model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
 import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';
@@ -13,21 +13,23 @@ import { PreviewFilter } from './preview-filter';
 import { useTranslation } from 'react-i18next';
 
 const editors = {
-  select: FilterEditorSelect,
-  'multi-select': FilterEditorMultiSelect,
-  'tree-select': FilterEditorTreeSelect,
-  'text-input': FilterEditorTextInput,
-  checkbox: FilterEditorCheckbox,
-  'date-range': FilterEditorDateRange,
+  [DashboardFilterType.Select]: FilterEditorSelect,
+  [DashboardFilterType.MultiSelect]: FilterEditorMultiSelect,
+  [DashboardFilterType.TreeSelect]: FilterEditorTreeSelect,
+  [DashboardFilterType.TreeSingleSelect]: () => 'TODO',
+  [DashboardFilterType.TextInput]: FilterEditorTextInput,
+  [DashboardFilterType.Checkbox]: FilterEditorCheckbox,
+  [DashboardFilterType.DateRange]: FilterEditorDateRange,
 };
 
 export const filterTypeNames = {
-  select: 'filter.widget.names.select',
-  'multi-select': 'filter.widget.names.multi_select',
-  'tree-select': 'filter.widget.names.tree_select',
-  'text-input': 'filter.widget.names.text_input',
-  checkbox: 'filter.widget.names.checkbox',
-  'date-range': 'filter.widget.names.date_range',
+  [DashboardFilterType.Select]: 'filter.widget.names.select',
+  [DashboardFilterType.MultiSelect]: 'filter.widget.names.multi_select',
+  [DashboardFilterType.TreeSelect]: 'filter.widget.names.tree_select',
+  [DashboardFilterType.TreeSingleSelect]: 'filter.widget.names.tree_single_select',
+  [DashboardFilterType.TextInput]: 'filter.widget.names.text_input',
+  [DashboardFilterType.Checkbox]: 'filter.widget.names.checkbox',
+  [DashboardFilterType.DateRange]: 'filter.widget.names.date_range',
 };
 
 interface IFilterSetting {
@@ -43,12 +45,13 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
 
   const filterTypeOptions = useMemo(() => {
     return [
-      { label: t(filterTypeNames['select']), value: 'select' },
-      { label: t(filterTypeNames['multi-select']), value: 'multi-select' },
-      { label: t(filterTypeNames['tree-select']), value: 'tree-select' },
-      { label: t(filterTypeNames['text-input']), value: 'text-input' },
-      { label: t(filterTypeNames['checkbox']), value: 'checkbox' },
-      { label: t(filterTypeNames['date-range']), value: 'date-range' },
+      { label: t(filterTypeNames[DashboardFilterType.Select]), value: 'select' },
+      { label: t(filterTypeNames[DashboardFilterType.MultiSelect]), value: 'multi-select' },
+      { label: t(filterTypeNames[DashboardFilterType.TreeSelect]), value: 'tree-select' },
+      { label: t(filterTypeNames[DashboardFilterType.TreeSingleSelect]), value: 'tree-single-select' },
+      { label: t(filterTypeNames[DashboardFilterType.TextInput]), value: 'text-input' },
+      { label: t(filterTypeNames[DashboardFilterType.Checkbox]), value: 'checkbox' },
+      { label: t(filterTypeNames[DashboardFilterType.DateRange]), value: 'date-range' },
     ];
   }, [i18n.language]);
 

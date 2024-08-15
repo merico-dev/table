@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import {
+  DashboardFilterType,
   FilterDateRangeConfigInstance,
   FilterMetaInstance,
   FilterMultiSelectConfigInstance,
@@ -32,17 +33,17 @@ const RenderFilter = observer(
     formFieldProps: Omit<IFilter, 'filter'>;
   }) => {
     switch (type) {
-      case 'select':
+      case DashboardFilterType.Select:
         return <FilterSelect {...rest} {...formFieldProps} config={config as FilterSelectConfigInstance} />;
-      case 'multi-select':
+      case DashboardFilterType.MultiSelect:
         return <FilterMultiSelect {...rest} {...formFieldProps} config={config as FilterMultiSelectConfigInstance} />;
-      case 'tree-select':
+      case DashboardFilterType.TreeSelect:
         return <FilterTreeSelect {...rest} {...formFieldProps} config={config as FilterTreeSelectConfigInstance} />;
-      case 'text-input':
+      case DashboardFilterType.TextInput:
         return <FilterTextInput {...rest} {...formFieldProps} config={config as FilterTextInputConfigInstance} />;
-      case 'date-range':
+      case DashboardFilterType.DateRange:
         return <FilterDateRange {...rest} {...formFieldProps} config={config as FilterDateRangeConfigInstance} />;
-      case 'checkbox':
+      case DashboardFilterType.Checkbox:
         return <FilterCheckbox {...rest} {...formFieldProps} config={config as FilterCheckboxConfigInstance} />;
       default:
         return null;
