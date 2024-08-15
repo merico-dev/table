@@ -8,6 +8,7 @@ import {
   FilterSelectConfigInstance,
   FilterTextInputConfigInstance,
   FilterTreeSelectConfigInstance,
+  FilterTreeSingleSelectConfigInstance,
 } from '~/model';
 import { FilterCheckboxConfigInstance } from '../../model/meta-model/dashboard/content/filter/widgets/checkbox';
 import { ErrorBoundary } from '../../utils/error-boundary';
@@ -16,7 +17,7 @@ import { FilterDateRange } from './filter-date-range/render';
 import { FilterMultiSelect } from './filter-multi-select/render';
 import { FilterSelect } from './filter-select/render';
 import { FilterTextInput } from './filter-text-input/render';
-import { FilterTreeSelect } from './filter-tree';
+import { FilterTreeSelect, FilterTreeSingleSelect } from './filter-tree';
 
 interface IFilter {
   filter: FilterMetaInstance;
@@ -39,6 +40,14 @@ const RenderFilter = observer(
         return <FilterMultiSelect {...rest} {...formFieldProps} config={config as FilterMultiSelectConfigInstance} />;
       case DashboardFilterType.TreeSelect:
         return <FilterTreeSelect {...rest} {...formFieldProps} config={config as FilterTreeSelectConfigInstance} />;
+      case DashboardFilterType.TreeSingleSelect:
+        return (
+          <FilterTreeSingleSelect
+            {...rest}
+            {...formFieldProps}
+            config={config as FilterTreeSingleSelectConfigInstance}
+          />
+        );
       case DashboardFilterType.TextInput:
         return <FilterTextInput {...rest} {...formFieldProps} config={config as FilterTextInputConfigInstance} />;
       case DashboardFilterType.DateRange:

@@ -8,7 +8,7 @@ import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';
 import { FilterEditorSelect } from '../filter-select/editor';
 import { FilterEditorTextInput } from '../filter-text-input/editor';
-import { FilterEditorTreeSelect } from '../filter-tree/';
+import { FilterEditorTreeSelect, FilterEditorTreeSingleSelect } from '../filter-tree/';
 import { PreviewFilter } from './preview-filter';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ const editors = {
   [DashboardFilterType.Select]: FilterEditorSelect,
   [DashboardFilterType.MultiSelect]: FilterEditorMultiSelect,
   [DashboardFilterType.TreeSelect]: FilterEditorTreeSelect,
-  [DashboardFilterType.TreeSingleSelect]: () => 'TODO',
+  [DashboardFilterType.TreeSingleSelect]: FilterEditorTreeSingleSelect,
   [DashboardFilterType.TextInput]: FilterEditorTextInput,
   [DashboardFilterType.Checkbox]: FilterEditorCheckbox,
   [DashboardFilterType.DateRange]: FilterEditorDateRange,
