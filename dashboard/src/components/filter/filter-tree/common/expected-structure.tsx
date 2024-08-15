@@ -8,8 +8,9 @@ const structure = `
 {
   label: string;
   value: string;
-  parent_value: string;
+  parent_value: string | null;
   description?: string;
+  disabled?: boolean;
 }
 `;
 
