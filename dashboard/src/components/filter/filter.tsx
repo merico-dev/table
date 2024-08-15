@@ -15,7 +15,7 @@ import { FilterDateRange } from './filter-date-range/render';
 import { FilterMultiSelect } from './filter-multi-select/render';
 import { FilterSelect } from './filter-select/render';
 import { FilterTextInput } from './filter-text-input/render';
-import { FilterTreeSelect } from './filter-tree-select/render';
+import { FilterTreeSelect } from './filter-tree';
 
 interface IFilter {
   filter: FilterMetaInstance;
