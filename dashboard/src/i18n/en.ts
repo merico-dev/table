@@ -28,6 +28,7 @@ export const en = {
           select: 'Select',
           multi_select: 'Multi Select',
           tree_select: 'Tree Select',
+          tree_single_select: 'Tree Single Select',
           text_input: 'Text Input',
           checkbox: 'Checkbox',
           date_range: 'Date Range',
@@ -61,6 +62,9 @@ export const en = {
         },
         tree_select: {
           strictly: 'Parent and children nodes are not associated',
+        },
+        tree_single_select: {
+          select_first_option_by_default: 'Select the first option by default',
         },
         checkbox: {
           description: 'Description',

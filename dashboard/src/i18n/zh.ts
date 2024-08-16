@@ -28,6 +28,7 @@ export const zh = {
           select: '单选',
           multi_select: '多选',
           tree_select: '树形选择器',
+          tree_single_select: '树形单选器',
           text_input: '文本框',
           checkbox: '勾选框',
           date_range: '日期范围',
@@ -61,6 +62,9 @@ export const zh = {
         },
         tree_select: {
           strictly: '枝叶节点不相关，各选各的',
+        },
+        tree_single_select: {
+          select_first_option_by_default: '默认选中第一个选项',
         },
         checkbox: {
           description: '描述信息',

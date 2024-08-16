@@ -8,6 +8,7 @@ import { FilterMultiSelectConfigMeta, createFilterMultiSelectConfig } from './wi
 import { FilterSelectConfigMeta, createFilterSelectConfig } from './widgets/select';
 import { FilterTextInputConfigMeta, createFilterTextInputConfig } from './widgets/text-input';
 import { FilterTreeSelectConfigMeta, createFilterTreeSelectConfig } from './widgets/tree-select';
+import { createFilterTreeSingleSelectConfig, FilterTreeSingleSelectConfigMeta } from './widgets';
 
 export const FilterMeta = types
   .model('FilterMeta', {
@@ -22,6 +23,7 @@ export const FilterMeta = types
       DashboardFilterType.Select,
       DashboardFilterType.MultiSelect,
       DashboardFilterType.TreeSelect,
+      DashboardFilterType.TreeSingleSelect,
       DashboardFilterType.TextInput,
       DashboardFilterType.Checkbox,
       DashboardFilterType.DateRange,
@@ -30,6 +32,7 @@ export const FilterMeta = types
       FilterSelectConfigMeta,
       FilterMultiSelectConfigMeta,
       FilterTreeSelectConfigMeta,
+      FilterTreeSingleSelectConfigMeta,
       FilterTextInputConfigMeta,
       FilterCheckboxConfigMeta,
       FilterDateRangeConfigMeta,
@@ -54,7 +57,7 @@ export const FilterMeta = types
       return v;
     },
     get usingDefaultValue() {
-      return self.type !== DashboardFilterType.TreeSelect;
+      return self.type !== DashboardFilterType.TreeSelect && self.type !== DashboardFilterType.TreeSingleSelect;
     },
     get usingDefaultValueFunc() {
       return !!self.default_value_func;
@@ -122,6 +125,9 @@ export const FilterMeta = types
           break;
         case DashboardFilterType.TreeSelect:
           self.config = createFilterTreeSelectConfig();
+          break;
+        case DashboardFilterType.TreeSingleSelect:
+          self.config = createFilterTreeSingleSelectConfig();
           break;
         case DashboardFilterType.TextInput:
           self.config = createFilterTextInputConfig();

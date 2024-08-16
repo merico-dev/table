@@ -63,6 +63,9 @@ export const FilterBaseSelectConfigMeta = types
       // return stale data if we have it
       return data.filter((d) => 'label' in d && 'value' in d);
     },
+    get optionValuesSet(): Set<string> {
+      return new Set(this.options.map((o) => o.value));
+    },
   }))
   .actions((self) => ({
     setRequired(required: boolean) {

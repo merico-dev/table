@@ -11,6 +11,7 @@ const defaultFilterValueDict = {
   [DashboardFilterType.MultiSelect]: '[]',
   [DashboardFilterType.Select]: '""',
   [DashboardFilterType.TreeSelect]: '[]',
+  [DashboardFilterType.TreeSingleSelect]: '""',
   [DashboardFilterType.TextInput]: '""',
 };
 

@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import {
+  DashboardFilterType,
   FilterDateRangeConfigInstance,
   FilterMetaInstance,
   FilterMultiSelectConfigInstance,
   FilterSelectConfigInstance,
   FilterTextInputConfigInstance,
   FilterTreeSelectConfigInstance,
+  FilterTreeSingleSelectConfigInstance,
 } from '~/model';
 import { FilterCheckboxConfigInstance } from '../../model/meta-model/dashboard/content/filter/widgets/checkbox';
 import { ErrorBoundary } from '../../utils/error-boundary';
@@ -15,7 +17,7 @@ import { FilterDateRange } from './filter-date-range/render';
 import { FilterMultiSelect } from './filter-multi-select/render';
 import { FilterSelect } from './filter-select/render';
 import { FilterTextInput } from './filter-text-input/render';
-import { FilterTreeSelect } from './filter-tree-select/render';
+import { FilterTreeSelect, FilterTreeSingleSelect } from './filter-tree';
 
 interface IFilter {
   filter: FilterMetaInstance;
@@ -32,17 +34,25 @@ const RenderFilter = observer(
     formFieldProps: Omit<IFilter, 'filter'>;
   }) => {
     switch (type) {
-      case 'select':
+      case DashboardFilterType.Select:
         return <FilterSelect {...rest} {...formFieldProps} config={config as FilterSelectConfigInstance} />;
-      case 'multi-select':
+      case DashboardFilterType.MultiSelect:
         return <FilterMultiSelect {...rest} {...formFieldProps} config={config as FilterMultiSelectConfigInstance} />;
-      case 'tree-select':
+      case DashboardFilterType.TreeSelect:
         return <FilterTreeSelect {...rest} {...formFieldProps} config={config as FilterTreeSelectConfigInstance} />;
-      case 'text-input':
+      case DashboardFilterType.TreeSingleSelect:
+        return (
+          <FilterTreeSingleSelect
+            {...rest}
+            {...formFieldProps}
+            config={config as FilterTreeSingleSelectConfigInstance}
+          />
+        );
+      case DashboardFilterType.TextInput:
         return <FilterTextInput {...rest} {...formFieldProps} config={config as FilterTextInputConfigInstance} />;
-      case 'date-range':
+      case DashboardFilterType.DateRange:
         return <FilterDateRange {...rest} {...formFieldProps} config={config as FilterDateRangeConfigInstance} />;
-      case 'checkbox':
+      case DashboardFilterType.Checkbox:
         return <FilterCheckbox {...rest} {...formFieldProps} config={config as FilterCheckboxConfigInstance} />;
       default:
         return null;

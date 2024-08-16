@@ -25,10 +25,15 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         display: 'block',
       },
     },
+    '&.rc-tree-select-focused': {
+      '.rc-tree-select-selection-item': {
+        color: '#aaa',
+      },
+    },
     '.rc-tree-select-selector': {
       height: 'auto',
       lineHeight: 1.55,
-      paddingLeft: '12px',
+      paddingLeft: 'calc(2.25rem  / 3)',
       resize: 'none',
       boxSizing: 'border-box',
       fontSize: '14px',
@@ -38,51 +43,34 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       textAlign: 'left',
       minHeight: '36px',
       cursor: 'pointer',
-      flexGrow: 1,
-    },
-    '.rc-tree-select-selection-search-mirror': {
-      display: 'none',
+      position: 'relative',
     },
     '.rc-tree-select-selection-search': {
-      flexGrow: 1,
-      width: 'auto !important',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1,
+      '.rc-tree-select-selection-search-input': {
+        height: '36px',
+        paddingLeft: 'calc(2.25rem  / 3)',
+        textOverflow: 'ellipsis',
+      },
     },
-    '.rc-tree-select-selection-overflow': {
-      display: 'flex',
-      minHeight: '34px',
-      alignItems: 'center',
-      flexWrap: 'nowrap',
-      marginLeft: 'calc(-10px / 2)',
-      boxSizing: 'border-box',
-    },
-    '.rc-tree-select-selection-overflow-item': {
-      display: 'flex',
-      alignItems: 'center',
-      backgroundColor: '#f1f3f5',
-      color: '#495057',
-      height: '24px',
-      paddingLeft: '12px',
-      paddingRight: '12px',
-      fontWeight: 500,
-      fontSize: '12px',
-      borderRadius: '4px',
+    '.rc-tree-select-selection-item': {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      paddingLeft: 'calc(2.25rem  / 3)',
+      color: '#000',
+      lineHeight: '36px',
+      fontSize: '0.875rem',
       cursor: 'default',
       userSelect: 'none',
       maxWidth: 'calc(100% - 20px)',
-      margin: 'calc(10px / 2 - 2px) calc(10px / 2)',
-    },
-    '.rc-tree-select-selection-overflow-item-rest': {
-      cursor: 'pointer',
-    },
-    '.rc-tree-select-selection-overflow-item-suffix': {
-      display: 'none',
-      backgroundColor: 'transparent',
-      width: '100%',
-      maxWidth: '100%',
-      height: '28px',
-      margin: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
+      transition: 'color 200ms ease',
     },
     input: {
       flex: 1,
@@ -145,7 +133,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       boxSizing: 'border-box',
       textAlign: 'left',
       width: '100%',
-      padding: '8px 12px',
+      padding: '0px 12px',
       cursor: 'pointer',
       fontSize: '14px',
       color: '#000',
@@ -153,18 +141,25 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       display: 'flex',
       flexWrap: 'nowrap',
       overflow: 'hidden',
+      transition: 'background-color 200ms ease',
       '&:hover': {
         backgroundColor: '#f1f3f5',
       },
-      '&.rc-tree-select-tree-treenode-checkbox-checked': {
+      '&.rc-tree-select-tree-treenode-selected': {
         '.rc-tree-select-tree-iconEle .checkbox-icon .checkmark-checked': {
           stroke: 'rgb(64, 192, 87)',
           animation: 'check 200ms linear forwards',
         },
       },
-      '&.rc-tree-select-tree-treenode-checkbox-indeterminate': {
-        '.rc-tree-select-tree-iconEle .checkbox-icon .checkmark-indeterminate': {
-          fill: 'rgb(64, 192, 87)',
+      '&.rc-tree-select-tree-treenode-disabled': {
+        color: '#aaa',
+        '.rc-tree-select-tree-title, .rc-tree-select-tree-iconEle': {
+          cursor: 'not-allowed',
+        },
+        '.rc-tree-select-tree-iconEle': {
+          'svg .border': {
+            fill: '#ced4da',
+          },
         },
       },
       '.rc-tree-select-tree-switcher': {
@@ -190,6 +185,8 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         alignItems: 'center',
         gap: '8px',
         transition: 'color 200ms ease',
+        width: '100%',
+        padding: '8px 0',
         '&:hover': {
           color: '#228be6',
         },
