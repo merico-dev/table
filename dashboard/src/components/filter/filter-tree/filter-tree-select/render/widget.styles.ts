@@ -167,6 +167,17 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
           fill: 'rgb(64, 192, 87)',
         },
       },
+      '&.rc-tree-select-tree-treenode-disabled': {
+        color: '#aaa',
+        '.rc-tree-select-tree-title, .rc-tree-select-tree-iconEle': {
+          cursor: 'not-allowed',
+        },
+        '.rc-tree-select-tree-iconEle': {
+          'svg .border': {
+            fill: '#ced4da',
+          },
+        },
+      },
       '.rc-tree-select-tree-switcher': {
         height: '16px',
         alignSelf: 'center',
