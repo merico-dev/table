@@ -161,7 +161,9 @@ export const EditorModel = types
       if (path.length === 0) {
         return false;
       }
-
+      if (isPanel(path)) {
+        return path[3] === option.value;
+      }
       return path[path.length - 1] === option.value;
     },
     isOptionOpened(option: NavOptionType) {
