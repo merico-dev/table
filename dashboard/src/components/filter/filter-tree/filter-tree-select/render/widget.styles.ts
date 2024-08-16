@@ -145,7 +145,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       boxSizing: 'border-box',
       textAlign: 'left',
       width: '100%',
-      padding: '8px 12px',
+      padding: '0px 12px',
       cursor: 'pointer',
       fontSize: '14px',
       color: '#000',
@@ -200,6 +200,8 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         overflow: 'hidden',
         alignItems: 'center',
         gap: '8px',
+        width: '100%',
+        padding: '8px 0',
         transition: 'color 200ms ease',
         '&:hover': {
           color: '#228be6',
