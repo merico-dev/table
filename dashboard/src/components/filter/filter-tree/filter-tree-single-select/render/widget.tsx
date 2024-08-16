@@ -1,22 +1,11 @@
-import {
-  Badge,
-  CloseButton,
-  DefaultProps,
-  Group,
-  MantineNumberSize,
-  Selectors,
-  Stack,
-  Text,
-  Tooltip,
-} from '@mantine/core';
+import { CloseButton, DefaultProps, Group, MantineNumberSize, Selectors, Stack, Text } from '@mantine/core';
 import { TreeItem } from 'performant-array-to-tree';
-import TreeSelect, { SHOW_ALL, SHOW_PARENT } from 'rc-tree-select';
-import { useState } from 'react';
+import TreeSelect from 'rc-tree-select';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { SwitcherIcon } from '../../common/switcher-icon';
 import { TreeIcon } from '../../common/tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
-import { useTranslation } from 'react-i18next';
 
 // DefaultProps adds system props support (margin, padding, sx, unstyled, styles and classNames).
 // It accepts 2 types: styles names and styles params, both of them are optional
@@ -86,6 +75,7 @@ export const FilterTreeSingleSelectWidget = ({
         treeCheckable={false}
         onChange={onChange}
         onSelect={console.log}
+        showSearch
       />
     </Stack>
   );

@@ -25,6 +25,11 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         display: 'block',
       },
     },
+    '&.rc-tree-select-focused': {
+      '.rc-tree-select-selection-item': {
+        color: '#aaa',
+      },
+    },
     '.rc-tree-select-selector': {
       height: 'auto',
       lineHeight: 1.55,
@@ -40,13 +45,19 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       cursor: 'pointer',
       position: 'relative',
     },
-    // '.rc-tree-select-selection-search-mirror': {
-    //   display: 'none',
-    // },
-    // '.rc-tree-select-selection-search': {
-    //   flexGrow: 1,
-    //   width: 'auto !important',
-    // },
+    '.rc-tree-select-selection-search': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1,
+      '.rc-tree-select-selection-search-input': {
+        height: '36px',
+        paddingLeft: 'calc(2.25rem  / 3)',
+        textOverflow: 'ellipsis',
+      },
+    },
     '.rc-tree-select-selection-item': {
       position: 'absolute',
       top: 0,
@@ -59,6 +70,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       cursor: 'default',
       userSelect: 'none',
       maxWidth: 'calc(100% - 20px)',
+      transition: 'color 200ms ease',
     },
     input: {
       flex: 1,
@@ -129,6 +141,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       display: 'flex',
       flexWrap: 'nowrap',
       overflow: 'hidden',
+      transition: 'background-color 200ms ease',
       '&:hover': {
         backgroundColor: '#f1f3f5',
       },
