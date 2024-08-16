@@ -27,6 +27,7 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
         <NavLink
           key={table_schema}
           label={table_schema}
+          title={table_schema}
           icon={<IconDatabase size={14} />}
           defaultOpened={dataSource.table_schema === table_schema}
           pl={0}
@@ -36,6 +37,7 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
             <NavLink
               key={info.table_name}
               label={info.table_name}
+              title={info.table_name}
               icon={<TableIcon table_type={info.table_type} />}
               onClick={() => {
                 dataSource.setKeywords(table_schema, info.table_name);
