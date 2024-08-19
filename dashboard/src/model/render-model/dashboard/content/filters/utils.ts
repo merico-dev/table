@@ -74,7 +74,7 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
         shortcut: null,
       };
     } else {
-      ret[k] = input;
+      ret[k] = input ?? v;
     }
     return ret;
   });
