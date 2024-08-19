@@ -6,6 +6,7 @@ import {
 } from '~/model';
 import { functionUtils } from '~/utils';
 import { FilterValuesType } from './types';
+import _ from 'lodash';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -82,5 +83,5 @@ export function getValuesFromFiltersWithCurrentValues(
     }
 
     return ret;
-  }, currentValues);
+  }, _.cloneDeep(currentValues));
 }
