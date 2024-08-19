@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, ContextRecordType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
 import { downloadJSON } from '~/utils/download';
-import { getValuesFromFilters } from './utils';
+import { getValuesFromFilters, getValuesFromFiltersWithCurrentValues } from './utils';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -144,7 +144,8 @@ export function getInitialFiltersConfig(
   mock_context: ContextRecordType,
   filterValues: Record<string, any>,
 ) {
-  const initialValues = _.defaults({}, filterValues, getValuesFromFilters(filters, { ...mock_context, ...context }));
+  const ctx = { ...mock_context, ...context };
+  const initialValues = getValuesFromFiltersWithCurrentValues(filters, ctx, filterValues);
   return {
     current: filters,
     values: initialValues,

@@ -61,3 +61,26 @@ export function getValuesFromFilters(filters: FilterMetaSnapshotOut[], context: 
     return ret;
   }, {} as FilterValuesType);
 }
+
+export function getValuesFromFiltersWithCurrentValues(
+  filters: FilterMetaSnapshotOut[],
+  context: ContextRecordType,
+  currentValues: FilterValuesType,
+) {
+  return filters.reduce((ret, filter) => {
+    if (!(filter.key in ret)) {
+      ret[filter.key] = formatDefaultValue(filter, context);
+      return ret;
+    }
+
+    const v = ret[filter.key];
+    if (filter.config._name === 'date-range' && Array.isArray(v)) {
+      ret[filter.key] = {
+        value: v,
+        shortcut: null,
+      };
+    }
+
+    return ret;
+  }, currentValues);
+}
