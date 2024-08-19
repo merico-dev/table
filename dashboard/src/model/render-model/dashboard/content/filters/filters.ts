@@ -105,7 +105,7 @@ export const FiltersRenderModel = types
       self.values = _.defaults({}, values, self.values);
     },
     setValueByKey(key: string, value: $TSFixMe) {
-      console.debug(`⚪️ setting filter[${key}] to value: `, JSON.stringify(value));
+      console.trace(`⚪️ setting filter[${key}] to value: `, JSON.stringify(value));
       self.values = {
         ...self.values,
         [key]: value,

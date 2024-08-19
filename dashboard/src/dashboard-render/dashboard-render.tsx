@@ -92,13 +92,12 @@ const _ReadOnlyDashboard = ({
   }, [globalSQLSnippets]);
 
   React.useEffect(() => {
-    console.log('calling onFilterValuesChange: ', model.content.filters.values);
+    console.log('⚪️ calling onFilterValuesChange: ', model.content.filters.values);
     onFilterValuesChange?.(model.content.filters.values);
   }, [onFilterValuesChange, model.content.filters.valuesString]);
 
   React.useEffect(() => {
     if (filterValues) {
-      console.log('patching filter values: ', filterValues);
       model.content.filters.patchValues(filterValues);
     }
   }, [filterValues, model.content.filters.patchValues]);
