@@ -1,5 +1,6 @@
 import {
   ContextRecordType,
+  DashboardFilterType,
   FilterDateRangeConfigSnapshotOut,
   FilterMetaSnapshotOut,
   getStaticDateRangeDefaultValue,
@@ -63,25 +64,19 @@ export function getValuesFromFilters(filters: FilterMetaSnapshotOut[], context: 
   }, {} as FilterValuesType);
 }
 
-export function getValuesFromFiltersWithCurrentValues(
-  filters: FilterMetaSnapshotOut[],
-  context: ContextRecordType,
-  currentValues: FilterValuesType,
-) {
-  return filters.reduce((ret, filter) => {
-    if (!(filter.key in ret)) {
-      ret[filter.key] = formatDefaultValue(filter, context);
-      return ret;
-    }
-
-    const v = ret[filter.key];
-    if (filter.config._name === 'date-range' && Array.isArray(v)) {
-      ret[filter.key] = {
-        value: v,
+export function formatInputFilterValues(inputValues: FilterValuesType, currentValues: FilterValuesType) {
+  const ret: FilterValuesType = {};
+  Object.entries(currentValues).forEach(([k, v]) => {
+    const input = inputValues[k];
+    if (typeof v === 'object' && 'shortcut' in v && Array.isArray(input)) {
+      ret[k] = {
+        value: input,
         shortcut: null,
       };
+    } else {
+      ret[k] = input;
     }
-
     return ret;
-  }, _.cloneDeep(currentValues));
+  });
+  return ret;
 }
