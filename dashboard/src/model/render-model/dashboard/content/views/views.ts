@@ -43,6 +43,9 @@ export const ViewsRenderModel = types
       }
       return view.tabInfo;
     },
+    get firstVisibleTabsViewActiveTabStr() {
+      return JSON.stringify(this.firstVisibleTabsViewActiveTab);
+    },
   }))
   .actions((self) => ({
     appendToVisibles(viewID: string) {

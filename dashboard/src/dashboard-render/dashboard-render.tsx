@@ -104,7 +104,7 @@ const _ReadOnlyDashboard = ({
 
   React.useEffect(() => {
     onActiveTabChange?.(model.content.views.firstVisibleTabsViewActiveTab);
-  }, [onActiveTabChange, model.content.views.firstVisibleTabsViewActiveTab]);
+  }, [onActiveTabChange, model.content.views.firstVisibleTabsViewActiveTabStr]);
 
   React.useEffect(() => {
     if (activeTab) {
