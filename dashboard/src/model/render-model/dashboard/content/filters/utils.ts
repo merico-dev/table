@@ -1,11 +1,13 @@
 import {
   ContextRecordType,
+  DashboardFilterType,
   FilterDateRangeConfigSnapshotOut,
   FilterMetaSnapshotOut,
   getStaticDateRangeDefaultValue,
 } from '~/model';
 import { functionUtils } from '~/utils';
 import { FilterValuesType } from './types';
+import _ from 'lodash';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -60,4 +62,21 @@ export function getValuesFromFilters(filters: FilterMetaSnapshotOut[], context: 
     ret[filter.key] = formatDefaultValue(filter, context);
     return ret;
   }, {} as FilterValuesType);
+}
+
+export function formatInputFilterValues(inputValues: FilterValuesType, currentValues: FilterValuesType) {
+  const ret: FilterValuesType = {};
+  Object.entries(currentValues).forEach(([k, v]) => {
+    const input = inputValues[k];
+    if (typeof v === 'object' && 'shortcut' in v && Array.isArray(input)) {
+      ret[k] = {
+        value: input,
+        shortcut: null,
+      };
+    } else {
+      ret[k] = input ?? v;
+    }
+    return ret;
+  });
+  return ret;
 }

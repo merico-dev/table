@@ -1,8 +1,14 @@
 import _ from 'lodash';
 import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
-import { CURRENT_SCHEMA_VERSION, ContextRecordType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
+import {
+  CURRENT_SCHEMA_VERSION,
+  ContextRecordType,
+  FilterMeta,
+  FilterMetaSnapshotOut,
+  FilterValuesType,
+} from '~/model';
 import { downloadJSON } from '~/utils/download';
-import { getValuesFromFilters } from './utils';
+import { getValuesFromFilters, formatInputFilterValues } from './utils';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -100,12 +106,12 @@ export const FiltersRenderModel = types
       console.debug('⚪️ setting filter values: ', JSON.stringify(values));
       self.values = values;
     },
-    patchValues(values: Record<string, any>) {
+    patchValues(values: FilterValuesType) {
       console.debug('⚪️ patching filter values: ', JSON.stringify(values));
-      self.values = _.defaults({}, values, self.values);
+      self.values = formatInputFilterValues(values, self.values);
     },
     setValueByKey(key: string, value: $TSFixMe) {
-      console.debug(`⚪️ setting filter[${key}] to value: `, JSON.stringify(value));
+      console.trace(`⚪️ setting filter[${key}] to value: `, JSON.stringify(value));
       self.values = {
         ...self.values,
         [key]: value,
@@ -144,7 +150,9 @@ export function getInitialFiltersConfig(
   mock_context: ContextRecordType,
   filterValues: Record<string, any>,
 ) {
-  const initialValues = _.defaults({}, filterValues, getValuesFromFilters(filters, { ...mock_context, ...context }));
+  const ctx = { ...mock_context, ...context };
+  const defaultValues = getValuesFromFilters(filters, ctx);
+  const initialValues = formatInputFilterValues(filterValues, defaultValues);
   return {
     current: filters,
     values: initialValues,

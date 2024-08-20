@@ -70,6 +70,10 @@ export const FilterTreeSelectConfigMeta = types
       self.treeCheckStrictly = v;
     },
     applyDefaultSelection() {
+      if (self.optionsLoading) {
+        return;
+      }
+
       const currentSelection = self.filter.value;
       const options = new Set(self.plainData.map((o: any) => o.value));
       const validValues = (currentSelection ?? []).filter((v: any) => options.has(v));
@@ -83,7 +87,7 @@ export const FilterTreeSelectConfigMeta = types
       addDisposer(
         self,
         reaction(() => JSON.stringify(self.defaultSelection), this.applyDefaultSelection, {
-          fireImmediately: true,
+          fireImmediately: false,
           delay: 0,
         }),
       );
