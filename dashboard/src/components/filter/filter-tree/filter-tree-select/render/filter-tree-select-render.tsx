@@ -20,7 +20,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
 
   const widgetValue = useMemo(() => {
     return config.initialSelection(value);
-  }, [value, config.initialSelection]);
+  }, [value, config.initialSelection, treeDataLoading]);
 
   const width = config.min_width ? config.min_width : '200px';
   const usingRemoteOptions = !!config.options_query_id;
