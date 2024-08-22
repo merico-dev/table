@@ -1,11 +1,11 @@
-import { Button, Divider, Group, Overlay, Select, Stack, Text } from '@mantine/core';
+import { Button, Divider, Group, Overlay, Select, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 
 import { VariableConfigUIModel, useConfigUIModel } from './model';
 
 import { IconPlus } from '@tabler/icons-react';
-import { VariableEditor } from './variable-editor';
 import { useTranslation } from 'react-i18next';
+import { VariableEditor } from './variable-editor';
 
 interface IVariableListProps {
   uiModel: VariableConfigUIModel;

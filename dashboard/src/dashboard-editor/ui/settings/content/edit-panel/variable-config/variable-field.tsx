@@ -7,19 +7,17 @@ import { AggregationSelector } from '~/components/panel/settings/common/aggregat
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '~/utils';
-import { TemplateVariableStyleField } from './variable-style';
 import { useTranslation } from 'react-i18next';
 
 interface ITemplateVariableField {
   value: ITemplateVariable;
   onChange: (v: ITemplateVariable) => void;
-  withStyle?: boolean;
   remove: () => void;
 }
 
 // todo: make it faster
 export const TemplateVariableField = React.forwardRef(function _TemplateVariableField(
-  { value, onChange, withStyle = true, remove }: ITemplateVariableField,
+  { value, onChange, remove }: ITemplateVariableField,
   ref: $TSFixMe,
 ) {
   const { t } = useTranslation();
@@ -61,16 +59,6 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
           </>
         )}
       </Stack>
-      {withStyle && (
-        <Accordion variant="contained">
-          <Accordion.Item value="Styles">
-            <Accordion.Control icon={<Text size="xl">🖼️</Text>}>{t('style.label')}</Accordion.Control>
-            <Accordion.Panel>
-              <TemplateVariableStyleField value={value} onChange={onChange} />
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
-      )}
 
       <Button mt={20} leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={remove}>
         {t('panel.variable.delete')}
