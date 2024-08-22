@@ -1,11 +1,10 @@
-import { TNumberFormat, transformTemplateToRichText } from '~/utils';
-import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
-import { IVizStatsConf } from '../type';
-import { AnyObject } from '~/types';
-import { ColorConfType, ITemplateVariable } from '~/utils';
 import { cloneDeep, get, omit, set } from 'lodash';
 import { HorizontalAlign } from '~/components/plugins/editor-components';
+import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { PanelModelInstance } from '~/dashboard-editor';
+import { AnyObject } from '~/types';
+import { ITemplateVariable, TNumberFormat, transformTemplateToRichText } from '~/utils';
+import { IVizStatsConf } from '../type';
 
 interface ILegacyStatsConf {
   align: 'center';
