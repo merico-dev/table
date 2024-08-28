@@ -9,6 +9,7 @@ import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types
 import { ICartesianChartConf } from '../type';
 
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
+import { getDefaultLineAreaStyle } from '~/components/plugins/common-echarts-fields/line-area-style';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -308,6 +309,21 @@ export function v20(legacyConf: $TSFixMe, panelModel: PanelModelInstance): ICart
   };
 }
 
+export function v21(legacyConf: any): ICartesianChartConf {
+  const { series, ...rest } = legacyConf;
+  const newSeries = series.map((s: any) => {
+    const { areaStyle = getDefaultLineAreaStyle(), ...restSeries } = s;
+    return {
+      ...restSeries,
+      areaStyle,
+    };
+  });
+  return {
+    ...rest,
+    series: newSeries,
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -458,6 +474,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v20(data.config, env.panelModel),
       };
     });
+    this.version(21, (data, env) => {
+      return {
+        ...data,
+        version: 21,
+        config: v21(data.config),
+      };
+    });
   }
-  readonly VERSION = 20;
+  readonly VERSION = 21;
 }

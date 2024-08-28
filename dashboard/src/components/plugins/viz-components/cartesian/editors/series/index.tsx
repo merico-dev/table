@@ -6,6 +6,7 @@ import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { DEFAULT_SCATTER_SIZE } from '../../../../common-echarts-fields/symbol-size';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { SeriesItemField } from './series-item';
+import { getDefaultLineAreaStyle } from '~/components/plugins/common-echarts-fields/line-area-style';
 
 interface ISeriesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -38,6 +39,7 @@ export function SeriesField({ control, watch }: ISeriesField) {
       },
       hide_in_legend: false,
       group_by_key: '',
+      areaStyle: getDefaultLineAreaStyle(),
     };
     return item;
   };

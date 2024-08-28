@@ -16,6 +16,7 @@ import {
 } from '../../common-echarts-fields/x-axis-label-formatter';
 import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
+import { EchartsLineAreaStyle } from '../../common-echarts-fields/line-area-style';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -41,6 +42,7 @@ export interface ICartesianChartSeriesItem {
     width: number;
   };
   hide_in_legend: boolean;
+  areaStyle: EchartsLineAreaStyle;
 }
 
 export interface IYAxisConf {
