@@ -5,6 +5,7 @@ import { SymbolSizeSelector } from '../../../../common-echarts-fields/symbol-siz
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
+import { LineAreaStyleField } from '~/components/plugins/common-echarts-fields/line-area-style';
 
 interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -113,6 +114,11 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           />
         )}
       </Stack>
+      <Controller
+        name={`series.${index}.areaStyle`}
+        control={control}
+        render={({ field }) => <LineAreaStyleField {...field} />}
+      />
     </>
   );
 }

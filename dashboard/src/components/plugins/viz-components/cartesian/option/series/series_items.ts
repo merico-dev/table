@@ -19,6 +19,7 @@ export function getSeriesItemOrItems(
     display_name_on_line,
     symbolSize,
     hide_in_legend,
+    areaStyle,
     ...rest
   }: ICartesianChartSeriesItem,
   dataTemplate: DataTemplateType[],
@@ -53,6 +54,15 @@ export function getSeriesItemOrItems(
       shadowOffsetX: 0,
       shadowOffsetY: _.clamp(rest.lineStyle.width, 1, 3),
     };
+    if (areaStyle.enabled) {
+      seriesItem.lineStyle.shadowColor = 'transparent';
+
+      const { enabled, ...restAreaStyle } = areaStyle;
+      seriesItem.areaStyle = {
+        ...restAreaStyle,
+        color: restAreaStyle.color || color,
+      };
+    }
   }
   if (display_name_on_line) {
     seriesItem.endLabel = {
@@ -83,6 +93,9 @@ export function getSeriesItemOrItems(
     const ret = cloneDeep(seriesItem);
     ret.name = groupName;
     ret.color = undefined;
+    if ('areaStyle' in ret) {
+      ret.areaStyle.color = undefined;
+    }
     ret.data = data;
     return ret;
   });

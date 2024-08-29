@@ -2,11 +2,14 @@ import { random } from 'chroma-js';
 import _, { cloneDeep, omit } from 'lodash';
 import { IMigrationEnv } from '~/components/plugins';
 import { getDefaultXAxisLabelFormatter } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { PanelModelInstance } from '~/dashboard-editor';
 import { AnyObject } from '~/types';
 import { DefaultAggregation, ITemplateVariable, transformTemplateToRichText } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
 import { ICartesianChartConf } from '../type';
-import { PanelModelInstance } from '~/dashboard-editor';
+
+import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
+import { getDefaultLineAreaStyle } from '~/components/plugins/common-echarts-fields/line-area-style';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -304,4 +307,180 @@ export function v20(legacyConf: $TSFixMe, panelModel: PanelModelInstance): ICart
     },
     ...rest,
   };
+}
+
+export function v21(legacyConf: any): ICartesianChartConf {
+  const { series, ...rest } = legacyConf;
+  const newSeries = series.map((s: any) => {
+    const { areaStyle = getDefaultLineAreaStyle(), ...restSeries } = s;
+    return {
+      ...restSeries,
+      areaStyle,
+    };
+  });
+  return {
+    ...rest,
+    series: newSeries,
+  };
+}
+
+export class VizCartesianMigrator extends VersionBasedMigrator {
+  configVersions(): void {
+    this.version(1, (data: $TSFixMe) => {
+      return {
+        version: 1,
+        config: data,
+      };
+    });
+    this.version(2, (data, { panelModel }) => {
+      const { config } = data;
+      const variables = (config.variables || []) as ITemplateVariable[];
+      variables.forEach((v) => {
+        if (!panelModel.variables.find((vv) => vv.name === v.name)) {
+          panelModel.addVariable(v);
+        }
+      });
+      const statVariables = (_.get(config, 'stats.variables') || []) as ITemplateVariable[];
+      statVariables.forEach((v) => {
+        if (!panelModel.variables.find((vv) => vv.name === v.name)) {
+          panelModel.addVariable(v);
+        }
+      });
+      return { ...data, version: 2, config: updateSchema2(config) };
+    });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: updateToSchema3(data.config),
+      };
+    });
+    this.version(4, (data) => {
+      return {
+        ...data,
+        version: 4,
+        config: updateToSchema4(data.config),
+      };
+    });
+    this.version(5, (data) => {
+      return {
+        ...data,
+        version: 5,
+        config: v5(data.config),
+      };
+    });
+    this.version(6, (data) => {
+      return {
+        ...data,
+        version: 6,
+        config: v6(data.config),
+      };
+    });
+    this.version(7, (data) => {
+      return {
+        ...data,
+        version: 7,
+        config: v7(data.config),
+      };
+    });
+    this.version(8, (data) => {
+      return {
+        ...data,
+        version: 8,
+        config: v8(data.config),
+      };
+    });
+    this.version(9, (data) => {
+      return {
+        ...data,
+        version: 9,
+        config: v9(data.config),
+      };
+    });
+    this.version(10, (data) => {
+      return {
+        ...data,
+        version: 10,
+        config: v10(data.config),
+      };
+    });
+    this.version(11, (data) => {
+      return {
+        ...data,
+        version: 11,
+        config: v11(data.config),
+      };
+    });
+    this.version(12, (data) => {
+      return {
+        ...data,
+        version: 12,
+        config: v12(data.config),
+      };
+    });
+    this.version(13, (data) => {
+      return {
+        ...data,
+        version: 13,
+        config: v13(data.config),
+      };
+    });
+    this.version(14, (data) => {
+      return {
+        ...data,
+        version: 14,
+        config: v14(data.config),
+      };
+    });
+    this.version(15, (data) => {
+      return {
+        ...data,
+        version: 15,
+        config: v15(data.config),
+      };
+    });
+    this.version(16, (data) => {
+      return {
+        ...data,
+        version: 16,
+        config: v16(data.config),
+      };
+    });
+    this.version(17, (data) => {
+      return {
+        ...data,
+        version: 17,
+        config: v17(data.config),
+      };
+    });
+    this.version(18, (data, env) => {
+      return {
+        ...data,
+        version: 18,
+        config: v18(data.config, env),
+      };
+    });
+    this.version(19, (data) => {
+      return {
+        ...data,
+        version: 19,
+        config: v19(data.config),
+      };
+    });
+    this.version(20, (data, env) => {
+      return {
+        ...data,
+        version: 20,
+        config: v20(data.config, env.panelModel),
+      };
+    });
+    this.version(21, (data, env) => {
+      return {
+        ...data,
+        version: 21,
+        config: v21(data.config),
+      };
+    });
+  }
+  readonly VERSION = 21;
 }

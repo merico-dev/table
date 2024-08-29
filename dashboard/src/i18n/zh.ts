@@ -728,6 +728,32 @@ export const zh = {
           smooth_line: '平滑曲线',
           show_name_on_line: '显示标签文案',
           show_symbol_on_line: '显示标记点',
+          area_style: {
+            label: '区域填充样式',
+            enabled: '启用区域填充',
+            color: '填充颜色',
+            use_series_color: '沿用系列本色',
+            origin: {
+              label: '图形区域的起始位置',
+              auto: {
+                label: '自动',
+                description: '填充坐标轴线到数据间的区域（默认）',
+              },
+              start: {
+                label: '自下而上',
+                description: '填充坐标轴底部到数据间的区域',
+              },
+              end: {
+                label: '自上而下',
+                description: '填充坐标轴顶部到数据间的区域',
+              },
+            },
+            shadow_blur: '图形阴影的模糊大小',
+            shadow_color: '图形阴影的颜色',
+            shadow_offset_x: '阴影水平方向上的偏移距离',
+            shadow_offset_y: '阴影垂直方向上的偏移距离',
+            opacity: '图形透明度',
+          },
         },
         bar: {
           label: '柱',

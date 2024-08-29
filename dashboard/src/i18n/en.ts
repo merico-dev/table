@@ -728,6 +728,32 @@ export const en = {
           smooth_line: 'Smooth Line',
           show_name_on_line: 'Display Name on Line',
           show_symbol_on_line: 'Show Symbol on Line',
+          area_style: {
+            label: 'Area style',
+            enabled: 'Enable area style',
+            color: 'Area color',
+            use_series_color: "Use series' color",
+            origin: {
+              label: 'Origin position of the area',
+              auto: {
+                label: 'Auto',
+                description: 'Fill between axis line and data (Default)',
+              },
+              start: {
+                label: 'Start',
+                description: 'Fill between min axis value and data',
+              },
+              end: {
+                label: 'End',
+                description: 'Fill between max axis value and data',
+              },
+            },
+            shadow_blur: 'Shadow Blur',
+            shadow_color: 'Shadow Color',
+            shadow_offset_x: 'Shadow Offset X',
+            shadow_offset_y: 'Shadow Offset Y',
+            opacity: 'Opacity',
+          },
         },
         bar: {
           label: 'Bar',
