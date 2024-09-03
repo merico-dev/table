@@ -28,7 +28,7 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
   return {
     type: 'pie',
     name: 'pie',
-    radius: ['50%', '80%'],
+    radius: conf.radius,
     itemStyle: {
       color: ({ data }: { data: TDataItem }) => (data.color ? data.color : colorFeed.next().value),
     },
