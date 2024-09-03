@@ -54,3 +54,16 @@
 }
 .minimal-monaco-editor .monaco-editor {
 }
+
+.form-field-label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #212529;
+  word-break: break-word;
+  cursor: default;
+}
+.form-field-label.required::after {
+  color: #fa5252;
+  content: ' *';
+}
