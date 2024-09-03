@@ -27,16 +27,21 @@ function v3(legacyConf: any, { panelModel }: IMigrationEnv): IPieChartConf {
       label_field: changeKey(label_field),
       value_field: changeKey(value_field),
       color_field: changeKey(color_field),
-    };
+    } as any;
   } catch (error) {
     console.error('[Migration failed]', error);
     throw error;
   }
 }
+function v4(legacyConf: any): IPieChartConf {
+  const { radius = ['50%', '80%'], ...rest } = legacyConf;
+  return {
+    ...rest,
+    radius,
+  };
+}
 
 class VizPieChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
-
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
       return {
@@ -58,7 +63,15 @@ class VizPieChartMigrator extends VersionBasedMigrator {
         config: v3(data.config, env),
       };
     });
+    this.version(4, (data) => {
+      return {
+        ...data,
+        version: 4,
+        config: v4(data.config),
+      };
+    });
   }
+  readonly VERSION = 4;
 }
 
 export const PieChartVizComponent: VizComponent = {
@@ -70,7 +83,7 @@ export const PieChartVizComponent: VizComponent = {
   configRender: VizPieChartEditor,
   createConfig() {
     return {
-      version: 3,
+      version: 4,
       config: cloneDeep(DEFAULT_CONFIG) as IPieChartConf,
     };
   },
