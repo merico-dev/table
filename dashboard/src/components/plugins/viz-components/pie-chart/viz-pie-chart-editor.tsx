@@ -1,5 +1,5 @@
 import { Stack } from '@mantine/core';
-import _, { defaultsDeep } from 'lodash';
+import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -7,13 +7,19 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
-import { DEFAULT_CONFIG, IPieChartConf } from './type';
+import { RadiusSlider } from './editors';
+import { IPieChartConf } from './type';
 
-export function VizPieChartEditor({ context }: VizConfigProps) {
+type StorageData = ReturnType<typeof useStorageData<IPieChartConf>>;
+
+type EditorProps = {
+  conf: StorageData['value'];
+  setConf: StorageData['set'];
+} & VizConfigProps;
+
+function Editor({ conf, setConf, context }: EditorProps) {
   const { t } = useTranslation();
-  const { value: confValue, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
-  const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
+  const defaultValues: IPieChartConf = useMemo(() => defaults({}, conf), [conf]);
 
   const { control, handleSubmit, watch, formState, reset } = useForm<IPieChartConf>({ defaultValues });
   useEffect(() => {
@@ -42,8 +48,21 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
             name="color_field"
             render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
+          <Controller
+            control={control}
+            name="radius"
+            render={({ field }) => <RadiusSlider label={t('viz.pie_chart.radius.label')} {...field} />}
+          />
         </Stack>
       </form>
     </Stack>
   );
+}
+
+export function VizPieChartEditor(props: VizConfigProps) {
+  const { value, set } = useStorageData<IPieChartConf>(props.context.instanceData, 'config');
+  if (!value) {
+    return null;
+  }
+  return <Editor conf={value} setConf={set} {...props} />;
 }
