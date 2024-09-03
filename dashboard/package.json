@@ -52,7 +52,7 @@
     "performant-array-to-tree": "1.11.0",
     "popmotion": "^11.0.3",
     "rc-select": "14.1.0",
-    "rc-tree-select": "5.5.5",
+    "rc-tree-select": "5.23.0",
     "react-i18next": "^14.1.0",
     "reactflow": "^11.6.0",
     "uuid": "9.0.1"
