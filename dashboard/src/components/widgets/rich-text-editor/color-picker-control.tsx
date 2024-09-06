@@ -7,13 +7,14 @@ import {
   Popover,
   SimpleGrid,
   Stack,
+  TextInput,
   useMantineTheme,
 } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import { IconCircleOff, IconX } from '@tabler/icons-react';
 import { Editor } from '@tiptap/react';
 import { useBoolean } from 'ahooks';
-import { useMemo } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import chroma from 'chroma-js';
 
@@ -34,6 +35,48 @@ const swatchNames = [
   // 'orange',
 ];
 
+type CustomColorInputProps = {
+  value: string;
+  onChange: (v: string) => void;
+};
+
+function CustomColorInput({ value, onChange }: CustomColorInputProps) {
+  const [color, setColor] = useState(value);
+
+  useEffect(() => {
+    console.log('🟢 setting', value);
+    setColor(value);
+  }, [value]);
+
+  useEffect(() => {}, [color]);
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    const v = e.currentTarget.value;
+    console.log('⚫️ handleChange', v);
+    setColor(v);
+  }, []);
+  console.log('⚪️', color, ';', value);
+  return (
+    <TextInput
+      value={color}
+      onChange={handleChange}
+      // onFocus={setTrue}
+      // onBlur={setFalse}
+      size="xs"
+      styles={{
+        root: {
+          flexGrow: 1,
+        },
+        input: {
+          fontFamily: 'monospace',
+          letterSpacing: 2,
+          textAlign: 'center',
+        },
+      }}
+    />
+  );
+}
+
 export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
@@ -41,7 +84,12 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
 
   const _color = editor.getAttributes('textStyle').color || theme.black;
   const currentColor = useMemo(() => {
-    return chroma(_color).hex();
+    console.log('🔵 _color', _color);
+    try {
+      return chroma(_color).hex();
+    } catch (error) {
+      return _color;
+    }
   }, [_color]);
 
   const swatches = useMemo(() => {
@@ -60,14 +108,18 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
 
   const setColor = (value: string, shouldClose = true) => {
     (editor.chain() as any).focus().setColor(value).run();
+    console.log('🔴 setColor', value);
     shouldClose && close();
+  };
+  const handleColorInputChange = (value: string) => {
+    setColor(value, false);
   };
   const unsetColor = () => {
     (editor.chain() as any).focus().unsetColor().run();
     close();
   };
   return (
-    <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
+    <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow trapFocus>
       <Popover.Target>
         <RichTextEditor.Control onClick={toggle}>
           <ColorSwatch color={currentColor} size={14} />
@@ -77,23 +129,7 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
       <Popover.Dropdown>
         <Stack spacing="xs">
           <Group position="right">
-            <ColorInput
-              value={currentColor}
-              onChangeEnd={(value) => setColor(value, false)}
-              size="xs"
-              withPicker={false}
-              dropdownZIndex={340}
-              styles={{
-                root: {
-                  flexGrow: 1,
-                },
-                input: {
-                  fontFamily: 'monospace',
-                  letterSpacing: 2,
-                  textAlign: 'center',
-                },
-              }}
-            />
+            <CustomColorInput value={currentColor} onChange={handleColorInputChange} />
             <ActionIcon variant="default" onClick={unsetColor} title={t('common.actions.clear')}>
               <IconCircleOff stroke={1.5} size="1rem" />
             </ActionIcon>
