@@ -13,7 +13,7 @@ import { IconCircleOff, IconX } from '@tabler/icons-react';
 import { Editor } from '@tiptap/react';
 import { useBoolean } from 'ahooks';
 import chroma from 'chroma-js';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorInput } from './color-input';
 
@@ -38,10 +38,10 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
   const [opened, { set: setOpened, setFalse: close, toggle }] = useBoolean();
+  const [shouldUpdateInput, setShouldUpdateInput] = useState(false);
 
   const _color = editor.getAttributes('textStyle').color || theme.black;
   const currentColor = useMemo(() => {
-    console.log('🔵 _color', _color);
     try {
       return chroma(_color).hex();
     } catch (error) {
@@ -65,12 +65,19 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
 
   const setColor = (value: string, shouldClose = true) => {
     (editor.chain() as any).focus().setColor(value).run();
-    console.log('🔴 setColor', value);
     shouldClose && close();
   };
-  const handleColorInputChange = (value: string) => {
+
+  const handleColorInputChange = useCallback((value: string) => {
     setColor(value, false);
-  };
+    setShouldUpdateInput(false);
+  }, []);
+
+  const handleColorPickerChange = useCallback((value: string) => {
+    setColor(value, false);
+    setShouldUpdateInput(true);
+  }, []);
+
   const unsetColor = () => {
     (editor.chain() as any).focus().unsetColor().run();
     close();
@@ -86,7 +93,7 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
       <Popover.Dropdown>
         <Stack spacing="xs">
           <Group position="right">
-            <ColorInput value={currentColor} onChange={handleColorInputChange} />
+            <ColorInput value={currentColor} onChange={handleColorInputChange} shouldPatch={shouldUpdateInput} />
             <ActionIcon variant="default" onClick={unsetColor} title={t('common.actions.clear')}>
               <IconCircleOff stroke={1.5} size="1rem" />
             </ActionIcon>
@@ -99,12 +106,12 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
               format="hex"
               swatches={swatches}
               value={currentColor}
-              onChange={(value) => setColor(value, false)}
+              onChange={handleColorPickerChange}
               size="sm"
               withPicker={false}
               styles={{ swatches: { marginTop: '0 !important' } }}
             />
-            <ColorPicker format="hex" fullWidth value={currentColor} onChange={(value) => setColor(value, false)} />
+            <ColorPicker format="hex" fullWidth value={currentColor} onChange={handleColorPickerChange} />
           </SimpleGrid>
         </Stack>
       </Popover.Dropdown>

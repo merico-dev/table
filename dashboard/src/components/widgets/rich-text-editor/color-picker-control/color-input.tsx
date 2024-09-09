@@ -1,33 +1,41 @@
-import { TextInput } from '@mantine/core';
-import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import { ColorInput as MantineColorInput } from '@mantine/core';
+import chroma from 'chroma-js';
+import { useCallback, useEffect, useState } from 'react';
 
 type Props = {
   value: string;
   onChange: (v: string) => void;
+  shouldPatch: boolean;
 };
 
-export const ColorInput = ({ value, onChange }: Props) => {
+export const ColorInput = ({ value, onChange, shouldPatch }: Props) => {
   const [color, setColor] = useState(value);
 
   useEffect(() => {
-    console.log('🟢 setting', value);
-    setColor(value);
-  }, [value]);
+    shouldPatch && setColor(value);
+  }, [value, shouldPatch]);
 
-  useEffect(() => {}, [color]);
+  const handleChange = useCallback((v: string) => {
+    if (chroma.valid(v)) {
+      return;
+    }
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    const v = e.currentTarget.value;
-    console.log('⚫️ handleChange', v);
     setColor(v);
   }, []);
-  console.log('⚪️', color, ';', value);
+
+  const submit = useCallback(
+    (v: string) => {
+      setColor(v);
+      onChange(v);
+    },
+    [onChange],
+  );
+
   return (
-    <TextInput
+    <MantineColorInput
       value={color}
       onChange={handleChange}
-      // onFocus={setTrue}
-      // onBlur={setFalse}
+      onChangeEnd={submit}
       size="xs"
       styles={{
         root: {
