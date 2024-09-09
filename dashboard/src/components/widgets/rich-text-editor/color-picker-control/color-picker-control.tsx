@@ -2,7 +2,7 @@ import { useMantineTheme } from '@mantine/core';
 import { Editor } from '@tiptap/react';
 import chroma from 'chroma-js';
 import { useCallback, useMemo } from 'react';
-import { ColorPickerPopover } from './color-picker-popover';
+import { ColorPickerPopover } from '~/components/widgets';
 
 export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
   const theme = useMantineTheme();
