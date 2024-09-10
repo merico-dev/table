@@ -1,4 +1,5 @@
 import { ColorSwatch, useMantineTheme } from '@mantine/core';
+import { RichTextEditor } from '@mantine/tiptap';
 import { Editor } from '@tiptap/react';
 import chroma from 'chroma-js';
 import { useCallback, useMemo } from 'react';
@@ -31,7 +32,11 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
       value={currentColor}
       onChange={handleChange}
       clear={clear}
-      trigger={<ColorSwatch color={currentColor} size={14} />}
+      Trigger={({ onClick }) => (
+        <RichTextEditor.Control onClick={onClick}>
+          <ColorSwatch color={currentColor} size={14} />
+        </RichTextEditor.Control>
+      )}
     />
   );
 };

@@ -23,14 +23,17 @@ const swatchNames = [
   // 'orange',
 ];
 
+export type TriggerProps = { onClick: () => void };
+export type TriggerType = ({ onClick }: TriggerProps) => ReactNode;
+
 type Props = {
   value: string;
   onChange: (v: string) => void;
   clear: () => void;
-  trigger: ReactNode;
+  Trigger: TriggerType;
 };
 
-export const ColorPickerPopover = ({ trigger, value, onChange, clear }: Props) => {
+export const ColorPickerPopover = ({ Trigger, value, onChange, clear }: Props) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
   const [opened, { set: setOpened, setFalse: close, toggle }] = useBoolean();
@@ -73,7 +76,7 @@ export const ColorPickerPopover = ({ trigger, value, onChange, clear }: Props) =
   return (
     <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
-        <RichTextEditor.Control onClick={toggle}>{trigger}</RichTextEditor.Control>
+        <Trigger onClick={toggle} />
       </Popover.Target>
 
       <Popover.Dropdown>

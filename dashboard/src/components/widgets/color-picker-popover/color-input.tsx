@@ -3,7 +3,7 @@ import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import { isColorValidToPreview, isInputColorValid } from './utils';
 import { useTranslation } from 'react-i18next';
 
-const PreviewColor = ({ value }: { value: string }) => {
+export const PreviewColor = ({ value }: { value: string }) => {
   if (isColorValidToPreview(value)) {
     return <ColorSwatch ml={8} size={16} color={value} />;
   }
