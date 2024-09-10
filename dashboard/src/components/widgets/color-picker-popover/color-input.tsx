@@ -1,6 +1,4 @@
-import { ColorSwatch, ColorInput as MantineColorInput, TextInput } from '@mantine/core';
-import { useWhyDidYouUpdate } from 'ahooks';
-import chroma from 'chroma-js';
+import { ColorSwatch, TextInput } from '@mantine/core';
 import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import { isColorValidToPreview, isInputColorValid } from './utils';
 
@@ -50,6 +48,7 @@ export const ColorInput = ({ value, onChange, shouldPatch }: Props) => {
           fontFamily: 'monospace',
           letterSpacing: 2,
           textAlign: 'center',
+          textTransform: 'uppercase',
         },
       }}
     />

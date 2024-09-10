@@ -1,4 +1,4 @@
-import { useMantineTheme } from '@mantine/core';
+import { ColorSwatch, useMantineTheme } from '@mantine/core';
 import { Editor } from '@tiptap/react';
 import chroma from 'chroma-js';
 import { useCallback, useMemo } from 'react';
@@ -26,5 +26,12 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
     (editor.chain() as any).focus().unsetColor().run();
   }, [editor]);
 
-  return <ColorPickerPopover value={currentColor} onChange={handleChange} clear={clear} />;
+  return (
+    <ColorPickerPopover
+      value={currentColor}
+      onChange={handleChange}
+      clear={clear}
+      trigger={<ColorSwatch color={currentColor} size={14} />}
+    />
+  );
 };

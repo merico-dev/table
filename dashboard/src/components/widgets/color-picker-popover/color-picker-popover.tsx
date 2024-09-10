@@ -1,17 +1,8 @@
-import {
-  ActionIcon,
-  ColorPicker,
-  ColorSwatch,
-  Group,
-  Popover,
-  SimpleGrid,
-  Stack,
-  useMantineTheme,
-} from '@mantine/core';
+import { ActionIcon, ColorPicker, Group, Popover, SimpleGrid, Stack, useMantineTheme } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import { IconCircleOff, IconX } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
-import { useCallback, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorInput } from './color-input';
 
@@ -36,9 +27,10 @@ type Props = {
   value: string;
   onChange: (v: string) => void;
   clear: () => void;
+  trigger: ReactNode;
 };
 
-export const ColorPickerPopover = ({ value, onChange, clear }: Props) => {
+export const ColorPickerPopover = ({ trigger, value, onChange, clear }: Props) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
   const [opened, { set: setOpened, setFalse: close, toggle }] = useBoolean();
@@ -79,11 +71,9 @@ export const ColorPickerPopover = ({ value, onChange, clear }: Props) => {
   };
 
   return (
-    <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow trapFocus>
+    <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
-        <RichTextEditor.Control onClick={toggle}>
-          <ColorSwatch color={value} size={14} />
-        </RichTextEditor.Control>
+        <RichTextEditor.Control onClick={toggle}>{trigger}</RichTextEditor.Control>
       </Popover.Target>
 
       <Popover.Dropdown>
