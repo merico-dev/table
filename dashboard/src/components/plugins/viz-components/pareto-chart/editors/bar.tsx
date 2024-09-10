@@ -1,10 +1,10 @@
-import { Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
-import { IParetoChartConf } from '../type';
-import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { useTranslation } from 'react-i18next';
+import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
+import { IParetoChartConf } from '../type';
 
 interface IBarField {
   control: Control<IParetoChartConf, $TSFixMe>;
@@ -27,10 +27,13 @@ export function BarField({ control, watch }: IBarField) {
           render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Stack spacing={2}>
-        <Text size="sm">{t('chart.color.label')}</Text>
-        <Controller name="bar.color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
-      </Stack>
+      <SimpleGrid cols={2}>
+        <Controller
+          name="bar.color"
+          control={control}
+          render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
+        />
+      </SimpleGrid>
       <Stack>
         <Divider mb={-15} variant="dashed" label={t('chart.label.label_format')} labelPosition="center" />
         <Controller

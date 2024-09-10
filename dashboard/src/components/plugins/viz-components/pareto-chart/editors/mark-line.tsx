@@ -1,10 +1,10 @@
-import { Button, Collapse, Stack, Text, Textarea } from '@mantine/core';
+import { Button, Collapse, SimpleGrid, Stack, Textarea } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useMemo, useState } from 'react';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { IParetoChartConf } from '../type';
 import { useTranslation } from 'react-i18next';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
+import { IParetoChartConf } from '../type';
 
 const getParamDescription = (note1: string, note2: string) => `
 {
@@ -65,14 +65,13 @@ export function MarkLineField({ control, watch }: IMarkLineField) {
   watch(['markLine']);
   return (
     <Stack>
-      <Stack spacing={2}>
-        <Text size="sm">{t('chart.color.label')}</Text>
+      <SimpleGrid cols={2}>
         <Controller
           name="markLine.color"
           control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
+          render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
-      </Stack>
+      </SimpleGrid>
       <Stack spacing={4}>
         <Controller
           name="markLine.label_template"

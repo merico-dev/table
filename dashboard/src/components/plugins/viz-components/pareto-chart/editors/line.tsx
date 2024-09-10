@@ -1,9 +1,9 @@
-import { Group, Stack, Text, TextInput } from '@mantine/core';
+import { Group, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
-import { IParetoChartConf } from '../type';
 import { useTranslation } from 'react-i18next';
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
+import { IParetoChartConf } from '../type';
 
 interface ILineField {
   control: Control<IParetoChartConf, $TSFixMe>;
@@ -26,10 +26,13 @@ export function LineField({ control, watch }: ILineField) {
           render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Stack spacing={2}>
-        <Text size="sm">{t('chart.color.label')}</Text>
-        <Controller name="line.color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
-      </Stack>
+      <SimpleGrid cols={2}>
+        <Controller
+          name="line.color"
+          control={control}
+          render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
+        />
+      </SimpleGrid>
     </Stack>
   );
 }

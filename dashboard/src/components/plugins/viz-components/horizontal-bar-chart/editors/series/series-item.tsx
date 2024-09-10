@@ -1,13 +1,13 @@
-import { Checkbox, Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Checkbox, Divider, Group, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { AggregationSelector } from '~/components/panel/settings/common/aggregation-selector';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import {
   IEchartsLabelPosition,
   LabelPositionSelector,
 } from '~/components/plugins/common-echarts-fields/label-position';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { DefaultAggregation } from '~/utils';
 import { IHorizontalBarChartConf, IHorizontalBarChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
@@ -94,14 +94,13 @@ export function SeriesItemField({ control, index, seriesItem, xAxisOptions }: IS
           />
         )}
       />
-      <Stack spacing={4}>
-        <Text size="sm">{t('chart.color.label')}</Text>
+      <SimpleGrid cols={2}>
         <Controller
           name={`series.${index}.color`}
           control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
+          render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
-      </Stack>
+      </SimpleGrid>
       <Divider mb={-10} mt={10} variant="dashed" label={t('chart.behavior.label')} labelPosition="center" />
       <Controller
         name={`series.${index}.hide_in_legend`}

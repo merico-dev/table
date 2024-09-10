@@ -1,10 +1,10 @@
-import { Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
-import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { IRegressionChartConf } from '../type';
-import { useTranslation } from 'react-i18next';
+import { Group, NumberInput, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { useMemo } from 'react';
+import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
+import { IRegressionChartConf } from '../type';
 
 interface IRegressionField {
   control: Control<IRegressionChartConf, $TSFixMe>;
@@ -69,14 +69,13 @@ export function RegressionField({ control, watch }: IRegressionField) {
         )}
       </Group>
       {!group_by_key && (
-        <Stack spacing={4}>
-          <Text size="sm">{t('chart.color.label')}</Text>
+        <SimpleGrid cols={2}>
           <Controller
             name={`regression.plot.color`}
             control={control}
-            render={({ field }) => <MantineColorSelector {...field} />}
+            render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
           />
-        </Stack>
+        </SimpleGrid>
       )}
     </Stack>
   );
