@@ -1,19 +1,14 @@
 import { ColorSwatch, useMantineTheme } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import { Editor } from '@tiptap/react';
-import chroma from 'chroma-js';
 import { useCallback, useMemo } from 'react';
-import { ColorPickerPopover } from '~/components/widgets';
+import { ColorPickerPopover, parsePropsColor } from '~/components/widgets';
 
 export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
   const theme = useMantineTheme();
   const _color = editor.getAttributes('textStyle').color || theme.black;
   const currentColor = useMemo(() => {
-    try {
-      return chroma(_color).hex();
-    } catch (error) {
-      return _color;
-    }
+    return parsePropsColor(_color);
   }, [_color]);
 
   const handleChange = useCallback(

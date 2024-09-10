@@ -1,3 +1,4 @@
+import chroma from 'chroma-js';
 import _ from 'lodash';
 
 const ColorRegex = {
@@ -19,4 +20,16 @@ export function isInputColorValid(v: string) {
 
 export function isColorValidToPreview(v: string) {
   return Object.values(ValidPreviewRegex).some((r) => r.test(v));
+}
+
+export function parsePropsColor(v: string) {
+  if (isColorValidToPreview(v)) {
+    return v;
+  }
+
+  if (chroma.valid(v)) {
+    return chroma(v).css();
+  }
+
+  return v;
 }
