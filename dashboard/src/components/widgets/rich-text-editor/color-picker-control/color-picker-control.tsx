@@ -17,13 +17,13 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
 
   const handleChange = useCallback(
     (value: string) => {
-      (editor.chain() as any).focus().setColor(value).run();
+      editor.chain().setColor(value).run();
     },
     [editor],
   );
 
   const clear = useCallback(() => {
-    (editor.chain() as any).focus().unsetColor().run();
+    editor.chain().focus().unsetColor().run();
   }, [editor]);
 
   return (
