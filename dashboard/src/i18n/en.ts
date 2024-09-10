@@ -897,9 +897,6 @@ export const en = {
       },
       color: {
         label: 'Color',
-        or: 'or',
-        set_any_color: 'Set any color',
-        pick_a_theme_color: 'Pick a theme color',
         background_color: 'Background Color',
         text_color: 'Text Color',
         click_to_add_a_color: 'Click to add a color',
