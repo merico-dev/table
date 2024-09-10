@@ -1,6 +1,15 @@
-import { ColorInput as MantineColorInput } from '@mantine/core';
+import { ColorSwatch, ColorInput as MantineColorInput, TextInput } from '@mantine/core';
+import { useWhyDidYouUpdate } from 'ahooks';
 import chroma from 'chroma-js';
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import { isColorValidToPreview, isInputColorValid } from './utils';
+
+const PreviewColor = ({ value }: { value: string }) => {
+  if (isColorValidToPreview(value)) {
+    return <ColorSwatch ml={8} size={16} color={value} />;
+  }
+  return <ColorSwatch ml={8} size={16} color={''} />;
+};
 
 type Props = {
   value: string;
@@ -15,27 +24,23 @@ export const ColorInput = ({ value, onChange, shouldPatch }: Props) => {
     shouldPatch && setColor(value);
   }, [value, shouldPatch]);
 
-  const handleChange = useCallback((v: string) => {
-    if (chroma.valid(v)) {
-      return;
-    }
-
-    setColor(v);
-  }, []);
-
-  const submit = useCallback(
-    (v: string) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      const v = e.currentTarget.value;
       setColor(v);
-      onChange(v);
+
+      if (isInputColorValid(v)) {
+        onChange(v);
+      }
     },
     [onChange],
   );
 
   return (
-    <MantineColorInput
+    <TextInput
       value={color}
       onChange={handleChange}
-      onChangeEnd={submit}
+      icon={<PreviewColor value={color} />}
       size="xs"
       styles={{
         root: {
