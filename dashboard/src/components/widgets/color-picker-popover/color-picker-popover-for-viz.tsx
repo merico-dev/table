@@ -14,11 +14,11 @@ const getTrigger: (p: { color: string; label: string }) => any = ({ color, label
 
 type Props = {
   label: string;
-  value: string;
+  value?: string;
   onChange: (v: string) => void;
 };
 
-export const ColorPickerPopoverForViz = forwardRef<HTMLElement, Props>(({ value, onChange, label }, ref) => {
+export const ColorPickerPopoverForViz = forwardRef<HTMLElement, Props>(({ value = '', onChange, label }, ref) => {
   const clear = useCallback(() => {
     onChange('');
   }, [onChange]);
