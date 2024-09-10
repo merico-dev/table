@@ -904,6 +904,7 @@ export const zh = {
         text_color: '文字颜色',
         click_to_add_a_color: '点击增加一个颜色',
         color_gradient: '颜色渐变',
+        not_set: '未设置',
       },
       behavior: {
         label: '表现',

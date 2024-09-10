@@ -1,6 +1,7 @@
 import { ColorSwatch, TextInput } from '@mantine/core';
 import { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import { isColorValidToPreview, isInputColorValid } from './utils';
+import { useTranslation } from 'react-i18next';
 
 const PreviewColor = ({ value }: { value: string }) => {
   if (isColorValidToPreview(value)) {
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export const ColorInput = ({ value, onChange, shouldPatch }: Props) => {
+  const { t } = useTranslation();
   const [color, setColor] = useState(value);
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export const ColorInput = ({ value, onChange, shouldPatch }: Props) => {
       onChange={handleChange}
       icon={<PreviewColor value={color} />}
       size="xs"
+      placeholder={t('chart.color.not_set')}
       styles={{
         root: {
           flexGrow: 1,

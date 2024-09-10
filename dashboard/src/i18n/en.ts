@@ -904,6 +904,7 @@ export const en = {
         text_color: 'Text Color',
         click_to_add_a_color: 'Click to add a color',
         color_gradient: 'Color Gradient',
+        not_set: 'Not set',
       },
       behavior: {
         label: 'Behavior',
