@@ -1,8 +1,17 @@
 import { ColorSwatch, useMantineTheme } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import { Editor } from '@tiptap/react';
-import { useCallback, useMemo } from 'react';
-import { ColorPickerPopover, parsePropsColor } from '~/components/widgets';
+import { forwardRef, useCallback, useMemo } from 'react';
+import { ColorPickerPopover, parsePropsColor, TriggerProps } from '~/components/widgets';
+
+const getTrigger: (p: { color: string }) => any = ({ color }) =>
+  forwardRef<HTMLButtonElement, TriggerProps>(({ onClick }, ref) => {
+    return (
+      <RichTextEditor.Control ref={ref} onClick={onClick}>
+        <ColorSwatch color={color} size={14} />
+      </RichTextEditor.Control>
+    );
+  });
 
 export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
   const theme = useMantineTheme();
@@ -27,11 +36,7 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
       value={currentColor}
       onChange={handleChange}
       clear={clear}
-      Trigger={({ onClick }) => (
-        <RichTextEditor.Control onClick={onClick}>
-          <ColorSwatch color={currentColor} size={14} />
-        </RichTextEditor.Control>
-      )}
+      Trigger={getTrigger({ color: currentColor })}
     />
   );
 };
