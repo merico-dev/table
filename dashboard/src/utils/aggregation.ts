@@ -80,6 +80,9 @@ function aggregateValueFromNumbers(numbers: number[], aggregation: AggregationTy
     case 'quantile':
       return quantile(numbers, aggregation.config.p);
     case 'CV':
+      if (numbers.length === 0) {
+        return Number.NaN;
+      }
       const std = math.std(...numbers);
       const mean = math.mean(...numbers);
       if (!mean) {
@@ -87,6 +90,9 @@ function aggregateValueFromNumbers(numbers: number[], aggregation: AggregationTy
       }
       return std / mean;
     case 'std':
+      if (numbers.length === 0) {
+        return Number.NaN;
+      }
       return math.std(...numbers);
     default:
       return numbers;
