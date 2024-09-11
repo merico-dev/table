@@ -1,15 +1,14 @@
-import { Group, Select, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { useLatest } from 'ahooks';
 import { isObject, isString } from 'lodash';
 import { forwardRef, useContext, useState } from 'react';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { CellBackgroundColorType } from '~/components/plugins/viz-components/table/type';
 import { IColorManager, PluginContext } from '~/components/plugins';
+import { CellBackgroundColorType } from '~/components/plugins/viz-components/table/type';
 
-import { IColorInterpolationConfig } from '~/types/plugin';
-import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { ColorInterpolationSelect, ColorType, ColorTypeSelector } from '~/components/plugins/editor-components';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
+import { IColorInterpolationConfig } from '~/types/plugin';
 
 export interface IBackgroundColorSelectProps {
   value?: CellBackgroundColorType;
@@ -90,7 +89,13 @@ export const BackgroundColorSelect = forwardRef((props: IBackgroundColorSelectPr
         value={colorType || 'none'}
         onChange={handleColorTypeChange}
       />
-      {colorType === 'static' && <MantineColorSelector value={staticColor} onChange={handleStaticColorChange} />}
+      {colorType === 'static' && (
+        <ColorPickerPopoverForViz
+          label={t('chart.color.label')}
+          value={staticColor}
+          onChange={handleStaticColorChange}
+        />
+      )}
       {colorType === 'interpolation' && (
         <ColorInterpolationSelect
           colorManager={colorManager}

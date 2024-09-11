@@ -1,10 +1,10 @@
-import { Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import { forwardRef } from 'react';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
+import { useTranslation } from 'react-i18next';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { LabelPositionSelector } from '../label-position';
 import { IEchartsReferenceArea } from './types';
-import { useTranslation } from 'react-i18next';
 
 type SelectorOptionType = { label: string; value: string; description?: string };
 
@@ -103,14 +103,18 @@ export const ReferenceAreaField = forwardRef(
         </Stack>
 
         <Divider mb={-15} variant="dashed" label={t('chart.style.label')} labelPosition="right" />
-        <Stack spacing={4}>
-          <Text size={14}>{t('chart.color.background_color')}</Text>
-          <MantineColorSelector value={value.itemStyle.color} onChange={(v) => handleChange('itemStyle.color', v)} />
-        </Stack>
-        <Stack spacing={4}>
-          <Text size={14}>{t('chart.color.text_color')}</Text>
-          <MantineColorSelector value={value.label.color} onChange={(v) => handleChange('label.color', v)} />
-        </Stack>
+        <SimpleGrid cols={2}>
+          <ColorPickerPopoverForViz
+            label={t('chart.color.background_color')}
+            value={value.itemStyle.color}
+            onChange={(v) => handleChange('itemStyle.color', v)}
+          />
+          <ColorPickerPopoverForViz
+            label={t('chart.color.text_color')}
+            value={value.label.color}
+            onChange={(v) => handleChange('label.color', v)}
+          />
+        </SimpleGrid>
       </Stack>
     );
   },

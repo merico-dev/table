@@ -1,11 +1,11 @@
-import { Stack, Tabs, Text } from '@mantine/core';
+import { SimpleGrid, Stack, Tabs } from '@mantine/core';
 import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useTranslation } from 'react-i18next';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { useStorageData } from '~/components/plugins/hooks';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
@@ -69,10 +69,13 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
             <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Style">
-            <Stack spacing={4}>
-              <Text size="sm">{t('chart.color.label')}</Text>
-              <Controller name="color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
-            </Stack>
+            <SimpleGrid cols={2}>
+              <Controller
+                name="color"
+                control={control}
+                render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
+              />
+            </SimpleGrid>
           </Tabs.Panel>
           <Tabs.Panel value="Reference Lines">
             <ReferenceLinesField variables={variables} control={control} watch={watch} />

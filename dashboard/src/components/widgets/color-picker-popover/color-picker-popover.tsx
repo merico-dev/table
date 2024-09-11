@@ -1,21 +1,10 @@
-import {
-  ActionIcon,
-  ColorInput,
-  ColorPicker,
-  ColorSwatch,
-  Group,
-  Popover,
-  SimpleGrid,
-  Stack,
-  useMantineTheme,
-} from '@mantine/core';
+import { ActionIcon, ColorPicker, Group, Popover, SimpleGrid, Stack, useMantineTheme } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import { IconCircleOff, IconX } from '@tabler/icons-react';
-import { Editor } from '@tiptap/react';
 import { useBoolean } from 'ahooks';
-import { useMemo } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import chroma from 'chroma-js';
+import { ColorInput } from './color-input';
 
 const swatchNames = [
   // 'dark',
@@ -34,15 +23,21 @@ const swatchNames = [
   // 'orange',
 ];
 
-export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
+export type TriggerProps = { onClick: () => void };
+export type TriggerType = ({ onClick }: TriggerProps) => ReactNode;
+
+type Props = {
+  value: string;
+  onChange: (v: string) => void;
+  clear: () => void;
+  Trigger: TriggerType;
+};
+
+export const ColorPickerPopover = ({ Trigger, value, onChange, clear }: Props) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
   const [opened, { set: setOpened, setFalse: close, toggle }] = useBoolean();
-
-  const _color = editor.getAttributes('textStyle').color || theme.black;
-  const currentColor = useMemo(() => {
-    return chroma(_color).hex();
-  }, [_color]);
+  const [shouldUpdateInput, setShouldUpdateInput] = useState(false);
 
   const swatches = useMemo(() => {
     const ret: string[] = [];
@@ -59,41 +54,35 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
   }, [theme.colors]);
 
   const setColor = (value: string, shouldClose = true) => {
-    (editor.chain() as any).focus().setColor(value).run();
+    onChange(value);
     shouldClose && close();
   };
+
+  const handleColorInputChange = useCallback((value: string) => {
+    setColor(value, false);
+    setShouldUpdateInput(false);
+  }, []);
+
+  const handleColorPickerChange = useCallback((value: string) => {
+    setColor(value, false);
+    setShouldUpdateInput(true);
+  }, []);
+
   const unsetColor = () => {
-    (editor.chain() as any).focus().unsetColor().run();
+    clear();
     close();
   };
+
   return (
     <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
-        <RichTextEditor.Control onClick={toggle}>
-          <ColorSwatch color={currentColor} size={14} />
-        </RichTextEditor.Control>
+        <Trigger onClick={toggle} />
       </Popover.Target>
 
       <Popover.Dropdown>
         <Stack spacing="xs">
           <Group position="right">
-            <ColorInput
-              value={currentColor}
-              onChangeEnd={(value) => setColor(value, false)}
-              size="xs"
-              withPicker={false}
-              dropdownZIndex={340}
-              styles={{
-                root: {
-                  flexGrow: 1,
-                },
-                input: {
-                  fontFamily: 'monospace',
-                  letterSpacing: 2,
-                  textAlign: 'center',
-                },
-              }}
-            />
+            <ColorInput value={value} onChange={handleColorInputChange} shouldPatch={shouldUpdateInput} />
             <ActionIcon variant="default" onClick={unsetColor} title={t('common.actions.clear')}>
               <IconCircleOff stroke={1.5} size="1rem" />
             </ActionIcon>
@@ -105,13 +94,13 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
             <ColorPicker
               format="hex"
               swatches={swatches}
-              value={currentColor}
-              onChange={(value) => setColor(value, false)}
+              value={value}
+              onChange={handleColorPickerChange}
               size="sm"
               withPicker={false}
               styles={{ swatches: { marginTop: '0 !important' } }}
             />
-            <ColorPicker format="hex" fullWidth value={currentColor} onChange={(value) => setColor(value, false)} />
+            <ColorPicker format="hex" fullWidth value={value} onChange={handleColorPickerChange} />
           </SimpleGrid>
         </Stack>
       </Popover.Dropdown>

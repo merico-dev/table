@@ -1,9 +1,9 @@
-import { Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Checkbox, Divider, Group, NumberInput, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 import { OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { IHorizontalBarChartConf } from '../../type';
 
 interface IReferenceLineField {
@@ -103,14 +103,13 @@ export function ReferenceLineField({ control, index, watch, variableOptions, xAx
           )}
         />
       </Group>
-      <Stack spacing={4}>
-        <Text size="sm">{t('chart.color.label')}</Text>
+      <SimpleGrid cols={2}>
         <Controller
           name={`reference_lines.${index}.lineStyle.color`}
           control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
+          render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
-      </Stack>
+      </SimpleGrid>
       <Divider mb={-10} mt={10} variant="dashed" label={t('chart.behavior.label')} labelPosition="center" />
       <Controller
         name={`reference_lines.${index}.show_in_legend`}

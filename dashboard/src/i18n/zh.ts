@@ -897,13 +897,11 @@ export const zh = {
       },
       color: {
         label: '颜色',
-        or: '或',
-        set_any_color: '输入色号',
-        pick_a_theme_color: '选择一个主题色',
         background_color: '背景色',
         text_color: '文字颜色',
         click_to_add_a_color: '点击增加一个颜色',
         color_gradient: '颜色渐变',
+        not_set: '未设置',
       },
       behavior: {
         label: '表现',

@@ -1,10 +1,10 @@
-import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
+import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { ICartesianChartConf, IRegressionConf } from '../../type';
 
 interface IRegressionField {
@@ -119,14 +119,13 @@ export function RegressionField({ control, regressionItem, index, yAxisOptions }
           )}
         />
       </Group>
-      <Stack spacing={4}>
-        <Text size="sm">Color</Text>
+      <SimpleGrid cols={2}>
         <Controller
           name={`regressions.${index}.plot.color`}
           control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
+          render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
-      </Stack>
+      </SimpleGrid>
     </Stack>
   );
 }
