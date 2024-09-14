@@ -62,7 +62,6 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
   const gridLayouts = layoutsModel.gridLayouts(view.panelIDs);
 
   const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
-    console.log('🔴 onResize', _layout);
     if (layoutItem.h < 30) {
       layoutItem.h = 30;
       placeholder.h = 30;

@@ -1,5 +1,5 @@
 import { Box, Flex, Sx } from '@mantine/core';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { defaults } from 'lodash';
 import { observer } from 'mobx-react-lite';
@@ -32,6 +32,7 @@ function getWrapperSx(triggersCount: number) {
 }
 
 export const VizStats = observer(({ context, instance }: VizViewProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
     instance,
@@ -59,6 +60,22 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
     });
   }, [panel.variableValueMap, triggers, interactionManager]);
 
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const p: HTMLParagraphElement | null = ref.current.querySelector('.ProseMirror > p');
+    if (!p) {
+      return;
+    }
+
+    const { offsetWidth, offsetHeight } = p;
+    const scaleW = width / offsetWidth;
+    const scaleH = height / offsetHeight;
+    const scale = Math.min(scaleW, scaleH);
+    p.style.transform = `scale(${scale})`;
+  }, [ref.current, width, height, richTextContent]);
   return (
     <Flex
       className="viz-stats"
@@ -71,6 +88,7 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
     >
       <Box className="viz-stats--clickable-wrapper" sx={getWrapperSx(triggers.length)} onClick={handleContentClick}>
         <ReadonlyRichText
+          ref={ref}
           value={richTextContent}
           styles={{
             root: {
@@ -78,12 +96,20 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
               maxWidth: width,
               maxHeight: height,
               '&.mantine-RichTextEditor-root': {
-                overflow: 'auto !important',
+                overflow: 'hidden !important',
               },
             },
             content: {
               '&.mantine-RichTextEditor-content .ProseMirror': {
                 padding: 0,
+                height,
+              },
+              '&.mantine-RichTextEditor-content .ProseMirror > p': {
+                display: 'table',
+                margin: '0 auto !important',
+                transformOrigin: 'top center',
+                fontSize: 'initial',
+                lineHeight: 'initial',
               },
             },
           }}
