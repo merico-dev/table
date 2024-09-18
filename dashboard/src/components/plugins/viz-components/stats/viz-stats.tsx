@@ -1,7 +1,6 @@
 import { Box, Flex, Sx } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import { defaults } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useStorageData } from '~/components/plugins/hooks';
 import { ReadonlyRichText } from '~/components/widgets';
@@ -10,7 +9,7 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { VizViewProps } from '~/types/plugin';
 import { parseRichTextContent } from '~/utils';
 import { ClickStats } from './triggers';
-import { DEFAULT_CONFIG, IVizStatsConf } from './type';
+import { IVizStatsConf } from './type';
 
 const verticalAlignments = {
   top: 'flex-start',
@@ -31,7 +30,8 @@ function getWrapperSx(triggersCount: number) {
   return ret;
 }
 
-export const VizStats = observer(({ context, instance }: VizViewProps) => {
+type RenderProps = VizViewProps;
+export const Render = observer(({ context, instance }: RenderProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
@@ -41,18 +41,20 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
   const triggers = useTriggerSnapshotList<IVizStatsConf>(interactionManager.triggerManager, ClickStats.id);
 
   const contentModel = useRenderContentModelContext();
-  const { value: confValue = DEFAULT_CONFIG } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
+
   const { panel } = useRenderPanelContext();
+  const conf = panel.viz.conf.config as IVizStatsConf;
+
   const { data, variables } = context;
   const { width, height } = context.viewport;
 
   const richTextContent = useMemo(() => {
-    const conf = defaults({}, confValue, DEFAULT_CONFIG);
+    const conf = panel.viz.conf.config;
     if (!conf.content) {
       return '';
     }
     return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
-  }, [data, confValue, variables, contentModel.payloadForViz]);
+  }, [data, panel, variables, contentModel.payloadForViz]);
 
   const handleContentClick = useCallback(() => {
     triggers.forEach((t) => {
@@ -83,7 +85,7 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
         width,
         height,
       }}
-      align={verticalAlignments[confValue.vertical_align]}
+      align={verticalAlignments[conf.vertical_align]}
       direction="row"
     >
       <Box className="viz-stats--clickable-wrapper" sx={getWrapperSx(triggers.length)} onClick={handleContentClick}>
@@ -120,3 +122,14 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
     </Flex>
   );
 });
+
+export const VizStats = (props: VizViewProps) => {
+  const { context } = props;
+  const { value: conf } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
+
+  if (!conf) {
+    return null;
+  }
+
+  return <Render {...props} />;
+};
