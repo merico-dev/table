@@ -24,6 +24,7 @@ import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
 import { ColorPickerControl } from './color-picker-control';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 import { ChooseFontSize, FontSize } from './font-size-extension';
+import { useBoolean } from 'ahooks';
 
 const RTEContentStyle: Sx = {
   'dynamic-color': {
@@ -110,6 +111,7 @@ export const CustomRichTextEditor = forwardRef(
       return ret;
     }, [inPanelContext]);
 
+    const [focused, { setTrue, setFalse }] = useBoolean(false);
     const [content, setContent] = useState(value);
     const editor = useEditor({
       extensions,
@@ -123,6 +125,8 @@ export const CustomRichTextEditor = forwardRef(
         editor.view.dom.setAttribute('autocomplete', 'off');
         editor.view.dom.setAttribute('autocapitalize', 'off');
       },
+      onFocus: setTrue,
+      onBlur: setFalse,
     });
 
     useEffect(() => {
@@ -142,11 +146,11 @@ export const CustomRichTextEditor = forwardRef(
     const changed = value !== content;
 
     useEffect(() => {
-      if (!autoSubmit) {
+      if (!autoSubmit || !focused) {
         return;
       }
       submit();
-    }, [autoSubmit, changed]);
+    }, [autoSubmit, changed, focused]);
 
     const finalStyles = useMemo(() => {
       return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...RTEContentStyle } }, styles);
