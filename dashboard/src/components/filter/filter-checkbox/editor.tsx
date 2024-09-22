@@ -4,12 +4,14 @@ import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/cust
 import { FilterCheckboxConfigInstance, FilterMetaInstance } from '~/model';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { useTranslation } from 'react-i18next';
+import { useEditPanelContext } from '~/contexts';
 
 interface IFilterEditorCheckbox {
   filter: FilterMetaInstance;
 }
 
-export const FilterEditorCheckbox = observer(function _FilterEditorCheckbox({ filter }: IFilterEditorCheckbox) {
+export const FilterEditorCheckbox = observer(({ filter }: IFilterEditorCheckbox) => {
+  const { panel } = useEditPanelContext();
   const { t } = useTranslation();
   const config = filter.config as FilterCheckboxConfigInstance;
   return (
@@ -23,6 +25,7 @@ export const FilterEditorCheckbox = observer(function _FilterEditorCheckbox({ fi
         <CustomDefaultValueEditor filter={filter} />
       </Group>
       <CustomRichTextEditor
+        key={panel.id}
         label={t('filter.widget.checkbox.description')}
         value={config.description}
         onChange={config.setDescription}

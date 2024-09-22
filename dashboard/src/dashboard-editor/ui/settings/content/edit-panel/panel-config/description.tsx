@@ -9,6 +9,7 @@ export const EditDescription = observer(() => {
 
   return (
     <CustomRichTextEditor
+      key={panel.id}
       label={t('panel.panel_description')}
       value={panel.description}
       onChange={panel.setDescription}

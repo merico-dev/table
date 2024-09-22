@@ -8,6 +8,8 @@ import { CustomRichTextEditor } from '~/components/widgets';
 import { VizConfigProps } from '~/types/plugin';
 import { VerticalAlignSelector, VizConfigBanner } from '../../editor-components';
 import { IVizStatsConf } from './type';
+import { observer } from 'mobx-react-lite';
+import { useEditPanelContext } from '~/contexts';
 
 type StorageData = ReturnType<typeof useStorageData<IVizStatsConf>>;
 
@@ -15,7 +17,8 @@ type EditorProps = {
   conf: StorageData['value'];
   setConf: StorageData['set'];
 };
-function Editor({ conf, setConf }: EditorProps) {
+const Editor = observer(({ conf, setConf }: EditorProps) => {
+  const { panel } = useEditPanelContext();
   const { t } = useTranslation();
 
   const defaultValues = React.useMemo(() => {
@@ -42,6 +45,7 @@ function Editor({ conf, setConf }: EditorProps) {
           render={({ field }) => (
             <CustomRichTextEditor
               {...field}
+              key={panel.id}
               styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
               label={t('rich_text.content.label')}
               autoSubmit
@@ -51,7 +55,7 @@ function Editor({ conf, setConf }: EditorProps) {
       </Stack>
     </form>
   );
-}
+});
 
 export function VizStatsEditor(props: VizConfigProps) {
   const { value, set } = useStorageData<IVizStatsConf>(props.context.instanceData, 'config');
