@@ -8,8 +8,11 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
 import { VizConfigProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
+import { observer } from 'mobx-react-lite';
+import { useEditPanelContext } from '~/contexts';
 
-export function VizRichTextEditor({ context }: VizConfigProps) {
+export const VizRichTextEditor = observer(({ context }: VizConfigProps) => {
+  const { panel } = useEditPanelContext();
   const { t } = useTranslation();
   const { value: conf, set: setConf } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const defaultValues = useMemo(() => {
@@ -46,6 +49,7 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
             // @ts-expect-error type of onChange
             <CustomRichTextEditor
               {...field}
+              key={panel.id}
               styles={{ root: { flexGrow: 1 } }}
               label={t('rich_text.content.label')}
               onSubmit={onContentSubmit}
@@ -55,4 +59,4 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
       </Stack>
     </form>
   );
-}
+});
