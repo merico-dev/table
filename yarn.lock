@@ -1647,6 +1647,7 @@ __metadata:
     "@mantine/modals": 6.0.16
     "@mantine/notifications": 6.0.16
     "@mantine/prism": 6.0.16
+    "@mantine/spotlight": 6.0.16
     "@mantine/tiptap": 6.0.16
     "@monaco-editor/react": 4.4.6
     "@tabler/icons-react": 2.25.0
@@ -3213,6 +3214,20 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: cd9aacab6ec7c8f49908f47e48fce33d53f002932969a19bfe17b03cc67f2699b6a0feec0aecd6ad65b60784d4092c241be5d7b7cc1ab2fecab004c89e33d34f
+  languageName: node
+  linkType: hard
+
+"@mantine/spotlight@npm:6.0.16":
+  version: 6.0.16
+  resolution: "@mantine/spotlight@npm:6.0.16"
+  dependencies:
+    "@mantine/utils": 6.0.16
+  peerDependencies:
+    "@mantine/core": 6.0.16
+    "@mantine/hooks": 6.0.16
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: be77b8e24d51fdb4e32ceb4f3564d4e8fe62c68af2df70f497ec638a9b829a472581e4f3293e131e1aaeaa806f6afe723b44db5e556cb20a222f06fcf95d4234
   languageName: node
   linkType: hard
 
