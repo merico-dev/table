@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import { useEditDashboardContext } from '~/contexts';
 import { ISaveChangesOrMore, SaveChangesOrMore } from './save-changes-or-more';
 import { Trans, useTranslation } from 'react-i18next';
+import { SpotlightControl } from './spotlight';
 
 export type OnExitParams = { hasChanges: boolean; dashboardId: string };
 export type OnExitCallback = (params: OnExitParams) => void;
@@ -44,6 +45,7 @@ export const MainHeader = observer(
             <SaveChangesOrMore saveDashboardChanges={saveDashboardChanges} />
           </Group>
           <Group position="right" sx={{ flexGrow: 1 }}>
+            <SpotlightControl />
             {headerSlot}
           </Group>
         </Group>
