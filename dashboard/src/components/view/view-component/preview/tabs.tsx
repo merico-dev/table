@@ -106,7 +106,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   value={tab.name}
                   onChange={(e) => tab.setName(e.currentTarget.value)}
                 />
-                <Select label="View" value={tab.view_id} onChange={tab.setViewID} data={options} />
+                <Select label={t('view.label')} value={tab.view_id} onChange={tab.setViewID} data={options} />
                 <NumberInput
                   label={t('view.component.tabs.tab.order')}
                   required
