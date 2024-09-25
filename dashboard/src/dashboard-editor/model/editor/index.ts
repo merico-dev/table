@@ -12,6 +12,7 @@ import { ContentModelInstance } from '../content';
 import _ from 'lodash';
 import { isPanel } from '~/dashboard-editor/ui/settings/content/utils';
 import { SpotlightAction } from '@mantine/spotlight';
+import { VizNameKeys } from '~/components/plugins';
 
 type PartialRootInstanceType = {
   content: ContentModelInstance;
@@ -40,6 +41,7 @@ export type NavLinkType = {
   _type: 'GROUP' | 'query_variables' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
   Icon?: Icon;
   parentID?: string; // for panel only
+  viz?: VizNameKeys; // for panel only
   children?: NavOptionType[];
 };
 export type NavOptionType = NavLinkType | NavActionType;
@@ -225,31 +227,31 @@ export const EditorModel = types
           title: 'query_variable.labels',
           onTrigger: () => self.openAndSetPath(['_QUERY_VARS_']),
           iconKey: 'query_variables',
-          group: 'main',
+          group: 'spotlight.main_group',
         },
         {
           title: 'mock_context.label',
           onTrigger: () => self.openAndSetPath(['_MOCK_CONTEXT_']),
           iconKey: 'mock_context',
-          group: 'main',
+          group: 'spotlight.main_group',
         },
         {
           title: 'filter.labels',
           onTrigger: () => self.openAndSetPath(['_FILTERS_']),
           iconKey: 'filter',
-          group: 'main',
+          group: 'spotlight.main_group',
         },
         {
           title: 'sql_snippet.labels',
           onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_']),
           iconKey: 'sql_snippet',
-          group: 'main',
+          group: 'spotlight.main_group',
         },
         {
           title: 'query.labels',
           onTrigger: () => self.openAndSetPath(['_QUERIES_']),
           iconKey: 'query',
-          group: 'main',
+          group: 'spotlight.main_group',
         },
       ];
       filters.options.forEach((f) => {
@@ -257,7 +259,7 @@ export const EditorModel = types
           title: f.label,
           onTrigger: () => self.openAndSetPath(['_FILTERS_', f.value]),
           iconKey: 'filter',
-          group: 'filter',
+          group: 'filter.labels',
         });
       });
       sqlSnippets.options.forEach((s) => {
@@ -265,7 +267,7 @@ export const EditorModel = types
           title: s.label,
           onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_', s.value]),
           iconKey: 'sql_snippet',
-          group: 'sql_snippet',
+          group: 'sql_snippet.labels',
         });
       });
       queries.options.forEach((q) => {
@@ -273,7 +275,7 @@ export const EditorModel = types
           title: q.label,
           onTrigger: () => self.openAndSetPath(['_QUERIES_', q.value]),
           iconKey: 'query',
-          group: 'query',
+          group: 'query.labels',
         });
       });
       views.editorOptions.forEach((v) => {

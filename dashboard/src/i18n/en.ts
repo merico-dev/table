@@ -990,6 +990,9 @@ export const en = {
     },
     spotlight: {
       trigger_text: 'Search',
+      main_group: 'Main',
+      placeholder: 'Search to open...',
+      not_found: 'Nothing found...',
     },
   },
 };
