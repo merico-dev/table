@@ -40,19 +40,24 @@ export const SpotlightControl = () => {
         onClick={() => spotlight.open()}
         style={{
           height: '1.875rem',
-          background: 'transparent',
-          color: '#adb5bd',
           borderLeft: 'none',
           borderTop: 'none',
           borderRight: '1px solid #e9ecef',
           borderBottom: '1px solid #e9ecef',
           paddingLeft: 'calc(0.875rem  / 1.5)',
-          paddingRight: '0.875rem',
+          paddingRight: '1rem',
+        }}
+        sx={{
+          color: '#228be6',
+          background: 'transparent',
+          '&:hover': {
+            background: 'rgb(231, 245, 255)',
+          },
         }}
       >
         <Group spacing={'0.625rem'}>
-          <IconSearch size="1rem" color="#868e96" />
-          <Text style={{ flexGrow: 1, fontWeight: 500, fontSize: '0.75rem', lineHeight: 1, color: '#868e96' }}>
+          <IconSearch size="1rem" color="#228be6" />
+          <Text style={{ flexGrow: 1, fontWeight: 500, fontSize: '0.75rem', lineHeight: 1 }}>
             {t('spotlight.trigger_text')}
           </Text>
         </Group>
