@@ -4,6 +4,7 @@ import { AddAPanel } from './add-a-panel';
 import { BreakpointSwitcher } from './breakpoint-switcher';
 import { DownloadThisView } from './download-this-view';
 import { ImportWithSchema } from './import-with-schema';
+import { SpotlightControl } from './spotlight';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',
@@ -23,6 +24,7 @@ export const SubHeader = observer(() => {
         <Group position="left" spacing={0}>
           <AddAPanel />
           <ImportWithSchema />
+          <SpotlightControl />
         </Group>
         <BreakpointSwitcher />
         <Group position="right" spacing={0}>

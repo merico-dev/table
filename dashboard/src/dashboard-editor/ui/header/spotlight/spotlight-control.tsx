@@ -1,20 +1,17 @@
-import { Group, Text, UnstyledButton } from '@mantine/core';
+import { Group, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { spotlight } from '@mantine/spotlight';
 import { IconSearch } from '@tabler/icons-react';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ShortcutKeyText = ({ children }: { children: ReactNode }) => {
   return (
     <Text
       style={{
-        // fontWeight: '700',
         fontSize: '0.6875rem',
         lineHeight: 1,
         padding: '0.25rem 0.2375rem',
         borderRadius: '0.25rem',
-        color: '#495057',
-        border: '0.0625rem solid #e9ecef',
-        backgroundColor: '#f8f9fa',
       }}
     >
       {children}
@@ -29,29 +26,37 @@ const isMac = (function () {
 })();
 
 export const SpotlightControl = () => {
+  const { t } = useTranslation();
   return (
-    <UnstyledButton
-      onClick={() => spotlight.open()}
-      style={{
-        width: '10rem',
-        height: '2.125rem',
-        background: '#fff',
-        color: '#adb5bd',
-        border: '0.0625rem solid #dee2e6',
-        paddingLeft: '0.75rem',
-        paddingRight: '0.3125rem',
-        borderRadius: '0.5rem',
-        fontSize: '1rem',
-      }}
-    >
-      <Group spacing={6}>
-        <IconSearch size="0.875rem" />
-        <Text style={{ flexGrow: 1, fontSize: '0.875rem', lineHeight: '1.55', color: '#868e96' }}>Search</Text>
-        <Group spacing={4}>
+    <Tooltip
+      label={
+        <>
           {isMac && <ShortcutKeyText>⌘ + K</ShortcutKeyText>}
           {!isMac && <ShortcutKeyText>Ctrl + K</ShortcutKeyText>}
+        </>
+      }
+    >
+      <UnstyledButton
+        onClick={() => spotlight.open()}
+        style={{
+          height: '1.875rem',
+          background: 'transparent',
+          color: '#adb5bd',
+          borderLeft: 'none',
+          borderTop: 'none',
+          borderRight: '1px solid #e9ecef',
+          borderBottom: '1px solid #e9ecef',
+          paddingLeft: 'calc(0.875rem  / 1.5)',
+          paddingRight: '0.875rem',
+        }}
+      >
+        <Group spacing={'0.625rem'}>
+          <IconSearch size="1rem" color="#868e96" />
+          <Text style={{ flexGrow: 1, fontWeight: 500, fontSize: '0.75rem', lineHeight: 1, color: '#868e96' }}>
+            {t('spotlight.trigger_text')}
+          </Text>
         </Group>
-      </Group>
-    </UnstyledButton>
+      </UnstyledButton>
+    </Tooltip>
   );
 };

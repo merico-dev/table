@@ -988,5 +988,8 @@ export const en = {
         require_a_number: 'A number is required',
       },
     },
+    spotlight: {
+      trigger_text: 'Search',
+    },
   },
 };

@@ -988,5 +988,8 @@ export const zh = {
         require_a_number: '请填写一个数字',
       },
     },
+    spotlight: {
+      trigger_text: '搜索',
+    },
   },
 };
