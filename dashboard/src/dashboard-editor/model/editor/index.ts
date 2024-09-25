@@ -11,6 +11,7 @@ import { Instance, getRoot, types } from 'mobx-state-tree';
 import { ContentModelInstance } from '../content';
 import _ from 'lodash';
 import { isPanel } from '~/dashboard-editor/ui/settings/content/utils';
+import { SpotlightAction } from '@mantine/spotlight';
 
 type PartialRootInstanceType = {
   content: ContentModelInstance;
@@ -185,6 +186,12 @@ export const EditorModel = types
     setSettingsOpen(v: boolean) {
       self.settings_open = v;
     },
+    openAndSetPath(v: ValidEditorPathType) {
+      this.setPath(v);
+      if (!self.settings_open) {
+        self.settings_open = true;
+      }
+    },
   }))
   .actions((self) => ({
     setPanelTab(tab: PanelTab | null) {
@@ -207,6 +214,89 @@ export const EditorModel = types
       if (path) {
         self.setPath(path);
       }
+    },
+  }))
+  .views((self) => ({
+    get spotlightActions() {
+      const { content } = getRoot(self) as PartialRootInstanceType;
+      const { filters, views, sqlSnippets, queries } = content;
+      const ret: Array<SpotlightAction> = [
+        {
+          title: 'query_variable.labels',
+          onTrigger: () => self.openAndSetPath(['_QUERY_VARS_']),
+          iconKey: 'query_variables',
+          group: 'main',
+        },
+        {
+          title: 'mock_context.label',
+          onTrigger: () => self.openAndSetPath(['_MOCK_CONTEXT_']),
+          iconKey: 'mock_context',
+          group: 'main',
+        },
+        {
+          title: 'filter.labels',
+          onTrigger: () => self.openAndSetPath(['_FILTERS_']),
+          iconKey: 'filter',
+          group: 'main',
+        },
+        {
+          title: 'sql_snippet.labels',
+          onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_']),
+          iconKey: 'sql_snippet',
+          group: 'main',
+        },
+        {
+          title: 'query.labels',
+          onTrigger: () => self.openAndSetPath(['_QUERIES_']),
+          iconKey: 'query',
+          group: 'main',
+        },
+      ];
+      filters.options.forEach((f) => {
+        ret.push({
+          title: f.label,
+          onTrigger: () => self.openAndSetPath(['_FILTERS_', f.value]),
+          iconKey: 'filter',
+          group: 'filter',
+        });
+      });
+      sqlSnippets.options.forEach((s) => {
+        ret.push({
+          title: s.label,
+          onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_', s.value]),
+          iconKey: 'sql_snippet',
+          group: 'sql_snippet',
+        });
+      });
+      queries.options.forEach((q) => {
+        ret.push({
+          title: q.label,
+          onTrigger: () => self.openAndSetPath(['_QUERIES_', q.value]),
+          iconKey: 'query',
+          group: 'query',
+        });
+      });
+      views.editorOptions.forEach((v) => {
+        ret.push({
+          title: v.label,
+          onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value]),
+          iconKey: 'view',
+          group: v.label,
+        });
+        v.children.forEach((p) => {
+          if (p._type === 'ACTION') {
+            return;
+          }
+          ret.push({
+            title: p.label,
+            onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value, '_PANELS_', p.value, '_TABS_', 'Panel']),
+            iconKey: 'panel',
+            group: v.label,
+          });
+        });
+      });
+
+      return ret;
     },
   }));
 
