@@ -1,5 +1,5 @@
 import { Badge, Center, createStyles, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
-import { SpotlightActionProps } from '@mantine/spotlight';
+import { SpotlightAction, SpotlightActionProps } from '@mantine/spotlight';
 import {
   IconAppWindow,
   IconBoxMultiple,
@@ -34,6 +34,30 @@ const ActionIcon = ({ iconKey, ...props }: { iconKey: string } & TablerIconsProp
   }
 };
 
+const Description = ({ action }: { action: SpotlightAction }) => {
+  const { t } = useTranslation();
+  if (action.description) {
+    return (
+      <Text color="dimmed" size="xs">
+        {t(action.description)}
+      </Text>
+    );
+  }
+  if (action.viz) {
+    return (
+      <Group position="apart">
+        <Text color="dimmed" size="xs">
+          {t(action.viz.displayName)}
+        </Text>
+        <Text color="dimmed" opacity={0} size="xs" className="spotlight-action-viz-group">
+          {t(action.viz.displayGroup)}
+        </Text>
+      </Group>
+    );
+  }
+  return null;
+};
+
 const useStyles = createStyles((theme, params: null) => ({
   action: {
     position: 'relative',
@@ -43,10 +67,16 @@ const useStyles = createStyles((theme, params: null) => ({
     borderRadius: theme.radius.sm,
     ...theme.fn.hover({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[1],
+      '.spotlight-action-viz-group': {
+        opacity: 1,
+      },
     }),
 
     '&[data-hovered]': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[1],
+      '.spotlight-action-viz-group': {
+        opacity: 1,
+      },
     },
   },
 }));
@@ -73,11 +103,7 @@ export const SpotlightActionComponent = observer(
               {t(action.title)}
             </Highlight>
 
-            {action.description && (
-              <Text color="dimmed" size="xs">
-                {action.description}
-              </Text>
-            )}
+            <Description action={action} />
           </div>
         </Group>
       </UnstyledButton>

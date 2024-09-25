@@ -289,6 +289,7 @@ export const EditorModel = types
           }
           ret.push({
             title: p.label,
+            viz: p.viz,
             onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value, '_PANELS_', p.value, '_TABS_', 'Panel']),
             iconKey: 'panel',
             group: v.label,
