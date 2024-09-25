@@ -82,7 +82,7 @@ const useStyles = createStyles((theme, params: null) => ({
 }));
 
 export const SpotlightActionComponent = observer(
-  ({ action, styles, classNames, hovered, onTrigger, highlightQuery, ...others }: SpotlightActionProps) => {
+  ({ action, styles, classNames, hovered, onTrigger, highlightQuery, query, ...others }: SpotlightActionProps) => {
     const { t } = useTranslation();
     const { classes } = useStyles(null, { styles, classNames, name: 'Spotlight' });
 
@@ -99,7 +99,7 @@ export const SpotlightActionComponent = observer(
           <ActionIcon iconKey={action.iconKey} size={14} />
 
           <div style={{ flex: 1 }}>
-            <Highlight highlight="todo" size="sm">
+            <Highlight highlight={query} size="sm">
               {t(action.title)}
             </Highlight>
 
