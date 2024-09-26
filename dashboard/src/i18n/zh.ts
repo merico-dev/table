@@ -988,5 +988,11 @@ export const zh = {
         require_a_number: '请填写一个数字',
       },
     },
+    spotlight: {
+      trigger_text: '搜索',
+      main_group: '主要项',
+      placeholder: '打开…',
+      not_found: '无匹配项',
+    },
   },
 };

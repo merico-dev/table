@@ -39,6 +39,7 @@ import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-
 import { MericoEstimationChartVizComponent } from './viz-components/merico-estimation-chart';
 import { MericoStatsVizComponent } from './viz-components/merico-stats';
 import { MericoHeatmapVizComponent } from './viz-components/merico-heatmap';
+import _ from 'lodash';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -138,6 +139,17 @@ export const vizList = [
   MericoStatsVizComponent,
   ButtonVizComponent,
 ];
+export type VizNameKeys = {
+  displayName: string;
+  displayGroup: string;
+};
+export const vizNameToKeys = vizList.reduce((ret, curr) => {
+  ret[curr.name] = {
+    displayName: curr.displayName!,
+    displayGroup: curr.displayGroup!,
+  };
+  return ret;
+}, {} as Record<string, VizNameKeys>);
 
 const BuiltInPlugin: () => IDashboardPlugin = () => ({
   id: 'dashboard',

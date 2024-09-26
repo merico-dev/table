@@ -11,6 +11,8 @@ import { Instance, getRoot, types } from 'mobx-state-tree';
 import { ContentModelInstance } from '../content';
 import _ from 'lodash';
 import { isPanel } from '~/dashboard-editor/ui/settings/content/utils';
+import { SpotlightAction } from '@mantine/spotlight';
+import { VizNameKeys } from '~/components/plugins';
 
 type PartialRootInstanceType = {
   content: ContentModelInstance;
@@ -39,6 +41,7 @@ export type NavLinkType = {
   _type: 'GROUP' | 'query_variables' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
   Icon?: Icon;
   parentID?: string; // for panel only
+  viz?: VizNameKeys; // for panel only
   children?: NavOptionType[];
 };
 export type NavOptionType = NavLinkType | NavActionType;
@@ -185,6 +188,12 @@ export const EditorModel = types
     setSettingsOpen(v: boolean) {
       self.settings_open = v;
     },
+    openAndSetPath(v: ValidEditorPathType) {
+      this.setPath(v);
+      if (!self.settings_open) {
+        self.settings_open = true;
+      }
+    },
   }))
   .actions((self) => ({
     setPanelTab(tab: PanelTab | null) {
@@ -207,6 +216,90 @@ export const EditorModel = types
       if (path) {
         self.setPath(path);
       }
+    },
+  }))
+  .views((self) => ({
+    get spotlightActions() {
+      const { content } = getRoot(self) as PartialRootInstanceType;
+      const { filters, views, sqlSnippets, queries } = content;
+      const ret: Array<SpotlightAction> = [
+        {
+          title: 'query_variable.labels',
+          onTrigger: () => self.openAndSetPath(['_QUERY_VARS_']),
+          iconKey: 'query_variables',
+          group: 'spotlight.main_group',
+        },
+        {
+          title: 'mock_context.label',
+          onTrigger: () => self.openAndSetPath(['_MOCK_CONTEXT_']),
+          iconKey: 'mock_context',
+          group: 'spotlight.main_group',
+        },
+        {
+          title: 'filter.labels',
+          onTrigger: () => self.openAndSetPath(['_FILTERS_']),
+          iconKey: 'filter',
+          group: 'spotlight.main_group',
+        },
+        {
+          title: 'sql_snippet.labels',
+          onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_']),
+          iconKey: 'sql_snippet',
+          group: 'spotlight.main_group',
+        },
+        {
+          title: 'query.labels',
+          onTrigger: () => self.openAndSetPath(['_QUERIES_']),
+          iconKey: 'query',
+          group: 'spotlight.main_group',
+        },
+      ];
+      filters.options.forEach((f) => {
+        ret.push({
+          title: f.label,
+          onTrigger: () => self.openAndSetPath(['_FILTERS_', f.value]),
+          iconKey: 'filter',
+          group: 'filter.labels',
+        });
+      });
+      sqlSnippets.options.forEach((s) => {
+        ret.push({
+          title: s.label,
+          onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_', s.value]),
+          iconKey: 'sql_snippet',
+          group: 'sql_snippet.labels',
+        });
+      });
+      queries.options.forEach((q) => {
+        ret.push({
+          title: q.label,
+          onTrigger: () => self.openAndSetPath(['_QUERIES_', q.value]),
+          iconKey: 'query',
+          group: 'query.labels',
+        });
+      });
+      views.editorOptions.forEach((v) => {
+        ret.push({
+          title: v.label,
+          onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value]),
+          iconKey: 'view',
+          group: v.label,
+        });
+        v.children.forEach((p) => {
+          if (p._type === 'ACTION') {
+            return;
+          }
+          ret.push({
+            title: p.label,
+            viz: p.viz,
+            onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value, '_PANELS_', p.value, '_TABS_', 'Panel']),
+            iconKey: 'panel',
+            group: v.label,
+          });
+        });
+      });
+
+      return ret;
     },
   }));
 
