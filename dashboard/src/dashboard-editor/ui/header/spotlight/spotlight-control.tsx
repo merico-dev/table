@@ -21,7 +21,7 @@ const ShortcutKeyText = ({ children }: { children: ReactNode }) => {
 
 const isMac = (function () {
   // @ts-expect-error userAgentData
-  const p = (navigator.userAgentData.platform ?? navigator.platform).toLowerCase();
+  const p = (navigator.userAgentData?.platform ?? navigator.platform).toLowerCase();
   return p.includes('mac');
 })();
 
