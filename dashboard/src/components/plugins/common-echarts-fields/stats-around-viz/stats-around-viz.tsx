@@ -42,6 +42,7 @@ export const StatsAroundViz = observer(({ value, context, onHeightChange }: Prop
         value={content}
         styles={{
           root: {
+            margin: '0 8px',
             border: 'none',
             maxWidth: '100%',
             '&.mantine-RichTextEditor-root': {
