@@ -67,16 +67,16 @@ export const Render = observer(({ context, instance }: RenderProps) => {
       return;
     }
 
-    const p: HTMLParagraphElement | null = ref.current.querySelector('.ProseMirror > p');
-    if (!p) {
+    const div: HTMLDivElement | null = ref.current.querySelector('.ProseMirror');
+    if (!div) {
       return;
     }
 
-    const { offsetWidth, offsetHeight } = p;
+    const { offsetWidth, offsetHeight } = div;
     const scaleW = width / offsetWidth;
     const scaleH = height / offsetHeight;
     const scale = Math.min(scaleW, scaleH);
-    p.style.transform = `scale(${scale})`;
+    div.style.transform = `scale(${scale})`;
   }, [ref.current, width, height, richTextContent]);
   return (
     <Flex
@@ -102,14 +102,18 @@ export const Render = observer(({ context, instance }: RenderProps) => {
               },
             },
             content: {
+              height,
               '&.mantine-RichTextEditor-content .ProseMirror': {
+                margin: '0 auto',
                 padding: 0,
-                height,
+                display: 'table',
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                transformOrigin: 'top center',
               },
               '&.mantine-RichTextEditor-content .ProseMirror > p': {
-                display: 'table',
-                margin: '0 auto !important',
-                transformOrigin: 'top center',
                 fontSize: 'initial',
                 lineHeight: 'initial',
               },
