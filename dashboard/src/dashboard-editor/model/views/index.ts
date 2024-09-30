@@ -57,6 +57,9 @@ export const ViewsModel = types
       self.visibleViewIDs.length = 0;
       self.visibleViewIDs.push(id);
     },
+    resetIDOfVIE() {
+      this.setIDOfVIE(self.current[0].id);
+    },
     replace(current: Array<ViewRenderModelInstance>) {
       self.current.replace(current);
     },
@@ -99,6 +102,7 @@ export const ViewsModel = types
       panels.removeByIDs(view.panelIDs);
       layouts.removeByPanelIDs(view.panelIDs);
       self.current.splice(index, 1);
+      this.resetIDOfVIE();
     },
     replaceByIndex(index: number, replacement: ViewRenderModelInstance) {
       self.current.splice(index, 1, replacement);
@@ -115,7 +119,7 @@ export const ViewsModel = types
         return;
       }
       this.removeByID(self.idOfVIE);
-      this.setIDOfVIE(self.current[0].id);
+      this.resetIDOfVIE();
     },
   }));
 
