@@ -75,6 +75,14 @@ export const LayoutSetMeta = types
         self.list.splice(i, 1);
       }
     },
+    removeByPanelIDs(panelIDs: string[]) {
+      while (panelIDs.length > 0) {
+        const id = panelIDs.pop();
+        if (id) {
+          this.removeByPanelID(id);
+        }
+      }
+    },
     updateLayoutItem(item: Layout) {
       const layoutItem = self.list.find((o) => o.id === item.i);
       if (!layoutItem) {

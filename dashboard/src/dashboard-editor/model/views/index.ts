@@ -5,6 +5,7 @@ import { PanelsModelInstance } from '../panels';
 
 import { ViewDivisionConfigSnapshotIn, ViewMetaInstance, ViewModalConfigSnapshotIn } from '~/model';
 import { ViewModel, ViewModelInstance } from './view';
+import { LayoutsModelInstance } from '../layouts';
 
 export const ViewsModel = types
   .compose(
@@ -45,12 +46,19 @@ export const ViewsModel = types
           } as const),
       );
     },
+    get contentModel() {
+      // @ts-expect-error getRoot type, reading panels
+      return getRoot(self).content;
+    },
   }))
   .actions((self) => ({
     setIDOfVIE(id: string) {
       self.idOfVIE = id;
       self.visibleViewIDs.length = 0;
       self.visibleViewIDs.push(id);
+    },
+    resetIDOfVIE() {
+      this.setIDOfVIE(self.current[0].id);
     },
     replace(current: Array<ViewRenderModelInstance>) {
       self.current.replace(current);
@@ -88,11 +96,13 @@ export const ViewsModel = types
         return;
       }
       const view = self.current[index];
-      // @ts-expect-error getRoot type, reading panels
-      const panels: PanelsModelInstance = getRoot(self).content.panels;
+      const panels: PanelsModelInstance = self.contentModel.panels;
+      const layouts: LayoutsModelInstance = self.contentModel.layouts;
 
       panels.removeByIDs(view.panelIDs);
+      layouts.removeByPanelIDs(view.panelIDs);
       self.current.splice(index, 1);
+      this.resetIDOfVIE();
     },
     replaceByIndex(index: number, replacement: ViewRenderModelInstance) {
       self.current.splice(index, 1, replacement);
@@ -109,7 +119,7 @@ export const ViewsModel = types
         return;
       }
       this.removeByID(self.idOfVIE);
-      this.setIDOfVIE(self.current[0].id);
+      this.resetIDOfVIE();
     },
   }));
 

@@ -52,6 +52,11 @@ export const LayoutsModel = types
         layoutSet.removeByPanelID(panelID);
       });
     },
+    removeByPanelIDs(panelIDs: string[]) {
+      self.list.forEach((layoutSet) => {
+        layoutSet.removeByPanelIDs(panelIDs);
+      });
+    },
     setCurrentLayoutWrapperWidth(v: number) {
       self.currentLayoutWrapperWidth = v;
     },
