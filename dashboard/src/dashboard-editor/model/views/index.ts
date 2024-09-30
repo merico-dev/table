@@ -5,6 +5,7 @@ import { PanelsModelInstance } from '../panels';
 
 import { ViewDivisionConfigSnapshotIn, ViewMetaInstance, ViewModalConfigSnapshotIn } from '~/model';
 import { ViewModel, ViewModelInstance } from './view';
+import { LayoutsModelInstance } from '../layouts';
 
 export const ViewsModel = types
   .compose(
@@ -44,6 +45,10 @@ export const ViewsModel = types
             children: panels.editorOptions(v.id, v.panelIDs),
           } as const),
       );
+    },
+    get contentModel() {
+      // @ts-expect-error getRoot type, reading panels
+      return getRoot(self).content;
     },
   }))
   .actions((self) => ({
@@ -88,10 +93,11 @@ export const ViewsModel = types
         return;
       }
       const view = self.current[index];
-      // @ts-expect-error getRoot type, reading panels
-      const panels: PanelsModelInstance = getRoot(self).content.panels;
+      const panels: PanelsModelInstance = self.contentModel.panels;
+      const layouts: LayoutsModelInstance = self.contentModel.layouts;
 
       panels.removeByIDs(view.panelIDs);
+      layouts.removeByPanelIDs(view.panelIDs);
       self.current.splice(index, 1);
     },
     replaceByIndex(index: number, replacement: ViewRenderModelInstance) {
