@@ -25,7 +25,7 @@ type DescriptionType = {
 };
 const descriptions: DescriptionType[] = [
   { name: 'CryptoJS', url: 'https://github.com/brix/crypto-js', version: '4.1.1' },
-  { name: 'd3Array', url: 'https://github.com/d3/d3-array', version: '3.2.0' },
+  { name: 'd3Array', url: 'https://github.com/d3/d3-array', version: '3.2.4' },
   { name: 'dayjs', url: 'https://day.js.org/', version: '1.11.6' },
   { name: 'lodash', url: 'https://lodash.com/docs/4.17.15', version: '4.17.21' },
   { name: 'mathjs', url: 'https://mathjs.org/', version: '11.7.0' },
