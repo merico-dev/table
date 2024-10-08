@@ -34,7 +34,7 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@dnd-kit/helpers": "^0.0.3",
+    "@dnd-kit/helpers": "^0.0.5",
     "@dnd-kit/react": "^0.0.4",
     "@dnd-kit/sortable": "^8.0.0",
     "@json2csv/whatwg": "7.0.3",
