@@ -76,7 +76,6 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
             name="config.port"
             control={control}
             render={({ field }) => (
-              // @ts-expect-error type of onChange
               <NumberInput
                 mb={styles.spacing}
                 size={styles.size}
