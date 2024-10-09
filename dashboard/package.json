@@ -54,6 +54,7 @@
     "popmotion": "^11.0.3",
     "rc-select": "14.1.0",
     "rc-tree-select": "5.23.0",
+    "react-hook-form": "7.53.0",
     "react-i18next": "^14.1.0",
     "reactflow": "^11.6.0",
     "uuid": "9.0.1"
@@ -121,7 +122,6 @@
     "prosemirror-keymap": "^1.2.0",
     "prosemirror-schema-list": "^1.2.2",
     "react-grid-layout": "^1.3.4",
-    "react-hook-form": "^7.31.2",
     "rollup-plugin-visualizer": "5.12.0",
     "typescript": "^4.6.3",
     "vite-plugin-static-copy": "^0.17.0"
@@ -183,7 +183,6 @@
     "react": "^16.8.0 || 17.x || 18.x",
     "react-dom": "^16.8.0 || 17.x || 18.x",
     "react-grid-layout": "^1.3.4",
-    "react-hook-form": "^7.31.2",
     "react-router-dom": "^6.3.0",
     "react-virtual": "^2.10.4"
   }

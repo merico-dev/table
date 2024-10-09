@@ -40,7 +40,6 @@ export function XAxisField({ control, watch }: IXAxisField) {
           name="x_axis.axisLabel.rotate"
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput
               label="旋转"
               hideControls

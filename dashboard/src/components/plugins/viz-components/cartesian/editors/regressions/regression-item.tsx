@@ -83,7 +83,6 @@ export function RegressionField({ control, regressionItem, index, yAxisOptions }
           name={`regressions.${index}.transform.config.method`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.regression_line.method.label')}
               data={regressionOptions}
@@ -97,7 +96,6 @@ export function RegressionField({ control, regressionItem, index, yAxisOptions }
             name={`regressions.${index}.transform.config.order`}
             control={control}
             render={({ field }) => (
-              // @ts-expect-error type of onChange
               <NumberInput label={t('chart.regression_line.method.polynomial_order')} sx={{ flex: 1 }} {...field} />
             )}
           />
@@ -114,7 +112,6 @@ export function RegressionField({ control, regressionItem, index, yAxisOptions }
           name={`regressions.${index}.plot.lineStyle.width`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput label={t('chart.series.line.line_width')} min={1} max={10} sx={{ flexGrow: 1 }} {...field} />
           )}
         />

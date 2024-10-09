@@ -48,7 +48,6 @@ export const LevelField = ({ control, index }: ILevelField) => {
         name={`levels.${index}.label.show_label_tolerance`}
         control={control}
         render={({ field }) => (
-          // @ts-expect-error type of onChange
           <NumberInput
             label={t('viz.sunburst_chart.label.show_label_tolerance')}
             precision={4}
@@ -64,7 +63,6 @@ export const LevelField = ({ control, index }: ILevelField) => {
           name={`levels.${index}.label.rotate`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select label={t('viz.sunburst_chart.label.rotate.label')} data={rotationOptions} {...field} />
           )}
         />
@@ -91,7 +89,6 @@ export const LevelField = ({ control, index }: ILevelField) => {
         <Controller
           name={`levels.${index}.label.padding`}
           control={control}
-          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label={t('chart.padding')} min={0} hideControls {...field} />}
         />
       </Group>

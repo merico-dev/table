@@ -31,7 +31,6 @@ export function ReferenceLineField({ control, index, variableOptions }: IReferen
           name={`reference_lines.${index}.variable_key`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select label={t('common.value')} required data={variableOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

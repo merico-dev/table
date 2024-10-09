@@ -32,7 +32,6 @@ export function TooltipField({ control, watch }: ITooltipField) {
         name="tooltip.trigger"
         control={control}
         render={({ field }) => (
-          // @ts-expect-error type of onChange
           <Select
             label={t('chart.tooltip.trigger.label')}
             data={tooltipTriggerOptions}

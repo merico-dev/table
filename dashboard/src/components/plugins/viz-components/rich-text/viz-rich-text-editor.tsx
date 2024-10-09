@@ -46,7 +46,6 @@ export const VizRichTextEditor = observer(({ context }: VizConfigProps) => {
           name="content"
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <CustomRichTextEditor
               {...field}
               key={panel.id}

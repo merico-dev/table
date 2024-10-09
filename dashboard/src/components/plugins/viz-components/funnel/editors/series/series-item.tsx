@@ -80,7 +80,6 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.min.value`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput
               disabled={!enable_min}
               labelProps={{ display: 'block' }}
@@ -119,7 +118,6 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.max.value`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput
               disabled={!enable_max}
               labelProps={{ display: 'block' }}
@@ -162,7 +160,6 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.sort`}
           control={control}
-          // @ts-expect-error type of onChange
           render={({ field }) => <Select label={t('viz.funnel_chart.sort.label')} data={sortOptions} {...field} />}
         />
       </Group>
@@ -177,7 +174,6 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.gap`}
           control={control}
-          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput placeholder="0, 5, 10..." label={t('viz.funnel_chart.gap')} {...field} />}
         />
       </Group>
@@ -188,7 +184,6 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.axisLabel.position`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type error about undefined
             <LabelPositionSelector
               label={t('chart.label_position.label')}
               options={positionOptions[orient]}

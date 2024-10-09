@@ -73,7 +73,6 @@ export function XAxisField({ control, watch }: IXAxisField) {
           name="x_axis.type"
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select label={<XAxisTypeLabel />} required data={XAxisTypeOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

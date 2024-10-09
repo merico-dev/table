@@ -46,7 +46,6 @@ export function BarFields({ control, index, seriesItem }: IBarFields) {
           name={`series.${index}.barGap`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select label={t('chart.series.bar.bar_gap.label')} data={barGapOptions} sx={{ flexGrow: 1 }} {...field} />
           )}
         />

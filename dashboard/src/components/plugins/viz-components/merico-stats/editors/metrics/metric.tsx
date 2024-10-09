@@ -29,7 +29,6 @@ export function MetricField({ control, index, watch, variableOptions }: IProps) 
           name={`metrics.${index}.data_keys.value`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('viz.merico_stats.metric.metric_data_field')}
               required
@@ -52,7 +51,6 @@ export function MetricField({ control, index, watch, variableOptions }: IProps) 
           name={`metrics.${index}.data_keys.basis`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('viz.merico_stats.metric.basis_data_field')}
               required

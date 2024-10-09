@@ -40,7 +40,6 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           name={`series.${index}.lineStyle.width`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput label={t('chart.series.line.line_width')} min={1} max={10} sx={{ flexGrow: 1 }} {...field} />
           )}
         />
