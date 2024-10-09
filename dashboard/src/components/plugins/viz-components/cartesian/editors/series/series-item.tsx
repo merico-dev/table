@@ -31,7 +31,6 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
           name={`series.${index}.type`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <SegmentedControl
               data={[
                 { label: t('chart.series.line.label'), value: 'line' },

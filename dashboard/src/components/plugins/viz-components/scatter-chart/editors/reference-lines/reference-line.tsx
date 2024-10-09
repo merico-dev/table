@@ -40,7 +40,6 @@ export function ReferenceLineField({ control, index, watch, variableOptions, yAx
           name={`reference_lines.${index}.variable_key`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select label={t('common.data_field')} required data={variableOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
@@ -105,7 +104,6 @@ export function ReferenceLineField({ control, index, watch, variableOptions, yAx
           name={`reference_lines.${index}.lineStyle.width`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput label={t('chart.series.line.line_width')} min={1} max={10} sx={{ flexGrow: 1 }} {...field} />
           )}
         />

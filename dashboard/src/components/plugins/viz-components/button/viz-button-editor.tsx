@@ -60,7 +60,6 @@ export function VizButtonEditor({ context }: VizConfigProps) {
           <Controller
             control={control}
             name="variant"
-            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Variant" data={variantOptions} {...field} />}
           />
           <Controller

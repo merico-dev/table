@@ -35,7 +35,6 @@ export function CalendarField({ control, watch }: ICalendarField) {
         name="calendar.locale"
         control={control}
         render={({ field }) => (
-          // @ts-expect-error type of onChange
           <Select label={t('viz.calendar_heatmap.calendar.locale')} data={localeOptions} sx={{ flex: 1 }} {...field} />
         )}
       />

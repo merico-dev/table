@@ -36,7 +36,6 @@ export function SeriesItemField({ control, index, seriesItem, xAxisOptions }: IS
           name={`series.${index}.xAxisIndex`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.x_axis.label')}
               data={xAxisOptions}

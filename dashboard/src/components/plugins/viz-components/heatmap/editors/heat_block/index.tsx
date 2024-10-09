@@ -55,7 +55,6 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
           name="heat_block.label.fontSize"
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <NumberInput size="xs" icon={<IconTextSize size={16} />} disabled={!showLabel} {...field} />
           )}
         />

@@ -48,7 +48,6 @@ export function RegressionField({ control, watch }: IRegressionField) {
           name={`regression.transform.config.method`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.regression_line.method.label')}
               data={regressionOptions}
@@ -62,7 +61,6 @@ export function RegressionField({ control, watch }: IRegressionField) {
             name={`regression.transform.config.order`}
             control={control}
             render={({ field }) => (
-              // @ts-expect-error type of onChange
               <NumberInput label={t('chart.regression_line.method.polynomial_order')} sx={{ flex: 1 }} {...field} />
             )}
           />

@@ -43,7 +43,6 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
           name={`reference_areas.${index}.type`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.reference_area.type.label')}
               required
@@ -57,7 +56,6 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
           name={`reference_areas.${index}.direction`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.reference_area.direction.label')}
               required
@@ -74,7 +72,6 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
           name={`reference_areas.${index}.y_keys.upper`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.reference_area.boundary.upper')}
               required
@@ -88,7 +85,6 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
           name={`reference_areas.${index}.y_keys.lower`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
             <Select
               label={t('chart.reference_area.boundary.lower')}
               required
