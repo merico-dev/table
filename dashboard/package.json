@@ -45,7 +45,7 @@
     "@mantine/hooks": "7.13.2",
     "@mantine/modals": "7.13.2",
     "@mantine/notifications": "7.13.2",
-    "@mantine/spotlight": "6.0.16",
+    "@mantine/spotlight": "7.13.2",
     "@mantine/tiptap": "7.13.2",
     "@monaco-editor/react": "4.6.0",
     "@types/chroma-js": "^2.1.4",
