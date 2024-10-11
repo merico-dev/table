@@ -105,8 +105,10 @@ const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfig
       data={selectItems}
       onChange={handleChange}
       value={model.operationSchema.id}
-      withinPortal
-      zIndex={340}
+      comboboxProps={{
+        withinPortal: true,
+        zIndex: 340,
+      }}
     />
   );
 });

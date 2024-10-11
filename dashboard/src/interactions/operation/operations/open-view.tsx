@@ -24,8 +24,10 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
       onChange={setViewID}
       label={t('interactions.operation.open_view.view')}
       data={model.views.options}
-      withinPortal
-      zIndex={340}
+      comboboxProps={{
+        withinPortal: true,
+        zIndex: 340,
+      }}
       maxDropdownHeight={500}
     />
   );

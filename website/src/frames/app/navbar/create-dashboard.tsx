@@ -162,7 +162,9 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
             render={({ field }) => (
               <Autocomplete
                 disabled={store.loading}
-                withinPortal
+                comboboxProps={{
+                  withinPortal: true,
+                }}
                 label="Group"
                 maxDropdownHeight={500}
                 data={store.groupNames}
@@ -177,7 +179,9 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
               <Select
                 data={options}
                 disabled={store.loading || options.length === 0}
-                withinPortal
+                comboboxProps={{
+                  withinPortal: true,
+                }}
                 maxDropdownHeight={500}
                 label="Choose a dashboard to duplicate (optional)"
                 {...field}

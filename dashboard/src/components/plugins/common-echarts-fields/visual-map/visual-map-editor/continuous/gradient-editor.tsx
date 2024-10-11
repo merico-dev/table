@@ -54,8 +54,10 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
               flexGrow: 1,
             },
           }}
-          withinPortal
-          dropdownZIndex={340}
+          popoverProps={{
+            withinPortal: true,
+            zIndex: 340,
+          }}
           size="xs"
           value={color.value}
           onChange={handleChange}
@@ -131,8 +133,10 @@ export const GradientEditor = forwardRef(({ value, onChange, zIndex = 340 }: Pro
         <div style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }} />
         <div style={{ flex: 1 }}>
           <ColorInput
-            withinPortal
-            dropdownZIndex={zIndex}
+            popoverProps={{
+              withinPortal: true,
+              zIndex,
+            }}
             placeholder={t('chart.color.click_to_add_a_color')}
             value={newColor}
             onChange={setNewColor}

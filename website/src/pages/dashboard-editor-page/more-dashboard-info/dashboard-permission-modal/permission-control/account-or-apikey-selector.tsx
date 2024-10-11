@@ -45,8 +45,10 @@ export const AccountOrAPIKeySelector = ({
       value={value}
       onChange={onChange}
       disabled={disabled}
-      withinPortal
-      zIndex={340}
+      comboboxProps={{
+        withinPortal: true,
+        zIndex: 340,
+      }}
     />
   );
 };

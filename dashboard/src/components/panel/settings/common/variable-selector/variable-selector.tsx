@@ -49,11 +49,13 @@ export const VariableSelector = observer(
         itemComponent={(props) => <VariableSelectorItem preview={preview} {...props} />}
         data={options}
         value={value}
-        onChange={onChange}
         required={required}
         sx={sx}
         maxDropdownHeight={500}
-        withinPortal
+        comboboxProps={{
+          withinPortal: true,
+        }}
+        onChange={onChange}
         zIndex={zIndex}
       />
     );

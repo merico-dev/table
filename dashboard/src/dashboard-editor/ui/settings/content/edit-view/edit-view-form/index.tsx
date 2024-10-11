@@ -29,8 +29,10 @@ export const EditViewForm = observer(({ view }: { view?: ViewMetaInstance }) => 
       />
       <Select
         label={t('common.type')}
-        withinPortal
-        zIndex={320}
+        comboboxProps={{
+          withinPortal: true,
+          zIndex: 320,
+        }}
         value={view.type}
         onChange={view.setType}
         data={options}

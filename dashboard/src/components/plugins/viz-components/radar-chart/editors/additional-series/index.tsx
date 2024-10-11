@@ -30,7 +30,7 @@ export function AdditionalSeriesField({ control, watch }: Props) {
 
   return (
     <>
-      <Alert leftSection={<IconInfoCircle size={16} />} title={t('viz.radar_chart.additional_series.label')}>
+      <Alert icon={<IconInfoCircle size={16} />} title={t('viz.radar_chart.additional_series.label')}>
         <Trans i18nKey="viz.radar_chart.additional_series.intro">
           By setting <Mark>Series Name Key</Mark>, you may add series from more queries to the chart.
         </Trans>

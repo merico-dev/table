@@ -66,7 +66,9 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
       })}
       value={value}
       onChange={onChange}
-      withinPortal
+      comboboxProps={{
+        withinPortal: true,
+      }}
       maxDropdownHeight={500}
     />
   );

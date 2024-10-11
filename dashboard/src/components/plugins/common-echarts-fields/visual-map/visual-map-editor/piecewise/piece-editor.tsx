@@ -36,8 +36,10 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
               label={t('')}
               placeholder={t('chart.color.label')}
               size="xs"
-              withinPortal
-              dropdownZIndex={340}
+              popoverProps={{
+                withinPortal: true,
+                zIndex: 340,
+              }}
               rightSection={
                 !!field.value ? (
                   <CloseButton

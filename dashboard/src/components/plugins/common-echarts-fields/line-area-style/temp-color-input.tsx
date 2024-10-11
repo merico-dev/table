@@ -16,8 +16,10 @@ export const TempColorInput = forwardRef<HTMLInputElement, Props>(({ value, onCh
       value={value}
       onChange={onChange}
       size="xs"
-      withinPortal
-      dropdownZIndex={340}
+      popoverProps={{
+        withinPortal: true,
+        zIndex: 340,
+      }}
       rightSection={
         !!value ? (
           <CloseButton

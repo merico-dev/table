@@ -139,7 +139,9 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
             render={({ field }) => (
               <Autocomplete
                 disabled={store.loading}
-                withinPortal
+                comboboxProps={{
+                  withinPortal: true,
+                }}
                 label="Group"
                 maxDropdownHeight={500}
                 data={store.groupNames}

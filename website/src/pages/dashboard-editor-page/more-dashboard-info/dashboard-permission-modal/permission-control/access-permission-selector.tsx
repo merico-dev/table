@@ -7,6 +7,15 @@ interface IAccessPermissionSelector {
 }
 export const AccessPermissionSelector = ({ value, onChange }: IAccessPermissionSelector) => {
   return (
-    <Select size="xs" value={value} onChange={onChange} data={AccessPermissionOptions} withinPortal zIndex={320} />
+    <Select
+      size="xs"
+      value={value}
+      onChange={onChange}
+      data={AccessPermissionOptions}
+      comboboxProps={{
+        withinPortal: true,
+        zIndex: 320,
+      }}
+    />
   );
 };
