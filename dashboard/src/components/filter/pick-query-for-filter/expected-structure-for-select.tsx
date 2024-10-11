@@ -1,5 +1,5 @@
+import { CodeHighlight } from '@mantine/code-highlight';
 import { Button, Collapse } from '@mantine/core';
-import { Prism } from '@mantine/prism';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -23,9 +23,7 @@ export const ExpectedStructureForSelect = () => {
       </Button>
 
       <Collapse in={opened}>
-        <Prism language="typescript" noCopy colorScheme="dark">
-          {structure}
-        </Prism>
+        <CodeHighlight language="typescript" withCopyButton={false} code={structure} />
       </Collapse>
     </>
   );

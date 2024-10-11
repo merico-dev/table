@@ -1,5 +1,5 @@
 import { ActionIcon, HoverCard, Table } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { IconEye } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
@@ -13,9 +13,7 @@ function HoverToSeeContent({ content }: { content: string }) {
         </ActionIcon>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Prism language="sql" noCopy withLineNumbers>
-          {content}
-        </Prism>
+        <CodeHighlight language="sql" withCopyButton={false} code={content} />
       </HoverCard.Dropdown>
     </HoverCard>
   );

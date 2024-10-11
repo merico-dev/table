@@ -1,5 +1,5 @@
 import { Alert, Stack, Sx, Tabs } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { IconAlertCircle, IconVariable, IconVariablePlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
@@ -71,15 +71,11 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
         </Tabs.List>
 
         <Tabs.Panel value="guide" pt="xs">
-          <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
-            {example}
-          </Prism>
+          <CodeHighlight language="sql" sx={{ width: '100%' }} withCopyButton={false} code={example} />
         </Tabs.Panel>
 
         <Tabs.Panel value="local_query_vars" pt="xs">
-          <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
-            {variablesString}
-          </Prism>
+          <CodeHighlight language="json" sx={{ width: '100%' }} withCopyButton={false} code={variablesString} />
         </Tabs.Panel>
 
         <Tabs.Panel value="global_sql_snippets" pt="xs">

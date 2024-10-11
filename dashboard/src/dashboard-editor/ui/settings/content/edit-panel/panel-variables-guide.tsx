@@ -1,5 +1,5 @@
 import { Stack, Sx, Tabs } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { IconAlertCircle, IconVariable } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
@@ -42,15 +42,16 @@ export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {
         </Tabs.List>
 
         <Tabs.Panel value="guide" pt="xs">
-          <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
-            {t('panel.variable.guide.text')}
-          </Prism>
+          <CodeHighlight
+            language="sql"
+            sx={{ width: '100%' }}
+            withCopyButton={false}
+            code={t('panel.variable.guide.text')}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="vars" pt="xs">
-          <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
-            {variablesString}
-          </Prism>
+          <CodeHighlight language="json" sx={{ width: '100%' }} withCopyButton={false} code={variablesString} />
         </Tabs.Panel>
       </Tabs>
     </Stack>

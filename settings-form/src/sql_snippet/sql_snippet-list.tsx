@@ -1,5 +1,5 @@
 import { ActionIcon, Alert, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
 import { AddSQLSnippet } from './add-sql_snippet';
@@ -20,9 +20,7 @@ function HoverToSeeContent({ content }: { content: string }) {
         </ActionIcon>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Prism language="sql" noCopy withLineNumbers>
-          {content}
-        </Prism>
+        <CodeHighlight code={content} language="sql" withCopyButton={false} />
         {/* <MinimalMonacoEditor height="600px" value={content} onChange={_.noop} /> */}
       </HoverCard.Dropdown>
     </HoverCard>
