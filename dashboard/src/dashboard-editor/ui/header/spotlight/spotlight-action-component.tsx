@@ -1,5 +1,6 @@
-import { Badge, Center, createStyles, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
+import { Badge, Center, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
 import { SpotlightAction, SpotlightActionProps } from '@mantine/spotlight';
+import { createStyles } from '@mantine/emotion';
 import {
   IconAppWindow,
   IconBoxMultiple,

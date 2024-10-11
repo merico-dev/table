@@ -1,5 +1,5 @@
-import { createStyles, MantineNumberSize } from '@mantine/core';
-import { easeIn } from 'popmotion';
+import { MantineNumberSize } from '@mantine/core';
+import { createStyles } from '@mantine/emotion';
 
 export interface TreeSelectWidgetStylesParams {
   radius?: MantineNumberSize;

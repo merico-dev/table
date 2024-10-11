@@ -1,4 +1,4 @@
-import { createStyles, Sx } from '@mantine/core';
+import { createStyles, EmotionSx } from '@mantine/emotion';
 
 export const useTableStyles = createStyles((theme) => ({
   root: {
@@ -38,7 +38,7 @@ export const useTableStyles = createStyles((theme) => ({
   },
 }));
 
-export const baseTableSX: Sx = {
+export const baseTableSX: EmotionSx = {
   tableLayout: 'fixed',
   width: 'fit-content',
   minWidth: '100%',

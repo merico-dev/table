@@ -1,4 +1,5 @@
-import { Anchor, createStyles, Text } from '@mantine/core';
+import { Anchor, Text } from '@mantine/core';
+import { createStyles } from '@mantine/emotion';
 import chroma from 'chroma-js';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
