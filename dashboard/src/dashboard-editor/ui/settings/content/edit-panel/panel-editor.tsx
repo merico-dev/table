@@ -42,7 +42,13 @@ const TabsStyles = {
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group wrap="nowrap" grow position="left" gap={20} sx={{ width: '100%', height: '100%', position: 'relative' }}>
+    <Group
+      wrap="nowrap"
+      grow
+      justify="flex-start"
+      gap={20}
+      sx={{ width: '100%', height: '100%', position: 'relative' }}
+    >
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
@@ -151,7 +157,12 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         </Tabs.List>
 
         <Tabs.Panel value="Data">
-          <LoadingOverlay visible={loading} exitTransitionDuration={0} />
+          <LoadingOverlay
+            visible={loading}
+            transitionProps={{
+              exitDuration: 0,
+            }}
+          />
           <PickQuery />
         </Tabs.Panel>
 

@@ -50,7 +50,7 @@ export const ChangelogNavbar = observer(
           <PaginationSection page={page} setPage={setPage} maxPage={maxPage} loading={loading} />
         </AppShell.Section>
         <AppShell.Section grow sx={{ position: 'relative', overflow: 'auto' }}>
-          <LoadingOverlay visible={loading} overlayBlur={2} />
+          <LoadingOverlay visible={loading} overlayProps={{ blur: 2 }} />
           <ChangelogNavLinks data={data} currentChangelogID={currentChangelogID} onClick={setCurrentChangelogID} />
         </AppShell.Section>
         <AppShell.Section>

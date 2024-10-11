@@ -30,7 +30,12 @@ export const TableData = observer(({ dataSource }: { dataSource: DataSourceModel
     <ErrorBoundary>
       <PaginationControl dataSource={dataSource} />
       <Box py={10} sx={{ width: '100%', height: 'calc(100% - 42px)', overflow: 'auto', position: 'relative' }}>
-        <LoadingOverlay visible={tableData.loading} overlayBlur={2} />
+        <LoadingOverlay
+          visible={tableData.loading}
+          overlayProps={{
+            blur: 2,
+          }}
+        />
         <DataTable data={tableData.data} />
       </Box>
     </ErrorBoundary>
