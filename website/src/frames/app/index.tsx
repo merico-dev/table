@@ -25,7 +25,6 @@ export function App() {
       <AppShell
         className="website-app"
         padding="md"
-        navbar={<Navbar collapse={setTrue} />}
         styles={{
           main: {
             height: '100vh',
@@ -47,20 +46,23 @@ export function App() {
           },
         }}
       >
-        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-          <Group position="left">
-            <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
-            <DashboardBreadcrumbs />
+        <Navbar collapse={setTrue} />
+        <AppShell.Main>
+          <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+            <Group position="left">
+              <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
+              <DashboardBreadcrumbs />
+            </Group>
+            <Group position="right" spacing={2}>
+              <LanguageSwitcher />
+              <AccountDropdown height={39} />
+            </Group>
           </Group>
-          <Group position="right" spacing={2}>
-            <LanguageSwitcher />
-            <AccountDropdown height={39} />
-          </Group>
-        </Group>
-        <Box sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
-          <Notifications position="top-right" />
-          <Outlet />
-        </Box>
+          <Box sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
+            <Notifications position="top-right" />
+            <Outlet />
+          </Box>
+        </AppShell.Main>
       </AppShell>
     </DashboardStoreProvider>
   );

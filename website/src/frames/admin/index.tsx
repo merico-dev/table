@@ -16,7 +16,6 @@ export function AdminFrame() {
   return (
     <AppShell
       padding="md"
-      navbar={<AdminNavbar />}
       styles={{
         main: {
           height: '100vh',
@@ -30,20 +29,23 @@ export function AdminFrame() {
         },
       }}
     >
-      <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-        <Group position="left">
-          {/* should place breadcrumbs here */}
-          <AdminBreadcrumbs />
+      <AdminNavbar />
+      <AppShell.Main>
+        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+          <Group position="left">
+            {/* should place breadcrumbs here */}
+            <AdminBreadcrumbs />
+          </Group>
+          <Group position="right">
+            <LanguageSwitcher />
+            <AccountDropdown height={39} />
+          </Group>
         </Group>
-        <Group position="right">
-          <LanguageSwitcher />
-          <AccountDropdown height={39} />
-        </Group>
-      </Group>
-      <Box p={10} sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
-        <Notifications position="top-right" />
-        <Outlet />
-      </Box>
+        <Box p={10} sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
+          <Notifications position="top-right" />
+          <Outlet />
+        </Box>
+      </AppShell.Main>
     </AppShell>
   );
 }

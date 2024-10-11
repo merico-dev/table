@@ -170,28 +170,25 @@ const _DashboardEditor = (
                   <SpotlightProvider>
                     <PluginContext.Provider value={pluginContext}>
                       <ServiceLocatorProvider configure={configureServices}>
-                        <AppShell
-                          padding={0}
-                          header={
-                            <DashboardEditorHeader
-                              onExit={onExit}
-                              saveDashboardChanges={saveDashboardChanges}
-                              headerSlot={headerSlot}
-                            />
-                          }
-                          navbar={<DashboardEditorNavbar />}
-                          styles={AppShellStyles}
-                        >
-                          <Box
-                            className={`${className} dashboard-root`}
-                            sx={{
-                              position: 'relative',
-                            }}
-                          >
-                            {model.content.views.visibleViews.map((view) => (
-                              <DashboardViewEditor key={view.id} view={view} />
-                            ))}
-                          </Box>
+                        <AppShell padding={0} styles={AppShellStyles}>
+                          <DashboardEditorHeader
+                            onExit={onExit}
+                            saveDashboardChanges={saveDashboardChanges}
+                            headerSlot={headerSlot}
+                          />
+                          <DashboardEditorNavbar />
+                          <AppShell.Main>
+                            <Box
+                              className={`${className} dashboard-root`}
+                              sx={{
+                                position: 'relative',
+                              }}
+                            >
+                              {model.content.views.visibleViews.map((view) => (
+                                <DashboardViewEditor key={view.id} view={view} />
+                              ))}
+                            </Box>
+                          </AppShell.Main>
                         </AppShell>
                         <Settings />
                       </ServiceLocatorProvider>
