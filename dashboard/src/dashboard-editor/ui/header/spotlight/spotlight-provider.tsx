@@ -1,4 +1,4 @@
-import { SpotlightProvider as MantineSpotlightProvider } from '@mantine/spotlight';
+import { Spotlight } from '@mantine/spotlight';
 import { IconSearch } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useCallback, useMemo } from 'react';
@@ -28,7 +28,7 @@ export const SpotlightProvider = observer(({ children }: { children: ReactNode }
     setSearching(!!q);
   }, []);
   return (
-    <MantineSpotlightProvider
+    <Spotlight
       actions={actions}
       actionComponent={SpotlightActionComponent}
       shortcut={['mod + P', 'mod + K']}
@@ -39,6 +39,6 @@ export const SpotlightProvider = observer(({ children }: { children: ReactNode }
       onQueryChange={handleQueryChange}
     >
       {children}
-    </MantineSpotlightProvider>
+    </Spotlight>
   );
 });

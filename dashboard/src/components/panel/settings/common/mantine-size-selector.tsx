@@ -1,8 +1,9 @@
-import { MantineSize, MANTINE_SIZES, Select } from '@mantine/core';
+import { MantineSize, Select } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
 import { Ref, forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+const MANTINE_SIZES = ['xs', 'sm', 'md', 'lg', 'xl'];
 interface Props {
   label: string;
   value: MantineSize;

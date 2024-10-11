@@ -1,4 +1,4 @@
-import { Button, Group, Header as MantineHeader, Text } from '@mantine/core';
+import { Button, Group, AppShell, Text } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
@@ -25,7 +25,7 @@ export const MainHeader = observer(
     };
 
     return (
-      <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 299 }}>
+      <AppShell.Header height={60} px="md" py={0} sx={{ zIndex: 299 }}>
         <Group position="apart" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
           <Group>
             <Button
@@ -47,7 +47,7 @@ export const MainHeader = observer(
             {headerSlot}
           </Group>
         </Group>
-      </MantineHeader>
+      </AppShell.Header>
     );
   },
 );
