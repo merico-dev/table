@@ -28,7 +28,7 @@ type Props = {
   value: EchartsLineAreaStyle['origin'];
   onChange: (v: EchartsLineAreaStyle['origin']) => void;
 };
-export const LineAreaOriginSelector = forwardRef(({ value, onChange }: Props) => {
+export const LineAreaOriginSelector = forwardRef<HTMLInputElement, Props>(({ value, onChange }, ref) => {
   const { t, i18n } = useTranslation();
   const options = useMemo(() => {
     return [
@@ -51,6 +51,7 @@ export const LineAreaOriginSelector = forwardRef(({ value, onChange }: Props) =>
   }, [i18n.language]);
   return (
     <Select
+      ref={ref}
       label={t('chart.series.line.area_style.origin.label')}
       data={options}
       value={value}

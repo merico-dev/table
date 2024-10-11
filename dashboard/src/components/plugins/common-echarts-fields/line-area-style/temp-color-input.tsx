@@ -7,9 +7,10 @@ type Props = {
   value: string;
   onChange: (v: string) => void;
 };
-export const TempColorInput = forwardRef(({ value, onChange, label, placeholder }: Props) => {
+export const TempColorInput = forwardRef<HTMLInputElement, Props>(({ value, onChange, label, placeholder }, ref) => {
   return (
     <ColorInput
+      ref={ref}
       label={label}
       placeholder={placeholder}
       value={value}
