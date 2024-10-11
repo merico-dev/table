@@ -9,7 +9,7 @@ import { ValueTypeSelector } from '../../value-type-selector';
 import { FuncContentEditor } from './func_content-editor';
 
 const PostFixPX = () => (
-  <Text color="dimmed" size={12}>
+  <Text c="dimmed" size={12}>
     px
   </Text>
 );

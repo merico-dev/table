@@ -34,7 +34,7 @@ export function getInteractionLines(interactions: TInteraction[]) {
           text: (
             <Group gap={4}>
               <Text>Open: </Text>
-              <Text color="dimmed">{i.shortURLTemplate}</Text>
+              <Text c="dimmed">{i.shortURLTemplate}</Text>
             </Group>
           ),
         });

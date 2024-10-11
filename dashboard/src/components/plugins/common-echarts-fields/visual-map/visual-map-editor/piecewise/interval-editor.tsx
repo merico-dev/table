@@ -97,7 +97,7 @@ export const IntervalEditor = ({ form, index }: Props) => {
                 <Select size="xs" data={symbols.lower} {...field} onChange={(v: 'gt' | 'gte') => field.onChange(v)} />
               )}
             />
-            <Text color="dimmed" size="sm" sx={{ userSelect: 'none', cursor: 'default' }}>
+            <Text c="dimmed" size="sm" sx={{ userSelect: 'none', cursor: 'default' }}>
               {t('common.value').toLowerCase()}
             </Text>
             <Controller

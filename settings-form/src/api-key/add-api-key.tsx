@@ -102,7 +102,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
       title: t('api_key.save.title'),
       children: (
         <Stack>
-          <Text color="dimmed">{t('api_key.save.warn')}</Text>
+          <Text c="dimmed">{t('api_key.save.warn')}</Text>
           <TextInput
             defaultValue={app_id}
             disabled

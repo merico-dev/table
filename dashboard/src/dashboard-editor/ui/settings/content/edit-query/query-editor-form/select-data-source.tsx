@@ -20,7 +20,7 @@ const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSo
         sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
       >
         <IconVectorTriangle size={14} color="#228be6" />
-        <Text color="blue">{label}</Text>
+        <Text c="blue">{label}</Text>
       </Group>
     ) : (
       <Group justify="apart" ref={ref} {...others}>

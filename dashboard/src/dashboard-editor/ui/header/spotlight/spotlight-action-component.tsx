@@ -39,7 +39,7 @@ const Description = ({ action }: { action: SpotlightAction }) => {
   const { t } = useTranslation();
   if (action.description) {
     return (
-      <Text color="dimmed" size="xs">
+      <Text c="dimmed" size="xs">
         {t(action.description)}
       </Text>
     );
@@ -47,10 +47,10 @@ const Description = ({ action }: { action: SpotlightAction }) => {
   if (action.viz) {
     return (
       <Group justify="apart">
-        <Text color="dimmed" size="xs">
+        <Text c="dimmed" size="xs">
           {t(action.viz.displayName)}
         </Text>
-        <Text color="dimmed" opacity={0} size="xs" className="spotlight-action-viz-group">
+        <Text c="dimmed" opacity={0} size="xs" className="spotlight-action-viz-group">
           {t(action.viz.displayGroup)}
         </Text>
       </Group>

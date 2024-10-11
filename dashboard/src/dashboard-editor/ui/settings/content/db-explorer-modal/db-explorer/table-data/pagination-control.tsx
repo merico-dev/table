@@ -53,7 +53,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
         />
       </Group>
       <Group justify="flex-end">
-        <Text color="dimmed" my={0} size={14}>
+        <Text c="dimmed" my={0} size={14}>
           {t('common.pagination.total_rows', { total: tableData.total })}
         </Text>
       </Group>

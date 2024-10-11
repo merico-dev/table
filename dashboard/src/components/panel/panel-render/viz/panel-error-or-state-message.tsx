@@ -11,7 +11,7 @@ export const PanelErrorOrStateMessage = observer(({ panel }: { panel: PanelRende
         </Text>
       ))}
 
-      <Text color="gray" align="center" size="sm">
+      <Text c="gray" align="center" size="sm">
         {panel.queryStateMessages}
       </Text>
     </Stack>

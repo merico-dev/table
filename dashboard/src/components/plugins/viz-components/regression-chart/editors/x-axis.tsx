@@ -45,7 +45,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">度</Text>}
+              rightSection={<Text c="dimmed">度</Text>}
               sx={{ width: '48%' }}
               styles={{
                 rightSection: {

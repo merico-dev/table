@@ -102,7 +102,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                           required
                           max={10000}
                           hideControls
-                          rightSection={<Text color="dimmed">px</Text>}
+                          rightSection={<Text c="dimmed">px</Text>}
                           rightSectionProps={{ style: { width: '30px' } }}
                           sx={{ flex: 1, fontFamily: 'monospace' }}
                           styles={{ input: { paddingRight: '30px' } }}

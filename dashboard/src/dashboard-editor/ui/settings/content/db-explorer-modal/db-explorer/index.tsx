@@ -31,7 +31,7 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
 
   if (dataSource.tables.error) {
     return (
-      <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+      <Text c="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
         {dataSource.tables.error}
       </Text>
     );
