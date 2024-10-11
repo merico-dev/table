@@ -1,15 +1,15 @@
-import { AppShell, Box, Group, MantineProvider } from '@mantine/core';
+import { AppShell, Box, Group } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { useBoolean } from 'ahooks';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AccountDropdown } from '../../components/account-dropdown';
+import { LanguageSwitcher } from '../../components/language-switcher';
 import { DashboardBreadcrumbs } from './breadcrumbs';
 import './index.css';
 import { DashboardStoreProvider } from './models/dashboard-store-context';
 import { Navbar } from './navbar';
 import { NavbarToggler } from './navbar-toggler';
-import { LanguageSwitcher } from '../../components/language-switcher';
 
 export function App() {
   const [navbarCollapsed, { setTrue, setFalse }] = useBoolean(false);
@@ -47,22 +47,20 @@ export function App() {
           },
         }}
       >
-        <MantineProvider>
-          <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-            <Group position="left">
-              <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
-              <DashboardBreadcrumbs />
-            </Group>
-            <Group position="right" spacing={2}>
-              <LanguageSwitcher />
-              <AccountDropdown height={39} />
-            </Group>
+        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+          <Group position="left">
+            <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
+            <DashboardBreadcrumbs />
           </Group>
-          <Box sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
-            <Notifications position="top-right" />
-            <Outlet />
-          </Box>
-        </MantineProvider>
+          <Group position="right" spacing={2}>
+            <LanguageSwitcher />
+            <AccountDropdown height={39} />
+          </Group>
+        </Group>
+        <Box sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
+          <Notifications position="top-right" />
+          <Outlet />
+        </Box>
       </AppShell>
     </DashboardStoreProvider>
   );

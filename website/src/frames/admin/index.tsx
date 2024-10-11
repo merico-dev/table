@@ -1,12 +1,12 @@
-import { AppShell, Box, Group, MantineProvider } from '@mantine/core';
+import { AppShell, Box, Group } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AccountDropdown } from '../../components/account-dropdown';
+import { LanguageSwitcher } from '../../components/language-switcher';
 import { useAccountContext } from '../require-auth/account-context';
+import { AdminBreadcrumbs } from './breadcrumbs';
 import './index.css';
 import { AdminNavbar } from './navbar';
-import { AdminBreadcrumbs } from './breadcrumbs';
-import { LanguageSwitcher } from '../../components/language-switcher';
 
 export function AdminFrame() {
   const { isAdmin } = useAccountContext();
@@ -30,22 +30,20 @@ export function AdminFrame() {
         },
       }}
     >
-      <MantineProvider>
-        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-          <Group position="left">
-            {/* should place breadcrumbs here */}
-            <AdminBreadcrumbs />
-          </Group>
-          <Group position="right">
-            <LanguageSwitcher />
-            <AccountDropdown height={39} />
-          </Group>
+      <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+        <Group position="left">
+          {/* should place breadcrumbs here */}
+          <AdminBreadcrumbs />
         </Group>
-        <Box p={10} sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
-          <Notifications position="top-right" />
-          <Outlet />
-        </Box>
-      </MantineProvider>
+        <Group position="right">
+          <LanguageSwitcher />
+          <AccountDropdown height={39} />
+        </Group>
+      </Group>
+      <Box p={10} sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
+        <Notifications position="top-right" />
+        <Outlet />
+      </Box>
     </AppShell>
   );
 }
