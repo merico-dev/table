@@ -34,10 +34,10 @@ export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {
     >
       <Tabs defaultValue="vars" keepMounted={false}>
         <Tabs.List>
-          <Tabs.Tab value="guide" icon={<IconAlertCircle size={14} />}>
+          <Tabs.Tab value="guide" leftSection={<IconAlertCircle size={14} />}>
             {t('panel.variable.guide.tabs.guide')}
           </Tabs.Tab>
-          <Tabs.Tab value="vars" icon={<IconVariable size={14} />}>
+          <Tabs.Tab value="vars" leftSection={<IconVariable size={14} />}>
             {t('panel.variable.guide.tabs.vars')}
           </Tabs.Tab>
         </Tabs.List>

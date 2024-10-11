@@ -51,7 +51,7 @@ export const DateRangeWidget = ({
               title: label,
             }}
             required={required}
-            icon={<IconCalendar size={16} />}
+            leftSection={<IconCalendar size={16} />}
             placeholder={t('filter.widget.date_range.start_date')}
             readOnly
             disabled={disabled}
@@ -77,7 +77,7 @@ export const DateRangeWidget = ({
               <CountDays begin={begin} end={end} />
             </Group>
           }
-          icon={<IconMinus size={16} />}
+          leftSection={<IconMinus size={16} />}
           placeholder={t('filter.widget.date_range.end_date')}
           readOnly
           disabled={!begin || disabled}

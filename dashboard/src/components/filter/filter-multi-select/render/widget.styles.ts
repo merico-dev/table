@@ -1,8 +1,8 @@
-import { MantineNumberSize } from '@mantine/core';
+import { MantineRadius } from '@mantine/core';
 import { createStyles } from '@mantine/emotion';
 
 export interface MultiSelectWidgetStylesParams {
-  radius?: MantineNumberSize;
+  radius?: MantineRadius;
 }
 
 export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParams) => ({

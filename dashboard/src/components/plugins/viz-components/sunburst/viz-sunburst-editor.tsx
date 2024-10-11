@@ -31,7 +31,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           value={tab}
-          onTabChange={setTab}
+          onChange={setTab}
           orientation="vertical"
           styles={{
             tab: {

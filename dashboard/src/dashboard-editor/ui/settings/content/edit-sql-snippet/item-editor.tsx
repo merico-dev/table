@@ -77,7 +77,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           {t('sql_snippet.delete')}
         </Button>
       </Group>
-      <Tabs value={tab} onTabChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>
+      <Tabs value={tab} onChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>
         <Tabs.List sx={{ position: 'relative' }}>
           <Tabs.Tab value="SQL">{t('sql_snippet.edit_snippet')}</Tabs.Tab>
           <Tabs.Tab value="Preview">{t('sql_snippet.preview_snippet')}</Tabs.Tab>

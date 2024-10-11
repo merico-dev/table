@@ -33,7 +33,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
     >
       <Group>
         <Stack gap={0} style={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
+          <Text size="sm" w={500}>
             {username}
           </Text>
           {email && (
@@ -69,17 +69,17 @@ export function AccountDropdown({ height }: { height: number }) {
         <Menu.Dropdown>
           <Menu.Label>Account Settings</Menu.Label>
 
-          <Menu.Item icon={<IconAddressBook size={14} />} onClick={openProfile}>
+          <Menu.Item leftSection={<IconAddressBook size={14} />} onClick={openProfile}>
             Profile
           </Menu.Item>
 
-          <Menu.Item icon={<IconShieldLock size={14} />} onClick={openPassword}>
+          <Menu.Item leftSection={<IconShieldLock size={14} />} onClick={openPassword}>
             Password
           </Menu.Item>
 
           <Menu.Divider />
 
-          <Menu.Item color="red" icon={<IconLogout size={14} />} onClick={logout}>
+          <Menu.Item color="red" leftSection={<IconLogout size={14} />} onClick={logout}>
             Logout
           </Menu.Item>
         </Menu.Dropdown>

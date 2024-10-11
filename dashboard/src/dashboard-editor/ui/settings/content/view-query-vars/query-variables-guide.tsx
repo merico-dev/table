@@ -60,13 +60,13 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
     >
       <Tabs defaultValue="guide" keepMounted={false}>
         <Tabs.List grow>
-          <Tabs.Tab value="guide" icon={<IconAlertCircle size={14} />}>
+          <Tabs.Tab value="guide" leftSection={<IconAlertCircle size={14} />}>
             {t('query_variable.guide.tabs.guide')}
           </Tabs.Tab>
-          <Tabs.Tab value="local_query_vars" icon={<IconVariable size={14} />}>
+          <Tabs.Tab value="local_query_vars" leftSection={<IconVariable size={14} />}>
             {t('query_variable.guide.tabs.variables_in_this_dashboard')}
           </Tabs.Tab>
-          <Tabs.Tab value="global_sql_snippets" icon={<IconVariablePlus size={14} />}>
+          <Tabs.Tab value="global_sql_snippets" leftSection={<IconVariablePlus size={14} />}>
             {t('query_variable.guide.tabs.global_sql_snippets')}
           </Tabs.Tab>
         </Tabs.List>

@@ -127,25 +127,25 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           </Button>
         </Group>
       </Group>
-      <Tabs value={tab} onTabChange={handleTabChange} keepMounted={false} styles={TabsStyles}>
+      <Tabs value={tab} onChange={handleTabChange} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
-          <Tabs.Tab value="Data" icon={<IconDatabase size={14} />} disabled={loading}>
+          <Tabs.Tab value="Data" leftSection={<IconDatabase size={14} />} disabled={loading}>
             {t('data.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Panel" icon={<IconAppWindow size={14} />}>
+          <Tabs.Tab value="Panel" leftSection={<IconAppWindow size={14} />}>
             {t('panel.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Variables" icon={<IconVariable size={14} />} disabled={dataNotReady}>
+          <Tabs.Tab value="Variables" leftSection={<IconVariable size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Visualization" icon={<IconChartHistogram size={14} />} disabled={dataNotReady}>
+          <Tabs.Tab value="Visualization" leftSection={<IconChartHistogram size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Interactions" icon={<IconRoute size={14} />}>
+          <Tabs.Tab value="Interactions" leftSection={<IconRoute size={14} />}>
             {t('interactions.label')}
           </Tabs.Tab>
         </Tabs.List>

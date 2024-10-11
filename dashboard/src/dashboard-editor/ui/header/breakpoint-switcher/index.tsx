@@ -48,20 +48,20 @@ export const BreakpointSwitcher = observer(() => {
               >
                 <Group justify="apart">
                   <Text size="sm">{r.name}</Text>
-                  <Text size="xs" color="dimmed">
+                  <Text size="xs" c="dimmed">
                     {r.text}
                   </Text>
                 </Group>
               </Menu.Item>
             ))}
             <Menu.Divider />
-            <Menu.Item color="blue" icon={<IconSettings size={14} />} onClick={open}>
+            <Menu.Item color="blue" leftSection={<IconSettings size={14} />} onClick={open}>
               <Text size="sm">{t('breakpoint.manage')}</Text>
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
         {contentModel.layouts.divisionPreviewScale < 1 && (
-          <Text size="xs" color="dimmed">
+          <Text size="xs" c="dimmed">
             {numbro(contentModel.layouts.divisionPreviewScale).format({ output: 'percent', mantissa: 0 })}
           </Text>
         )}

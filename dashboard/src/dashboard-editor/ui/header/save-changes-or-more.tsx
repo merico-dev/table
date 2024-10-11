@@ -71,7 +71,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item
-            icon={<IconRecycle size={14} color="red" />}
+            leftSection={<IconRecycle size={14} color="red" />}
             disabled={!hasChanges}
             onClick={revertWithConfirmation}
           >

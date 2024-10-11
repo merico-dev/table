@@ -80,7 +80,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
       variant={config.variant}
       orientation={config.orientation}
       value={view.tab || defaultTab}
-      onTabChange={view.setTab}
+      onChange={view.setTab}
       styles={getStyles(config)}
     >
       <Tabs.List grow={config.grow}>

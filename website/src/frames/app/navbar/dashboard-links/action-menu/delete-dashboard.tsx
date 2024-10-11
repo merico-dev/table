@@ -47,7 +47,7 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
     return null;
   }
   return (
-    <Menu.Item color="red" icon={<IconTrash size={16} />} onClick={confirmAndDelete}>
+    <Menu.Item color="red" leftSection={<IconTrash size={16} />} onClick={confirmAndDelete}>
       Delete this dashboard
     </Menu.Item>
   );

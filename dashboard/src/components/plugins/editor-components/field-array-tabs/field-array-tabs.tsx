@@ -87,7 +87,7 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   };
 
   return (
-    <Tabs value={tab} onTabChange={handleTabChange} styles={TabsStyles}>
+    <Tabs value={tab} onChange={handleTabChange} styles={TabsStyles}>
       <TabList<T, FieldItem>
         fieldArray={fieldArray}
         add={add}

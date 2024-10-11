@@ -21,7 +21,7 @@ export const RenderViewTabs = observer(({ view }: { view: ViewRenderModelInstanc
       variant={config.variant}
       orientation={config.orientation}
       value={view.tab}
-      onTabChange={view.setTab}
+      onChange={view.setTab}
       styles={{
         root: {
           height: '100%',

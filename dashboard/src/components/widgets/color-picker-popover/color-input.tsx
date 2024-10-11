@@ -40,7 +40,7 @@ export const ColorInput = ({ value, onChange, shouldPatch }: Props) => {
     <TextInput
       value={color}
       onChange={handleChange}
-      icon={<PreviewColor value={color} />}
+      leftSection={<PreviewColor value={color} />}
       size="xs"
       placeholder={t('chart.color.not_set')}
       styles={{

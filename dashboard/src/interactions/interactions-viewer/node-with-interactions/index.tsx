@@ -34,7 +34,7 @@ export const InteractionNode = memo(
             <Text>{data.label}</Text>
           </HoverCard.Target>
           <HoverCard.Dropdown>
-            <List gap="xs" size="sm" center>
+            <List spacing="xs" size="sm" center>
               {lines.map((item) => (
                 <List.Item key={item.key} icon={item.icon}>
                   {item.text}

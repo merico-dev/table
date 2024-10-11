@@ -70,7 +70,7 @@ export const FilterSettings = observer(function _FilterSettings() {
             <Button size="xs" color="blue" leftSection={<IconPlaylistAdd size={20} />} onClick={addFilter}>
               {t('filter.add')}
             </Button>
-            <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
+            <Tabs.List justify="flex-start" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
                 <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'auto' }}>
                   {field.label}

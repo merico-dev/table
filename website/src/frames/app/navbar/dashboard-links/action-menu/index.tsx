@@ -58,15 +58,15 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item icon={<IconPaint size={16} />} onClick={visitDashboardDesign}>
+        <Menu.Item leftSection={<IconPaint size={16} />} onClick={visitDashboardDesign}>
           Design
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openEditModal(model.id)} icon={<IconEdit size={16} />}>
+        <Menu.Item onClick={() => openEditModal(model.id)} leftSection={<IconEdit size={16} />}>
           Rename
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openOverwriteModal(model.id)} icon={<IconFileImport size={16} />}>
+        <Menu.Item onClick={() => openOverwriteModal(model.id)} leftSection={<IconFileImport size={16} />}>
           Overwrite with JSON file
         </Menu.Item>
         <Menu.Divider />

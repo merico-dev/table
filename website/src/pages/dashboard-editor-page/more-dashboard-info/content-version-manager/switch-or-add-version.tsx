@@ -117,7 +117,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
             );
           })}
           <Menu.Divider />
-          <Menu.Item color="blue" icon={<IconPlaylistAdd size={18} />} onClick={addVersion} py={6}>
+          <Menu.Item color="blue" leftSection={<IconPlaylistAdd size={18} />} onClick={addVersion} py={6}>
             Add a version
           </Menu.Item>
         </Menu.Dropdown>
@@ -139,7 +139,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item icon={<IconEdit size={14} />} onClick={states.version.open}>
+          <Menu.Item leftSection={<IconEdit size={14} />} onClick={states.version.open}>
             Edit version info
           </Menu.Item>
           <DashboardChangelogModalTrigger state={states.changelog} />

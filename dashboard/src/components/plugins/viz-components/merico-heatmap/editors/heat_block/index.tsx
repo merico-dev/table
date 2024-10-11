@@ -57,7 +57,7 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
           name="heat_block.label.fontSize"
           control={control}
           render={({ field }) => (
-            <NumberInput size="xs" icon={<IconTextSize size={16} />} disabled={!showLabel} {...field} />
+            <NumberInput size="xs" leftSection={<IconTextSize size={16} />} disabled={!showLabel} {...field} />
           )}
         />
       </Group>

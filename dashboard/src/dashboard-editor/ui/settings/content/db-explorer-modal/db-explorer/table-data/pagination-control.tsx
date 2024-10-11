@@ -40,7 +40,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
         )}
         <Select
           icon={
-            <Text ta="center" color="dimmed" size={14}>
+            <Text ta="center" c="dimmed" size={14}>
               {t('common.pagination.page_size')}
             </Text>
           }

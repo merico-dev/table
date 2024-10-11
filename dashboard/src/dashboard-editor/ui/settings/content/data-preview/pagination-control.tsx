@@ -58,8 +58,8 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
         )}
         {!hideLimitSelector && (
           <Select
-            icon={
-              <Text ta="center" color="dimmed" size={14}>
+            leftSection={
+              <Text ta="center" c="dimmed" size={14}>
                 {t('common.pagination.page_size')}
               </Text>
             }

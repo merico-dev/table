@@ -48,7 +48,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
   return (
     <Tabs
       value={tab}
-      onTabChange={setTab}
+      onChange={setTab}
       defaultValue={defaultTab}
       orientation="horizontal"
       keepMounted={false}

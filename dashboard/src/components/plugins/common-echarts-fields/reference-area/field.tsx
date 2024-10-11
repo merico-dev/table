@@ -60,19 +60,19 @@ export const ReferenceAreaField = forwardRef(
           )}
         </Group>
         <Stack gap={0}>
-          <Text size={14} color="#212529" fw={500}>
+          <Text size={14} c="#212529" fw={500}>
             {t('chart.reference_area.endpoint.left_bottom_point')}
           </Text>
           <Group grow wrap="nowrap">
             <Select
-              icon={<Text>x</Text>}
+              leftSection={<Text>x</Text>}
               data={variableOptions}
               value={value.leftBottomPoint.x_data_key}
               onChange={(v) => handleChange('leftBottomPoint.x_data_key', v ?? '')}
               clearable
             />
             <Select
-              icon={<Text>y</Text>}
+              leftSection={<Text>y</Text>}
               data={variableOptions}
               value={value.leftBottomPoint.y_data_key}
               onChange={(v) => handleChange('leftBottomPoint.y_data_key', v ?? '')}
@@ -81,19 +81,19 @@ export const ReferenceAreaField = forwardRef(
           </Group>
         </Stack>
         <Stack gap={0}>
-          <Text size={14} color="#212529" fw={500}>
+          <Text size={14} c="#212529" fw={500}>
             {t('chart.reference_area.endpoint.right_top_point')}
           </Text>
           <Group grow wrap="nowrap">
             <Select
-              icon={<Text>x</Text>}
+              leftSection={<Text>x</Text>}
               data={variableOptions}
               value={value.rightTopPoint.x_data_key}
               onChange={(v) => handleChange('rightTopPoint.x_data_key', v ?? '')}
               clearable
             />
             <Select
-              icon={<Text>y</Text>}
+              leftSection={<Text>y</Text>}
               data={variableOptions}
               value={value.rightTopPoint.y_data_key}
               onChange={(v) => handleChange('rightTopPoint.y_data_key', v ?? '')}
