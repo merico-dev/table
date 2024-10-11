@@ -35,7 +35,12 @@ export const AxisLabelRotateInput = forwardRef(
           },
         }}
         value={value}
-        onChange={onChange}
+        onChange={(v: string | number) => {
+          if (typeof v === 'string') {
+            return;
+          }
+          onChange;
+        }}
       />
     );
   },

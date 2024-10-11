@@ -19,14 +19,14 @@ export const EditStyle = observer(() => {
             min={1}
             max={36}
             step={1}
-            precision={0}
+            decimalScale={0}
             rightSection={<Text size={'12px'}>{t('panel.style.width_postfix')}</Text>}
             styles={{
               rightSection: { width: 'auto', maxWidth: '100px', paddingRight: '14px', justifyContent: 'flex-end' },
             }}
             value={layout.w}
             onChange={(v) => {
-              v && layout.setWidth(v);
+              typeof v !== 'string' && layout.setWidth(v);
             }}
           />
           <NumberInput
@@ -35,7 +35,7 @@ export const EditStyle = observer(() => {
             styles={{ rightSection: { width: '40px' } }}
             value={layout.h}
             onChange={(v) => {
-              v && layout.setHeight(v);
+              typeof v !== 'string' && layout.setHeight(v);
             }}
           />
         </Group>

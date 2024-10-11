@@ -77,8 +77,11 @@ export const FilterBaseSelectConfigMeta = types
     removeStaticOption(index: number) {
       self.static_options.splice(index, 1);
     },
-    setDefaultSelectionCount(v: number) {
-      self.default_selection_count = v;
+    setDefaultSelectionCount(v: string | number) {
+      const n = Number(v);
+      if (Number.isFinite(n)) {
+        self.default_selection_count = n;
+      }
     },
     setOptionsQueryID(id: string | null) {
       self.options_query_id = id ?? '';

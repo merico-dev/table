@@ -50,7 +50,7 @@ export const LevelField = ({ control, index }: ILevelField) => {
         render={({ field }) => (
           <NumberInput
             label={t('viz.sunburst_chart.label.show_label_tolerance')}
-            precision={4}
+            decimalScale={4}
             step={0.0005}
             min={0}
             max={1}
