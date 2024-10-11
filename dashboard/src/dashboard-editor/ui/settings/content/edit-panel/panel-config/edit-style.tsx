@@ -20,7 +20,7 @@ export const EditStyle = observer(() => {
             max={36}
             step={1}
             precision={0}
-            rightSection={<Text size={12}>{t('panel.style.width_postfix')}</Text>}
+            rightSection={<Text size={'12px'}>{t('panel.style.width_postfix')}</Text>}
             styles={{
               rightSection: { width: 'auto', maxWidth: '100px', paddingRight: '14px', justifyContent: 'flex-end' },
             }}
@@ -31,7 +31,7 @@ export const EditStyle = observer(() => {
           />
           <NumberInput
             label={t('panel.style.height')}
-            rightSection={<Text size={12}>{t('panel.style.height_postfix')}</Text>}
+            rightSection={<Text size={'12px'}>{t('panel.style.height_postfix')}</Text>}
             styles={{ rightSection: { width: '40px' } }}
             value={layout.h}
             onChange={(v) => {

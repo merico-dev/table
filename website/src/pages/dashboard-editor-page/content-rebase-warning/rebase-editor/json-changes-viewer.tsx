@@ -15,8 +15,8 @@ export const JsonChangesViewer = (props: IJsonChangesViewerProps) => {
   return (
     <Stack style={{ height: 'calc(100vh - 300px)' }}>
       <Group justify="apart" px="xs">
-        <Text size={12}>Base</Text>
-        <Text size={12}>Modified</Text>
+        <Text size={'12px'}>Base</Text>
+        <Text size={'12px'}>Modified</Text>
       </Group>
       <DiffEditor
         height="100%"

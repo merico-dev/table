@@ -66,7 +66,7 @@ export function ReferenceLineField({ control, index, watch, variableOptions, yAx
             )}
           />
           {orientation === 'vertical' && (
-            <Text mt={-10} color="dimmed" size={12}>
+            <Text mt={-10} c="dimmed" size={'12px'}>
               {t('chart.reference_line.orientation.vertical_hint')}
             </Text>
           )}

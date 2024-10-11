@@ -32,7 +32,7 @@ export const BasisMetricSelector = ({ conf, metricKey, setMetricKey }: IBasisMet
 
   return (
     <Group gap={1}>
-      <Text size={12} color="dimmed" sx={{ cursor: 'default', userSelect: 'none' }}>
+      <Text size={'12px'} c="dimmed" sx={{ cursor: 'default', userSelect: 'none' }}>
         基线指标
       </Text>
       <NativeSelect

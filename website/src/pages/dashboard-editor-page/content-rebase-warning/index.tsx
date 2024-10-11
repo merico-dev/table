@@ -94,8 +94,8 @@ export const ContentRebaseWarning = observer(() => {
         color="red"
         title={
           <Group>
-            <Text size={16}>Version Alert</Text>
-            <Text size={12} color="dimmed">
+            <Text size={'16px'}>Version Alert</Text>
+            <Text size={'12px'} c="dimmed">
               Remote version: {latestUpdatedAt}
             </Text>
           </Group>

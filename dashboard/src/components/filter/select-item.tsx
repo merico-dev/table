@@ -14,7 +14,7 @@ export const FilterSelectItem = forwardRef<HTMLDivElement, ItemProps>(
           <Text size="sm" data-role="label">
             {label}
           </Text>
-          <Text size="xs" color="dimmed" data-role="description">
+          <Text size="xs" c="dimmed" data-role="description">
             {description}
           </Text>
         </div>

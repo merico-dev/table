@@ -64,7 +64,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
           <>
             <Overlay opacity={0.8} color="#000" sx={{ left: '-5px', right: '-5px', top: '-5px', bottom: '-5px' }} />
             <Center sx={{ position: 'absolute', top: 0, left: 0, zIndex: 200, height: '100%', width: '100%' }}>
-              <Text c="white" size={16}>
+              <Text c="white" size={'16px'}>
                 {t('filter.widget.common.using_query')}
               </Text>
             </Center>
