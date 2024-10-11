@@ -1,8 +1,9 @@
-import { Sx, Table } from '@mantine/core';
-import { PresenceDataItem } from './types';
+import { Table } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { AccountTypeIcon } from '../../../../components/account-type-icon';
+import { PresenceDataItem } from './types';
 
-const tableSx: Sx = {
+const tableSx: EmotionSx = {
   tableLayout: 'fixed',
   maxWidth: '300px',
   tbody: {

@@ -1,14 +1,15 @@
-import { Alert, Stack, Sx, Tabs } from '@mantine/core';
 import { CodeHighlight } from '@mantine/code-highlight';
+import { Alert, Stack, Tabs } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconAlertCircle, IconVariable, IconVariablePlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { GlobalSQLSnippetsTable } from './global-sql-snippets-table';
-import { useTranslation } from 'react-i18next';
 
 interface IQueryVariablesGuide {
   showSQLSnippets?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 const example = `

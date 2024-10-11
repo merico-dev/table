@@ -1,14 +1,15 @@
-import { Button, Modal, Sx, Tooltip } from '@mantine/core';
+import { Button, Modal, Tooltip } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { useDisclosure } from '@mantine/hooks';
 import { IconFileImport } from '@tabler/icons-react';
+import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 import { ImportWithSchemaForm } from './form';
-import { useBoolean } from 'ahooks';
-import { useTranslation } from 'react-i18next';
 
-const ButtonSx: Sx = {
+const ButtonSx: EmotionSx = {
   height: '30px',
   borderLeft: 'none',
   borderTop: 'none',

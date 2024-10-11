@@ -1,11 +1,12 @@
 import { Button, Sx, Tooltip } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 
-const ButtonSx: Sx = {
+const ButtonSx: EmotionSx = {
   height: '30px',
   borderLeft: 'none',
   borderTop: 'none',

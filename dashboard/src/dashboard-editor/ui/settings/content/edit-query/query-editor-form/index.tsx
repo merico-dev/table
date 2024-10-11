@@ -12,8 +12,9 @@ import { TabPanel_SQL } from './tabs/sql';
 import { TabPanel_Transform } from './tabs/transform';
 import { QueryModelInstance } from '~/dashboard-editor/model/queries';
 import { useTranslation } from 'react-i18next';
+import { EmotionSx } from '@mantine/emotion';
 
-const TabPanelStyle: Sx = {
+const TabPanelStyle: EmotionSx = {
   height: 'calc(100% - 44px)', // Tabs.List
   padding: 0,
 };

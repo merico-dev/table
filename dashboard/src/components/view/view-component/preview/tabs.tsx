@@ -1,4 +1,5 @@
-import { Box, Button, ColorInput, NumberInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
+import { Box, Button, ColorInput, NumberInput, Overlay, Select, Stack, Tabs, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { useModals } from '@mantine/modals';
 import { IconArrowsLeftRight, IconPlus, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -41,7 +42,7 @@ const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
   return ret;
 };
 
-const getTabSX = (t: TabModelInstance): Sx => {
+const getTabSX = (t: TabModelInstance): EmotionSx => {
   if (t.color) {
     return { '&[data-active], &[data-active]:hover': { borderColor: t.color ? t.color : '...' } };
   }

@@ -1,7 +1,8 @@
-import { Button, HoverCard, Sx, Table } from '@mantine/core';
+import { Button, HoverCard, Table } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconInfoCircle } from '@tabler/icons-react';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   'tbody th, tbody td': {
     padding: '7px 10px',
   },

@@ -1,4 +1,5 @@
-import { Box, Group, HoverCard, Select, Sx, Text, TextInput } from '@mantine/core';
+import { Box, Group, HoverCard, Select, Text, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
 import { useEditPanelContext } from '~/contexts';
@@ -9,7 +10,7 @@ interface IDataFieldSelector {
   value: string;
   onChange: (v: string) => void;
   clearable?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
   queryID?: string;
   description?: string;
 }

@@ -1,13 +1,13 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
-import { ValueType } from './type';
-import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { ValueType } from './type';
 
 interface IValueTypeSelector {
   value: string;
   onChange: (value: ValueType) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const ValueTypeSelector = forwardRef(

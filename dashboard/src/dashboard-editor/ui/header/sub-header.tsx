@@ -1,4 +1,5 @@
-import { Box, Group, Sx } from '@mantine/core';
+import { Box, Group } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { AddAPanel } from './add-a-panel';
 import { BreakpointSwitcher } from './breakpoint-switcher';
@@ -6,7 +7,7 @@ import { DownloadThisView } from './download-this-view';
 import { ImportWithSchema } from './import-with-schema';
 import { SpotlightControl } from './spotlight';
 
-const SubHeaderSx: Sx = {
+const SubHeaderSx: EmotionSx = {
   position: 'fixed',
   top: 60, // height of mantine-header
   left: 0,

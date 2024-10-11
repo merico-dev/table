@@ -1,12 +1,13 @@
-import { Stack, Sx, Tabs } from '@mantine/core';
 import { CodeHighlight } from '@mantine/code-highlight';
+import { Stack, Tabs } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconAlertCircle, IconVariable } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 
 type Props = {
-  sx?: Sx;
+  sx?: EmotionSx;
 };
 
 export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {

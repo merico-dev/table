@@ -1,4 +1,5 @@
-import { ActionIcon, Sx, Table, TextInput } from '@mantine/core';
+import { ActionIcon, Table, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import { useStorageData } from '~/components/plugins';
 import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   'tbody tr': {
     opacity: 0.5,
     transition: 'opacity 200ms ease',

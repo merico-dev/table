@@ -1,13 +1,13 @@
-import { Sx, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { AccessPermissionLabelMap } from '../../../../../api-caller/dashboard-permission.types';
-import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
+import { PermissionAccessModelInstance } from '../model/permission-access-model';
 import { AccessPermissionSelector } from './access-permission-selector';
 import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
-import { PermissionAccessModelInstance } from '../model/permission-access-model';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   tableLayout: 'fixed',
   width: '100%',
   'tr.fallback-row': {

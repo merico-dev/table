@@ -1,4 +1,5 @@
-import { Button, HoverCard, Sx, Table, Tabs, Text } from '@mantine/core';
+import { Button, HoverCard, Table, Tabs, Text } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,7 @@ import { ErrorBoundary, formatNumber } from '~/utils';
 import { IRegressionChartConf } from '../../type';
 import { TDescription, getRegressionDescription } from './desc';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   marginTop: '10px',
   'tbody th, tbody td': {
     padding: '7px 10px',

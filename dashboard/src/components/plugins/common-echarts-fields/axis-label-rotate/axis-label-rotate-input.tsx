@@ -1,12 +1,13 @@
-import { Text, Sx, NumberInput } from '@mantine/core';
-import { forwardRef, Ref, useMemo } from 'react';
+import { NumberInput, Text } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
+import { forwardRef, Ref } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
   label?: string;
   value?: number;
   onChange: (v: number) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const AxisLabelRotateInput = forwardRef(

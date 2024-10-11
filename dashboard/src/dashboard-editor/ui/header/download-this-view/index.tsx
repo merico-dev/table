@@ -4,8 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 import { useTranslation } from 'react-i18next';
+import { EmotionSx } from '@mantine/emotion';
 
-const ButtonSx: Sx = {
+const ButtonSx: EmotionSx = {
   height: '30px',
   borderRight: 'none',
   borderTop: 'none',

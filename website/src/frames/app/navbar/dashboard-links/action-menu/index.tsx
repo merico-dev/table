@@ -1,13 +1,13 @@
-import { ActionIcon, Menu, Sx, Tooltip } from '@mantine/core';
-import { IconLock, IconSettings } from '@tabler/icons-react';
+import { ActionIcon, Menu, Tooltip } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
+import { IconEdit, IconFileImport, IconLock, IconPaint, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import { IconEdit, IconFileImport, IconPaint } from '@tabler/icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
 import { DashboardBriefModelInstance } from '../../../models/dashboard-brief-model';
 import { DeleteDashboard } from './delete-dashboard';
 
-const ActionIconSx: Sx = {
+const ActionIconSx: EmotionSx = {
   width: '42px',
   height: '42px',
   position: 'absolute',

@@ -1,4 +1,5 @@
-import { Box, Center, LoadingOverlay, Stack, Sx, Text } from '@mantine/core';
+import { Box, Center, LoadingOverlay, Stack } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
@@ -9,7 +10,7 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-const BaseStyle: Sx = {
+const BaseStyle: EmotionSx = {
   height: '100%',
   overflowY: 'auto',
   ...CommonHTMLContentStyle,

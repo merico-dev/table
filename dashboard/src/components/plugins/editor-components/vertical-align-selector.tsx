@@ -1,4 +1,5 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,7 +9,7 @@ interface Props {
   label?: string;
   value?: VerticalAlign;
   onChange: (v: VerticalAlign) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const VerticalAlignSelector = forwardRef(

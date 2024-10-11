@@ -1,7 +1,7 @@
-import { Box, Group, HoverCard, Select, Sx, Text, TextInput } from '@mantine/core';
+import { Select, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts';
 import { VariableSelectorItem } from './variable-selector-item';
@@ -13,7 +13,7 @@ type Props = {
   description?: string;
   required?: boolean;
   clearable?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
   preview?: 'aggregated' | 'formatted';
   zIndex?: number;
 };

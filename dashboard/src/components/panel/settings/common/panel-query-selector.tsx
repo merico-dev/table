@@ -1,4 +1,5 @@
-import { Box, Select, Sx, TextInput } from '@mantine/core';
+import { Box, Select, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
 import { useEditPanelContext } from '~/contexts';
@@ -9,7 +10,7 @@ type Props = {
   value: string;
   onChange: (v: string) => void;
   clearable?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
   queryID?: string;
   description?: string;
 };

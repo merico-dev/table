@@ -1,4 +1,5 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { JustifyContent } from './type';
@@ -7,7 +8,7 @@ interface Props {
   label?: string;
   value?: JustifyContent;
   onChange: (v: JustifyContent) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const JustifyContentSelector = forwardRef(

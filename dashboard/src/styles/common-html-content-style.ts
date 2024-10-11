@@ -1,6 +1,6 @@
-import { Sx } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 
-export const CommonHTMLContentStyle: Sx = {
+export const CommonHTMLContentStyle: EmotionSx = {
   fontSize: '14px',
   lineHeight: '32px',
   color: '#3D3E45',
