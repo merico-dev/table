@@ -12,7 +12,7 @@ export const EditSQLSnippet = observer(({ id }: { id: string }) => {
     return null;
   }
   if (!item) {
-    return <Text size={14}>SQL Snippet by key[{id}] is not found</Text>;
+    return <Text size={'14px'}>SQL Snippet by key[{id}] is not found</Text>;
   }
 
   const resetEditorPath = () => {

@@ -70,7 +70,8 @@ export const IntervalEditor = ({ form, index }: Props) => {
             size="compact-sm"
             px={0}
             onClick={() => setOpened((o) => !o)}
-            sx={{ fontFamily: 'monospace', fontWeight: 'normal' }}
+            fw="normal"
+            ff="monospace"
           >
             {intervalPreview}
           </Button>

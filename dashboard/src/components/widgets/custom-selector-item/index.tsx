@@ -12,7 +12,7 @@ export const CustomSelectorItem = forwardRef<HTMLDivElement, ItemProps>((props: 
     <div ref={ref} {...rest}>
       <Group justify="apart" wrap="nowrap">
         <Text>{label}</Text>
-        <Text size="xs" color="dimmed">
+        <Text size="xs" c="dimmed">
           {description}
         </Text>
       </Group>

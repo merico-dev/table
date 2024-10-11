@@ -20,7 +20,7 @@ export const MantineColorSwatches = ({ value, onChange, label }: IMantineColorSw
   const isColorChecked = (colorName: string) => value === colorName;
   return (
     <Stack gap={2}>
-      <Text size={14} sx={{ fontWeight: 500 }}>
+      <Text size={'14px'} fw={500}>
         {label}
       </Text>
       <Group justify="flex-start" gap="xs">

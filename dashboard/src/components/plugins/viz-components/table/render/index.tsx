@@ -10,7 +10,7 @@ import { VizTableComponent } from './viz-table-component';
 function EmptyMessage() {
   const { t } = useTranslation();
   return (
-    <Text c="gray" align="center">
+    <Text c="gray" ta="center">
       {t('data.empty_data')}
     </Text>
   );
@@ -31,7 +31,7 @@ function PrepareDataAndRender({ data, width, height, conf, context, instance }: 
 
   if (panel.queryIDs.length === 0) {
     return (
-      <Text c="gray" align="center">
+      <Text c="gray" ta="center">
         {t('panel.settings.need_to_choose_queries')}
       </Text>
     );

@@ -104,7 +104,8 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                           hideControls
                           rightSection={<Text c="dimmed">px</Text>}
                           rightSectionProps={{ style: { width: '30px' } }}
-                          sx={{ flex: 1, fontFamily: 'monospace' }}
+                          sx={{ flex: 1 }}
+                          ff="monospace"
                           styles={{ input: { paddingRight: '30px' } }}
                           {...field}
                         />
@@ -132,7 +133,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
             </tr>
           </tbody>
         </Table>
-        <Text mt={6} ta="right" size="xs" color="red">
+        <Text mt={6} ta="right" size="xs" c="red">
           {errorMessage ?? '　'}
         </Text>
         <Group mt={6} justify="apart">

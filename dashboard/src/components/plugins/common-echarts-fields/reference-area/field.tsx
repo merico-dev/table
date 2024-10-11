@@ -60,7 +60,7 @@ export const ReferenceAreaField = forwardRef(
           )}
         </Group>
         <Stack gap={0}>
-          <Text size={14} c="#212529" fw={500}>
+          <Text size="14px" c="#212529" fw={500}>
             {t('chart.reference_area.endpoint.left_bottom_point')}
           </Text>
           <Group grow wrap="nowrap">
@@ -81,7 +81,7 @@ export const ReferenceAreaField = forwardRef(
           </Group>
         </Stack>
         <Stack gap={0}>
-          <Text size={14} c="#212529" fw={500}>
+          <Text size={'14px'} c="#212529" fw={500}>
             {t('chart.reference_area.endpoint.right_top_point')}
           </Text>
           <Group grow wrap="nowrap">

@@ -40,7 +40,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
         )}
         <Select
           icon={
-            <Text ta="center" c="dimmed" size={14}>
+            <Text ta="center" c="dimmed" size={'14px'}>
               {t('common.pagination.page_size')}
             </Text>
           }
@@ -53,7 +53,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
         />
       </Group>
       <Group justify="flex-end">
-        <Text c="dimmed" my={0} size={14}>
+        <Text c="dimmed" my={0} size={'14px'}>
           {t('common.pagination.total_rows', { total: tableData.total })}
         </Text>
       </Group>

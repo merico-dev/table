@@ -15,7 +15,7 @@ const RoleOptionItem = forwardRef<HTMLDivElement, IRoleOptionItem>(
   ({ label, value, description, ...others }: IRoleOptionItem, ref) => (
     <Stack gap={2} ref={ref} {...others}>
       <Text size="sm">{label}</Text>
-      <Text size="xs" color="dimmed" className="role-description">
+      <Text size="xs" c="dimmed" className="role-description">
         {description}
       </Text>
     </Stack>

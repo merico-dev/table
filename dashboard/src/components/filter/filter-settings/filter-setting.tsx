@@ -58,7 +58,7 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
   return (
     <Group grow gap={20} align="top">
       <Box sx={{ maxWidth: '600px' }}>
-        <Text pb="md" color="gray">
+        <Text pb="md" c="gray">
           {t('common.titles.edit')}
         </Text>
         <Stack>
@@ -69,7 +69,6 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
               value={filter.order}
               onChange={filter.setOrder}
               hideControls
-              // @ts-expect-error important
               sx={{ flexGrow: '1 !important' }}
             />
             {filter.auto_submit_supported && (

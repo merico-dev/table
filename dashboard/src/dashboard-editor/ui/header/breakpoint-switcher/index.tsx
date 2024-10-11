@@ -33,7 +33,7 @@ export const BreakpointSwitcher = observer(() => {
                 <Text size="xs" fw="normal">
                   {range.name}
                 </Text>
-                <Text size="xs" color="#777">
+                <Text size="xs" c="#777">
                   {contentModel.layouts.currentRangeText}
                 </Text>
               </Group>

@@ -22,7 +22,7 @@ export const AdminBreadcrumbs = () => {
       )}
       <Breadcrumbs>
         <Group gap={6}>
-          <Text size="sm" color="#868e96" sx={{ cursor: 'default', userSelect: 'none' }}>
+          <Text size="sm" c="#868e96" sx={{ cursor: 'default', userSelect: 'none' }}>
             System Settings
           </Text>
         </Group>

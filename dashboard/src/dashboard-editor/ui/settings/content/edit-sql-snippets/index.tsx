@@ -46,7 +46,7 @@ export const EditSQLSnippets = observer(() => {
   return (
     <Stack sx={{ height: '100%' }} gap="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
-        <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
+        <Text px="md" ta="left" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('sql_snippet.manage')}
         </Text>
       </Box>

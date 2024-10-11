@@ -119,7 +119,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     >
       {totalRows > 0 && (
         <Box className={classes.info_bar} sx={{ height: 22 }}>
-          <Text align="right" pr={6} size={14} color="dimmed" fw="normal">
+          <Text ta="right" pr={6} size={'14px'} c="dimmed" fw="normal">
             {t('common.pagination.total_rows', { total: totalRows })}
           </Text>
         </Box>

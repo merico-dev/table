@@ -28,7 +28,7 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
       <tbody>
         <tr>
           <td colSpan={2}>
-            <Text align="center">{expression}</Text>
+            <Text ta="center">{expression}</Text>
           </td>
         </tr>
         <tr>

@@ -69,7 +69,7 @@ export const JSONMergeChooser = observer(
       <Card px={0} withBorder>
         <Card.Section withBorder inheritPadding py="xs">
           <Group px="xs" justify="apart">
-            <Text size={14} fw={500}>
+            <Text size={'14px'} fw={500}>
               {label}
             </Text>
             <ResolveAction resolved={resolved} opposite={opposite} onClick={onClick} chosen={chosen} />

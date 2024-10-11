@@ -62,7 +62,7 @@ export const DashboardEditorNavbar = observer(() => {
       </AppShell.Section>
 
       <AppShell.Section py={5} sx={{ borderBottom: '1px solid #eee' }}>
-        <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
+        <Text ta="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('view.labels')}
         </Text>
       </AppShell.Section>

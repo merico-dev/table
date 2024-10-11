@@ -17,7 +17,7 @@ export const EditView = observer(({ id }: { id: string }) => {
 
   const view = content.views.findByID(id);
   if (!view) {
-    return <Text size={14}>View by ID[{id}] is not found</Text>;
+    return <Text size={'14px'}>View by ID[{id}] is not found</Text>;
   }
 
   const resetEditorPath = () => {

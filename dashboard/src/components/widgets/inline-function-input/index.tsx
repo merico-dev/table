@@ -106,7 +106,7 @@ export const InlineFunctionInput = forwardRef(
             </Button>
           </Group>
         </Group>
-        <Text size={14}>{label}</Text>
+        <Text size={'14px'}>{label}</Text>
         <Box sx={{ position: 'relative', flexGrow: 1 }}>
           {empty && (
             <Overlay center color="#fff" opacity={0.5}>

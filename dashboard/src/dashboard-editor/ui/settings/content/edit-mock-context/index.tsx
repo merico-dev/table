@@ -34,12 +34,12 @@ export const EditMockContext = observer(() => {
   return (
     <Stack sx={{ border: '1px solid #eee', borderLeft: 'none', borderRight: 'none', flexGrow: 1, maxWidth: 'unset' }}>
       <Group
-        position="left"
+        justify="flex-start"
         pl="md"
         py="md"
         sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}
       >
-        <Text weight={500}>{t('mock_context.label')}</Text>
+        <Text fw={500}>{t('mock_context.label')}</Text>
       </Group>
       <Group grow px="md" pb="md" pt={0} sx={{ flexGrow: 1, position: 'relative', alignItems: 'flex-start' }}>
         <Stack gap={10} sx={{ maxWidth: 'unset !important' }}>

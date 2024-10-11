@@ -31,7 +31,7 @@ export const DataPreview = observer(
       <Stack gap={0} sx={{ height: '100%', border: '1px solid #eee' }}>
         <Group justify="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Group justify="flex-start">
-            <Text weight={500}>{t('data.preview_data')}</Text>
+            <Text fw={500}>{t('data.preview_data')}</Text>
           </Group>
           <Group pr={15}>
             {moreActions}

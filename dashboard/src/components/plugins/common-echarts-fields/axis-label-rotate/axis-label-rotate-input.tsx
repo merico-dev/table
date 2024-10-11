@@ -22,7 +22,7 @@ export const AxisLabelRotateInput = forwardRef(
         min={-90}
         max={90}
         rightSection={
-          <Text size="xs" color="dimmed">
+          <Text size="xs" c="dimmed">
             {t('chart.degree')}
           </Text>
         }

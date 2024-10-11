@@ -21,7 +21,7 @@ export const SettingsNavbar = observer(() => {
       }}
     >
       <AppShell.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
-        <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
+        <Text ta="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('common.titles.settings')}
         </Text>
       </AppShell.Section>

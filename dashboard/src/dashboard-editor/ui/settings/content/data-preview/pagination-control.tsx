@@ -59,7 +59,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
         {!hideLimitSelector && (
           <Select
             leftSection={
-              <Text ta="center" c="dimmed" size={14}>
+              <Text ta="center" c="dimmed" size={'14px'}>
                 {t('common.pagination.page_size')}
               </Text>
             }
@@ -73,7 +73,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
         )}
       </Group>
       <Group justify="flex-end">
-        <Text c="dimmed" my={0} size={14}>
+        <Text c="dimmed" my={0} size={'14px'}>
           {t('common.pagination.total_rows', { total })}
         </Text>
       </Group>

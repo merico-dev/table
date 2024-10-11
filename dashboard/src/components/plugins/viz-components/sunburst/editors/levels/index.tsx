@@ -38,7 +38,7 @@ export const LevelsField = ({ control, watch }: ILevelsField) => {
     <>
       <Group gap={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <IconInfoCircle size={14} color="#888" />
-        <Text size={14} color="#888">
+        <Text size={'14px'} c="#888">
           {t('viz.sunburst_chart.level.hint')}
         </Text>
       </Group>

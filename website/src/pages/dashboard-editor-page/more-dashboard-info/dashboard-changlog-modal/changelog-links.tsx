@@ -29,7 +29,7 @@ function ChangelogNavLink({ onClick, name, active }: IChangelogNavLink) {
         })}
       >
         <Group justify="center" onClick={onClick}>
-          <Text size="sm" sx={{ fontFamily: 'monospace' }}>
+          <Text size="sm" ff="monospace">
             {name}
           </Text>
         </Group>

@@ -89,7 +89,7 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
         <Group justify="apart" mt={styles.spacing}>
           <Box>
             {isSuperAdmin && (
-              <Text size="sm" color="red">
+              <Text size="sm" c="red">
                 Can't edit superadmin's profile
               </Text>
             )}

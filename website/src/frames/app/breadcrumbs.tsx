@@ -2,10 +2,11 @@ import { Breadcrumbs, Text, TextProps } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet-async';
 import { useDashboardStore } from './models/dashboard-store-context';
+import { ReactNode } from 'react';
 
-const BreadcrumbText = ({ children, ...rest }: TextProps) => {
+const BreadcrumbText = ({ children, ...rest }: TextProps & { children: ReactNode }) => {
   return (
-    <Text size="sm" color="#868e96" sx={{ cursor: 'default', userSelect: 'none' }} {...rest}>
+    <Text size="sm" c="#868e96" sx={{ cursor: 'default', userSelect: 'none' }} {...rest}>
       {children}
     </Text>
   );

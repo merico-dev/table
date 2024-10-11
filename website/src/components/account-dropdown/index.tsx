@@ -37,7 +37,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
             {username}
           </Text>
           {email && (
-            <Text mt={-4} c="dimmed" size={11}>
+            <Text mt={-4} c="dimmed" size={'11px'}>
               {email}
             </Text>
           )}

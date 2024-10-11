@@ -18,7 +18,7 @@ export const EditFilter = observer(({ id }: { id: string }) => {
 
   const filter = content.filters.findByID(id);
   if (!filter) {
-    return <Text size={14}>Filter by ID[{id}] is not found</Text>;
+    return <Text size={'14px'}>Filter by ID[{id}] is not found</Text>;
   }
 
   const resetEditorPath = () => {

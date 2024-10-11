@@ -33,7 +33,7 @@ export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) =>
     <>
       <Group gap={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <IconInfoCircle size={14} color="#888" />
-        <Text size={14} color="#888">
+        <Text size={'14px'} c="#888">
           {t('chart.tooltip.additional_metrics.description')}
         </Text>
       </Group>

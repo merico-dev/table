@@ -14,14 +14,14 @@ export const QueryStateMessage = ({ queryID }: IQueryStateMessage) => {
   }
   if (!!error) {
     return (
-      <Text mt={10} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+      <Text mt={10} c="red" size="md" ta="center" ff="monospace">
         {error}
       </Text>
     );
   }
   if (!!query?.stateMessage) {
     return (
-      <Text mt={10} color="gray" align="center">
+      <Text mt={10} c="gray" ta="center">
         {query.stateMessage}
       </Text>
     );

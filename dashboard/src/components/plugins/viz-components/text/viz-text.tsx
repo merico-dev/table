@@ -33,7 +33,7 @@ export const VizText = observer(({ context }: VizViewProps) => {
   }, [func_content, data, variableValueMap, contentModel.payloadForSQL]);
 
   return (
-    <Text align={horizontal_align} weight={font_weight} sx={{ fontSize: font_size }}>
+    <Text ta={horizontal_align} fw={font_weight} sx={{ fontSize: font_size }}>
       {content}
     </Text>
   );

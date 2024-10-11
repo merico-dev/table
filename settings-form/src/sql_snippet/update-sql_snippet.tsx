@@ -78,7 +78,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
           control={control}
           render={({ field }) => (
             <Stack gap={4}>
-              <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
+              <Text size={'14px'} fw={500} c="#212529" sx={{ cursor: 'default' }}>
                 {t('global_sql_snippet.content')}
               </Text>
               <MinimalMonacoEditor height="600px" {...field} />

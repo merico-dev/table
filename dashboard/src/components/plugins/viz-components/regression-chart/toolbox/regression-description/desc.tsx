@@ -40,11 +40,11 @@ function getLinearDescription(
       <Group justify="center" wrap="nowrap" gap={10}>
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
-        <Text weight="bold" color="red">
+        <Text fw="bold" c="red">
           {formatNumber(b, numberFormat)}
         </Text>
         <Text>+</Text>
-        <Text weight="bold" color="red">
+        <Text fw="bold" c="red">
           {formatNumber(a, numberFormat)}
         </Text>
         <Text>×</Text>
@@ -70,13 +70,13 @@ function getExponentialDescription(
       <Group justify="center" wrap="nowrap" gap={10}>
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
-        <Text weight="bold" color="gray">
+        <Text fw="bold" c="gray">
           {a}
         </Text>
         <Text>×</Text>
         <Group justify="flex-start" wrap="nowrap" gap={2}>
           <Text>Math.exp(</Text>
-          <Text weight="bold" color="gray">
+          <Text fw="bold" c="gray">
             {b}
           </Text>
           <Text>×</Text>
@@ -104,7 +104,7 @@ function getLogisticDescription(
       <Group justify="center" wrap="nowrap" gap={10}>
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
-        <Text weight="bold" color="gray">
+        <Text fw="bold" c="gray">
           {a}
         </Text>
         <Text>×</Text>
@@ -113,7 +113,7 @@ function getLogisticDescription(
           <Text>{x_axis.name}</Text>
           <Text>)</Text>
           <Text>+</Text>
-          <Text weight="bold" color="gray">
+          <Text fw="bold" c="gray">
             {b}
           </Text>
         </Group>

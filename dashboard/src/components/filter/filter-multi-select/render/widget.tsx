@@ -115,7 +115,7 @@ export const MultiSelectWidget = ({
               {o.label}
             </Text>
             {o.description && (
-              <Text size="xs" color="dimmed" data-role="description">
+              <Text size="xs" c="dimmed" data-role="description">
                 {o.description}
               </Text>
             )}

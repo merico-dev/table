@@ -57,7 +57,7 @@ export const SpotlightControl = () => {
       >
         <Group gap={'0.625rem'}>
           <IconSearch size="1rem" color="#228be6" />
-          <Text style={{ flexGrow: 1, fontWeight: 500, fontSize: '0.75rem', lineHeight: 1 }}>
+          <Text fw={500} style={{ flexGrow: 1, fontWeight: 500, fontSize: '0.75rem', lineHeight: 1 }}>
             {t('spotlight.trigger_text')}
           </Text>
         </Group>
