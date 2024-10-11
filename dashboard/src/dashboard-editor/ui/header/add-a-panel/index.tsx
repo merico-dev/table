@@ -1,4 +1,4 @@
-import { Button, Sx, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
 import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
