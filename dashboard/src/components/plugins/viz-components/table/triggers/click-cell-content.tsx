@@ -1,4 +1,4 @@
-import { Alert, Mark, Select, SelectItem, Stack, Text, TextInput } from '@mantine/core';
+import { Alert, Mark, Select, ComboboxItem, Stack, Text, TextInput } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { defaults, isNumber } from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
@@ -45,7 +45,7 @@ const DEFAULT_CONFIG: IClickCellContentConfig = {
 
 function useColumnsFromConfig(instance: VizInstance, panelData?: TPanelData) {
   const { value: config } = useStorageData<ITableConf>(instance.instanceData, 'config');
-  const ret: { columnsFromConfig: SelectItem[]; columnsFromData: SelectItem[] } = {
+  const ret: { columnsFromConfig: ComboboxItem[]; columnsFromData: ComboboxItem[] } = {
     columnsFromConfig: [],
     columnsFromData: [],
   };
@@ -87,7 +87,11 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
     'config',
   );
   const { column } = defaults({}, config, DEFAULT_CONFIG);
-  const handleFieldChange = (col: string) => {
+  const handleFieldChange = (col: string | null) => {
+    if (!col) {
+      return;
+    }
+
     if (!isNaN(+col)) {
       void setConfig({ column: +col });
     } else {
@@ -126,7 +130,7 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
 
 function generateTriggerName(
   config: IClickCellContentConfig | undefined,
-  columnsFromConfig: SelectItem[],
+  columnsFromConfig: ComboboxItem[],
   rawColumnsEnabled: boolean,
 ) {
   const { t } = useTranslation();

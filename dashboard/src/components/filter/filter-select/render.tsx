@@ -1,10 +1,10 @@
 import { ComboboxItem, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
-import { ErrorMessageOrNotFound } from '../error-message-or-not-found';
 import { FilterSelectItem } from '../select-item';
-import { useCallback } from 'react';
 
 interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
   config: FilterSelectConfigInstance;
@@ -13,6 +13,7 @@ interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'confi
 }
 
 export const FilterSelect = observer(({ label, config, value, onChange }: IFilterSelect) => {
+  const { t } = useTranslation();
   const model = useRenderContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
   const { state, error } = model.getDataStuffByID(config.options_query_id);
@@ -57,7 +58,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       }}
       renderOption={FilterSelectItem}
       searchable={!error}
-      nothingFound={<ErrorMessageOrNotFound errorMessage={error} />}
+      nothingFoundMessage={error ? error : t('filter.widget.common.selector_option_empty')}
       clearable={config.clearable}
     />
   );

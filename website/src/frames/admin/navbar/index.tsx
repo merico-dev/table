@@ -4,7 +4,7 @@ import { AdminSystemNavActions } from './admin-system-nav-actions';
 
 export function AdminNavbar() {
   return (
-    <AppShell.Navbar width={{ base: 300 }} height="100vh" sx={{ overflow: 'hidden' }}>
+    <AppShell.Navbar sx={{ overflow: 'hidden' }}>
       <AdminSystemNavActions />
 
       <AppShell.Section grow>

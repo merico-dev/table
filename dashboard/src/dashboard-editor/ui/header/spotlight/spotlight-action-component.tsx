@@ -66,15 +66,15 @@ const useStyles = createStyles((theme, params: null) => ({
     width: '100%',
     padding: `${rem(10)} ${rem(12)}`,
     borderRadius: theme.radius.sm,
-    ...theme.fn.hover({
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[1],
+    '&:hover': {
+      backgroundColor: theme.colors.gray[1],
       '.spotlight-action-viz-group': {
         opacity: 1,
       },
-    }),
+    },
 
     '&[data-hovered]': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[1],
+      backgroundColor: theme.colors.gray[1],
       '.spotlight-action-viz-group': {
         opacity: 1,
       },

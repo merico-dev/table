@@ -1,4 +1,4 @@
-import { SelectItem } from '@mantine/core';
+import { ComboboxItem } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { DataSourceType, QueryMeta } from '~/model';
@@ -19,14 +19,14 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     }
 
     const { context } = this.contentModel.payloadForSQL;
-    const contextOptions: SelectItem[] = Object.keys(context).map((k) => ({
+    const contextOptions: ComboboxItem[] = Object.keys(context).map((k) => ({
       group: 'Context',
       label: k,
       value: `context.${k}`,
       description: undefined,
     }));
 
-    const filterOptions: SelectItem[] = this.contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
+    const filterOptions: ComboboxItem[] = this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem) => ({
       group: 'Filters',
       label: o.label,
       value: `filters.${o.value}`,
@@ -41,6 +41,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       }
 
       ret.push({
+        // @ts-expect-error no 'group' in ComboboxItem
         group: 'Invalid',
         label: c,
         value: c,

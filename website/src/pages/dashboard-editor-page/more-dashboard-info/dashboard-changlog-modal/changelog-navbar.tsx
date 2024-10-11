@@ -43,7 +43,7 @@ export const ChangelogNavbar = observer(
     return (
       <AppShell.Navbar
         p={0}
-        width={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}
+        w={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}
         sx={{ position: 'static', height: '100%', overflow: 'auto', flexGrow: 0, flexShrink: 0 }}
       >
         <AppShell.Section py={0} sx={{ borderBottom: '1px solid #eee' }}>

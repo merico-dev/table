@@ -25,6 +25,10 @@ export function App() {
       <AppShell
         className="website-app"
         padding="md"
+        navbar={{
+          width: { base: 300 },
+          breakpoint: 'xxs',
+        }}
         styles={{
           main: {
             height: '100vh',

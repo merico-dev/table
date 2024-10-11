@@ -16,6 +16,10 @@ export function AdminFrame() {
   return (
     <AppShell
       padding="md"
+      navbar={{
+        width: { base: 300 },
+        breakpoint: 'xxs',
+      }}
       styles={{
         main: {
           height: '100vh',

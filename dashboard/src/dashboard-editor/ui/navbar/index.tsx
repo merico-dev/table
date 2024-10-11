@@ -32,7 +32,7 @@ export const DashboardEditorNavbar = observer(() => {
   const closeInteractions = () => setInteractionsOpened(false);
 
   return (
-    <AppShell.Navbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }} zIndex={299}>
+    <AppShell.Navbar p={0} zIndex={299}>
       <AppShell.Section>
         <Group
           grow

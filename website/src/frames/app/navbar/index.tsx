@@ -5,7 +5,7 @@ import { SystemNavActions } from './system-nav-actions';
 
 export function Navbar({ collapse }: { collapse: () => void }) {
   return (
-    <AppShell.Navbar width={{ base: 300 }} height="100vh" sx={{ overflow: 'hidden' }}>
+    <AppShell.Navbar sx={{ overflow: 'hidden' }}>
       <SystemNavActions collapse={collapse} />
       <DashboardNavActions />
       <AppShell.Section grow sx={{ overflow: 'hidden' }} pl="xs" pr={0}>

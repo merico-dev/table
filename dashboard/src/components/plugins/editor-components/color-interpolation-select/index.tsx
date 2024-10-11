@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Select, SelectItem, Stack } from '@mantine/core';
+import { Button, Group, Modal, Select, ComboboxItem, Stack } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { toJS } from 'mobx';
@@ -22,7 +22,7 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
   const [localValue, setLocalValue] = useState(value);
   const interpolation = colorManager.decodeInterpolation(localValue.interpolation) || interpolations[0];
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
-  const selectData: SelectItem[] = useMemo(() => {
+  const selectData: ComboboxItem[] = useMemo(() => {
     return interpolations.map((it) => ({
       label: t(it.displayName),
       value: colorManager.encodeColor(it),

@@ -1,10 +1,11 @@
-import { TabsOrientation, TabsVariant } from '@mantine/core';
+import { TabsVariant } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '../types';
 import _ from 'lodash';
 
 export type TabInfo = { id: string; name: string };
+export type TabsOrientation = 'vertical' | 'horizontal';
 
 const TabModel = types
   .model('ViewTabsTabModel', {

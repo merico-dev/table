@@ -1,4 +1,4 @@
-import { MantineRadius } from '@mantine/core';
+import { getRadius, MantineRadius } from '@mantine/core';
 import { createStyles } from '@mantine/emotion';
 
 export interface MultiSelectWidgetStylesParams {
@@ -7,7 +7,7 @@ export interface MultiSelectWidgetStylesParams {
 
 export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParams) => ({
   root: {
-    borderRadius: theme.fn.radius(radius),
+    borderRadius: getRadius(radius),
     display: 'flex',
     flexWrap: 'nowrap',
     border: '1px solid #ced4da',

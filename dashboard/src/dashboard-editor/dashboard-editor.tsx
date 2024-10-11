@@ -170,7 +170,14 @@ const _DashboardEditor = (
                   <SpotlightProvider>
                     <PluginContext.Provider value={pluginContext}>
                       <ServiceLocatorProvider configure={configureServices}>
-                        <AppShell padding={0} styles={AppShellStyles}>
+                        <AppShell
+                          padding={0}
+                          navbar={{
+                            width: { base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 },
+                            breakpoint: 'xxs', //FIXME(leto): not sure
+                          }}
+                          styles={AppShellStyles}
+                        >
                           <DashboardEditorHeader
                             onExit={onExit}
                             saveDashboardChanges={saveDashboardChanges}

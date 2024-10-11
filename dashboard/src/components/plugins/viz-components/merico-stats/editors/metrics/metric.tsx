@@ -1,4 +1,4 @@
-import { Divider, Group, Select, SelectItem, Stack, TextInput } from '@mantine/core';
+import { Divider, Group, Select, ComboboxItem, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
@@ -8,7 +8,7 @@ import { PostfixField } from './postfix-field';
 interface IProps {
   control: Control<TMericoStatsConf, $TSFixMe>;
   index: number;
-  variableOptions: SelectItem[];
+  variableOptions: ComboboxItem[];
   watch: UseFormWatch<TMericoStatsConf>;
 }
 

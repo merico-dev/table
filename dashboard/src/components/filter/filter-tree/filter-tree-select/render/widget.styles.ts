@@ -1,13 +1,13 @@
-import { MantineNumberSize } from '@mantine/core';
+import { getRadius, MantineRadius } from '@mantine/core';
 import { createStyles } from '@mantine/emotion';
 
 export interface TreeSelectWidgetStylesParams {
-  radius?: MantineNumberSize;
+  radius?: MantineRadius;
 }
 
 export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams) => ({
   root: {
-    borderRadius: theme.fn.radius(radius),
+    borderRadius: getRadius(radius),
     display: 'flex',
     flexWrap: 'nowrap',
     border: '1px solid #ced4da',
