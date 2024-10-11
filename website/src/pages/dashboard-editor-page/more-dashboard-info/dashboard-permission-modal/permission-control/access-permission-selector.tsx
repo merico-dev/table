@@ -10,7 +10,7 @@ export const AccessPermissionSelector = ({ value, onChange }: IAccessPermissionS
     <Select
       size="xs"
       value={value}
-      onChange={onChange}
+      onChange={(v: string | null) => v !== null && onChange(v as AccessPermissionType)}
       data={AccessPermissionOptions}
       comboboxProps={{
         withinPortal: true,

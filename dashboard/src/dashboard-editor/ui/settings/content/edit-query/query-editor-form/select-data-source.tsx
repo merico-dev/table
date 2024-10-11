@@ -66,7 +66,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     }, {} as Record<string, DataSourceType>);
   }, [dataSourceOptions]);
 
-  const handleChange = (key: string) => {
+  const handleChange = (key: string | null) => {
     if (key === null) {
       return;
     }

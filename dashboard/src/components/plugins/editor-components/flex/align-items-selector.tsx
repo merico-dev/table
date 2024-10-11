@@ -3,6 +3,7 @@ import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlignItems } from './type';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface Props {
   label?: string;
@@ -31,7 +32,7 @@ export const AlignItemsSelector = forwardRef(
         label={label ?? t('style.flex.align_items.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
       />
     );

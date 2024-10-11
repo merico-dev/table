@@ -33,7 +33,11 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
   const total = data.length;
   const maxPage = Math.ceil(total / limit);
 
-  const changeLimit = (limit: string) => {
+  const changeLimit = (limit: string | null) => {
+    if (!limit) {
+      return;
+    }
+
     setPage(1);
     setLimit(Number(limit));
   };

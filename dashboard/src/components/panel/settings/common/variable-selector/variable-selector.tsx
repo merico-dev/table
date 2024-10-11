@@ -5,6 +5,7 @@ import React, { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts';
 import { VariableSelectorItem } from './variable-selector-item';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 type Props = {
   label: string;
@@ -55,7 +56,7 @@ export const VariableSelector = observer(
         comboboxProps={{
           withinPortal: true,
         }}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         zIndex={zIndex}
       />
     );

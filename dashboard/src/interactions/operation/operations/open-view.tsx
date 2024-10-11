@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 export interface IOpenViewOperationConfig {
   viewID: string;
@@ -21,7 +22,7 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
     <Select
       defaultValue={viewID}
       value={viewID}
-      onChange={setViewID}
+      onChange={getSelectChangeHandler(setViewID)}
       label={t('interactions.operation.open_view.view')}
       data={model.views.options}
       comboboxProps={{

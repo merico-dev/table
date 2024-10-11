@@ -1,9 +1,10 @@
-import { Select } from '@mantine/core';
+import { ComboboxItem, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
 import { ErrorMessageOrNotFound } from '../error-message-or-not-found';
 import { FilterSelectItem } from '../select-item';
+import { useCallback } from 'react';
 
 interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
   config: FilterSelectConfigInstance;
@@ -17,13 +18,23 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
   const { state, error } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
+  const handleChange = useCallback(
+    (v: string | null, option: ComboboxItem) => {
+      if (!v) {
+        return;
+      }
+      onChange(v, false);
+    },
+    [onChange],
+  );
+
   return (
     <Select
       label={label}
       data={config.options}
       disabled={usingRemoteOptions ? loading : false}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       // error={!!error}
       maxDropdownHeight={500}
       styles={{

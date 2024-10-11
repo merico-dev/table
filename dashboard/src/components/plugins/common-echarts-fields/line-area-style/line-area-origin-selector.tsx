@@ -2,6 +2,7 @@ import { Box, Select, Stack, Text } from '@mantine/core';
 import { forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EchartsLineAreaStyle } from './types';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
   label: string;
@@ -55,7 +56,7 @@ export const LineAreaOriginSelector = forwardRef<HTMLInputElement, Props>(({ val
       label={t('chart.series.line.area_style.origin.label')}
       data={options}
       value={value}
-      onChange={onChange}
+      onChange={getSelectChangeHandler(onChange)}
       itemComponent={OriginSelectorItem}
       size="xs"
     />

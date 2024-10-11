@@ -65,7 +65,7 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
         },
       })}
       value={value}
-      onChange={onChange}
+      onChange={(v: string | null) => v !== null && onChange(v)}
       comboboxProps={{
         withinPortal: true,
       }}

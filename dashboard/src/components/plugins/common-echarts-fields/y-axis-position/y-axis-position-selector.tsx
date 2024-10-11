@@ -3,6 +3,7 @@ import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EChartsYAxisPosition } from './types';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface Props {
   label?: string;
@@ -29,7 +30,7 @@ export const YAxisPositionSelector = forwardRef(
         label={label ?? t('chart.y_axis.position.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
       />
     );

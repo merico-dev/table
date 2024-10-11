@@ -3,6 +3,7 @@ import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorType } from './type';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface Props {
   label?: string;
@@ -30,7 +31,7 @@ export const ColorTypeSelector = forwardRef(
         label={label ?? t('style.color.type.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
       />
     );

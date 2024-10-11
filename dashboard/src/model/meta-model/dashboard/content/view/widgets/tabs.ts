@@ -30,13 +30,20 @@ const TabModel = types
     setName(v: string) {
       self.name = v;
     },
-    setViewID(v: string) {
+    setViewID(v: string | null) {
+      if (!v) {
+        return;
+      }
+
       self.view_id = v;
     },
     setColor(v: string) {
       self.color = v;
     },
-    setOrder(v: number) {
+    setOrder(v: string | number) {
+      if (typeof v === 'string') {
+        return;
+      }
       self.order = v;
     },
   }));
@@ -71,11 +78,17 @@ export const ViewTabsConfig = types
     },
   }))
   .actions((self) => ({
-    setVariant(v: TabsVariant) {
-      self.variant = v;
+    setVariant(v: string | null) {
+      if (!v) {
+        return;
+      }
+      self.variant = v as TabsVariant;
     },
-    setOrientation(v: TabsOrientation) {
-      self.orientation = v;
+    setOrientation(v: string | null) {
+      if (!v) {
+        return;
+      }
+      self.orientation = v as TabsOrientation;
     },
     setGrow(v: boolean) {
       self.grow = v;

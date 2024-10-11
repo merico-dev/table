@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 export const PickQueryForFilter = observer(({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
       }
       data={options}
       value={value}
-      onChange={onChange}
+      onChange={getSelectChangeHandler(onChange)}
       allowDeselect={false}
       clearable
       sx={{ flexGrow: 1 }}

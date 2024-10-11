@@ -4,6 +4,7 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorBoundary, TNumberFormat, formatNumber } from '~/utils';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 const SwitchStyles = {
   root: {
@@ -71,7 +72,11 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   const changeOutput = (output: TNumberFormat['output']) => {
     onChange({ ...value, output });
   };
-  const changeMantissa = (mantissa: TNumberFormat['mantissa']) => {
+  const changeMantissa = (mantissa: TNumberFormat['mantissa'] | string) => {
+    if (typeof mantissa === 'string') {
+      return;
+    }
+
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };
@@ -95,7 +100,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
             { label: '99%', value: 'percent' },
           ]}
           value={value.output}
-          onChange={changeOutput}
+          onChange={getSelectChangeHandler(changeOutput)}
           sx={{ flexGrow: 1 }}
         />
         <Switch

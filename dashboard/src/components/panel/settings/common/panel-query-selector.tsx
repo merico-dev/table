@@ -3,6 +3,7 @@ import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
 import { useEditPanelContext } from '~/contexts';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 type Props = {
   label: string;
@@ -41,7 +42,7 @@ export const PanelQuerySelector = observer(
           description={description}
           data={options}
           value={value}
-          onChange={onChange}
+          onChange={getSelectChangeHandler(onChange)}
           required={required}
           sx={sx}
           maxDropdownHeight={500}

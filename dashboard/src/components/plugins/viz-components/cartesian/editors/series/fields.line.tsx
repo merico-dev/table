@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 import { LineAreaStyleField } from '~/components/plugins/common-echarts-fields/line-area-style';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -55,10 +56,10 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
               sx={{ flexGrow: 1, maxWidth: '48%' }}
               {...field}
               value={String(field.value)}
-              onChange={(v: 'false' | 'start' | 'middle' | 'end') => {
+              onChange={getSelectChangeHandler((v: 'false' | 'start' | 'middle' | 'end') => {
                 const step = v === 'false' ? false : v;
                 field.onChange(step);
-              }}
+              })}
             />
           )}
         />

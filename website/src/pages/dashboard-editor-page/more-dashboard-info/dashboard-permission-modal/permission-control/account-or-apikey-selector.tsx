@@ -1,5 +1,5 @@
 import { Group, Select, Text } from '@mantine/core';
-import { forwardRef } from 'react';
+import { forwardRef, useCallback } from 'react';
 import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 
@@ -27,6 +27,12 @@ export const AccountOrAPIKeySelector = ({
   disabled,
   type,
 }: IAccountOrAPIKeySelector) => {
+  const handleChange = useCallback(
+    (v: string | null) => {
+      v !== null && onChange(v);
+    },
+    [onChange],
+  );
   if (!options || optionsLoading) {
     return (
       <Select size="xs" placeholder={optionsLoading ? 'Loading...' : 'Failed to fetch options'} data={[]} disabled />
@@ -43,7 +49,7 @@ export const AccountOrAPIKeySelector = ({
       styles={{ rightSection: { pointerEvents: 'none' } }}
       data={options}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       disabled={disabled}
       comboboxProps={{
         withinPortal: true,
