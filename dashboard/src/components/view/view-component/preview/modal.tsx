@@ -37,7 +37,7 @@ export const PreviewViewModal = observer(
           onClose={_.noop}
           withCloseButton={false}
           title={
-            <Group position="apart" px="1rem" h="48px">
+            <Group justify="apart" px="1rem" h="48px">
               <Box>{config.custom_modal_title.value}</Box>
               <TakeScreenshot downloadScreenshot={downloadScreenshot} />
             </Group>

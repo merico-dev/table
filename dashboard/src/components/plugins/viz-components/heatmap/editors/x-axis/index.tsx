@@ -16,7 +16,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
   watch(['x_axis']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.data_key"
           control={control}
@@ -34,7 +34,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
         control={control}
         render={({ field }) => <LabelOverflowField {...field} />}
       />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}

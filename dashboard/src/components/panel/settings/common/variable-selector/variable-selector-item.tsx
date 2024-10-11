@@ -18,7 +18,7 @@ export const VariableSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
     const hoveredPreview = preview === 'aggregated' ? formattedValue : aggValue;
     return (
       <Box ref={hoverRef} {...others}>
-        <Group noWrap position="apart" ref={ref}>
+        <Group wrap="nowrap" justify="apart" ref={ref}>
           <Text size="sm" sx={{ flexGrow: 1 }}>
             {label}
           </Text>

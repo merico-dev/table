@@ -29,7 +29,7 @@ export const PickQuery = observer(function _PickQuery() {
         zIndex={320}
       >
         <Checkbox.Group value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
-          <Stack spacing="lg">
+          <Stack gap="lg">
             {content.queries.options.map((o) => (
               <Checkbox key={o.value} label={o.label} value={o.value} />
             ))}
@@ -37,8 +37,8 @@ export const PickQuery = observer(function _PickQuery() {
         </Checkbox.Group>
       </Drawer>
 
-      <Stack spacing={6}>
-        <Group position="left">
+      <Stack gap={6}>
+        <Group justify="flex-start">
           <Button variant="light" size="sm" leftIcon={<IconLine size={16} />} onClick={() => setOpened(true)}>
             {count === 0 ? t('panel.settings.need_to_choose_queries') : t('panel.settings.choose_queries')}
           </Button>

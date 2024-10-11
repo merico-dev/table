@@ -36,7 +36,7 @@ export const DashboardEditorNavbar = observer(() => {
       <AppShell.Section>
         <Group
           grow
-          spacing={0}
+          gap={0}
           sx={{
             ...ActionIconGroupStyle,
             button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' },

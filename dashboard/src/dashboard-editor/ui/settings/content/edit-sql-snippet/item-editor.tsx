@@ -51,8 +51,8 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   };
 
   return (
-    <Stack p={20} sx={{ maxWidth: '1100px', height: '100vh' }} spacing="sm">
-      <Group sx={{ alignItems: 'end' }} spacing={40}>
+    <Stack p={20} sx={{ maxWidth: '1100px', height: '100vh' }} gap="sm">
+      <Group sx={{ alignItems: 'end' }} gap={40}>
         <TextInput
           label={isADuplicatedKey ? t('sql_snippet.key_occupied') : t('sql_snippet.key')}
           value={key}

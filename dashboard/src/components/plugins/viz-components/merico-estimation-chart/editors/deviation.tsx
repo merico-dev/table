@@ -11,14 +11,14 @@ export function DeviationField({ control, watch }: IDeviationField) {
   watch(['deviation']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="deviation.name"
           control={control}
           render={({ field }) => <TextInput label="指标名称" sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="deviation.data_keys.estimated_value"
           control={control}

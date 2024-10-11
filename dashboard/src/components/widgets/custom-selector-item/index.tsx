@@ -10,7 +10,7 @@ export const CustomSelectorItem = forwardRef<HTMLDivElement, ItemProps>((props: 
   const { label, description, ...rest } = props;
   return (
     <div ref={ref} {...rest}>
-      <Group position="apart" noWrap>
+      <Group justify="apart" wrap="nowrap">
         <Text>{label}</Text>
         <Text size="xs" color="dimmed">
           {description}

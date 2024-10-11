@@ -43,7 +43,7 @@ export const DateRangeWidget = ({
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group position="left" grow noWrap spacing={0} w="288px" sx={{ marginTop: '3px' }}>
+      <Group justify="flex-start" grow wrap="nowrap" gap={0} w="288px" sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
@@ -73,7 +73,7 @@ export const DateRangeWidget = ({
         </Popover.Target>
         <TextInput
           label={
-            <Group position="right">
+            <Group justify="flex-end">
               <CountDays begin={begin} end={end} />
             </Group>
           }

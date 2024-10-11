@@ -13,7 +13,7 @@ export const OriginSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
   ({ label, description, ...others }: ItemProps, ref) => {
     return (
       <Box {...others}>
-        <Stack spacing="0" ref={ref}>
+        <Stack gap="0" ref={ref}>
           <Text size="sm">{label}</Text>
           <Text size="xs" opacity={0.65}>
             {description}

@@ -4,7 +4,7 @@ import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-p
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 
 const SelectItem = forwardRef<HTMLDivElement, AccountOrAPIKeyOptionType>(({ label, type, ...others }, ref) => (
-  <Group position="apart" ref={ref} {...others}>
+  <Group justify="apart" ref={ref} {...others}>
     <Text>{label}</Text>
     <AccountTypeIcon type={type} />
   </Group>

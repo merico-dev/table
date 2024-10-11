@@ -36,12 +36,12 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
   const hasChanges = localValue !== queryModel.sql;
 
   return (
-    <Stack spacing={4} sx={{ height: '100%' }}>
-      <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
-        <Group position="left">
+    <Stack gap={4} sx={{ height: '100%' }}>
+      <Group mb={6} justify="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
+        <Group justify="flex-start">
           <QueryDependency queryModel={queryModel} />
         </Group>
-        <Group position="right">
+        <Group justify="flex-end">
           <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
             {t('common.actions.reset_to_default')}
           </Button>

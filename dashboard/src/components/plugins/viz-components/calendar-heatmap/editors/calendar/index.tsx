@@ -24,7 +24,7 @@ export function CalendarField({ control, watch }: ICalendarField) {
   watch(['calendar']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="calendar.data_key"
           control={control}

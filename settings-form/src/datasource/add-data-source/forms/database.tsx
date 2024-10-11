@@ -117,7 +117,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
           )}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

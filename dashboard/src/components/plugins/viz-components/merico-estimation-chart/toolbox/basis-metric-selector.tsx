@@ -31,7 +31,7 @@ export const BasisMetricSelector = ({ conf, metricKey, setMetricKey }: IBasisMet
   }, [deviation, metrics]);
 
   return (
-    <Group spacing={1}>
+    <Group gap={1}>
       <Text size={12} color="dimmed" sx={{ cursor: 'default', userSelect: 'none' }}>
         基线指标
       </Text>

@@ -48,12 +48,12 @@ export function App() {
       >
         <Navbar collapse={setTrue} />
         <AppShell.Main>
-          <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-            <Group position="left">
+          <Group justify="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+            <Group justify="left">
               <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
               <DashboardBreadcrumbs />
             </Group>
-            <Group position="right" spacing={2}>
+            <Group justify="right" gap={2}>
               <LanguageSwitcher />
               <AccountDropdown height={39} />
             </Group>

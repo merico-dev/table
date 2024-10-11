@@ -39,8 +39,8 @@ export const EditFilter = observer(({ id }: { id: string }) => {
     });
   };
   return (
-    <Stack sx={{ maxWidth: '1100px', height: '100vh' }} spacing="sm" pb={30}>
-      <Group position="right" pt={10}>
+    <Stack sx={{ maxWidth: '1100px', height: '100vh' }} gap="sm" pb={30}>
+      <Group justify="flex-end" pt={10}>
         <Button size="xs" color="red" leftIcon={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('filter.delete')}
         </Button>

@@ -77,7 +77,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
           name="content"
           control={control}
           render={({ field }) => (
-            <Stack spacing={4}>
+            <Stack gap={4}>
               <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
                 {t('global_sql_snippet.content')}
               </Text>
@@ -86,7 +86,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
           )}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

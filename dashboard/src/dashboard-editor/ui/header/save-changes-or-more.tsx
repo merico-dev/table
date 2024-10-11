@@ -17,7 +17,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
   const revertWithConfirmation = () => {
     modals.openConfirmModal({
       title: (
-        <Group position="left">
+        <Group justify="flex-start">
           <IconAlertTriangle size={18} color="red" />
           <Text>You are reverting changes</Text>
         </Group>
@@ -33,7 +33,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
 
   const hasChanges = model.changed;
   return (
-    <Group spacing={0}>
+    <Group gap={0}>
       <Button
         color="green"
         variant="filled"

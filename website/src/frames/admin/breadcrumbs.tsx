@@ -21,14 +21,14 @@ export const AdminBreadcrumbs = () => {
         </Helmet>
       )}
       <Breadcrumbs>
-        <Group spacing={6}>
+        <Group gap={6}>
           <Text size="sm" color="#868e96" sx={{ cursor: 'default', userSelect: 'none' }}>
             System Settings
           </Text>
         </Group>
         {item && (
           <Anchor key={item.to} href={item.to} size="sm">
-            <Group spacing={6}>{item.name}</Group>
+            <Group gap={6}>{item.name}</Group>
           </Anchor>
         )}
       </Breadcrumbs>

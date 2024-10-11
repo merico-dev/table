@@ -74,7 +74,7 @@ export const APIKeyList = withEntry<Props>('APIKeyList', ({ styles = defaultStyl
                   {/* <td width={200}>{create_time}</td>
                 <td width={200}>{update_time}</td> */}
                   <td width={200}>
-                    <Group position="left">
+                    <Group justify="flex-start">
                       <DeleteAPIKey id={id} name={name} onSuccess={refresh} />
                     </Group>
                   </td>

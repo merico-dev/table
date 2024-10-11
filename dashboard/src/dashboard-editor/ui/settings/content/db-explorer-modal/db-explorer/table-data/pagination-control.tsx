@@ -26,8 +26,8 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
   const { t } = useTranslation();
   const { tableData } = dataSource;
   return (
-    <Group pt={10} px={10} position="apart">
-      <Group position="left">
+    <Group pt={10} px={10} justify="apart">
+      <Group justify="flex-start">
         {tableData.maxPage > 1 && (
           <Pagination
             size="sm"
@@ -52,7 +52,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
           onChange={(v) => tableData.setLimit(Number(v))}
         />
       </Group>
-      <Group position="right">
+      <Group justify="flex-end">
         <Text color="dimmed" my={0} size={14}>
           {t('common.pagination.total_rows', { total: tableData.total })}
         </Text>

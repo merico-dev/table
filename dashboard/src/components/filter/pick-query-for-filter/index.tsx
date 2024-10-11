@@ -19,7 +19,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
   return (
     <Select
       label={
-        <Group position="apart">
+        <Group justify="apart">
           <Text>{t('filter.widget.common.use_query_data_as_options')}</Text>
           {value && (
             <Button

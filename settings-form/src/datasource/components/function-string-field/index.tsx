@@ -62,7 +62,7 @@ export const FunctionStringField = forwardRef(
           {modalOpened && (
             <Stack>
               <FunctionStringEditor value={localValue} onChange={setLocalValue} />
-              <Group position="apart">
+              <Group justify="apart">
                 <Button
                   size={styles.button.size}
                   onClick={resetFuncContent}
@@ -71,7 +71,7 @@ export const FunctionStringField = forwardRef(
                 >
                   {t('common.actions.reset_to_default')}
                 </Button>
-                <Group position="right">
+                <Group justify="flex-end">
                   <Button size={styles.button.size} onClick={handleCancel} variant="subtle">
                     {t('common.actions.cancel')}
                   </Button>

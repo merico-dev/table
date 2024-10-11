@@ -24,7 +24,7 @@ export const ScatterLabelOverflowField = forwardRef(({ value, onChange }: IScatt
     });
   };
   return (
-    <Stack ref={ref} spacing={0}>
+    <Stack ref={ref} gap={0}>
       <OverflowField
         sectionTitle={t('chart.axis.overflow.section_title.on_axis')}
         value={value.label}

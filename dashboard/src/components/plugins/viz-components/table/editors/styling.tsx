@@ -12,8 +12,8 @@ export function StylingFields({ control, watch }: IStylingFields) {
   const { t } = useTranslation();
   watch(['horizontalSpacing', 'verticalSpacing', 'fontSize', 'striped', 'highlightOnHover']);
   return (
-    <Stack spacing="xs">
-      <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
+    <Stack gap="xs">
+      <Group justify="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
         <Controller
           name="horizontalSpacing"
           control={control}
@@ -29,7 +29,7 @@ export function StylingFields({ control, watch }: IStylingFields) {
           )}
         />
       </Group>
-      <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
+      <Group justify="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
         <Controller
           name="fontSize"
           control={control}
@@ -44,7 +44,7 @@ export function StylingFields({ control, watch }: IStylingFields) {
           )}
         />
       </Group>
-      <Group position="apart" grow>
+      <Group justify="apart" grow>
         <Controller
           name="striped"
           control={control}

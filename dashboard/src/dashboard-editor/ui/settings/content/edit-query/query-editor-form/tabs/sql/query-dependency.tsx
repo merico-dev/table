@@ -47,7 +47,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
         </Button>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <List spacing="md" size={14} listStyleType="none">
+        <List gap="md" size={14} listStyleType="none">
           {Object.entries(groupedDependencies).map(([type, arr]) => (
             <List.Item key={type}>
               <Text fw="bold" ff="monospace">

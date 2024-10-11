@@ -7,7 +7,7 @@ import { LanguageSwitcher } from '../../../components/language-switcher';
 
 export const MoreDashboardInfo = observer(() => {
   return (
-    <Group sx={{ flexGrow: 1 }} position="apart">
+    <Group sx={{ flexGrow: 1 }} justify="apart">
       <ContentVersionManager />
       <Group sx={{ flexGrow: 1 }} position="right">
         <WhosEditing />

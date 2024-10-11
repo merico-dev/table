@@ -66,18 +66,18 @@ export const InlineFunctionInput = forwardRef(
 
     return (
       <Stack
-        spacing={4}
+        gap={4}
         sx={{
           height: '100%',
           '.editableArea--multi-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
           '.editableArea--single-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
         }}
       >
-        <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
-          <Group position="left">
+        <Group mb={6} justify="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
+          <Group justify="flex-start">
             <AboutFunctionUtils />
           </Group>
-          <Group position="right">
+          <Group justify="flex-end">
             <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
               {t('common.actions.reset_to_default')}
             </Button>

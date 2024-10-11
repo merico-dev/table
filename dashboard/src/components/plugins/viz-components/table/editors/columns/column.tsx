@@ -73,7 +73,7 @@ export const ColumnField = ({ control, index, watch }: IColumnField) => {
         />
         <NumberInput hideControls label={t('viz.table.column.max_width')} rightSection={<PostFixPX />} disabled />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`columns.${index}.align`}
           control={control}

@@ -26,7 +26,7 @@ export function SeriesItemField({ control, index, seriesItem, xAxisOptions }: IS
   const { t } = useTranslation();
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.name`}
           control={control}
@@ -46,7 +46,7 @@ export function SeriesItemField({ control, index, seriesItem, xAxisOptions }: IS
           )}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.data_key`}
           control={control}

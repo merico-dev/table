@@ -71,11 +71,11 @@ const Field = ({ value, onChange }: IField) => {
         {modalOpened && (
           <Stack>
             <DynamicColorFunctionEditor value={localValue.func_content} onChange={changeFuncContent} />
-            <Group position="apart">
+            <Group justify="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>
-              <Group position="right">
+              <Group justify="flex-end">
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>

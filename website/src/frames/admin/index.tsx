@@ -31,12 +31,12 @@ export function AdminFrame() {
     >
       <AdminNavbar />
       <AppShell.Main>
-        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-          <Group position="left">
+        <Group justify="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+          <Group justify="left">
             {/* should place breadcrumbs here */}
             <AdminBreadcrumbs />
           </Group>
-          <Group position="right">
+          <Group justify="right">
             <LanguageSwitcher />
             <AccountDropdown height={39} />
           </Group>

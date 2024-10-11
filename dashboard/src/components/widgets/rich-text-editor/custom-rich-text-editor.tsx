@@ -162,7 +162,7 @@ export const CustomRichTextEditor = forwardRef(
     }
 
     return (
-      <Stack spacing={4} sx={{ flexGrow: 1, position: 'relative' }}>
+      <Stack gap={4} sx={{ flexGrow: 1, position: 'relative' }}>
         <Group align="center">
           <Text size={14} fw={500}>
             {label}

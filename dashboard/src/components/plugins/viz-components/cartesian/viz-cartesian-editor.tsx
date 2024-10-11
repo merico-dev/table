@@ -37,7 +37,7 @@ function Editor({ conf, setConf, context }: EditorProps) {
 
   watch(['dataZoom']);
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs

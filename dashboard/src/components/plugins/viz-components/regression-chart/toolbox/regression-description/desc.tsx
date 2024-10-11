@@ -37,7 +37,7 @@ function getLinearDescription(
   return {
     name,
     expression: (
-      <Group position="center" noWrap spacing={10}>
+      <Group justify="center" wrap="nowrap" gap={10}>
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
         <Text weight="bold" color="red">
@@ -67,14 +67,14 @@ function getExponentialDescription(
   return {
     name,
     expression: (
-      <Group position="center" noWrap spacing={10}>
+      <Group justify="center" wrap="nowrap" gap={10}>
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
         <Text weight="bold" color="gray">
           {a}
         </Text>
         <Text>×</Text>
-        <Group position="left" noWrap spacing={2}>
+        <Group justify="flex-start" wrap="nowrap" gap={2}>
           <Text>Math.exp(</Text>
           <Text weight="bold" color="gray">
             {b}
@@ -101,14 +101,14 @@ function getLogisticDescription(
   return {
     name,
     expression: (
-      <Group position="center" noWrap spacing={10}>
+      <Group justify="center" wrap="nowrap" gap={10}>
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
         <Text weight="bold" color="gray">
           {a}
         </Text>
         <Text>×</Text>
-        <Group position="left" noWrap spacing={2}>
+        <Group justify="flex-start" wrap="nowrap" gap={2}>
           <Text>Math.log(</Text>
           <Text>{x_axis.name}</Text>
           <Text>)</Text>

@@ -40,8 +40,8 @@ export const FilterTreeSingleSelectWidget = ({
   const { t } = useTranslation();
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
   return (
-    <Stack spacing={3}>
-      <Group position="apart">
+    <Stack gap={3}>
+      <Group justify="apart">
         <Text className={classes.label}>
           {label}
           {required && (

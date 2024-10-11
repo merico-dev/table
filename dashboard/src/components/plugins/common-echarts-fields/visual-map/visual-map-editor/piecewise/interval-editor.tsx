@@ -53,7 +53,7 @@ export const IntervalEditor = ({ form, index }: Props) => {
   const [opened, setOpened] = useState(false);
 
   return (
-    <Group noWrap>
+    <Group wrap="nowrap">
       <Popover
         width={400}
         position="bottom"
@@ -76,7 +76,7 @@ export const IntervalEditor = ({ form, index }: Props) => {
           </Button>
         </Popover.Target>
         <Popover.Dropdown>
-          <Group noWrap spacing={8}>
+          <Group wrap="nowrap" gap={8}>
             <Controller
               name={`visualMap.pieces.${index}.lower.value`}
               control={control}

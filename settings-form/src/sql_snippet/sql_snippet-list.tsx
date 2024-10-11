@@ -55,7 +55,7 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
 
   return (
     <>
-      <Group pt={styles.spacing} position="apart">
+      <Group pt={styles.spacing} justify="apart">
         <Alert>{t('global_sql_snippet.description')}</Alert>
         <AddSQLSnippet onSuccess={refresh} />
       </Group>
@@ -88,7 +88,7 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
                   <td width={200}>{create_time}</td>
                   <td width={200}>{update_time}</td>
                   <td width={400}>
-                    <Group position="left">
+                    <Group justify="flex-start">
                       <UpdateSQLSnippet {...snippet} onSuccess={refresh} />
                       <DeleteSQLSnippet id={id} onSuccess={refresh} />
                     </Group>

@@ -5,7 +5,7 @@ import { paddings } from '~/styles/viz-box';
 export function Toolbox(props: IRegressionDescription) {
   return (
     <Group
-      position="apart"
+      justify="apart"
       sx={{ position: 'absolute', top: 0, left: paddings.left, right: paddings.right, height: '22px', zIndex: 1 }}
     >
       <RegressionDescription {...props} />

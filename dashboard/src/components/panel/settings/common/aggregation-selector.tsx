@@ -98,7 +98,7 @@ function _AggregationSelector(
 
   return (
     <>
-      <Group grow noWrap pt={pt}>
+      <Group grow wrap="nowrap" pt={pt}>
         <Select
           ref={ref}
           label={label}

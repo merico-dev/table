@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
   const { t } = useTranslation();
   return (
-    <Group position="right" ml={-4} mt={-4} mb={opened ? 4 : 0}>
+    <Group justify="flex-end" ml={-4} mt={-4} mb={opened ? 4 : 0}>
       <Button
         size="xs"
         compact
@@ -75,8 +75,8 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
       <Collapse in={opened}>
         <Group
           className="dashboard-filters"
-          position="apart"
-          noWrap
+          justify="apart"
+          wrap="nowrap"
           sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
         >
           <Group align="flex-start">

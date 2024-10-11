@@ -14,7 +14,7 @@ export const JsonChangesViewer = (props: IJsonChangesViewerProps) => {
   const modified = useMemo(() => stableStringify(props.changed, { space: 2 }) ?? '', [props.changed]);
   return (
     <Stack style={{ height: 'calc(100vh - 300px)' }}>
-      <Group position="apart" px="xs">
+      <Group justify="apart" px="xs">
         <Text size={12}>Base</Text>
         <Text size={12}>Modified</Text>
       </Group>

@@ -32,7 +32,7 @@ const Editor = observer(({ conf, setConf }: EditorProps) => {
   watch(['content', 'vertical_align']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Stack spacing="xs">
+      <Stack gap="xs">
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Controller
           control={control}

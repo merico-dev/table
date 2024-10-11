@@ -86,7 +86,7 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
           />
         </Group>
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

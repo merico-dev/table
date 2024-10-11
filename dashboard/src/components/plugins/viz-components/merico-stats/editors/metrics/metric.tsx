@@ -17,7 +17,7 @@ export function MetricField({ control, index, watch, variableOptions }: IProps) 
   watch(`metrics.${index}.postfix`);
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`metrics.${index}.names.value`}
           control={control}
@@ -39,7 +39,7 @@ export function MetricField({ control, index, watch, variableOptions }: IProps) 
           )}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`metrics.${index}.names.basis`}
           control={control}

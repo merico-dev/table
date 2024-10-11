@@ -125,7 +125,7 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
         ) : (
           <>
             <ExplainJSONSchema content={content} />
-            <Group position="right" my="md">
+            <Group justify="flex-end" my="md">
               <Button type="submit" color="green" disabled={disabled}>
                 {t('common.actions.confirm')}
               </Button>

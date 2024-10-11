@@ -70,7 +70,7 @@ export function MarkLineField({ control, watch }: IMarkLineField) {
           render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
       </SimpleGrid>
-      <Stack spacing={4}>
+      <Stack gap={4}>
         <Controller
           name="markLine.label_template"
           control={control}

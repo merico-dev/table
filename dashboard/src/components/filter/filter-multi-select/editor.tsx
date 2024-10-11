@@ -43,7 +43,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
-      <Group position="apart">
+      <Group justify="apart">
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}
@@ -59,7 +59,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         placeholder="200px"
       />
       <Divider label={t('filter.widget.select.configure_options')} labelPosition="center" />
-      <Stack spacing={10} sx={{ position: 'relative', minHeight: '50px' }}>
+      <Stack gap={10} sx={{ position: 'relative', minHeight: '50px' }}>
         {config.usingQuery && (
           <>
             <Overlay opacity={0.8} color="#000" sx={{ left: '-5px', right: '-5px', top: '-5px', bottom: '-5px' }} />

@@ -27,7 +27,7 @@ export const LevelField = ({ control, index }: ILevelField) => {
   );
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`levels.${index}.r0`}
           control={control}
@@ -58,7 +58,7 @@ export const LevelField = ({ control, index }: ILevelField) => {
           />
         )}
       />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`levels.${index}.label.rotate`}
           control={control}
@@ -72,7 +72,7 @@ export const LevelField = ({ control, index }: ILevelField) => {
           render={({ field }) => <NameTextAlignSelector {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`levels.${index}.label.position`}
           control={control}

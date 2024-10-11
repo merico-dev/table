@@ -8,7 +8,7 @@ export const Hints = ({ max_days }: { max_days: number }) => {
   }
   return (
     <>
-      <Group position="right">
+      <Group justify="flex-end">
         <Badge size="xs">{t('filter.widget.date_range.x_max_days', { max_days })}</Badge>
       </Group>
       <Divider variant="dashed" my={10} />

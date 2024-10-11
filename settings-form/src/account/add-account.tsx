@@ -102,7 +102,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
           render={({ field }) => <RoleSelector styles={styles} {...field} />}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

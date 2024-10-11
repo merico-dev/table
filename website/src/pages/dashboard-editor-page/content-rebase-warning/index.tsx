@@ -107,7 +107,7 @@ export const ContentRebaseWarning = observer(() => {
           Someone made changes to this version.
         </Text>
         <Divider mt={20} mb={10} variant="dotted" />
-        <Group position="right">
+        <Group justify="flex-end">
           <RebaseActions rebaseModel={rebaseModel} remoteKey={remoteKey} onFinish={setFalse} />
         </Group>
       </Notification>

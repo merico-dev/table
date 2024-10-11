@@ -13,7 +13,7 @@ export const DashboardOwnerInfo = observer(({ model }: { model: PermissionModelI
   }
 
   return (
-    <Group spacing={6} position="right">
+    <Group gap={6} position="right">
       <Text size={12}>Owned by</Text>
       <Text size={12} color="dimmed">
         {model.owner_name}

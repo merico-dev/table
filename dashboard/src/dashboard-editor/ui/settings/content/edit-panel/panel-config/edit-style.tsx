@@ -12,7 +12,7 @@ export const EditStyle = observer(() => {
 
   return (
     <>
-      <Stack spacing={20}>
+      <Stack gap={20}>
         <Group grow align="top">
           <NumberInput
             label={t('panel.style.width')}

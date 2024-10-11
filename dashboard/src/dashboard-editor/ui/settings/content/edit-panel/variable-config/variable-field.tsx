@@ -29,8 +29,8 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
 
   return (
     <Stack ref={ref}>
-      <Stack spacing="xs" px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
-        <Group grow noWrap>
+      <Stack gap="xs" px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
+        <Group grow wrap="nowrap">
           <TextInput
             label={t('common.name')}
             required

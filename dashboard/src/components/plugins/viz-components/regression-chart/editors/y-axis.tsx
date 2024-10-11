@@ -11,7 +11,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
   watch(['y_axis', 'regression.y_axis_data_key']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.name"
           control={control}

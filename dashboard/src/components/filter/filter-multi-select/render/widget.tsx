@@ -71,8 +71,8 @@ export const MultiSelectWidget = ({
   }, [keyword, options]);
 
   return (
-    <Stack spacing={3}>
-      <Group position="apart">
+    <Stack gap={3}>
+      <Group justify="apart">
         <Text className={classes.label}>
           {label}
           {required && (

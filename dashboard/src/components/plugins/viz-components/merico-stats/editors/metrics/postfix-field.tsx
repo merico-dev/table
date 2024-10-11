@@ -45,7 +45,7 @@ export const PostfixField = observer(
     );
 
     return (
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Select
           label={t('viz.merico_stats.metric.postfix_type.label')}
           data={postfixTypeOptions}

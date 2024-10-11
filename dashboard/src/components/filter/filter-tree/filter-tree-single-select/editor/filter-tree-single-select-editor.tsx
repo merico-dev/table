@@ -15,7 +15,7 @@ export const FilterEditorTreeSingleSelect = observer(({ filter }: Props) => {
   const config = filter.config as FilterTreeSingleSelectConfigInstance;
   return (
     <>
-      <Group position="apart">
+      <Group justify="apart">
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}

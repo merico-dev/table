@@ -97,7 +97,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
               />
             )}
           />
-          <Group position="right" mt="md">
+          <Group justify="flex-end" mt="md">
             <Button type="submit" disabled={disabled}>
               Confirm
             </Button>

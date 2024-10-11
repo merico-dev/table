@@ -54,14 +54,14 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
 
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.name`}
           control={control}
           render={({ field }) => <TextInput label={t('viz.funnel_chart.series_name')} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.level_name_data_key`}
           control={control}
@@ -75,7 +75,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
       </Group>
 
       <Divider mb={-10} mt={10} variant="dashed" label={t('viz.funnel_chart.funnel_style')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.min.value`}
           control={control}
@@ -84,7 +84,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
               disabled={!enable_min}
               labelProps={{ display: 'block' }}
               label={
-                <Group position="apart" pr={6} sx={{ width: '100%' }}>
+                <Group justify="apart" pr={6} sx={{ width: '100%' }}>
                   <Text>{t('viz.funnel_chart.min_value')}</Text>
                   <Tooltip label={t('viz.funnel_chart.min_value_checkbox_tip')}>
                     <Box>
@@ -113,7 +113,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           render={({ field }) => <TextInput placeholder="0%" label={t('viz.funnel_chart.min_size')} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.max.value`}
           control={control}
@@ -122,7 +122,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
               disabled={!enable_max}
               labelProps={{ display: 'block' }}
               label={
-                <Group position="apart" pr={6} sx={{ width: '100%' }}>
+                <Group justify="apart" pr={6} sx={{ width: '100%' }}>
                   <Text>{t('viz.funnel_chart.max_value')}</Text>
                   <Tooltip label={t('viz.funnel_chart.max_value_checkbox_tip')}>
                     <Box>
@@ -151,7 +151,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           render={({ field }) => <TextInput placeholder="100%" label={t('viz.funnel_chart.max_size')} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.orient`}
           control={control}
@@ -163,7 +163,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           render={({ field }) => <Select label={t('viz.funnel_chart.sort.label')} data={sortOptions} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.funnelAlign`}
           control={control}
@@ -179,7 +179,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
       </Group>
 
       <Divider mb={-10} mt={10} variant="dashed" label={t('chart.label.label_style')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.axisLabel.position`}
           control={control}
@@ -193,7 +193,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         />
         <Box />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.axisLabel.overflow`}
           control={control}

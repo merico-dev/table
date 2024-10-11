@@ -81,11 +81,11 @@ export const FilterSettings = observer(function _FilterSettings() {
           <Box sx={{ flexGrow: 1, height: '100%' }}>
             {model.filters.current.map((filter) => (
               <Tabs.Panel key={filter.id} value={filter.id} sx={{ height: '100%' }}>
-                <Stack sx={{ height: '100%' }} spacing="sm">
+                <Stack sx={{ height: '100%' }} gap="sm">
                   <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>
                     <FilterSetting filter={filter} />
                   </Box>
-                  <Group position="right" pt={10}>
+                  <Group justify="flex-end" pt={10}>
                     <Button
                       size="xs"
                       color="red"

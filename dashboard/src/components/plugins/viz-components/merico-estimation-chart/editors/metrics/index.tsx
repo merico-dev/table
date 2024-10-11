@@ -32,7 +32,7 @@ export const MetricsField = ({ control, watch }: IMetricsField) => {
 
   return (
     <>
-      <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
+      <Group gap={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <IconInfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
           设置可以展示在基线图的指标，例如代码当量

@@ -29,7 +29,7 @@ const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolv
   return (
     <Tooltip
       label={
-        <Group spacing={4}>
+        <Group gap={4}>
           <Text>This will discard</Text>
           <Text fw={700} sx={{ display: 'inline-block' }}>
             {opposite}
@@ -68,7 +68,7 @@ export const JSONMergeChooser = observer(
     return (
       <Card px={0} withBorder>
         <Card.Section withBorder inheritPadding py="xs">
-          <Group px="xs" position="apart">
+          <Group px="xs" justify="apart">
             <Text size={14} fw={500}>
               {label}
             </Text>

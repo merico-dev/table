@@ -48,7 +48,7 @@ export const FilterCheckbox = observer(
         <Text>&nbsp;</Text>
         <Checkbox
           label={
-            <Group noWrap position="apart" align="middle" spacing={6}>
+            <Group wrap="nowrap" justify="apart" align="middle" gap={6}>
               <Box sx={{ flexGrow: 1 }}>{label}</Box>
               <CheckboxTooltip description={description} isDescriptionEmpty={isDescriptionEmpty} />
             </Group>

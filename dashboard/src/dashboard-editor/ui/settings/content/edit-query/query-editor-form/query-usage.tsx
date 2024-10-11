@@ -48,7 +48,7 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
                 </Anchor>
               </td>
               <td>
-                <Stack align="flex-start" justify="flex-start" spacing={2}>
+                <Stack align="flex-start" justify="flex-start" gap={2}>
                   {u.views.map((v) => (
                     <Anchor key={v.id} component="button" type="button" onClick={() => openView(v.id)}>
                       <Box>{v.label}</Box>

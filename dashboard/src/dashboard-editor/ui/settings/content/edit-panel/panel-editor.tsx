@@ -42,7 +42,7 @@ const TabsStyles = {
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%', position: 'relative' }}>
+    <Group wrap="nowrap" grow position="left" gap={20} sx={{ width: '100%', height: '100%', position: 'relative' }}>
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
@@ -116,11 +116,11 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
     <PanelContextProvider
       value={{ panel, data: panel.data, loading, errors: panel.queryErrors, downloadPanelScreenshot: () => {} }}
     >
-      <Group px={16} position="apart" sx={{ borderBottom: '1px solid #eee' }}>
+      <Group px={16} justify="apart" sx={{ borderBottom: '1px solid #eee' }}>
         <Text pt={9} pb={8}>
           {panel.name}
         </Text>
-        <Group position="right" noWrap>
+        <Group justify="flex-end" wrap="nowrap">
           <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />
           <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
             {t('panel.delete')}

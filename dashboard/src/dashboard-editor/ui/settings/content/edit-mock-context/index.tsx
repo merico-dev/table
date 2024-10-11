@@ -42,7 +42,7 @@ export const EditMockContext = observer(() => {
         <Text weight={500}>{t('mock_context.label')}</Text>
       </Group>
       <Group grow px="md" pb="md" pt={0} sx={{ flexGrow: 1, position: 'relative', alignItems: 'flex-start' }}>
-        <Stack spacing={10} sx={{ maxWidth: 'unset !important' }}>
+        <Stack gap={10} sx={{ maxWidth: 'unset !important' }}>
           <Text>{t('mock_context.hint')}</Text>
           <JsonInput
             validationError="Invalid json"

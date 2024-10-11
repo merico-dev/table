@@ -32,7 +32,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       {...rest}
     >
       <Group>
-        <Stack spacing={0} style={{ flex: 1 }}>
+        <Stack gap={0} style={{ flex: 1 }}>
           <Text size="sm" weight={500}>
             {username}
           </Text>
@@ -61,7 +61,7 @@ export function AccountDropdown({ height }: { height: number }) {
   const [profileOpened, { setTrue: openProfile, setFalse: closeProfile }] = useBoolean();
   const [passwordOpened, { setTrue: openPassword, setFalse: closePassword }] = useBoolean();
   return (
-    <Group position="center">
+    <Group justify="center">
       <Menu withinPortal>
         <Menu.Target>
           <UserButton username={account.name} email={account.email} height={height} />

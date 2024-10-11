@@ -46,7 +46,7 @@ export const DataFieldSelector = observer(
               </Box>
             </HoverCard.Target>
             <HoverCard.Dropdown>
-              <Group position="left" spacing={0}>
+              <Group justify="flex-start" gap={0}>
                 <Text size="xs" color={v.queryName ? 'black' : 'red'} sx={{ fontFamily: 'monospace' }}>
                   {v.queryName ?? v.queryID}
                 </Text>

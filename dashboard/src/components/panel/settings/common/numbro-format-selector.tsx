@@ -100,7 +100,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
         <Switch
           label={
-            <Stack spacing={0}>
+            <Stack gap={0}>
               <Text>{t('numbro.format.absolute')}</Text>
               <Text size={12} color="gray">
                 {t('numbro.format.absolute_description')}
@@ -114,7 +114,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
         <Switch
           label={
-            <Stack spacing={0}>
+            <Stack gap={0}>
               <Text>{t('numbro.format.abbreviation')}</Text>
               <Text size={12} color="gray">
                 {t('numbro.format.abbreviation_description')}
@@ -140,7 +140,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
         <Switch
           label={
-            <Stack spacing={0}>
+            <Stack gap={0}>
               <Text>{t('numbro.format.trim_mantissa')}</Text>
               <Text size={12} color="gray">
                 {t('numbro.format.trim_mantissa_description')}

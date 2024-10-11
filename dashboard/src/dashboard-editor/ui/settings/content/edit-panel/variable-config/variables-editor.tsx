@@ -54,7 +54,7 @@ export const VariablesEditor = observer(() => {
   }
   return (
     <Stack pb={20}>
-      <Group position="left">
+      <Group justify="flex-start">
         <Select
           label={t('panel.variable.labels')}
           data={model.variableOptions}

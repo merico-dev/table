@@ -58,11 +58,11 @@ export const FuncContentField = forwardRef(({ value, onChange }: IFuncContentFie
         {modalOpened && (
           <Stack>
             <FuncContentEditor value={localValue} onChange={setLocalValue} />
-            <Group position="apart">
+            <Group justify="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>
-              <Group position="right">
+              <Group justify="flex-end">
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>

@@ -23,7 +23,7 @@ const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSo
         <Text color="blue">{label}</Text>
       </Group>
     ) : (
-      <Group position="apart" ref={ref} {...others}>
+      <Group justify="apart" ref={ref} {...others}>
         <Text>{label}</Text>
         <Text>{type}</Text>
       </Group>
@@ -83,7 +83,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     <Select
       data={dataSourceOptions}
       label={
-        <Group position="apart">
+        <Group justify="apart">
           <Box>{t('data_source.label')}</Box>
           {dataSource && (
             <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />

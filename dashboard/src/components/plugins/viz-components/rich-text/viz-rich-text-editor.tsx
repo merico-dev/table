@@ -30,7 +30,7 @@ export const VizRichTextEditor = observer(({ context }: VizConfigProps) => {
   const onContentSubmit = () => submitButton.current?.click();
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-      <Stack spacing="xs" sx={{ flexGrow: 1 }}>
+      <Stack gap="xs" sx={{ flexGrow: 1 }}>
         <Group
           position="left"
           py="md"

@@ -179,7 +179,7 @@ function PaletteItem(props: {
               }}
               error={state && invalid}
             />
-            <Group position="apart">
+            <Group justify="apart">
               <Button variant="light" color="red" size="xs" onClick={handleRemove} leftIcon={<IconTrash size={16} />}>
                 {t('common.actions.delete')}
               </Button>

@@ -29,7 +29,7 @@ export const BreakpointSwitcher = observer(() => {
         <Menu withArrow withinPortal zIndex={320} trigger="hover">
           <Menu.Target>
             <Button size="xs" variant="subtle" leftIcon={<IconDevices size={16} />} sx={{ borderRadius: 0 }}>
-              <Group spacing={6}>
+              <Group gap={6}>
                 <Text size="xs" fw="normal">
                   {range.name}
                 </Text>
@@ -46,7 +46,7 @@ export const BreakpointSwitcher = observer(() => {
                 onClick={() => contentModel.layouts.setCurrentBreakpoint(r.id)}
                 disabled={currentBreakpoint === r.id}
               >
-                <Group position="apart">
+                <Group justify="apart">
                   <Text size="sm">{r.name}</Text>
                   <Text size="xs" color="dimmed">
                     {r.text}

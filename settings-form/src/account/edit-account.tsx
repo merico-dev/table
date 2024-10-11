@@ -142,7 +142,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
           />
         )}
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

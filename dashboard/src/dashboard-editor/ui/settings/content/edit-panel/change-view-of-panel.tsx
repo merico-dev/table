@@ -38,14 +38,14 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
             pb={10}
             sx={{ flexGrow: 1, maxHeight: 'calc(100vh - 185px - 30px)', overflow: 'auto' }}
           >
-            <Stack spacing="xs">
+            <Stack gap="xs">
               {content.views.options.map((o) => (
                 <Radio key={o.value} value={o.value} label={o.label} />
               ))}
             </Stack>
           </Radio.Group>
 
-          <Group noWrap position="apart" sx={{ flexGrow: 0, flexShrink: 0 }}>
+          <Group wrap="nowrap" justify="apart" sx={{ flexGrow: 0, flexShrink: 0 }}>
             <Button size="xs" color="red" leftIcon={<IconX size={14} />} onClick={close}>
               {t('common.actions.cancel')}
             </Button>

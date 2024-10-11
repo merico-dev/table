@@ -59,7 +59,7 @@ export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = def
                   </td>
                   <td>{key}</td>
                   <td width={400}>
-                    <Group position="left">
+                    <Group justify="flex-start">
                       <EditDataSource dataSource={dataSource} onSuccess={refresh} styles={styles} />
                       <DeleteDataSource
                         isProtected={is_preset}

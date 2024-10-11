@@ -77,7 +77,7 @@ export const AccountList = withEntry<Props>('AccountList', ({ styles = defaultSt
                   {/* <td width={200}>{create_time}</td>
                 <td width={200}>{update_time}</td> */}
                   <td width={200}>
-                    <Group position="left">
+                    <Group justify="flex-start">
                       <EditAccount account={account} onSuccess={refresh} />
                       <DeleteAccount id={id} name={name} onSuccess={refresh} />
                     </Group>

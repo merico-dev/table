@@ -125,7 +125,7 @@ function useHandleExitEditPage() {
       if (hasChanges) {
         modals.openConfirmModal({
           title: (
-            <Group position="left">
+            <Group justify="flex-start">
               <IconAlertTriangle size={18} color="red" />
               <Text>There are unsaved changes</Text>
             </Group>

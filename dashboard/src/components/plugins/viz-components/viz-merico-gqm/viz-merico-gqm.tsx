@@ -39,7 +39,7 @@ const GQMError = ({ error, width, height }: { error: { message: string }; width:
   const h = height - 25 - 20 - 30;
   return (
     <Center sx={{ width: '100%', height: h }}>
-      <Stack align="center" spacing={20}>
+      <Stack align="center" gap={20}>
         <MericoGQMErrorFigure />
         <ErrorMessage message={msg} />
       </Stack>

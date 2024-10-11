@@ -69,13 +69,13 @@ export interface IMergerModalTitle {
 
 export const MergerModalTitle = observer(({ state, onApply }: IMergerModalTitle) => {
   return (
-    <Group position="apart" sx={{ position: 'relative' }}>
-      <Group spacing={7}>
+    <Group justify="apart" sx={{ position: 'relative' }}>
+      <Group gap={7}>
         <Text fw={500} size="xl">
           Merge Changes
         </Text>
       </Group>
-      <Group spacing={20}>
+      <Group gap={20}>
         <Group>
           <Button
             size="xs"

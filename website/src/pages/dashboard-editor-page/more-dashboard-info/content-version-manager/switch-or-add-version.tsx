@@ -70,7 +70,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
     return store.currentDetail?.content_id === id;
   };
   return (
-    <Group spacing={0}>
+    <Group gap={0}>
       <Menu
         shadow="md"
         width={300}
@@ -104,7 +104,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
                 sx={{ cursor: isCurrent ? 'default' : 'pointer' }}
                 onClick={() => switchContent(d.id)}
               >
-                <Group position="apart">
+                <Group justify="apart">
                   <Text>{d.name}</Text>
 
                   {isPublished && (

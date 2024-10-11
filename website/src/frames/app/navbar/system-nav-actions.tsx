@@ -16,9 +16,9 @@ export const SystemNavActions = ({ collapse }: { collapse: () => void }) => {
   const { isAdmin } = useAccountContext();
   return (
     <AppShell.Section>
-      <Group position="apart" py={5} px={10} h={40} sx={{ borderBottom: '1px solid #eee' }}>
+      <Group justify="apart" py={5} px={10} h={40} sx={{ borderBottom: '1px solid #eee' }}>
         <Logo height="24px" />
-        <Group position="right">
+        <Group justify="flex-end">
           {isAdmin && (
             <Tooltip label="System Settings">
               <ActionIcon size="xs" onClick={gotoSettings}>

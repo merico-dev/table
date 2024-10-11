@@ -78,11 +78,11 @@ const Field = ({ value, onChange }: IField) => {
               variant="dashed"
             />
             <DynamicSizeFunctionEditor value={localValue.func_content} onChange={changeFuncContent} />
-            <Group position="apart">
+            <Group justify="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>
-              <Group position="right">
+              <Group justify="right">
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>

@@ -62,7 +62,7 @@ export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogM
       closeOnClickOutside={false}
       zIndex={320}
       title={
-        <Group position="apart" sx={{ flexGrow: 1 }}>
+        <Group justify="apart" sx={{ flexGrow: 1 }}>
           <Text fw={500}>Changelog</Text>
 
           {name && (

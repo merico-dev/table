@@ -26,7 +26,7 @@ export const MainHeader = observer(
 
     return (
       <AppShell.Header height={60} px="md" py={0} sx={{ zIndex: 299 }}>
-        <Group position="apart" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
+        <Group justify="apart" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
           <Group>
             <Button
               size="xs"
@@ -34,7 +34,7 @@ export const MainHeader = observer(
               leftIcon={<IconArrowLeft size={20} />}
               onClick={goBack}
             >
-              <Group spacing={4}>
+              <Group gap={4}>
                 <Trans i18nKey="common.actions.end_editing" values={{ name: model.name }}>
                   End Editing <Text td="underline">{model.name}</Text>
                 </Trans>
@@ -43,7 +43,7 @@ export const MainHeader = observer(
 
             <SaveChangesOrMore saveDashboardChanges={saveDashboardChanges} />
           </Group>
-          <Group position="right" sx={{ flexGrow: 1 }}>
+          <Group justify="flex-end" sx={{ flexGrow: 1 }}>
             {headerSlot}
           </Group>
         </Group>

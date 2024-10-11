@@ -27,7 +27,7 @@ export const ReferenceAreaField = forwardRef(
     return (
       <Stack>
         <Divider mb={-15} variant="dashed" label={t('chart.reference_area.content.label')} labelPosition="right" />
-        <Group grow noWrap>
+        <Group grow wrap="nowrap">
           <TextInput
             label={t('chart.reference_area.content.content_text')}
             value={value.content.text}
@@ -41,7 +41,7 @@ export const ReferenceAreaField = forwardRef(
         </Group>
 
         <Divider mb={-15} variant="dashed" label={t('chart.reference_area.endpoint.labels')} labelPosition="right" />
-        <Group grow noWrap>
+        <Group grow wrap="nowrap">
           {xAxisOptions && (
             <Select
               label={t('chart.x_axis.label')}
@@ -59,11 +59,11 @@ export const ReferenceAreaField = forwardRef(
             />
           )}
         </Group>
-        <Stack spacing={0}>
+        <Stack gap={0}>
           <Text size={14} color="#212529" fw={500}>
             {t('chart.reference_area.endpoint.left_bottom_point')}
           </Text>
-          <Group grow noWrap>
+          <Group grow wrap="nowrap">
             <Select
               icon={<Text>x</Text>}
               data={variableOptions}
@@ -80,11 +80,11 @@ export const ReferenceAreaField = forwardRef(
             />
           </Group>
         </Stack>
-        <Stack spacing={0}>
+        <Stack gap={0}>
           <Text size={14} color="#212529" fw={500}>
             {t('chart.reference_area.endpoint.right_top_point')}
           </Text>
-          <Group grow noWrap>
+          <Group grow wrap="nowrap">
             <Select
               icon={<Text>x</Text>}
               data={variableOptions}

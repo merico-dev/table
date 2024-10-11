@@ -185,7 +185,7 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
             )}
           />
 
-          <Group position="right" mt="md">
+          <Group justify="flex-end" mt="md">
             <Button type="submit">Confirm</Button>
           </Group>
         </Stack>

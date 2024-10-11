@@ -46,7 +46,7 @@ const Description = ({ action }: { action: SpotlightAction }) => {
   }
   if (action.viz) {
     return (
-      <Group position="apart">
+      <Group justify="apart">
         <Text color="dimmed" size="xs">
           {t(action.viz.displayName)}
         </Text>
@@ -96,7 +96,7 @@ export const SpotlightActionComponent = observer(
         onClick={onTrigger}
         {...others}
       >
-        <Group noWrap>
+        <Group wrap="nowrap">
           <ActionIcon iconKey={action.iconKey} size={14} />
 
           <div style={{ flex: 1 }}>

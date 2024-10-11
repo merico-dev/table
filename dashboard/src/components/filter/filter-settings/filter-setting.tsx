@@ -56,13 +56,13 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
   }, [i18n.language]);
 
   return (
-    <Group grow spacing={20} align="top">
+    <Group grow gap={20} align="top">
       <Box sx={{ maxWidth: '600px' }}>
         <Text pb="md" color="gray">
           {t('common.titles.edit')}
         </Text>
         <Stack>
-          <Group noWrap>
+          <Group wrap="nowrap">
             <NumberInput
               label={t('filter.field.order')}
               required

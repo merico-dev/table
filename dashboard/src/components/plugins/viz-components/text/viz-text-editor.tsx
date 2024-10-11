@@ -35,10 +35,10 @@ export function VizTextEditor({ context }: VizConfigProps) {
 
   watch(['func_content', 'horizontal_align', 'font_size', 'font_weight']);
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
-        <Stack spacing={10}>
+        <Stack gap={10}>
           <Controller name="func_content" control={control} render={({ field }) => <FuncContentField {...field} />} />
           <Divider mt={10} mb={-10} variant="dashed" label={t('chart.style.label')} labelPosition="center" />
           <Controller
@@ -58,7 +58,7 @@ export function VizTextEditor({ context }: VizConfigProps) {
               />
             )}
           />
-          <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
+          <Group justify="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
             <Controller
               name="font_weight"
               control={control}

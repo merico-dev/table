@@ -85,7 +85,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
             />
             <TextInput label="Created At" value={create_time} readOnly />
             <TextInput label="Updated At" value={update_time} readOnly />
-            <Group position="apart" mt="md">
+            <Group justify="apart" mt="md">
               <DeleteVersion id={id} postSubmit={postSubmit} />
               <SetAsDefaultVersion id={id} postSubmit={postSubmit} />
             </Group>

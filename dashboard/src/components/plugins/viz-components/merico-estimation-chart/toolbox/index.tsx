@@ -4,7 +4,7 @@ import { MetricsDescription } from './metric-description';
 
 export function Toolbox(props: IBasisMetricSelector) {
   return (
-    <Group position="apart">
+    <Group justify="apart">
       <MetricsDescription />
       <BasisMetricSelector {...props} />
     </Group>

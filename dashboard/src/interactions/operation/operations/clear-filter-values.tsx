@@ -35,7 +35,7 @@ const ClearFilterValuesOperationSettings = observer((props: IOperationConfigProp
   }, [model.filters.values]);
 
   return (
-    <Stack spacing={10}>
+    <Stack gap={10}>
       <MultiSelect
         label={t('interactions.operation.clear_filter_values.select_filter')}
         data={filterKeyOptions}

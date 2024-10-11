@@ -14,7 +14,7 @@ export const YAxisField = ({ control, watch }: IYAxisField) => {
   watch(['y_axis']);
   return (
     <>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.name"
           control={control}

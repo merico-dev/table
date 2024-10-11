@@ -80,7 +80,7 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
         </Tabs.Panel>
 
         <Tabs.Panel value="global_sql_snippets" pt="xs">
-          <Stack spacing={10}>
+          <Stack gap={10}>
             <Alert icon={<IconAlertCircle size={16} />} title={t('global_sql_snippet.labels')}>
               {t('global_sql_snippet.description')}
             </Alert>

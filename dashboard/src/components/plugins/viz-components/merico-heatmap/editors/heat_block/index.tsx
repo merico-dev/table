@@ -17,7 +17,7 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
   const showLabel = watch('heat_block.label.show');
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="heat_block.data_key"
           control={control}
@@ -40,7 +40,7 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
       />
 
       <Divider mb={-5} variant="dashed" label={t('chart.label.label')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="heat_block.label.show"
           control={control}
