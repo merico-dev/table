@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Group, AppShell, Text, Tooltip } from '@mantine/core';
 import { IconDatabase, IconFilter, IconRoute, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
@@ -32,8 +32,8 @@ export const DashboardEditorNavbar = observer(() => {
   const closeInteractions = () => setInteractionsOpened(false);
 
   return (
-    <MantineNavbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }} zIndex={299}>
-      <MantineNavbar.Section>
+    <AppShell.Navbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }} zIndex={299}>
+      <AppShell.Section>
         <Group
           grow
           spacing={0}
@@ -59,24 +59,24 @@ export const DashboardEditorNavbar = observer(() => {
           </Tooltip>
         </Group>
         <InteractionsViewerModal opened={interactionsOpened} close={closeInteractions} />
-      </MantineNavbar.Section>
+      </AppShell.Section>
 
-      <MantineNavbar.Section py={5} sx={{ borderBottom: '1px solid #eee' }}>
+      <AppShell.Section py={5} sx={{ borderBottom: '1px solid #eee' }}>
         <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('view.labels')}
         </Text>
-      </MantineNavbar.Section>
-      <MantineNavbar.Section grow sx={{ overflow: 'auto' }}>
+      </AppShell.Section>
+      <AppShell.Section grow sx={{ overflow: 'auto' }}>
         <ViewLinks />
-      </MantineNavbar.Section>
+      </AppShell.Section>
 
-      <MantineNavbar.Section>
+      <AppShell.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
           <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open([])}>
             {t('common.titles.settings')}
           </Button>
         </Group>
-      </MantineNavbar.Section>
-    </MantineNavbar>
+      </AppShell.Section>
+    </AppShell.Navbar>
   );
 });

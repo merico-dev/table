@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Navbar as MantineNavbar, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, AppShell, Tooltip } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../components/logo';
@@ -11,7 +11,7 @@ export const AdminSystemNavActions = () => {
     navigate(path);
   };
   return (
-    <MantineNavbar.Section>
+    <AppShell.Section>
       <Group position="apart" py={5} px={10} h={40} sx={{ borderBottom: '1px solid #eee' }}>
         <Logo height="24px" />
         <Group position="right">
@@ -22,6 +22,6 @@ export const AdminSystemNavActions = () => {
           </Tooltip>
         </Group>
       </Group>
-    </MantineNavbar.Section>
+    </AppShell.Section>
   );
 };

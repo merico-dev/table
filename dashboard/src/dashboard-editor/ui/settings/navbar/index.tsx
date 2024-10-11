@@ -1,4 +1,4 @@
-import { Button, Group, Navbar as MantineNavbar, Text } from '@mantine/core';
+import { Button, Group, AppShell, Text } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
@@ -10,7 +10,7 @@ export const SettingsNavbar = observer(() => {
   const model = useEditDashboardContext();
 
   return (
-    <MantineNavbar
+    <AppShell.Navbar
       p={0}
       width={{ base: 220, xs: 220, sm: 240, md: 260, lg: 300, xl: 320 }}
       sx={{
@@ -20,23 +20,23 @@ export const SettingsNavbar = observer(() => {
         },
       }}
     >
-      <MantineNavbar.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
+      <AppShell.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('common.titles.settings')}
         </Text>
-      </MantineNavbar.Section>
+      </AppShell.Section>
 
-      <MantineNavbar.Section grow sx={{ overflow: 'auto' }}>
+      <AppShell.Section grow sx={{ overflow: 'auto' }}>
         <SettingsNavLinks />
-      </MantineNavbar.Section>
+      </AppShell.Section>
 
-      <MantineNavbar.Section>
+      <AppShell.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
           <Button size="xs" color="red" leftIcon={<IconX size={18} />} onClick={() => model.editor.close()}>
             {t('common.actions.close')}
           </Button>
         </Group>
-      </MantineNavbar.Section>
-    </MantineNavbar>
+      </AppShell.Section>
+    </AppShell.Navbar>
   );
 });
