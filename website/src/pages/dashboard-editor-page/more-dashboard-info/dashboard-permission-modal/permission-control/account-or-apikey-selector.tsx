@@ -1,15 +1,17 @@
-import { Group, Select, Text } from '@mantine/core';
-import { forwardRef, useCallback } from 'react';
+import { Group, Select, SelectProps, Text } from '@mantine/core';
+import { useCallback } from 'react';
 import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 
-const SelectItem = forwardRef<HTMLDivElement, AccountOrAPIKeyOptionType>(({ label, type, ...others }, ref) => (
-  <Group justify="apart" ref={ref} {...others}>
-    <Text>{label}</Text>
-    <AccountTypeIcon type={type} />
-  </Group>
-));
-
+const SelectItem: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, type } = option as AccountOrAPIKeyOptionType;
+  return (
+    <Group justify="apart" {...others}>
+      <Text>{label}</Text>
+      <AccountTypeIcon type={type} />
+    </Group>
+  );
+};
 interface IAccountOrAPIKeySelector {
   value: string;
   onChange: (v: string) => void;
@@ -42,7 +44,7 @@ export const AccountOrAPIKeySelector = ({
     <Select
       size="xs"
       placeholder="Select one"
-      itemComponent={SelectItem}
+      renderOption={SelectItem}
       rightSection={type ? <AccountTypeIcon type={type} /> : undefined}
       rightSectionWidth={58}
       maxDropdownHeight={280}

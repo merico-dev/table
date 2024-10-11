@@ -55,7 +55,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
           padding: '4px 10px',
         },
       }}
-      itemComponent={FilterSelectItem}
+      renderOption={FilterSelectItem}
       searchable={!error}
       nothingFound={<ErrorMessageOrNotFound errorMessage={error} />}
       clearable={config.clearable}

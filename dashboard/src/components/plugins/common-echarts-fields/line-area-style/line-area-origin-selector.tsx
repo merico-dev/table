@@ -1,29 +1,28 @@
-import { Box, Select, Stack, Text } from '@mantine/core';
+import { Box, ComboboxItem, Select, SelectProps, Stack, Text } from '@mantine/core';
 import { forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EchartsLineAreaStyle } from './types';
 import { getSelectChangeHandler } from '~/utils/mantine';
 
-interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+type CustomItem = ComboboxItem & {
   label: string;
   description: string;
   value: string;
-}
+};
 
-export const OriginSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ label, description, ...others }: ItemProps, ref) => {
-    return (
-      <Box {...others}>
-        <Stack gap="0" ref={ref}>
-          <Text size="sm">{label}</Text>
-          <Text size="xs" opacity={0.65}>
-            {description}
-          </Text>
-        </Stack>
-      </Box>
-    );
-  },
-);
+export const OriginSelectorItem: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, description } = option as CustomItem;
+  return (
+    <Box {...others}>
+      <Stack gap="0">
+        <Text size="sm">{label}</Text>
+        <Text size="xs" opacity={0.65}>
+          {description}
+        </Text>
+      </Stack>
+    </Box>
+  );
+};
 
 type Props = {
   value: EchartsLineAreaStyle['origin'];
@@ -57,7 +56,7 @@ export const LineAreaOriginSelector = forwardRef<HTMLInputElement, Props>(({ val
       data={options}
       value={value}
       onChange={getSelectChangeHandler(onChange)}
-      itemComponent={OriginSelectorItem}
+      renderOption={OriginSelectorItem}
       size="xs"
     />
   );

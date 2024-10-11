@@ -1,14 +1,14 @@
-import { Group, Text } from '@mantine/core';
-import { forwardRef } from 'react';
+import { ComboboxItem, Group, SelectProps, Text } from '@mantine/core';
 
-interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+type CustomItem = ComboboxItem & {
   label: string;
   description: string;
-}
+};
 
-export const FilterSelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ label, description, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
+export const FilterSelectItem: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, description } = option as CustomItem;
+  return (
+    <div {...others}>
       <Group wrap="nowrap">
         <div>
           <Text size="sm" data-role="label">
@@ -20,5 +20,5 @@ export const FilterSelectItem = forwardRef<HTMLDivElement, ItemProps>(
         </div>
       </Group>
     </div>
-  ),
-);
+  );
+};

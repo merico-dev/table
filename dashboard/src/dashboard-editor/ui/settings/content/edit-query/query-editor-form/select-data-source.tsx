@@ -1,35 +1,37 @@
-import { Box, Group, Select, Text, ThemeIcon } from '@mantine/core';
+import { Box, ComboboxItem, Group, Select, SelectProps, Text } from '@mantine/core';
+import { IconVectorTriangle } from '@tabler/icons-react';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { listDataSources } from '~/api-caller';
 import { useEditDashboardContext } from '~/contexts';
 import { DataSourceType } from '~/model';
-import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
-import { IconVectorTriangle } from '@tabler/icons-react';
-import { useTranslation } from 'react-i18next';
 
-const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
-  ({ label, type, ...others }, ref) =>
-    type === DataSourceType.Transform ? (
+type CustomOption = { label: string; type: DataSourceType } & ComboboxItem;
+const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, type } = option as CustomOption;
+  if (type === DataSourceType.Transform) {
+    return (
       <Group
         className="transform-query-option"
         justify="flex-start"
-        ref={ref}
         {...others}
         sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
       >
         <IconVectorTriangle size={14} color="#228be6" />
         <Text c="blue">{label}</Text>
       </Group>
-    ) : (
-      <Group justify="apart" ref={ref} {...others}>
-        <Text>{label}</Text>
-        <Text>{type}</Text>
-      </Group>
-    ),
-);
-
+    );
+  }
+  return (
+    <Group justify="apart" {...others}>
+      <Text>{label}</Text>
+      <Text>{type}</Text>
+    </Group>
+  );
+};
 interface ISelectDataSource {
   value: { type: DataSourceType; key: string };
   onChange: (v: { type: DataSourceType; key: string }) => void;
@@ -90,7 +92,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
           )}
         </Group>
       }
-      itemComponent={DataSourceLabel}
+      renderOption={DataSourceLabel}
       rightSection={
         dataSource ? (
           <Text size="xs" c="dimmed">

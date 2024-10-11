@@ -1,24 +1,23 @@
-import { Box, Group, Text } from '@mantine/core';
+import { Box, ComboboxItem, Group, SelectProps, Text } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
-import { forwardRef } from 'react';
 
-interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+type CustomItem = ComboboxItem & {
   label: string;
   value: string;
   aggValue: string;
   formattedValue: string;
-  preview: 'aggregated' | 'formatted';
-}
+};
 
-export const VariableSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ aggValue, formattedValue, label, preview, ...others }: ItemProps, ref) => {
+export function getVariableSelectorItemRenderer(preview: 'aggregated' | 'formatted') {
+  const func: SelectProps['renderOption'] = ({ option, ...others }) => {
+    const { aggValue, formattedValue, label } = option as CustomItem;
     const { hovered, ref: hoverRef } = useHover();
 
     const defaultPreview = preview === 'aggregated' ? aggValue : formattedValue;
     const hoveredPreview = preview === 'aggregated' ? formattedValue : aggValue;
     return (
       <Box ref={hoverRef} {...others}>
-        <Group wrap="nowrap" justify="apart" ref={ref}>
+        <Group wrap="nowrap" justify="apart">
           <Text size="sm" sx={{ flexGrow: 1 }}>
             {label}
           </Text>
@@ -28,5 +27,7 @@ export const VariableSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
         </Group>
       </Box>
     );
-  },
-);
+  };
+
+  return func;
+}

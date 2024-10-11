@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts';
-import { VariableSelectorItem } from './variable-selector-item';
+import { getVariableSelectorItemRenderer } from './variable-selector-item';
 import { getSelectChangeHandler } from '~/utils/mantine';
 
 type Props = {
@@ -47,7 +47,7 @@ export const VariableSelector = observer(
         ref={ref}
         label={label}
         description={description}
-        itemComponent={(props) => <VariableSelectorItem preview={preview} {...props} />}
+        renderOption={getVariableSelectorItemRenderer(preview)}
         data={options}
         value={value}
         required={required}
@@ -55,9 +55,9 @@ export const VariableSelector = observer(
         maxDropdownHeight={500}
         comboboxProps={{
           withinPortal: true,
+          zIndex,
         }}
         onChange={getSelectChangeHandler(onChange)}
-        zIndex={zIndex}
       />
     );
   }),

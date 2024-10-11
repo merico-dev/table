@@ -1,26 +1,27 @@
-import { Select, Stack, Text } from '@mantine/core';
+import { ComboboxItem, Select, SelectProps, Stack, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
 import { IStyles } from './styles';
-import { useTranslation } from 'react-i18next';
 
-interface IRoleOptionItem {
+type RoleOptionItem = ComboboxItem & {
   label: string;
   value: string;
   description: string;
-}
+};
 
-const RoleOptionItem = forwardRef<HTMLDivElement, IRoleOptionItem>(
-  ({ label, value, description, ...others }: IRoleOptionItem, ref) => (
-    <Stack gap={2} ref={ref} {...others}>
+const RoleOptionItem: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, value, description } = option as RoleOptionItem;
+  return (
+    <Stack gap={2} {...others}>
       <Text size="sm">{label}</Text>
       <Text size="xs" c="dimmed" className="role-description">
         {description}
       </Text>
     </Stack>
-  ),
-);
+  );
+};
 
 interface IRoleSelector {
   value: string;
@@ -50,7 +51,7 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
       size={styles.size}
       required
       label={t('role.label')}
-      itemComponent={RoleOptionItem}
+      renderOption={RoleOptionItem}
       data={roleOptions}
       disabled={roleLoading}
       styles={() => ({

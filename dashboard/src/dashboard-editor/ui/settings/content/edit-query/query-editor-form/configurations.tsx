@@ -64,7 +64,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
           data={queryModel.conditionOptions}
           value={[...queryModel.run_by]}
           onChange={queryModel.setRunBy}
-          itemComponent={CustomSelectorItem}
+          renderOption={CustomSelectorItem}
           maxDropdownHeight={500}
         />
         {queryModel.typedAsHTTP && (
@@ -74,7 +74,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
             data={queryModel.conditionOptions}
             value={[...queryModel.react_to]}
             onChange={queryModel.setReactTo}
-            itemComponent={CustomSelectorItem}
+            renderOption={CustomSelectorItem}
             maxDropdownHeight={500}
           />
         )}
