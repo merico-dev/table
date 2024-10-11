@@ -24,15 +24,15 @@ import('./utils/configure-monaco-editor');
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ModalsProvider>
-    <LanguageContextProvider>
-      <HelmetProvider>
-        <Helmet>
-          <title>@devtable</title>
-        </Helmet>
-        <LoadFavicon />
+  <MantineProviders>
+    <ModalsProvider>
+      <LanguageContextProvider>
+        <HelmetProvider>
+          <Helmet>
+            <title>@devtable</title>
+          </Helmet>
+          <LoadFavicon />
 
-        <MantineProviders>
           <BrowserRouter basename={import.meta.env.VITE_WEBSITE_BASE_URL ?? ''}>
             <Routes>
               <Route path="" element={<RunMiddlewares />}>
@@ -60,8 +60,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               </Route>
             </Routes>
           </BrowserRouter>
-        </MantineProviders>
-      </HelmetProvider>
-    </LanguageContextProvider>
-  </ModalsProvider>,
+        </HelmetProvider>
+      </LanguageContextProvider>
+    </ModalsProvider>
+  </MantineProviders>,
 );
