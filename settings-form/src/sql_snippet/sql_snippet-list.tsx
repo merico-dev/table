@@ -61,12 +61,7 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
-        <Table
-          horizontalSpacing={styles.spacing}
-          verticalSpacing={styles.spacing}
-          fontSize={styles.size}
-          highlightOnHover
-        >
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
           <thead>
             <tr>
               <th>{t('common.name')}</th>

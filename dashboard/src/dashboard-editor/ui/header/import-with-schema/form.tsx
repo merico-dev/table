@@ -110,7 +110,7 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
           sx={{ maxWidth: 500 }}
         />
         {contentErrorMessage ? (
-          <Table fontSize={12} mt={10}>
+          <Table fz={12} mt={10}>
             <tbody>
               <tr>
                 <th>{t('import.this_dashboard')}</th>

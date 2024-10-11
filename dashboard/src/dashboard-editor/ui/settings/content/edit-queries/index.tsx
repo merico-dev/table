@@ -84,7 +84,7 @@ export const EditQueries = observer(() => {
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Checkbox.Group size="xs" value={value} onChange={setValue}>
-          <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
+          <Table fz="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
             <thead>
               <tr>
                 <th style={{ width: '40px' }}></th>

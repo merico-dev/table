@@ -17,7 +17,7 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
     <>
       <Divider variant="dashed" my={10} />
       <Table
-        withBorder={false}
+        withTableBorder={false}
         sx={{
           'tbody > tr > th, tbody > tr > td': { borderTop: 'none', padding: '2px 6px' },
           'tbody > tr > th': { cursor: 'default', userSelect: 'none' },

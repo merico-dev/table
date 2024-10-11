@@ -24,7 +24,7 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
     return <Text>Unavailable for this regression method</Text>;
   }
   return (
-    <Table fontSize={14} sx={TableSx}>
+    <Table fz={14} sx={TableSx}>
       <tbody>
         <tr>
           <td colSpan={2}>

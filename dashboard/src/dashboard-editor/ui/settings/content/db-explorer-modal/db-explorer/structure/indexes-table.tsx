@@ -12,7 +12,7 @@ export const MySQLIndexesTable = observer(({ dataSource }: { dataSource: DataSou
   return (
     <Table
       highlightOnHover
-      fontSize={14}
+      fz={14}
       sx={{
         width: 'auto',
         minWidth: '950px',
@@ -59,7 +59,7 @@ export const PGIndexesTable = observer(({ dataSource }: { dataSource: DataSource
   return (
     <Table
       highlightOnHover
-      fontSize={14}
+      fz={14}
       sx={{
         width: 'auto',
         minWidth: '850px',

@@ -44,17 +44,12 @@ export const APIKeyList = withEntry<Props>('APIKeyList', ({ styles = defaultStyl
 
   return (
     <>
-      <Group pt={styles.spacing} position="right">
+      <Group pt={styles.spacing} justify="flex-end">
         <AddAPIKey onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 'INACTIVE'} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading || roleLoading} />
-        <Table
-          horizontalSpacing={styles.spacing}
-          verticalSpacing={styles.spacing}
-          fontSize={styles.size}
-          highlightOnHover
-        >
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
           <thead>
             <tr>
               <th>{t('common.name')}</th>

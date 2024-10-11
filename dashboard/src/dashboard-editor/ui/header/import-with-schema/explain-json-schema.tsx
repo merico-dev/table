@@ -6,7 +6,7 @@ import { TDashboardContent } from '~/types';
 
 const CustomTable = ({ headers, rows }: { headers: ReactNode; rows: ReactNode }) => {
   return (
-    <Table fontSize="xs" highlightOnHover sx={{ tableLayout: 'fixed', fontFamily: 'monospace' }}>
+    <Table fz="xs" highlightOnHover sx={{ tableLayout: 'fixed', fontFamily: 'monospace' }}>
       <thead>{headers}</thead>
       <tbody>{rows}</tbody>
     </Table>

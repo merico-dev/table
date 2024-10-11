@@ -66,7 +66,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
-        <Table fontSize="sm" highlightOnHover withBorder sx={{ tableLayout: 'fixed' }}>
+        <Table fz="sm" highlightOnHover withTableBorder sx={{ tableLayout: 'fixed' }}>
           <thead>
             <tr>
               <th style={{ width: '340px' }}>{t('common.name')}</th>

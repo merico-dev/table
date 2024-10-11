@@ -45,17 +45,12 @@ export const AccountList = withEntry<Props>('AccountList', ({ styles = defaultSt
 
   return (
     <>
-      <Group pt={styles.spacing} position="right">
+      <Group pt={styles.spacing} justify="flex-end">
         <AddAccount onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 'INACTIVE'} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading || roleLoading} />
-        <Table
-          horizontalSpacing={styles.spacing}
-          verticalSpacing={styles.spacing}
-          fontSize={styles.size}
-          highlightOnHover
-        >
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
           <thead>
             <tr>
               <th>{t('account.username')}</th>

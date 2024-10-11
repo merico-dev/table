@@ -20,7 +20,7 @@ export function MetricsDescription() {
         </Button>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Table fontSize={14} sx={TableSx}>
+        <Table fz={14} sx={TableSx}>
           <tbody>
             <tr>
               <th>估算偏差</th>

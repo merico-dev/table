@@ -59,7 +59,6 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           onChange={(e) => {
             setKey(e.currentTarget.value);
           }}
-          // @ts-expect-error important
           sx={{ flexGrow: '1 !important' }}
           rightSection={
             <ActionIcon

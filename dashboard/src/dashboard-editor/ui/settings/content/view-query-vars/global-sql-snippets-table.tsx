@@ -26,7 +26,7 @@ export const GlobalSQLSnippetsTable = observer(() => {
     return null;
   }
   return (
-    <Table horizontalSpacing="xs" verticalSpacing="xs" fontSize="sm" highlightOnHover>
+    <Table horizontalSpacing="xs" verticalSpacing="xs" fz="sm" highlightOnHover>
       <thead>
         <tr>
           <th>Key</th>

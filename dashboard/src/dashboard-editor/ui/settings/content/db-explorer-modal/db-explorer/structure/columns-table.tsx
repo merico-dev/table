@@ -31,7 +31,7 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
   return (
     <Table
       highlightOnHover
-      fontSize={14}
+      fz={14}
       sx={{
         width: 'auto',
         minWidth: '1000px',
