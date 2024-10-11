@@ -164,15 +164,14 @@ export const CustomRichTextEditor = forwardRef(
     return (
       <Stack gap={4} sx={{ flexGrow: 1, position: 'relative' }}>
         <Group align="center">
-          <Text size={14} fw={500}>
+          <Text size={'14px'} fw={500}>
             {label}
           </Text>
           {!autoSubmit && (
             <Button
               variant="filled"
               color="blue"
-              size="xs"
-              compact
+              size="compact-xs"
               disabled={!changed}
               onClick={submit}
               leftSection={<IconDeviceFloppy size={16} />}

@@ -43,7 +43,7 @@ export const DescribeParetoParams = () => {
   }, [i18n.language]);
   return (
     <>
-      <Button variant="subtle" compact onClick={() => setOpened((o) => !o)}>
+      <Button variant="subtle" size="compact-sm" onClick={() => setOpened((o) => !o)}>
         {opened ? t('common.actions.close') : t('viz.pareto_chart.line_80_20.click_to_see_params')}
       </Button>
 

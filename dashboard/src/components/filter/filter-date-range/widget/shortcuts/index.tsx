@@ -34,7 +34,7 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
               </th>
               {shortcuts.map(({ key, value, getRange }) => (
                 <td key={key}>
-                  <Button compact size="xs" variant="subtle" onClick={getClickHandler(getRange)}>
+                  <Button size="compact-xs" variant="subtle" onClick={getClickHandler(getRange)}>
                     {t(`filter.widget.date_range.shortcut.${group}.${useFullLabel ? 'full.' : ''}${key}`)}
                   </Button>
                 </td>

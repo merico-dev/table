@@ -14,7 +14,7 @@ const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSo
     type === DataSourceType.Transform ? (
       <Group
         className="transform-query-option"
-        position="left"
+        justify="flex-start"
         ref={ref}
         {...others}
         sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
@@ -86,14 +86,14 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
         <Group justify="apart">
           <Box>{t('data_source.label')}</Box>
           {dataSource && (
-            <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
+            <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ size: 'compact-xs', px: 10 }} />
           )}
         </Group>
       }
       itemComponent={DataSourceLabel}
       rightSection={
         dataSource ? (
-          <Text size="xs" color="dimmed">
+          <Text size="xs" c="dimmed">
             {dataSource.type}
           </Text>
         ) : undefined

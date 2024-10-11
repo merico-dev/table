@@ -17,8 +17,7 @@ const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void
   return (
     <Group justify="flex-end" ml={-4} mt={-4} mb={opened ? 4 : 0}>
       <Button
-        size="xs"
-        compact
+        size="compact-xs"
         variant="subtle"
         color={opened ? 'gray' : 'blue'}
         leftSection={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}

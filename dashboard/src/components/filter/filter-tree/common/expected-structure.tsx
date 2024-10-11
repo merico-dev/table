@@ -20,7 +20,7 @@ export const ExpectedStructureForTreeSelect = () => {
 
   return (
     <>
-      <Button variant="subtle" compact onClick={() => setOpened((o) => !o)}>
+      <Button variant="subtle" size="compact-sm" onClick={() => setOpened((o) => !o)}>
         {opened ? t('common.actions.close') : t('filter.widget.common.see_data_structure')}
       </Button>
 

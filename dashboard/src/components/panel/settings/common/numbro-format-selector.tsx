@@ -28,7 +28,7 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
       <Button
         variant="subtle"
         w="100%"
-        compact
+        size="compact-sm"
         onClick={toggle}
         leftSection={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
       >

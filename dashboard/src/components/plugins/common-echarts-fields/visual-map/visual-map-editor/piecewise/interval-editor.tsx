@@ -67,7 +67,7 @@ export const IntervalEditor = ({ form, index }: Props) => {
         <Popover.Target>
           <Button
             variant="subtle"
-            compact
+            size="compact-sm"
             px={0}
             onClick={() => setOpened((o) => !o)}
             sx={{ fontFamily: 'monospace', fontWeight: 'normal' }}
