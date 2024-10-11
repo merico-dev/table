@@ -47,7 +47,7 @@ export const FilterSettings = observer(function _FilterSettings() {
         <Button
           size="xs"
           color="red"
-          leftIcon={<IconRecycle size={20} />}
+          leftSection={<IconRecycle size={20} />}
           disabled={!model.filtersChanged}
           onClick={model.resetFilters}
         >
@@ -67,7 +67,7 @@ export const FilterSettings = observer(function _FilterSettings() {
       >
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
-            <Button size="xs" color="blue" leftIcon={<IconPlaylistAdd size={20} />} onClick={addFilter}>
+            <Button size="xs" color="blue" leftSection={<IconPlaylistAdd size={20} />} onClick={addFilter}>
               {t('filter.add')}
             </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
@@ -89,7 +89,7 @@ export const FilterSettings = observer(function _FilterSettings() {
                     <Button
                       size="xs"
                       color="red"
-                      leftIcon={<IconTrash size={20} />}
+                      leftSection={<IconTrash size={20} />}
                       onClick={() => removeWithConfirmation(filter.id)}
                     >
                       {t('filter.delete')}

@@ -44,7 +44,7 @@ export const FunctionStringField = forwardRef(
         <Button
           color="grape"
           variant="filled"
-          leftIcon={<IconMathFunction size={16} />}
+          leftSection={<IconMathFunction size={16} />}
           size={styles.button.size}
           onClick={setTrue}
           sx={{ flexGrow: 1 }}
@@ -67,7 +67,7 @@ export const FunctionStringField = forwardRef(
                   size={styles.button.size}
                   onClick={resetFuncContent}
                   color="red"
-                  leftIcon={<IconRecycle size={20} />}
+                  leftSection={<IconRecycle size={20} />}
                 >
                   {t('common.actions.reset_to_default')}
                 </Button>
@@ -78,7 +78,7 @@ export const FunctionStringField = forwardRef(
                   <Button
                     size={styles.button.size}
                     color="green"
-                    leftIcon={<IconDeviceFloppy size={16} />}
+                    leftSection={<IconDeviceFloppy size={16} />}
                     onClick={handleOk}
                   >
                     {t('common.actions.save')}

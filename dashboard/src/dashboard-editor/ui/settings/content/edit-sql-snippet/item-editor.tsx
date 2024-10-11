@@ -73,7 +73,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           }
           error={isADuplicatedKey}
         />
-        <Button leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
+        <Button leftSection={<IconTrash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
           {t('sql_snippet.delete')}
         </Button>
       </Group>

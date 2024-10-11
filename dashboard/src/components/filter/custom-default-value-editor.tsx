@@ -41,7 +41,7 @@ export const CustomDefaultValueEditor = observer(({ filter }: Props) => {
         size: 'xs',
         color: 'grape',
         sx: { flexGrow: 0, alignSelf: 'flex-start' },
-        leftIcon: <IconMathFunction size={16} />,
+        leftSection: <IconMathFunction size={16} />,
       }}
       description={
         <Alert title={t('filter.field.custom_default_value.tips')} color="gray" mb={16}>

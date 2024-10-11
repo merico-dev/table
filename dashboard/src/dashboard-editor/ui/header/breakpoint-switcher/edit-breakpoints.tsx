@@ -140,12 +140,18 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
             color="orange"
             size="xs"
             onClick={() => reset()}
-            leftIcon={<IconRecycle size={18} />}
+            leftSection={<IconRecycle size={18} />}
             disabled={!changed}
           >
             {t('common.actions.revert')}
           </Button>
-          <Button color="green" size="xs" type="submit" leftIcon={<IconDeviceFloppy size={18} />} disabled={!changed}>
+          <Button
+            color="green"
+            size="xs"
+            type="submit"
+            leftSection={<IconDeviceFloppy size={18} />}
+            disabled={!changed}
+          >
             {t('common.actions.save_changes')}
           </Button>
         </Group>

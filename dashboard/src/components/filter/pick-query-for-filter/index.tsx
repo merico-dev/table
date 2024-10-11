@@ -24,7 +24,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
           {value && (
             <Button
               size="xs"
-              leftIcon={<IconArrowCurveRight size={16} />}
+              leftSection={<IconArrowCurveRight size={16} />}
               variant="subtle"
               color="blue"
               onClick={() => navigateToQuery(value)}

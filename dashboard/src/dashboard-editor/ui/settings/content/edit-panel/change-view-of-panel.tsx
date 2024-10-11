@@ -27,7 +27,7 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
 
   return (
     <>
-      <Button size="xs" variant="subtle" color="blue" onClick={open} leftIcon={<IconBoxMultiple size={14} />}>
+      <Button size="xs" variant="subtle" color="blue" onClick={open} leftSection={<IconBoxMultiple size={14} />}>
         {t('panel.settings.change_view')}
       </Button>
       <Modal opened={opened} onClose={close} title={t('panel.settings.change_view_title')} zIndex={320}>
@@ -46,13 +46,13 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
           </Radio.Group>
 
           <Group wrap="nowrap" justify="apart" sx={{ flexGrow: 0, flexShrink: 0 }}>
-            <Button size="xs" color="red" leftIcon={<IconX size={14} />} onClick={close}>
+            <Button size="xs" color="red" leftSection={<IconX size={14} />} onClick={close}>
               {t('common.actions.cancel')}
             </Button>
             <Button
               size="xs"
               color="blue"
-              leftIcon={<IconDeviceFloppy size={14} />}
+              leftSection={<IconDeviceFloppy size={14} />}
               onClick={confirm}
               disabled={targetViewID === sourceViewID}
             >

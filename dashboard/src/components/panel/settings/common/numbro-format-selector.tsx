@@ -30,7 +30,7 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
         w="100%"
         compact
         onClick={toggle}
-        leftIcon={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
+        leftSection={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
       >
         {opened ? t('numbro.format.preview.close') : t('numbro.format.preview.open')}
       </Button>

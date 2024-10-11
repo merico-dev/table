@@ -24,7 +24,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
           size="xs"
           variant="subtle"
           color="gray"
-          leftIcon={<IconHierarchy size={16} style={{ transform: 'rotate(180deg)' }} />}
+          leftSection={<IconHierarchy size={16} style={{ transform: 'rotate(180deg)' }} />}
           sx={{ transform: 'none !important' }}
         >
           {t('query.dependency.label')}
@@ -41,7 +41,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
           variant="subtle"
           color={hasUnmetDependencies ? 'red' : 'green'}
           disabled={!hasDependency}
-          leftIcon={hasUnmetDependencies ? <IconAlertTriangle size={16} /> : <IconDiscountCheckFilled size={16} />}
+          leftSection={hasUnmetDependencies ? <IconAlertTriangle size={16} /> : <IconDiscountCheckFilled size={16} />}
         >
           {t('query.dependency.label')}
         </Button>

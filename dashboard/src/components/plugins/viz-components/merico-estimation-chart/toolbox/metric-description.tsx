@@ -15,7 +15,7 @@ export function MetricsDescription() {
   return (
     <HoverCard width={400} shadow="md">
       <HoverCard.Target>
-        <Button size="xs" variant="subtle" compact leftIcon={<IconInfoCircle size={14} />}>
+        <Button size="xs" variant="subtle" compact leftSection={<IconInfoCircle size={14} />}>
           指标说明
         </Button>
       </HoverCard.Target>

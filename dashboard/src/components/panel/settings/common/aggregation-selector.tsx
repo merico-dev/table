@@ -140,7 +140,7 @@ function _AggregationSelector(
             triggerButtonProps={{
               size: 'xs',
               sx: { flexGrow: 0, alignSelf: 'center', marginTop: '22px' },
-              leftIcon: <IconMathFunction size={16} />,
+              leftSection: <IconMathFunction size={16} />,
               color: 'grape',
             }}
           />

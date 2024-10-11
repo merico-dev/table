@@ -39,7 +39,7 @@ export const PickQuery = observer(function _PickQuery() {
 
       <Stack gap={6}>
         <Group justify="flex-start">
-          <Button variant="light" size="sm" leftIcon={<IconLine size={16} />} onClick={() => setOpened(true)}>
+          <Button variant="light" size="sm" leftSection={<IconLine size={16} />} onClick={() => setOpened(true)}>
             {count === 0 ? t('panel.settings.need_to_choose_queries') : t('panel.settings.choose_queries')}
           </Button>
         </Group>

@@ -85,7 +85,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
           <Button
             size="xs"
             variant="light"
-            leftIcon={<IconVersions size={18} />}
+            leftSection={<IconVersions size={18} />}
             sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
           >
             {content.name}

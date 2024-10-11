@@ -179,7 +179,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
       >
         <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconEdit size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconEdit size={20} />}>
         {t('common.actions.edit')}
       </Button>
     </>

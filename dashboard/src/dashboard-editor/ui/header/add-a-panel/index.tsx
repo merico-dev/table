@@ -27,7 +27,7 @@ export const AddAPanel = observer(() => {
           color="gray"
           radius={0}
           size="xs"
-          leftIcon={<IconPlaylistAdd size={20} />}
+          leftSection={<IconPlaylistAdd size={20} />}
           sx={{
             ...ButtonSx,
             transform: 'none !important',
@@ -46,7 +46,7 @@ export const AddAPanel = observer(() => {
       radius={0}
       size="xs"
       onClick={add}
-      leftIcon={<IconPlaylistAdd size={20} />}
+      leftSection={<IconPlaylistAdd size={20} />}
       sx={{
         ...ButtonSx,
         background: 'rgb(231, 245, 255)',

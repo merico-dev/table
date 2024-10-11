@@ -72,7 +72,7 @@ export const DashboardEditorNavbar = observer(() => {
 
       <AppShell.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
-          <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open([])}>
+          <Button size="xs" leftSection={<IconSettings size={20} />} onClick={() => model.editor.open([])}>
             {t('common.titles.settings')}
           </Button>
         </Group>

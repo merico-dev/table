@@ -68,7 +68,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
           size={styles.button.size}
           color="gray"
           variant="light"
-          leftIcon={<IconLock size={16} />}
+          leftSection={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
           {t('common.actions.delete')}
@@ -78,7 +78,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
   }
 
   return (
-    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<IconTrash size={16} />}>
+    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftSection={<IconTrash size={16} />}>
       {t('common.actions.delete')}
     </Button>
   );

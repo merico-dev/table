@@ -217,7 +217,7 @@ export const CreateDashboard = observer(() => {
       >
         <CreateDashboardForm postSubmit={closeAndReload} />
       </Modal>
-      <Button size="xs" onClick={open} variant="filled" leftIcon={<IconPlus size={16} />}>
+      <Button size="xs" onClick={open} variant="filled" leftSection={<IconPlus size={16} />}>
         Add a dashboard
       </Button>
     </>

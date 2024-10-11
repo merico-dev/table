@@ -21,7 +21,7 @@ const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void
         compact
         variant="subtle"
         color={opened ? 'gray' : 'blue'}
-        leftIcon={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}
+        leftSection={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}
         onClick={toggle}
       >
         {opened ? t('filter.hide_filters') : t('filter.show_filters')}

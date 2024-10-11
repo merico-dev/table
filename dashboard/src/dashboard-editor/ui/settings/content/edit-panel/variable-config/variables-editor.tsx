@@ -36,7 +36,7 @@ const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel })
       <Button
         variant="light"
         size="xs"
-        leftIcon={<IconPlus size={16} />}
+        leftSection={<IconPlus size={16} />}
         onClick={model.addNew}
         sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
       >
@@ -66,7 +66,7 @@ export const VariablesEditor = observer(() => {
         <Button
           variant="light"
           size="xs"
-          leftIcon={<IconPlus size={16} />}
+          leftSection={<IconPlus size={16} />}
           onClick={model.addNew}
           sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
         >

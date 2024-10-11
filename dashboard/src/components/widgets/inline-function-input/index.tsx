@@ -78,7 +78,12 @@ export const InlineFunctionInput = forwardRef(
             <AboutFunctionUtils />
           </Group>
           <Group justify="flex-end">
-            <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
+            <Button
+              onClick={resetFuncContent}
+              size="xs"
+              variant="default"
+              leftSection={<IconPlayerSkipBack size={16} />}
+            >
               {t('common.actions.reset_to_default')}
             </Button>
             <Button
@@ -86,7 +91,7 @@ export const InlineFunctionInput = forwardRef(
               color="red"
               size="xs"
               disabled={!hasChanges}
-              leftIcon={<IconRecycle size={16} />}
+              leftSection={<IconRecycle size={16} />}
             >
               {t('common.actions.revert_changes')}
             </Button>
@@ -95,7 +100,7 @@ export const InlineFunctionInput = forwardRef(
               size="xs"
               onClick={handleOk}
               disabled={!hasChanges}
-              leftIcon={<IconDeviceFloppy size={16} />}
+              leftSection={<IconDeviceFloppy size={16} />}
             >
               {t('common.actions.save_changes')}
             </Button>

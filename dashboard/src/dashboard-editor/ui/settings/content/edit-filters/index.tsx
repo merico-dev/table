@@ -50,7 +50,7 @@ export const EditFilters = observer(() => {
             // variant="subtle"
             size="xs"
             color="blue"
-            leftIcon={<IconCode size={14} />}
+            leftSection={<IconCode size={14} />}
             disabled={value.length === 0}
             onClick={downloadSchema}
           >

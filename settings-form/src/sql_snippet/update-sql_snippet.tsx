@@ -123,7 +123,7 @@ export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }:
       >
         <UpdateSQLSnippetForm postSubmit={postSubmit} styles={styles} {...rest} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconEdit size={18} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconEdit size={18} />}>
         {t('common.actions.edit')}
       </Button>
     </>

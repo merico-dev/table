@@ -28,7 +28,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           <Button
             size="xs"
             variant="light"
-            leftIcon={<IconArrowLeft size={14} />}
+            leftSection={<IconArrowLeft size={14} />}
             onClick={prev}
             disabled={current === 0}
           >
@@ -38,7 +38,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           <Button
             size="xs"
             variant={resolved ? 'filled' : 'light'}
-            leftIcon={<IconArrowRight size={14} />}
+            leftSection={<IconArrowRight size={14} />}
             onClick={next}
             disabled={current === lastIndex}
           >

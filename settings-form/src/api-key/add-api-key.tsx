@@ -144,7 +144,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
       >
         <AddAPIKeyForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={20} />}>
         {t('api_key.add')}
       </Button>
     </>

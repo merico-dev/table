@@ -139,7 +139,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       >
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={20} />}>
         {t('account.add')}
       </Button>
     </>

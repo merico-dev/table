@@ -84,7 +84,7 @@ export function RegressionDescription({ conf, queryData }: IRegressionDescriptio
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
       <HoverCard.Target>
-        <Button size="xs" variant="subtle" compact leftIcon={<IconInfoCircle size={14} />}>
+        <Button size="xs" variant="subtle" compact leftSection={<IconInfoCircle size={14} />}>
           {t('viz.regression_chart.regression_info')}
         </Button>
       </HoverCard.Target>

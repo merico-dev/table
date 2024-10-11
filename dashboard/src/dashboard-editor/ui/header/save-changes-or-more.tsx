@@ -38,7 +38,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
         color="green"
         variant="filled"
         size="xs"
-        leftIcon={<IconDeviceFloppy size={18} />}
+        leftSection={<IconDeviceFloppy size={18} />}
         onClick={saveDashboardChanges}
         disabled={!hasChanges}
         sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}

@@ -64,7 +64,7 @@ export const EditSQLSnippets = observer(() => {
             // variant="subtle"
             size="xs"
             color="blue"
-            leftIcon={<IconCode size={14} />}
+            leftSection={<IconCode size={14} />}
             disabled={value.length === 0}
             onClick={downloadSchema}
           >
@@ -75,7 +75,7 @@ export const EditSQLSnippets = observer(() => {
           variant="subtle"
           size="xs"
           color="red"
-          leftIcon={<IconTrash size={14} />}
+          leftSection={<IconTrash size={14} />}
           disabled={!model.content.hasUnusedSQLSnippets}
           onClick={removeUnusedSQLSnippetsWithConfirmation}
         >

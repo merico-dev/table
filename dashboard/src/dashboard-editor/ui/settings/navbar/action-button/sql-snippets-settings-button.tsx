@@ -10,7 +10,7 @@ export const SQLSnippetsSettingsButton = observer(() => {
   return (
     <Button
       variant="subtle"
-      rightIcon={<IconSettings size={14} />}
+      rightSection={<IconSettings size={14} />}
       size="sm"
       px={12}
       mb={0}

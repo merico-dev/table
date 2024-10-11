@@ -112,7 +112,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
           mt={10}
           size="xs"
           color="blue"
-          leftIcon={<IconPlaylistAdd size={20} />}
+          leftSection={<IconPlaylistAdd size={20} />}
           onClick={addStaticOption}
           sx={{ width: '50%' }}
           mx="auto"

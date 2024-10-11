@@ -31,7 +31,7 @@ export const MainHeader = observer(
             <Button
               size="xs"
               color={hasChanges ? 'red' : 'green'}
-              leftIcon={<IconArrowLeft size={20} />}
+              leftSection={<IconArrowLeft size={20} />}
               onClick={goBack}
             >
               <Group gap={4}>

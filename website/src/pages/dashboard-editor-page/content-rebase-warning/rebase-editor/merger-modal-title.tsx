@@ -42,7 +42,7 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
           size="xs"
           color="green"
           variant="filled"
-          leftIcon={<IconDeviceFloppy size={14} />}
+          leftSection={<IconDeviceFloppy size={14} />}
           onClick={handleApply}
         >
           Apply
@@ -52,7 +52,7 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
           size="xs"
           color="gray"
           variant="filled"
-          leftIcon={<IconDeviceFloppy size={14} />}
+          leftSection={<IconDeviceFloppy size={14} />}
           sx={{ cursor: 'not-allowed', transform: 'none !important' }}
         >
           Apply ({state.resolvedDifferences.size} / {state.differences.length})
@@ -81,7 +81,7 @@ export const MergerModalTitle = observer(({ state, onApply }: IMergerModalTitle)
             size="xs"
             color="red"
             variant="filled"
-            leftIcon={<IconRecycle size={14} />}
+            leftSection={<IconRecycle size={14} />}
             disabled={state.resolvedDifferences.size === 0}
             onClick={() => state.undo()}
           >

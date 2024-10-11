@@ -32,7 +32,7 @@ export const ImportWithSchema = observer(() => {
           color="gray"
           radius={0}
           size="xs"
-          leftIcon={<IconFileImport size={16} />}
+          leftSection={<IconFileImport size={16} />}
           sx={{
             ...ButtonSx,
             transform: 'none !important',
@@ -52,7 +52,7 @@ export const ImportWithSchema = observer(() => {
         size="xs"
         disabled={cant || opened}
         onClick={open}
-        leftIcon={<IconFileImport size={16} />}
+        leftSection={<IconFileImport size={16} />}
         sx={{
           ...ButtonSx,
           // background: 'rgb(231, 245, 255)',

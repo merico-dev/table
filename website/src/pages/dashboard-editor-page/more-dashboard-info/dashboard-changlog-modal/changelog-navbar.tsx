@@ -55,7 +55,7 @@ export const ChangelogNavbar = observer(
         </AppShell.Section>
         <AppShell.Section>
           <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
-            <Button size="xs" color="red" leftIcon={<IconX size={18} />} onClick={close}>
+            <Button size="xs" color="red" leftSection={<IconX size={18} />} onClick={close}>
               Close
             </Button>
           </Group>

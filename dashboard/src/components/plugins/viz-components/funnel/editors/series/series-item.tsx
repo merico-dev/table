@@ -203,7 +203,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
 
       {/* <Divider mb={-10} mt={10} variant="dashed" /> */}
       {/* <Button
-        leftIcon={<Trash size={16} />}
+        leftSection={<Trash size={16} />}
         color="red"
         variant="light"
         onClick={() => remove(index)}

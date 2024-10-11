@@ -27,7 +27,7 @@ export const DownloadThisView = observer(() => {
           color="gray"
           radius={0}
           size="xs"
-          leftIcon={<IconCode size={16} />}
+          leftSection={<IconCode size={16} />}
           sx={{
             ...ButtonSx,
             transform: 'none !important',
@@ -46,7 +46,7 @@ export const DownloadThisView = observer(() => {
       radius={0}
       size="xs"
       onClick={download}
-      leftIcon={<IconCode size={16} />}
+      leftSection={<IconCode size={16} />}
       sx={{
         ...ButtonSx,
         // background: 'rgb(231, 245, 255)',

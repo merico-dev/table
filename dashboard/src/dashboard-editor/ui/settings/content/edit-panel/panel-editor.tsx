@@ -122,7 +122,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         </Text>
         <Group justify="flex-end" wrap="nowrap">
           <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />
-          <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
+          <Button size="xs" variant="subtle" color="red" onClick={remove} leftSection={<IconTrash size={14} />}>
             {t('panel.delete')}
           </Button>
         </Group>

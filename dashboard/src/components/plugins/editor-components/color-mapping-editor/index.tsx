@@ -180,13 +180,19 @@ function PaletteItem(props: {
               error={state && invalid}
             />
             <Group justify="apart">
-              <Button variant="light" color="red" size="xs" onClick={handleRemove} leftIcon={<IconTrash size={16} />}>
+              <Button
+                variant="light"
+                color="red"
+                size="xs"
+                onClick={handleRemove}
+                leftSection={<IconTrash size={16} />}
+              >
                 {t('common.actions.delete')}
               </Button>
 
               <Button
                 color="green"
-                leftIcon={<IconDeviceFloppy size={16} />}
+                leftSection={<IconDeviceFloppy size={16} />}
                 data-testid="palette-item-ok"
                 size="xs"
                 onClick={handleOk}

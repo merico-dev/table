@@ -77,7 +77,7 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
               <Button onClick={handleCancel} variant="subtle">
                 {t('common.actions.cancel')}
               </Button>
-              <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
+              <Button color="green" leftSection={<IconDeviceFloppy size={16} />} onClick={handleOk}>
                 {t('common.actions.save')}
               </Button>
             </Group>

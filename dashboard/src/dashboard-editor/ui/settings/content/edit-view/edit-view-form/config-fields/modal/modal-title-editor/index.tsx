@@ -80,7 +80,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
               disabled={!localValue.enabled}
             />
             <Group justify="apart">
-              <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
+              <Button onClick={resetFuncContent} color="red" leftSection={<IconRecycle size={20} />}>
                 {t('common.actions.revert')}
               </Button>
               <Group justify="flex-end">

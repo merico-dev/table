@@ -123,7 +123,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
       >
         <AddSQLSnippetForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={18} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={18} />}>
         {t('global_sql_snippet.add')}
       </Button>
     </>

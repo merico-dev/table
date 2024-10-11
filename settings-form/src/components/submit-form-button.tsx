@@ -9,7 +9,7 @@ type Props = {
 export function SubmitFormButton({ size, disabled }: Props) {
   const { t } = useTranslation();
   return (
-    <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={size} disabled={disabled}>
+    <Button type="submit" color="green" leftSection={<IconDeviceFloppy size={16} />} size={size} disabled={disabled}>
       {t('common.actions.submit')}
     </Button>
   );

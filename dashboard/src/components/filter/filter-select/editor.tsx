@@ -116,7 +116,7 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
         <Button
           size="xs"
           color="blue"
-          leftIcon={<IconPlaylistAdd size={20} />}
+          leftSection={<IconPlaylistAdd size={20} />}
           onClick={addStaticOption}
           sx={{ width: '50%' }}
           mx="auto"

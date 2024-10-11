@@ -60,7 +60,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
         )}
       </Stack>
 
-      <Button mt={20} leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={remove}>
+      <Button mt={20} leftSection={<IconTrash size={16} />} color="red" variant="light" onClick={remove}>
         {t('panel.variable.delete')}
       </Button>
     </Stack>

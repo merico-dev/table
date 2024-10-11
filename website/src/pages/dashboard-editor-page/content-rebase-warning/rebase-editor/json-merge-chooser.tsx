@@ -43,7 +43,7 @@ const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolv
         size="xs"
         color="green"
         aria-label="use local"
-        leftIcon={<IconCheck size={14} />}
+        leftSection={<IconCheck size={14} />}
         onClick={onClick}
         sx={{ height: 26 }}
       >

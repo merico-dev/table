@@ -128,7 +128,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   <Button
                     mt={20}
                     variant="gradient"
-                    leftIcon={<IconArrowsLeftRight size={18} />}
+                    leftSection={<IconArrowsLeftRight size={18} />}
                     gradient={{ from: 'cyan', to: 'indigo' }}
                     onClick={() => model.views.setIDOfVIE(tabView.id)}
                   >
@@ -142,7 +142,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   color="red"
                   onClick={() => remove(i)}
                   disabled={onlyOneTabLeft}
-                  leftIcon={<IconTrash size={14} />}
+                  leftSection={<IconTrash size={14} />}
                 >
                   {t('view.component.tabs.tab.delete')}
                 </Button>

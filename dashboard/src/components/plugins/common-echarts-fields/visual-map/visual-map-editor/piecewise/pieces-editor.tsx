@@ -53,7 +53,7 @@ export const PiecesEditor = ({ form }: Props) => {
                 mt={10}
                 size="xs"
                 color="blue"
-                leftIcon={<IconPlaylistAdd size={20} />}
+                leftSection={<IconPlaylistAdd size={20} />}
                 onClick={add}
                 sx={{ width: '50%' }}
                 mx="auto"

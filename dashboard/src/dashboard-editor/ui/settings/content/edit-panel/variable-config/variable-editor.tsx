@@ -23,7 +23,7 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
           disabled={!draft.changed}
           color="red"
           onClick={draft.reset}
-          leftIcon={<IconRecycle size={18} />}
+          leftSection={<IconRecycle size={18} />}
         >
           {t('common.actions.revert_changes')}
         </Button>
@@ -33,7 +33,7 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
           disabled={!draft.changed}
           color="green"
           onClick={draft.commit}
-          leftIcon={<IconDeviceFloppy size={18} />}
+          leftSection={<IconDeviceFloppy size={18} />}
         >
           {t('common.actions.save_changes')}
         </Button>

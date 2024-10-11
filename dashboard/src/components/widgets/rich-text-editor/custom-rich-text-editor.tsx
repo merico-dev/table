@@ -175,7 +175,7 @@ export const CustomRichTextEditor = forwardRef(
               compact
               disabled={!changed}
               onClick={submit}
-              leftIcon={<IconDeviceFloppy size={16} />}
+              leftSection={<IconDeviceFloppy size={16} />}
             >
               {t('common.actions.save_changes')}
             </Button>

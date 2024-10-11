@@ -38,7 +38,7 @@ export const EditView = observer(({ id }: { id: string }) => {
   return (
     <Stack sx={{ maxWidth: '600px', height: '100%' }} gap="sm">
       <Group justify="flex-end" pt={10}>
-        <Button size="xs" color="red" leftIcon={<IconTrash size={16} />} onClick={removeWithConfirmation}>
+        <Button size="xs" color="red" leftSection={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('view.delete')}
         </Button>
       </Group>
