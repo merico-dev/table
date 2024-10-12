@@ -3,9 +3,10 @@ import { createStyles } from '@mantine/emotion';
 
 export interface MultiSelectWidgetStylesParams {
   radius?: MantineRadius;
+  name: string; // FIXME(leto): figure this out
 }
 
-export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParams) => ({
+export default createStyles((theme, { radius = 4, name, ...rest }: MultiSelectWidgetStylesParams) => ({
   root: {
     borderRadius: getRadius(radius),
     display: 'flex',
@@ -16,6 +17,7 @@ export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParam
     backgroundColor: '#fff',
     transition: 'border-color 100ms ease',
     borderColor: '#e9ecef',
+    ...rest,
     '&.rc-select.rc-select-open': {
       borderColor: '#228be6 !important',
       '.rc-select-selection-overflow-item-rest': {

@@ -46,7 +46,12 @@ export const DashboardPageContent = observer(() => {
         <Helmet>
           <title>{store.currentDetail.name}</title>
         </Helmet>
-        <LoadingOverlay visible exitTransitionDuration={0} />
+        <LoadingOverlay
+          visible
+          transitionProps={{
+            exitDuration: 0,
+          }}
+        />
       </div>
     );
   }

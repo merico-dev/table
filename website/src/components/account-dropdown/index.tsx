@@ -24,6 +24,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
         width: '100%',
         height,
         color: theme.black,
+        flexGrow: 0,
 
         '&:hover': {
           backgroundColor: theme.colors.gray[0],
@@ -33,7 +34,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
     >
       <Group>
         <Stack gap={0} style={{ flex: 1 }}>
-          <Text size="sm" w={500}>
+          <Text size="sm" fw={500}>
             {username}
           </Text>
           {email && (
@@ -61,7 +62,7 @@ export function AccountDropdown({ height }: { height: number }) {
   const [profileOpened, { setTrue: openProfile, setFalse: closeProfile }] = useBoolean();
   const [passwordOpened, { setTrue: openPassword, setFalse: closePassword }] = useBoolean();
   return (
-    <Group justify="center">
+    <Group justify="center" sx={{ flexGrow: 0 }}>
       <Menu withinPortal>
         <Menu.Target>
           <UserButton username={account.name} email={account.email} height={height} />

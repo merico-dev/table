@@ -62,36 +62,36 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
         <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
-          <thead>
-            <tr>
-              <th>{t('common.name')}</th>
-              <th></th>
-              <th>{t('common.created_at')}</th>
-              <th>{t('common.updated_at')}</th>
-              <th>{t('common.action')}</th>
-            </tr>
-          </thead>
-          <tbody>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>{t('common.name')}</Table.Th>
+              <Table.Th></Table.Th>
+              <Table.Th>{t('common.created_at')}</Table.Th>
+              <Table.Th>{t('common.updated_at')}</Table.Th>
+              <Table.Th>{t('common.action')}</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {data.map((snippet) => {
               const { id, content, create_time, update_time } = snippet;
               return (
-                <tr key={id}>
-                  <td>{id}</td>
-                  <td width={50}>
+                <Table.Tr key={id}>
+                  <Table.Td>{id}</Table.Td>
+                  <Table.Td width={50}>
                     <HoverToSeeContent content={content} />
-                  </td>
-                  <td width={200}>{create_time}</td>
-                  <td width={200}>{update_time}</td>
-                  <td width={400}>
+                  </Table.Td>
+                  <Table.Td width={200}>{create_time}</Table.Td>
+                  <Table.Td width={200}>{update_time}</Table.Td>
+                  <Table.Td width={400}>
                     <Group justify="flex-start">
                       <UpdateSQLSnippet {...snippet} onSuccess={refresh} />
                       <DeleteSQLSnippet id={id} onSuccess={refresh} />
                     </Group>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               );
             })}
-          </tbody>
+          </Table.Tbody>
         </Table>
       </Box>
     </>

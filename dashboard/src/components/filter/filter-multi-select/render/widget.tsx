@@ -1,19 +1,10 @@
-import {
-  Badge,
-  CloseButton,
-  DefaultProps,
-  Group,
-  MantineNumberSize,
-  Selectors,
-  Stack,
-  Text,
-  Tooltip,
-} from '@mantine/core';
+import { Badge, CloseButton, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
 import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
-import useStyles, { MultiSelectWidgetStylesParams } from './widget.styles';
-import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { useTranslation } from 'react-i18next';
+import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
+import { AnyObject } from '~/types';
+import useStyles from './widget.styles';
 
 export type TSelectOption = {
   label: string;
@@ -21,10 +12,9 @@ export type TSelectOption = {
   description?: string;
 };
 
-type StylesNames = Selectors<typeof useStyles>;
-
-interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams> {
-  radius?: MantineNumberSize;
+type Props = {
+  radius?: MantineRadius;
+  styles: AnyObject;
   style?: Record<string, any>;
   label: string;
   value: string[];
@@ -33,14 +23,12 @@ interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams
   disabled: boolean;
   errorMessage?: string;
   required: boolean;
-}
+};
 
 export const MultiSelectWidget = ({
   disabled,
   // styling props
-  classNames,
   styles,
-  unstyled,
   radius,
   style,
   // data props
@@ -50,9 +38,9 @@ export const MultiSelectWidget = ({
   options,
   errorMessage,
   required,
-}: IProps) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
+  const { classes, cx } = useStyles({ radius, ...styles, name: 'MultiSelectWidget' });
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);
