@@ -16,7 +16,7 @@ export const AdminSystemNavActions = () => {
         <Logo height="24px" />
         <Group justify="flex-end">
           <Tooltip label="Back to dashboards">
-            <ActionIcon color="blue" size="xs" onClick={gotoDashboard}>
+            <ActionIcon variant="subtle" color="blue" size="xs" onClick={gotoDashboard}>
               <IconX size={20} />
             </ActionIcon>
           </Tooltip>

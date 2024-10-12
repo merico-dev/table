@@ -21,14 +21,14 @@ export const SystemNavActions = ({ collapse }: { collapse: () => void }) => {
         <Group justify="flex-end">
           {isAdmin && (
             <Tooltip label="System Settings">
-              <ActionIcon size="xs" onClick={gotoSettings}>
+              <ActionIcon variant="subtle" size="xs" onClick={gotoSettings}>
                 <IconSettings size={20} />
               </ActionIcon>
             </Tooltip>
           )}
 
           <Tooltip label="Hide sidebar">
-            <ActionIcon size="xs" onClick={collapse}>
+            <ActionIcon variant="subtle" size="xs" onClick={collapse}>
               <IconLayoutSidebar />
             </ActionIcon>
           </Tooltip>

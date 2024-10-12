@@ -38,7 +38,7 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
         label="This is a preset dashboard. You can not edit it."
         events={{ hover: true, focus: false, touch: false }}
       >
-        <ActionIcon color="gray" sx={{ transform: 'none !important', ...ActionIconSx }}>
+        <ActionIcon variant="subtle" size="xs" color="gray" sx={{ transform: 'none !important', ...ActionIconSx }}>
           <IconLock size={16} />
         </ActionIcon>
       </Tooltip>
