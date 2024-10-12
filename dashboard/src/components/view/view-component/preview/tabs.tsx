@@ -16,7 +16,7 @@ const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
       height: '100%',
       overflow: 'hidden',
     },
-    tabsList: {
+    list: {
       backgroundColor: 'white',
     },
     tab: {},
@@ -98,7 +98,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
         return (
           <Tabs.Panel key={tab.id} value={tab.id} sx={{ position: 'relative' }}>
             <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 }}>
-              <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={100} />
+              <Overlay backgroundOpacity={0.8} color="#FFF" blur={10} zIndex={100} />
 
               <Stack mx="auto" mt={100} sx={{ width: '300px', position: 'relative', zIndex: 200 }}>
                 <TextInput
