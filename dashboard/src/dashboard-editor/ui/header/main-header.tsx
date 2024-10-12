@@ -25,8 +25,13 @@ export const MainHeader = observer(
     };
 
     return (
-      <AppShell.Header h={60} px="md" py={0} sx={{ zIndex: 299 }}>
-        <Group justify="space-between" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
+      <AppShell.Header
+        h={60}
+        py={0}
+        pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}
+        sx={{ zIndex: 299 }}
+      >
+        <Group justify="space-between" px="md" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
           <Group>
             <Button
               size="xs"
@@ -36,7 +41,9 @@ export const MainHeader = observer(
             >
               <Group gap={4}>
                 <Trans i18nKey="common.actions.end_editing" values={{ name: model.name }}>
-                  End Editing <Text td="underline">{model.name}</Text>
+                  <Text td="underline" size="xs">
+                    {model.name}
+                  </Text>
                 </Trans>
               </Group>
             </Button>
