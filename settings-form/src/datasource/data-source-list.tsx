@@ -37,23 +37,23 @@ export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = def
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
         <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
-          <thead>
-            <tr>
-              <th>{t('common.type')}</th>
-              <th>{t('common.name')}</th>
-              <th>{t('common.action')}</th>
-            </tr>
-          </thead>
-          <tbody>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>{t('common.type')}</Table.Th>
+              <Table.Th>{t('common.name')}</Table.Th>
+              <Table.Th>{t('common.action')}</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {data.map((dataSource) => {
               const { id, key, type, is_preset } = dataSource;
               return (
-                <tr key={key}>
-                  <td width={200}>
+                <Table.Tr key={key}>
+                  <Table.Td width={200}>
                     <DataSourceIcon type={type} />
-                  </td>
-                  <td>{key}</td>
-                  <td width={400}>
+                  </Table.Td>
+                  <Table.Td>{key}</Table.Td>
+                  <Table.Td width={400}>
                     <Group justify="flex-start">
                       <EditDataSource dataSource={dataSource} onSuccess={refresh} styles={styles} />
                       <DeleteDataSource
@@ -64,11 +64,11 @@ export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = def
                         styles={styles}
                       />
                     </Group>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               );
             })}
-          </tbody>
+          </Table.Tbody>
         </Table>
       </Box>
     </>

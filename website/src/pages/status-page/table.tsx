@@ -28,37 +28,40 @@ export const StatusTable = () => {
           tbody: {
             'tr:not(:first-of-type)': { borderTop: '1px solid #dee2e6' },
             th: { textAlign: 'left' },
+            'th, td': {
+              fontFamily: 'monospace !important',
+            },
           },
         },
       }}
     >
-      <thead>
-        <tr>
-          <th style={{ width: '60%' }}>Package</th>
-          <th>Version</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>@devtable/api</th>
-          <td style={{ position: 'relative' }}>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th style={{ width: '60%' }}>Package</Table.Th>
+          <Table.Th>Version</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        <Table.Tr>
+          <Table.Th>@devtable/api</Table.Th>
+          <Table.Td style={{ position: 'relative' }}>
             <LoadingOverlay visible={loading} />
             {api_version?.semver}
-          </td>
-        </tr>
-        <tr>
-          <th>@devtable/dashboard</th>
-          <td>{dashboard_version}</td>
-        </tr>
-        <tr>
-          <th>@devtable/settings-form</th>
-          <td>{settings_form_version}</td>
-        </tr>
-        <tr>
-          <th>@devtable/website</th>
-          <td>{website_version}</td>
-        </tr>
-      </tbody>
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Th>@devtable/dashboard</Table.Th>
+          <Table.Td>{dashboard_version}</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Th>@devtable/settings-form</Table.Th>
+          <Table.Td>{settings_form_version}</Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Th>@devtable/website</Table.Th>
+          <Table.Td>{website_version}</Table.Td>
+        </Table.Tr>
+      </Table.Tbody>
     </Table>
   );
 };
