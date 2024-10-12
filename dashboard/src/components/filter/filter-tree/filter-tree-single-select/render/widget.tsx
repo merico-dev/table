@@ -1,16 +1,16 @@
-import { CloseButton, DefaultProps, Group, MantineNumberSize, Selectors, Stack, Text } from '@mantine/core';
+import { CloseButton, Group, MantineRadius, Stack, Text } from '@mantine/core';
 import { TreeItem } from 'performant-array-to-tree';
 import TreeSelect from 'rc-tree-select';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { SwitcherIcon } from '../../common/switcher-icon';
 import { TreeIcon } from '../../common/tree-icon';
-import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
+import useStyles from './widget.styles';
 
 // DefaultProps adds system props support (margin, padding, sx, unstyled, styles and classNames).
 // It accepts 2 types: styles names and styles params, both of them are optional
-interface Props extends DefaultProps<Selectors<typeof useStyles>, TreeSelectWidgetStylesParams> {
-  radius?: MantineNumberSize;
+type Props = {
+  radius?: MantineRadius;
   style?: Record<string, any>;
   label: string;
   value: TreeItem;
@@ -19,14 +19,11 @@ interface Props extends DefaultProps<Selectors<typeof useStyles>, TreeSelectWidg
   disabled: boolean;
   errorMessage?: string;
   required: boolean;
-}
+};
 
 export const FilterTreeSingleSelectWidget = ({
   disabled,
   // styling props
-  classNames,
-  styles,
-  unstyled,
   radius,
   style,
   // data props
@@ -38,7 +35,7 @@ export const FilterTreeSingleSelectWidget = ({
   required,
 }: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
+  const { classes, cx } = useStyles({ radius, name: 'FilterTreeSelectWidget' });
   return (
     <Stack gap={3}>
       <Group justify="space-between">

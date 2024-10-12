@@ -3,9 +3,10 @@ import { createStyles } from '@mantine/emotion';
 
 export interface TreeSelectWidgetStylesParams {
   radius?: MantineRadius;
+  name: string;
 }
 
-export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams) => ({
+export default createStyles((theme, { radius = 4, name }: TreeSelectWidgetStylesParams) => ({
   root: {
     borderRadius: getRadius(radius),
     display: 'flex',

@@ -3,7 +3,6 @@ import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
-import { AnyObject } from '~/types';
 import useStyles from './widget.styles';
 
 export type TSelectOption = {
@@ -14,7 +13,6 @@ export type TSelectOption = {
 
 type Props = {
   radius?: MantineRadius;
-  styles: AnyObject;
   style?: Record<string, any>;
   label: string;
   value: string[];
@@ -28,7 +26,6 @@ type Props = {
 export const MultiSelectWidget = ({
   disabled,
   // styling props
-  styles,
   radius,
   style,
   // data props
@@ -40,7 +37,7 @@ export const MultiSelectWidget = ({
   required,
 }: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius, ...styles, name: 'MultiSelectWidget' });
+  const { classes, cx } = useStyles({ radius, name: 'MultiSelectWidget' });
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);
