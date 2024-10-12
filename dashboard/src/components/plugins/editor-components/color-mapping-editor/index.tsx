@@ -179,7 +179,7 @@ function PaletteItem(props: {
               }}
               error={state && invalid}
             />
-            <Group justify="apart">
+            <Group justify="space-between">
               <Button
                 variant="light"
                 color="red"

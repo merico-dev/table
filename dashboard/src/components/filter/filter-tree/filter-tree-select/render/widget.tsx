@@ -64,7 +64,7 @@ export const FilterTreeSelectWidget = ({
   const tooltipVisible = showTooltip && value?.length > 0;
   return (
     <Stack gap={3}>
-      <Group justify="apart">
+      <Group justify="space-between">
         <Text className={classes.label}>
           {label}
           {required && (

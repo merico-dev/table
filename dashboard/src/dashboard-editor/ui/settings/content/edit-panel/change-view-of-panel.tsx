@@ -45,7 +45,7 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
             </Stack>
           </Radio.Group>
 
-          <Group wrap="nowrap" justify="apart" sx={{ flexGrow: 0, flexShrink: 0 }}>
+          <Group wrap="nowrap" justify="space-between" sx={{ flexGrow: 0, flexShrink: 0 }}>
             <Button size="xs" color="red" leftSection={<IconX size={14} />} onClick={close}>
               {t('common.actions.cancel')}
             </Button>

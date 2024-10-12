@@ -62,7 +62,7 @@ export const FunctionStringField = forwardRef(
           {modalOpened && (
             <Stack>
               <FunctionStringEditor value={localValue} onChange={setLocalValue} />
-              <Group justify="apart">
+              <Group justify="space-between">
                 <Button
                   size={styles.button.size}
                   onClick={resetFuncContent}

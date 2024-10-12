@@ -58,7 +58,7 @@ export function VizTextEditor({ context }: VizConfigProps) {
               />
             )}
           />
-          <Group justify="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
+          <Group justify="space-between" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
             <Controller
               name="font_weight"
               control={control}

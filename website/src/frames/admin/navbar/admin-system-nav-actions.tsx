@@ -12,7 +12,7 @@ export const AdminSystemNavActions = () => {
   };
   return (
     <AppShell.Section>
-      <Group justify="apart" py={5} px={10} h={40} sx={{ borderBottom: '1px solid #eee' }}>
+      <Group justify="space-between" py={5} px={10} h={40} sx={{ borderBottom: '1px solid #eee' }}>
         <Logo height="24px" />
         <Group justify="flex-end">
           <Tooltip label="Back to dashboards">

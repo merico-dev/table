@@ -43,7 +43,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
-      <Group justify="apart">
+      <Group justify="space-between">
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}

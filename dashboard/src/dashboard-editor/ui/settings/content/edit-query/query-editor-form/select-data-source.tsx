@@ -26,7 +26,7 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
     );
   }
   return (
-    <Group justify="apart" {...others}>
+    <Group justify="space-between" {...others}>
       <Text>{label}</Text>
       <Text>{type}</Text>
     </Group>
@@ -85,7 +85,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     <Select
       data={dataSourceOptions}
       label={
-        <Group justify="apart">
+        <Group justify="space-between">
           <Box>{t('data_source.label')}</Box>
           {dataSource && (
             <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ size: 'compact-xs', px: 10 }} />

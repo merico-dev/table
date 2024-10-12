@@ -26,7 +26,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
     <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Text>X Axis</Text>
-        <Group justify="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
+        <Group justify="space-between" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
           <Controller
             name="x_axis_data_key"
             control={control}
@@ -40,7 +40,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
         </Group>
 
         <Text mt="lg">Y Axis</Text>
-        <Group justify="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
+        <Group justify="space-between" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
           <Controller
             name="y_axis_data_key"
             control={control}
@@ -54,7 +54,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
         </Group>
 
         <Text mt="lg">Z Axis</Text>
-        <Group justify="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
+        <Group justify="space-between" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
           <Controller
             name="z_axis_data_key"
             control={control}

@@ -73,7 +73,7 @@ export const InlineFunctionInput = forwardRef(
           '.editableArea--single-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
         }}
       >
-        <Group mb={6} justify="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
+        <Group mb={6} justify="space-between" sx={{ flexShrink: 0, flexGrow: 0 }}>
           <Group justify="flex-start">
             <AboutFunctionUtils />
           </Group>

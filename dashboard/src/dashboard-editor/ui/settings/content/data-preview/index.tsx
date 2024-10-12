@@ -29,7 +29,7 @@ export const DataPreview = observer(
     const dataEmpty = !Array.isArray(data) || data.length === 0;
     return (
       <Stack gap={0} sx={{ height: '100%', border: '1px solid #eee' }}>
-        <Group justify="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+        <Group justify="space-between" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Group justify="flex-start">
             <Text fw={500}>{t('data.preview_data')}</Text>
           </Group>

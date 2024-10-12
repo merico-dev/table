@@ -52,12 +52,12 @@ export function App() {
       >
         <Navbar collapse={setTrue} />
         <AppShell.Main>
-          <Group justify="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-            <Group justify="left">
+          <Group justify="space-between" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+            <Group justify="flex-start">
               <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
               <DashboardBreadcrumbs />
             </Group>
-            <Group justify="right" gap={2}>
+            <Group justify="flex-end" gap={2}>
               <LanguageSwitcher />
               <AccountDropdown height={39} />
             </Group>

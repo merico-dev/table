@@ -2,30 +2,30 @@ import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { PluginContext, createPluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewRender } from '~/components/view';
-import { DashboardThemeContextProvider, FullScreenPanelContext } from '~/contexts';
+import {
+  ContentModelContextProvider,
+  DashboardModelContextProvider,
+  DashboardThemeContextProvider,
+  DatesProvider,
+  FullScreenPanelContext,
+  LayoutStateContext,
+} from '~/contexts';
+import { I18nextContextProvider } from '~/i18n';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType, TabInfo } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
+import { registerECharts } from '~/utils';
 import { IDashboardConfig } from '..';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
-import { registerECharts } from '~/utils';
-import { useTranslation } from 'react-i18next';
-import {
-  DatesProvider,
-  ContentModelContextProvider,
-  DashboardModelContextProvider,
-  LayoutStateContext,
-} from '~/contexts';
-import { I18nextContextProvider } from '~/i18n';
 
 registerThemes();
 registerECharts();

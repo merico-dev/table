@@ -75,7 +75,7 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
               maxDropdownHeight={500}
             />
             <ColorMappingEditor steps={localValue.steps} interpolation={interpolation} onChange={handleStepsChange} />
-            <Group justify="apart">
+            <Group justify="space-between">
               <Button onClick={handleCancel} variant="subtle">
                 {t('common.actions.cancel')}
               </Button>

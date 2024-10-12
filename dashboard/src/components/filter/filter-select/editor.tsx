@@ -44,7 +44,7 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
 
   return (
     <>
-      <Group justify="apart">
+      <Group justify="space-between">
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}

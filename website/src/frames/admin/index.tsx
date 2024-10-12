@@ -35,7 +35,7 @@ export function AdminFrame() {
     >
       <AdminNavbar />
       <AppShell.Main>
-        <Group justify="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+        <Group justify="space-between" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
           <Group justify="left">
             {/* should place breadcrumbs here */}
             <AdminBreadcrumbs />

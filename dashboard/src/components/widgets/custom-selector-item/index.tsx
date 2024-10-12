@@ -9,7 +9,7 @@ export const CustomSelectorItem: SelectProps['renderOption'] = ({ option, ...res
   const { label, description } = option as CustomItem;
   return (
     <div {...rest}>
-      <Group justify="apart" wrap="nowrap">
+      <Group justify="space-between" wrap="nowrap">
         <Text>{label}</Text>
         <Text size="xs" c="dimmed">
           {description}

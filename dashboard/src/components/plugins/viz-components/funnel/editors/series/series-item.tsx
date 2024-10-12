@@ -84,7 +84,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
               disabled={!enable_min}
               labelProps={{ display: 'block' }}
               label={
-                <Group justify="apart" pr={6} sx={{ width: '100%' }}>
+                <Group justify="space-between" pr={6} sx={{ width: '100%' }}>
                   <Text>{t('viz.funnel_chart.min_value')}</Text>
                   <Tooltip label={t('viz.funnel_chart.min_value_checkbox_tip')}>
                     <Box>
@@ -122,7 +122,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
               disabled={!enable_max}
               labelProps={{ display: 'block' }}
               label={
-                <Group justify="apart" pr={6} sx={{ width: '100%' }}>
+                <Group justify="space-between" pr={6} sx={{ width: '100%' }}>
                   <Text>{t('viz.funnel_chart.max_value')}</Text>
                   <Tooltip label={t('viz.funnel_chart.max_value_checkbox_tip')}>
                     <Box>

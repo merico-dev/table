@@ -48,7 +48,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
 
   const hideLimitSelector = maxPage === 1 && total <= 10;
   return (
-    <Group pt={10} px={10} justify="apart">
+    <Group pt={10} px={10} justify="space-between">
       <Group justify="flex-start">
         {maxPage > 1 && (
           <Pagination

@@ -26,7 +26,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
   const { t } = useTranslation();
   const { tableData } = dataSource;
   return (
-    <Group pt={10} px={10} justify="apart">
+    <Group pt={10} px={10} justify="space-between">
       <Group justify="flex-start">
         {tableData.maxPage > 1 && (
           <Pagination

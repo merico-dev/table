@@ -17,7 +17,7 @@ export function getVariableSelectorItemRenderer(preview: 'aggregated' | 'formatt
     const hoveredPreview = preview === 'aggregated' ? formattedValue : aggValue;
     return (
       <Box ref={hoverRef} {...others}>
-        <Group wrap="nowrap" justify="apart">
+        <Group wrap="nowrap" justify="space-between">
           <Text size="sm" sx={{ flexGrow: 1 }}>
             {label}
           </Text>

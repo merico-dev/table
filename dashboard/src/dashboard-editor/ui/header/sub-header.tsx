@@ -21,7 +21,7 @@ const SubHeaderSx: EmotionSx = {
 export const SubHeader = observer(() => {
   return (
     <Box sx={SubHeaderSx} pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
-      <Group justify="apart" align="center" sx={{ height: '30px' }}>
+      <Group justify="space-between" align="center" sx={{ height: '30px' }}>
         <Group justify="flex-start" gap={0}>
           <AddAPanel />
           <ImportWithSchema />

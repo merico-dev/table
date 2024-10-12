@@ -16,7 +16,7 @@ export const FilterEditorCheckbox = observer(({ filter }: IFilterEditorCheckbox)
   const config = filter.config as FilterCheckboxConfigInstance;
   return (
     <>
-      <Group justify="apart">
+      <Group justify="space-between">
         <Checkbox
           checked={config.default_value}
           onChange={(e) => config.setDefaultValue(e.currentTarget.checked)}

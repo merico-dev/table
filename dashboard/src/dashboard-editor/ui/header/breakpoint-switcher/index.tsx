@@ -46,7 +46,7 @@ export const BreakpointSwitcher = observer(() => {
                 onClick={() => contentModel.layouts.setCurrentBreakpoint(r.id)}
                 disabled={currentBreakpoint === r.id}
               >
-                <Group justify="apart">
+                <Group justify="space-between">
                   <Text size="sm">{r.name}</Text>
                   <Text size="xs" c="dimmed">
                     {r.text}

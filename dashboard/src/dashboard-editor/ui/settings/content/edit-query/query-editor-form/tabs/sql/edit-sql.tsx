@@ -37,7 +37,7 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
 
   return (
     <Stack gap={4} sx={{ height: '100%' }}>
-      <Group mb={6} justify="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
+      <Group mb={6} justify="space-between" sx={{ flexShrink: 0, flexGrow: 0 }}>
         <Group justify="flex-start">
           <QueryDependency queryModel={queryModel} />
         </Group>

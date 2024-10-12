@@ -26,7 +26,7 @@ export const MainHeader = observer(
 
     return (
       <AppShell.Header h={60} px="md" py={0} sx={{ zIndex: 299 }}>
-        <Group justify="apart" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
+        <Group justify="space-between" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
           <Group>
             <Button
               size="xs"

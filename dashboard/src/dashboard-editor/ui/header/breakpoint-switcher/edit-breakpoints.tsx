@@ -136,7 +136,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
         <Text mt={6} ta="right" size="xs" c="red">
           {errorMessage ?? '　'}
         </Text>
-        <Group mt={6} justify="apart">
+        <Group mt={6} justify="space-between">
           <Button
             color="orange"
             size="xs"

@@ -13,7 +13,7 @@ const PaginationSection = ({ page, maxPage, setPage, loading }: IPaginationSecti
   const prev = () => setPage(page - 1);
   const next = () => setPage(page + 1);
   return (
-    <Group grow gap={2} justify="apart">
+    <Group grow gap={2} justify="space-between">
       <ActionIcon variant="subtle" color="blue" onClick={prev} disabled={loading || page === 1} radius={0}>
         <IconArrowLeft size={18} />
       </ActionIcon>

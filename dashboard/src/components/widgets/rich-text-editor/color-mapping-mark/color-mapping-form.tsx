@@ -45,7 +45,7 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
             />
           )}
         />
-        <Group grow justify="apart">
+        <Group grow justify="space-between">
           <Controller
             name="min_var"
             control={control}
@@ -70,7 +70,7 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
             )}
           />
         </Group>
-        <Group grow justify="apart">
+        <Group grow justify="space-between">
           <Controller
             name="max_var"
             control={control}
@@ -98,7 +98,7 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
         <Controller control={control} name="colors" render={({ field }) => <GradientEditor {...field} />} />
       </Box>
       <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
-      <Group justify="apart" px="1rem" pb="0.75rem">
+      <Group justify="space-between" px="1rem" pb="0.75rem">
         <Group justify="flex-start">
           <Button color="red" size="xs" onClick={unset} leftSection={<IconTrash size={18} />}>
             {t('common.actions.clear')}

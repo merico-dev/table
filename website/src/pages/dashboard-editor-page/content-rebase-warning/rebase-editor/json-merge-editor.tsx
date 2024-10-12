@@ -24,7 +24,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
   return (
     <Stack gap={10}>
       {lastIndex > 0 ? (
-        <Group justify="apart">
+        <Group justify="space-between">
           <Button
             size="xs"
             variant="light"
@@ -48,7 +48,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
       ) : (
         <Text ta="center">{diff.objectDescription}</Text>
       )}
-      <Group grow justify="apart" gap="xs">
+      <Group grow justify="space-between" gap="xs">
         <JSONMergeChooser
           diff={diff}
           opposite="remote"

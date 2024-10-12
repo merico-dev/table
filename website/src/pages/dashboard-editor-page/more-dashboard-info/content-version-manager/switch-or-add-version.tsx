@@ -104,7 +104,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
                 sx={{ cursor: isCurrent ? 'default' : 'pointer' }}
                 onClick={() => switchContent(d.id)}
               >
-                <Group justify="apart">
+                <Group justify="space-between">
                   <Text>{d.name}</Text>
 
                   {isPublished && (

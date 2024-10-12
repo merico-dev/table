@@ -122,7 +122,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
     <PanelContextProvider
       value={{ panel, data: panel.data, loading, errors: panel.queryErrors, downloadPanelScreenshot: () => {} }}
     >
-      <Group px={16} justify="apart" sx={{ borderBottom: '1px solid #eee' }}>
+      <Group px={16} justify="space-between" sx={{ borderBottom: '1px solid #eee' }}>
         <Text pt={9} pb={8}>
           {panel.name}
         </Text>

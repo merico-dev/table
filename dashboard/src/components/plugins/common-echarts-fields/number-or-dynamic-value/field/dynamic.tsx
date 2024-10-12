@@ -78,7 +78,7 @@ const Field = ({ value: conf, onChange }: IField) => {
               variant="dashed"
             />
             <DynamicValueFunctionEditor value={local.value} onChange={changeFuncContent} />
-            <Group justify="apart">
+            <Group justify="space-between">
               <Button onClick={resetFuncContent} color="red" leftSection={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>

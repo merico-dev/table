@@ -41,7 +41,7 @@ export const FilterTreeSingleSelectWidget = ({
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
   return (
     <Stack gap={3}>
-      <Group justify="apart">
+      <Group justify="space-between">
         <Text className={classes.label}>
           {label}
           {required && (

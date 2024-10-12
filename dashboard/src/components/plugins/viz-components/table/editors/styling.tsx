@@ -13,7 +13,7 @@ export function StylingFields({ control, watch }: IStylingFields) {
   watch(['horizontalSpacing', 'verticalSpacing', 'fontSize', 'striped', 'highlightOnHover']);
   return (
     <Stack gap="xs">
-      <Group justify="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
+      <Group justify="space-between" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
         <Controller
           name="horizontalSpacing"
           control={control}
@@ -29,7 +29,7 @@ export function StylingFields({ control, watch }: IStylingFields) {
           )}
         />
       </Group>
-      <Group justify="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
+      <Group justify="space-between" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
         <Controller
           name="fontSize"
           control={control}
@@ -44,7 +44,7 @@ export function StylingFields({ control, watch }: IStylingFields) {
           )}
         />
       </Group>
-      <Group justify="apart" grow>
+      <Group justify="space-between" grow>
         <Controller
           name="striped"
           control={control}

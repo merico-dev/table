@@ -6,7 +6,7 @@ import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 const SelectItem: SelectProps['renderOption'] = ({ option, ...others }) => {
   const { label, type } = option as AccountOrAPIKeyOptionType;
   return (
-    <Group justify="apart" {...others}>
+    <Group justify="space-between" {...others}>
       <Text>{label}</Text>
       <AccountTypeIcon type={type} />
     </Group>

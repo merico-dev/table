@@ -74,7 +74,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
       <Collapse in={opened}>
         <Group
           className="dashboard-filters"
-          justify="apart"
+          justify="space-between"
           wrap="nowrap"
           sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
         >

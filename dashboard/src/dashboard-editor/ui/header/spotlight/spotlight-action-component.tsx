@@ -46,7 +46,7 @@ const Description = ({ action }: { action: SpotlightAction }) => {
   }
   if (action.viz) {
     return (
-      <Group justify="apart">
+      <Group justify="space-between">
         <Text c="dimmed" size="xs">
           {t(action.viz.displayName)}
         </Text>

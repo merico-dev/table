@@ -16,7 +16,7 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
   const remove = () => props.uiModel.remove(props.variable);
   return (
     <Stack data-testid="variable-editor" align="stretch">
-      <Group justify="apart">
+      <Group justify="space-between">
         <Button
           variant="subtle"
           size="xs"

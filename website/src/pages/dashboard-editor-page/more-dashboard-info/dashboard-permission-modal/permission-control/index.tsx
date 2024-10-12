@@ -20,7 +20,7 @@ export const PermissionControl = observer(({ model, postSubmit }: IPermissionCon
       <DashboardOwnerInfo model={model} />
       <AccessRulesTable model={model} />
       <Divider mt={-10} mb={10} variant="dashed" />
-      <Group justify="apart">
+      <Group justify="space-between">
         <Group justify="flex-start" mb={4}>
           {isAdmin && !model.isOwner && <TakeOwnership model={model} />}
           {model.isOwner && <AddAnAccessRule model={model} />}

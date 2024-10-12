@@ -55,7 +55,7 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
 
   return (
     <>
-      <Group pt={styles.spacing} justify="apart">
+      <Group pt={styles.spacing} justify="space-between">
         <Alert>{t('global_sql_snippet.description')}</Alert>
         <AddSQLSnippet onSuccess={refresh} />
       </Group>
