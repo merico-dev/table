@@ -27,7 +27,7 @@ import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-editor.css';
-import { DashboardEditorHeader, DashboardEditorNavbar, Settings, SpotlightProvider } from './ui';
+import { DashboardEditorHeader, DashboardEditorNavbar, EditorSpotlight, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 
 registerThemes();
@@ -168,40 +168,39 @@ const _DashboardEditor = (
                     inEditMode: true,
                   }}
                 >
-                  <SpotlightProvider>
-                    <PluginContext.Provider value={pluginContext}>
-                      <ServiceLocatorProvider configure={configureServices}>
-                        <AppShell
-                          padding={0}
-                          navbar={{
-                            width: { base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 },
-                            breakpoint: 'xxs', //FIXME(leto): not sure
-                          }}
-                          styles={AppShellStyles}
-                        >
-                          <DashboardEditorHeader
-                            onExit={onExit}
-                            saveDashboardChanges={saveDashboardChanges}
-                            headerSlot={headerSlot}
-                          />
-                          <DashboardEditorNavbar />
-                          <AppShell.Main>
-                            <Box
-                              className={`${className} dashboard-root`}
-                              sx={{
-                                position: 'relative',
-                              }}
-                            >
-                              {model.content.views.visibleViews.map((view) => (
-                                <DashboardViewEditor key={view.id} view={view} />
-                              ))}
-                            </Box>
-                          </AppShell.Main>
-                        </AppShell>
-                        <Settings />
-                      </ServiceLocatorProvider>
-                    </PluginContext.Provider>
-                  </SpotlightProvider>
+                  <EditorSpotlight />
+                  <PluginContext.Provider value={pluginContext}>
+                    <ServiceLocatorProvider configure={configureServices}>
+                      <AppShell
+                        padding={0}
+                        navbar={{
+                          width: { base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 },
+                          breakpoint: 'xxs', //FIXME(leto): not sure
+                        }}
+                        styles={AppShellStyles}
+                      >
+                        <DashboardEditorHeader
+                          onExit={onExit}
+                          saveDashboardChanges={saveDashboardChanges}
+                          headerSlot={headerSlot}
+                        />
+                        <DashboardEditorNavbar />
+                        <AppShell.Main>
+                          <Box
+                            className={`${className} dashboard-root`}
+                            sx={{
+                              position: 'relative',
+                            }}
+                          >
+                            {model.content.views.visibleViews.map((view) => (
+                              <DashboardViewEditor key={view.id} view={view} />
+                            ))}
+                          </Box>
+                        </AppShell.Main>
+                      </AppShell>
+                      <Settings />
+                    </ServiceLocatorProvider>
+                  </PluginContext.Provider>
                 </LayoutStateContext.Provider>
               </ContentModelContextProvider>
             </DashboardModelContextProvider>

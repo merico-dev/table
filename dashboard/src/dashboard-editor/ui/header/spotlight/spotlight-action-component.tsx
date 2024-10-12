@@ -1,6 +1,6 @@
-import { Badge, Center, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
-import { SpotlightAction, SpotlightActionProps } from '@mantine/spotlight';
+import { Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
 import { createStyles } from '@mantine/emotion';
+import { SpotlightActionProps } from '@mantine/spotlight';
 import {
   IconAppWindow,
   IconBoxMultiple,
@@ -13,8 +13,9 @@ import {
 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import { CustomSpotlightActionData } from '~/dashboard-editor/model/editor';
 
-const ActionIcon = ({ iconKey, ...props }: { iconKey: string } & TablerIconsProps) => {
+const ActionIcon = ({ iconKey, ...props }: { iconKey?: string } & TablerIconsProps) => {
   switch (iconKey) {
     case 'query_variables':
       return <IconVariable {...props} />;
@@ -35,7 +36,7 @@ const ActionIcon = ({ iconKey, ...props }: { iconKey: string } & TablerIconsProp
   }
 };
 
-const Description = ({ action }: { action: SpotlightAction }) => {
+const Description = ({ action }: { action: CustomSpotlightActionData }) => {
   const { t } = useTranslation();
   if (action.description) {
     return (
@@ -82,10 +83,15 @@ const useStyles = createStyles((theme, params: null) => ({
   },
 }));
 
+type Props = SpotlightActionProps & {
+  action: CustomSpotlightActionData;
+  hovered?: any;
+  query?: any;
+};
 export const SpotlightActionComponent = observer(
-  ({ action, styles, classNames, hovered, onTrigger, highlightQuery, query, ...others }: SpotlightActionProps) => {
+  ({ action, hovered, onClick, highlightQuery, query, ...others }: Props) => {
     const { t } = useTranslation();
-    const { classes } = useStyles(null, { styles, classNames, name: 'Spotlight' });
+    const { classes } = useStyles(null);
 
     return (
       <UnstyledButton
@@ -93,15 +99,15 @@ export const SpotlightActionComponent = observer(
         data-hovered={hovered || undefined}
         tabIndex={-1}
         onMouseDown={(event) => event.preventDefault()}
-        onClick={onTrigger}
-        {...others}
+        onClick={onClick}
+        // {...others}
       >
         <Group wrap="nowrap">
           <ActionIcon iconKey={action.iconKey} size={14} />
 
           <div style={{ flex: 1 }}>
             <Highlight highlight={query} size="sm">
-              {t(action.title)}
+              {action.title ? t(action.title) : ''}
             </Highlight>
 
             <Description action={action} />
