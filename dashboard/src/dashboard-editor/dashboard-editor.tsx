@@ -39,6 +39,7 @@ const AppShellStyles = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    '--app-shell-header-offset': 'calc(3.75rem * var(--mantine-scale))',
   },
   body: {
     flexGrow: 1,
