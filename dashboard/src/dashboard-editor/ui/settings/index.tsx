@@ -10,7 +10,7 @@ const SettingsAppShellStyles = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    minWidth: 'calc(var(--mantine-navbar-width, 0px) + 1200px)',
+    minWidth: 'calc(var(--app-shell-navbar-width, 0px) + 1200px)',
   },
   body: {
     flexGrow: 1,

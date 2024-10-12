@@ -35,14 +35,14 @@ export function App() {
             overflow: 'hidden',
             padding: 0,
             paddingRight: 0,
-            paddingBottom: 'calc(var(--mantine-footer-height, 0px) + 10px)',
-            paddingLeft: 'calc(var(--mantine-navbar-width, 0px) + 0px)',
+            paddingBottom: 'calc(var(--app-shell-footer-height, 0px) + 10px)',
+            paddingLeft: 'calc(var(--app-shell-navbar-width, 0px) + 0px)',
             width: '100vw',
             transition: 'padding-left ease 100ms',
           },
         }}
         sx={{
-          '--mantine-navbar-width': navbarCollapsed ? '0px' : '300px',
+          '--app-shell-navbar-width': navbarCollapsed ? '0px' : '300px',
           '.mantine-Navbar-root': {
             maxWidth: navbarCollapsed ? 0 : '100%',
             opacity: navbarCollapsed ? 0 : 1,
