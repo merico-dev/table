@@ -317,7 +317,7 @@ export const en = {
         confirm: 'Confirm',
         add_an_option: 'Add an Option',
         edit: 'Edit',
-        end_editing: 'End editing <1>{{name}}</1>',
+        end_editing: 'End editing <0>{{name}}</0>',
       },
       tabs: {
         variant: {
