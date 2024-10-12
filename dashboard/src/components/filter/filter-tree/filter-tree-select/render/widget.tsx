@@ -62,7 +62,7 @@ export const FilterTreeSelectWidget = ({
       </Group>
       <TreeSelect
         disabled={disabled}
-        allowClear
+        allowClear={{ clearIcon: <CloseButton /> }}
         treeCheckStrictly={treeCheckStrictly}
         labelInValue={true}
         className={cx(classes.root, 'check-select')}
@@ -73,7 +73,6 @@ export const FilterTreeSelectWidget = ({
         style={style}
         listHeight={510}
         treeLine
-        clearIcon={() => <CloseButton />}
         // @ts-expect-error rc-tree-selecct's TreeNodeProps
         switcherIcon={SwitcherIcon}
         // @ts-expect-error rc-tree-selecct's TreeNodeProps
