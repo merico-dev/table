@@ -1,7 +1,7 @@
 import { Spotlight } from '@mantine/spotlight';
 import { useTranslation } from 'react-i18next';
+import { CustomSpotlightActionGroupData } from '~/dashboard-editor/model/editor';
 import { SpotlightActionComponent } from './spotlight-action-component';
-import { CustomSpotlightActionData, CustomSpotlightActionGroupData } from '~/dashboard-editor/model/editor';
 
 type Props = {
   groups: CustomSpotlightActionGroupData[];

@@ -6,9 +6,12 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 import { SpotlightActions } from './spotlight-actions';
+import { rem, useMantineTheme } from '@mantine/core';
 
 export const EditorSpotlight = observer(() => {
   const { t, i18n } = useTranslation();
+  const theme = useMantineTheme();
+
   const model = useEditDashboardContext();
 
   const [query, setQuery] = useState('');
@@ -72,6 +75,22 @@ export const EditorSpotlight = observer(() => {
       radius="md"
       styles={{
         search: { border: 'none' },
+        action: {
+          position: 'relative',
+          display: 'block',
+          width: '100%',
+          padding: `${rem(10)} ${rem(12)}`,
+          borderRadius: theme.radius.sm,
+          '.spotlight-action-viz-group': {
+            opacity: 0,
+          },
+          '&:hover, &[data-selected]': {
+            backgroundColor: theme.colors.gray[1],
+            '.spotlight-action-viz-group': {
+              opacity: 1,
+            },
+          },
+        },
       }}
     >
       <Spotlight.Search placeholder={t('spotlight.placeholder')} leftSection={<IconSearch size="1.2rem" />} />

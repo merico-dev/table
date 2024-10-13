@@ -1,6 +1,4 @@
-import { Box, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
-import { createStyles } from '@mantine/emotion';
-import { SpotlightActionProps } from '@mantine/spotlight';
+import { Box, Group, Highlight, Text } from '@mantine/core';
 import {
   IconAppWindow,
   IconBoxMultiple,
@@ -60,56 +58,26 @@ const Description = ({ action }: { action: CustomSpotlightActionData }) => {
   return null;
 };
 
-const useStyles = createStyles((theme, params: null) => ({
-  action: {
-    position: 'relative',
-    display: 'block',
-    width: '100%',
-    padding: `${rem(10)} ${rem(12)}`,
-    borderRadius: theme.radius.sm,
-    '.spotlight-action-viz-group': {
-      opacity: 0,
-    },
-    '&:hover': {
-      backgroundColor: theme.colors.gray[1],
-      '.spotlight-action-viz-group': {
-        opacity: 1,
-      },
-    },
-
-    '&[data-hovered]': {
-      backgroundColor: theme.colors.gray[1],
-      '.spotlight-action-viz-group': {
-        opacity: 1,
-      },
-    },
-  },
-}));
-
-type Props = SpotlightActionProps & {
+type Props = {
   action: CustomSpotlightActionData;
-  hovered?: any;
-  query?: any;
+  query: string;
 };
-export const SpotlightActionComponent = observer(
-  ({ action, hovered, onClick, highlightQuery, query, ...others }: Props) => {
-    const { t } = useTranslation();
-    const { classes } = useStyles(null);
+export const SpotlightActionComponent = observer(({ action, query }: Props) => {
+  const { t } = useTranslation();
 
-    return (
-      <Box className={classes.action}>
-        <Group wrap="nowrap">
-          <ActionIcon iconKey={action.iconKey} size={14} />
+  return (
+    <Box className="spotlight-custom-action-component">
+      <Group wrap="nowrap">
+        <ActionIcon iconKey={action.iconKey} size={14} />
 
-          <div style={{ flex: 1 }}>
-            <Highlight highlight={query} size="sm">
-              {action.title ? t(action.title) : ''}
-            </Highlight>
+        <div style={{ flex: 1 }}>
+          <Highlight highlight={query} size="sm">
+            {action.title ? t(action.title) : ''}
+          </Highlight>
 
-            <Description action={action} />
-          </div>
-        </Group>
-      </Box>
-    );
-  },
-);
+          <Description action={action} />
+        </div>
+      </Group>
+    </Box>
+  );
+});
