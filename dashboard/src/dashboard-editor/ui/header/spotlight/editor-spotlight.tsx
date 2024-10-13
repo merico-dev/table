@@ -5,58 +5,78 @@ import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
-import { SpotlightActionComponent } from './spotlight-action-component';
+import { SpotlightActions } from './spotlight-actions';
 
 export const EditorSpotlight = observer(() => {
   const { t, i18n } = useTranslation();
   const model = useEditDashboardContext();
 
   const [query, setQuery] = useState('');
-  const actions = useMemo(() => {
-    return model.editor.spotlightActions.map((a) => {
-      const group = a.group;
-      const keywords = [];
-      if (a.title) {
-        keywords.push(a.title.toLowerCase());
-        keywords.push(t(a.title).toLowerCase());
-      }
-      if (a.group) {
-        keywords.push(a.group.toLowerCase());
-      }
-      if (a.viz) {
-        keywords.push(a.viz.displayGroup.toLowerCase());
-        keywords.push(a.viz.displayName.toLowerCase());
-      }
-      if (a.iconKey) {
-        keywords.push(a.iconKey);
-      }
+  const actionGroups = useMemo(() => {
+    return model.editor.spotlightActionGroups.map((g) => {
       return {
-        ...a,
-        group: group ? t(group) : undefined,
-        keywords,
+        group: t(g.group),
+        keywords: [g.group, t(g.group)],
+        actions: g.actions.map((a) => {
+          const keywords = [];
+          if (a.title) {
+            keywords.push(a.title.toLowerCase());
+            keywords.push(t(a.title).toLowerCase());
+          }
+          if (a.group) {
+            keywords.push(a.group.toLowerCase());
+          }
+          if (a.viz) {
+            keywords.push(a.viz.displayGroup.toLowerCase());
+            keywords.push(a.viz.displayName.toLowerCase());
+          }
+          if (a.iconKey) {
+            keywords.push(a.iconKey);
+          }
+          return {
+            ...a,
+            keywords,
+          };
+        }),
       };
     });
-  }, [model.editor.spotlightActions, i18n.language]);
+  }, [model.editor.spotlightActionGroups, i18n.language]);
 
-  const items = useMemo(() => {
+  const filteredGroups = useMemo(() => {
     const q = query.toLowerCase().trim();
     if (!q) {
-      return actions.slice(0, 5);
+      return [actionGroups[0]];
     }
-    return actions.filter((a) => a.keywords.some((k) => k.includes(q))).slice(0, 20);
-  }, [actions, query]);
+    return actionGroups
+      .map((g) => {
+        const groupMatch = g.keywords.some((k) => k.includes(q));
+        if (groupMatch) {
+          return g;
+        }
+        const actions = g.actions.filter((a) => a.keywords.some((k) => k.includes(q)));
+        if (actions.length === 0) {
+          return null;
+        }
+        return {
+          ...g,
+          actions,
+        };
+      })
+      .filter((g) => !!g);
+  }, [actionGroups, query]);
 
   return (
-    <Spotlight.Root onQueryChange={setQuery} shortcut={['mod + P', 'mod + K']}>
+    <Spotlight.Root
+      onQueryChange={setQuery}
+      shortcut={['mod + P', 'mod + K']}
+      radius="md"
+      styles={{
+        search: { border: 'none' },
+      }}
+    >
       <Spotlight.Search placeholder={t('spotlight.placeholder')} leftSection={<IconSearch size="1.2rem" />} />
       <Spotlight.ActionsList>
-        {items.length > 0 &&
-          items.map((a) => (
-            <Spotlight.Action key={a.id} label={t(a.title!)} {...a}>
-              <SpotlightActionComponent action={a} onClick={a.onClick} query={query} />
-            </Spotlight.Action>
-          ))}
-        {items.length === 0 && <Spotlight.Empty>{t('spotlight.not_found')}</Spotlight.Empty>}
+        <SpotlightActions groups={filteredGroups} query={query} />
       </Spotlight.ActionsList>
     </Spotlight.Root>
   );

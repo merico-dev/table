@@ -1,4 +1,4 @@
-import { Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
+import { Box, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
 import { createStyles } from '@mantine/emotion';
 import { SpotlightActionProps } from '@mantine/spotlight';
 import {
@@ -51,7 +51,7 @@ const Description = ({ action }: { action: CustomSpotlightActionData }) => {
         <Text c="dimmed" size="xs">
           {t(action.viz.displayName)}
         </Text>
-        <Text c="dimmed" opacity={0} size="xs" className="spotlight-action-viz-group">
+        <Text c="dimmed" size="xs" className="spotlight-action-viz-group">
           {t(action.viz.displayGroup)}
         </Text>
       </Group>
@@ -67,6 +67,9 @@ const useStyles = createStyles((theme, params: null) => ({
     width: '100%',
     padding: `${rem(10)} ${rem(12)}`,
     borderRadius: theme.radius.sm,
+    '.spotlight-action-viz-group': {
+      opacity: 0,
+    },
     '&:hover': {
       backgroundColor: theme.colors.gray[1],
       '.spotlight-action-viz-group': {
@@ -94,14 +97,7 @@ export const SpotlightActionComponent = observer(
     const { classes } = useStyles(null);
 
     return (
-      <UnstyledButton
-        className={classes.action}
-        data-hovered={hovered || undefined}
-        tabIndex={-1}
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={onClick}
-        // {...others}
-      >
+      <Box className={classes.action}>
         <Group wrap="nowrap">
           <ActionIcon iconKey={action.iconKey} size={14} />
 
@@ -113,7 +109,7 @@ export const SpotlightActionComponent = observer(
             <Description action={action} />
           </div>
         </Group>
-      </UnstyledButton>
+      </Box>
     );
   },
 );
