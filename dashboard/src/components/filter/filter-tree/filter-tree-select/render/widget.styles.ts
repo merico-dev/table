@@ -125,6 +125,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     fontSize: theme.fontSizes.xs,
     zIndex: 300,
     paddingTop: '6px',
+    position: 'relative',
     '&.rc-tree-select-dropdown-slide-up-leave-active': {
       display: 'none',
     },
