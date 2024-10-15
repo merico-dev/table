@@ -21,7 +21,9 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
     <Select
       label={
         <Group justify="space-between">
-          <Text>{t('filter.widget.common.use_query_data_as_options')}</Text>
+          <Text fw={500} size="sm">
+            {t('filter.widget.common.use_query_data_as_options')}
+          </Text>
           {value && (
             <Button
               size="xs"

@@ -1,17 +1,15 @@
 import { Checkbox, Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
 import { FilterCheckboxConfigInstance, FilterMetaInstance } from '~/model';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
-import { useTranslation } from 'react-i18next';
-import { useEditPanelContext } from '~/contexts';
 
 interface IFilterEditorCheckbox {
   filter: FilterMetaInstance;
 }
 
 export const FilterEditorCheckbox = observer(({ filter }: IFilterEditorCheckbox) => {
-  const { panel } = useEditPanelContext();
   const { t } = useTranslation();
   const config = filter.config as FilterCheckboxConfigInstance;
   return (
@@ -25,7 +23,7 @@ export const FilterEditorCheckbox = observer(({ filter }: IFilterEditorCheckbox)
         <CustomDefaultValueEditor filter={filter} />
       </Group>
       <CustomRichTextEditor
-        key={panel.id}
+        key={filter.id}
         label={t('filter.widget.checkbox.description')}
         value={config.description}
         onChange={config.setDescription}
