@@ -14,7 +14,7 @@ const ModalStyles = {
   title: { flexGrow: 1 },
   body: {
     padding: '0',
-    height: 'calc(100% - 50px)',
+    height: 'calc(100% - 60px)',
   },
 };
 
