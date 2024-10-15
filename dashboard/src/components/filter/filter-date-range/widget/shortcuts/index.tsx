@@ -1,9 +1,8 @@
 import { Button, Divider, Table, Text } from '@mantine/core';
-import _ from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DateRangeValue } from '~/model';
-import { GetRange, getDateRangeShortcuts } from './shortcuts';
+import { GetRange, getShortcutsInGroups } from './shortcuts';
 
 export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void }) => {
   const { t, i18n } = useTranslation();
@@ -11,7 +10,7 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
     const range = getRange();
     onChange(range);
   };
-  const shortcutGroups = useMemo(() => _.groupBy(getDateRangeShortcuts(), 'group'), []);
+  const shortcutGroups = useMemo(() => getShortcutsInGroups(), []);
   const useFullLabel = i18n.language === 'zh';
   return (
     <>

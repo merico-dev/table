@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import { DateRangeValue } from '~/model';
 
 export type GetRange = () => DateRangeValue;
@@ -269,4 +270,8 @@ export function getDateRangeShortcutValue(shortcutValue: string | null) {
     return shortcut.getRange();
   }
   return null;
+}
+
+export function getShortcutsInGroups() {
+  return _.groupBy(getDateRangeShortcuts(), 'group');
 }
