@@ -8,7 +8,7 @@ import { useDownloadDivScreenshot } from '../utils';
 
 export const TakeScreenshot = observer(({ downloadScreenshot }: { downloadScreenshot: () => void }) => {
   return (
-    <ActionIcon className="download-screenshot-button" color="blue" onClick={downloadScreenshot}>
+    <ActionIcon className="download-screenshot-button" color="blue" variant="subtle" onClick={downloadScreenshot}>
       <IconCamera size={14} />
     </ActionIcon>
   );

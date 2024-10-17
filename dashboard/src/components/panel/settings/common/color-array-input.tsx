@@ -61,7 +61,7 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
             }}
             swatches={swatches}
             rightSection={
-              <ActionIcon onClick={() => del(i)} color="red">
+              <ActionIcon onClick={() => del(i)} color="red" variant="subtle">
                 <IconTrash size={14} />
               </ActionIcon>
             }

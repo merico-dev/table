@@ -17,7 +17,7 @@ const XAxisTypeLabel = () => {
       <Text>{t('chart.x_axis.x_axis_type')}</Text>
       <HoverCard width={340} shadow="md" position="top">
         <HoverCard.Target>
-          <ActionIcon size="xs" sx={{ transform: 'none !important' }}>
+          <ActionIcon size="xs" variant="subtle" sx={{ transform: 'none !important' }}>
             <IconInfoCircle />
           </ActionIcon>
         </HoverCard.Target>

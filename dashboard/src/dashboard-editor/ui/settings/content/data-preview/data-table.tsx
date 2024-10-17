@@ -38,6 +38,7 @@ export function DataTable({ data }: { data: AnyObject[] }) {
                 <th key={header.id} style={{ width: header.getSize() }}>
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   <ActionIcon
+                    variant="subtle"
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={header.getResizeHandler()}
                     className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}

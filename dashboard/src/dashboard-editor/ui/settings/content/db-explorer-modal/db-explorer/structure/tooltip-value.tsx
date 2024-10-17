@@ -7,7 +7,7 @@ export const TooltipValue = ({ value }: { value: string }) => {
   }
   return (
     <Tooltip label={value} disabled={!value} multiline>
-      <ActionIcon>
+      <ActionIcon variant="subtle">
         <IconInfoCircle size={14} />
       </ActionIcon>
     </Tooltip>

@@ -66,7 +66,7 @@ function _TextArrayInput({ label, value, onChange, type }: ITextArrayInput, ref:
               });
             }}
             rightSection={
-              <ActionIcon onClick={() => del(i)} color="red">
+              <ActionIcon onClick={() => del(i)} color="red" variant="subtle">
                 <IconTrash size={14} />
               </ActionIcon>
             }

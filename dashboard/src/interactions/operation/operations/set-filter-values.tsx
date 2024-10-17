@@ -34,7 +34,7 @@ const PayloadKeyInput = ({ value = '', onChange }: { value?: string; onChange: (
       onChange={(e) => setV(e.currentTarget.value)}
       sx={{ flexGrow: 1 }}
       rightSection={
-        <ActionIcon color="green" size="xs" onClick={submit} disabled={v === value}>
+        <ActionIcon color="green" variant="subtle" size="xs" onClick={submit} disabled={v === value}>
           <IconDeviceFloppy />
         </ActionIcon>
       }

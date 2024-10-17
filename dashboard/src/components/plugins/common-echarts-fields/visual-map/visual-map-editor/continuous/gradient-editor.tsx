@@ -40,7 +40,7 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
     >
       <Center style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }}>
         {hovering ? (
-          <ActionIcon size="xs" ref={handleRef}>
+          <ActionIcon size="xs" ref={handleRef} variant="subtle">
             <IconGripVertical />
           </ActionIcon>
         ) : (

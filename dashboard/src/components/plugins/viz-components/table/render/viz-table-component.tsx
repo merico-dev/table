@@ -133,6 +133,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
                   <th key={header.id} style={{ width: header.getSize() }}>
                     <HeadCell header={header} cx={cx} />
                     <ActionIcon
+                      variant="subtle"
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
                       className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
