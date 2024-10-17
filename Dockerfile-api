@@ -16,6 +16,8 @@ RUN yarn config set nodeLinker node-modules
 RUN yarn install
 
 FROM node:20
+# fix trivy issues
+RUN apt update && apt upgrade -y
 
 COPY --from=installer /code/api/_build /code/api/_build
 
