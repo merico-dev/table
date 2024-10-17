@@ -32,6 +32,7 @@ export const EditView = observer(({ id }: { id: string }) => {
         content.views.removeByID(id);
         resetEditorPath();
       },
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };

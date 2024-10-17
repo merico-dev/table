@@ -42,6 +42,7 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      confirmProps: { color: 'red' },
     });
   if (!id) {
     return null;

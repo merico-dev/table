@@ -37,6 +37,7 @@ export const FilterSettings = observer(function _FilterSettings() {
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.filters.removeByID(id),
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };
