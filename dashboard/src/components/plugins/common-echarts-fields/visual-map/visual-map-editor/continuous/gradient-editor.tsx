@@ -44,7 +44,9 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
             <IconGripVertical />
           </ActionIcon>
         ) : (
-          <Badge size="sm">{index + 1}</Badge>
+          <Badge size="sm" variant="light">
+            {index + 1}
+          </Badge>
         )}
       </Center>
       <div style={{ flex: 1 }}>

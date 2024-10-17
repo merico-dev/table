@@ -13,7 +13,7 @@ const ColumnKey = ({ column }: { column: ColumnInfoType }) => {
   }
   return (
     <Tooltip label={column_key_text} disabled={!column_key_text}>
-      <Badge>{column_key}</Badge>
+      <Badge variant="light">{column_key}</Badge>
     </Tooltip>
   );
 };

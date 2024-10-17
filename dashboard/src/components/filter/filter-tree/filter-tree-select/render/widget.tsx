@@ -56,7 +56,7 @@ export const FilterTreeSelectWidget = ({
         </Text>
         {tooltipVisible && (
           <Tooltip label={t('filter.widget.common.x_selected', { count: value.length })}>
-            <Badge>{value.length}</Badge>
+            <Badge variant="light">{value.length}</Badge>
           </Tooltip>
         )}
       </Group>
