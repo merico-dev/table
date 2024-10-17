@@ -21,7 +21,7 @@ export const QueryStateMessage = ({ queryID }: IQueryStateMessage) => {
   }
   if (!!query?.stateMessage) {
     return (
-      <Text mt={10} c="gray" ta="center">
+      <Text size="sm" mt={10} c="gray" ta="center">
         {query.stateMessage}
       </Text>
     );

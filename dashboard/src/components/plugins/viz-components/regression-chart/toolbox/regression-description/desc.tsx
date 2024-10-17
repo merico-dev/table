@@ -38,17 +38,17 @@ function getLinearDescription(
     name,
     expression: (
       <Group justify="center" wrap="nowrap" gap={10}>
-        <Text>{y_axis.name}</Text>
-        <Text>=</Text>
-        <Text fw="bold" c="red">
+        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">=</Text>
+        <Text size="sm" fw="bold" c="red">
           {formatNumber(b, numberFormat)}
         </Text>
-        <Text>+</Text>
-        <Text fw="bold" c="red">
+        <Text size="sm">+</Text>
+        <Text size="sm" fw="bold" c="red">
           {formatNumber(a, numberFormat)}
         </Text>
-        <Text>×</Text>
-        <Text>{x_axis.name}</Text>
+        <Text size="sm">×</Text>
+        <Text size="sm">{x_axis.name}</Text>
       </Group>
     ),
     rSquared,
@@ -68,20 +68,20 @@ function getExponentialDescription(
     name,
     expression: (
       <Group justify="center" wrap="nowrap" gap={10}>
-        <Text>{y_axis.name}</Text>
-        <Text>=</Text>
-        <Text fw="bold" c="gray">
+        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">=</Text>
+        <Text size="sm" fw="bold" c="gray">
           {a}
         </Text>
-        <Text>×</Text>
+        <Text size="sm">×</Text>
         <Group justify="flex-start" wrap="nowrap" gap={2}>
-          <Text>Math.exp(</Text>
-          <Text fw="bold" c="gray">
+          <Text size="sm">Math.exp(</Text>
+          <Text size="sm" fw="bold" c="gray">
             {b}
           </Text>
-          <Text>×</Text>
-          <Text>{x_axis.name}</Text>
-          <Text>)</Text>
+          <Text size="sm">×</Text>
+          <Text size="sm">{x_axis.name}</Text>
+          <Text size="sm">)</Text>
         </Group>
       </Group>
     ),
@@ -102,18 +102,18 @@ function getLogisticDescription(
     name,
     expression: (
       <Group justify="center" wrap="nowrap" gap={10}>
-        <Text>{y_axis.name}</Text>
-        <Text>=</Text>
-        <Text fw="bold" c="gray">
+        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">=</Text>
+        <Text size="sm" fw="bold" c="gray">
           {a}
         </Text>
-        <Text>×</Text>
+        <Text size="sm">×</Text>
         <Group justify="flex-start" wrap="nowrap" gap={2}>
-          <Text>Math.log(</Text>
-          <Text>{x_axis.name}</Text>
-          <Text>)</Text>
-          <Text>+</Text>
-          <Text fw="bold" c="gray">
+          <Text size="sm">Math.log(</Text>
+          <Text size="sm">{x_axis.name}</Text>
+          <Text size="sm">)</Text>
+          <Text size="sm">+</Text>
+          <Text size="sm" fw="bold" c="gray">
             {b}
           </Text>
         </Group>

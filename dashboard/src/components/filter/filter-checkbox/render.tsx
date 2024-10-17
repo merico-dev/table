@@ -45,7 +45,7 @@ export const FilterCheckbox = observer(
   }: IFilterCheckbox) => {
     return (
       <Box>
-        <Text>&nbsp;</Text>
+        <Text size="sm">&nbsp;</Text>
         <Checkbox
           label={
             <Group wrap="nowrap" justify="space-between" align="middle" gap={6}>

@@ -15,7 +15,7 @@ const PreviewTitleBar = observer(() => {
 
   return (
     <Group grow justify="center" className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
-      <Text ta="center" lineClamp={1} className="panel-title-text">
+      <Text size="sm" ta="center" lineClamp={1} className="panel-title-text">
         {panel.title.show ? panel.name : ''}
       </Text>
     </Group>

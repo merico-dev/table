@@ -17,12 +17,12 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
 
   return (
     <Box sx={{ maxWidth: '480px' }}>
-      {/* <Text pb="md" c="gray">
+      {/* <Text pb="md" c="gray" size="sm">
         Preview
       </Text>
       <Filter filter={filter} value={value} onChange={setValue} /> */}
 
-      <Text pt="0" pb="md" c="gray">
+      <Text pt="0" pb="md" c="gray" size="sm">
         {t('common.titles.config')}
       </Text>
       <CodeHighlight mt={22} language="json" withCopyButton={false} code={JSON.stringify(filter, null, 4)} />

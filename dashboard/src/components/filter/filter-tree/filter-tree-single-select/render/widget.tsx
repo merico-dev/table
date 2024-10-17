@@ -39,7 +39,7 @@ export const FilterTreeSingleSelectWidget = ({
   return (
     <Stack gap={3}>
       <Group justify="space-between">
-        <Text className={classes.label}>
+        <Text className={classes.label} size="sm">
           {label}
           {required && (
             <span className={classes.required} aria-hidden="true">

@@ -197,7 +197,7 @@ export const ExplainJSONSchema = ({ content }: { content: Partial<TDashboardCont
   return (
     <Box>
       <Divider mt={20} mb={10} variant="dashed" />
-      <Text ta="left" c="dimmed">
+      <Text ta="left" c="dimmed" size="sm">
         Preview
       </Text>
       <Stack>

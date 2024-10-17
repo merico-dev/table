@@ -105,7 +105,7 @@ export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, sta
                 onClick={() => switchContent(d.id)}
               >
                 <Group justify="space-between">
-                  <Text>{d.name}</Text>
+                  <Text size="sm">{d.name}</Text>
 
                   {isPublished && (
                     <Badge size="xs" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>

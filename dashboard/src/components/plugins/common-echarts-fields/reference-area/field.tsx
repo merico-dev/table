@@ -65,14 +65,14 @@ export const ReferenceAreaField = forwardRef(
           </Text>
           <Group grow wrap="nowrap">
             <Select
-              leftSection={<Text>x</Text>}
+              leftSection={<Text size="sm">x</Text>}
               data={variableOptions}
               value={value.leftBottomPoint.x_data_key}
               onChange={(v) => handleChange('leftBottomPoint.x_data_key', v ?? '')}
               clearable
             />
             <Select
-              leftSection={<Text>y</Text>}
+              leftSection={<Text size="sm">y</Text>}
               data={variableOptions}
               value={value.leftBottomPoint.y_data_key}
               onChange={(v) => handleChange('leftBottomPoint.y_data_key', v ?? '')}
@@ -86,14 +86,14 @@ export const ReferenceAreaField = forwardRef(
           </Text>
           <Group grow wrap="nowrap">
             <Select
-              leftSection={<Text>x</Text>}
+              leftSection={<Text size="sm">x</Text>}
               data={variableOptions}
               value={value.rightTopPoint.x_data_key}
               onChange={(v) => handleChange('rightTopPoint.x_data_key', v ?? '')}
               clearable
             />
             <Select
-              leftSection={<Text>y</Text>}
+              leftSection={<Text size="sm">y</Text>}
               data={variableOptions}
               value={value.rightTopPoint.y_data_key}
               onChange={(v) => handleChange('rightTopPoint.y_data_key', v ?? '')}

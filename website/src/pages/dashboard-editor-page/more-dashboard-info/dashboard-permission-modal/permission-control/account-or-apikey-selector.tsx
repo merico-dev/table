@@ -7,7 +7,7 @@ const SelectItem: SelectProps['renderOption'] = ({ option, ...others }) => {
   const { label, type } = option as AccountOrAPIKeyOptionType;
   return (
     <Group justify="space-between" {...others}>
-      <Text>{label}</Text>
+      <Text size="sm">{label}</Text>
       <AccountTypeIcon type={type} />
     </Group>
   );

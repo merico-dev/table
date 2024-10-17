@@ -50,7 +50,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
         <List spacing="md" size={'sm'} listStyleType="none">
           {Object.entries(groupedDependencies).map(([type, arr]) => (
             <List.Item key={type}>
-              <Text fw="bold" ff="monospace">
+              <Text size="sm" fw="bold" ff="monospace">
                 {t(`${type}.label`)}
               </Text>
               <List withPadding size={'sm'} sx={{ fontFamily: 'monospace', svg: { verticalAlign: 'middle' } }}>

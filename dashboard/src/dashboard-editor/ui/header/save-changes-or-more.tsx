@@ -19,7 +19,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
       title: (
         <Group justify="flex-start">
           <IconAlertTriangle size={18} color="red" />
-          <Text>You are reverting changes</Text>
+          <Text size="sm">You are reverting changes</Text>
         </Group>
       ),
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },

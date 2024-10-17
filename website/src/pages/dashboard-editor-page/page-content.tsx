@@ -125,7 +125,7 @@ function useHandleExitEditPage() {
           title: (
             <Group justify="flex-start">
               <IconAlertTriangle size={18} color="red" />
-              <Text>There are unsaved changes</Text>
+              <Text size="sm">There are unsaved changes</Text>
             </Group>
           ),
           labels: { confirm: 'Discard', cancel: 'Cancel' },

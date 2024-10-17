@@ -90,7 +90,9 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                 </th>
                 <td>
                   {f.id === 'basis' ? (
-                    <Text ff="monospace">{f.breakpoint}px</Text>
+                    <Text size="sm" ff="monospace">
+                      {f.breakpoint}px
+                    </Text>
                   ) : (
                     <Controller
                       name={`list.${i}.breakpoint`}
@@ -102,7 +104,11 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                           required
                           max={10000}
                           hideControls
-                          rightSection={<Text c="dimmed">px</Text>}
+                          rightSection={
+                            <Text size="sm" c="dimmed">
+                              px
+                            </Text>
+                          }
                           rightSectionProps={{ style: { width: '30px' } }}
                           sx={{ flex: 1 }}
                           ff="monospace"

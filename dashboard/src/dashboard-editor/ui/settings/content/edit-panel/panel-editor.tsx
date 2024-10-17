@@ -123,7 +123,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       value={{ panel, data: panel.data, loading, errors: panel.queryErrors, downloadPanelScreenshot: () => {} }}
     >
       <Group px={16} justify="space-between" sx={{ borderBottom: '1px solid #eee' }}>
-        <Text pt={9} pb={8}>
+        <Text size="sm" pt={9} pb={8}>
           {panel.name}
         </Text>
         <Group justify="flex-end" wrap="nowrap">
@@ -143,12 +143,12 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           </Tabs.Tab>
           <Tabs.Tab value="Variables" leftSection={<IconVariable size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
-              <Text>{t('panel.variable.labels')}</Text>
+              <Text size="sm">{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
           <Tabs.Tab value="Visualization" leftSection={<IconChartHistogram size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
-              <Text>{t('visualization.label')}</Text>
+              <Text size="sm">{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>
           <Tabs.Tab value="Interactions" leftSection={<IconRoute size={14} />}>

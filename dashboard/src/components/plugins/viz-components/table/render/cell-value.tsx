@@ -46,7 +46,7 @@ function CellRender(props: PropsWithChildren<ICellValue>) {
         ...getCellStyle(props),
       }}
     >
-      <Text className="table-cell-text" onClick={props.tableCellContext.getClickHandler()}>
+      <Text size="sm" className="table-cell-text" onClick={props.tableCellContext.getClickHandler()}>
         <span title={props.children as string}>{props.children}</span>
       </Text>
     </div>

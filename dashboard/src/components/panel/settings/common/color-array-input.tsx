@@ -44,7 +44,7 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
   return (
     <>
       <Group justify="flex-start" ref={ref}>
-        <Text>{label}</Text>
+        <Text size="sm">{label}</Text>
         <ActionIcon mr={5} variant="filled" color="blue" disabled={!changed} onClick={submit}>
           <IconDeviceFloppy size={20} />
         </ActionIcon>

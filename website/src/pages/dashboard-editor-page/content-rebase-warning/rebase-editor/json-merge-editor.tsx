@@ -34,7 +34,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           >
             Previous
           </Button>
-          <Text>{diff.objectDescription}</Text>
+          <Text size="sm">{diff.objectDescription}</Text>
           <Button
             size="xs"
             variant={resolved ? 'filled' : 'light'}
@@ -46,7 +46,9 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           </Button>
         </Group>
       ) : (
-        <Text ta="center">{diff.objectDescription}</Text>
+        <Text size="sm" ta="center">
+          {diff.objectDescription}
+        </Text>
       )}
       <Group grow justify="space-between" gap="xs">
         <JSONMergeChooser

@@ -63,7 +63,9 @@ export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogM
       zIndex={320}
       title={
         <Group justify="space-between" sx={{ flexGrow: 1 }}>
-          <Text fw={500}>Changelog</Text>
+          <Text size="sm" fw={500}>
+            Changelog
+          </Text>
 
           {name && (
             <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} mr={16}>

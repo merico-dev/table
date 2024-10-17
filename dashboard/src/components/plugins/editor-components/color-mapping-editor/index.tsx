@@ -134,7 +134,7 @@ function PaletteItem(props: {
       <Text
         title={textTitle}
         style={{ opacity: showUpLabel ? 1 : 0 }}
-        color="dimmed"
+        c="dimmed"
         size="sm"
         className="palette-value--up palette-value"
       >
@@ -207,7 +207,7 @@ function PaletteItem(props: {
       <Text
         title={textTitle}
         style={{ opacity: showBottomLabel ? 1 : 0 }}
-        color="dimmed"
+        c="dimmed"
         size="sm"
         className="palette-value--bottom palette-value"
       >

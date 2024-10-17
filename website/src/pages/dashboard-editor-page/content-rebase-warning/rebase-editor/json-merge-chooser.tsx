@@ -34,11 +34,11 @@ const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolv
     <Tooltip
       label={
         <Group gap={4}>
-          <Text>This will discard</Text>
-          <Text fw={700} sx={{ display: 'inline-block' }}>
+          <Text size="sm">This will discard</Text>
+          <Text size="sm" fw={700} sx={{ display: 'inline-block' }}>
             {opposite}
           </Text>
-          <Text>changes</Text>
+          <Text size="sm">changes</Text>
         </Group>
       }
     >

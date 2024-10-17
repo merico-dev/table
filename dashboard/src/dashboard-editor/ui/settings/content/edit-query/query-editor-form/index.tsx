@@ -61,12 +61,12 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         {queryModel.isTransform && <Tabs.Tab value="Transform">{t('query.transform.label')}</Tabs.Tab>}
         <Tabs.Tab value="Data" disabled={!queryModel.canPreviewData}>
           <Tooltip label={queryModel.guideToPreviewData} disabled={queryModel.canPreviewData} withinPortal>
-            <Text>{t('data.preview_data')}</Text>
+            <Text size="sm">{t('data.preview_data')}</Text>
           </Tooltip>
         </Tabs.Tab>
         <Tabs.Tab value="Usage" disabled={noUsage}>
           <Tooltip label={t('query.usage.unused_description')} disabled={!noUsage} withinPortal>
-            <Text>{t('query.usage.label')}</Text>
+            <Text size="sm">{t('query.usage.label')}</Text>
           </Tooltip>
         </Tabs.Tab>
       </Tabs.List>

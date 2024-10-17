@@ -14,7 +14,7 @@ const XAxisTypeLabel = () => {
   const { t } = useTranslation();
   return (
     <Group sx={{ display: 'inline-flex' }} gap={6} mr={14}>
-      <Text>{t('chart.x_axis.x_axis_type')}</Text>
+      <Text size="sm">{t('chart.x_axis.x_axis_type')}</Text>
       <HoverCard width={340} shadow="md" position="top">
         <HoverCard.Target>
           <ActionIcon size="xs" variant="subtle" sx={{ transform: 'none !important' }}>

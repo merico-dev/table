@@ -152,5 +152,5 @@ function ClickCellContentName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { columnsFromConfig } = useColumnsFromConfig(props.instance);
   const { value: config } = useStorageData<IClickCellContentConfig>(props.trigger.triggerData, 'config');
   const rawColumnsEnabled = useRawColumnsEnabled(props.instance);
-  return <Text>{generateTriggerName(config, columnsFromConfig, rawColumnsEnabled)}</Text>;
+  return <Text size="sm">{generateTriggerName(config, columnsFromConfig, rawColumnsEnabled)}</Text>;
 }

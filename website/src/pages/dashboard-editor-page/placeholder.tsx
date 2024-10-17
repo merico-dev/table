@@ -18,7 +18,7 @@ export function LoadingPlaceholder({
 export function NeedToInitializeContent() {
   return (
     <Center style={{ height: '60vh' }}>
-      <Text>This dashboard is not initialized and is empty</Text>
+      <Text size="sm">This dashboard is not initialized and is empty</Text>
       <Button variant="light" size="lg" style={{ marginTop: 20 }}>
         Initialize
       </Button>

@@ -21,14 +21,16 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
         sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
       >
         <IconVectorTriangle size={14} color="#228be6" />
-        <Text c="blue">{label}</Text>
+        <Text size="sm" c="blue">
+          {label}
+        </Text>
       </Group>
     );
   }
   return (
     <Group justify="space-between" {...others}>
-      <Text>{label}</Text>
-      <Text>{type}</Text>
+      <Text size="sm">{label}</Text>
+      <Text size="sm">{type}</Text>
     </Group>
   );
 };

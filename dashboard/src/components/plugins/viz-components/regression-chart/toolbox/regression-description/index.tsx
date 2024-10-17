@@ -21,14 +21,16 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
   const { t } = useTranslation();
   const { expression, rSquared, adjustedRSquared } = desc;
   if (!expression) {
-    return <Text>Unavailable for this regression method</Text>;
+    return <Text size="sm">Unavailable for this regression method</Text>;
   }
   return (
     <Table fz={14} sx={TableSx}>
       <tbody>
         <tr>
           <td colSpan={2}>
-            <Text ta="center">{expression}</Text>
+            <Text size="sm" ta="center">
+              {expression}
+            </Text>
           </td>
         </tr>
         <tr>

@@ -8,7 +8,7 @@ export function ClickRadarChartSeriesSettings(props: ITriggerConfigProps) {
 
 function ClickRadarChartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.radar_chart.click_series.label')}</Text>;
+  return <Text size="sm">{t('viz.radar_chart.click_series.label')}</Text>;
 }
 
 export const ClickRadarChartSeries: ITriggerSchema = {

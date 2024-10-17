@@ -37,7 +37,7 @@ export const VizRichTextEditor = observer(({ context }: VizConfigProps) => {
           pl="md"
           sx={{ borderBottom: '1px solid #eee', background: '#efefef', display: 'none' }}
         >
-          <Text>{t('rich_text.content.label')}</Text>
+          <Text size="sm">{t('rich_text.content.label')}</Text>
           <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="blue">
             <IconDeviceFloppy size={20} />
           </ActionIcon>

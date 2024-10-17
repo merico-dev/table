@@ -46,5 +46,5 @@ export function ClickEchartSeriesSettings(props: ITriggerConfigProps) {
 
 function ClickEchartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.pareto_chart.click_series.label')}</Text>;
+  return <Text size="sm">{t('viz.pareto_chart.click_series.label')}</Text>;
 }
