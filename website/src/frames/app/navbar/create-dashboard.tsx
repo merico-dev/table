@@ -1,5 +1,5 @@
 import { initialDashboardContent } from '@devtable/dashboard';
-import { Autocomplete, Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
+import { Autocomplete, Box, Button, ComboboxItemGroup, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -10,12 +10,13 @@ import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../models/dashboard-store-context';
 import _ from 'lodash';
 
+type Option = { label: string; value: string; content_id: string | null };
 async function getInitialContent({
   idToDuplicate,
-  options,
+  optionGroups,
 }: {
   idToDuplicate?: string;
-  options: { label: string; value: string; content_id: string | null }[];
+  optionGroups: ComboboxItemGroup<Option>[];
 }) {
   if (!idToDuplicate) {
     return {
@@ -23,7 +24,15 @@ async function getInitialContent({
       content: initialDashboardContent,
     };
   }
-  const dashboard = options.find((o) => o.value === idToDuplicate);
+  let dashboard: Option | null = null;
+  groupLoop: for (let group of optionGroups) {
+    for (let o of group.items) {
+      if (o.value === idToDuplicate) {
+        dashboard = o;
+        break groupLoop;
+      }
+    }
+  }
   if (!dashboard) {
     throw new Error('Unexpected null dashboard');
   }
@@ -92,7 +101,7 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
       });
       const initialContent = await getInitialContent({
         idToDuplicate,
-        options,
+        optionGroups: options,
       });
       updateNotification({
         id: 'for-creating',
