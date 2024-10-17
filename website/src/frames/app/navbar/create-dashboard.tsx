@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../models/dashboard-store-context';
+import _ from 'lodash';
 
 async function getInitialContent({
   idToDuplicate,
@@ -55,12 +56,17 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
     if (!dashboards) {
       return [];
     }
-    return dashboards.map((d) => ({
-      label: d.name,
-      value: d.id,
-      content_id: d.content_id,
-      group: d.group,
-    }));
+    const grouped = _.groupBy(dashboards, 'group');
+    return Object.entries(grouped).map(([group, items]) => {
+      return {
+        group,
+        items: items.map((item) => ({
+          label: item.name,
+          value: item.id,
+          content_id: item.content_id,
+        })),
+      };
+    });
   }, [dashboards]);
 
   const {
