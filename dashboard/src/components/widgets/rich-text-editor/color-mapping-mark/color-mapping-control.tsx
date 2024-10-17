@@ -103,6 +103,7 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
         styles={{
           header: {
             paddingBottom: 0,
+            minHeight: 'unset',
           },
           body: {
             padding: 0,
