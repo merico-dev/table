@@ -34,7 +34,7 @@ export const DataFieldSelector = observer(
     ) => {
       const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
-        return panel.dataFieldOptions(value, clearable, queryID);
+        return panel.dataFieldOptionGroups(value, clearable, queryID);
       }, [value, clearable, queryID]);
 
       if (options.length === 0) {
