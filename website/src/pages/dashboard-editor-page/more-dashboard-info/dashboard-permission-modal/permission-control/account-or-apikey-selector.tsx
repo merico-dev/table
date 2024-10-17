@@ -48,7 +48,7 @@ export const AccountOrAPIKeySelector = ({
       rightSection={type ? <AccountTypeIcon type={type} /> : undefined}
       rightSectionWidth={58}
       maxDropdownHeight={280}
-      styles={{ rightSection: { pointerEvents: 'none' } }}
+      styles={{ section: { pointerEvents: 'none' } }}
       data={options}
       value={value}
       onChange={handleChange}

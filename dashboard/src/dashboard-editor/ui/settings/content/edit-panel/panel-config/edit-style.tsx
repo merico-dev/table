@@ -22,7 +22,7 @@ export const EditStyle = observer(() => {
             decimalScale={0}
             rightSection={<Text size={'12px'}>{t('panel.style.width_postfix')}</Text>}
             styles={{
-              rightSection: { width: 'auto', maxWidth: '100px', paddingRight: '14px', justifyContent: 'flex-end' },
+              section: { width: 'auto', maxWidth: '100px', paddingRight: '14px', justifyContent: 'flex-end' },
             }}
             value={layout.w}
             onChange={(v) => {
@@ -32,7 +32,7 @@ export const EditStyle = observer(() => {
           <NumberInput
             label={t('panel.style.height')}
             rightSection={<Text size={'12px'}>{t('panel.style.height_postfix')}</Text>}
-            styles={{ rightSection: { width: '40px' } }}
+            styles={{ section: { width: '40px' } }}
             value={layout.h}
             onChange={(v) => {
               typeof v !== 'string' && layout.setHeight(v);

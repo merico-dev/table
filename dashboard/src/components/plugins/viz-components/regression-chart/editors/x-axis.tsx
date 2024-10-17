@@ -48,7 +48,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
               rightSection={<Text c="dimmed">度</Text>}
               sx={{ width: '48%' }}
               styles={{
-                rightSection: {
+                section: {
                   width: '4em',
                   justifyContent: 'flex-end',
                   paddingRight: '6px',

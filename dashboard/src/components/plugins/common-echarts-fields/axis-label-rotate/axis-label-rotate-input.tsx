@@ -28,7 +28,7 @@ export const AxisLabelRotateInput = forwardRef(
         }
         sx={sx}
         styles={{
-          rightSection: {
+          section: {
             width: '4em',
             justifyContent: 'flex-end',
             paddingRight: '6px',

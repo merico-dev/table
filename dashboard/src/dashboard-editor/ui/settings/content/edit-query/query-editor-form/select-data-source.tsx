@@ -105,7 +105,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       styles={{
         root: { flex: 1 },
         label: { display: 'block' },
-        rightSection: {
+        section: {
           pointerEvents: 'none',
           justifyContent: 'flex-end',
           paddingRight: '10px',
