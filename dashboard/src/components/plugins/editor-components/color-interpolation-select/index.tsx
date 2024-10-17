@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Select, ComboboxItem, Stack } from '@mantine/core';
+import { Button, Group, Modal, Select, ComboboxItem, Stack, ComboboxItemGroup } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { toJS } from 'mobx';
@@ -8,6 +8,7 @@ import { IColorManager } from '~/components/plugins';
 
 import { IColorInterpolationConfig, IValueStep } from '~/types/plugin';
 import { ColorMappingEditor } from '../color-mapping-editor';
+import _ from 'lodash';
 
 export interface IColorInterpolationSelectProps {
   colorManager: IColorManager;
@@ -22,12 +23,17 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
   const [localValue, setLocalValue] = useState(value);
   const interpolation = colorManager.decodeInterpolation(localValue.interpolation) || interpolations[0];
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
-  const selectData: ComboboxItem[] = useMemo(() => {
-    return interpolations.map((it) => ({
-      label: t(it.displayName),
-      value: colorManager.encodeColor(it),
-      group: t(`style.color.interpolation.palette.category.${it.category}`),
-    }));
+  const selectData: ComboboxItemGroup[] = useMemo(() => {
+    const grouped = _.groupBy(interpolations, 'category');
+    return Object.entries(grouped).map(([group, items]) => {
+      return {
+        group: t(`style.color.interpolation.palette.category.${group}`),
+        items: items.map((it) => ({
+          label: t(it.displayName),
+          value: colorManager.encodeColor(it),
+        })),
+      };
+    });
   }, [i18n.language]);
 
   function handleStyleChange(item: string | null) {
