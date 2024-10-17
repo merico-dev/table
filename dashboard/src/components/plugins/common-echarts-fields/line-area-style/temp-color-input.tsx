@@ -23,6 +23,7 @@ export const TempColorInput = forwardRef<HTMLInputElement, Props>(({ value, onCh
       rightSection={
         !!value ? (
           <CloseButton
+            size="sm"
             onClick={() => {
               onChange('');
             }}

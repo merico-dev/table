@@ -62,7 +62,7 @@ export const FilterTreeSelectWidget = ({
       </Group>
       <TreeSelect
         disabled={disabled}
-        allowClear={{ clearIcon: <CloseButton /> }}
+        allowClear={{ clearIcon: <CloseButton size="sm" /> }}
         treeCheckStrictly={treeCheckStrictly}
         labelInValue={true}
         className={cx(classes.root, 'check-select')}

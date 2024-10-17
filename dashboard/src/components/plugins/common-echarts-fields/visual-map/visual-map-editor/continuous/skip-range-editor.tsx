@@ -26,6 +26,7 @@ const SkipRangeColorInput = ({ label, field }: SkipRangeColorInputProps) => {
       rightSection={
         !!field.value ? (
           <CloseButton
+            size="sm"
             onClick={() => {
               field.onChange('');
             }}

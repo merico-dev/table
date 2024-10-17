@@ -81,7 +81,7 @@ export const MultiSelectWidget = ({
         transitionName="rc-select-dropdown-slide-up"
         choiceTransitionName="rc-select-selection__choice-zoom"
         style={style}
-        clearIcon={() => <CloseButton />}
+        clearIcon={() => <CloseButton size="sm" />}
         value={value}
         onChange={onChange}
         onSelect={console.log}

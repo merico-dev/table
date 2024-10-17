@@ -66,7 +66,7 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
         />
       </div>
       <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
-        <CloseButton onClick={handleRemove} />
+        <CloseButton onClick={handleRemove} size="sm" />
       </div>
     </Flex>
   );

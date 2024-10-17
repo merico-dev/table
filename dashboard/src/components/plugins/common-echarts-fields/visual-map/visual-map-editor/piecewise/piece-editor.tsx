@@ -43,6 +43,7 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
               rightSection={
                 !!field.value ? (
                   <CloseButton
+                    size="sm"
                     onClick={() => {
                       field.onChange('');
                     }}
@@ -55,7 +56,7 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
         />
       </td>
       <td>
-        <CloseButton onClick={() => remove(index)} />
+        <CloseButton size="sm" onClick={() => remove(index)} />
       </td>
     </tr>
   );
