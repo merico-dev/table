@@ -3,9 +3,7 @@ import { ReadOnlyDashboard } from '@devtable/dashboard';
 import { LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import 'react-grid-layout/css/styles.css';
 import { Helmet } from 'react-helmet-async';
-import 'react-resizable/css/styles.css';
 
 import { useRequest } from 'ahooks';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';

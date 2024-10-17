@@ -2,8 +2,6 @@ import { DashboardContentDBType, DashboardEditor, IDashboard } from '@devtable/d
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 
 import { IDashboardModel, OnExitParams } from '@devtable/dashboard';
 import { Group, Text } from '@mantine/core';
