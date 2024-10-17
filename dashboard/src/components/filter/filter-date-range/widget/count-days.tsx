@@ -20,7 +20,9 @@ export const CountDays = ({ begin, end }: { begin: DateValue; end: DateValue }) 
   const label = count === 1 ? t('filter.widget.date_range.one_day') : t('filter.widget.date_range.x_days', { count });
   return (
     <Tooltip label={label}>
-      <Badge size="sm">{count}</Badge>
+      <Badge size="sm" variant="light">
+        {count}
+      </Badge>
     </Tooltip>
   );
 };

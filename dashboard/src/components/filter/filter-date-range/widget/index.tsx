@@ -68,6 +68,14 @@ export const DateRangeWidget = ({
                 zIndex: 1,
               },
               '.mantine-Input-input': { borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+              '.mantine-Input-input[data-disabled]': {
+                backgroundColor: 'transparent',
+                backgroundImage: 'linear-gradient(to left, #fff 0%, #f1f3f5 30%)',
+                opacity: 1,
+              },
+              '.mantine-Input-input[data-disabled]::placeholder': {
+                opacity: 0.6,
+              },
             }}
           />
         </Popover.Target>
@@ -85,7 +93,7 @@ export const DateRangeWidget = ({
           onFocus={open}
           styles={getInputStyles(opened)}
           sx={{
-            '.mantine-Input-icon': { transform: 'translateX(-22px)' },
+            '.mantine-Input-section': { transform: 'translateX(-18px)' },
             '.mantine-Input-input': { borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
             '.mantine-Input-input[data-disabled]': {
               backgroundColor: 'transparent',

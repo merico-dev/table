@@ -27,7 +27,7 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
           {Object.entries(shortcutGroups).map(([group, shortcuts]) => (
             <tr key={group}>
               <th>
-                <Text size="xs" c="#555">
+                <Text size="xs" c="#555" fw={500} sx={{ textAlignLast: 'justify' }}>
                   {t(`filter.widget.date_range.shortcut.${group}.label`)}
                 </Text>
               </th>
