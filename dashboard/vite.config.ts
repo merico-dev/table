@@ -50,14 +50,17 @@ const externals = (id: string) => {
 
 export default defineConfig({
   plugins: [
+    // @ts-expect-error PluginOption
     tsconfigPaths({
       projects: [process.env.VITEST ? './tsconfig.test.json' : './tsconfig.json'],
     }),
+    // @ts-expect-error PluginOption
     react({
       babel: {
         plugins: ['@emotion', 'macros'],
       },
     }),
+    // @ts-expect-error PluginOption
     dts({
       entryRoot: resolve(__dirname, 'src'),
       insertTypesEntry: true,
