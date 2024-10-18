@@ -109,7 +109,7 @@ export const InlineFunctionInput = forwardRef(
         <Text size={'14px'}>{label}</Text>
         <Box sx={{ position: 'relative', flexGrow: 1 }}>
           {empty && (
-            <Overlay center color="#fff" opacity={0.5}>
+            <Overlay center color="#fff" backgroundOpacity={0.5}>
               <Button color="blue" radius="xl" onClick={resetFuncContent}>
                 {t('common.actions.init_with_default')}
               </Button>

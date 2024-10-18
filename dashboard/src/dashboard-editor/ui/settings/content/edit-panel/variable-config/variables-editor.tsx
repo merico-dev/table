@@ -32,7 +32,7 @@ export const VariableList = observer((props: IVariableListProps) => {
 const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel }) => {
   const { t } = useTranslation();
   return (
-    <Overlay color="#fff" opacity={1} sx={{ position: 'absolute' }}>
+    <Overlay color="#fff" backgroundOpacity={1} sx={{ position: 'absolute' }}>
       <Button
         variant="light"
         size="xs"

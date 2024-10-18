@@ -80,7 +80,7 @@ export const JSONMergeChooser = observer(
           </Group>
         </Card.Section>
         <Card.Section inheritPadding pt="xs" sx={{ position: 'relative' }}>
-          {resolved && !chosen && <Overlay color="white" opacity={0.6} />}
+          {resolved && !chosen && <Overlay color="white" backgroundOpacity={0.6} />}
           <ErrorBoundary>
             <JsonChangesViewer base={diff.values.base} changed={changed} />
           </ErrorBoundary>

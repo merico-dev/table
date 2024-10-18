@@ -16,7 +16,7 @@ export const CustomModalTitleFunctionEditor = ({ disabled, value, onChange }: IC
 
   return (
     <Box sx={{ position: 'relative' }}>
-      {disabled && <Overlay opacity={0.6} color="#fff" zIndex={5} blur={2} />}
+      {disabled && <Overlay backgroundOpacity={0.6} color="#fff" zIndex={5} blur={2} />}
 
       <Editor
         height="500px"

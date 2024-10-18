@@ -89,7 +89,7 @@ export const ContentRebaseWarning = observer(() => {
   const latestUpdatedAt = dayjs(remoteKey).format('YYYY-MM-DD HH:mm:ss (UTC)');
   return (
     <>
-      <Overlay zIndex={310} color="black" opacity={0.4} blur={2} />
+      <Overlay zIndex={310} color="black" backgroundOpacity={0.4} blur={2} />
       <Notification
         color="red"
         title={
