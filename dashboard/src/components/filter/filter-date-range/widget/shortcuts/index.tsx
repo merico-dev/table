@@ -23,24 +23,24 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
           td: { paddingLeft: '1px' },
         }}
       >
-        <tbody>
+        <Table.Tbody>
           {Object.entries(shortcutGroups).map(([group, shortcuts]) => (
-            <tr key={group}>
-              <th>
+            <Table.Tr key={group}>
+              <Table.Th>
                 <Text size="xs" c="#555" fw={500} sx={{ textAlignLast: 'justify' }}>
                   {t(`filter.widget.date_range.shortcut.${group}.label`)}
                 </Text>
-              </th>
+              </Table.Th>
               {shortcuts.map(({ key, value, getRange }) => (
-                <td key={key}>
+                <Table.Td key={key}>
                   <Button size="compact-xs" variant="subtle" onClick={getClickHandler(getRange)}>
                     {t(`filter.widget.date_range.shortcut.${group}.${useFullLabel ? 'full.' : ''}${key}`)}
                   </Button>
-                </td>
+                </Table.Td>
               ))}
-            </tr>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </>
   );

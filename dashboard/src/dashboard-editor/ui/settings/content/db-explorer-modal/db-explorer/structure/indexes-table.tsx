@@ -29,26 +29,26 @@ export const MySQLIndexesTable = observer(({ dataSource }: { dataSource: DataSou
         <col style={{ width: 150 }} />
         <col style={{ width: 250 }} />
       </colgroup>
-      <thead>
-        <tr>
-          <th>Index Length</th>
-          <th>Index Name</th>
-          <th>Index Algorithm</th>
-          <th>Unique</th>
-          <th>Column Name</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>Index Length</Table.Th>
+          <Table.Th>Index Name</Table.Th>
+          <Table.Th>Index Algorithm</Table.Th>
+          <Table.Th>Unique</Table.Th>
+          <Table.Th>Column Name</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {data.map((c) => (
-          <tr key={c.index_name}>
-            <td>{c.index_length}</td>
-            <td>{c.index_name}</td>
-            <td>{c.index_algorithm}</td>
-            <td>{c.is_unique ? 'YES' : 'NO'}</td>
-            <td>{c.column_name}</td>
-          </tr>
+          <Table.Tr key={c.index_name}>
+            <Table.Td>{c.index_length}</Table.Td>
+            <Table.Td>{c.index_name}</Table.Td>
+            <Table.Td>{c.index_algorithm}</Table.Td>
+            <Table.Td>{c.is_unique ? 'YES' : 'NO'}</Table.Td>
+            <Table.Td>{c.column_name}</Table.Td>
+          </Table.Tr>
         ))}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });
@@ -77,34 +77,34 @@ export const PGIndexesTable = observer(({ dataSource }: { dataSource: DataSource
         <col style={{ width: 100 }} />
         <col style={{ width: 100 }} />
       </colgroup>
-      <thead>
-        <tr>
-          <th>Index Name</th>
-          <th>Index Algorithm</th>
-          <th>Unique</th>
-          <th>Definition</th>
-          <th>Condition</th>
-          <th>Comment</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>Index Name</Table.Th>
+          <Table.Th>Index Algorithm</Table.Th>
+          <Table.Th>Unique</Table.Th>
+          <Table.Th>Definition</Table.Th>
+          <Table.Th>Condition</Table.Th>
+          <Table.Th>Comment</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {data.map((c) => (
-          <tr key={c.index_name}>
-            <td>{c.index_name}</td>
-            <td>{c.index_algorithm}</td>
-            <td>{c.is_unique ? 'YES' : 'NO'}</td>
-            <td>
+          <Table.Tr key={c.index_name}>
+            <Table.Td>{c.index_name}</Table.Td>
+            <Table.Td>{c.index_algorithm}</Table.Td>
+            <Table.Td>{c.is_unique ? 'YES' : 'NO'}</Table.Td>
+            <Table.Td>
               <TooltipValue value={c.index_definition} />
-            </td>
-            <td>
+            </Table.Td>
+            <Table.Td>
               <TooltipValue value={c.condition} />
-            </td>
-            <td>
+            </Table.Td>
+            <Table.Td>
               <TooltipValue value={c.comment} />
-            </td>
-          </tr>
+            </Table.Td>
+          </Table.Tr>
         ))}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

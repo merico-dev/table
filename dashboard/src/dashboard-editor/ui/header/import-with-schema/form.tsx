@@ -111,16 +111,16 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
         />
         {contentErrorMessage ? (
           <Table fz={12} mt={10}>
-            <tbody>
-              <tr>
-                <th>{t('import.this_dashboard')}</th>
-                <td>{CURRENT_SCHEMA_VERSION}</td>
-              </tr>
-              <tr>
-                <th>{t('import.this_file')}</th>
-                <td style={{ color: 'red' }}>{content?.version}</td>
-              </tr>
-            </tbody>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Th>{t('import.this_dashboard')}</Table.Th>
+                <Table.Td>{CURRENT_SCHEMA_VERSION}</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Th>{t('import.this_file')}</Table.Th>
+                <Table.Td style={{ color: 'red' }}>{content?.version}</Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
           </Table>
         ) : (
           <>

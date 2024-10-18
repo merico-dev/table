@@ -125,12 +125,12 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
         </Box>
       )}
       <Table sx={{ ...baseTableSX, maxHeight: tableHeight }} {...(rest as TableProps)} striped={conf.striped}>
-        <thead className={classes.thead} style={{ top: theadTop }}>
+        <Table.Thead className={classes.thead} style={{ top: theadTop }}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <Table.Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th key={header.id} style={{ width: header.getSize() }}>
+                  <Table.Th key={header.id} style={{ width: header.getSize() }}>
                     <HeadCell header={header} cx={cx} />
                     <ActionIcon
                       variant="subtle"
@@ -140,12 +140,12 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
                     >
                       <IconArrowBarToRight />
                     </ActionIcon>
-                  </th>
+                  </Table.Th>
                 );
               })}
-            </tr>
+            </Table.Tr>
           ))}
-        </thead>
+        </Table.Thead>
         <TableBody tableContainerRef={tableContainerRef} rows={rows} />
       </Table>
     </div>

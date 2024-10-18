@@ -1,3 +1,4 @@
+import { Table } from '@mantine/core';
 import { Row, flexRender } from '@tanstack/react-table';
 import { useCallback } from 'react';
 import { useVirtual } from 'react-virtual';
@@ -21,27 +22,27 @@ export function TableBody({ tableContainerRef, rows }: Props) {
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
   return (
-    <tbody>
+    <Table.Tbody>
       {paddingTop > 0 && (
-        <tr>
-          <td style={{ height: `${paddingTop}px` }} />
-        </tr>
+        <Table.Tr>
+          <Table.Td style={{ height: `${paddingTop}px` }} />
+        </Table.Tr>
       )}
       {virtualRows.map((virtualRow) => {
         const row = rows[virtualRow.index] as Row<AnyObject>;
         return (
-          <tr key={row.id}>
+          <Table.Tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+              <Table.Td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</Table.Td>
             ))}
-          </tr>
+          </Table.Tr>
         );
       })}
       {paddingBottom > 0 && (
-        <tr>
-          <td style={{ height: `${paddingBottom}px` }} />
-        </tr>
+        <Table.Tr>
+          <Table.Td style={{ height: `${paddingBottom}px` }} />
+        </Table.Tr>
       )}
-    </tbody>
+    </Table.Tbody>
   );
 }

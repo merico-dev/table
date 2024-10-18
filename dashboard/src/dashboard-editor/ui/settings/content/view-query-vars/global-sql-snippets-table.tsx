@@ -27,25 +27,25 @@ export const GlobalSQLSnippetsTable = observer(() => {
   }
   return (
     <Table horizontalSpacing="xs" verticalSpacing="xs" fz="sm" highlightOnHover>
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>Key</Table.Th>
+          <Table.Th>Value</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {list.map((snippet) => {
           const { id, content } = snippet;
           return (
-            <tr key={id}>
-              <td>{id}</td>
-              <td width={200}>
+            <Table.Tr key={id}>
+              <Table.Td>{id}</Table.Td>
+              <Table.Td width={200}>
                 <HoverToSeeContent content={content} />
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           );
         })}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

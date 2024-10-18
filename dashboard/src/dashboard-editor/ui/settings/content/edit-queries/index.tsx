@@ -85,28 +85,28 @@ export const EditQueries = observer(() => {
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Checkbox.Group size="xs" value={value} onChange={setValue}>
           <Table fz="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
-            <thead>
-              <tr>
-                <th style={{ width: '40px' }}></th>
-                <th>{t('common.name')}</th>
-                <th style={{ width: '200px' }}>{t('data_source.label')}</th>
-                <th style={{ width: '100px', textAlign: 'right' }}>{t('common.type')}</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>{t('query.usage.label')}</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
-              </tr>
-            </thead>
-            <tbody>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th style={{ width: '40px' }}></Table.Th>
+                <Table.Th>{t('common.name')}</Table.Th>
+                <Table.Th style={{ width: '200px' }}>{t('data_source.label')}</Table.Th>
+                <Table.Th style={{ width: '100px', textAlign: 'right' }}>{t('common.type')}</Table.Th>
+                <Table.Th style={{ width: '100px', textAlign: 'center' }}>{t('query.usage.label')}</Table.Th>
+                <Table.Th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
               {model.content.queries.sortedList.map((q) => {
                 const usageCount = usages[q.id]?.length ?? 0;
                 return (
-                  <tr key={q.id}>
-                    <td>
+                  <Table.Tr key={q.id}>
+                    <Table.Td>
                       <Checkbox value={q.id} styles={{ input: { cursor: 'pointer' } }} />
-                    </td>
-                    <td>{q.name}</td>
-                    <td>{q.key}</td>
-                    <td style={{ textAlign: 'right' }}>{q.type}</td>
-                    <td
+                    </Table.Td>
+                    <Table.Td>{q.name}</Table.Td>
+                    <Table.Td>{q.key}</Table.Td>
+                    <Table.Td style={{ textAlign: 'right' }}>{q.type}</Table.Td>
+                    <Table.Td
                       style={{
                         color: usageCount === 0 ? '#ff0000' : '#000',
                         fontWeight: usageCount === 0 ? 'bold' : 'normal',
@@ -114,16 +114,16 @@ export const EditQueries = observer(() => {
                       }}
                     >
                       {usageCount}
-                    </td>
-                    <td>
+                    </Table.Td>
+                    <Table.Td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
                         {t('common.actions.open')}
                       </Button>
-                    </td>
-                  </tr>
+                    </Table.Td>
+                  </Table.Tr>
                 );
               })}
-            </tbody>
+            </Table.Tbody>
           </Table>
         </Checkbox.Group>
       </Box>

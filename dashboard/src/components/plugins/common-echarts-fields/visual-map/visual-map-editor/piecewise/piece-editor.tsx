@@ -1,4 +1,4 @@
-import { CloseButton, ColorInput, TextInput } from '@mantine/core';
+import { CloseButton, ColorInput, Table, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormReturn, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { VisualMapPartialForm } from '../types';
@@ -13,12 +13,12 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
   const { control } = form;
   const { t } = useTranslation();
   return (
-    <tr>
-      <td>{(index + 1).toString()}</td>
-      <td>
+    <Table.Tr>
+      <Table.Td>{(index + 1).toString()}</Table.Td>
+      <Table.Td>
         <IntervalEditor form={form} index={index} />
-      </td>
-      <td>
+      </Table.Td>
+      <Table.Td>
         <Controller
           name={`visualMap.pieces.${index}.label`}
           control={control}
@@ -26,8 +26,8 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
             <TextInput size="xs" placeholder="" {...field} onChange={(e) => field.onChange(e.currentTarget.value)} />
           )}
         />
-      </td>
-      <td>
+      </Table.Td>
+      <Table.Td>
         <Controller
           name={`visualMap.pieces.${index}.color`}
           control={control}
@@ -54,10 +54,10 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
             />
           )}
         />
-      </td>
-      <td>
+      </Table.Td>
+      <Table.Td>
         <CloseButton size="sm" onClick={() => remove(index)} />
-      </td>
-    </tr>
+      </Table.Td>
+    </Table.Tr>
   );
 };

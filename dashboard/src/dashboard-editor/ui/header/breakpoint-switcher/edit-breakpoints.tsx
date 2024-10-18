@@ -67,17 +67,17 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
     <>
       <form onSubmit={handleSubmit(submit)}>
         <Table fz="sm" highlightOnHover withTableBorder sx={{ tableLayout: 'fixed' }}>
-          <thead>
-            <tr>
-              <th style={{ width: '340px' }}>{t('common.name')}</th>
-              <th style={{ width: '160px' }}>{t('breakpoint.breakpoint')}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th style={{ width: '340px' }}>{t('common.name')}</Table.Th>
+              <Table.Th style={{ width: '160px' }}>{t('breakpoint.breakpoint')}</Table.Th>
+              <Table.Th></Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {controlledFields.map((f, i) => (
-              <tr key={f.id}>
-                <th>
+              <Table.Tr key={f.id}>
+                <Table.Th>
                   {f.id === 'basis' ? (
                     f.name
                   ) : (
@@ -87,8 +87,8 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                       render={({ field }) => <TextInput size="xs" label="" required sx={{ flex: 1 }} {...field} />}
                     />
                   )}
-                </th>
-                <td>
+                </Table.Th>
+                <Table.Td>
                   {f.id === 'basis' ? (
                     <Text size="sm" ff="monospace">
                       {f.breakpoint}px
@@ -118,26 +118,26 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                       )}
                     />
                   )}
-                </td>
-                <td>
+                </Table.Td>
+                <Table.Td>
                   {f.id !== 'basis' && (
                     <ActionIcon mx="auto" size="xs" variant="subtle" color="red" onClick={() => remove(i)}>
                       <IconTrash />
                     </ActionIcon>
                   )}
-                </td>
-              </tr>
+                </Table.Td>
+              </Table.Tr>
             ))}
-            <tr style={{ backgroundColor: 'transparent' }}>
-              <td colSpan={3} style={{ padding: '0' }}>
+            <Table.Tr style={{ backgroundColor: 'transparent' }}>
+              <Table.Td colSpan={3} style={{ padding: '0' }}>
                 <Tooltip label={t('breakpoint.add')}>
                   <ActionIcon variant="subtle" size="md" color="blue" onClick={add} sx={{ width: '100%' }}>
                     <IconPlus size={18} />
                   </ActionIcon>
                 </Tooltip>
-              </td>
-            </tr>
-          </tbody>
+              </Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
         </Table>
         <Text mt={6} ta="right" size="xs" c="red">
           {errorMessage ?? '　'}

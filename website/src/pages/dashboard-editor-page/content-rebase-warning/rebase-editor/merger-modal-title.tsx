@@ -24,16 +24,16 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
             'tr:not(:first-of-type)': { 'th, td': { borderTop: '1px solid #dee2e6' } },
           }}
         >
-          <tbody>
-            <tr>
-              <th>Pending changes</th>
-              <td>{state.resolvedDifferences.size}</td>
-            </tr>
-            <tr>
-              <th>Total changes</th>
-              <td>{state.differences.length}</td>
-            </tr>
-          </tbody>
+          <Table.Tbody>
+            <Table.Tr>
+              <Table.Th>Pending changes</Table.Th>
+              <Table.Td>{state.resolvedDifferences.size}</Table.Td>
+            </Table.Tr>
+            <Table.Tr>
+              <Table.Th>Total changes</Table.Th>
+              <Table.Td>{state.differences.length}</Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
         </Table>
       }
     >

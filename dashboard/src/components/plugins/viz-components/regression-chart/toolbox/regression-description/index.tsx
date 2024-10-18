@@ -25,27 +25,27 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
   }
   return (
     <Table fz={14} sx={TableSx}>
-      <tbody>
-        <tr>
-          <td colSpan={2}>
+      <Table.Tbody>
+        <Table.Tr>
+          <Table.Td colSpan={2}>
             <Text size="sm" ta="center">
               {expression}
             </Text>
-          </td>
-        </tr>
-        <tr>
-          <td>{t('viz.regression_chart.r_sq')}</td>
-          <td style={{ textAlign: 'right' }}>
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Td>{t('viz.regression_chart.r_sq')}</Table.Td>
+          <Table.Td style={{ textAlign: 'right' }}>
             {formatNumber(rSquared, { output: 'percent', mantissa: 1, absolute: false })}
-          </td>
-        </tr>
-        <tr>
-          <td>{t('viz.regression_chart.r_sq_adjusted')}</td>
-          <td style={{ textAlign: 'right' }}>
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Td>{t('viz.regression_chart.r_sq_adjusted')}</Table.Td>
+          <Table.Td style={{ textAlign: 'right' }}>
             {formatNumber(adjustedRSquared, { output: 'percent', mantissa: 1, absolute: false })}
-          </td>
-        </tr>
-      </tbody>
+          </Table.Td>
+        </Table.Tr>
+      </Table.Tbody>
     </Table>
   );
 }

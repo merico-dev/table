@@ -81,19 +81,19 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
 
   return (
     <Table sx={TableSx}>
-      <thead>
-        <tr>
-          <th>{t('interactions.operation.set_filter_values.set_filter')}</th>
-          <th>{t('interactions.operation.set_filter_values.with')}</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>{t('interactions.operation.set_filter_values.set_filter')}</Table.Th>
+          <Table.Th>{t('interactions.operation.set_filter_values.with')}</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {[...model.filters.keyLabelOptions].map((o) => {
           const affected = o.value in dictionary;
           return (
-            <tr key={o.value} data-affected={affected}>
-              <td>{o.label}</td>
-              <td>
+            <Table.Tr key={o.value} data-affected={affected}>
+              <Table.Td>{o.label}</Table.Td>
+              <Table.Td>
                 {/* <NativeSelect
                   size="xs"
                   data={payloadOptions}
@@ -105,11 +105,11 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
                   value={dictionary[o.value]}
                   onChange={(payloadKey: string) => handleChange(o.value, payloadKey)}
                 />
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           );
         })}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

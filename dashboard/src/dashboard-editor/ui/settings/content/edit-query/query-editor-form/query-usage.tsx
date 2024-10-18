@@ -31,23 +31,23 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
   return (
     <Stack py="sm" px="md">
       <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
-        <thead>
-          <tr>
-            <th style={{ width: 100 }}>{t('common.type')}</th>
-            <th style={{ width: 'calc(50% - 50px)' }}>{t('common.name')}</th>
-            <th>{t('query.usage.in_views')}</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={{ width: 100 }}>{t('common.type')}</Table.Th>
+            <Table.Th style={{ width: 'calc(50% - 50px)' }}>{t('common.name')}</Table.Th>
+            <Table.Th>{t('query.usage.in_views')}</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {usage.map((u) => (
-            <tr key={u.id}>
-              <td>{t(u.type_label)}</td>
-              <td>
+            <Table.Tr key={u.id}>
+              <Table.Td>{t(u.type_label)}</Table.Td>
+              <Table.Td>
                 <Anchor component="button" type="button" onClick={() => open(u)}>
                   {u.label}
                 </Anchor>
-              </td>
-              <td>
+              </Table.Td>
+              <Table.Td>
                 <Stack align="flex-start" justify="flex-start" gap={2}>
                   {u.views.map((v) => (
                     <Anchor key={v.id} component="button" type="button" onClick={() => openView(v.id)}>
@@ -56,10 +56,10 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
                   ))}
                   {u.views.length === 0 && <Box>--</Box>}
                 </Stack>
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </Stack>
   );

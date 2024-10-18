@@ -39,22 +39,22 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
       <Collapse in={opened}>
         {opened && (
           <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
-            <thead>
-              <tr>
-                <th>{t('numbro.format.preview.input')}</th>
-                <th>{t('numbro.format.preview.output')}</th>
-              </tr>
-            </thead>
-            <tbody>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>{t('numbro.format.preview.input')}</Table.Th>
+                <Table.Th>{t('numbro.format.preview.output')}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
               {numbersToPreview.map((n) => (
-                <tr key={n}>
-                  <td>{n}</td>
-                  <td>
+                <Table.Tr key={n}>
+                  <Table.Td>{n}</Table.Td>
+                  <Table.Td>
                     <ErrorBoundary>{formatNumber(n, format)}</ErrorBoundary>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               ))}
-            </tbody>
+            </Table.Tbody>
           </Table>
         )}
       </Collapse>

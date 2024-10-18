@@ -61,34 +61,34 @@ export const EditFilters = observer(() => {
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Checkbox.Group size="xs" value={value} onChange={setValue}>
           <Table fz="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
-            <thead>
-              <tr>
-                <th style={{ width: '40px' }}></th>
-                <th style={{ width: '300px' }}>{t('common.label')}</th>
-                <th>{t('common.key')}</th>
-                <th style={{ width: '100px' }}>{t('filter.field.widget')}</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
-              </tr>
-            </thead>
-            <tbody>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th style={{ width: '40px' }}></Table.Th>
+                <Table.Th style={{ width: '300px' }}>{t('common.label')}</Table.Th>
+                <Table.Th>{t('common.key')}</Table.Th>
+                <Table.Th style={{ width: '100px' }}>{t('filter.field.widget')}</Table.Th>
+                <Table.Th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
               {model.content.filters.sortedList.map((f) => {
                 return (
-                  <tr key={f.id}>
-                    <td>
+                  <Table.Tr key={f.id}>
+                    <Table.Td>
                       <Checkbox value={f.id} styles={{ input: { cursor: 'pointer' } }} />
-                    </td>
-                    <td>{f.label}</td>
-                    <td>{f.key}</td>
-                    <td>{t(filterTypeNames[f.type])}</td>
-                    <td>
+                    </Table.Td>
+                    <Table.Td>{f.label}</Table.Td>
+                    <Table.Td>{f.key}</Table.Td>
+                    <Table.Td>{t(filterTypeNames[f.type])}</Table.Td>
+                    <Table.Td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToFilter(f.id)}>
                         {t('common.actions.open')}
                       </Button>
-                    </td>
-                  </tr>
+                    </Table.Td>
+                  </Table.Tr>
                 );
               })}
-            </tbody>
+            </Table.Tbody>
           </Table>
         </Checkbox.Group>
       </Box>
