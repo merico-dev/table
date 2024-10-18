@@ -54,8 +54,6 @@
   background-color: #1e1e1e;
   padding-top: 14px;
 }
-.minimal-monaco-editor .monaco-editor {
-}
 
 .mantine-Select-option[data-checked='true'] > svg {
   display: none;

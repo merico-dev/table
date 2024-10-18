@@ -52,8 +52,6 @@
 .preview-sql-in-monaco-editor {
   overflow: hidden;
 }
-.minimal-monaco-editor .monaco-editor {
-}
 
 .form-field-label {
   display: inline-block;
