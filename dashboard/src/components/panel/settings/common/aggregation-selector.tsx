@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select, SpacingValue, SystemProp, TextInput } from '@mantine/core';
+import { Group, MantineSpacing, NumberInput, Select, StyleProp, TextInput } from '@mantine/core';
 import { IconMathFunction } from '@tabler/icons-react';
 import React, { ChangeEvent, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ interface IAggregationSelector {
   value: AggregationType;
   onChange: (v: AggregationType) => void;
   label: string;
-  pt?: SystemProp<SpacingValue>;
+  pt?: StyleProp<MantineSpacing>;
   withFallback: boolean;
 }
 
@@ -30,7 +30,12 @@ function _AggregationSelector(
   }, [value, onChange]);
 
   // FIXME: refactor when type errors resolve
-  const changeType = (type: AggregationType['type']) => {
+  const changeType = (t: string | null) => {
+    if (t === null) {
+      return;
+    }
+    const type = t as AggregationType['type'];
+
     switch (type) {
       case 'quantile':
         return onChange({ type: 'quantile', config: { p: 0.99 }, fallback: value.fallback });
@@ -68,7 +73,11 @@ function _AggregationSelector(
     });
   };
 
-  const changePickRecordMethod = (method: 'first' | 'last') => {
+  const changePickRecordMethod = (method: string | null) => {
+    if (method !== 'first' && method !== 'last') {
+      return;
+    }
+
     onChange({
       type: 'pick_record',
       config: {

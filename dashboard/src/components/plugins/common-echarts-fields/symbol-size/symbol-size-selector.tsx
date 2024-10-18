@@ -29,7 +29,11 @@ export const SymbolSizeSelector = forwardRef<HTMLInputElement, ISymbolSizeSelect
       [i18n.language],
     );
 
-    const changeType = (type: 'static' | 'dynamic') => {
+    const changeType = (type: string | null) => {
+      if (type !== 'static' && type !== 'dynamic') {
+        return;
+      }
+
       onChange({ ...DEFAULT_SCATTER_SIZE[type] });
     };
     return (

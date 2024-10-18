@@ -35,7 +35,11 @@ export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOve
           variant="dotted"
           label={sectionTitle}
           labelPosition="right"
-          labelProps={{ color: 'dimmed' }}
+          styles={{
+            label: {
+              color: 'dimmed',
+            },
+          }}
         />
       )}
       <Group grow wrap="nowrap">

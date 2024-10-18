@@ -16,14 +16,21 @@ export const PostfixField = observer(
     const contentModel = useEditContentModelContext();
     const filterSelects = contentModel.filters.selects;
 
-    const changeType = (t: TMetricPostfix['type']) => {
+    const changeType = (t: string | null) => {
+      if (!t) {
+        return;
+      }
+      const type = t as TMetricPostfix['type'];
       onChange({
-        type: t,
+        type,
         value: postfix.value,
       });
     };
 
-    const changeValue = (v: TMetricPostfix['value']) => {
+    const changeValue = (v: string | null) => {
+      if (v === null) {
+        return v;
+      }
       onChange({
         type: postfix.type,
         value: v,

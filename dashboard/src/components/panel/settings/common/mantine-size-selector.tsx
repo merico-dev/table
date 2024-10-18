@@ -7,8 +7,8 @@ import { getSelectChangeHandler } from '~/utils/mantine';
 const MANTINE_SIZES = ['xs', 'sm', 'md', 'lg', 'xl'];
 interface Props {
   label: string;
-  value: MantineSize;
-  onChange: (v: MantineSize) => void;
+  value: string;
+  onChange: (v: string) => void;
   sx?: EmotionSx;
   disabled?: boolean;
 }

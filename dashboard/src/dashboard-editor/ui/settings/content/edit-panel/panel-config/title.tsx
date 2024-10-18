@@ -9,7 +9,7 @@ export const EditTitle = observer(() => {
 
   return (
     <Stack gap={6} mb={10}>
-      <Group pl={6} position="left" gap={20}>
+      <Group pl={6} justify="flex-start" gap={20}>
         <Checkbox
           size="sm"
           checked={panel.title.show}

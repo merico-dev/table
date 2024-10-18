@@ -1,9 +1,9 @@
-import { MantineColor, MantineSize, Variants } from '@mantine/core';
+import { ButtonVariant, MantineColor, MantineSize } from '@mantine/core';
 import { HorizontalAlign, VerticalAlign } from '../../editor-components';
 
 export interface IButtonConf {
   content: string;
-  variant: Variants<'filled' | 'outline' | 'light' | 'white' | 'default' | 'subtle' | 'gradient'>;
+  variant: ButtonVariant;
   color: MantineColor;
   size: MantineSize;
   compact: boolean;

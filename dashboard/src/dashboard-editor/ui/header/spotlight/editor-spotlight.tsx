@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 import { SpotlightActions } from './spotlight-actions';
 import { rem, useMantineTheme } from '@mantine/core';
+import { CustomSpotlightActionGroupData } from '~/dashboard-editor/model/editor';
 
 export const EditorSpotlight = observer(() => {
   const { t, i18n } = useTranslation();
@@ -50,7 +51,7 @@ export const EditorSpotlight = observer(() => {
     if (!q) {
       return [actionGroups[0]];
     }
-    return actionGroups
+    const ret = actionGroups
       .map((g) => {
         const groupMatch = g.keywords.some((k) => k.includes(q));
         if (groupMatch) {
@@ -65,7 +66,9 @@ export const EditorSpotlight = observer(() => {
           actions,
         };
       })
-      .filter((g) => !!g);
+      .filter((g) => g !== null) as CustomSpotlightActionGroupData[];
+
+    return ret;
   }, [actionGroups, query]);
 
   return (

@@ -16,7 +16,7 @@ export const DataTableWithPagination = errorBoundary(({ data, loading }: { data:
     <ErrorBoundary>
       <PaginationControl data={data} page={page} setPage={setPage} limit={limit} setLimit={setLimit} />
       <Box py={10} sx={{ width: '100%', height: 'calc(100% - 42px)', overflow: 'auto', position: 'relative' }}>
-        <LoadingOverlay visible={loading} overlayBlur={2} />
+        <LoadingOverlay visible={loading} overlayProps={{ blur: 2 }} />
         <DataTable data={tableData} />
       </Box>
     </ErrorBoundary>
