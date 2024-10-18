@@ -143,7 +143,11 @@ function generateTriggerName(
       return t('viz.table.click_cell.click_cell_of_x_th', { x: config.column + 1 });
     }
 
-    return t('viz.table.click_cell.click_cell_of_x', { x: columnsFromConfig[config.column].label });
+    const column = columnsFromConfig[config.column];
+    if (!column) {
+      return t('viz.table.click_cell.click_cell_invalid_config');
+    }
+    return t('viz.table.click_cell.click_cell_of_x', { x: column.label });
   }
   return t('viz.table.click_cell.click_cell_of_x', { x: config.column });
 }
