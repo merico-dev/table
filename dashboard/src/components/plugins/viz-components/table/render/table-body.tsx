@@ -1,7 +1,7 @@
 import { Table } from '@mantine/core';
 import { Row, flexRender } from '@tanstack/react-table';
 import { useCallback } from 'react';
-import { useVirtual } from 'react-virtual';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { AnyObject } from '~/types';
 
 type Props = {
@@ -10,13 +10,14 @@ type Props = {
 };
 
 export function TableBody({ tableContainerRef, rows }: Props) {
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
+  const rowVirtualizer = useVirtualizer({
+    getScrollElement: () => tableContainerRef.current,
+    count: rows.length,
     estimateSize: useCallback(() => 28, []),
     overscan: 20,
   });
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
+  const virtualRows = rowVirtualizer.getVirtualItems();
+  const totalSize = rowVirtualizer.getTotalSize();
 
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
