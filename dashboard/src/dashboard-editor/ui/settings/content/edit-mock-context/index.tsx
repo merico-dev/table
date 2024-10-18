@@ -1,4 +1,4 @@
-import { ActionIcon, Group, JsonInput, Stack, Text } from '@mantine/core';
+import { ActionIcon, Button, Group, JsonInput, Stack, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -45,7 +45,18 @@ export const EditMockContext = observer(() => {
       </Group>
       <Group grow px="md" pb="md" pt={0} sx={{ flexGrow: 1, position: 'relative', alignItems: 'flex-start' }}>
         <Stack gap={10} sx={{ maxWidth: 'unset !important' }}>
-          <Text size="sm">{t('mock_context.hint')}</Text>
+          <Group justify="flex-start">
+            <Text size="sm">{t('mock_context.hint')}</Text>
+            <Button
+              color="green"
+              size="compact-sm"
+              leftSection={<IconDeviceFloppy size={16} />}
+              onClick={submit}
+              disabled={!changed}
+            >
+              {t('common.actions.save')}
+            </Button>
+          </Group>
           <JsonInput
             validationError="Invalid json"
             formatOnBlur
@@ -56,16 +67,6 @@ export const EditMockContext = observer(() => {
             sx={{ flexGrow: 1 }}
           />
         </Stack>
-        <ActionIcon
-          mr={5}
-          variant="filled"
-          color="blue"
-          sx={{ position: 'absolute', right: 12, top: 0 }}
-          disabled={!changed}
-          onClick={submit}
-        >
-          <IconDeviceFloppy size={20} />
-        </ActionIcon>
       </Group>
     </Stack>
   );
