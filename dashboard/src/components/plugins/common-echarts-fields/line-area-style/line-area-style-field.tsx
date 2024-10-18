@@ -52,7 +52,7 @@ export const LineAreaStyleField = forwardRef(({ value, onChange }: Props, ref: a
           value={value.opacity}
           onChange={getChangeHandler('opacity')}
           step={0.1}
-          precision={1}
+          decimalScale={1}
           min={0}
           max={1}
         />

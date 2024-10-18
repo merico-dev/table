@@ -43,7 +43,12 @@ function _AggregationSelector(
     }
   };
 
-  const changePOfQuantile = (p: number) => {
+  const changePOfQuantile = (v: string | number) => {
+    const p = Number(v);
+    if (Number.isNaN(p)) {
+      return;
+    }
+
     onChange({
       type: 'quantile',
       config: {
@@ -112,7 +117,7 @@ function _AggregationSelector(
             label="p"
             value={value.config.p}
             onChange={changePOfQuantile}
-            precision={2}
+            decimalScale={2}
             min={0.05}
             step={0.05}
             max={1}
