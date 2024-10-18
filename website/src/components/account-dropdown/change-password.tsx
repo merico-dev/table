@@ -101,7 +101,7 @@ function ChangePasswordForm({ postSubmit, styles = defaultStyles }: IChangePassw
           )}
         />
 
-        <Group position="left" mt={styles.spacing}>
+        <Group justify="flex-start" mt={styles.spacing}>
           <Button type="submit" size={styles.button.size} disabled={pending}>
             Submit
           </Button>

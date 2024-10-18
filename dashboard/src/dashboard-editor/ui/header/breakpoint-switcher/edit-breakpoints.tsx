@@ -66,18 +66,18 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
-        <Table fontSize="sm" highlightOnHover withBorder sx={{ tableLayout: 'fixed' }}>
-          <thead>
-            <tr>
-              <th style={{ width: '340px' }}>{t('common.name')}</th>
-              <th style={{ width: '160px' }}>{t('breakpoint.breakpoint')}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table fz="sm" highlightOnHover withTableBorder sx={{ tableLayout: 'fixed' }}>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th style={{ width: '340px' }}>{t('common.name')}</Table.Th>
+              <Table.Th style={{ width: '160px' }}>{t('breakpoint.breakpoint')}</Table.Th>
+              <Table.Th></Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {controlledFields.map((f, i) => (
-              <tr key={f.id}>
-                <th>
+              <Table.Tr key={f.id}>
+                <Table.Th>
                   {f.id === 'basis' ? (
                     f.name
                   ) : (
@@ -87,10 +87,12 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                       render={({ field }) => <TextInput size="xs" label="" required sx={{ flex: 1 }} {...field} />}
                     />
                   )}
-                </th>
-                <td>
+                </Table.Th>
+                <Table.Td>
                   {f.id === 'basis' ? (
-                    <Text ff="monospace">{f.breakpoint}px</Text>
+                    <Text size="sm" ff="monospace">
+                      {f.breakpoint}px
+                    </Text>
                   ) : (
                     <Controller
                       name={`list.${i}.breakpoint`}
@@ -102,50 +104,61 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                           required
                           max={10000}
                           hideControls
-                          rightSection={<Text color="dimmed">px</Text>}
+                          rightSection={
+                            <Text size="sm" c="dimmed">
+                              px
+                            </Text>
+                          }
                           rightSectionProps={{ style: { width: '30px' } }}
-                          sx={{ flex: 1, fontFamily: 'monospace' }}
+                          sx={{ flex: 1 }}
+                          ff="monospace"
                           styles={{ input: { paddingRight: '30px' } }}
                           {...field}
                         />
                       )}
                     />
                   )}
-                </td>
-                <td>
+                </Table.Td>
+                <Table.Td>
                   {f.id !== 'basis' && (
                     <ActionIcon mx="auto" size="xs" variant="subtle" color="red" onClick={() => remove(i)}>
                       <IconTrash />
                     </ActionIcon>
                   )}
-                </td>
-              </tr>
+                </Table.Td>
+              </Table.Tr>
             ))}
-            <tr style={{ backgroundColor: 'transparent' }}>
-              <td colSpan={3} style={{ padding: '0' }}>
+            <Table.Tr style={{ backgroundColor: 'transparent' }}>
+              <Table.Td colSpan={3} style={{ padding: '0' }}>
                 <Tooltip label={t('breakpoint.add')}>
                   <ActionIcon variant="subtle" size="md" color="blue" onClick={add} sx={{ width: '100%' }}>
                     <IconPlus size={18} />
                   </ActionIcon>
                 </Tooltip>
-              </td>
-            </tr>
-          </tbody>
+              </Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
         </Table>
-        <Text mt={6} ta="right" size="xs" color="red">
+        <Text mt={6} ta="right" size="xs" c="red">
           {errorMessage ?? '　'}
         </Text>
-        <Group mt={6} position="apart">
+        <Group mt={6} justify="space-between">
           <Button
             color="orange"
             size="xs"
             onClick={() => reset()}
-            leftIcon={<IconRecycle size={18} />}
+            leftSection={<IconRecycle size={18} />}
             disabled={!changed}
           >
             {t('common.actions.revert')}
           </Button>
-          <Button color="green" size="xs" type="submit" leftIcon={<IconDeviceFloppy size={18} />} disabled={!changed}>
+          <Button
+            color="green"
+            size="xs"
+            type="submit"
+            leftSection={<IconDeviceFloppy size={18} />}
+            disabled={!changed}
+          >
             {t('common.actions.save_changes')}
           </Button>
         </Group>

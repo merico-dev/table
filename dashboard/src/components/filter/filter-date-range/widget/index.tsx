@@ -43,7 +43,7 @@ export const DateRangeWidget = ({
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group position="left" grow noWrap spacing={0} w="288px" sx={{ marginTop: '3px' }}>
+      <Group justify="flex-start" grow wrap="nowrap" gap={0} w="288px" sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
@@ -51,7 +51,7 @@ export const DateRangeWidget = ({
               title: label,
             }}
             required={required}
-            icon={<IconCalendar size={16} />}
+            leftSection={<IconCalendar size={16} />}
             placeholder={t('filter.widget.date_range.start_date')}
             readOnly
             disabled={disabled}
@@ -68,16 +68,24 @@ export const DateRangeWidget = ({
                 zIndex: 1,
               },
               '.mantine-Input-input': { borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+              '.mantine-Input-input[data-disabled]': {
+                backgroundColor: 'transparent',
+                backgroundImage: 'linear-gradient(to left, #fff 0%, #f1f3f5 30%)',
+                opacity: 1,
+              },
+              '.mantine-Input-input[data-disabled]::placeholder': {
+                opacity: 0.6,
+              },
             }}
           />
         </Popover.Target>
         <TextInput
           label={
-            <Group position="right">
+            <Group justify="flex-end">
               <CountDays begin={begin} end={end} />
             </Group>
           }
-          icon={<IconMinus size={16} />}
+          leftSection={<IconMinus size={16} />}
           placeholder={t('filter.widget.date_range.end_date')}
           readOnly
           disabled={!begin || disabled}
@@ -85,7 +93,7 @@ export const DateRangeWidget = ({
           onFocus={open}
           styles={getInputStyles(opened)}
           sx={{
-            '.mantine-Input-icon': { transform: 'translateX(-22px)' },
+            '.mantine-Input-section': { transform: 'translateX(-18px)' },
             '.mantine-Input-input': { borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
             '.mantine-Input-input[data-disabled]': {
               backgroundColor: 'transparent',

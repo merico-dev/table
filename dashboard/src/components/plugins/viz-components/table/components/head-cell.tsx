@@ -19,8 +19,9 @@ export const HeadCell = ({
     <Text
       className={cx('table-head-cell', { 'table-head-cell--sortable': header.column.getCanSort() })}
       onClick={header.column.getToggleSortingHandler()}
-      align={align}
+      ta={align}
       sx={{ justifyContent: AlignmentToFlexJustify[align] }}
+      size="sm"
     >
       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
       {<SortIcon direction={header.column.getIsSorted()} />}

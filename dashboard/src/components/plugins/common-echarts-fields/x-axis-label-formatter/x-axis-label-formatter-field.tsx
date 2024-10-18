@@ -63,7 +63,7 @@ export const XAxisLabelFormatterField = forwardRef(
         <Button
           variant="filled"
           color="grape"
-          leftIcon={<IconMathFunction size={16} />}
+          leftSection={<IconMathFunction size={16} />}
           mt={24}
           onClick={setTrue}
           sx={{ flexGrow: 0 }}
@@ -92,15 +92,15 @@ export const XAxisLabelFormatterField = forwardRef(
                 onChange={changeFuncContent}
                 disabled={!localValue.enabled}
               />
-              <Group position="apart">
-                <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
+              <Group justify="space-between">
+                <Button onClick={resetFuncContent} color="red" leftSection={<IconRecycle size={20} />}>
                   {t('common.actions.reset_to_default')}
                 </Button>
-                <Group position="right">
+                <Group justify="flex-end">
                   <Button onClick={handleCancel} variant="subtle">
                     {t('common.actions.cancel')}
                   </Button>
-                  <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
+                  <Button color="green" leftSection={<IconDeviceFloppy size={16} />} onClick={handleOk}>
                     {t('common.actions.save')}
                   </Button>
                 </Group>

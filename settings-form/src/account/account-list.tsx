@@ -45,47 +45,44 @@ export const AccountList = withEntry<Props>('AccountList', ({ styles = defaultSt
 
   return (
     <>
-      <Group pt={styles.spacing} position="right">
+      <Group pt={styles.spacing} justify="flex-end">
         <AddAccount onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 'INACTIVE'} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading || roleLoading} />
-        <Table
-          horizontalSpacing={styles.spacing}
-          verticalSpacing={styles.spacing}
-          fontSize={styles.size}
-          highlightOnHover
-        >
-          <thead>
-            <tr>
-              <th>{t('account.username')}</th>
-              <th>{t('account.email')}</th>
-              <th>{t('role.label')}</th>
-              {/* <th>Created at</th>
-              <th>Updated at</th> */}
-              <th>{t('common.action')}</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>{t('account.username')}</Table.Th>
+              <Table.Th>{t('account.email')}</Table.Th>
+              <Table.Th>{t('role.label')}</Table.Th>
+              {/* <Table.Th>Created at</Table.Th>
+              <Table.Th>Updated at</Table.Th> */}
+              <Table.Th>{t('common.action')}</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {data.map((account) => {
               const { id, name, email, role_id } = account;
               return (
-                <tr key={id}>
-                  <td width={200}>{name}</td>
-                  <td width={200}>{email}</td>
-                  <td width={200}>{role_id}</td>
-                  {/* <td width={200}>{create_time}</td>
-                <td width={200}>{update_time}</td> */}
-                  <td width={200}>
-                    <Group position="left">
+                <Table.Tr key={id}>
+                  <Table.Td width={200}>{name}</Table.Td>
+                  <Table.Td width={200}>{email}</Table.Td>
+                  <Table.Td width={200}>{role_id}</Table.Td>
+                  {/*
+                  <Table.Td width={200}>{create_time}</Table.Td>
+                  <Table.Td width={200}>{update_time}</Table.Td>
+                  */}
+                  <Table.Td width={200}>
+                    <Group justify="flex-start">
                       <EditAccount account={account} onSuccess={refresh} />
                       <DeleteAccount id={id} name={name} onSuccess={refresh} />
                     </Group>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               );
             })}
-          </tbody>
+          </Table.Tbody>
         </Table>
       </Box>
     </>

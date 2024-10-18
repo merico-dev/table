@@ -14,7 +14,7 @@ export function XAxisField({ control, index }: IXAxisField) {
   const { t } = useTranslation();
   return (
     <Stack my={10} p="0" sx={{ position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`x_axes.${index}.name`}
           control={control}

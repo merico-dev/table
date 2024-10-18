@@ -44,14 +44,14 @@ export const EditSQLSnippets = observer(() => {
 
   const usages = model.content.sqlSnippetsUsage;
   return (
-    <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
+    <Stack sx={{ height: '100%' }} gap="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
-        <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
+        <Text size="sm" px="md" ta="left" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('sql_snippet.manage')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>
-        <Group position="left">
+        <Group justify="flex-start">
           <Button.Group>
             <Button variant="default" size="xs" onClick={selectAll}>
               {t('common.actions.select_all')}
@@ -64,7 +64,7 @@ export const EditSQLSnippets = observer(() => {
             // variant="subtle"
             size="xs"
             color="blue"
-            leftIcon={<IconCode size={14} />}
+            leftSection={<IconCode size={14} />}
             disabled={value.length === 0}
             onClick={downloadSchema}
           >
@@ -75,7 +75,7 @@ export const EditSQLSnippets = observer(() => {
           variant="subtle"
           size="xs"
           color="red"
-          leftIcon={<IconTrash size={14} />}
+          leftSection={<IconTrash size={14} />}
           disabled={!model.content.hasUnusedSQLSnippets}
           onClick={removeUnusedSQLSnippetsWithConfirmation}
         >
@@ -84,25 +84,25 @@ export const EditSQLSnippets = observer(() => {
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Checkbox.Group size="xs" value={value} onChange={setValue}>
-          <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
-            <thead>
-              <tr>
-                <th style={{ width: '40px' }}></th>
-                <th>{t('common.key')}</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>{t('sql_snippet.usage.label')}</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table fz="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th style={{ width: '40px' }}></Table.Th>
+                <Table.Th>{t('common.key')}</Table.Th>
+                <Table.Th style={{ width: '100px', textAlign: 'center' }}>{t('sql_snippet.usage.label')}</Table.Th>
+                <Table.Th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
               {model.content.sqlSnippets.sortedList.map((s) => {
                 const usageCount = usages[s.key]?.length ?? 0;
                 return (
-                  <tr key={s.key}>
-                    <td>
+                  <Table.Tr key={s.key}>
+                    <Table.Td>
                       <Checkbox value={s.key} styles={{ input: { cursor: 'pointer' } }} />
-                    </td>
-                    <td>{s.key}</td>
-                    <td
+                    </Table.Td>
+                    <Table.Td>{s.key}</Table.Td>
+                    <Table.Td
                       style={{
                         color: usageCount === 0 ? '#ff0000' : '#000',
                         fontWeight: usageCount === 0 ? 'bold' : 'normal',
@@ -110,16 +110,16 @@ export const EditSQLSnippets = observer(() => {
                       }}
                     >
                       {usageCount}
-                    </td>
-                    <td>
+                    </Table.Td>
+                    <Table.Td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToSnippet(s.key)}>
                         {t('common.actions.open')}
                       </Button>
-                    </td>
-                  </tr>
+                    </Table.Td>
+                  </Table.Tr>
                 );
               })}
-            </tbody>
+            </Table.Tbody>
           </Table>
         </Checkbox.Group>
       </Box>

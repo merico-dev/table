@@ -1,4 +1,4 @@
-import { Sx } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { Link, RichTextEditor, RichTextEditorProps } from '@mantine/tiptap';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
@@ -16,18 +16,18 @@ import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo } from 'react';
+import { useIsInRenderPanelContext } from '~/contexts';
 import { TDashboardState, VariableAggValueMap } from '~/model';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { getEmptyDashboardState } from '~/utils';
+import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
-import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
-import { useIsInRenderPanelContext } from '~/contexts';
 
 interface IReadonlyRichText {
   value: string;
   styles?: RichTextEditorProps['styles'];
-  sx?: Sx;
+  sx?: EmotionSx;
   dashboardState?: TDashboardState;
   variableAggValueMap?: VariableAggValueMap;
 }

@@ -1,4 +1,5 @@
-import { ActionIcon, Sx, Table, TextInput } from '@mantine/core';
+import { ActionIcon, Table, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import { useStorageData } from '~/components/plugins';
 import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   'tbody tr': {
     opacity: 0.5,
     transition: 'opacity 200ms ease',
@@ -33,7 +34,7 @@ const PayloadKeyInput = ({ value = '', onChange }: { value?: string; onChange: (
       onChange={(e) => setV(e.currentTarget.value)}
       sx={{ flexGrow: 1 }}
       rightSection={
-        <ActionIcon color="green" size="xs" onClick={submit} disabled={v === value}>
+        <ActionIcon color="green" variant="subtle" size="xs" onClick={submit} disabled={v === value}>
           <IconDeviceFloppy />
         </ActionIcon>
       }
@@ -80,19 +81,19 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
 
   return (
     <Table sx={TableSx}>
-      <thead>
-        <tr>
-          <th>{t('interactions.operation.set_filter_values.set_filter')}</th>
-          <th>{t('interactions.operation.set_filter_values.with')}</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>{t('interactions.operation.set_filter_values.set_filter')}</Table.Th>
+          <Table.Th>{t('interactions.operation.set_filter_values.with')}</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {[...model.filters.keyLabelOptions].map((o) => {
           const affected = o.value in dictionary;
           return (
-            <tr key={o.value} data-affected={affected}>
-              <td>{o.label}</td>
-              <td>
+            <Table.Tr key={o.value} data-affected={affected}>
+              <Table.Td>{o.label}</Table.Td>
+              <Table.Td>
                 {/* <NativeSelect
                   size="xs"
                   data={payloadOptions}
@@ -104,11 +105,11 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
                   value={dictionary[o.value]}
                   onChange={(payloadKey: string) => handleChange(o.value, payloadKey)}
                 />
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           );
         })}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

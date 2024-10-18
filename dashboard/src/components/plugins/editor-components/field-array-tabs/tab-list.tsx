@@ -24,7 +24,9 @@ const DraggableTab = ({ value, index, children }: DraggableTabProps) => {
     <Tabs.Tab
       ref={ref}
       value={value}
-      icon={<IconGripHorizontal size={14} color={hovering || index === 0 ? 'rgb(34, 139, 230)' : 'transparent'} />}
+      leftSection={
+        <IconGripHorizontal size={14} color={hovering || index === 0 ? 'rgb(34, 139, 230)' : 'transparent'} />
+      }
       onMouseEnter={setTrue}
       onMouseLeave={setFalse}
     >

@@ -45,7 +45,7 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
             />
           )}
         />
-        <Group grow position="apart">
+        <Group grow justify="space-between">
           <Controller
             name="min_var"
             control={control}
@@ -70,7 +70,7 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
             )}
           />
         </Group>
-        <Group grow position="apart">
+        <Group grow justify="space-between">
           <Controller
             name="max_var"
             control={control}
@@ -98,16 +98,16 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
         <Controller control={control} name="colors" render={({ field }) => <GradientEditor {...field} />} />
       </Box>
       <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
-      <Group position="apart" px="1rem" pb="0.75rem">
-        <Group position="left">
-          <Button color="red" size="xs" onClick={unset} leftIcon={<IconTrash size={18} />}>
+      <Group justify="space-between" px="1rem" pb="0.75rem">
+        <Group justify="flex-start">
+          <Button color="red" size="xs" onClick={unset} leftSection={<IconTrash size={18} />}>
             {t('common.actions.clear')}
           </Button>
-          <Button color="orange" size="xs" onClick={revert} leftIcon={<IconArrowBackUp size={18} />}>
+          <Button color="orange" size="xs" onClick={revert} leftSection={<IconArrowBackUp size={18} />}>
             {t('common.actions.revert')}
           </Button>
         </Group>
-        <Button color="green" size="xs" onClick={handleSubmit(onSubmit)} leftIcon={<IconDeviceFloppy size={18} />}>
+        <Button color="green" size="xs" onClick={handleSubmit(onSubmit)} leftSection={<IconDeviceFloppy size={18} />}>
           {t('common.actions.save_changes')}
         </Button>
       </Group>

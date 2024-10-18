@@ -24,7 +24,7 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
   }, [conf]);
 
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs

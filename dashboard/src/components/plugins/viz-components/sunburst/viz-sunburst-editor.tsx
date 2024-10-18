@@ -27,11 +27,11 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
   const [tab, setTab] = useState<string | null>('Data');
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Stack spacing="xs">
+      <Stack gap="xs">
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           value={tab}
-          onTabChange={setTab}
+          onChange={setTab}
           orientation="vertical"
           styles={{
             tab: {

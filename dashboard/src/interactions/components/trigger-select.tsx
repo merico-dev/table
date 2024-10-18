@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ReadyTriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { VariableList } from '~/interactions/components/variable-list';
 import { ITriggerConfigProps } from '~/types/plugin';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 export interface ITriggerSelectProps {
   model: ReadyTriggerConfigModel;
@@ -47,7 +48,7 @@ const TriggerSchemaSelect = observer(({ model }: { model: ReadyTriggerConfigMode
       label={t('interactions.trigger.label')}
       data={selectItems}
       value={model.triggerSchema.id}
-      onChange={handleChange}
+      onChange={getSelectChangeHandler(handleChange)}
     />
   );
 });

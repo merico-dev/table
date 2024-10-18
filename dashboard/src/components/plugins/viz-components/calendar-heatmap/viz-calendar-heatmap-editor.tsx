@@ -43,7 +43,7 @@ export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
   }, [defaultValues]);
 
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs

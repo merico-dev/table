@@ -112,10 +112,13 @@ export const FilterMeta = types
     setLabel(label: string) {
       self.label = label;
     },
-    setOrder(order: number) {
-      self.order = order;
+    setOrder(order: number | string) {
+      const n = Number(order);
+      if (Number.isFinite(n)) {
+        self.order = n;
+      }
     },
-    setType(type: DashboardFilterType) {
+    setType(type: string | null) {
       switch (type) {
         case DashboardFilterType.Select:
           self.config = createFilterSelectConfig();
@@ -138,6 +141,8 @@ export const FilterMeta = types
         case DashboardFilterType.DateRange:
           self.config = createFilterDateRangeConfig();
           break;
+        default:
+          return;
       }
       self.type = type;
     },

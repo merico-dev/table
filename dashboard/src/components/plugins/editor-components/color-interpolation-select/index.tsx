@@ -1,4 +1,4 @@
-import { Button, Group, Modal, Select, SelectItem, Stack } from '@mantine/core';
+import { Button, Group, Modal, Select, ComboboxItem, Stack, ComboboxItemGroup } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { toJS } from 'mobx';
@@ -8,6 +8,7 @@ import { IColorManager } from '~/components/plugins';
 
 import { IColorInterpolationConfig, IValueStep } from '~/types/plugin';
 import { ColorMappingEditor } from '../color-mapping-editor';
+import _ from 'lodash';
 
 export interface IColorInterpolationSelectProps {
   colorManager: IColorManager;
@@ -22,12 +23,17 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
   const [localValue, setLocalValue] = useState(value);
   const interpolation = colorManager.decodeInterpolation(localValue.interpolation) || interpolations[0];
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
-  const selectData: SelectItem[] = useMemo(() => {
-    return interpolations.map((it) => ({
-      label: t(it.displayName),
-      value: colorManager.encodeColor(it),
-      group: t(`style.color.interpolation.palette.category.${it.category}`),
-    }));
+  const selectData: ComboboxItemGroup[] = useMemo(() => {
+    const grouped = _.groupBy(interpolations, 'category');
+    return Object.entries(grouped).map(([group, items]) => {
+      return {
+        group: t(`style.color.interpolation.palette.category.${group}`),
+        items: items.map((it) => ({
+          label: t(it.displayName),
+          value: colorManager.encodeColor(it),
+        })),
+      };
+    });
   }, [i18n.language]);
 
   function handleStyleChange(item: string | null) {
@@ -68,16 +74,18 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
               value={localValue.interpolation}
               data={selectData}
               onChange={handleStyleChange}
-              withinPortal
-              zIndex={340}
+              comboboxProps={{
+                withinPortal: true,
+                zIndex: 340,
+              }}
               maxDropdownHeight={500}
             />
             <ColorMappingEditor steps={localValue.steps} interpolation={interpolation} onChange={handleStepsChange} />
-            <Group position="apart">
+            <Group justify="space-between">
               <Button onClick={handleCancel} variant="subtle">
                 {t('common.actions.cancel')}
               </Button>
-              <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
+              <Button color="green" leftSection={<IconDeviceFloppy size={16} />} onClick={handleOk}>
                 {t('common.actions.save')}
               </Button>
             </Group>

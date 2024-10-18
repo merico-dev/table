@@ -42,12 +42,13 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      confirmProps: { color: 'red' },
     });
   if (!id) {
     return null;
   }
   return (
-    <Menu.Item color="red" icon={<IconTrash size={16} />} onClick={confirmAndDelete}>
+    <Menu.Item color="red" leftSection={<IconTrash size={16} />} onClick={confirmAndDelete}>
       Delete this dashboard
     </Menu.Item>
   );

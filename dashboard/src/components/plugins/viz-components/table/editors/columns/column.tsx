@@ -9,7 +9,7 @@ import { ValueTypeSelector } from '../../value-type-selector';
 import { FuncContentEditor } from './func_content-editor';
 
 const PostFixPX = () => (
-  <Text color="dimmed" size={12}>
+  <Text c="dimmed" size={'12px'}>
     px
   </Text>
 );
@@ -73,7 +73,7 @@ export const ColumnField = ({ control, index, watch }: IColumnField) => {
         />
         <NumberInput hideControls label={t('viz.table.column.max_width')} rightSection={<PostFixPX />} disabled />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`columns.${index}.align`}
           control={control}

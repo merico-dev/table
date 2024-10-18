@@ -30,7 +30,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   watch(['x_axis', 'y_axis', 'reference_lines', 'color', 'dataZoom']);
 
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs

@@ -80,8 +80,8 @@ export const ColorPickerPopover = ({ Trigger, value, onChange, clear }: Props) =
       </Popover.Target>
 
       <Popover.Dropdown>
-        <Stack spacing="xs">
-          <Group position="right">
+        <Stack gap="xs">
+          <Group justify="flex-end">
             <ColorInput value={value} onChange={handleColorInputChange} shouldPatch={shouldUpdateInput} />
             <ActionIcon variant="default" onClick={unsetColor} title={t('common.actions.clear')}>
               <IconCircleOff stroke={1.5} size="1rem" />

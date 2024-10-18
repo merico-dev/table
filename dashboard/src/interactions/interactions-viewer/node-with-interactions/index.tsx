@@ -31,7 +31,7 @@ export const InteractionNode = memo(
         </Box>
         <HoverCard shadow="xl" withinPortal>
           <HoverCard.Target>
-            <Text>{data.label}</Text>
+            <Text size="sm">{data.label}</Text>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             <List spacing="xs" size="sm" center>

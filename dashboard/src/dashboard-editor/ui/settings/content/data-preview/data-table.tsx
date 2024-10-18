@@ -31,29 +31,30 @@ export function DataTable({ data }: { data: AnyObject[] }) {
   return (
     <ErrorBoundary>
       <Table sx={TableStyle}>
-        <thead>
+        <Table.Thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <Table.Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} style={{ width: header.getSize() }}>
+                <Table.Th key={header.id} style={{ width: header.getSize() }}>
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   <ActionIcon
+                    variant="subtle"
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={header.getResizeHandler()}
                     className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
                   >
                     <IconArrowBarToRight />
                   </ActionIcon>
-                </th>
+                </Table.Th>
               ))}
-            </tr>
+            </Table.Tr>
           ))}
-        </thead>
-        <tbody>
+        </Table.Thead>
+        <Table.Tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <Table.Tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <Table.Td key={cell.id}>
                   <ErrorBoundary>
                     {typeof cell.getValue() === 'object' ? (
                       <pre>{JSON.stringify(cell.getValue(), null, 2)}</pre>
@@ -61,11 +62,11 @@ export function DataTable({ data }: { data: AnyObject[] }) {
                       flexRender(cell.column.columnDef.cell, cell.getContext())
                     )}
                   </ErrorBoundary>
-                </td>
+                </Table.Td>
               ))}
-            </tr>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </ErrorBoundary>
   );

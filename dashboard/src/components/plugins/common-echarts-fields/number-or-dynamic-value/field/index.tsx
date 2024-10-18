@@ -14,7 +14,11 @@ interface IProps {
 export const NumberOrDynamicValue = forwardRef<HTMLInputElement, IProps>(
   ({ label = 'Value', value, onChange }: IProps, ref) => {
     const { t, i18n } = useTranslation();
-    const changeType = (type: 'static' | 'dynamic') => {
+    const changeType = (type: string | null) => {
+      if (type !== 'static' && type !== 'dynamic') {
+        return;
+      }
+
       onChange({ ...DEFAULT_VALUE[type] });
     };
     const typeOptions = useMemo(

@@ -1,13 +1,15 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EChartsNameTextAlign } from './types';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface Props {
   label?: string;
   value?: EChartsNameTextAlign;
   onChange: (v: EChartsNameTextAlign) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
   disabled?: boolean;
 }
 
@@ -30,7 +32,7 @@ export const NameTextAlignSelector = forwardRef(
         label={label ?? t('chart.name_text.align.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
         disabled={disabled}
       />

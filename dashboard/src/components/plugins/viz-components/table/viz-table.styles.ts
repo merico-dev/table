@@ -1,4 +1,4 @@
-import { createStyles, Sx } from '@mantine/core';
+import { createStyles, EmotionSx } from '@mantine/emotion';
 
 export const useTableStyles = createStyles((theme) => ({
   root: {
@@ -17,12 +17,12 @@ export const useTableStyles = createStyles((theme) => ({
     '&.table-highlight-on-hover tr': {
       transition: 'background-color 0.2s',
       '&:hover': {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+        backgroundColor: theme.colors.gray[0],
       },
     },
   },
   thead: {
-    background: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    background: theme.white,
     position: 'sticky',
     top: 24,
     transform: 'translateY(-1px)',
@@ -38,7 +38,7 @@ export const useTableStyles = createStyles((theme) => ({
   },
 }));
 
-export const baseTableSX: Sx = {
+export const baseTableSX: EmotionSx = {
   tableLayout: 'fixed',
   width: 'fit-content',
   minWidth: '100%',

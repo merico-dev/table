@@ -1,6 +1,8 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -8,7 +10,7 @@ interface Props {
   label?: string;
   value?: HorizontalAlign;
   onChange: (v: HorizontalAlign) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const HorizontalAlignSelector = forwardRef(
@@ -30,7 +32,7 @@ export const HorizontalAlignSelector = forwardRef(
         label={label ?? t('common.align.horizontal.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
       />
     );

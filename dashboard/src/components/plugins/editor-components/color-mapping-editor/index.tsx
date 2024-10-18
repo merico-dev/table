@@ -134,7 +134,7 @@ function PaletteItem(props: {
       <Text
         title={textTitle}
         style={{ opacity: showUpLabel ? 1 : 0 }}
-        color="dimmed"
+        c="dimmed"
         size="sm"
         className="palette-value--up palette-value"
       >
@@ -179,14 +179,20 @@ function PaletteItem(props: {
               }}
               error={state && invalid}
             />
-            <Group position="apart">
-              <Button variant="light" color="red" size="xs" onClick={handleRemove} leftIcon={<IconTrash size={16} />}>
+            <Group justify="space-between">
+              <Button
+                variant="light"
+                color="red"
+                size="xs"
+                onClick={handleRemove}
+                leftSection={<IconTrash size={16} />}
+              >
                 {t('common.actions.delete')}
               </Button>
 
               <Button
                 color="green"
-                leftIcon={<IconDeviceFloppy size={16} />}
+                leftSection={<IconDeviceFloppy size={16} />}
                 data-testid="palette-item-ok"
                 size="xs"
                 onClick={handleOk}
@@ -201,7 +207,7 @@ function PaletteItem(props: {
       <Text
         title={textTitle}
         style={{ opacity: showBottomLabel ? 1 : 0 }}
-        color="dimmed"
+        c="dimmed"
         size="sm"
         className="palette-value--bottom palette-value"
       >

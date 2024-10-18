@@ -1,4 +1,5 @@
-import { ActionIcon, Affix, Box, Menu, Sx } from '@mantine/core';
+import { ActionIcon, Affix, Box, Menu } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconCamera, IconCode, IconDownload, IconShare3 } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
@@ -44,14 +45,14 @@ export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item icon={<IconCamera size={14} />} onClick={downloadScreenshot}>
+        <Menu.Item leftSection={<IconCamera size={14} />} onClick={downloadScreenshot}>
           {t('common.actions.download_screenshot')}
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item icon={<IconDownload size={14} />} onClick={content.queries.downloadAllData}>
+        <Menu.Item leftSection={<IconDownload size={14} />} onClick={content.queries.downloadAllData}>
           {t('common.actions.download_data')}
         </Menu.Item>
-        <Menu.Item icon={<IconCode size={14} />} onClick={downloadSchema}>
+        <Menu.Item leftSection={<IconCode size={14} />} onClick={downloadSchema}>
           {t('common.actions.download_schema')}
         </Menu.Item>
       </Menu.Dropdown>
@@ -60,7 +61,7 @@ export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot
 });
 
 export const RenderViewDivision = observer(
-  ({ children, view, sx = {} }: { children: ReactNode; view: ViewRenderModelInstance; sx?: Sx }) => {
+  ({ children, view, sx = {} }: { children: ReactNode; view: ViewRenderModelInstance; sx?: EmotionSx }) => {
     const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
     return (
       <>

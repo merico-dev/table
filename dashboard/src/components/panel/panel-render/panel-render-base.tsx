@@ -1,4 +1,5 @@
-import { Box, Sx } from '@mantine/core';
+import { Box } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { PanelContextProvider } from '~/contexts/panel-context';
@@ -12,10 +13,10 @@ import { PanelVizSection } from './viz';
 interface IPanelBase {
   panel: PanelRenderModelInstance;
   dropdownContent?: ReactNode;
-  panelStyle: Sx;
+  panelStyle: EmotionSx;
 }
 
-const baseStyle: Sx = { border: '1px solid #e9ecef' };
+const baseStyle: EmotionSx = { border: '1px solid #e9ecef' };
 
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);

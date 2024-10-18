@@ -1,35 +1,39 @@
-import { Box, Group, Select, Text, ThemeIcon } from '@mantine/core';
+import { Box, ComboboxItem, Group, Select, SelectProps, Text } from '@mantine/core';
+import { IconVectorTriangle } from '@tabler/icons-react';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { listDataSources } from '~/api-caller';
 import { useEditDashboardContext } from '~/contexts';
 import { DataSourceType } from '~/model';
-import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
-import { IconVectorTriangle } from '@tabler/icons-react';
-import { useTranslation } from 'react-i18next';
 
-const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
-  ({ label, type, ...others }, ref) =>
-    type === DataSourceType.Transform ? (
+type CustomOption = { label: string; type: DataSourceType } & ComboboxItem;
+const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, type } = option as CustomOption;
+  if (type === DataSourceType.Transform) {
+    return (
       <Group
         className="transform-query-option"
-        position="left"
-        ref={ref}
+        justify="flex-start"
         {...others}
         sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
       >
         <IconVectorTriangle size={14} color="#228be6" />
-        <Text color="blue">{label}</Text>
+        <Text size="sm" c="blue">
+          {label}
+        </Text>
       </Group>
-    ) : (
-      <Group position="apart" ref={ref} {...others}>
-        <Text>{label}</Text>
-        <Text>{type}</Text>
-      </Group>
-    ),
-);
-
+    );
+  }
+  return (
+    <Group justify="space-between" {...others}>
+      <Text size="sm">{label}</Text>
+      <Text size="sm">{type}</Text>
+    </Group>
+  );
+};
 interface ISelectDataSource {
   value: { type: DataSourceType; key: string };
   onChange: (v: { type: DataSourceType; key: string }) => void;
@@ -66,7 +70,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     }, {} as Record<string, DataSourceType>);
   }, [dataSourceOptions]);
 
-  const handleChange = (key: string) => {
+  const handleChange = (key: string | null) => {
     if (key === null) {
       return;
     }
@@ -83,17 +87,17 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     <Select
       data={dataSourceOptions}
       label={
-        <Group position="apart">
+        <Group justify="space-between">
           <Box>{t('data_source.label')}</Box>
           {dataSource && (
-            <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
+            <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ size: 'compact-xs', px: 10 }} />
           )}
         </Group>
       }
-      itemComponent={DataSourceLabel}
+      renderOption={DataSourceLabel}
       rightSection={
         dataSource ? (
-          <Text size="xs" color="dimmed">
+          <Text size="xs" c="dimmed">
             {dataSource.type}
           </Text>
         ) : undefined
@@ -103,7 +107,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       styles={{
         root: { flex: 1 },
         label: { display: 'block' },
-        rightSection: {
+        section: {
           pointerEvents: 'none',
           justifyContent: 'flex-end',
           paddingRight: '10px',

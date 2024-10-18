@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 export const PickQueryForFilter = observer(({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
   const { t } = useTranslation();
@@ -19,12 +20,14 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
   return (
     <Select
       label={
-        <Group position="apart">
-          <Text>{t('filter.widget.common.use_query_data_as_options')}</Text>
+        <Group justify="space-between">
+          <Text fw={500} size="sm">
+            {t('filter.widget.common.use_query_data_as_options')}
+          </Text>
           {value && (
             <Button
               size="xs"
-              leftIcon={<IconArrowCurveRight size={16} />}
+              leftSection={<IconArrowCurveRight size={16} />}
               variant="subtle"
               color="blue"
               onClick={() => navigateToQuery(value)}
@@ -36,7 +39,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
       }
       data={options}
       value={value}
-      onChange={onChange}
+      onChange={getSelectChangeHandler(onChange)}
       allowDeselect={false}
       clearable
       sx={{ flexGrow: 1 }}

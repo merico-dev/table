@@ -139,7 +139,9 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
             render={({ field }) => (
               <Autocomplete
                 disabled={store.loading}
-                withinPortal
+                comboboxProps={{
+                  withinPortal: true,
+                }}
                 label="Group"
                 maxDropdownHeight={500}
                 data={store.groupNames}
@@ -148,7 +150,7 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
             )}
           />
           <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
-          <Group position="right" my="md">
+          <Group justify="flex-end" my="md">
             <Button type="submit" disabled={disabled}>
               Confirm
             </Button>

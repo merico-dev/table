@@ -27,8 +27,8 @@ export const PiecewiseVisualMapEditor = ({ form }: Props) => {
 
   const { type, orient, piecewise_mode } = visualMap;
 
-  const getNumberChanger = (handleChange: (n: number) => void) => (v: number | '') => {
-    if (v === '') {
+  const getNumberChanger = (handleChange: (n: number) => void) => (v: number | string) => {
+    if (typeof v === 'string') {
       return;
     }
     handleChange(v);

@@ -26,7 +26,7 @@ export class ErrorBoundary extends React.Component<PropType, StateType> {
       return (
         <Box>
           <Text size="xs">{this.state.error?.message}</Text>
-          <Button variant="subtle" size="xs" mx="auto" compact sx={{ display: 'block' }} onClick={retry}>
+          <Button variant="subtle" mx="auto" size="compact-xs" sx={{ display: 'block' }} onClick={retry}>
             Retry
           </Button>
         </Box>

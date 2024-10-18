@@ -24,7 +24,7 @@ export const TakeOwnership = observer(({ model }: ITakeOwnership) => {
       size="xs"
       variant="light"
       color="red"
-      leftIcon={<IconShieldLock size={14} />}
+      leftSection={<IconShieldLock size={14} />}
       disabled={!isAdmin || loading}
       onClick={take}
     >

@@ -16,7 +16,7 @@ export const LogoLink = ({ data }: { data: WebsiteSettingsType }) => {
   };
   if (!logo.zh && !logo.en) {
     return (
-      <Text size={20} sx={{ cursor: 'default', userSelect: 'none' }}>
+      <Text size={'20px'} sx={{ cursor: 'default', userSelect: 'none' }}>
         @devtable
       </Text>
     );

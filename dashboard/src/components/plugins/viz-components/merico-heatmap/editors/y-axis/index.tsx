@@ -18,7 +18,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
   watch(['y_axis']);
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.data_key"
           control={control}
@@ -32,7 +32,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
           render={({ field }) => <TextInput label={t('common.name')} required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.nameAlignment"
           control={control}
@@ -45,7 +45,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
         control={control}
         render={({ field }) => <LabelOverflowField {...field} />}
       />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.axisLabel.rotate"
           control={control}

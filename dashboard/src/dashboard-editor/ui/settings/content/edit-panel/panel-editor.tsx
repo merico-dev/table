@@ -42,7 +42,13 @@ const TabsStyles = {
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%', position: 'relative' }}>
+    <Group
+      wrap="nowrap"
+      grow
+      justify="flex-start"
+      gap={20}
+      sx={{ width: '100%', height: '100%', position: 'relative' }}
+    >
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
@@ -116,42 +122,47 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
     <PanelContextProvider
       value={{ panel, data: panel.data, loading, errors: panel.queryErrors, downloadPanelScreenshot: () => {} }}
     >
-      <Group px={16} position="apart" sx={{ borderBottom: '1px solid #eee' }}>
-        <Text pt={9} pb={8}>
+      <Group px={16} justify="space-between" sx={{ borderBottom: '1px solid #eee' }}>
+        <Text size="sm" pt={9} pb={8}>
           {panel.name}
         </Text>
-        <Group position="right" noWrap>
+        <Group justify="flex-end" wrap="nowrap">
           <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />
-          <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
+          <Button size="xs" variant="subtle" color="red" onClick={remove} leftSection={<IconTrash size={14} />}>
             {t('panel.delete')}
           </Button>
         </Group>
       </Group>
-      <Tabs value={tab} onTabChange={handleTabChange} keepMounted={false} styles={TabsStyles}>
+      <Tabs value={tab} onChange={handleTabChange} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
-          <Tabs.Tab value="Data" icon={<IconDatabase size={14} />} disabled={loading}>
+          <Tabs.Tab value="Data" leftSection={<IconDatabase size={14} />} disabled={loading}>
             {t('data.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Panel" icon={<IconAppWindow size={14} />}>
+          <Tabs.Tab value="Panel" leftSection={<IconAppWindow size={14} />}>
             {t('panel.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Variables" icon={<IconVariable size={14} />} disabled={dataNotReady}>
+          <Tabs.Tab value="Variables" leftSection={<IconVariable size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
-              <Text>{t('panel.variable.labels')}</Text>
+              <Text size="sm">{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Visualization" icon={<IconChartHistogram size={14} />} disabled={dataNotReady}>
+          <Tabs.Tab value="Visualization" leftSection={<IconChartHistogram size={14} />} disabled={dataNotReady}>
             <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
-              <Text>{t('visualization.label')}</Text>
+              <Text size="sm">{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Interactions" icon={<IconRoute size={14} />}>
+          <Tabs.Tab value="Interactions" leftSection={<IconRoute size={14} />}>
             {t('interactions.label')}
           </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">
-          <LoadingOverlay visible={loading} exitTransitionDuration={0} />
+          <LoadingOverlay
+            visible={loading}
+            transitionProps={{
+              exitDuration: 0,
+            }}
+          />
           <PickQuery />
         </Tabs.Panel>
 

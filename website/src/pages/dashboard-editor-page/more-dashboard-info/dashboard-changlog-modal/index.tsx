@@ -14,7 +14,7 @@ const ModalStyles = {
   title: { flexGrow: 1 },
   body: {
     padding: '0',
-    height: 'calc(100% - 50px)',
+    height: 'calc(100% - 60px)',
   },
 };
 
@@ -62,8 +62,10 @@ export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogM
       closeOnClickOutside={false}
       zIndex={320}
       title={
-        <Group position="apart" sx={{ flexGrow: 1 }}>
-          <Text fw={500}>Changelog</Text>
+        <Group justify="space-between" sx={{ flexGrow: 1 }}>
+          <Text size="sm" fw={500}>
+            Changelog
+          </Text>
 
           {name && (
             <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} mr={16}>

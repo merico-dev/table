@@ -16,7 +16,7 @@ export const LoadingSkeleton = ({
   pl?: number;
 }) => {
   return (
-    <Stack spacing={spacing} mt={6} pl={pl}>
+    <Stack gap={spacing} mt={6} pl={pl}>
       {Array.from(new Array(count - 1), (_v, i) => (
         <Skeleton key={i} width={width} height={height} radius="xs" />
       ))}

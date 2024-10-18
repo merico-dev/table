@@ -14,7 +14,7 @@ export function DimensionField({ control, index }: IDimensionField) {
   const { t } = useTranslation();
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-      <Group grow noWrap align="top">
+      <Group grow wrap="nowrap" align="top">
         <Controller
           name={`dimensions.${index}.name`}
           control={control}

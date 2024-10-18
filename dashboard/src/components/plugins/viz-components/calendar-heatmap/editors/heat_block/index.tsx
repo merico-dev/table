@@ -14,7 +14,7 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
   watch(['heat_block']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="heat_block.data_key"
           control={control}

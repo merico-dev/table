@@ -119,32 +119,33 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     >
       {totalRows > 0 && (
         <Box className={classes.info_bar} sx={{ height: 22 }}>
-          <Text align="right" pr={6} size={14} color="dimmed" fw="normal">
+          <Text ta="right" pr={6} size={'14px'} c="dimmed" fw="normal">
             {t('common.pagination.total_rows', { total: totalRows })}
           </Text>
         </Box>
       )}
       <Table sx={{ ...baseTableSX, maxHeight: tableHeight }} {...(rest as TableProps)} striped={conf.striped}>
-        <thead className={classes.thead} style={{ top: theadTop }}>
+        <Table.Thead className={classes.thead} style={{ top: theadTop }}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <Table.Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th key={header.id} style={{ width: header.getSize() }}>
+                  <Table.Th key={header.id} style={{ width: header.getSize() }}>
                     <HeadCell header={header} cx={cx} />
                     <ActionIcon
+                      variant="subtle"
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
                       className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
                     >
                       <IconArrowBarToRight />
                     </ActionIcon>
-                  </th>
+                  </Table.Th>
                 );
               })}
-            </tr>
+            </Table.Tr>
           ))}
-        </thead>
+        </Table.Thead>
         <TableBody tableContainerRef={tableContainerRef} rows={rows} />
       </Table>
     </div>

@@ -22,7 +22,7 @@ export function ReferenceLineField({ control, index, watch, variableOptions, yAx
   const orientation = watch(`reference_lines.${index}.orientation`);
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`reference_lines.${index}.name`}
           control={control}

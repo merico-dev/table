@@ -1,4 +1,5 @@
-import { Anchor, createStyles, Text } from '@mantine/core';
+import { Anchor, Text } from '@mantine/core';
+import { createStyles } from '@mantine/emotion';
 import chroma from 'chroma-js';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
@@ -45,7 +46,7 @@ function CellRender(props: PropsWithChildren<ICellValue>) {
         ...getCellStyle(props),
       }}
     >
-      <Text className="table-cell-text" onClick={props.tableCellContext.getClickHandler()}>
+      <Text size="sm" className="table-cell-text" onClick={props.tableCellContext.getClickHandler()}>
         <span title={props.children as string}>{props.children}</span>
       </Text>
     </div>

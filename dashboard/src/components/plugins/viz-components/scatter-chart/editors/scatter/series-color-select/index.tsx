@@ -28,7 +28,11 @@ export const SeriesColorSelect = forwardRef<HTMLInputElement, ISeriesColorSelect
       ],
       [i18n.language],
     );
-    const changeType = (type: 'static' | 'dynamic') => {
+    const changeType = (type: string | null) => {
+      if (type !== 'static' && type !== 'dynamic') {
+        return;
+      }
+
       onChange({ ...DEFAULT_SERIES_COLOR[type] });
     };
     return (

@@ -28,7 +28,7 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
           key={table_schema}
           label={table_schema}
           title={table_schema}
-          icon={<IconDatabase size={14} />}
+          leftSection={<IconDatabase size={14} />}
           defaultOpened={dataSource.table_schema === table_schema}
           pl={0}
           childrenOffset={14}
@@ -38,7 +38,7 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
               key={info.table_name}
               label={info.table_name}
               title={info.table_name}
-              icon={<TableIcon table_type={info.table_type} />}
+              leftSection={<TableIcon table_type={info.table_type} />}
               onClick={() => {
                 dataSource.setKeywords(table_schema, info.table_name);
               }}

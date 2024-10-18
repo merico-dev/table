@@ -1,13 +1,15 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EChartsXAxisPosition } from './types';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface Props {
   label?: string;
   value?: EChartsXAxisPosition;
   onChange: (v: EChartsXAxisPosition) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const XAxisPositionSelector = forwardRef(
@@ -28,7 +30,7 @@ export const XAxisPositionSelector = forwardRef(
         label={label ?? t('chart.x_axis.position.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
       />
     );

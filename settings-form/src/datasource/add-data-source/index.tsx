@@ -101,7 +101,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
       >
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={20} />}>
         {t('datasource.add')}
       </Button>
     </>

@@ -33,9 +33,11 @@ export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }
         opened={opened}
         onClose={() => setOpened(false)}
         title={
-          <Group position="apart" sx={{ flexGrow: 1 }}>
-            <Text fw={500}>{t('data_source.explorer')}</Text>
-            <Group spacing={7}>
+          <Group justify="space-between" sx={{ flexGrow: 1 }}>
+            <Text size="sm" fw={500}>
+              {t('data_source.explorer')}
+            </Text>
+            <Group gap={7}>
               <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
                 {dataSource.key}
               </Badge>

@@ -37,18 +37,18 @@ function getLinearDescription(
   return {
     name,
     expression: (
-      <Group position="center" noWrap spacing={10}>
-        <Text>{y_axis.name}</Text>
-        <Text>=</Text>
-        <Text weight="bold" color="red">
+      <Group justify="center" wrap="nowrap" gap={10}>
+        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">=</Text>
+        <Text size="sm" fw="bold" c="red">
           {formatNumber(b, numberFormat)}
         </Text>
-        <Text>+</Text>
-        <Text weight="bold" color="red">
+        <Text size="sm">+</Text>
+        <Text size="sm" fw="bold" c="red">
           {formatNumber(a, numberFormat)}
         </Text>
-        <Text>×</Text>
-        <Text>{x_axis.name}</Text>
+        <Text size="sm">×</Text>
+        <Text size="sm">{x_axis.name}</Text>
       </Group>
     ),
     rSquared,
@@ -67,21 +67,21 @@ function getExponentialDescription(
   return {
     name,
     expression: (
-      <Group position="center" noWrap spacing={10}>
-        <Text>{y_axis.name}</Text>
-        <Text>=</Text>
-        <Text weight="bold" color="gray">
+      <Group justify="center" wrap="nowrap" gap={10}>
+        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">=</Text>
+        <Text size="sm" fw="bold" c="gray">
           {a}
         </Text>
-        <Text>×</Text>
-        <Group position="left" noWrap spacing={2}>
-          <Text>Math.exp(</Text>
-          <Text weight="bold" color="gray">
+        <Text size="sm">×</Text>
+        <Group justify="flex-start" wrap="nowrap" gap={2}>
+          <Text size="sm">Math.exp(</Text>
+          <Text size="sm" fw="bold" c="gray">
             {b}
           </Text>
-          <Text>×</Text>
-          <Text>{x_axis.name}</Text>
-          <Text>)</Text>
+          <Text size="sm">×</Text>
+          <Text size="sm">{x_axis.name}</Text>
+          <Text size="sm">)</Text>
         </Group>
       </Group>
     ),
@@ -101,19 +101,19 @@ function getLogisticDescription(
   return {
     name,
     expression: (
-      <Group position="center" noWrap spacing={10}>
-        <Text>{y_axis.name}</Text>
-        <Text>=</Text>
-        <Text weight="bold" color="gray">
+      <Group justify="center" wrap="nowrap" gap={10}>
+        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">=</Text>
+        <Text size="sm" fw="bold" c="gray">
           {a}
         </Text>
-        <Text>×</Text>
-        <Group position="left" noWrap spacing={2}>
-          <Text>Math.log(</Text>
-          <Text>{x_axis.name}</Text>
-          <Text>)</Text>
-          <Text>+</Text>
-          <Text weight="bold" color="gray">
+        <Text size="sm">×</Text>
+        <Group justify="flex-start" wrap="nowrap" gap={2}>
+          <Text size="sm">Math.log(</Text>
+          <Text size="sm">{x_axis.name}</Text>
+          <Text size="sm">)</Text>
+          <Text size="sm">+</Text>
+          <Text size="sm" fw="bold" c="gray">
             {b}
           </Text>
         </Group>

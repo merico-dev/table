@@ -6,12 +6,12 @@ export const PanelErrorOrStateMessage = observer(({ panel }: { panel: PanelRende
   return (
     <Stack>
       {panel.queryErrors.map((err, i) => (
-        <Text key={`${i}-${err}`} color="red" size="sm" align="center" sx={{ fontFamily: 'monospace' }}>
+        <Text key={`${i}-${err}`} c="red" size="sm" ta="center" ff="monospace">
           {err}
         </Text>
       ))}
 
-      <Text color="gray" align="center" size="sm">
+      <Text c="gray" ta="center" size="sm">
         {panel.queryStateMessages}
       </Text>
     </Stack>

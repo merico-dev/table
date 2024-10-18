@@ -32,7 +32,7 @@ export const FullScreenPanel = observer(function _FullScreenPanel({
       fullScreen
       onClose={exitFullScreen}
       title={
-        <Button color="blue" size="xs" onClick={exitFullScreen} leftIcon={<IconArrowLeft size={20} />}>
+        <Button color="blue" size="xs" onClick={exitFullScreen} leftSection={<IconArrowLeft size={20} />}>
           Exit fullscreen
         </Button>
       }

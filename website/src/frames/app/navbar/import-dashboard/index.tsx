@@ -27,7 +27,7 @@ export const ImportDashboard = observer(() => {
       >
         <ImportDashboardForm postSubmit={closeOnSuccess} />
       </Modal>
-      <Button size="xs" variant="light" onClick={open} leftIcon={<IconFileImport size={15} />}>
+      <Button size="xs" variant="light" onClick={open} leftSection={<IconFileImport size={15} />}>
         Import...
       </Button>
     </>

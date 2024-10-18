@@ -13,7 +13,7 @@ export function AdditionalSeriesItemField({ control, index }: Props) {
   const { t } = useTranslation();
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`additional_series.${index}.name_key`}
           control={control}

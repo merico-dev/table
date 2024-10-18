@@ -59,6 +59,7 @@ export const DeleteVersion = observer(({ id, postSubmit }: IDeleteVersion) => {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      confirmProps: { color: 'red' },
       zIndex: 400,
     });
 

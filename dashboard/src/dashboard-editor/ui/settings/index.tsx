@@ -10,7 +10,7 @@ const SettingsAppShellStyles = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    minWidth: 'calc(var(--mantine-navbar-width, 0px) + 1200px)',
+    minWidth: 'calc(var(--app-shell-navbar-width, 0px) + 1200px)',
   },
   body: {
     flexGrow: 1,
@@ -55,8 +55,18 @@ export const Settings = observer(() => {
         },
       }}
     >
-      <AppShell padding={0} navbar={<SettingsNavbar />} styles={SettingsAppShellStyles}>
-        <SettingsContent />
+      <AppShell
+        padding={0}
+        navbar={{
+          width: { base: 220, xs: 220, sm: 240, md: 260, lg: 300, xl: 320 },
+          breakpoint: 'xxs', //FIXME(leto): not sure
+        }}
+        styles={SettingsAppShellStyles}
+      >
+        <SettingsNavbar />
+        <AppShell.Main>
+          <SettingsContent />
+        </AppShell.Main>
       </AppShell>
     </Modal>
   );

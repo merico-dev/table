@@ -7,7 +7,7 @@ interface IProps {
 }
 export const DashboardChangelogModalTrigger = ({ state }: IProps) => {
   return (
-    <Menu.Item onClick={state.open} icon={<IconHistory size={14} />}>
+    <Menu.Item onClick={state.open} leftSection={<IconHistory size={14} />}>
       Changelog
     </Menu.Item>
   );

@@ -16,16 +16,16 @@ interface IPermissionControl {
 export const PermissionControl = observer(({ model, postSubmit }: IPermissionControl) => {
   const { isAdmin } = useAccountContext();
   return (
-    <Stack spacing={10}>
+    <Stack gap={10}>
       <DashboardOwnerInfo model={model} />
       <AccessRulesTable model={model} />
       <Divider mt={-10} mb={10} variant="dashed" />
-      <Group position="apart">
-        <Group position="left" mb={4}>
+      <Group justify="space-between">
+        <Group justify="flex-start" mb={4}>
           {isAdmin && !model.isOwner && <TakeOwnership model={model} />}
           {model.isOwner && <AddAnAccessRule model={model} />}
         </Group>
-        <Group position="right" mb={4}>
+        <Group justify="flex-end" mb={4}>
           {model.isOwner && <SubmitPermissionChanges model={model} postSubmit={postSubmit} />}
         </Group>
       </Group>

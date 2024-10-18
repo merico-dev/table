@@ -1,18 +1,27 @@
+import { SpotlightActionData } from '@mantine/spotlight';
 import {
+  Icon,
   IconBoxMultiple,
   IconCodeDots,
   IconCopy,
   IconDatabase,
   IconFilter,
   IconVariable,
-  Icon,
 } from '@tabler/icons-react';
-import { Instance, getRoot, types } from 'mobx-state-tree';
-import { ContentModelInstance } from '../content';
 import _ from 'lodash';
-import { isPanel } from '~/dashboard-editor/ui/settings/content/utils';
-import { SpotlightAction } from '@mantine/spotlight';
+import { Instance, getRoot, types } from 'mobx-state-tree';
 import { VizNameKeys } from '~/components/plugins';
+import { isPanel } from '~/dashboard-editor/ui/settings/content/utils';
+import { ContentModelInstance } from '../content';
+
+export type CustomSpotlightActionData = SpotlightActionData & {
+  iconKey?: string;
+  viz?: VizNameKeys;
+};
+export type CustomSpotlightActionGroupData = {
+  group: string;
+  actions: CustomSpotlightActionData[];
+};
 
 type PartialRootInstanceType = {
   content: ContentModelInstance;
@@ -219,69 +228,94 @@ export const EditorModel = types
     },
   }))
   .views((self) => ({
-    get spotlightActions() {
+    get spotlightActionGroups() {
       const { content } = getRoot(self) as PartialRootInstanceType;
       const { filters, views, sqlSnippets, queries } = content;
-      const ret: Array<SpotlightAction> = [
-        {
-          title: 'query_variable.labels',
-          onTrigger: () => self.openAndSetPath(['_QUERY_VARS_']),
-          iconKey: 'query_variables',
-          group: 'spotlight.main_group',
-        },
-        {
-          title: 'mock_context.label',
-          onTrigger: () => self.openAndSetPath(['_MOCK_CONTEXT_']),
-          iconKey: 'mock_context',
-          group: 'spotlight.main_group',
-        },
-        {
-          title: 'filter.labels',
-          onTrigger: () => self.openAndSetPath(['_FILTERS_']),
-          iconKey: 'filter',
-          group: 'spotlight.main_group',
-        },
-        {
-          title: 'sql_snippet.labels',
-          onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_']),
-          iconKey: 'sql_snippet',
-          group: 'spotlight.main_group',
-        },
-        {
-          title: 'query.labels',
-          onTrigger: () => self.openAndSetPath(['_QUERIES_']),
-          iconKey: 'query',
-          group: 'spotlight.main_group',
-        },
-      ];
+
+      const mainGroup: CustomSpotlightActionGroupData = {
+        group: 'spotlight.main_group',
+        actions: [
+          {
+            id: 'query_variable.labels',
+            title: 'query_variable.labels',
+            onClick: () => self.openAndSetPath(['_QUERY_VARS_']),
+            iconKey: 'query_variables',
+          },
+          {
+            id: 'mock_context.label',
+            title: 'mock_context.label',
+            onClick: () => self.openAndSetPath(['_MOCK_CONTEXT_']),
+            iconKey: 'mock_context',
+          },
+          {
+            id: 'filter.labels',
+            title: 'filter.labels',
+            onClick: () => self.openAndSetPath(['_FILTERS_']),
+            iconKey: 'filter',
+          },
+          {
+            id: 'sql_snippet.labels',
+            title: 'sql_snippet.labels',
+            onClick: () => self.openAndSetPath(['_SQL_SNIPPETS_']),
+            iconKey: 'sql_snippet',
+          },
+          {
+            id: 'query.labels',
+            title: 'query.labels',
+            onClick: () => self.openAndSetPath(['_QUERIES_']),
+            iconKey: 'query',
+          },
+        ],
+      };
+      const filterGroup: CustomSpotlightActionGroupData = {
+        group: 'filter.labels',
+        actions: [],
+      };
       filters.options.forEach((f) => {
-        ret.push({
+        filterGroup.actions.push({
+          id: `_FILTERS_.${f.value}`,
           title: f.label,
-          onTrigger: () => self.openAndSetPath(['_FILTERS_', f.value]),
+          onClick: () => self.openAndSetPath(['_FILTERS_', f.value]),
           iconKey: 'filter',
-          group: 'filter.labels',
         });
       });
+
+      const sqlSnippetGroup: CustomSpotlightActionGroupData = {
+        group: 'sql_snippet.labels',
+        actions: [],
+      };
       sqlSnippets.options.forEach((s) => {
-        ret.push({
+        sqlSnippetGroup.actions.push({
+          id: `_SQL_SNIPPETS_.${s.value}`,
           title: s.label,
-          onTrigger: () => self.openAndSetPath(['_SQL_SNIPPETS_', s.value]),
+          onClick: () => self.openAndSetPath(['_SQL_SNIPPETS_', s.value]),
           iconKey: 'sql_snippet',
-          group: 'sql_snippet.labels',
         });
       });
+
+      const queryGroup: CustomSpotlightActionGroupData = {
+        group: 'query.labels',
+        actions: [],
+      };
       queries.options.forEach((q) => {
-        ret.push({
+        queryGroup.actions.push({
+          id: `_QUERIES_.${q.value}`,
           title: q.label,
-          onTrigger: () => self.openAndSetPath(['_QUERIES_', q.value]),
+          onClick: () => self.openAndSetPath(['_QUERIES_', q.value]),
           iconKey: 'query',
-          group: 'query.labels',
         });
       });
+      const ret: Array<CustomSpotlightActionGroupData> = [mainGroup, filterGroup, sqlSnippetGroup, queryGroup];
+
       views.editorOptions.forEach((v) => {
-        ret.push({
+        const viewGroup: CustomSpotlightActionGroupData = {
+          group: v.label,
+          actions: [],
+        };
+        viewGroup.actions.push({
+          id: `_VIEWS_.${v.value}`,
           title: v.label,
-          onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value]),
+          onClick: () => self.openAndSetPath(['_VIEWS_', v.value]),
           iconKey: 'view',
           group: v.label,
         });
@@ -289,14 +323,17 @@ export const EditorModel = types
           if (p._type === 'ACTION') {
             return;
           }
-          ret.push({
+          viewGroup.actions.push({
+            id: `_VIEWS_._PANELS_.${p.value}`,
             title: p.label,
             viz: p.viz,
-            onTrigger: () => self.openAndSetPath(['_VIEWS_', v.value, '_PANELS_', p.value, '_TABS_', 'Panel']),
+            onClick: () => self.openAndSetPath(['_VIEWS_', v.value, '_PANELS_', p.value, '_TABS_', 'Panel']),
             iconKey: 'panel',
             group: v.label,
           });
         });
+
+        ret.push(viewGroup);
       });
 
       return ret;

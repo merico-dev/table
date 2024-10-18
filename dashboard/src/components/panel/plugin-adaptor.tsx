@@ -71,7 +71,7 @@ export function PluginVizConfigComponent({ setVizConf, ...props }: IConfigCompon
   }, [instance, panel.viz.type]);
 
   if (!migrated) {
-    return <Text>Checking update...</Text>;
+    return <Text size="sm">Checking update...</Text>;
   }
   return <VizConfigComponent {...props} />;
 }
@@ -92,7 +92,7 @@ export function PluginVizViewComponent(props: IViewComponentProps & SetVizConfTy
     });
   });
   if (!migrated) {
-    return <Text>Checking update</Text>;
+    return <Text size="sm">Checking update</Text>;
   }
   return <VizViewComponent {...props} />;
 }

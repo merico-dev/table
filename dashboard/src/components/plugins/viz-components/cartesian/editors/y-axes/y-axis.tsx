@@ -16,7 +16,7 @@ export function YAxisField({ control, index }: IYAxisField) {
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
       <Divider mb={-15} mt={15} variant="dashed" label={t('common.name')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`y_axes.${index}.name`}
           control={control}
@@ -31,7 +31,7 @@ export function YAxisField({ control, index }: IYAxisField) {
         />
       </Group>
       <Divider mb={-15} variant="dashed" label={t('chart.y_axis.layout')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`y_axes.${index}.position`}
           control={control}

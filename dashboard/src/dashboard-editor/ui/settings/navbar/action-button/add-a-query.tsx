@@ -24,7 +24,7 @@ export const AddAQuery = observer(() => {
   return (
     <Button
       variant="subtle"
-      leftIcon={<IconPlus size={14} />}
+      leftSection={<IconPlus size={14} />}
       size="sm"
       px="xs"
       mb={10}

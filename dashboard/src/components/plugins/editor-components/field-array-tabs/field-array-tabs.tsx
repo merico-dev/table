@@ -87,7 +87,7 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   };
 
   return (
-    <Tabs value={tab} onTabChange={handleTabChange} styles={TabsStyles}>
+    <Tabs value={tab} onChange={handleTabChange} styles={TabsStyles}>
       <TabList<T, FieldItem>
         fieldArray={fieldArray}
         add={add}
@@ -101,7 +101,7 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
             {children({ field, index })}
             <Divider mb={-10} mt={10} variant="dashed" />
             <Button
-              leftIcon={<IconTrash size={16} />}
+              leftSection={<IconTrash size={16} />}
               color="red"
               variant="light"
               onClick={() => remove(index)}

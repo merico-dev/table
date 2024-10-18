@@ -1,4 +1,4 @@
-import { Button, Navbar as MantineNavbar } from '@mantine/core';
+import { Button, AppShell } from '@mantine/core';
 import { useAccountContext } from '../../require-auth/account-context';
 import { CreateDashboard } from './create-dashboard';
 import { ImportDashboard } from './import-dashboard';
@@ -10,7 +10,7 @@ export const DashboardNavActions = () => {
   }
 
   return (
-    <MantineNavbar.Section>
+    <AppShell.Section>
       <Button.Group
         sx={{
           width: '100%',
@@ -24,6 +24,6 @@ export const DashboardNavActions = () => {
         <CreateDashboard />
         <ImportDashboard />
       </Button.Group>
-    </MantineNavbar.Section>
+    </AppShell.Section>
   );
 };

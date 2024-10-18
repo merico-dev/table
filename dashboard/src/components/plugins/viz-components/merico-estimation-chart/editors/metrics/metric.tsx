@@ -13,7 +13,7 @@ export const TooltipMetricField = ({ control, index }: ITooltipMetricField) => {
   const { t } = useTranslation();
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`metrics.${index}.name`}
           control={control}

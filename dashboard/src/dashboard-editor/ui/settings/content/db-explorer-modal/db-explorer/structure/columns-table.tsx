@@ -13,7 +13,7 @@ const ColumnKey = ({ column }: { column: ColumnInfoType }) => {
   }
   return (
     <Tooltip label={column_key_text} disabled={!column_key_text}>
-      <Badge>{column_key}</Badge>
+      <Badge variant="light">{column_key}</Badge>
     </Tooltip>
   );
 };
@@ -31,7 +31,7 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
   return (
     <Table
       highlightOnHover
-      fontSize={14}
+      fz={14}
       sx={{
         width: 'auto',
         minWidth: '1000px',
@@ -50,36 +50,36 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
         <col style={{ minWidth: 80, width: 80 }} />
         <col style={{ minWidth: 120, width: 120 }} />
       </colgroup>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Column Name</th>
-          <th></th>
-          <th></th>
-          <th>Type</th>
-          <th>Nullable</th>
-          <th>Default Value</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>#</Table.Th>
+          <Table.Th>Column Name</Table.Th>
+          <Table.Th></Table.Th>
+          <Table.Th></Table.Th>
+          <Table.Th>Type</Table.Th>
+          <Table.Th>Nullable</Table.Th>
+          <Table.Th>Default Value</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {columns.data.map((c) => (
-          <tr key={c.column_name}>
-            <td>{c.ordinal_position}</td>
-            <td>{c.column_name}</td>
-            <td>
+          <Table.Tr key={c.column_name}>
+            <Table.Td>{c.ordinal_position}</Table.Td>
+            <Table.Td>{c.column_name}</Table.Td>
+            <Table.Td>
               <TooltipValue value={c.column_comment} />
-            </td>
-            <td>
+            </Table.Td>
+            <Table.Td>
               <ColumnKey column={c} />
-            </td>
-            <td>{c.column_type}</td>
-            <td>{c.is_nullable}</td>
-            <td>
+            </Table.Td>
+            <Table.Td>{c.column_type}</Table.Td>
+            <Table.Td>{c.is_nullable}</Table.Td>
+            <Table.Td>
               <TooltipValue value={c.column_default} />
-            </td>
-          </tr>
+            </Table.Td>
+          </Table.Tr>
         ))}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

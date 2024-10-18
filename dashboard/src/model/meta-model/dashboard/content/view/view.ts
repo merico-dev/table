@@ -32,7 +32,7 @@ export const ViewMeta = types
     setName(name: string) {
       self.name = name;
     },
-    setType(type: EViewComponentType) {
+    setType(type: string | null) {
       if (self.type === type) {
         return;
       }
@@ -46,6 +46,8 @@ export const ViewMeta = types
         case EViewComponentType.Tabs:
           self.config = createViewTabsConfig();
           break;
+        default:
+          return;
       }
       self.type = type;
     },

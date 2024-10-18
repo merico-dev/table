@@ -43,7 +43,7 @@ export function EditMericoHeatmap({ context }: VizConfigProps) {
 
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1 }}>
-      <Stack spacing="xs" sx={{ height: '100%' }}>
+      <Stack gap="xs" sx={{ height: '100%' }}>
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Tabs
           defaultValue="X Axis"

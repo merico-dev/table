@@ -1,6 +1,6 @@
-import { Sx } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 
-export const TableStyle: Sx = {
+export const TableStyle: EmotionSx = {
   width: 'fit-content',
   minWidth: '100%',
   tableLayout: 'fixed',

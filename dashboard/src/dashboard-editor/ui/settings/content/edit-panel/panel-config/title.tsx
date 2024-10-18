@@ -8,8 +8,8 @@ export const EditTitle = observer(() => {
   const { panel } = useEditPanelContext();
 
   return (
-    <Stack spacing={6} mb={10}>
-      <Group pl={6} position="left" spacing={20}>
+    <Stack gap={6} mb={10}>
+      <Group pl={6} justify="flex-start" gap={20}>
         <Checkbox
           size="sm"
           checked={panel.title.show}

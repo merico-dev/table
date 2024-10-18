@@ -24,6 +24,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
         width: '100%',
         height,
         color: theme.black,
+        flexGrow: 0,
 
         '&:hover': {
           backgroundColor: theme.colors.gray[0],
@@ -32,12 +33,12 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       {...rest}
     >
       <Group>
-        <Stack spacing={0} style={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
+        <Stack gap={0} style={{ flex: 1 }}>
+          <Text size="sm" fw={500}>
             {username}
           </Text>
           {email && (
-            <Text mt={-4} color="dimmed" size={11}>
+            <Text mt={-4} c="dimmed" size={'11px'}>
               {email}
             </Text>
           )}
@@ -61,7 +62,7 @@ export function AccountDropdown({ height }: { height: number }) {
   const [profileOpened, { setTrue: openProfile, setFalse: closeProfile }] = useBoolean();
   const [passwordOpened, { setTrue: openPassword, setFalse: closePassword }] = useBoolean();
   return (
-    <Group position="center">
+    <Group justify="center" sx={{ flexGrow: 0 }}>
       <Menu withinPortal>
         <Menu.Target>
           <UserButton username={account.name} email={account.email} height={height} />
@@ -69,17 +70,17 @@ export function AccountDropdown({ height }: { height: number }) {
         <Menu.Dropdown>
           <Menu.Label>Account Settings</Menu.Label>
 
-          <Menu.Item icon={<IconAddressBook size={14} />} onClick={openProfile}>
+          <Menu.Item leftSection={<IconAddressBook size={14} />} onClick={openProfile}>
             Profile
           </Menu.Item>
 
-          <Menu.Item icon={<IconShieldLock size={14} />} onClick={openPassword}>
+          <Menu.Item leftSection={<IconShieldLock size={14} />} onClick={openPassword}>
             Password
           </Menu.Item>
 
           <Menu.Divider />
 
-          <Menu.Item color="red" icon={<IconLogout size={14} />} onClick={logout}>
+          <Menu.Item color="red" leftSection={<IconLogout size={14} />} onClick={logout}>
             Logout
           </Menu.Item>
         </Menu.Dropdown>

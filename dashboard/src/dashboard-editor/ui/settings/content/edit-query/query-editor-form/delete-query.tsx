@@ -44,7 +44,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
         position="top-end"
       >
         <Box sx={{ alignSelf: 'flex-end' }}>
-          <Button disabled size="xs" leftIcon={<IconTrash size={16} />}>
+          <Button disabled size="xs" leftSection={<IconTrash size={16} />}>
             {t('query.delete')}
           </Button>
         </Box>
@@ -52,7 +52,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
     );
   }
   return (
-    <Button color="red" size="xs" onClick={remove} leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
+    <Button color="red" size="xs" onClick={remove} leftSection={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
       {t('query.delete')}
     </Button>
   );

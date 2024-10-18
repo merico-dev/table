@@ -28,8 +28,8 @@ function ChangelogNavLink({ onClick, name, active }: IChangelogNavLink) {
           backgroundColor: active ? theme.colors.gray[2] : 'transparent',
         })}
       >
-        <Group position="center" onClick={onClick}>
-          <Text size="sm" sx={{ fontFamily: 'monospace' }}>
+        <Group justify="center" onClick={onClick}>
+          <Text size="sm" ff="monospace">
             {name}
           </Text>
         </Group>

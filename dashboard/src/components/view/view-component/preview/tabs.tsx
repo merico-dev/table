@@ -1,4 +1,5 @@
-import { Box, Button, ColorInput, NumberInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
+import { Box, Button, ColorInput, NumberInput, Overlay, Select, Stack, Tabs, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { useModals } from '@mantine/modals';
 import { IconArrowsLeftRight, IconPlus, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -15,7 +16,7 @@ const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
       height: '100%',
       overflow: 'hidden',
     },
-    tabsList: {
+    list: {
       backgroundColor: 'white',
     },
     tab: {},
@@ -41,7 +42,7 @@ const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
   return ret;
 };
 
-const getTabSX = (t: TabModelInstance): Sx => {
+const getTabSX = (t: TabModelInstance): EmotionSx => {
   if (t.color) {
     return { '&[data-active], &[data-active]:hover': { borderColor: t.color ? t.color : '...' } };
   }
@@ -79,7 +80,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
       variant={config.variant}
       orientation={config.orientation}
       value={view.tab || defaultTab}
-      onTabChange={view.setTab}
+      onChange={view.setTab}
       styles={getStyles(config)}
     >
       <Tabs.List grow={config.grow}>
@@ -97,7 +98,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
         return (
           <Tabs.Panel key={tab.id} value={tab.id} sx={{ position: 'relative' }}>
             <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 }}>
-              <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={100} />
+              <Overlay backgroundOpacity={0.8} color="#FFF" blur={10} zIndex={100} />
 
               <Stack mx="auto" mt={100} sx={{ width: '300px', position: 'relative', zIndex: 200 }}>
                 <TextInput
@@ -127,7 +128,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   <Button
                     mt={20}
                     variant="gradient"
-                    leftIcon={<IconArrowsLeftRight size={18} />}
+                    leftSection={<IconArrowsLeftRight size={18} />}
                     gradient={{ from: 'cyan', to: 'indigo' }}
                     onClick={() => model.views.setIDOfVIE(tabView.id)}
                   >
@@ -141,7 +142,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   color="red"
                   onClick={() => remove(i)}
                   disabled={onlyOneTabLeft}
-                  leftIcon={<IconTrash size={14} />}
+                  leftSection={<IconTrash size={14} />}
                 >
                   {t('view.component.tabs.tab.delete')}
                 </Button>

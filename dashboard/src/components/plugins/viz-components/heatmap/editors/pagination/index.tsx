@@ -21,8 +21,8 @@ export function PaginationField({ control, watch }: Props) {
             description={t('viz.heatmap.pagination.page_size_hint')}
             sx={{ flex: 1 }}
             {...field}
-            onChange={(v: number | '') => {
-              v !== '' && field.onChange(v);
+            onChange={(v: number | string) => {
+              typeof v !== 'string' && field.onChange(v);
             }}
           />
         )}

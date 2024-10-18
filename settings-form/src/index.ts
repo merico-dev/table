@@ -1,6 +1,6 @@
 export const getVersion = () =>
   import('../package.json').then(({ version }) => {
-    console.log(`[@devtable/dashboard] version: ${version}`);
+    console.log(`[@devtable/settings-form] version: ${version}`);
     return version;
   });
 

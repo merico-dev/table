@@ -8,7 +8,7 @@ export function ClickCalendarDateSettings(props: ITriggerConfigProps) {
 
 function ClickCalendarDateName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.calendar_heatmap.click_heatmap.heatblock.label')}</Text>;
+  return <Text size="sm">{t('viz.calendar_heatmap.click_heatmap.heatblock.label')}</Text>;
 }
 
 export const ClickCalendarDate: ITriggerSchema = {

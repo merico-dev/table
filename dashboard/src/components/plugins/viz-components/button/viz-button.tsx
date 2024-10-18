@@ -33,7 +33,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
   const { value: confValue } = useStorageData<IButtonConf>(context.instanceData, 'config');
   const conf: IButtonConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { content, horizontal_align, vertical_align, ...mantineProps } = conf;
+  const { content, horizontal_align, vertical_align, compact, size, ...mantineProps } = conf;
 
   const { width, height } = context.viewport;
 
@@ -44,6 +44,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
       interactionManager.runInteraction(t.id, {});
     });
   };
+  const buttonSize = compact ? `compact-${size}` : size;
   return (
     <Center
       sx={{
@@ -53,7 +54,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
         alignItems: verticalAlignments[vertical_align],
       }}
     >
-      <Button {...mantineProps} onClick={handleClick}>
+      <Button size={buttonSize} {...mantineProps} onClick={handleClick}>
         {template(content)(payload)}
       </Button>
     </Center>

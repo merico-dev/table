@@ -19,11 +19,14 @@ const SkipRangeColorInput = ({ label, field }: SkipRangeColorInputProps) => {
       label={label}
       placeholder={t('chart.visual_map.skip_range.follow_visual_map')}
       size="xs"
-      withinPortal
-      dropdownZIndex={340}
+      popoverProps={{
+        withinPortal: true,
+        zIndex: 340,
+      }}
       rightSection={
         !!field.value ? (
           <CloseButton
+            size="sm"
             onClick={() => {
               field.onChange('');
             }}

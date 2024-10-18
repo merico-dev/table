@@ -1,19 +1,9 @@
-import {
-  Badge,
-  CloseButton,
-  DefaultProps,
-  Group,
-  MantineNumberSize,
-  Selectors,
-  Stack,
-  Text,
-  Tooltip,
-} from '@mantine/core';
+import { Badge, CloseButton, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
 import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
-import useStyles, { MultiSelectWidgetStylesParams } from './widget.styles';
-import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { useTranslation } from 'react-i18next';
+import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
+import useStyles from './widget.styles';
 
 export type TSelectOption = {
   label: string;
@@ -21,10 +11,8 @@ export type TSelectOption = {
   description?: string;
 };
 
-type StylesNames = Selectors<typeof useStyles>;
-
-interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams> {
-  radius?: MantineNumberSize;
+type Props = {
+  radius?: MantineRadius;
   style?: Record<string, any>;
   label: string;
   value: string[];
@@ -33,14 +21,11 @@ interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams
   disabled: boolean;
   errorMessage?: string;
   required: boolean;
-}
+};
 
 export const MultiSelectWidget = ({
   disabled,
   // styling props
-  classNames,
-  styles,
-  unstyled,
   radius,
   style,
   // data props
@@ -50,9 +35,9 @@ export const MultiSelectWidget = ({
   options,
   errorMessage,
   required,
-}: IProps) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
+  const { classes, cx } = useStyles({ radius, name: 'MultiSelectWidget' });
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);
@@ -71,9 +56,9 @@ export const MultiSelectWidget = ({
   }, [keyword, options]);
 
   return (
-    <Stack spacing={3}>
-      <Group position="apart">
-        <Text className={classes.label}>
+    <Stack gap={3}>
+      <Group justify="space-between">
+        <Text className={classes.label} size="sm">
           {label}
           {required && (
             <span className={classes.required} aria-hidden="true">
@@ -83,7 +68,7 @@ export const MultiSelectWidget = ({
         </Text>
         {tooltipVisible && (
           <Tooltip label={t('filter.widget.common.x_selected', { count: value.length })}>
-            <Badge>{value.length}</Badge>
+            <Badge variant="light">{value.length}</Badge>
           </Tooltip>
         )}
       </Group>
@@ -96,7 +81,7 @@ export const MultiSelectWidget = ({
         transitionName="rc-select-dropdown-slide-up"
         choiceTransitionName="rc-select-selection__choice-zoom"
         style={style}
-        clearIcon={() => <CloseButton />}
+        clearIcon={() => <CloseButton size="sm" />}
         value={value}
         onChange={onChange}
         onSelect={console.log}
@@ -115,7 +100,7 @@ export const MultiSelectWidget = ({
               {o.label}
             </Text>
             {o.description && (
-              <Text size="xs" color="dimmed" data-role="description">
+              <Text size="xs" c="dimmed" data-role="description">
                 {o.description}
               </Text>
             )}

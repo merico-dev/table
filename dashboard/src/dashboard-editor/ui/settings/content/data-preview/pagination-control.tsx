@@ -33,7 +33,11 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
   const total = data.length;
   const maxPage = Math.ceil(total / limit);
 
-  const changeLimit = (limit: string) => {
+  const changeLimit = (limit: string | null) => {
+    if (!limit) {
+      return;
+    }
+
     setPage(1);
     setLimit(Number(limit));
   };
@@ -44,8 +48,8 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
 
   const hideLimitSelector = maxPage === 1 && total <= 10;
   return (
-    <Group pt={10} px={10} position="apart">
-      <Group position="left">
+    <Group pt={10} px={10} justify="space-between">
+      <Group justify="flex-start">
         {maxPage > 1 && (
           <Pagination
             size="sm"
@@ -58,8 +62,8 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
         )}
         {!hideLimitSelector && (
           <Select
-            icon={
-              <Text ta="center" color="dimmed" size={14}>
+            leftSection={
+              <Text ta="center" c="dimmed" size={'14px'}>
                 {t('common.pagination.page_size')}
               </Text>
             }
@@ -72,8 +76,8 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
           />
         )}
       </Group>
-      <Group position="right">
-        <Text color="dimmed" my={0} size={14}>
+      <Group justify="flex-end">
+        <Text c="dimmed" my={0} size={'14px'}>
           {t('common.pagination.total_rows', { total })}
         </Text>
       </Group>

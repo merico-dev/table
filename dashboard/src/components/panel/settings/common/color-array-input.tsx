@@ -43,8 +43,8 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
 
   return (
     <>
-      <Group position="left" ref={ref}>
-        <Text>{label}</Text>
+      <Group justify="flex-start" ref={ref}>
+        <Text size="sm">{label}</Text>
         <ActionIcon mr={5} variant="filled" color="blue" disabled={!changed} onClick={submit}>
           <IconDeviceFloppy size={20} />
         </ActionIcon>
@@ -61,7 +61,7 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
             }}
             swatches={swatches}
             rightSection={
-              <ActionIcon onClick={() => del(i)} color="red">
+              <ActionIcon onClick={() => del(i)} color="red" variant="subtle">
                 <IconTrash size={14} />
               </ActionIcon>
             }

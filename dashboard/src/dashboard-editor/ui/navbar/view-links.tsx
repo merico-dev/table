@@ -73,7 +73,7 @@ export const ViewLinks = observer(() => {
       <Divider variant="dashed" />
       <Button
         variant="subtle"
-        rightIcon={<IconPlus size={14} />}
+        rightSection={<IconPlus size={14} />}
         size="sm"
         px="xs"
         color="blue"

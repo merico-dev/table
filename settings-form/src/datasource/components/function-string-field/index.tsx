@@ -44,7 +44,7 @@ export const FunctionStringField = forwardRef(
         <Button
           color="grape"
           variant="filled"
-          leftIcon={<IconMathFunction size={16} />}
+          leftSection={<IconMathFunction size={16} />}
           size={styles.button.size}
           onClick={setTrue}
           sx={{ flexGrow: 1 }}
@@ -62,23 +62,23 @@ export const FunctionStringField = forwardRef(
           {modalOpened && (
             <Stack>
               <FunctionStringEditor value={localValue} onChange={setLocalValue} />
-              <Group position="apart">
+              <Group justify="space-between">
                 <Button
                   size={styles.button.size}
                   onClick={resetFuncContent}
                   color="red"
-                  leftIcon={<IconRecycle size={20} />}
+                  leftSection={<IconRecycle size={20} />}
                 >
                   {t('common.actions.reset_to_default')}
                 </Button>
-                <Group position="right">
+                <Group justify="flex-end">
                   <Button size={styles.button.size} onClick={handleCancel} variant="subtle">
                     {t('common.actions.cancel')}
                   </Button>
                   <Button
                     size={styles.button.size}
                     color="green"
-                    leftIcon={<IconDeviceFloppy size={16} />}
+                    leftSection={<IconDeviceFloppy size={16} />}
                     onClick={handleOk}
                   >
                     {t('common.actions.save')}

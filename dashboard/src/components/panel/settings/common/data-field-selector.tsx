@@ -1,7 +1,9 @@
-import { Box, Group, HoverCard, Select, Sx, Text, TextInput } from '@mantine/core';
+import { Box, Group, HoverCard, Select, Text, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
 import { useEditPanelContext } from '~/contexts';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface IDataFieldSelector {
   label: string;
@@ -9,7 +11,7 @@ interface IDataFieldSelector {
   value: string;
   onChange: (v: string) => void;
   clearable?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
   queryID?: string;
   description?: string;
 }
@@ -32,7 +34,7 @@ export const DataFieldSelector = observer(
     ) => {
       const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
-        return panel.dataFieldOptions(value, clearable, queryID);
+        return panel.dataFieldOptionGroups(value, clearable, queryID);
       }, [value, clearable, queryID]);
 
       if (options.length === 0) {
@@ -45,14 +47,14 @@ export const DataFieldSelector = observer(
               </Box>
             </HoverCard.Target>
             <HoverCard.Dropdown>
-              <Group position="left" spacing={0}>
-                <Text size="xs" color={v.queryName ? 'black' : 'red'} sx={{ fontFamily: 'monospace' }}>
+              <Group justify="flex-start" gap={0}>
+                <Text size="xs" c={v.queryName ? 'black' : 'red'} ff="monospace">
                   {v.queryName ?? v.queryID}
                 </Text>
-                <Text size="xs" color="black" sx={{ fontFamily: 'monospace' }}>
+                <Text size="xs" c="black" ff="monospace">
                   .
                 </Text>
-                <Text size="xs" color="red" sx={{ fontFamily: 'monospace' }}>
+                <Text size="xs" c="red" ff="monospace">
                   {v.columnKey}
                 </Text>
               </Group>
@@ -68,7 +70,7 @@ export const DataFieldSelector = observer(
           description={description}
           data={options}
           value={value}
-          onChange={onChange}
+          onChange={getSelectChangeHandler(onChange)}
           required={required}
           sx={sx}
           maxDropdownHeight={500}

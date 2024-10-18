@@ -51,5 +51,5 @@ export function ClickPieChartSettings(props: ITriggerConfigProps) {
 
 function ClickPieChartName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.pie_chart.click_series.label')}</Text>;
+  return <Text size="sm">{t('viz.pie_chart.click_series.label')}</Text>;
 }

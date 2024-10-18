@@ -14,7 +14,7 @@ export const EditQuery = observer(({ id }: { id: string }) => {
 
   if (!query) {
     return (
-      <Text size={14} color="red">
+      <Text size={'14px'} c="red">
         Invalid Query ID
       </Text>
     );

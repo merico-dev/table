@@ -52,6 +52,7 @@ export const WhosEditing = observer(() => {
         <Badge
           size="lg"
           color="orange"
+          variant="light"
           leftSection={<IconArrowsShuffle size={14} />}
           styles={{ root: { cursor: 'default' }, leftSection: { svg: { verticalAlign: 'text-bottom' } } }}
         >

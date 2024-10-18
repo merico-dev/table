@@ -51,5 +51,5 @@ export function ClickScatterChartSeriesSettings(props: ITriggerConfigProps) {
 
 function ClickScatterChartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.scatter_chart.click_scatter.trigger')}</Text>;
+  return <Text size="sm">{t('viz.scatter_chart.click_scatter.trigger')}</Text>;
 }

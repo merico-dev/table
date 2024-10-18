@@ -54,7 +54,11 @@ export const FilterSelectConfigMeta = types
     },
   }))
   .actions((self) => ({
-    setDefaultValue(default_value: string) {
+    setDefaultValue(default_value: string | null) {
+      if (default_value === null) {
+        return;
+      }
+
       self.default_value = default_value;
     },
     setWidth(v: string) {

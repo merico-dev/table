@@ -1,5 +1,4 @@
-import { Badge, Center, createStyles, Group, Highlight, rem, Text, UnstyledButton } from '@mantine/core';
-import { SpotlightAction, SpotlightActionProps } from '@mantine/spotlight';
+import { Box, Group, Highlight, Text } from '@mantine/core';
 import {
   IconAppWindow,
   IconBoxMultiple,
@@ -12,8 +11,9 @@ import {
 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import { CustomSpotlightActionData } from '~/dashboard-editor/model/editor';
 
-const ActionIcon = ({ iconKey, ...props }: { iconKey: string } & TablerIconsProps) => {
+const ActionIcon = ({ iconKey, ...props }: { iconKey?: string } & TablerIconsProps) => {
   switch (iconKey) {
     case 'query_variables':
       return <IconVariable {...props} />;
@@ -34,22 +34,22 @@ const ActionIcon = ({ iconKey, ...props }: { iconKey: string } & TablerIconsProp
   }
 };
 
-const Description = ({ action }: { action: SpotlightAction }) => {
+const Description = ({ action }: { action: CustomSpotlightActionData }) => {
   const { t } = useTranslation();
   if (action.description) {
     return (
-      <Text color="dimmed" size="xs">
+      <Text c="dimmed" size="xs">
         {t(action.description)}
       </Text>
     );
   }
   if (action.viz) {
     return (
-      <Group position="apart">
-        <Text color="dimmed" size="xs">
+      <Group justify="space-between">
+        <Text c="dimmed" size="xs">
           {t(action.viz.displayName)}
         </Text>
-        <Text color="dimmed" opacity={0} size="xs" className="spotlight-action-viz-group">
+        <Text c="dimmed" size="xs" className="spotlight-action-viz-group">
           {t(action.viz.displayGroup)}
         </Text>
       </Group>
@@ -58,55 +58,26 @@ const Description = ({ action }: { action: SpotlightAction }) => {
   return null;
 };
 
-const useStyles = createStyles((theme, params: null) => ({
-  action: {
-    position: 'relative',
-    display: 'block',
-    width: '100%',
-    padding: `${rem(10)} ${rem(12)}`,
-    borderRadius: theme.radius.sm,
-    ...theme.fn.hover({
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[1],
-      '.spotlight-action-viz-group': {
-        opacity: 1,
-      },
-    }),
+type Props = {
+  action: CustomSpotlightActionData;
+  query: string;
+};
+export const SpotlightActionComponent = observer(({ action, query }: Props) => {
+  const { t } = useTranslation();
 
-    '&[data-hovered]': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[1],
-      '.spotlight-action-viz-group': {
-        opacity: 1,
-      },
-    },
-  },
-}));
+  return (
+    <Box className="spotlight-custom-action-component">
+      <Group wrap="nowrap">
+        <ActionIcon iconKey={action.iconKey} size={14} />
 
-export const SpotlightActionComponent = observer(
-  ({ action, styles, classNames, hovered, onTrigger, highlightQuery, query, ...others }: SpotlightActionProps) => {
-    const { t } = useTranslation();
-    const { classes } = useStyles(null, { styles, classNames, name: 'Spotlight' });
+        <div style={{ flex: 1 }}>
+          <Highlight highlight={query} size="sm">
+            {action.title ? t(action.title) : ''}
+          </Highlight>
 
-    return (
-      <UnstyledButton
-        className={classes.action}
-        data-hovered={hovered || undefined}
-        tabIndex={-1}
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={onTrigger}
-        {...others}
-      >
-        <Group noWrap>
-          <ActionIcon iconKey={action.iconKey} size={14} />
-
-          <div style={{ flex: 1 }}>
-            <Highlight highlight={query} size="sm">
-              {t(action.title)}
-            </Highlight>
-
-            <Description action={action} />
-          </div>
-        </Group>
-      </UnstyledButton>
-    );
-  },
-);
+          <Description action={action} />
+        </div>
+      </Group>
+    </Box>
+  );
+});

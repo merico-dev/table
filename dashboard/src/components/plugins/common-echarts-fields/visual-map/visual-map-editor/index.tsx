@@ -31,7 +31,7 @@ export const VisualMapEditor = ({ form }: Props) => {
     ];
   }, [i18n.language]);
 
-  const changeVisualMapType = (t: VisualMapType) => {
+  const changeVisualMapType = (t: string | null) => {
     switch (t) {
       case 'continuous':
         form.setValue('visualMap', getDefaultContinuousVisualMap());
@@ -39,6 +39,8 @@ export const VisualMapEditor = ({ form }: Props) => {
       case 'piecewise':
         form.setValue('visualMap', getDefaultPiecewiseVisualMap());
         break;
+      default:
+        return;
     }
   };
 

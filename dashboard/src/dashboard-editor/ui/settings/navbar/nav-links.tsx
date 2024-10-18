@@ -32,7 +32,7 @@ const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
       onChange={setOpened}
       label={t(option.label)}
       onClick={() => onClick(option)}
-      icon={option.Icon ? <option.Icon size={18} /> : null}
+      leftSection={option.Icon ? <option.Icon size={18} /> : null}
     >
       {option.children?.map((o) =>
         o._type === 'ACTION' ? (

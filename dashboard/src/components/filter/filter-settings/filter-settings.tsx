@@ -37,6 +37,7 @@ export const FilterSettings = observer(function _FilterSettings() {
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.filters.removeByID(id),
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };
@@ -47,7 +48,7 @@ export const FilterSettings = observer(function _FilterSettings() {
         <Button
           size="xs"
           color="red"
-          leftIcon={<IconRecycle size={20} />}
+          leftSection={<IconRecycle size={20} />}
           disabled={!model.filtersChanged}
           onClick={model.resetFilters}
         >
@@ -67,10 +68,10 @@ export const FilterSettings = observer(function _FilterSettings() {
       >
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
-            <Button size="xs" color="blue" leftIcon={<IconPlaylistAdd size={20} />} onClick={addFilter}>
+            <Button size="xs" color="blue" leftSection={<IconPlaylistAdd size={20} />} onClick={addFilter}>
               {t('filter.add')}
             </Button>
-            <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
+            <Tabs.List justify="flex-start" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
                 <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'auto' }}>
                   {field.label}
@@ -81,15 +82,15 @@ export const FilterSettings = observer(function _FilterSettings() {
           <Box sx={{ flexGrow: 1, height: '100%' }}>
             {model.filters.current.map((filter) => (
               <Tabs.Panel key={filter.id} value={filter.id} sx={{ height: '100%' }}>
-                <Stack sx={{ height: '100%' }} spacing="sm">
+                <Stack sx={{ height: '100%' }} gap="sm">
                   <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>
                     <FilterSetting filter={filter} />
                   </Box>
-                  <Group position="right" pt={10}>
+                  <Group justify="flex-end" pt={10}>
                     <Button
                       size="xs"
                       color="red"
-                      leftIcon={<IconTrash size={20} />}
+                      leftSection={<IconTrash size={20} />}
                       onClick={() => removeWithConfirmation(filter.id)}
                     >
                       {t('filter.delete')}

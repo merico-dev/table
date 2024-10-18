@@ -32,9 +32,11 @@ export function getInteractionLines(interactions: TInteraction[]) {
           key: i.urlTemplate,
           icon: IconMap[i.schemaRef],
           text: (
-            <Group spacing={4}>
-              <Text>Open: </Text>
-              <Text color="dimmed">{i.shortURLTemplate}</Text>
+            <Group gap={4}>
+              <Text size="sm">Open: </Text>
+              <Text size="sm" c="dimmed">
+                {i.shortURLTemplate}
+              </Text>
             </Group>
           ),
         });
@@ -45,8 +47,8 @@ export function getInteractionLines(interactions: TInteraction[]) {
             key: i.schemaRef + key,
             icon: IconMap[i.schemaRef],
             text: (
-              <Group spacing={4}>
-                <Text>Set Filter: {label}</Text>
+              <Group gap={4}>
+                <Text size="sm">Set Filter: {label}</Text>
               </Group>
             ),
           });
@@ -58,8 +60,8 @@ export function getInteractionLines(interactions: TInteraction[]) {
             key: i.schemaRef + key,
             icon: IconMap[i.schemaRef],
             text: (
-              <Group spacing={4}>
-                <Text>Clear Filter: {label}</Text>
+              <Group gap={4}>
+                <Text size="sm">Clear Filter: {label}</Text>
               </Group>
             ),
           });

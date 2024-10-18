@@ -4,6 +4,7 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorBoundary, TNumberFormat, formatNumber } from '~/utils';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 const SwitchStyles = {
   root: {
@@ -28,9 +29,9 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
       <Button
         variant="subtle"
         w="100%"
-        compact
+        size="compact-sm"
         onClick={toggle}
-        leftIcon={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
+        leftSection={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
       >
         {opened ? t('numbro.format.preview.close') : t('numbro.format.preview.open')}
       </Button>
@@ -38,22 +39,22 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
       <Collapse in={opened}>
         {opened && (
           <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
-            <thead>
-              <tr>
-                <th>{t('numbro.format.preview.input')}</th>
-                <th>{t('numbro.format.preview.output')}</th>
-              </tr>
-            </thead>
-            <tbody>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>{t('numbro.format.preview.input')}</Table.Th>
+                <Table.Th>{t('numbro.format.preview.output')}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
               {numbersToPreview.map((n) => (
-                <tr key={n}>
-                  <td>{n}</td>
-                  <td>
+                <Table.Tr key={n}>
+                  <Table.Td>{n}</Table.Td>
+                  <Table.Td>
                     <ErrorBoundary>{formatNumber(n, format)}</ErrorBoundary>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               ))}
-            </tbody>
+            </Table.Tbody>
           </Table>
         )}
       </Collapse>
@@ -71,7 +72,11 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   const changeOutput = (output: TNumberFormat['output']) => {
     onChange({ ...value, output });
   };
-  const changeMantissa = (mantissa: TNumberFormat['mantissa']) => {
+  const changeMantissa = (mantissa: TNumberFormat['mantissa'] | string) => {
+    if (typeof mantissa === 'string') {
+      return;
+    }
+
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };
@@ -95,14 +100,14 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
             { label: '99%', value: 'percent' },
           ]}
           value={value.output}
-          onChange={changeOutput}
+          onChange={getSelectChangeHandler(changeOutput)}
           sx={{ flexGrow: 1 }}
         />
         <Switch
           label={
-            <Stack spacing={0}>
-              <Text>{t('numbro.format.absolute')}</Text>
-              <Text size={12} color="gray">
+            <Stack gap={0}>
+              <Text size="sm">{t('numbro.format.absolute')}</Text>
+              <Text size="12px" c="gray">
                 {t('numbro.format.absolute_description')}
               </Text>
             </Stack>
@@ -114,9 +119,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
         <Switch
           label={
-            <Stack spacing={0}>
-              <Text>{t('numbro.format.abbreviation')}</Text>
-              <Text size={12} color="gray">
+            <Stack gap={0}>
+              <Text size="sm">{t('numbro.format.abbreviation')}</Text>
+              <Text size="12px" c="gray">
                 {t('numbro.format.abbreviation_description')}
               </Text>
             </Stack>
@@ -140,9 +145,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
         <Switch
           label={
-            <Stack spacing={0}>
-              <Text>{t('numbro.format.trim_mantissa')}</Text>
-              <Text size={12} color="gray">
+            <Stack gap={0}>
+              <Text size="sm">{t('numbro.format.trim_mantissa')}</Text>
+              <Text size={'12px'} c="gray">
                 {t('numbro.format.trim_mantissa_description')}
               </Text>
             </Stack>

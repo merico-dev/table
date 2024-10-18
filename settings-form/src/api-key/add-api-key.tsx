@@ -76,7 +76,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
           render={({ field }) => <RoleSelector styles={styles} {...field} />}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
@@ -102,7 +102,9 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
       title: t('api_key.save.title'),
       children: (
         <Stack>
-          <Text color="dimmed">{t('api_key.save.warn')}</Text>
+          <Text size="sm" c="dimmed">
+            {t('api_key.save.warn')}
+          </Text>
           <TextInput
             defaultValue={app_id}
             disabled
@@ -144,7 +146,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
       >
         <AddAPIKeyForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={20} />}>
         {t('api_key.add')}
       </Button>
     </>

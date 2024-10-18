@@ -15,7 +15,7 @@ export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect(
   const config = filter.config as FilterTreeSelectConfigInstance;
   return (
     <>
-      <Group position="apart">
+      <Group justify="space-between">
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}

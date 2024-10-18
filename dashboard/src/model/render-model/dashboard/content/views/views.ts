@@ -90,7 +90,10 @@ export function getInitialViewsRenderModel(
     };
 
     if (view.type === EViewComponentType.Tabs) {
-      const tab = _.minBy(view.config.tabs, (tab: TabModelInstance) => tab.order);
+      let tab = _.minBy(view.config.tabs, (tab: TabModelInstance) => tab.order);
+      if (!tab && view.config.tabs.length > 0) {
+        tab = view.config.tabs[0];
+      }
       processedView.tab = tab?.id ?? '';
     }
 

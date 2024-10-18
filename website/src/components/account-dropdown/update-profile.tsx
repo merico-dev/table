@@ -86,10 +86,10 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
           render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Email" {...field} />}
         />
 
-        <Group position="apart" mt={styles.spacing}>
+        <Group justify="space-between" mt={styles.spacing}>
           <Box>
             {isSuperAdmin && (
-              <Text size="sm" color="red">
+              <Text size="sm" c="red">
                 Can't edit superadmin's profile
               </Text>
             )}

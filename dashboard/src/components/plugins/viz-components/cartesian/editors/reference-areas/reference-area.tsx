@@ -24,7 +24,7 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
 
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`reference_areas.${index}.name`}
           control={control}
@@ -38,7 +38,7 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
           render={({ field }) => <TextInput label={t('chart.color.label')} required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`reference_areas.${index}.type`}
           control={control}
@@ -67,7 +67,7 @@ export function ReferenceAreaField({ control, index, variableOptions }: IReferen
         />
       </Group>
       <Divider variant="dashed" label={t('data.label')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`reference_areas.${index}.y_keys.upper`}
           control={control}

@@ -17,9 +17,9 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
   const revertWithConfirmation = () => {
     modals.openConfirmModal({
       title: (
-        <Group position="left">
+        <Group justify="flex-start">
           <IconAlertTriangle size={18} color="red" />
-          <Text>You are reverting changes</Text>
+          <Text size="sm">You are reverting changes</Text>
         </Group>
       ),
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
@@ -33,12 +33,12 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
 
   const hasChanges = model.changed;
   return (
-    <Group spacing={0}>
+    <Group gap={0}>
       <Button
         color="green"
         variant="filled"
         size="xs"
-        leftIcon={<IconDeviceFloppy size={18} />}
+        leftSection={<IconDeviceFloppy size={18} />}
         onClick={saveDashboardChanges}
         disabled={!hasChanges}
         sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -71,7 +71,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item
-            icon={<IconRecycle size={14} color="red" />}
+            leftSection={<IconRecycle size={14} color="red" />}
             disabled={!hasChanges}
             onClick={revertWithConfirmation}
           >

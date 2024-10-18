@@ -14,7 +14,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
   watch(['x_axis']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.name"
           control={control}
@@ -35,7 +35,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
         />
       </Stack>
       <Divider variant="dashed" labelPosition="center" label="标签文案样式" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}
@@ -45,10 +45,14 @@ export function XAxisField({ control, watch }: IXAxisField) {
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">度</Text>}
+              rightSection={
+                <Text c="dimmed" size="sm">
+                  度
+                </Text>
+              }
               sx={{ width: '48%' }}
               styles={{
-                rightSection: {
+                section: {
                   width: '4em',
                   justifyContent: 'flex-end',
                   paddingRight: '6px',

@@ -8,11 +8,11 @@ export const EditPanel = observer(({ viewID, panelID }: { viewID: string; panelI
   const content = useEditContentModelContext();
   const view = content.views.findByID(viewID);
   if (!view) {
-    return <Text size={14}>View by ID[{viewID}] is not found</Text>;
+    return <Text size={'14px'}>View by ID[{viewID}] is not found</Text>;
   }
   const panel = content.panels.findByID<PanelModelInstance>(panelID);
   if (!panel) {
-    return <Text size={14}>Panel by ID[{panelID}] is not found</Text>;
+    return <Text size={'14px'}>Panel by ID[{panelID}] is not found</Text>;
   }
   return <PanelEditor panel={panel} />;
 });

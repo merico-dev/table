@@ -20,7 +20,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
   }, [queryModel.name]);
   return (
     <Center ml={20} mt={20} sx={{ maxWidth: '600px' }}>
-      <Stack spacing={10} sx={{ width: '100%' }}>
+      <Stack gap={10} sx={{ width: '100%' }}>
         <Divider mb={-10} variant="dashed" label={t('query.basics')} labelPosition="center" />
         <TextInput
           placeholder={t('query.name_description')}
@@ -64,7 +64,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
           data={queryModel.conditionOptions}
           value={[...queryModel.run_by]}
           onChange={queryModel.setRunBy}
-          itemComponent={CustomSelectorItem}
+          renderOption={CustomSelectorItem}
           maxDropdownHeight={500}
         />
         {queryModel.typedAsHTTP && (
@@ -74,7 +74,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
             data={queryModel.conditionOptions}
             value={[...queryModel.react_to]}
             onChange={queryModel.setReactTo}
-            itemComponent={CustomSelectorItem}
+            renderOption={CustomSelectorItem}
             maxDropdownHeight={500}
           />
         )}

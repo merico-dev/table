@@ -1,13 +1,13 @@
-import { Sx, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { AccessPermissionLabelMap } from '../../../../../api-caller/dashboard-permission.types';
-import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
+import { PermissionAccessModelInstance } from '../model/permission-access-model';
 import { AccessPermissionSelector } from './access-permission-selector';
 import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
-import { PermissionAccessModelInstance } from '../model/permission-access-model';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   tableLayout: 'fixed',
   width: '100%',
   'tr.fallback-row': {
@@ -30,16 +30,16 @@ const TableSx: Sx = {
 };
 
 const OpenUsageRow = () => (
-  <tr className="fallback-row">
-    <td>Everyone</td>
-    <td>{AccessPermissionLabelMap.VIEW}</td>
-  </tr>
+  <Table.Tr className="fallback-row">
+    <Table.Td>Everyone</Table.Td>
+    <Table.Td>{AccessPermissionLabelMap.VIEW}</Table.Td>
+  </Table.Tr>
 );
 const OpenEditingRow = () => (
-  <tr className="fallback-row">
-    <td>Authors, admins</td>
-    <td>{AccessPermissionLabelMap.EDIT}</td>
-  </tr>
+  <Table.Tr className="fallback-row">
+    <Table.Td>Authors, admins</Table.Td>
+    <Table.Td>{AccessPermissionLabelMap.EDIT}</Table.Td>
+  </Table.Tr>
 );
 
 interface IAccessRules {
@@ -59,16 +59,16 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
 
   return (
     <Table highlightOnHover sx={TableSx}>
-      <thead>
-        <tr>
-          <th style={{ width: '55%' }}>Account / API Key</th>
-          <th style={{ width: '45%' }}>Access</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th style={{ width: '55%' }}>Account / API Key</Table.Th>
+          <Table.Th style={{ width: '45%' }}>Access</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {[...data].map((d) => (
-          <tr key={d.id}>
-            <td>
+          <Table.Tr key={d.id}>
+            <Table.Td>
               {model.isOwner ? (
                 <AccountOrAPIKeySelector
                   value={d.id}
@@ -81,19 +81,19 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
               ) : (
                 <span className="value-text">{d.name}</span>
               )}
-            </td>
-            <td>
+            </Table.Td>
+            <Table.Td>
               {model.isOwner ? (
                 <AccessPermissionSelector value={d.permission} onChange={d.setPermission} />
               ) : (
                 <span className="value-text">{AccessPermissionLabelMap[d.permission]}</span>
               )}
-            </td>
-          </tr>
+            </Table.Td>
+          </Table.Tr>
         ))}
         {!model.usageRestricted && <OpenUsageRow />}
         {!model.editingRestricted && <OpenEditingRow />}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

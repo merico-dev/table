@@ -29,7 +29,7 @@ export function BarFields({ control, index, seriesItem }: IBarFields) {
   );
   return (
     <>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.stack`}
           control={control}
@@ -50,7 +50,7 @@ export function BarFields({ control, index, seriesItem }: IBarFields) {
           )}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.barMinWidth`}
           control={control}

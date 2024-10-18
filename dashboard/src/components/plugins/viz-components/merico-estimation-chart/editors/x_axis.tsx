@@ -13,7 +13,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
   watch(['x_axis']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.data_key"
           control={control}
@@ -26,7 +26,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
         />
       </Group>
       <Divider mb={-15} label="点位文案" labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}

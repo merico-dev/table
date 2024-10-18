@@ -41,11 +41,11 @@ export const CustomDefaultValueEditor = observer(({ filter }: Props) => {
         size: 'xs',
         color: 'grape',
         sx: { flexGrow: 0, alignSelf: 'flex-start' },
-        leftIcon: <IconMathFunction size={16} />,
+        leftSection: <IconMathFunction size={16} />,
       }}
       description={
         <Alert title={t('filter.field.custom_default_value.tips')} color="gray" mb={16}>
-          <List size={13} type="ordered">
+          <List size="xs" type="ordered">
             <List.Item>{t('filter.field.custom_default_value.tip_1')}</List.Item>
             <List.Item>{t('filter.field.custom_default_value.tip_2')}</List.Item>
           </List>

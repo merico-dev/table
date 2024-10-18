@@ -12,7 +12,7 @@ interface IChangelogContent {
 export const ChangelogContent = observer(({ current, maxPage, loading }: IChangelogContent) => {
   if (maxPage === 0 && !loading) {
     return (
-      <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+      <Text mt={20} c="red" size="md" ta="center" ff="monospace">
         Not found
       </Text>
     );

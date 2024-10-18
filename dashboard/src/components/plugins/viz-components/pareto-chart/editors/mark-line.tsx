@@ -1,5 +1,5 @@
 import { Button, Collapse, SimpleGrid, Stack, Textarea } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { useMemo, useState } from 'react';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -43,14 +43,12 @@ export const DescribeParetoParams = () => {
   }, [i18n.language]);
   return (
     <>
-      <Button variant="subtle" compact onClick={() => setOpened((o) => !o)}>
+      <Button variant="subtle" size="compact-sm" onClick={() => setOpened((o) => !o)}>
         {opened ? t('common.actions.close') : t('viz.pareto_chart.line_80_20.click_to_see_params')}
       </Button>
 
       <Collapse in={opened}>
-        <Prism language="typescript" noCopy colorScheme="dark">
-          {description}
-        </Prism>
+        <CodeHighlight language="typescript" withCopyButton={false} code={description} />
       </Collapse>
     </>
   );
@@ -72,7 +70,7 @@ export function MarkLineField({ control, watch }: IMarkLineField) {
           render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
       </SimpleGrid>
-      <Stack spacing={4}>
+      <Stack gap={4}>
         <Controller
           name="markLine.label_template"
           control={control}

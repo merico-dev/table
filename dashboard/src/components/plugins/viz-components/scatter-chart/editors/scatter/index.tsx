@@ -20,7 +20,7 @@ export function ScatterField({ control, watch }: IScatterField) {
   watch(['scatter']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="scatter.name_data_key"
           control={control}
@@ -44,7 +44,7 @@ export function ScatterField({ control, watch }: IScatterField) {
       />
       <Controller name={`scatter.color`} control={control} render={({ field }) => <SeriesColorSelect {...field} />} />
       <Divider mb={-15} label={t('chart.label.label')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`scatter.label_position`}
           control={control}

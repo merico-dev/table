@@ -30,7 +30,7 @@ export const RadiusSlider = forwardRef(({ label, value, onChange }: Props, ref) 
   );
 
   return (
-    <Stack spacing={4} mt={2} mb="1rem">
+    <Stack gap={4} mt={2} mb="1rem">
       <label className="form-field-label required">{label}</label>
       <RangeSlider
         value={loc}

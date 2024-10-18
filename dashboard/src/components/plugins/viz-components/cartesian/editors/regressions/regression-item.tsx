@@ -48,7 +48,7 @@ export function RegressionField({ control, regressionItem, index, yAxisOptions }
           )}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`regressions.${index}.y_axis_data_key`}
           control={control}
@@ -78,7 +78,7 @@ export function RegressionField({ control, regressionItem, index, yAxisOptions }
           )}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`regressions.${index}.transform.config.method`}
           control={control}

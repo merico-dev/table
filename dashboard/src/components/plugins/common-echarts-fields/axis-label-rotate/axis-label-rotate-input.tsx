@@ -1,12 +1,13 @@
-import { Text, Sx, NumberInput } from '@mantine/core';
-import { forwardRef, Ref, useMemo } from 'react';
+import { NumberInput, Text } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
+import { forwardRef, Ref } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
   label?: string;
   value?: number;
   onChange: (v: number) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 export const AxisLabelRotateInput = forwardRef(
@@ -21,20 +22,25 @@ export const AxisLabelRotateInput = forwardRef(
         min={-90}
         max={90}
         rightSection={
-          <Text size="xs" color="dimmed">
+          <Text size="xs" c="dimmed">
             {t('chart.degree')}
           </Text>
         }
         sx={sx}
         styles={{
-          rightSection: {
+          section: {
             width: '4em',
             justifyContent: 'flex-end',
             paddingRight: '6px',
           },
         }}
         value={value}
-        onChange={onChange}
+        onChange={(v: string | number) => {
+          if (typeof v === 'string') {
+            return;
+          }
+          onChange;
+        }}
       />
     );
   },

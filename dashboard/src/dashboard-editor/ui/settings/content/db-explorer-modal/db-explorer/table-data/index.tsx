@@ -10,14 +10,14 @@ export const TableData = observer(({ dataSource }: { dataSource: DataSourceModel
   const tableData = dataSource.tableData;
   if (tableData.maxPage === 0) {
     return (
-      <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+      <Text mt={20} c="red" size="md" ta="center" ff="monospace">
         This table is empty
       </Text>
     );
   }
   if (tableData.error) {
     return (
-      <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+      <Text mt={20} c="red" size="md" ta="center" ff="monospace">
         {tableData.error}
       </Text>
     );
@@ -30,7 +30,12 @@ export const TableData = observer(({ dataSource }: { dataSource: DataSourceModel
     <ErrorBoundary>
       <PaginationControl dataSource={dataSource} />
       <Box py={10} sx={{ width: '100%', height: 'calc(100% - 42px)', overflow: 'auto', position: 'relative' }}>
-        <LoadingOverlay visible={tableData.loading} overlayBlur={2} />
+        <LoadingOverlay
+          visible={tableData.loading}
+          overlayProps={{
+            blur: 2,
+          }}
+        />
         <DataTable data={tableData.data} />
       </Box>
     </ErrorBoundary>

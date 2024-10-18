@@ -12,10 +12,10 @@ const Postfix = ({ postfix }: { postfix: string | null }) => {
 
   return (
     <>
-      <Text size="12px" color="#818388" sx={{ lineHeight: 1 }}>
+      <Text size="12px" c="#818388" sx={{ lineHeight: 1 }}>
         /
       </Text>
-      <Text size="12px" color="#818388" sx={{ lineHeight: 1 }}>
+      <Text size="12px" c="#818388" sx={{ lineHeight: 1 }}>
         {postfix}
       </Text>
     </>
@@ -47,24 +47,24 @@ export const VizMericoStatsMetric = observer(({ metric, variableValueMap }: Prop
   }, [postfix, contentModel]);
 
   return (
-    <Stack spacing={18}>
-      <Stack spacing={12}>
-        <Text size="14px" color="#818388">
+    <Stack gap={18}>
+      <Stack gap={12}>
+        <Text size="14px" c="#818388">
           {names.value}
         </Text>
-        <Group spacing="2px" align="baseline">
-          <Text size="24px" fw="bold" color="#3D3E45" sx={{ lineHeight: 1 }}>
+        <Group gap="2px" align="baseline">
+          <Text size="24px" fw="bold" c="#3D3E45" sx={{ lineHeight: 1 }}>
             {formatNumber(variableValueMap[data_keys.value], formatter)}
           </Text>
           <Postfix postfix={postfixContent} />
         </Group>
       </Stack>
-      <Stack spacing={12}>
-        <Text size="14px" color="#818388">
+      <Stack gap={12}>
+        <Text size="14px" c="#818388">
           {names.basis}
         </Text>
-        <Group spacing="2px" align="baseline">
-          <Text size="12px" color="#3D3E45" sx={{ lineHeight: 1 }}>
+        <Group gap="2px" align="baseline">
+          <Text size="12px" c="#3D3E45" sx={{ lineHeight: 1 }}>
             {formatNumber(variableValueMap[data_keys.basis], formatter)}
           </Text>
           <Postfix postfix={postfixContent} />

@@ -1,14 +1,15 @@
-import { Alert, Stack, Sx, Tabs } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
+import { Alert, Stack, Tabs } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconAlertCircle, IconVariable, IconVariablePlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { GlobalSQLSnippetsTable } from './global-sql-snippets-table';
-import { useTranslation } from 'react-i18next';
 
 interface IQueryVariablesGuide {
   showSQLSnippets?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
 }
 
 const example = `
@@ -59,31 +60,27 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
     >
       <Tabs defaultValue="guide" keepMounted={false}>
         <Tabs.List grow>
-          <Tabs.Tab value="guide" icon={<IconAlertCircle size={14} />}>
+          <Tabs.Tab value="guide" leftSection={<IconAlertCircle size={14} />}>
             {t('query_variable.guide.tabs.guide')}
           </Tabs.Tab>
-          <Tabs.Tab value="local_query_vars" icon={<IconVariable size={14} />}>
+          <Tabs.Tab value="local_query_vars" leftSection={<IconVariable size={14} />}>
             {t('query_variable.guide.tabs.variables_in_this_dashboard')}
           </Tabs.Tab>
-          <Tabs.Tab value="global_sql_snippets" icon={<IconVariablePlus size={14} />}>
+          <Tabs.Tab value="global_sql_snippets" leftSection={<IconVariablePlus size={14} />}>
             {t('query_variable.guide.tabs.global_sql_snippets')}
           </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="guide" pt="xs">
-          <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
-            {example}
-          </Prism>
+          <CodeHighlight language="sql" sx={{ width: '100%' }} withCopyButton={false} code={example} />
         </Tabs.Panel>
 
         <Tabs.Panel value="local_query_vars" pt="xs">
-          <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
-            {variablesString}
-          </Prism>
+          <CodeHighlight language="json" sx={{ width: '100%' }} withCopyButton={false} code={variablesString} />
         </Tabs.Panel>
 
         <Tabs.Panel value="global_sql_snippets" pt="xs">
-          <Stack spacing={10}>
+          <Stack gap={10}>
             <Alert icon={<IconAlertCircle size={16} />} title={t('global_sql_snippet.labels')}>
               {t('global_sql_snippet.description')}
             </Alert>

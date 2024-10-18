@@ -1,4 +1,4 @@
-import { SelectItem } from '@mantine/core';
+import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { DataSourceType, QueryMeta } from '~/model';
@@ -18,35 +18,50 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return [];
     }
 
+    const validValues: Set<string> = new Set();
     const { context } = this.contentModel.payloadForSQL;
-    const contextOptions: SelectItem[] = Object.keys(context).map((k) => ({
+
+    const contextGroup: ComboboxItemGroup = {
       group: 'Context',
-      label: k,
-      value: `context.${k}`,
-      description: undefined,
-    }));
+      items: Object.keys(context).map((k) => {
+        const value = `context.${k}`;
+        validValues.add(value);
+        return {
+          label: k,
+          value,
+          description: undefined,
+        };
+      }),
+    };
 
-    const filterOptions: SelectItem[] = this.contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
+    const filterGroup: ComboboxItemGroup = {
       group: 'Filters',
-      label: o.label,
-      value: `filters.${o.value}`,
-      description: o.value,
-    }));
+      items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem) => {
+        const value = `filters.${o.value}`;
+        validValues.add(value);
+        return {
+          label: o.label,
+          value,
+          description: o.value,
+        };
+      }),
+    };
 
-    const ret = [...contextOptions, ...filterOptions];
-    const validValues = new Set(ret.map((r) => r.value));
+    const invalidGroup: ComboboxItemGroup = {
+      group: 'Invalid',
+      items: [],
+    };
     self.run_by.forEach((c) => {
       if (validValues.has(c)) {
         return;
       }
-
-      ret.push({
-        group: 'Invalid',
+      invalidGroup.items.push({
         label: c,
         value: c,
       });
     });
 
+    const ret: Array<ComboboxItemGroup | ComboboxItem> = [contextGroup, filterGroup, invalidGroup];
     return ret;
   },
   get unmetRunByConditions() {

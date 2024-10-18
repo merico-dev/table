@@ -13,7 +13,7 @@ export const AddAnAccessRule = observer(({ model }: IAddAnAccessRule) => {
     <Button
       size="xs"
       variant="light"
-      leftIcon={<IconUserPlus size={14} />}
+      leftSection={<IconUserPlus size={14} />}
       onClick={() => model.addAnAccess({ id: `TEMP_${new Date().getTime()}` })}
       disabled={disabled || model.options.loading}
     >

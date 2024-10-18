@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select, SpacingValue, SystemProp, TextInput } from '@mantine/core';
+import { Group, MantineSpacing, NumberInput, Select, StyleProp, TextInput } from '@mantine/core';
 import { IconMathFunction } from '@tabler/icons-react';
 import React, { ChangeEvent, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ interface IAggregationSelector {
   value: AggregationType;
   onChange: (v: AggregationType) => void;
   label: string;
-  pt?: SystemProp<SpacingValue>;
+  pt?: StyleProp<MantineSpacing>;
   withFallback: boolean;
 }
 
@@ -30,7 +30,12 @@ function _AggregationSelector(
   }, [value, onChange]);
 
   // FIXME: refactor when type errors resolve
-  const changeType = (type: AggregationType['type']) => {
+  const changeType = (t: string | null) => {
+    if (t === null) {
+      return;
+    }
+    const type = t as AggregationType['type'];
+
     switch (type) {
       case 'quantile':
         return onChange({ type: 'quantile', config: { p: 0.99 }, fallback: value.fallback });
@@ -43,7 +48,12 @@ function _AggregationSelector(
     }
   };
 
-  const changePOfQuantile = (p: number) => {
+  const changePOfQuantile = (v: string | number) => {
+    const p = Number(v);
+    if (Number.isNaN(p)) {
+      return;
+    }
+
     onChange({
       type: 'quantile',
       config: {
@@ -63,7 +73,11 @@ function _AggregationSelector(
     });
   };
 
-  const changePickRecordMethod = (method: 'first' | 'last') => {
+  const changePickRecordMethod = (method: string | null) => {
+    if (method !== 'first' && method !== 'last') {
+      return;
+    }
+
     onChange({
       type: 'pick_record',
       config: {
@@ -98,7 +112,7 @@ function _AggregationSelector(
 
   return (
     <>
-      <Group grow noWrap pt={pt}>
+      <Group grow wrap="nowrap" pt={pt}>
         <Select
           ref={ref}
           label={label}
@@ -112,7 +126,7 @@ function _AggregationSelector(
             label="p"
             value={value.config.p}
             onChange={changePOfQuantile}
-            precision={2}
+            decimalScale={2}
             min={0.05}
             step={0.05}
             max={1}
@@ -140,7 +154,7 @@ function _AggregationSelector(
             triggerButtonProps={{
               size: 'xs',
               sx: { flexGrow: 0, alignSelf: 'center', marginTop: '22px' },
-              leftIcon: <IconMathFunction size={16} />,
+              leftSection: <IconMathFunction size={16} />,
               color: 'grape',
             }}
           />

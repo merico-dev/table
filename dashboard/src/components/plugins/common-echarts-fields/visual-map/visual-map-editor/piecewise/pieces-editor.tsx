@@ -31,39 +31,39 @@ export const PiecesEditor = ({ form }: Props) => {
   return (
     <Stack>
       <Table>
-        <thead>
-          <tr>
-            <th style={{ width: '40px' }} />
-            <th>{t('chart.visual_map.piecewise.interval')}</th>
-            <th>{t('chart.visual_map.piecewise.piece_label')}</th>
-            <th>{t('chart.color.label')}</th>
-            <th style={{ width: '40px' }} />
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={{ width: '40px' }} />
+            <Table.Th>{t('chart.visual_map.piecewise.interval')}</Table.Th>
+            <Table.Th>{t('chart.visual_map.piecewise.piece_label')}</Table.Th>
+            <Table.Th>{t('chart.color.label')}</Table.Th>
+            <Table.Th style={{ width: '40px' }} />
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {controlledFields.map((field, index) => (
             <PieceEditor key={field.id} index={index} form={form} remove={remove} />
           ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td />
-            <td colSpan={3}>
+        </Table.Tbody>
+        <Table.Tfoot>
+          <Table.Tr>
+            <Table.Td />
+            <Table.Td colSpan={3}>
               <Button
                 mt={10}
                 size="xs"
                 color="blue"
-                leftIcon={<IconPlaylistAdd size={20} />}
+                leftSection={<IconPlaylistAdd size={20} />}
                 onClick={add}
                 sx={{ width: '50%' }}
                 mx="auto"
               >
                 {t('chart.visual_map.piecewise.add_a_piece')}
               </Button>
-            </td>
-            <td />
-          </tr>
-        </tfoot>
+            </Table.Td>
+            <Table.Td />
+          </Table.Tr>
+        </Table.Tfoot>
       </Table>
     </Stack>
   );

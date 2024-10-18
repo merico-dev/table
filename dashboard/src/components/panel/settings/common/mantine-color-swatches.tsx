@@ -19,11 +19,11 @@ export const MantineColorSwatches = ({ value, onChange, label }: IMantineColorSw
 
   const isColorChecked = (colorName: string) => value === colorName;
   return (
-    <Stack spacing={2}>
-      <Text size={14} sx={{ fontWeight: 500 }}>
+    <Stack gap={2}>
+      <Text size={'14px'} fw={500}>
         {label}
       </Text>
-      <Group position="left" spacing="xs">
+      <Group justify="flex-start" gap="xs">
         {Object.keys(theme.colors).map((colorName) => {
           const colorValue = theme.colors[colorName][6];
           return (

@@ -1,5 +1,5 @@
 import { ActionIcon, Alert, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
 import { AddSQLSnippet } from './add-sql_snippet';
@@ -15,14 +15,12 @@ function HoverToSeeContent({ content }: { content: string }) {
   return (
     <HoverCard width="60vw" shadow="md">
       <HoverCard.Target>
-        <ActionIcon size={16}>
+        <ActionIcon variant="subtle" size={16}>
           <IconEye />
         </ActionIcon>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Prism language="sql" noCopy withLineNumbers>
-          {content}
-        </Prism>
+        <CodeHighlight code={content} language="sql" withCopyButton={false} />
         {/* <MinimalMonacoEditor height="600px" value={content} onChange={_.noop} /> */}
       </HoverCard.Dropdown>
     </HoverCard>
@@ -57,48 +55,43 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
 
   return (
     <>
-      <Group pt={styles.spacing} position="apart">
+      <Group pt={styles.spacing} justify="space-between">
         <Alert>{t('global_sql_snippet.description')}</Alert>
         <AddSQLSnippet onSuccess={refresh} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
-        <Table
-          horizontalSpacing={styles.spacing}
-          verticalSpacing={styles.spacing}
-          fontSize={styles.size}
-          highlightOnHover
-        >
-          <thead>
-            <tr>
-              <th>{t('common.name')}</th>
-              <th></th>
-              <th>{t('common.created_at')}</th>
-              <th>{t('common.updated_at')}</th>
-              <th>{t('common.action')}</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>{t('common.name')}</Table.Th>
+              <Table.Th></Table.Th>
+              <Table.Th>{t('common.created_at')}</Table.Th>
+              <Table.Th>{t('common.updated_at')}</Table.Th>
+              <Table.Th>{t('common.action')}</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {data.map((snippet) => {
               const { id, content, create_time, update_time } = snippet;
               return (
-                <tr key={id}>
-                  <td>{id}</td>
-                  <td width={50}>
+                <Table.Tr key={id}>
+                  <Table.Td>{id}</Table.Td>
+                  <Table.Td width={50}>
                     <HoverToSeeContent content={content} />
-                  </td>
-                  <td width={200}>{create_time}</td>
-                  <td width={200}>{update_time}</td>
-                  <td width={400}>
-                    <Group position="left">
+                  </Table.Td>
+                  <Table.Td width={200}>{create_time}</Table.Td>
+                  <Table.Td width={200}>{update_time}</Table.Td>
+                  <Table.Td width={400}>
+                    <Group justify="flex-start">
                       <UpdateSQLSnippet {...snippet} onSuccess={refresh} />
                       <DeleteSQLSnippet id={id} onSuccess={refresh} />
                     </Group>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               );
             })}
-          </tbody>
+          </Table.Tbody>
         </Table>
       </Box>
     </>

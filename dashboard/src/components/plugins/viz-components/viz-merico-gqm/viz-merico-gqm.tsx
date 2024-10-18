@@ -1,4 +1,5 @@
-import { Box, Center, LoadingOverlay, Stack, Sx, Text } from '@mantine/core';
+import { Box, Center, LoadingOverlay, Stack } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
@@ -9,7 +10,7 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-const BaseStyle: Sx = {
+const BaseStyle: EmotionSx = {
   height: '100%',
   overflowY: 'auto',
   ...CommonHTMLContentStyle,
@@ -38,7 +39,7 @@ const GQMError = ({ error, width, height }: { error: { message: string }; width:
   const h = height - 25 - 20 - 30;
   return (
     <Center sx={{ width: '100%', height: h }}>
-      <Stack align="center" spacing={20}>
+      <Stack align="center" gap={20}>
         <MericoGQMErrorFigure />
         <ErrorMessage message={msg} />
       </Stack>

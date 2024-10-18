@@ -27,7 +27,7 @@ export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOve
     [i18n.language],
   );
   return (
-    <Stack spacing={0}>
+    <Stack gap={0}>
       {sectionTitle && (
         <Divider
           mb={-5}
@@ -35,10 +35,14 @@ export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOve
           variant="dotted"
           label={sectionTitle}
           labelPosition="right"
-          labelProps={{ color: 'dimmed' }}
+          styles={{
+            label: {
+              color: 'dimmed',
+            },
+          }}
         />
       )}
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <NumberInput
           label={t('chart.axis.overflow.max_width')}
           hideControls

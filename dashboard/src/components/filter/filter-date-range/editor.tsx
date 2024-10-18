@@ -1,11 +1,11 @@
-import { Checkbox, Group, NumberInput, Select, Stack, Text } from '@mantine/core';
+import { Checkbox, Group, NumberInput, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DateRangeValue_Value, FilterDateRangeConfigInstance, FilterMetaInstance } from '~/model';
-import { FilterDateRange } from './render';
 import { useMemo } from 'react';
-import { getDateRangeShortcuts } from './widget/shortcuts/shortcuts';
-import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { useTranslation } from 'react-i18next';
+import { DateRangeValue_Value, FilterDateRangeConfigInstance, FilterMetaInstance } from '~/model';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
+import { FilterDateRange } from './render';
+import { getShortcutsInGroups } from './widget/shortcuts/shortcuts';
 
 interface IFilterEditorDateRange {
   filter: FilterMetaInstance;
@@ -22,15 +22,21 @@ const inputFormatOptions = [
 export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ filter }: IFilterEditorDateRange) {
   const { t } = useTranslation();
   const config = filter.config as FilterDateRangeConfigInstance;
-  const shortcuts = useMemo(
-    () =>
-      getDateRangeShortcuts().map(({ key, value, group }) => ({
-        label: t(`filter.widget.date_range.shortcut.${group}.full.${key}`),
-        value,
+  const shortcuts = useMemo(() => {
+    const shortcutsInGroups = getShortcutsInGroups();
+    return Object.entries(shortcutsInGroups).map(([group, items]) => {
+      console.log(group, items);
+      return {
         group: t(`filter.widget.date_range.shortcut.${group}.label`),
-      })),
-    [],
-  );
+        items: items.map(({ key, value }) => ({
+          label: t(`filter.widget.date_range.shortcut.${group}.full.${key}`),
+          value,
+        })),
+      };
+    });
+  }, []);
+
+  console.log(shortcuts);
 
   const defaultValue = [...config.default_value] as DateRangeValue_Value;
   return (

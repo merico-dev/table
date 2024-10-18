@@ -1,10 +1,11 @@
-import { TabsOrientation, TabsVariant } from '@mantine/core';
+import { TabsVariant } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '../types';
 import _ from 'lodash';
 
 export type TabInfo = { id: string; name: string };
+export type TabsOrientation = 'vertical' | 'horizontal';
 
 const TabModel = types
   .model('ViewTabsTabModel', {
@@ -30,13 +31,20 @@ const TabModel = types
     setName(v: string) {
       self.name = v;
     },
-    setViewID(v: string) {
+    setViewID(v: string | null) {
+      if (!v) {
+        return;
+      }
+
       self.view_id = v;
     },
     setColor(v: string) {
       self.color = v;
     },
-    setOrder(v: number) {
+    setOrder(v: string | number) {
+      if (typeof v === 'string') {
+        return;
+      }
       self.order = v;
     },
   }));
@@ -71,11 +79,17 @@ export const ViewTabsConfig = types
     },
   }))
   .actions((self) => ({
-    setVariant(v: TabsVariant) {
-      self.variant = v;
+    setVariant(v: string | null) {
+      if (!v) {
+        return;
+      }
+      self.variant = v as TabsVariant;
     },
-    setOrientation(v: TabsOrientation) {
-      self.orientation = v;
+    setOrientation(v: string | null) {
+      if (!v) {
+        return;
+      }
+      self.orientation = v as TabsOrientation;
     },
     setGrow(v: boolean) {
       self.grow = v;

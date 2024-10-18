@@ -7,7 +7,12 @@ import { Viz } from './viz';
 export const PanelVizSection = observer(({ panel }: { panel: PanelRenderModelInstance }) => {
   return (
     <Flex className="panel-viz-section" direction="column" sx={{ position: 'relative', width: '100%' }}>
-      <LoadingOverlay visible={panel.dataLoading} exitTransitionDuration={0} />
+      <LoadingOverlay
+        visible={panel.dataLoading}
+        transitionProps={{
+          exitDuration: 0,
+        }}
+      />
       {!panel.canRenderViz && <PanelErrorOrStateMessage panel={panel} />}
       {panel.canRenderViz && <Viz data={panel.data} />}
     </Flex>

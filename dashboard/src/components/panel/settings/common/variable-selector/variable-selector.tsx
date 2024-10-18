@@ -1,10 +1,11 @@
-import { Box, Group, HoverCard, Select, Sx, Text, TextInput } from '@mantine/core';
+import { Select, TextInput } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts';
-import { VariableSelectorItem } from './variable-selector-item';
+import { getVariableSelectorItemRenderer } from './variable-selector-item';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 type Props = {
   label: string;
@@ -13,7 +14,7 @@ type Props = {
   description?: string;
   required?: boolean;
   clearable?: boolean;
-  sx?: Sx;
+  sx?: EmotionSx;
   preview?: 'aggregated' | 'formatted';
   zIndex?: number;
 };
@@ -46,15 +47,17 @@ export const VariableSelector = observer(
         ref={ref}
         label={label}
         description={description}
-        itemComponent={(props) => <VariableSelectorItem preview={preview} {...props} />}
+        renderOption={getVariableSelectorItemRenderer(preview)}
         data={options}
         value={value}
-        onChange={onChange}
         required={required}
         sx={sx}
         maxDropdownHeight={500}
-        withinPortal
-        zIndex={zIndex}
+        comboboxProps={{
+          withinPortal: true,
+          zIndex,
+        }}
+        onChange={getSelectChangeHandler(onChange)}
       />
     );
   }),

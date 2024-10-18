@@ -1,11 +1,12 @@
-import { Button, Sx, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 
-const ButtonSx: Sx = {
+const ButtonSx: EmotionSx = {
   height: '30px',
   borderLeft: 'none',
   borderTop: 'none',
@@ -26,7 +27,7 @@ export const AddAPanel = observer(() => {
           color="gray"
           radius={0}
           size="xs"
-          leftIcon={<IconPlaylistAdd size={20} />}
+          leftSection={<IconPlaylistAdd size={20} />}
           sx={{
             ...ButtonSx,
             transform: 'none !important',
@@ -45,7 +46,7 @@ export const AddAPanel = observer(() => {
       radius={0}
       size="xs"
       onClick={add}
-      leftIcon={<IconPlaylistAdd size={20} />}
+      leftSection={<IconPlaylistAdd size={20} />}
       sx={{
         ...ButtonSx,
         background: 'rgb(231, 245, 255)',

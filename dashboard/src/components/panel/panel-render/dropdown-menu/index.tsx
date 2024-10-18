@@ -33,17 +33,17 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
           <Box className="panel-dropdown-target" />
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item onClick={panel.refreshData} icon={<IconRefresh size={14} />}>
+          <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
             {t('common.actions.refresh')}
           </Menu.Item>
-          <Menu.Item onClick={panel.downloadData} icon={<IconDownload size={14} />}>
+          <Menu.Item onClick={panel.downloadData} leftSection={<IconDownload size={14} />}>
             {t('common.actions.download_data')}
           </Menu.Item>
-          <Menu.Item onClick={downloadPanelScreenshot} icon={<IconCamera size={14} />}>
+          <Menu.Item onClick={downloadPanelScreenshot} leftSection={<IconCamera size={14} />}>
             {t('common.actions.download_screenshot')}
           </Menu.Item>
           {showFullScreenOption && (
-            <Menu.Item onClick={enterFullScreen} icon={<IconArrowsMaximize size={14} />}>
+            <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />}>
               {t('common.actions.enter_fullscreen')}
             </Menu.Item>
           )}

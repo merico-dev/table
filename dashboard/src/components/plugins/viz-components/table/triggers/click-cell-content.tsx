@@ -1,4 +1,4 @@
-import { Alert, Mark, Select, SelectItem, Stack, Text, TextInput } from '@mantine/core';
+import { Alert, Mark, Select, ComboboxItem, Stack, Text, TextInput } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { defaults, isNumber } from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
@@ -45,7 +45,7 @@ const DEFAULT_CONFIG: IClickCellContentConfig = {
 
 function useColumnsFromConfig(instance: VizInstance, panelData?: TPanelData) {
   const { value: config } = useStorageData<ITableConf>(instance.instanceData, 'config');
-  const ret: { columnsFromConfig: SelectItem[]; columnsFromData: SelectItem[] } = {
+  const ret: { columnsFromConfig: ComboboxItem[]; columnsFromData: ComboboxItem[] } = {
     columnsFromConfig: [],
     columnsFromData: [],
   };
@@ -87,7 +87,11 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
     'config',
   );
   const { column } = defaults({}, config, DEFAULT_CONFIG);
-  const handleFieldChange = (col: string) => {
+  const handleFieldChange = (col: string | null) => {
+    if (!col) {
+      return;
+    }
+
     if (!isNaN(+col)) {
       void setConfig({ column: +col });
     } else {
@@ -126,7 +130,7 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
 
 function generateTriggerName(
   config: IClickCellContentConfig | undefined,
-  columnsFromConfig: SelectItem[],
+  columnsFromConfig: ComboboxItem[],
   rawColumnsEnabled: boolean,
 ) {
   const { t } = useTranslation();
@@ -139,7 +143,11 @@ function generateTriggerName(
       return t('viz.table.click_cell.click_cell_of_x_th', { x: config.column + 1 });
     }
 
-    return t('viz.table.click_cell.click_cell_of_x', { x: columnsFromConfig[config.column].label });
+    const column = columnsFromConfig[config.column];
+    if (!column) {
+      return t('viz.table.click_cell.click_cell_invalid_config');
+    }
+    return t('viz.table.click_cell.click_cell_of_x', { x: column.label });
   }
   return t('viz.table.click_cell.click_cell_of_x', { x: config.column });
 }
@@ -148,5 +156,5 @@ function ClickCellContentName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { columnsFromConfig } = useColumnsFromConfig(props.instance);
   const { value: config } = useStorageData<IClickCellContentConfig>(props.trigger.triggerData, 'config');
   const rawColumnsEnabled = useRawColumnsEnabled(props.instance);
-  return <Text>{generateTriggerName(config, columnsFromConfig, rawColumnsEnabled)}</Text>;
+  return <Text size="sm">{generateTriggerName(config, columnsFromConfig, rawColumnsEnabled)}</Text>;
 }

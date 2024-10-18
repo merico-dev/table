@@ -51,5 +51,5 @@ export function ClickEchartSeriesSettings(props: ITriggerConfigProps) {
 
 function ClickEchartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.boxplot.click_series.label')}</Text>;
+  return <Text size="sm">{t('viz.boxplot.click_series.label')}</Text>;
 }

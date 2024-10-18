@@ -40,7 +40,7 @@ export const SeriesField = ({ control, watch }: ISeriesField) => {
   return (
     <Tabs
       value={tab}
-      onTabChange={(t) => setTab(t)}
+      onChange={(t) => setTab(t)}
       styles={{
         panel: {
           padding: '0px',

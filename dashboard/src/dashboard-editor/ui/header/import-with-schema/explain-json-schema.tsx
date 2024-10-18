@@ -6,9 +6,9 @@ import { TDashboardContent } from '~/types';
 
 const CustomTable = ({ headers, rows }: { headers: ReactNode; rows: ReactNode }) => {
   return (
-    <Table fontSize="xs" highlightOnHover sx={{ tableLayout: 'fixed', fontFamily: 'monospace' }}>
-      <thead>{headers}</thead>
-      <tbody>{rows}</tbody>
+    <Table fz="xs" highlightOnHover sx={{ tableLayout: 'fixed', fontFamily: 'monospace' }}>
+      <Table.Thead>{headers}</Table.Thead>
+      <Table.Tbody>{rows}</Table.Tbody>
     </Table>
   );
 };
@@ -31,18 +31,18 @@ const Views = ({ content }: Props) => {
       </Text>
       <CustomTable
         headers={
-          <tr>
-            <th style={{ width: '160px' }}>{t('common.id')}</th>
-            <th>{t('common.name')}</th>
-            <th>{t('common.type')}</th>
-          </tr>
+          <Table.Tr>
+            <Table.Th style={{ width: '160px' }}>{t('common.id')}</Table.Th>
+            <Table.Th>{t('common.name')}</Table.Th>
+            <Table.Th>{t('common.type')}</Table.Th>
+          </Table.Tr>
         }
         rows={list.map((v) => (
-          <tr key={v.id}>
-            <td>{v.id}</td>
-            <td>{v.name}</td>
-            <td>{t(`view.component.${v.type}.label`)}</td>
-          </tr>
+          <Table.Tr key={v.id}>
+            <Table.Td>{v.id}</Table.Td>
+            <Table.Td>{v.name}</Table.Td>
+            <Table.Td>{t(`view.component.${v.type}.label`)}</Table.Td>
+          </Table.Tr>
         ))}
       />
     </Box>
@@ -63,18 +63,18 @@ const Filters = ({ content }: Props) => {
       </Text>
       <CustomTable
         headers={
-          <tr>
-            <th style={{ width: '160px' }}>{t('common.id')}</th>
-            <th>{t('common.key')}</th>
-            <th>{t('common.label')}</th>
-          </tr>
+          <Table.Tr>
+            <Table.Th style={{ width: '160px' }}>{t('common.id')}</Table.Th>
+            <Table.Th>{t('common.key')}</Table.Th>
+            <Table.Th>{t('common.label')}</Table.Th>
+          </Table.Tr>
         }
         rows={filters.map((f) => (
-          <tr key={f.id}>
-            <td>{f.id}</td>
-            <td>{f.key}</td>
-            <td>{f.label}</td>
-          </tr>
+          <Table.Tr key={f.id}>
+            <Table.Td>{f.id}</Table.Td>
+            <Table.Td>{f.key}</Table.Td>
+            <Table.Td>{f.label}</Table.Td>
+          </Table.Tr>
         ))}
       />
     </Box>
@@ -95,18 +95,18 @@ const Panels = ({ content }: Props) => {
       </Text>
       <CustomTable
         headers={
-          <tr>
-            <th style={{ width: '160px' }}>{t('common.id')}</th>
-            <th>{t('common.name')}</th>
-            <th>{t('visualization.component')}</th>
-          </tr>
+          <Table.Tr>
+            <Table.Th style={{ width: '160px' }}>{t('common.id')}</Table.Th>
+            <Table.Th>{t('common.name')}</Table.Th>
+            <Table.Th>{t('visualization.component')}</Table.Th>
+          </Table.Tr>
         }
         rows={panels.map((p) => (
-          <tr key={p.id}>
-            <td>{p.id}</td>
-            <td>{p.name}</td>
-            <td>{p.viz.type}</td>
-          </tr>
+          <Table.Tr key={p.id}>
+            <Table.Td>{p.id}</Table.Td>
+            <Table.Td>{p.name}</Table.Td>
+            <Table.Td>{p.viz.type}</Table.Td>
+          </Table.Tr>
         ))}
       />
     </Box>
@@ -127,20 +127,20 @@ const Queries = ({ content }: Props) => {
       </Text>
       <CustomTable
         headers={
-          <tr>
-            <th style={{ width: '160px' }}>{t('common.id')}</th>
-            <th>{t('common.name')}</th>
-            <th style={{ width: '140px' }}>{t('common.type')}</th>
-            <th style={{ width: '260px' }}>{t('data_source.label')}</th>
-          </tr>
+          <Table.Tr>
+            <Table.Th style={{ width: '160px' }}>{t('common.id')}</Table.Th>
+            <Table.Th>{t('common.name')}</Table.Th>
+            <Table.Th style={{ width: '140px' }}>{t('common.type')}</Table.Th>
+            <Table.Th style={{ width: '260px' }}>{t('data_source.label')}</Table.Th>
+          </Table.Tr>
         }
         rows={queries.map((q) => (
-          <tr key={q.id}>
-            <td>{q.id}</td>
-            <td>{q.name}</td>
-            <td>{q.type}</td>
-            <td>{q.key}</td>
-          </tr>
+          <Table.Tr key={q.id}>
+            <Table.Td>{q.id}</Table.Td>
+            <Table.Td>{q.name}</Table.Td>
+            <Table.Td>{q.type}</Table.Td>
+            <Table.Td>{q.key}</Table.Td>
+          </Table.Tr>
         ))}
       />
     </Box>
@@ -197,7 +197,7 @@ export const ExplainJSONSchema = ({ content }: { content: Partial<TDashboardCont
   return (
     <Box>
       <Divider mt={20} mb={10} variant="dashed" />
-      <Text ta="left" c="dimmed">
+      <Text ta="left" c="dimmed" size="sm">
         Preview
       </Text>
       <Stack>

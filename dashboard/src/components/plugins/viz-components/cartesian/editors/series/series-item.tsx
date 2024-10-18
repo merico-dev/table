@@ -42,7 +42,7 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
           )}
         />
       </Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.name`}
           control={control}
@@ -70,7 +70,7 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
           )}
         />
       </Group>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}

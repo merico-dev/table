@@ -74,7 +74,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
             <PasswordInput mb={styles.spacing} size={styles.size} required label={t('account.password')} {...field} />
           )}
         />
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

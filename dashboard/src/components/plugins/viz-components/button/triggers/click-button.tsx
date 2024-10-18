@@ -20,5 +20,5 @@ export function ClickButtonSettings(props: ITriggerConfigProps) {
 
 function ClickButtonName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.button.click.label')}</Text>;
+  return <Text size="sm">{t('viz.button.click.label')}</Text>;
 }

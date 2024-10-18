@@ -14,6 +14,7 @@ import {
   VizInstance,
 } from '~/types/plugin';
 import { useTranslation } from 'react-i18next';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 export interface IOperationSelectProps {
   operationId: string;
@@ -103,10 +104,12 @@ const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfig
     <Select
       label={t('interactions.operation.label')}
       data={selectItems}
-      onChange={handleChange}
+      onChange={getSelectChangeHandler(handleChange)}
       value={model.operationSchema.id}
-      withinPortal
-      zIndex={340}
+      comboboxProps={{
+        withinPortal: true,
+        zIndex: 340,
+      }}
     />
   );
 });

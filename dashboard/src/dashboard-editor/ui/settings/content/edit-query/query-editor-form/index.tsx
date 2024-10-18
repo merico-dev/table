@@ -1,19 +1,19 @@
-import { Stack, Sx, Tabs, Text, Tooltip } from '@mantine/core';
+import { Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { DataPreview } from '../../data-preview';
 import { QueryConfigurations } from './configurations';
 import { TabPanel_HTTP } from './tabs/http';
 
+import { EmotionSx } from '@mantine/emotion';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
-import { QueryRenderModelInstance } from '~/model';
+import { QueryModelInstance } from '~/dashboard-editor/model/queries';
 import { QueryUsage } from './query-usage';
 import { TabPanel_SQL } from './tabs/sql';
 import { TabPanel_Transform } from './tabs/transform';
-import { QueryModelInstance } from '~/dashboard-editor/model/queries';
-import { useTranslation } from 'react-i18next';
 
-const TabPanelStyle: Sx = {
+const TabPanelStyle: EmotionSx = {
   height: 'calc(100% - 44px)', // Tabs.List
   padding: 0,
 };
@@ -48,7 +48,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
   return (
     <Tabs
       value={tab}
-      onTabChange={setTab}
+      onChange={setTab}
       defaultValue={defaultTab}
       orientation="horizontal"
       keepMounted={false}
@@ -61,12 +61,12 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         {queryModel.isTransform && <Tabs.Tab value="Transform">{t('query.transform.label')}</Tabs.Tab>}
         <Tabs.Tab value="Data" disabled={!queryModel.canPreviewData}>
           <Tooltip label={queryModel.guideToPreviewData} disabled={queryModel.canPreviewData} withinPortal>
-            <Text>{t('data.preview_data')}</Text>
+            <Text size="sm">{t('data.preview_data')}</Text>
           </Tooltip>
         </Tabs.Tab>
         <Tabs.Tab value="Usage" disabled={noUsage}>
           <Tooltip label={t('query.usage.unused_description')} disabled={!noUsage} withinPortal>
-            <Text>{t('query.usage.label')}</Text>
+            <Text size="sm">{t('query.usage.label')}</Text>
           </Tooltip>
         </Tabs.Tab>
       </Tabs.List>
