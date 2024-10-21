@@ -1642,7 +1642,7 @@ __metadata:
   resolution: "@devtable/dashboard@workspace:dashboard"
   dependencies:
     "@dnd-kit/core": ^6.1.0
-    "@dnd-kit/helpers": ^0.0.3
+    "@dnd-kit/helpers": ^0.0.5
     "@dnd-kit/react": ^0.0.4
     "@dnd-kit/sortable": ^8.0.0
     "@emotion/babel-plugin": 11.11.0
@@ -1926,17 +1926,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dnd-kit/abstract@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@dnd-kit/abstract@npm:0.0.3"
-  dependencies:
-    "@dnd-kit/geometry": ^0.0.3
-    "@dnd-kit/state": ^0.0.3
-    tslib: ^2.6.2
-  checksum: 5af51d17bbddb695f2cef98037aaf28f7ddba0d182fac9f0b19ed0143ac7ed117262545d141e3c9c6e92215bba456b39bf89a851702f4ade79f8fd7e55db17b5
-  languageName: node
-  linkType: hard
-
 "@dnd-kit/abstract@npm:^0.0.4":
   version: 0.0.4
   resolution: "@dnd-kit/abstract@npm:0.0.4"
@@ -1945,6 +1934,17 @@ __metadata:
     "@dnd-kit/state": ^0.0.4
     tslib: ^2.6.2
   checksum: ffea4733a44aa31cfe9c6c65055a927bf3daaf4cfae98eff945dcc952d7c3beb713e69145f08e9c753dbcea81eebbdc12babe2bffae868689ad33f8ee23f0e66
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/abstract@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@dnd-kit/abstract@npm:0.0.5"
+  dependencies:
+    "@dnd-kit/geometry": ^0.0.5
+    "@dnd-kit/state": ^0.0.5
+    tslib: ^2.6.2
+  checksum: 5d244110c4dadde2aefb0f17ade7b96a7753cad75043ce7ddcbf4238a7620dd1064e624b51e53bc73b7521132057bb4f4794c8e4ed31d6e94ca18bfcad1b11e2
   languageName: node
   linkType: hard
 
@@ -1997,16 +1997,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/geometry@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@dnd-kit/geometry@npm:0.0.3"
-  dependencies:
-    "@dnd-kit/state": ^0.0.3
-    tslib: ^2.6.2
-  checksum: 7fa8403c4a8343cc588f4974a9b3ed827eb3799d0780d184986f1bdcc880e0d289e67df4d223989598dba65347b0e32f73f0d7da3bd9d05016cb505d8bfd60d0
-  languageName: node
-  linkType: hard
-
 "@dnd-kit/geometry@npm:^0.0.4":
   version: 0.0.4
   resolution: "@dnd-kit/geometry@npm:0.0.4"
@@ -2017,13 +2007,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/helpers@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@dnd-kit/helpers@npm:0.0.3"
+"@dnd-kit/geometry@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@dnd-kit/geometry@npm:0.0.5"
   dependencies:
-    "@dnd-kit/abstract": ^0.0.3
+    "@dnd-kit/state": ^0.0.5
     tslib: ^2.6.2
-  checksum: d1884482b9260bbb6a1dba0967bd3c9c2859e861822596cb00f92c4b06a089fe60b4d30f3baeca6bdf4b0038771ff455dcf102dd39039391678a70ccb57f877a
+  checksum: fba174f6afc05c726867caf82a16e074ad6ec7476043a63e2290577e1c4a100c800a8e7d3f4f3a1f6b80aab735be093bf41bb8d3da6f20db12c48699f4f66509
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/helpers@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@dnd-kit/helpers@npm:0.0.5"
+  dependencies:
+    "@dnd-kit/abstract": ^0.0.5
+    tslib: ^2.6.2
+  checksum: e4273e54e9b16164ae5bdcba4802aa3194ca4cd1a2c706be6d98cdc8613f4538c1cfd7c985cdecabbe752004309c9f22627a5bdcbd531426af834e7df47a9ff6
   languageName: node
   linkType: hard
 
@@ -2055,16 +2055,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/state@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@dnd-kit/state@npm:0.0.3"
-  dependencies:
-    "@preact/signals-core": ^1.6.0
-    tslib: ^2.6.2
-  checksum: f3dc265c87ff6ea787989fc6f8c9dbf43fdbd7a4b4c7f859181256a79eb27dc7dbac581f78e23d2f856f211ac542a4cd3060970b6b607890f8c502d258cb75c6
-  languageName: node
-  linkType: hard
-
 "@dnd-kit/state@npm:^0.0.4":
   version: 0.0.4
   resolution: "@dnd-kit/state@npm:0.0.4"
@@ -2072,6 +2062,16 @@ __metadata:
     "@preact/signals-core": ^1.6.0
     tslib: ^2.6.2
   checksum: 619ab47ed2a9c0a537f25373a1c13218506ac5951e3fe106f0f605251b689c53460022152ec6bc6cc10b7a8eba8b174277ab8e31c42b0b47b20a4865ad84d23c
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/state@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@dnd-kit/state@npm:0.0.5"
+  dependencies:
+    "@preact/signals-core": ^1.6.0
+    tslib: ^2.6.2
+  checksum: 5a4dd124624c91e5b87fa7942e82f861f654d73f3fda3505b1334233eb40aacfa76ba00569fcb0a9abfbad0de2d0121997c87f9d6102daa74e9e3074d2bd0a26
   languageName: node
   linkType: hard
 
