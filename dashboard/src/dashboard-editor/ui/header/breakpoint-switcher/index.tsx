@@ -28,12 +28,12 @@ export const BreakpointSwitcher = observer(() => {
       <Group>
         <Menu withArrow withinPortal zIndex={320} trigger="hover">
           <Menu.Target>
-            <Button size="xs" variant="subtle" leftIcon={<IconDevices size={16} />} sx={{ borderRadius: 0 }}>
-              <Group spacing={6}>
+            <Button size="xs" variant="subtle" leftSection={<IconDevices size={16} />} sx={{ borderRadius: 0 }}>
+              <Group gap={6}>
                 <Text size="xs" fw="normal">
                   {range.name}
                 </Text>
-                <Text size="xs" color="#777">
+                <Text size="xs" c="#777">
                   {contentModel.layouts.currentRangeText}
                 </Text>
               </Group>
@@ -46,22 +46,22 @@ export const BreakpointSwitcher = observer(() => {
                 onClick={() => contentModel.layouts.setCurrentBreakpoint(r.id)}
                 disabled={currentBreakpoint === r.id}
               >
-                <Group position="apart">
+                <Group justify="space-between">
                   <Text size="sm">{r.name}</Text>
-                  <Text size="xs" color="dimmed">
+                  <Text size="xs" c="dimmed">
                     {r.text}
                   </Text>
                 </Group>
               </Menu.Item>
             ))}
             <Menu.Divider />
-            <Menu.Item color="blue" icon={<IconSettings size={14} />} onClick={open}>
+            <Menu.Item color="blue" leftSection={<IconSettings size={14} />} onClick={open}>
               <Text size="sm">{t('breakpoint.manage')}</Text>
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
         {contentModel.layouts.divisionPreviewScale < 1 && (
-          <Text size="xs" color="dimmed">
+          <Text size="xs" c="dimmed">
             {numbro(contentModel.layouts.divisionPreviewScale).format({ output: 'percent', mantissa: 0 })}
           </Text>
         )}

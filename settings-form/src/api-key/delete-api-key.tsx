@@ -65,7 +65,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     });
 
   return (
-    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<IconTrash size={20} />}>
+    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftSection={<IconTrash size={20} />}>
       {t('common.actions.delete')}
     </Button>
   );

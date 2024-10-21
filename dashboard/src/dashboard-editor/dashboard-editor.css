@@ -52,8 +52,6 @@
 .preview-sql-in-monaco-editor {
   overflow: hidden;
 }
-.minimal-monaco-editor .monaco-editor {
-}
 
 .form-field-label {
   display: inline-block;
@@ -66,4 +64,14 @@
 .form-field-label.required::after {
   color: #fa5252;
   content: ' *';
+}
+.mantine-Select-option[data-checked='true'] > svg {
+  display: none;
+}
+.mantine-Select-option[data-checked='true'] {
+  color: white;
+  background-color: #228be6;
+}
+.mantine-Select-option[data-checked='true']:hover {
+  background-color: #1c7ed6;
 }

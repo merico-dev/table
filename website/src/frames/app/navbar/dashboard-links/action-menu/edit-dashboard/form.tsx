@@ -89,7 +89,9 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
             render={({ field }) => (
               <Autocomplete
                 disabled={loading}
-                withinPortal
+                comboboxProps={{
+                  withinPortal: true,
+                }}
                 label="Group"
                 maxDropdownHeight={500}
                 data={groupNames}
@@ -97,7 +99,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
               />
             )}
           />
-          <Group position="right" mt="md">
+          <Group justify="flex-end" mt="md">
             <Button type="submit" disabled={disabled}>
               Confirm
             </Button>

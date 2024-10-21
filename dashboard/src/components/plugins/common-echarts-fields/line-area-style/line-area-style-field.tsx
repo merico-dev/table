@@ -27,7 +27,7 @@ export const LineAreaStyleField = forwardRef(({ value, onChange }: Props, ref: a
         mb={-10}
         variant="dashed"
         label={
-          <Group spacing={6}>
+          <Group gap={6}>
             <IconChartAreaLineFilled size={14} style={{ color: '#999' }} />
             {t('chart.series.line.area_style.label')}
           </Group>
@@ -52,7 +52,7 @@ export const LineAreaStyleField = forwardRef(({ value, onChange }: Props, ref: a
           value={value.opacity}
           onChange={getChangeHandler('opacity')}
           step={0.1}
-          precision={1}
+          decimalScale={1}
           min={0}
           max={1}
         />

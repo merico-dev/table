@@ -8,7 +8,7 @@ export function ClickHeatBlockSettings(props: ITriggerConfigProps) {
 
 function ClickHeatBlockName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.merico_heatmap.click_heatmap.heatblock.label')}</Text>;
+  return <Text size="sm">{t('viz.merico_heatmap.click_heatmap.heatblock.label')}</Text>;
 }
 
 export const ClickHeatBlock: ITriggerSchema = {

@@ -19,8 +19,8 @@ export const ContinuousVisualMapEditor = ({ form }: Props) => {
   const visualMap = form.watch('visualMap');
   const { type, orient } = visualMap;
   const isHorizontal = orient === 'horizontal';
-  const getNumberChanger = (handleChange: (n: number) => void) => (v: number | '') => {
-    if (v === '') {
+  const getNumberChanger = (handleChange: (n: number) => void) => (v: number | string) => {
+    if (typeof v === 'string') {
       return;
     }
     handleChange(v);

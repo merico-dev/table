@@ -22,7 +22,7 @@ export const VariableList = (props: IVariableListProps) => {
   };
   return (
     <Paper withBorder p="sm">
-      <Text size="xs" color="dimmed" mb="sm">
+      <Text size="xs" c="dimmed" mb="sm">
         {title}
       </Text>
       <Stack style={{ maxHeight: '500px' }}>

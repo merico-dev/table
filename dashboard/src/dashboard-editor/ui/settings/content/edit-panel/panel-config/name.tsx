@@ -35,9 +35,9 @@ export const EditName = observer(() => {
   const empty = !local.trim();
 
   return (
-    <Stack spacing={4}>
+    <Stack gap={4}>
       <Group align="center">
-        <Text size={14} fw={500}>
+        <Text size={'14px'} fw={500}>
           {t('panel.panel_name')}
           <RequiredMark />
         </Text>

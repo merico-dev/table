@@ -29,8 +29,8 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
 
   return (
     <Stack ref={ref}>
-      <Stack spacing="xs" px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
-        <Group grow noWrap>
+      <Stack gap="xs" px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
+        <Group grow wrap="nowrap">
           <TextInput
             label={t('common.name')}
             required
@@ -60,7 +60,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
         )}
       </Stack>
 
-      <Button mt={20} leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={remove}>
+      <Button mt={20} leftSection={<IconTrash size={16} />} color="red" variant="light" onClick={remove}>
         {t('panel.variable.delete')}
       </Button>
     </Stack>

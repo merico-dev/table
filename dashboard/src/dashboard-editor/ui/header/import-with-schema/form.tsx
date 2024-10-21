@@ -110,22 +110,22 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
           sx={{ maxWidth: 500 }}
         />
         {contentErrorMessage ? (
-          <Table fontSize={12} mt={10}>
-            <tbody>
-              <tr>
-                <th>{t('import.this_dashboard')}</th>
-                <td>{CURRENT_SCHEMA_VERSION}</td>
-              </tr>
-              <tr>
-                <th>{t('import.this_file')}</th>
-                <td style={{ color: 'red' }}>{content?.version}</td>
-              </tr>
-            </tbody>
+          <Table fz={12} mt={10}>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Th>{t('import.this_dashboard')}</Table.Th>
+                <Table.Td>{CURRENT_SCHEMA_VERSION}</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Th>{t('import.this_file')}</Table.Th>
+                <Table.Td style={{ color: 'red' }}>{content?.version}</Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
           </Table>
         ) : (
           <>
             <ExplainJSONSchema content={content} />
-            <Group position="right" my="md">
+            <Group justify="flex-end" my="md">
               <Button type="submit" color="green" disabled={disabled}>
                 {t('common.actions.confirm')}
               </Button>

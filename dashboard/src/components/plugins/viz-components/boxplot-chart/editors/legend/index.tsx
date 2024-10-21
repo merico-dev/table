@@ -29,7 +29,7 @@ export const LegendField = ({ control, watch }: Props) => {
 
   return (
     <Stack>
-      <Group grow noWrap mt={20}>
+      <Group grow wrap="nowrap" mt={20}>
         <Controller
           name="legend.show"
           control={control}

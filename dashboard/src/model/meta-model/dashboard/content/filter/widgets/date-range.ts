@@ -131,7 +131,11 @@ const _FilterDateRangeConfigMeta = types
     setClearable(clearable: boolean) {
       self.clearable = clearable;
     },
-    setInputFormat(inputFormat: string) {
+    setInputFormat(inputFormat: string | null) {
+      if (!inputFormat) {
+        return;
+      }
+
       self.inputFormat = inputFormat;
     },
     setDefaultValue(v: DateRangeValue) {
@@ -139,7 +143,7 @@ const _FilterDateRangeConfigMeta = types
       self.default_value.push(...v.value);
       self.setFilterValue(v);
     },
-    setDefaultShortcut(v: string) {
+    setDefaultShortcut(v: string | null) {
       self.default_shortcut = v ?? '';
       if (!v) {
         return;
@@ -150,9 +154,14 @@ const _FilterDateRangeConfigMeta = types
         self.setFilterValue(range);
       }
     },
-    setMaxDays(v: number) {
-      self.max_days = v;
-      if (v > 0) {
+    setMaxDays(v: number | string) {
+      const n = Number(v);
+      if (!Number.isFinite(n)) {
+        return;
+      }
+
+      self.max_days = n;
+      if (n > 0) {
         self.clearable = true;
       }
     },

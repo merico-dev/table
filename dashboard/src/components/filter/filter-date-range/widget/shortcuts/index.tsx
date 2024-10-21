@@ -1,9 +1,8 @@
 import { Button, Divider, Table, Text } from '@mantine/core';
-import _ from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DateRangeValue } from '~/model';
-import { GetRange, getDateRangeShortcuts } from './shortcuts';
+import { GetRange, getShortcutsInGroups } from './shortcuts';
 
 export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void }) => {
   const { t, i18n } = useTranslation();
@@ -11,37 +10,37 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
     const range = getRange();
     onChange(range);
   };
-  const shortcutGroups = useMemo(() => _.groupBy(getDateRangeShortcuts(), 'group'), []);
+  const shortcutGroups = useMemo(() => getShortcutsInGroups(), []);
   const useFullLabel = i18n.language === 'zh';
   return (
     <>
       <Divider variant="dashed" my={10} />
       <Table
-        withBorder={false}
+        withTableBorder={false}
         sx={{
           'tbody > tr > th, tbody > tr > td': { borderTop: 'none', padding: '2px 6px' },
           'tbody > tr > th': { cursor: 'default', userSelect: 'none' },
           td: { paddingLeft: '1px' },
         }}
       >
-        <tbody>
+        <Table.Tbody>
           {Object.entries(shortcutGroups).map(([group, shortcuts]) => (
-            <tr key={group}>
-              <th>
-                <Text size="xs" color="#555">
+            <Table.Tr key={group}>
+              <Table.Th>
+                <Text size="xs" c="#555" fw={500} sx={{ textAlignLast: 'justify' }}>
                   {t(`filter.widget.date_range.shortcut.${group}.label`)}
                 </Text>
-              </th>
+              </Table.Th>
               {shortcuts.map(({ key, value, getRange }) => (
-                <td key={key}>
-                  <Button compact size="xs" variant="subtle" onClick={getClickHandler(getRange)}>
+                <Table.Td key={key}>
+                  <Button size="compact-xs" variant="subtle" onClick={getClickHandler(getRange)}>
                     {t(`filter.widget.date_range.shortcut.${group}.${useFullLabel ? 'full.' : ''}${key}`)}
                   </Button>
-                </td>
+                </Table.Td>
               ))}
-            </tr>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </>
   );

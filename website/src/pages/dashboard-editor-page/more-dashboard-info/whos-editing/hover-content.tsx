@@ -1,8 +1,9 @@
-import { Sx, Table } from '@mantine/core';
-import { PresenceDataItem } from './types';
+import { Table } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { AccountTypeIcon } from '../../../../components/account-type-icon';
+import { PresenceDataItem } from './types';
 
-const tableSx: Sx = {
+const tableSx: EmotionSx = {
   tableLayout: 'fixed',
   maxWidth: '300px',
   tbody: {
@@ -25,30 +26,30 @@ interface IProps {
 export const HoverContent = ({ presence, total }: IProps) => {
   return (
     <Table highlightOnHover sx={tableSx} captionSide="bottom">
-      <caption>This dashboard is being edited in {total} tabs</caption>
+      <Table.Caption>This dashboard is being edited in {total} tabs</Table.Caption>
       <colgroup>
         <col style={{ width: '40px' }} />
         <col style={{}} />
         <col style={{ width: '120px' }} />
       </colgroup>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Browser tabs</th>
-        </tr>
-      </thead>
-      <tbody>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th></Table.Th>
+          <Table.Th>Name</Table.Th>
+          <Table.Th>Browser tabs</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {presence.map((item) => (
-          <tr key={item.id}>
-            <td>
+          <Table.Tr key={item.id}>
+            <Table.Td>
               <AccountTypeIcon type={item.type} />
-            </td>
-            <th title={item.name}>{item.name}</th>
-            <td>{item.count}</td>
-          </tr>
+            </Table.Td>
+            <Table.Th title={item.name}>{item.name}</Table.Th>
+            <Table.Td>{item.count}</Table.Td>
+          </Table.Tr>
         ))}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 };

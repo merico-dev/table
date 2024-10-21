@@ -1,4 +1,4 @@
-import { ActionIcon, Text, Button, Group, LoadingOverlay, Navbar as MantineNavbar } from '@mantine/core';
+import { ActionIcon, Text, Button, Group, LoadingOverlay, AppShell } from '@mantine/core';
 import { IconArrowLeft, IconArrowRight, IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { DashboardContentChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
@@ -13,7 +13,7 @@ const PaginationSection = ({ page, maxPage, setPage, loading }: IPaginationSecti
   const prev = () => setPage(page - 1);
   const next = () => setPage(page + 1);
   return (
-    <Group grow spacing={2} position="apart">
+    <Group grow gap={2} justify="space-between">
       <ActionIcon variant="subtle" color="blue" onClick={prev} disabled={loading || page === 1} radius={0}>
         <IconArrowLeft size={18} />
       </ActionIcon>
@@ -41,26 +41,26 @@ export const ChangelogNavbar = observer(
       return null;
     }
     return (
-      <MantineNavbar
+      <AppShell.Navbar
         p={0}
-        width={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}
+        w={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}
         sx={{ position: 'static', height: '100%', overflow: 'auto', flexGrow: 0, flexShrink: 0 }}
       >
-        <MantineNavbar.Section py={0} sx={{ borderBottom: '1px solid #eee' }}>
+        <AppShell.Section py={0} sx={{ borderBottom: '1px solid #eee' }}>
           <PaginationSection page={page} setPage={setPage} maxPage={maxPage} loading={loading} />
-        </MantineNavbar.Section>
-        <MantineNavbar.Section grow sx={{ position: 'relative', overflow: 'auto' }}>
-          <LoadingOverlay visible={loading} overlayBlur={2} />
+        </AppShell.Section>
+        <AppShell.Section grow sx={{ position: 'relative', overflow: 'auto' }}>
+          <LoadingOverlay visible={loading} overlayProps={{ blur: 2 }} />
           <ChangelogNavLinks data={data} currentChangelogID={currentChangelogID} onClick={setCurrentChangelogID} />
-        </MantineNavbar.Section>
-        <MantineNavbar.Section>
+        </AppShell.Section>
+        <AppShell.Section>
           <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
-            <Button size="xs" color="red" leftIcon={<IconX size={18} />} onClick={close}>
+            <Button size="xs" color="red" leftSection={<IconX size={18} />} onClick={close}>
               Close
             </Button>
           </Group>
-        </MantineNavbar.Section>
-      </MantineNavbar>
+        </AppShell.Section>
+      </AppShell.Navbar>
     );
   },
 );

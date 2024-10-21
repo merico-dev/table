@@ -26,5 +26,5 @@ export function ClickStatsSettings(props: ITriggerConfigProps) {
 
 function ClickStatsName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { t } = useTranslation();
-  return <Text>{t('viz.stats.click_stats.trigger')}</Text>;
+  return <Text size="sm">{t('viz.stats.click_stats.trigger')}</Text>;
 }

@@ -1,31 +1,15 @@
-import {
-  Badge,
-  CloseButton,
-  DefaultProps,
-  Group,
-  MantineNumberSize,
-  Selectors,
-  Stack,
-  Text,
-  Tooltip,
-} from '@mantine/core';
+import { Badge, CloseButton, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
 import { TreeItem } from 'performant-array-to-tree';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { SwitcherIcon } from '../../common/switcher-icon';
 import { TreeIcon } from '../../common/tree-icon';
-import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
-import { useTranslation } from 'react-i18next';
+import useStyles from './widget.styles';
 
-// This type will contain a union with all selectors defined in useStyles,
-// in this case it will be `'root' | 'title' | 'description'`
-type MyComponentStylesNames = Selectors<typeof useStyles>;
-
-// DefaultProps adds system props support (margin, padding, sx, unstyled, styles and classNames).
-// It accepts 2 types: styles names and styles params, both of them are optional
-interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, TreeSelectWidgetStylesParams> {
-  radius?: MantineNumberSize;
+type Props = {
+  radius?: MantineRadius;
   style?: Record<string, any>;
   label: string;
   value: TreeItem[];
@@ -35,14 +19,11 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   errorMessage?: string;
   required: boolean;
   treeCheckStrictly: boolean;
-}
+};
 
 export const FilterTreeSelectWidget = ({
   disabled,
   // styling props
-  classNames,
-  styles,
-  unstyled,
   radius,
   style,
   // data props
@@ -53,9 +34,9 @@ export const FilterTreeSelectWidget = ({
   errorMessage,
   required,
   treeCheckStrictly,
-}: IFilterTreeSelectWidget) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
+  const { classes, cx } = useStyles({ radius, name: 'FilterTreeSelectWidget' });
 
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
@@ -63,9 +44,9 @@ export const FilterTreeSelectWidget = ({
   };
   const tooltipVisible = showTooltip && value?.length > 0;
   return (
-    <Stack spacing={3}>
-      <Group position="apart">
-        <Text className={classes.label}>
+    <Stack gap={3}>
+      <Group justify="space-between">
+        <Text className={classes.label} size="sm">
           {label}
           {required && (
             <span className={classes.required} aria-hidden="true">
@@ -75,13 +56,13 @@ export const FilterTreeSelectWidget = ({
         </Text>
         {tooltipVisible && (
           <Tooltip label={t('filter.widget.common.x_selected', { count: value.length })}>
-            <Badge>{value.length}</Badge>
+            <Badge variant="light">{value.length}</Badge>
           </Tooltip>
         )}
       </Group>
       <TreeSelect
         disabled={disabled}
-        allowClear
+        allowClear={{ clearIcon: <CloseButton size="sm" /> }}
         treeCheckStrictly={treeCheckStrictly}
         labelInValue={true}
         className={cx(classes.root, 'check-select')}
@@ -92,7 +73,6 @@ export const FilterTreeSelectWidget = ({
         style={style}
         listHeight={510}
         treeLine
-        clearIcon={() => <CloseButton />}
         // @ts-expect-error rc-tree-selecct's TreeNodeProps
         switcherIcon={SwitcherIcon}
         // @ts-expect-error rc-tree-selecct's TreeNodeProps

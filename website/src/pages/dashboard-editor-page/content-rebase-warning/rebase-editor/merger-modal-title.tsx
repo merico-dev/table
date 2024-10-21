@@ -24,16 +24,16 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
             'tr:not(:first-of-type)': { 'th, td': { borderTop: '1px solid #dee2e6' } },
           }}
         >
-          <tbody>
-            <tr>
-              <th>Pending changes</th>
-              <td>{state.resolvedDifferences.size}</td>
-            </tr>
-            <tr>
-              <th>Total changes</th>
-              <td>{state.differences.length}</td>
-            </tr>
-          </tbody>
+          <Table.Tbody>
+            <Table.Tr>
+              <Table.Th>Pending changes</Table.Th>
+              <Table.Td>{state.resolvedDifferences.size}</Table.Td>
+            </Table.Tr>
+            <Table.Tr>
+              <Table.Th>Total changes</Table.Th>
+              <Table.Td>{state.differences.length}</Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
         </Table>
       }
     >
@@ -42,7 +42,7 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
           size="xs"
           color="green"
           variant="filled"
-          leftIcon={<IconDeviceFloppy size={14} />}
+          leftSection={<IconDeviceFloppy size={14} />}
           onClick={handleApply}
         >
           Apply
@@ -52,7 +52,7 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
           size="xs"
           color="gray"
           variant="filled"
-          leftIcon={<IconDeviceFloppy size={14} />}
+          leftSection={<IconDeviceFloppy size={14} />}
           sx={{ cursor: 'not-allowed', transform: 'none !important' }}
         >
           Apply ({state.resolvedDifferences.size} / {state.differences.length})
@@ -69,19 +69,19 @@ export interface IMergerModalTitle {
 
 export const MergerModalTitle = observer(({ state, onApply }: IMergerModalTitle) => {
   return (
-    <Group position="apart" sx={{ position: 'relative' }}>
-      <Group spacing={7}>
+    <Group justify="space-between" sx={{ position: 'relative' }}>
+      <Group gap={7}>
         <Text fw={500} size="xl">
           Merge Changes
         </Text>
       </Group>
-      <Group spacing={20}>
+      <Group gap={20}>
         <Group>
           <Button
             size="xs"
             color="red"
             variant="filled"
-            leftIcon={<IconRecycle size={14} />}
+            leftSection={<IconRecycle size={14} />}
             disabled={state.resolvedDifferences.size === 0}
             onClick={() => state.undo()}
           >

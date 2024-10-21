@@ -30,7 +30,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Stack spacing="xs">
+      <Stack gap="xs">
         <VizConfigBanner canSubmit={formState.isDirty && formState.isValid} />
         <Tabs defaultValue="series">
           <Tabs.List>
@@ -62,7 +62,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="style" p="md">
-            <Group grow noWrap>
+            <Group grow wrap="nowrap">
               <Controller
                 name="background.enabled"
                 control={control}

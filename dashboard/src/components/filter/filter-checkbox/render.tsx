@@ -45,10 +45,10 @@ export const FilterCheckbox = observer(
   }: IFilterCheckbox) => {
     return (
       <Box>
-        <Text>&nbsp;</Text>
+        <Text size="sm">&nbsp;</Text>
         <Checkbox
           label={
-            <Group noWrap position="apart" align="middle" spacing={6}>
+            <Group wrap="nowrap" justify="space-between" align="middle" gap={6}>
               <Box sx={{ flexGrow: 1 }}>{label}</Box>
               <CheckboxTooltip description={description} isDescriptionEmpty={isDescriptionEmpty} />
             </Group>

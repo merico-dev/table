@@ -7,7 +7,7 @@ import { parsePropsColor } from './utils';
 const getTrigger: (p: { color: string; label: string }) => any = ({ color, label }) =>
   forwardRef<HTMLButtonElement, TriggerProps>(({ onClick }, ref) => {
     return (
-      <Button ref={ref} size="sm" variant="default" leftIcon={<PreviewColor value={color} />} onClick={onClick}>
+      <Button ref={ref} size="sm" variant="default" leftSection={<PreviewColor value={color} />} onClick={onClick}>
         {label}
       </Button>
     );

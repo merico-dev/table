@@ -6,16 +6,16 @@ export const DashboardOwnerInfo = observer(({ model }: { model: PermissionModelI
   const notOwned = !model.owner_id;
   if (notOwned) {
     return (
-      <Text ta="right" size={12}>
+      <Text ta="right" size={'12px'}>
         This dashboard is owned by no one
       </Text>
     );
   }
 
   return (
-    <Group spacing={6} position="right">
-      <Text size={12}>Owned by</Text>
-      <Text size={12} color="dimmed">
+    <Group gap={6} justify="flex-end">
+      <Text size={'12px'}>Owned by</Text>
+      <Text size={'12px'} c="dimmed">
         {model.owner_name}
       </Text>
     </Group>

@@ -106,7 +106,7 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
           />
         </Group>
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>

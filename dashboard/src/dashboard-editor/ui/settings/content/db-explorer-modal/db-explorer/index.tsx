@@ -31,7 +31,7 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
 
   if (dataSource.tables.error) {
     return (
-      <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+      <Text c="red" size="md" ta="center" ff="monospace">
         {dataSource.tables.error}
       </Text>
     );
@@ -45,10 +45,10 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
       </Box>
       <Tabs defaultValue="structure" styles={tabsStyles}>
         <Tabs.List>
-          <Tabs.Tab value="structure" icon={<IconColumns size={14} />}>
+          <Tabs.Tab value="structure" leftSection={<IconColumns size={14} />}>
             {t('data_source.table_structure_short')}
           </Tabs.Tab>
-          <Tabs.Tab value="data" icon={<IconDatabase size={14} />}>
+          <Tabs.Tab value="data" leftSection={<IconDatabase size={14} />}>
             {t('data.label')}
           </Tabs.Tab>
         </Tabs.List>

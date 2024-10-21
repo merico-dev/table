@@ -1,4 +1,5 @@
-import { Button, Group, Stack, Sx, Text } from '@mantine/core';
+import { Button, Group, Stack, Text } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { Link, RichTextEditor, RichTextEditorProps, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconBorderAll, IconDeviceFloppy } from '@tabler/icons-react';
 import { Color } from '@tiptap/extension-color';
@@ -15,6 +16,7 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useBoolean } from 'ahooks';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,9 +26,8 @@ import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
 import { ColorPickerControl } from './color-picker-control';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 import { ChooseFontSize, FontSize } from './font-size-extension';
-import { useBoolean } from 'ahooks';
 
-const RTEContentStyle: Sx = {
+const RTEContentStyle: EmotionSx = {
   'dynamic-color': {
     position: 'relative',
   },
@@ -161,20 +162,19 @@ export const CustomRichTextEditor = forwardRef(
     }
 
     return (
-      <Stack spacing={4} sx={{ flexGrow: 1, position: 'relative' }}>
+      <Stack gap={4} sx={{ flexGrow: 1, position: 'relative' }}>
         <Group align="center">
-          <Text size={14} fw={500}>
+          <Text size={'14px'} fw={500}>
             {label}
           </Text>
           {!autoSubmit && (
             <Button
               variant="filled"
               color="blue"
-              size="xs"
-              compact
+              size="compact-xs"
               disabled={!changed}
               onClick={submit}
-              leftIcon={<IconDeviceFloppy size={16} />}
+              leftSection={<IconDeviceFloppy size={16} />}
             >
               {t('common.actions.save_changes')}
             </Button>

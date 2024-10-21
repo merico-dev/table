@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Modal, Tooltip, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Box, Modal, Tooltip } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
@@ -10,28 +10,38 @@ import { ColorMappingForm, ColorMappingFormValues } from './color-mapping-form';
 import { ColorMappingName } from './color-mapping-mark';
 import { parseColorMappingAttrs } from './utils';
 
+function getGradientColorStops(colors: string[]) {
+  if (colors.length === 0) {
+    return '';
+  }
+  const percentage = (i: number) => `${(i / (colors.length - 1)) * 100}%`;
+  return colors.map((c, i) => `${c} ${percentage(i)}`).join(', ');
+}
+
+function linearGradient(deg: number, ...colors: string[]) {
+  return `linear-gradient(${deg}deg, ${getGradientColorStops(colors)})`;
+}
+
 const IconColorMapping = () => {
-  const theme = useMantineTheme();
   return (
     <div
       style={{
         width: '20px',
         height: '13px',
         borderRadius: '2px',
-        background: theme.fn.linearGradient(90, ...Object.values(ChartTheme.graphics.depth)),
+        background: linearGradient(90, ...Object.values(ChartTheme.graphics.depth)),
       }}
     />
   );
 };
 const IconColorMappingOff = ({ disabled }: { disabled: boolean }) => {
-  const theme = useMantineTheme();
   return (
     <Box
       sx={{
         width: '16px',
         height: '10px',
         borderRadius: '2px',
-        background: theme.fn.linearGradient(90, ...Object.values(ChartTheme.graphics.depth)),
+        background: linearGradient(90, ...Object.values(ChartTheme.graphics.depth)),
         opacity: disabled ? '0.5' : 1,
         position: 'relative',
         '&:after': {
@@ -93,6 +103,7 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
         styles={{
           header: {
             paddingBottom: 0,
+            minHeight: 'unset',
           },
           body: {
             padding: 0,

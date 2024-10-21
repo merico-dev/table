@@ -34,8 +34,10 @@ export const EditVersionInfoModal = observer(
         onClose={close}
         closeOnEscape={false}
         title={
-          <Group position="apart" pr={7} sx={{ flexGrow: 1 }}>
-            <Text fw={500}>Edit Version</Text>
+          <Group justify="space-between" pr={7} sx={{ flexGrow: 1 }}>
+            <Text size="sm" fw={500}>
+              Edit Version
+            </Text>
             <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
               Dashboard: {dashboardName}
             </Badge>

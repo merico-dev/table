@@ -81,7 +81,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
           size={styles.button.size}
           color="gray"
           variant="light"
-          leftIcon={<IconLock size={16} />}
+          leftSection={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
           {t('common.actions.edit')}
@@ -97,7 +97,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
           size={styles.button.size}
           color="gray"
           variant="light"
-          leftIcon={<IconEdit size={16} />}
+          leftSection={<IconEdit size={16} />}
           sx={{ transform: 'none !important' }}
         >
           {t('common.actions.edit')}
@@ -119,7 +119,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
       >
         <EditDataSourceForm dataSource={dataSource} postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} color="blue" onClick={open} leftIcon={<IconEdit size={16} />}>
+      <Button size={styles.button.size} color="blue" onClick={open} leftSection={<IconEdit size={16} />}>
         {t('common.actions.edit')}
       </Button>
     </>

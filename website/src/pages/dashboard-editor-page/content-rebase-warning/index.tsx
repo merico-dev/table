@@ -89,13 +89,13 @@ export const ContentRebaseWarning = observer(() => {
   const latestUpdatedAt = dayjs(remoteKey).format('YYYY-MM-DD HH:mm:ss (UTC)');
   return (
     <>
-      <Overlay zIndex={310} color="black" opacity={0.4} blur={2} />
+      <Overlay zIndex={310} color="black" backgroundOpacity={0.4} blur={2} />
       <Notification
         color="red"
         title={
           <Group>
-            <Text size={16}>Version Alert</Text>
-            <Text size={12} color="dimmed">
+            <Text size={'16px'}>Version Alert</Text>
+            <Text size={'12px'} c="dimmed">
               Remote version: {latestUpdatedAt}
             </Text>
           </Group>
@@ -103,11 +103,11 @@ export const ContentRebaseWarning = observer(() => {
         withCloseButton={false}
         sx={{ position: 'fixed', top: 10, right: 15, zIndex: 410 }}
       >
-        <Text mt={10} color="dark">
+        <Text size="sm" mt={10} c="dark">
           Someone made changes to this version.
         </Text>
         <Divider mt={20} mb={10} variant="dotted" />
-        <Group position="right">
+        <Group justify="flex-end">
           <RebaseActions rebaseModel={rebaseModel} remoteKey={remoteKey} onFinish={setFalse} />
         </Group>
       </Notification>

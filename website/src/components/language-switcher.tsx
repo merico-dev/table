@@ -27,5 +27,8 @@ export const LanguageSwitcher = () => {
     setDayjsLocale(lang);
   }, [lang]);
 
-  return <SegmentedControl value={lang} onChange={setLang} size="xs" data={languages} />;
+  const handleChange = (v: string) => {
+    setLang(v as Language);
+  };
+  return <SegmentedControl value={lang} onChange={handleChange} size="xs" data={languages} />;
 };

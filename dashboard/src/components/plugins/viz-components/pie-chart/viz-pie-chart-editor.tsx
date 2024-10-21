@@ -29,10 +29,10 @@ function Editor({ conf, setConf, context }: EditorProps) {
   watch(['label_field', 'value_field', 'color_field']);
 
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
-        <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
+        <Stack mt="md" gap="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <Controller
             control={control}
             name="label_field"

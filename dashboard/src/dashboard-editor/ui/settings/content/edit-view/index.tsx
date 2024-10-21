@@ -17,7 +17,7 @@ export const EditView = observer(({ id }: { id: string }) => {
 
   const view = content.views.findByID(id);
   if (!view) {
-    return <Text size={14}>View by ID[{id}] is not found</Text>;
+    return <Text size={'14px'}>View by ID[{id}] is not found</Text>;
   }
 
   const resetEditorPath = () => {
@@ -32,13 +32,14 @@ export const EditView = observer(({ id }: { id: string }) => {
         content.views.removeByID(id);
         resetEditorPath();
       },
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };
   return (
-    <Stack sx={{ maxWidth: '600px', height: '100%' }} spacing="sm">
-      <Group position="right" pt={10}>
-        <Button size="xs" color="red" leftIcon={<IconTrash size={16} />} onClick={removeWithConfirmation}>
+    <Stack sx={{ maxWidth: '600px', height: '100%' }} gap="sm">
+      <Group justify="flex-end" pt={10}>
+        <Button size="xs" color="red" leftSection={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('view.delete')}
         </Button>
       </Group>

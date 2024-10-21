@@ -99,7 +99,7 @@ export const ChooseFontSize = ({ editor }: { editor: Editor }) => {
     <RichTextEditor.ControlsGroup>
       <NativeSelect
         size="xs"
-        icon={<IconTextSize stroke={1.5} size={16} />}
+        leftSection={<IconTextSize stroke={1.5} size={16} />}
         data={FontSizeOptions}
         styles={NativeSelectStyles}
         value={currentFontSize ? currentFontSize : ''}

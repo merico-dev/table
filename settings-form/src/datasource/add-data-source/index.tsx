@@ -49,6 +49,9 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       });
     }
   };
+  const handleTypeChange = (v: string) => {
+    setType(v as DataSourceType);
+  };
 
   const isDBType = type === 'postgresql' || type === 'mysql';
   const isHTTPType = type === 'http';
@@ -64,7 +67,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
           { label: 'HTTP', value: 'http' },
         ]}
         value={type}
-        onChange={(v: DataSourceType) => setType(v)}
+        onChange={handleTypeChange}
       />
       {isDBType && <DBPermissionTips styles={styles} />}
       {isDBType && <AddDataSourceForm_DB submit={addDataSource} styles={styles} type={type} />}
@@ -101,7 +104,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
       >
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={20} />}>
         {t('datasource.add')}
       </Button>
     </>

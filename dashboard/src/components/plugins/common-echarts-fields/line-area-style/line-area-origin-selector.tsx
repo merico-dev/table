@@ -1,34 +1,34 @@
-import { Box, Select, Stack, Text } from '@mantine/core';
+import { Box, ComboboxItem, Select, SelectProps, Stack, Text } from '@mantine/core';
 import { forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EchartsLineAreaStyle } from './types';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
-interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+type CustomItem = ComboboxItem & {
   label: string;
   description: string;
   value: string;
-}
+};
 
-export const OriginSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ label, description, ...others }: ItemProps, ref) => {
-    return (
-      <Box {...others}>
-        <Stack spacing="0" ref={ref}>
-          <Text size="sm">{label}</Text>
-          <Text size="xs" opacity={0.65}>
-            {description}
-          </Text>
-        </Stack>
-      </Box>
-    );
-  },
-);
+export const OriginSelectorItem: SelectProps['renderOption'] = ({ option, ...others }) => {
+  const { label, description } = option as CustomItem;
+  return (
+    <Box {...others}>
+      <Stack gap="0">
+        <Text size="sm">{label}</Text>
+        <Text size="xs" opacity={0.65}>
+          {description}
+        </Text>
+      </Stack>
+    </Box>
+  );
+};
 
 type Props = {
   value: EchartsLineAreaStyle['origin'];
   onChange: (v: EchartsLineAreaStyle['origin']) => void;
 };
-export const LineAreaOriginSelector = forwardRef(({ value, onChange }: Props) => {
+export const LineAreaOriginSelector = forwardRef<HTMLInputElement, Props>(({ value, onChange }, ref) => {
   const { t, i18n } = useTranslation();
   const options = useMemo(() => {
     return [
@@ -51,11 +51,12 @@ export const LineAreaOriginSelector = forwardRef(({ value, onChange }: Props) =>
   }, [i18n.language]);
   return (
     <Select
+      ref={ref}
       label={t('chart.series.line.area_style.origin.label')}
       data={options}
       value={value}
-      onChange={onChange}
-      itemComponent={OriginSelectorItem}
+      onChange={getSelectChangeHandler(onChange)}
+      renderOption={OriginSelectorItem}
       size="xs"
     />
   );

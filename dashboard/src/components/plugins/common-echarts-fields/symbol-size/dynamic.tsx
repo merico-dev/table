@@ -54,7 +54,7 @@ const Field = ({ value, onChange }: IField) => {
           mt={24}
           onClick={setTrue}
           sx={{ flexGrow: 0 }}
-          leftIcon={<IconMathFunction size={16} />}
+          leftSection={<IconMathFunction size={16} />}
         >
           {t('chart.symbol_size.setup.label')}
         </Button>
@@ -78,15 +78,15 @@ const Field = ({ value, onChange }: IField) => {
               variant="dashed"
             />
             <DynamicSizeFunctionEditor value={localValue.func_content} onChange={changeFuncContent} />
-            <Group position="apart">
-              <Button onClick={resetFuncContent} color="red" leftIcon={<IconRecycle size={20} />}>
+            <Group justify="space-between">
+              <Button onClick={resetFuncContent} color="red" leftSection={<IconRecycle size={20} />}>
                 {t('common.actions.reset_to_default')}
               </Button>
-              <Group position="right">
+              <Group justify="right">
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>
-                <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
+                <Button color="green" leftSection={<IconDeviceFloppy size={16} />} onClick={handleOk}>
                   {t('common.actions.save')}
                 </Button>
               </Group>

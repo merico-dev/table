@@ -1,12 +1,12 @@
-import { AppShell, Box, Group, MantineProvider } from '@mantine/core';
+import { AppShell, Box, Group } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AccountDropdown } from '../../components/account-dropdown';
+import { LanguageSwitcher } from '../../components/language-switcher';
 import { useAccountContext } from '../require-auth/account-context';
+import { AdminBreadcrumbs } from './breadcrumbs';
 import './index.css';
 import { AdminNavbar } from './navbar';
-import { AdminBreadcrumbs } from './breadcrumbs';
-import { LanguageSwitcher } from '../../components/language-switcher';
 
 export function AdminFrame() {
   const { isAdmin } = useAccountContext();
@@ -16,27 +16,31 @@ export function AdminFrame() {
   return (
     <AppShell
       padding="md"
-      navbar={<AdminNavbar />}
+      navbar={{
+        width: { base: 300 },
+        breakpoint: 'xxs',
+      }}
       styles={{
         main: {
           height: '100vh',
           overflow: 'hidden',
           paddingTop: 0,
           paddingRight: 0,
-          paddingBottom: 'calc(var(--mantine-footer-height, 0px) + 10px)',
-          paddingLeft: 'calc(var(--mantine-navbar-width, 0px) + 0px)',
+          paddingBottom: 'calc(var(--app-shell-footer-height, 0px) + 10px)',
+          paddingLeft: 'calc(var(--app-shell-navbar-width, 0px) + 0px)',
           width: '100vw',
           transition: 'padding-left ease 100ms',
         },
       }}
     >
-      <MantineProvider>
-        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
-          <Group position="left">
+      <AdminNavbar />
+      <AppShell.Main>
+        <Group justify="space-between" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+          <Group justify="left">
             {/* should place breadcrumbs here */}
             <AdminBreadcrumbs />
           </Group>
-          <Group position="right">
+          <Group justify="right">
             <LanguageSwitcher />
             <AccountDropdown height={39} />
           </Group>
@@ -45,7 +49,7 @@ export function AdminFrame() {
           <Notifications position="top-right" />
           <Outlet />
         </Box>
-      </MantineProvider>
+      </AppShell.Main>
     </AppShell>
   );
 }

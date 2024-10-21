@@ -15,7 +15,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
   watch(['y_axis']);
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.name"
           control={control}
@@ -30,7 +30,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
         />
       </Group>
       <Divider mb={-15} label={t('chart.axis.tick_label')} variant="dashed" labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="y_axis.axisLabel.formatter"
           control={control}

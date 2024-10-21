@@ -13,11 +13,11 @@ import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fi
 const XAxisTypeLabel = () => {
   const { t } = useTranslation();
   return (
-    <Group sx={{ display: 'inline-flex' }} spacing={6} mr={14}>
-      <Text>{t('chart.x_axis.x_axis_type')}</Text>
+    <Group sx={{ display: 'inline-flex' }} gap={6} mr={14}>
+      <Text size="sm">{t('chart.x_axis.x_axis_type')}</Text>
       <HoverCard width={340} shadow="md" position="top">
         <HoverCard.Target>
-          <ActionIcon size="xs" sx={{ transform: 'none !important' }}>
+          <ActionIcon size="xs" variant="subtle" sx={{ transform: 'none !important' }}>
             <IconInfoCircle />
           </ActionIcon>
         </HoverCard.Target>
@@ -61,7 +61,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
         control={control}
         render={({ field }) => <TextInput label={t('chart.x_axis.x_axis_name')} sx={{ flex: 1 }} {...field} />}
       />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis_data_key"
           control={control}
@@ -78,7 +78,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
         />
       </Group>
       <Divider mb={-15} label={t('chart.axis.tick_label')} labelPosition="center" />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}

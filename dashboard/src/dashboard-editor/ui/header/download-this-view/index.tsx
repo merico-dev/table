@@ -1,11 +1,12 @@
-import { Button, Sx, Tooltip } from '@mantine/core';
-import { IconCode, IconPlaylistAdd } from '@tabler/icons-react';
+import { Button, Tooltip } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
+import { IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
-import { useTranslation } from 'react-i18next';
 
-const ButtonSx: Sx = {
+const ButtonSx: EmotionSx = {
   height: '30px',
   borderRight: 'none',
   borderTop: 'none',
@@ -26,7 +27,7 @@ export const DownloadThisView = observer(() => {
           color="gray"
           radius={0}
           size="xs"
-          leftIcon={<IconCode size={16} />}
+          leftSection={<IconCode size={16} />}
           sx={{
             ...ButtonSx,
             transform: 'none !important',
@@ -45,7 +46,7 @@ export const DownloadThisView = observer(() => {
       radius={0}
       size="xs"
       onClick={download}
-      leftIcon={<IconCode size={16} />}
+      leftSection={<IconCode size={16} />}
       sx={{
         ...ButtonSx,
         // background: 'rgb(231, 245, 255)',

@@ -6,6 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 import { dependencies, peerDependencies } from './package.json';
 import { writeVersionFile } from './rollup-plugin-write-version-file';
+import * as path from 'path';
 
 const GLOBAL_MODULE_IDS = {
   'crypto-js': 'CryptoJS',
@@ -50,14 +51,17 @@ const externals = (id: string) => {
 
 export default defineConfig({
   plugins: [
+    // @ts-expect-error PluginOption
     tsconfigPaths({
       projects: [process.env.VITEST ? './tsconfig.test.json' : './tsconfig.json'],
     }),
+    // @ts-expect-error PluginOption
     react({
       babel: {
         plugins: ['@emotion', 'macros'],
       },
     }),
+    // @ts-expect-error PluginOption
     dts({
       entryRoot: resolve(__dirname, 'src'),
       insertTypesEntry: true,
@@ -69,7 +73,10 @@ export default defineConfig({
     setupFiles: './src/test/setup.ts',
     css: false,
     deps: {
-      inline: ['echarts'],
+      inline: ['echarts', '@mantine/dates'],
+    },
+    alias: {
+      'dayjs/plugin': path.resolve(__dirname, '../node_modules/dayjs/plugin'),
     },
   },
   resolve: {

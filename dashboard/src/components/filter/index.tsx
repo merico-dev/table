@@ -15,13 +15,12 @@ import { useTranslation } from 'react-i18next';
 const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
   const { t } = useTranslation();
   return (
-    <Group position="right" ml={-4} mt={-4} mb={opened ? 4 : 0}>
+    <Group justify="flex-end" ml={-4} mt={-4} mb={opened ? 4 : 0}>
       <Button
-        size="xs"
-        compact
+        size="compact-xs"
         variant="subtle"
         color={opened ? 'gray' : 'blue'}
-        leftIcon={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}
+        leftSection={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}
         onClick={toggle}
       >
         {opened ? t('filter.hide_filters') : t('filter.show_filters')}
@@ -75,8 +74,8 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
       <Collapse in={opened}>
         <Group
           className="dashboard-filters"
-          position="apart"
-          noWrap
+          justify="space-between"
+          wrap="nowrap"
           sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
         >
           <Group align="flex-start">

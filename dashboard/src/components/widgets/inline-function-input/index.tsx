@@ -66,19 +66,24 @@ export const InlineFunctionInput = forwardRef(
 
     return (
       <Stack
-        spacing={4}
+        gap={4}
         sx={{
           height: '100%',
           '.editableArea--multi-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
           '.editableArea--single-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
         }}
       >
-        <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
-          <Group position="left">
+        <Group mb={6} justify="space-between" sx={{ flexShrink: 0, flexGrow: 0 }}>
+          <Group justify="flex-start">
             <AboutFunctionUtils />
           </Group>
-          <Group position="right">
-            <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
+          <Group justify="flex-end">
+            <Button
+              onClick={resetFuncContent}
+              size="xs"
+              variant="default"
+              leftSection={<IconPlayerSkipBack size={16} />}
+            >
               {t('common.actions.reset_to_default')}
             </Button>
             <Button
@@ -86,7 +91,7 @@ export const InlineFunctionInput = forwardRef(
               color="red"
               size="xs"
               disabled={!hasChanges}
-              leftIcon={<IconRecycle size={16} />}
+              leftSection={<IconRecycle size={16} />}
             >
               {t('common.actions.revert_changes')}
             </Button>
@@ -95,16 +100,16 @@ export const InlineFunctionInput = forwardRef(
               size="xs"
               onClick={handleOk}
               disabled={!hasChanges}
-              leftIcon={<IconDeviceFloppy size={16} />}
+              leftSection={<IconDeviceFloppy size={16} />}
             >
               {t('common.actions.save_changes')}
             </Button>
           </Group>
         </Group>
-        <Text size={14}>{label}</Text>
+        <Text size={'14px'}>{label}</Text>
         <Box sx={{ position: 'relative', flexGrow: 1 }}>
           {empty && (
-            <Overlay center color="#fff" opacity={0.5}>
+            <Overlay center color="#fff" backgroundOpacity={0.5}>
               <Button color="blue" radius="xl" onClick={resetFuncContent}>
                 {t('common.actions.init_with_default')}
               </Button>

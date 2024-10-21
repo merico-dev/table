@@ -56,20 +56,19 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
   }, [i18n.language]);
 
   return (
-    <Group grow spacing={20} align="top">
+    <Group grow gap={20} align="top">
       <Box sx={{ maxWidth: '600px' }}>
-        <Text pb="md" color="gray">
+        <Text pb="md" c="gray" size="sm">
           {t('common.titles.edit')}
         </Text>
         <Stack>
-          <Group noWrap>
+          <Group wrap="nowrap">
             <NumberInput
               label={t('filter.field.order')}
               required
               value={filter.order}
               onChange={filter.setOrder}
               hideControls
-              // @ts-expect-error important
               sx={{ flexGrow: '1 !important' }}
             />
             {filter.auto_submit_supported && (

@@ -27,7 +27,13 @@ import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-editor.css';
-import { DashboardEditorHeader, DashboardEditorNavbar, Settings, SpotlightProvider } from './ui';
+import '@mantine/code-highlight/styles.css';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import '@mantine/tiptap/styles.css';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import { DashboardEditorHeader, DashboardEditorNavbar, EditorSpotlight, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 
 registerThemes();
@@ -39,6 +45,7 @@ const AppShellStyles = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    '--app-shell-header-offset': 'calc(3.75rem * var(--mantine-scale))',
   },
   body: {
     flexGrow: 1,
@@ -167,21 +174,24 @@ const _DashboardEditor = (
                     inEditMode: true,
                   }}
                 >
-                  <SpotlightProvider>
-                    <PluginContext.Provider value={pluginContext}>
-                      <ServiceLocatorProvider configure={configureServices}>
-                        <AppShell
-                          padding={0}
-                          header={
-                            <DashboardEditorHeader
-                              onExit={onExit}
-                              saveDashboardChanges={saveDashboardChanges}
-                              headerSlot={headerSlot}
-                            />
-                          }
-                          navbar={<DashboardEditorNavbar />}
-                          styles={AppShellStyles}
-                        >
+                  <EditorSpotlight />
+                  <PluginContext.Provider value={pluginContext}>
+                    <ServiceLocatorProvider configure={configureServices}>
+                      <AppShell
+                        padding={0}
+                        navbar={{
+                          width: { base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 },
+                          breakpoint: 'xxs', //FIXME(leto): not sure
+                        }}
+                        styles={AppShellStyles}
+                      >
+                        <DashboardEditorHeader
+                          onExit={onExit}
+                          saveDashboardChanges={saveDashboardChanges}
+                          headerSlot={headerSlot}
+                        />
+                        <DashboardEditorNavbar />
+                        <AppShell.Main>
                           <Box
                             className={`${className} dashboard-root`}
                             sx={{
@@ -192,11 +202,11 @@ const _DashboardEditor = (
                               <DashboardViewEditor key={view.id} view={view} />
                             ))}
                           </Box>
-                        </AppShell>
-                        <Settings />
-                      </ServiceLocatorProvider>
-                    </PluginContext.Provider>
-                  </SpotlightProvider>
+                        </AppShell.Main>
+                      </AppShell>
+                      <Settings />
+                    </ServiceLocatorProvider>
+                  </PluginContext.Provider>
                 </LayoutStateContext.Provider>
               </ContentModelContextProvider>
             </DashboardModelContextProvider>

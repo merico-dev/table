@@ -23,10 +23,10 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
   }
 
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Text>X Axis</Text>
-        <Group position="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
+        <Text size="sm">X Axis</Text>
+        <Group justify="space-between" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
           <Controller
             name="x_axis_data_key"
             control={control}
@@ -39,8 +39,10 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
           />
         </Group>
 
-        <Text mt="lg">Y Axis</Text>
-        <Group position="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
+        <Text mt="lg" size="sm">
+          Y Axis
+        </Text>
+        <Group justify="space-between" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
           <Controller
             name="y_axis_data_key"
             control={control}
@@ -53,8 +55,10 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
           />
         </Group>
 
-        <Text mt="lg">Z Axis</Text>
-        <Group position="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
+        <Text mt="lg" size="sm">
+          Z Axis
+        </Text>
+        <Group justify="space-between" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
           <Controller
             name="z_axis_data_key"
             control={control}
@@ -66,10 +70,12 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
             render={({ field }) => <TextInput sx={{ flexGrow: 1 }} size="md" label="Name" {...field} />}
           />
         </Group>
-        <Group position="center" mt="xl" grow sx={{ width: '60%' }} mx="auto">
+        <Group justify="center" mt="xl" grow sx={{ width: '60%' }} mx="auto">
           <Button color="blue" type="submit">
             <IconDeviceFloppy size={20} />
-            <Text ml="md">Save</Text>
+            <Text ml="md" size="sm">
+              Save
+            </Text>
           </Button>
         </Group>
       </form>

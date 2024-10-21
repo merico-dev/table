@@ -18,7 +18,7 @@ export function AboutFunctionUtils() {
         />
       </Modal>
 
-      <Button variant="light" color="violet" size="xs" onClick={open} leftIcon={<IconInfoCircle size={16} />}>
+      <Button variant="light" color="violet" size="xs" onClick={open} leftSection={<IconInfoCircle size={16} />}>
         {t('function_utils.trigger_text')}
       </Button>
     </>

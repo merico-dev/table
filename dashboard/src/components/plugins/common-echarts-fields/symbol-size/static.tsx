@@ -10,7 +10,11 @@ export const StaticSymbolSizeField = ({ value, onChange }: IStaticSymbolSizeFiel
     return null;
   }
 
-  const changeSize = (size: SymbolSize_Static['size']) => {
+  const changeSize = (size: SymbolSize_Static['size'] | string) => {
+    if (typeof size === 'string') {
+      return;
+    }
+
     onChange({
       ...value,
       size,

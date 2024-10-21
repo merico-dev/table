@@ -40,11 +40,13 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
     >
       <Center style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }}>
         {hovering ? (
-          <ActionIcon size="xs" ref={handleRef}>
+          <ActionIcon size="xs" ref={handleRef} variant="subtle">
             <IconGripVertical />
           </ActionIcon>
         ) : (
-          <Badge size="sm">{index + 1}</Badge>
+          <Badge size="sm" variant="light">
+            {index + 1}
+          </Badge>
         )}
       </Center>
       <div style={{ flex: 1 }}>
@@ -54,15 +56,17 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
               flexGrow: 1,
             },
           }}
-          withinPortal
-          dropdownZIndex={340}
+          popoverProps={{
+            withinPortal: true,
+            zIndex: 340,
+          }}
           size="xs"
           value={color.value}
           onChange={handleChange}
         />
       </div>
       <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
-        <CloseButton onClick={handleRemove} />
+        <CloseButton onClick={handleRemove} size="sm" />
       </div>
     </Flex>
   );
@@ -131,8 +135,10 @@ export const GradientEditor = forwardRef(({ value, onChange, zIndex = 340 }: Pro
         <div style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }} />
         <div style={{ flex: 1 }}>
           <ColorInput
-            withinPortal
-            dropdownZIndex={zIndex}
+            popoverProps={{
+              withinPortal: true,
+              zIndex,
+            }}
             placeholder={t('chart.color.click_to_add_a_color')}
             value={newColor}
             onChange={setNewColor}

@@ -28,10 +28,12 @@ export const DataPreview = observer(
 
     const dataEmpty = !Array.isArray(data) || data.length === 0;
     return (
-      <Stack spacing={0} sx={{ height: '100%', border: '1px solid #eee' }}>
-        <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Group position="left">
-            <Text weight={500}>{t('data.preview_data')}</Text>
+      <Stack gap={0} sx={{ height: '100%', border: '1px solid #eee' }}>
+        <Group justify="space-between" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+          <Group justify="flex-start">
+            <Text size="sm" fw={500}>
+              {t('data.preview_data')}
+            </Text>
           </Group>
           <Group pr={15}>
             {moreActions}

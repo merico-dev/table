@@ -8,7 +8,7 @@ import { useDownloadDivScreenshot } from '../utils';
 
 export const TakeScreenshot = observer(({ downloadScreenshot }: { downloadScreenshot: () => void }) => {
   return (
-    <ActionIcon className="download-screenshot-button" color="blue" onClick={downloadScreenshot}>
+    <ActionIcon className="download-screenshot-button" color="blue" variant="subtle" onClick={downloadScreenshot}>
       <IconCamera size={14} />
     </ActionIcon>
   );
@@ -30,7 +30,7 @@ export const RenderViewModal = observer(
         onClose={close}
         withCloseButton={false}
         title={
-          <Group position="apart" px="1rem" h="48px">
+          <Group justify="space-between" px="1rem" h="48px">
             <Box>{config.custom_modal_title.value}</Box>
             <TakeScreenshot downloadScreenshot={downloadScreenshot} />
           </Group>

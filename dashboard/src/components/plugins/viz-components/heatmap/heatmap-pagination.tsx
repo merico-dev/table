@@ -18,7 +18,6 @@ const FullPagination = ({ page, setPage, totalPages }: Props) => {
       value={page}
       onChange={setPage}
       total={totalPages}
-      position="right"
     />
   );
 };

@@ -1,4 +1,5 @@
 import { Group, Pagination, Select, Text } from '@mantine/core';
+import { EmotionStyles } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
@@ -10,15 +11,13 @@ const limitOptions = [
   { label: '100', value: '100' },
 ];
 
-const selectorStyles = {
-  icon: {
+const selectorStyles: EmotionStyles = {
+  section: {
     width: '50px',
     textAlign: 'center',
   },
   input: {
-    '&[data-with-icon]': {
-      paddingLeft: '50px',
-    },
+    paddingLeft: '50px',
   },
 };
 
@@ -26,8 +25,8 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
   const { t } = useTranslation();
   const { tableData } = dataSource;
   return (
-    <Group pt={10} px={10} position="apart">
-      <Group position="left">
+    <Group pt={10} px={10} justify="space-between">
+      <Group justify="flex-start">
         {tableData.maxPage > 1 && (
           <Pagination
             size="sm"
@@ -39,21 +38,23 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
           />
         )}
         <Select
-          icon={
-            <Text ta="center" color="dimmed" size={14}>
+          leftSection={
+            <Text ta="center" c="dimmed" size={'14px'}>
               {t('common.pagination.page_size')}
             </Text>
           }
           size="xs"
-          // @ts-expect-error type error caused by !important
           styles={selectorStyles}
           data={limitOptions}
           value={String(tableData.limit)}
           onChange={(v) => tableData.setLimit(Number(v))}
+          comboboxProps={{
+            zIndex: 340,
+          }}
         />
       </Group>
-      <Group position="right">
-        <Text color="dimmed" my={0} size={14}>
+      <Group justify="flex-end">
+        <Text c="dimmed" my={0} size={'14px'}>
           {t('common.pagination.total_rows', { total: tableData.total })}
         </Text>
       </Group>

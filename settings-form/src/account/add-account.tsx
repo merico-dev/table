@@ -102,7 +102,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
           render={({ field }) => <RoleSelector styles={styles} {...field} />}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
@@ -139,7 +139,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       >
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={20} />}>
         {t('account.add')}
       </Button>
     </>

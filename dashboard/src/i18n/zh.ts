@@ -317,7 +317,7 @@ export const zh = {
         confirm: '确认',
         add_an_option: '新增选项',
         edit: '编辑',
-        end_editing: '结束编辑 <1>{{name}}</1>',
+        end_editing: '结束编辑 <0>{{name}}</0>',
       },
       tabs: {
         variant: {

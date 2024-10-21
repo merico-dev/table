@@ -1,13 +1,15 @@
-import { Select, Sx } from '@mantine/core';
+import { Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { forwardRef, Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChartingOrientation } from './types';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 interface Props {
   label?: string;
   value?: ChartingOrientation;
   onChange: (v: ChartingOrientation) => void;
-  sx?: Sx;
+  sx?: EmotionSx;
   disabled?: boolean;
 }
 
@@ -29,7 +31,7 @@ export const OrientationSelector = forwardRef(
         label={label ?? t('chart.orientation.label')}
         data={options}
         value={value}
-        onChange={onChange}
+        onChange={getSelectChangeHandler(onChange)}
         sx={sx}
         disabled={disabled}
       />

@@ -51,15 +51,14 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   };
 
   return (
-    <Stack p={20} sx={{ maxWidth: '1100px', height: '100vh' }} spacing="sm">
-      <Group sx={{ alignItems: 'end' }} spacing={40}>
+    <Stack p={20} sx={{ maxWidth: '1100px', height: '100vh' }} gap="sm">
+      <Group sx={{ alignItems: 'end' }} gap={40}>
         <TextInput
           label={isADuplicatedKey ? t('sql_snippet.key_occupied') : t('sql_snippet.key')}
           value={key}
           onChange={(e) => {
             setKey(e.currentTarget.value);
           }}
-          // @ts-expect-error important
           sx={{ flexGrow: '1 !important' }}
           rightSection={
             <ActionIcon
@@ -73,11 +72,11 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           }
           error={isADuplicatedKey}
         />
-        <Button leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
+        <Button leftSection={<IconTrash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
           {t('sql_snippet.delete')}
         </Button>
       </Group>
-      <Tabs value={tab} onTabChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>
+      <Tabs value={tab} onChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>
         <Tabs.List sx={{ position: 'relative' }}>
           <Tabs.Tab value="SQL">{t('sql_snippet.edit_snippet')}</Tabs.Tab>
           <Tabs.Tab value="Preview">{t('sql_snippet.preview_snippet')}</Tabs.Tab>

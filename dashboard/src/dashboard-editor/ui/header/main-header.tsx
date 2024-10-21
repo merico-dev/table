@@ -1,4 +1,4 @@
-import { Button, Group, Header as MantineHeader, Text } from '@mantine/core';
+import { Button, Group, AppShell, Text } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
@@ -25,29 +25,31 @@ export const MainHeader = observer(
     };
 
     return (
-      <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 299 }}>
-        <Group position="apart" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
+      <AppShell.Header h={60} py={0} px="md" sx={{ zIndex: 299 }}>
+        <Group justify="space-between" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
           <Group>
             <Button
               size="xs"
               color={hasChanges ? 'red' : 'green'}
-              leftIcon={<IconArrowLeft size={20} />}
+              leftSection={<IconArrowLeft size={20} />}
               onClick={goBack}
             >
-              <Group spacing={4}>
+              <Group gap={4}>
                 <Trans i18nKey="common.actions.end_editing" values={{ name: model.name }}>
-                  End Editing <Text td="underline">{model.name}</Text>
+                  <Text td="underline" size="xs">
+                    {model.name}
+                  </Text>
                 </Trans>
               </Group>
             </Button>
 
             <SaveChangesOrMore saveDashboardChanges={saveDashboardChanges} />
           </Group>
-          <Group position="right" sx={{ flexGrow: 1 }}>
+          <Group justify="flex-end" sx={{ flexGrow: 1 }}>
             {headerSlot}
           </Group>
         </Group>
-      </MantineHeader>
+      </AppShell.Header>
     );
   },
 );

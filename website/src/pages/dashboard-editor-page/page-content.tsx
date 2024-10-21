@@ -2,8 +2,6 @@ import { DashboardContentDBType, DashboardEditor, IDashboard } from '@devtable/d
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 
 import { IDashboardModel, OnExitParams } from '@devtable/dashboard';
 import { Group, Text } from '@mantine/core';
@@ -125,9 +123,9 @@ function useHandleExitEditPage() {
       if (hasChanges) {
         modals.openConfirmModal({
           title: (
-            <Group position="left">
+            <Group justify="flex-start">
               <IconAlertTriangle size={18} color="red" />
-              <Text>There are unsaved changes</Text>
+              <Text size="sm">There are unsaved changes</Text>
             </Group>
           ),
           labels: { confirm: 'Discard', cancel: 'Cancel' },

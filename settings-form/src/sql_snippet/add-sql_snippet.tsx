@@ -77,8 +77,8 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
           name="content"
           control={control}
           render={({ field }) => (
-            <Stack spacing={4}>
-              <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
+            <Stack gap={4}>
+              <Text size={'14px'} fw={500} c="#212529" sx={{ cursor: 'default' }}>
                 {t('global_sql_snippet.content')}
               </Text>
               <MinimalMonacoEditor height="600px" {...field} />
@@ -86,7 +86,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
           )}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
@@ -123,7 +123,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
       >
         <AddSQLSnippetForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconPlaylistAdd size={18} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconPlaylistAdd size={18} />}>
         {t('global_sql_snippet.add')}
       </Button>
     </>

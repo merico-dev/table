@@ -77,8 +77,8 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
           name="content"
           control={control}
           render={({ field }) => (
-            <Stack spacing={4}>
-              <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
+            <Stack gap={4}>
+              <Text size={'14px'} fw={500} c="#212529" sx={{ cursor: 'default' }}>
                 {t('global_sql_snippet.content')}
               </Text>
               <MinimalMonacoEditor height="600px" {...field} />
@@ -86,7 +86,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
           )}
         />
 
-        <Group position="right" mt={styles.spacing}>
+        <Group justify="flex-end" mt={styles.spacing}>
           <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
@@ -123,7 +123,7 @@ export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }:
       >
         <UpdateSQLSnippetForm postSubmit={postSubmit} styles={styles} {...rest} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<IconEdit size={18} />}>
+      <Button size={styles.button.size} onClick={open} leftSection={<IconEdit size={18} />}>
         {t('common.actions.edit')}
       </Button>
     </>

@@ -1,6 +1,7 @@
-import { Box, Flex, Sx } from '@mantine/core';
+import { Box, Flex } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { useStorageData } from '~/components/plugins/hooks';
 import { ReadonlyRichText } from '~/components/widgets';
@@ -18,7 +19,7 @@ const verticalAlignments = {
 };
 
 function getWrapperSx(triggersCount: number) {
-  const ret: Sx = {
+  const ret: EmotionSx = {
     flexGrow: 1,
   };
   if (triggersCount > 0) {

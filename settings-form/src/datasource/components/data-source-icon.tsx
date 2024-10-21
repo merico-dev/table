@@ -21,7 +21,7 @@ interface IProps {
 export function DataSourceIcon({ type }: IProps) {
   return (
     <Group>
-      <ActionIcon size="xs" sx={{ transform: 'none !important' }}>
+      <ActionIcon variant="subtle" size="xs" sx={{ transform: 'none !important' }}>
         {icons[type]}
       </ActionIcon>
       <Text sx={{ cusor: 'default', userSelect: 'none' }}>{names[type]}</Text>

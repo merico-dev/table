@@ -44,44 +44,41 @@ export const APIKeyList = withEntry<Props>('APIKeyList', ({ styles = defaultStyl
 
   return (
     <>
-      <Group pt={styles.spacing} position="right">
+      <Group pt={styles.spacing} justify="flex-end">
         <AddAPIKey onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 'INACTIVE'} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading || roleLoading} />
-        <Table
-          horizontalSpacing={styles.spacing}
-          verticalSpacing={styles.spacing}
-          fontSize={styles.size}
-          highlightOnHover
-        >
-          <thead>
-            <tr>
-              <th>{t('common.name')}</th>
-              <th>{t('api_key.app_id')}</th>
-              <th>{t('role.label')}</th>
-              <th>{t('common.action')}</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fz={styles.size} highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>{t('common.name')}</Table.Th>
+              <Table.Th>{t('api_key.app_id')}</Table.Th>
+              <Table.Th>{t('role.label')}</Table.Th>
+              <Table.Th>{t('common.action')}</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {data.map((api_key) => {
               const { id, name, app_id, role_id } = api_key;
               return (
-                <tr key={id}>
-                  <td width={200}>{name}</td>
-                  <td width={200}>{app_id}</td>
-                  <td width={200}>{role_id}</td>
-                  {/* <td width={200}>{create_time}</td>
-                <td width={200}>{update_time}</td> */}
-                  <td width={200}>
-                    <Group position="left">
+                <Table.Tr key={id}>
+                  <Table.Td width={200}>{name}</Table.Td>
+                  <Table.Td width={200}>{app_id}</Table.Td>
+                  <Table.Td width={200}>{role_id}</Table.Td>
+                  {/*
+                  <Table.Td width={200}>{create_time}</Table.Td>
+                  <Table.Td width={200}>{update_time}</Table.Td>
+                  */}
+                  <Table.Td width={200}>
+                    <Group justify="flex-start">
                       <DeleteAPIKey id={id} name={name} onSuccess={refresh} />
                     </Group>
-                  </td>
-                </tr>
+                  </Table.Td>
+                </Table.Tr>
               );
             })}
-          </tbody>
+          </Table.Tbody>
         </Table>
       </Box>
     </>

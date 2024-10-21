@@ -56,7 +56,7 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
       size="xs"
       variant="filled"
       color="green"
-      leftIcon={<IconCheck size={14} />}
+      leftSection={<IconCheck size={14} />}
       onClick={submit}
       disabled={loading}
     >

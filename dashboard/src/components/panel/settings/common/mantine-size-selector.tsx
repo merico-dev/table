@@ -1,12 +1,15 @@
-import { MantineSize, MANTINE_SIZES, Select, Sx } from '@mantine/core';
+import { MantineSize, Select } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { Ref, forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
+const MANTINE_SIZES = ['xs', 'sm', 'md', 'lg', 'xl'];
 interface Props {
   label: string;
-  value: MantineSize;
-  onChange: (v: MantineSize) => void;
-  sx?: Sx;
+  value: string;
+  onChange: (v: string) => void;
+  sx?: EmotionSx;
   disabled?: boolean;
 }
 
@@ -20,6 +23,16 @@ export const MantineSizeSelector = forwardRef(
       }));
     }, []);
 
-    return <Select ref={ref} data={options} label={label} value={value} onChange={onChange} sx={sx} disabled />;
+    return (
+      <Select
+        ref={ref}
+        data={options}
+        label={label}
+        value={value}
+        onChange={getSelectChangeHandler<MantineSize>(onChange)}
+        sx={sx}
+        disabled
+      />
+    );
   },
 );

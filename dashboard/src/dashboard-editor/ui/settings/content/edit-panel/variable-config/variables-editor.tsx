@@ -32,11 +32,11 @@ export const VariableList = observer((props: IVariableListProps) => {
 const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel }) => {
   const { t } = useTranslation();
   return (
-    <Overlay color="#fff" opacity={1} sx={{ position: 'absolute' }}>
+    <Overlay color="#fff" backgroundOpacity={1} sx={{ position: 'absolute' }}>
       <Button
         variant="light"
         size="xs"
-        leftIcon={<IconPlus size={16} />}
+        leftSection={<IconPlus size={16} />}
         onClick={model.addNew}
         sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
       >
@@ -54,7 +54,7 @@ export const VariablesEditor = observer(() => {
   }
   return (
     <Stack pb={20}>
-      <Group position="left">
+      <Group justify="flex-start">
         <Select
           label={t('panel.variable.labels')}
           data={model.variableOptions}
@@ -66,7 +66,7 @@ export const VariablesEditor = observer(() => {
         <Button
           variant="light"
           size="xs"
-          leftIcon={<IconPlus size={16} />}
+          leftSection={<IconPlus size={16} />}
           onClick={model.addNew}
           sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
         >

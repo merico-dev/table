@@ -38,7 +38,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
     >
       <Tabs.List>
         <Tabs.Tab value="Edit">
-          <Group spacing={14} position="apart">
+          <Group gap={14} justify="space-between">
             {t('query.edit_sql')}
           </Group>
         </Tabs.Tab>

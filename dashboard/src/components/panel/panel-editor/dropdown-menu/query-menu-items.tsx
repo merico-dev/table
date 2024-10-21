@@ -24,12 +24,12 @@ export const QueryMenuItems = observer(({ view }: { view: ViewMetaInstance }) =>
   return (
     <>
       <Divider label={t(queries.length > 1 ? 'query.labels' : 'query.label')} labelPosition="center" />
-      <Menu.Item onClick={openTabData} icon={<IconDatabase size={14} />}>
+      <Menu.Item onClick={openTabData} leftSection={<IconDatabase size={14} />}>
         {t('data.label')}
       </Menu.Item>
       {queries.map((q) => {
         return (
-          <Menu.Item key={q.value} onClick={() => openQuery(q.value)} icon={<IconDatabase size={14} />}>
+          <Menu.Item key={q.value} onClick={() => openQuery(q.value)} leftSection={<IconDatabase size={14} />}>
             {q.label}
           </Menu.Item>
         );

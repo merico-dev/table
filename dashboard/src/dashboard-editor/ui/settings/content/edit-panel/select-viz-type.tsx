@@ -1,4 +1,4 @@
-import { ActionIcon, Select } from '@mantine/core';
+import { ActionIcon, ComboboxItemGroup, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import _ from 'lodash';
@@ -8,17 +8,29 @@ import { useTranslation } from 'react-i18next';
 
 import { PluginContext } from '~/components/plugins';
 
-type OptionType = { label: string; value: string; group: string };
 function useVizSelectData() {
   const { t } = useTranslation();
   const { vizManager } = useContext(PluginContext);
   return useMemo(() => {
-    const ret: OptionType[] = vizManager.availableVizList.map((it) => ({
-      value: it.name,
-      label: t(it.displayName ?? it.name),
-      group: t(it.displayGroup ?? ''),
-    }));
-    return _.orderBy(ret, [(i) => i.group, (i) => i.label], ['asc', 'asc']);
+    const grouped = _.orderBy(
+      Object.entries(_.groupBy(vizManager.availableVizList, 'displayGroup')),
+      [(i) => i[0]],
+      ['asc'],
+    );
+    const ret: ComboboxItemGroup[] = grouped.map(([group, vizList]) => {
+      const items = vizList.map((item) => {
+        return {
+          value: item.name,
+          label: t(item.displayName ?? it.name),
+        };
+      });
+      return {
+        group: t(group ?? 'ungrouped'),
+        items: _.orderBy(items, [(i) => i.label], ['asc']),
+      };
+    });
+
+    return ret;
   }, [vizManager]);
 }
 

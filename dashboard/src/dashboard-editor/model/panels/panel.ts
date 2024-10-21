@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { getParent, getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { PanelRenderModel } from '~/model';
 import { parseDataKey } from '~/utils';
@@ -103,6 +104,21 @@ export const PanelModel = PanelRenderModel.views((self) => ({
       options.unshift({ label: 'unset', value: '', group: '', group_id: '', disabled: false });
     }
     return options;
+  },
+  dataFieldOptionGroups(selected: TDataKey, clearable: boolean, queryID?: string) {
+    const options = this.dataFieldOptions(selected, clearable, queryID);
+    const ret = Object.entries(_.groupBy(options, 'group')).map(([group, items]) => {
+      return {
+        group,
+        items: items.map((item) => ({
+          label: item.label,
+          value: item.value,
+          group_id: item.group_id,
+          disabled: item.disabled,
+        })),
+      };
+    });
+    return ret;
   },
   explainDataKey(dataKey: TDataKey) {
     const { queryID, columnKey } = parseDataKey(dataKey);

@@ -10,10 +10,11 @@ export const StaticNumberField = ({ value: conf, onChange }: IProps) => {
     return null;
   }
 
-  const handleChange = (v: TNumberOrDynamic_Static['value']) => {
+  const handleChange = (v: number | string) => {
+    const value = typeof v === 'string' ? '' : v;
     onChange({
       ...conf,
-      value: v,
+      value,
     });
   };
   return <NumberInput defaultValue={18} label=" " hideControls value={conf.value} onChange={handleChange} />;

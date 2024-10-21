@@ -1,4 +1,5 @@
-import { Button, HoverCard, Sx, Table, Tabs, Text } from '@mantine/core';
+import { Button, HoverCard, Table, Tabs, Text } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,7 @@ import { ErrorBoundary, formatNumber } from '~/utils';
 import { IRegressionChartConf } from '../../type';
 import { TDescription, getRegressionDescription } from './desc';
 
-const TableSx: Sx = {
+const TableSx: EmotionSx = {
   marginTop: '10px',
   'tbody th, tbody td': {
     padding: '7px 10px',
@@ -20,29 +21,31 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
   const { t } = useTranslation();
   const { expression, rSquared, adjustedRSquared } = desc;
   if (!expression) {
-    return <Text>Unavailable for this regression method</Text>;
+    return <Text size="sm">Unavailable for this regression method</Text>;
   }
   return (
-    <Table fontSize={14} sx={TableSx}>
-      <tbody>
-        <tr>
-          <td colSpan={2}>
-            <Text align="center">{expression}</Text>
-          </td>
-        </tr>
-        <tr>
-          <td>{t('viz.regression_chart.r_sq')}</td>
-          <td style={{ textAlign: 'right' }}>
+    <Table fz={14} sx={TableSx}>
+      <Table.Tbody>
+        <Table.Tr>
+          <Table.Td colSpan={2}>
+            <Text size="sm" ta="center">
+              {expression}
+            </Text>
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Td>{t('viz.regression_chart.r_sq')}</Table.Td>
+          <Table.Td style={{ textAlign: 'right' }}>
             {formatNumber(rSquared, { output: 'percent', mantissa: 1, absolute: false })}
-          </td>
-        </tr>
-        <tr>
-          <td>{t('viz.regression_chart.r_sq_adjusted')}</td>
-          <td style={{ textAlign: 'right' }}>
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Td>{t('viz.regression_chart.r_sq_adjusted')}</Table.Td>
+          <Table.Td style={{ textAlign: 'right' }}>
             {formatNumber(adjustedRSquared, { output: 'percent', mantissa: 1, absolute: false })}
-          </td>
-        </tr>
-      </tbody>
+          </Table.Td>
+        </Table.Tr>
+      </Table.Tbody>
     </Table>
   );
 }
@@ -83,7 +86,7 @@ export function RegressionDescription({ conf, queryData }: IRegressionDescriptio
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
       <HoverCard.Target>
-        <Button size="xs" variant="subtle" compact leftIcon={<IconInfoCircle size={14} />}>
+        <Button variant="subtle" size="compact-xs" leftSection={<IconInfoCircle size={14} />}>
           {t('viz.regression_chart.regression_info')}
         </Button>
       </HoverCard.Target>

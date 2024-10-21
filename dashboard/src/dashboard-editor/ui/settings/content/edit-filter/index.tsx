@@ -18,7 +18,7 @@ export const EditFilter = observer(({ id }: { id: string }) => {
 
   const filter = content.filters.findByID(id);
   if (!filter) {
-    return <Text size={14}>Filter by ID[{id}] is not found</Text>;
+    return <Text size={'14px'}>Filter by ID[{id}] is not found</Text>;
   }
 
   const resetEditorPath = () => {
@@ -39,9 +39,9 @@ export const EditFilter = observer(({ id }: { id: string }) => {
     });
   };
   return (
-    <Stack sx={{ maxWidth: '1100px', height: '100vh' }} spacing="sm" pb={30}>
-      <Group position="right" pt={10}>
-        <Button size="xs" color="red" leftIcon={<IconTrash size={16} />} onClick={removeWithConfirmation}>
+    <Stack sx={{ maxWidth: '1100px', height: '100vh' }} gap="sm" pb={30}>
+      <Group justify="flex-end" pt={10}>
+        <Button size="xs" color="red" leftSection={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('filter.delete')}
         </Button>
       </Group>

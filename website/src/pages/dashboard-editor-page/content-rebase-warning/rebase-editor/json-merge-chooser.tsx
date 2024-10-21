@@ -15,7 +15,11 @@ interface IResolveAction {
 const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolveAction) => {
   if (chosen) {
     return (
-      <Badge color="green" sx={{ textTransform: 'none', cursor: 'default', userSelect: 'none', height: '26px' }}>
+      <Badge
+        color="green"
+        variant="light"
+        sx={{ textTransform: 'none', cursor: 'default', userSelect: 'none', height: '26px' }}
+      >
         <Group>
           <IconCheck size={14} />
           Chosen
@@ -29,12 +33,12 @@ const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolv
   return (
     <Tooltip
       label={
-        <Group spacing={4}>
-          <Text>This will discard</Text>
-          <Text fw={700} sx={{ display: 'inline-block' }}>
+        <Group gap={4}>
+          <Text size="sm">This will discard</Text>
+          <Text size="sm" fw={700} sx={{ display: 'inline-block' }}>
             {opposite}
           </Text>
-          <Text>changes</Text>
+          <Text size="sm">changes</Text>
         </Group>
       }
     >
@@ -43,7 +47,7 @@ const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolv
         size="xs"
         color="green"
         aria-label="use local"
-        leftIcon={<IconCheck size={14} />}
+        leftSection={<IconCheck size={14} />}
         onClick={onClick}
         sx={{ height: 26 }}
       >
@@ -68,15 +72,15 @@ export const JSONMergeChooser = observer(
     return (
       <Card px={0} withBorder>
         <Card.Section withBorder inheritPadding py="xs">
-          <Group px="xs" position="apart">
-            <Text size={14} fw={500}>
+          <Group px="xs" justify="space-between">
+            <Text size={'14px'} fw={500}>
               {label}
             </Text>
             <ResolveAction resolved={resolved} opposite={opposite} onClick={onClick} chosen={chosen} />
           </Group>
         </Card.Section>
         <Card.Section inheritPadding pt="xs" sx={{ position: 'relative' }}>
-          {resolved && !chosen && <Overlay color="white" opacity={0.6} />}
+          {resolved && !chosen && <Overlay color="white" backgroundOpacity={0.6} />}
           <ErrorBoundary>
             <JsonChangesViewer base={diff.values.base} changed={changed} />
           </ErrorBoundary>

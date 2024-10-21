@@ -3,6 +3,7 @@ import { Control, Controller, UseFormReturn } from 'react-hook-form';
 import { VisualMapPartialForm } from '../types';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getSelectChangeHandler } from '~/utils/mantine';
 
 const symbols = {
   lower: [
@@ -53,7 +54,7 @@ export const IntervalEditor = ({ form, index }: Props) => {
   const [opened, setOpened] = useState(false);
 
   return (
-    <Group noWrap>
+    <Group wrap="nowrap">
       <Popover
         width={400}
         position="bottom"
@@ -67,16 +68,17 @@ export const IntervalEditor = ({ form, index }: Props) => {
         <Popover.Target>
           <Button
             variant="subtle"
-            compact
+            size="compact-sm"
             px={0}
             onClick={() => setOpened((o) => !o)}
-            sx={{ fontFamily: 'monospace', fontWeight: 'normal' }}
+            fw="normal"
+            ff="monospace"
           >
             {intervalPreview}
           </Button>
         </Popover.Target>
         <Popover.Dropdown>
-          <Group noWrap spacing={8}>
+          <Group wrap="nowrap" gap={8}>
             <Controller
               name={`visualMap.pieces.${index}.lower.value`}
               control={control}
@@ -94,17 +96,27 @@ export const IntervalEditor = ({ form, index }: Props) => {
               name={`visualMap.pieces.${index}.lower.symbol`}
               control={control}
               render={({ field }) => (
-                <Select size="xs" data={symbols.lower} {...field} onChange={(v: 'gt' | 'gte') => field.onChange(v)} />
+                <Select
+                  size="xs"
+                  data={symbols.lower}
+                  {...field}
+                  onChange={getSelectChangeHandler((v: 'gt' | 'gte') => field.onChange(v))}
+                />
               )}
             />
-            <Text color="dimmed" size="sm" sx={{ userSelect: 'none', cursor: 'default' }}>
+            <Text c="dimmed" size="sm" sx={{ userSelect: 'none', cursor: 'default' }}>
               {t('common.value').toLowerCase()}
             </Text>
             <Controller
               name={`visualMap.pieces.${index}.upper.symbol`}
               control={control}
               render={({ field }) => (
-                <Select size="xs" data={symbols.upper} {...field} onChange={(v: 'lt' | 'lte') => field.onChange(v)} />
+                <Select
+                  size="xs"
+                  data={symbols.upper}
+                  {...field}
+                  onChange={getSelectChangeHandler((v: 'lt' | 'lte') => field.onChange(v))}
+                />
               )}
             />
             <Controller

@@ -29,7 +29,7 @@ export function RegressionField({ control, watch }: IRegressionField) {
 
   return (
     <Stack>
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`regression.name`}
           control={control}
@@ -43,7 +43,7 @@ export function RegressionField({ control, watch }: IRegressionField) {
           <DataFieldSelector label={t('chart.series.group_by.label')} clearable sx={{ flex: 1 }} {...field} />
         )}
       />
-      <Group grow noWrap>
+      <Group grow wrap="nowrap">
         <Controller
           name={`regression.transform.config.method`}
           control={control}

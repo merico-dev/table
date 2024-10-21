@@ -22,7 +22,7 @@ export function VizMericoStatsEditor({ context }: VizConfigProps) {
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Stack spacing="xs">
+      <Stack gap="xs">
         <VizConfigBanner canSubmit={formState.isDirty} />
         <StylesField control={control} watch={watch} />
         <MetricsField control={control} watch={watch} variables={variables} />

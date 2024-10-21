@@ -1,13 +1,13 @@
-import { ActionIcon, Menu, Sx, Tooltip } from '@mantine/core';
-import { IconLock, IconSettings } from '@tabler/icons-react';
+import { ActionIcon, Menu, Tooltip } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
+import { IconEdit, IconFileImport, IconLock, IconPaint, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import { IconEdit, IconFileImport, IconPaint } from '@tabler/icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
 import { DashboardBriefModelInstance } from '../../../models/dashboard-brief-model';
 import { DeleteDashboard } from './delete-dashboard';
 
-const ActionIconSx: Sx = {
+const ActionIconSx: EmotionSx = {
   width: '42px',
   height: '42px',
   position: 'absolute',
@@ -38,7 +38,7 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
         label="This is a preset dashboard. You can not edit it."
         events={{ hover: true, focus: false, touch: false }}
       >
-        <ActionIcon color="gray" sx={{ transform: 'none !important', ...ActionIconSx }}>
+        <ActionIcon variant="subtle" size="xs" color="gray" sx={{ transform: 'none !important', ...ActionIconSx }}>
           <IconLock size={16} />
         </ActionIcon>
       </Tooltip>
@@ -58,15 +58,15 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item icon={<IconPaint size={16} />} onClick={visitDashboardDesign}>
+        <Menu.Item leftSection={<IconPaint size={16} />} onClick={visitDashboardDesign}>
           Design
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openEditModal(model.id)} icon={<IconEdit size={16} />}>
+        <Menu.Item onClick={() => openEditModal(model.id)} leftSection={<IconEdit size={16} />}>
           Rename
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openOverwriteModal(model.id)} icon={<IconFileImport size={16} />}>
+        <Menu.Item onClick={() => openOverwriteModal(model.id)} leftSection={<IconFileImport size={16} />}>
           Overwrite with JSON file
         </Menu.Item>
         <Menu.Divider />

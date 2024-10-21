@@ -1,21 +1,19 @@
 import { ActionIcon, HoverCard, Table } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { CodeHighlight } from '@mantine/code-highlight';
 import { IconEye } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 
 function HoverToSeeContent({ content }: { content: string }) {
   return (
-    <HoverCard width="60vw" shadow="md">
+    <HoverCard width="60vw" shadow="md" zIndex={340}>
       <HoverCard.Target>
-        <ActionIcon size={16} color="blue">
+        <ActionIcon size={16} color="blue" variant="subtle">
           <IconEye />
         </ActionIcon>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Prism language="sql" noCopy withLineNumbers>
-          {content}
-        </Prism>
+        <CodeHighlight language="sql" withCopyButton={false} code={content} />
       </HoverCard.Dropdown>
     </HoverCard>
   );
@@ -28,26 +26,26 @@ export const GlobalSQLSnippetsTable = observer(() => {
     return null;
   }
   return (
-    <Table horizontalSpacing="xs" verticalSpacing="xs" fontSize="sm" highlightOnHover>
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table horizontalSpacing="xs" verticalSpacing="xs" fz="sm" highlightOnHover>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>Key</Table.Th>
+          <Table.Th>Value</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {list.map((snippet) => {
           const { id, content } = snippet;
           return (
-            <tr key={id}>
-              <td>{id}</td>
-              <td width={200}>
+            <Table.Tr key={id}>
+              <Table.Td>{id}</Table.Td>
+              <Table.Td width={200}>
                 <HoverToSeeContent content={content} />
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           );
         })}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });

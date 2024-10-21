@@ -30,14 +30,14 @@ export const VizRichTextEditor = observer(({ context }: VizConfigProps) => {
   const onContentSubmit = () => submitButton.current?.click();
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-      <Stack spacing="xs" sx={{ flexGrow: 1 }}>
+      <Stack gap="xs" sx={{ flexGrow: 1 }}>
         <Group
-          position="left"
+          justify="flex-start"
           py="md"
           pl="md"
           sx={{ borderBottom: '1px solid #eee', background: '#efefef', display: 'none' }}
         >
-          <Text>{t('rich_text.content.label')}</Text>
+          <Text size="sm">{t('rich_text.content.label')}</Text>
           <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="blue">
             <IconDeviceFloppy size={20} />
           </ActionIcon>

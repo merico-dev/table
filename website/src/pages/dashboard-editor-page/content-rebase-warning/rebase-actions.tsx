@@ -112,7 +112,7 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
     handleApply(changes);
   };
   return (
-    <Button size="xs" variant="filled" color="green" onClick={rebase} leftIcon={<IconCheck size={14} />}>
+    <Button size="xs" variant="filled" color="green" onClick={rebase} leftSection={<IconCheck size={14} />}>
       Accept incoming changes
     </Button>
   );

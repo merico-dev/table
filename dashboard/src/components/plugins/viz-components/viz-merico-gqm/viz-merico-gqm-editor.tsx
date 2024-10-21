@@ -50,7 +50,7 @@ export function VizMericoGQMEditor({ context }: VizConfigProps) {
           type="submit"
           variant="filled"
           color="blue"
-          leftIcon={<IconDeviceFloppy size={20} />}
+          leftSection={<IconDeviceFloppy size={20} />}
           disabled={!formState.isDirty}
           sx={{ alignSelf: 'flex-end' }}
         >

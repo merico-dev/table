@@ -1,10 +1,11 @@
-import { Sx, Tabs } from '@mantine/core';
+import { Tabs } from '@mantine/core';
+import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { DashboardViewRender } from '~/components/view';
 import { useRenderContentModelContext } from '~/contexts';
 import { TabModelInstance, ViewRenderModelInstance, ViewTabsConfigInstance } from '~/model';
 
-const getTabSX = (t: TabModelInstance): Sx => {
+const getTabSX = (t: TabModelInstance): EmotionSx => {
   if (t.color) {
     return { '&[data-active], &[data-active]:hover': { borderColor: t.color ? t.color : '...' } };
   }
@@ -20,7 +21,7 @@ export const RenderViewTabs = observer(({ view }: { view: ViewRenderModelInstanc
       variant={config.variant}
       orientation={config.orientation}
       value={view.tab}
-      onTabChange={view.setTab}
+      onChange={view.setTab}
       styles={{
         root: {
           height: '100%',
