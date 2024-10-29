@@ -24,6 +24,10 @@
     "./dist/version.json": {
       "import": "./dist/version.json",
       "require": "./dist/version.json"
+    },
+    "./dist/index.d.ts": {
+      "import": "./dist/index.d.ts",
+      "require": "./dist/index.d.ts"
     }
   },
   "scripts": {
