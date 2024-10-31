@@ -14,8 +14,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/dashboard.es.js",
-      "require": "./dist/dashboard.umd.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/dashboard.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/dashboard.umd.js"
+      }
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
@@ -24,10 +30,6 @@
     "./dist/version.json": {
       "import": "./dist/version.json",
       "require": "./dist/version.json"
-    },
-    "./dist/index.d.ts": {
-      "import": "./dist/index.d.ts",
-      "require": "./dist/index.d.ts"
     }
   },
   "scripts": {

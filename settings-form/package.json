@@ -14,8 +14,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/settings-form.es.js",
-      "require": "./dist/settings-form.umd.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/settings-form.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/settings-form.umd.js"
+      }
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
