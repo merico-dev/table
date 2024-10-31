@@ -18,6 +18,7 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
       <Table
         withTableBorder={false}
         sx={{
+          'tbody > tr': { border: 'none' },
           'tbody > tr > th, tbody > tr > td': { borderTop: 'none', padding: '2px 6px' },
           'tbody > tr > th': { cursor: 'default', userSelect: 'none' },
           td: { paddingLeft: '1px' },
