@@ -10,7 +10,7 @@ import useStyles from './widget.styles';
 
 type Props = {
   radius?: MantineRadius;
-  style?: Record<string, any>;
+  style: Record<string, any>;
   label: string;
   value: TreeItem[];
   onChange: (v: TreeItem[]) => void;
@@ -36,13 +36,14 @@ export const FilterTreeSelectWidget = ({
   treeCheckStrictly,
 }: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius, name: 'FilterTreeSelectWidget' });
+  const { classes, cx } = useStyles({ radius, width: style.width, name: 'FilterTreeSelectWidget' });
 
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);
   };
   const tooltipVisible = showTooltip && value?.length > 0;
+
   return (
     <Stack gap={3}>
       <Group justify="space-between">

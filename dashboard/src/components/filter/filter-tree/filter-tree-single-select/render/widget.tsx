@@ -11,7 +11,7 @@ import useStyles from './widget.styles';
 // It accepts 2 types: styles names and styles params, both of them are optional
 type Props = {
   radius?: MantineRadius;
-  style?: Record<string, any>;
+  style: Record<string, any>;
   label: string;
   value: TreeItem;
   onChange: (v: TreeItem) => void;
@@ -35,7 +35,7 @@ export const FilterTreeSingleSelectWidget = ({
   required,
 }: Props) => {
   const { t } = useTranslation();
-  const { classes, cx } = useStyles({ radius, name: 'FilterTreeSelectWidget' });
+  const { classes, cx } = useStyles({ radius, width: style.width, name: 'FilterTreeSelectWidget' });
   return (
     <Stack gap={3}>
       <Group justify="space-between">

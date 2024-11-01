@@ -3,10 +3,11 @@ import { createStyles } from '@mantine/emotion';
 
 export interface TreeSelectWidgetStylesParams {
   radius?: MantineRadius;
+  width: string;
   name: string;
 }
 
-export default createStyles((theme, { radius = 4, name }: TreeSelectWidgetStylesParams) => ({
+export default createStyles((theme, { radius = 4, width, name }: TreeSelectWidgetStylesParams) => ({
   root: {
     borderRadius: getRadius(radius),
     display: 'flex',
@@ -115,6 +116,7 @@ export default createStyles((theme, { radius = 4, name }: TreeSelectWidgetStyles
     zIndex: 300,
     paddingTop: '6px',
     position: 'relative',
+    width: `${width} !important`,
     '&.rc-tree-select-dropdown-slide-up-leave-active': {
       display: 'none',
     },
