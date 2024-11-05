@@ -4395,16 +4395,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/core@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "@tiptap/core@npm:2.8.0"
-  peerDependencies:
-    "@tiptap/pm": ^2.7.0
-  checksum: 5d7dc2801304dc532d96d2434c8c3b4e14411b21f357cfbc43ba33ae1d045961f1aa837a2ee67586a03bab1b0a1281783957c6c7b69b85034bb6aa4d6e23f256
-  languageName: node
-  linkType: hard
-
-"@tiptap/core@npm:^2.9.1":
+"@tiptap/core@npm:^2.8.0, @tiptap/core@npm:^2.9.1":
   version: 2.9.1
   resolution: "@tiptap/core@npm:2.9.1"
   peerDependencies:
@@ -4750,33 +4741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/pm@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "@tiptap/pm@npm:2.8.0"
-  dependencies:
-    prosemirror-changeset: ^2.2.1
-    prosemirror-collab: ^1.3.1
-    prosemirror-commands: ^1.6.0
-    prosemirror-dropcursor: ^1.8.1
-    prosemirror-gapcursor: ^1.3.2
-    prosemirror-history: ^1.4.1
-    prosemirror-inputrules: ^1.4.0
-    prosemirror-keymap: ^1.2.2
-    prosemirror-markdown: ^1.13.0
-    prosemirror-menu: ^1.2.4
-    prosemirror-model: ^1.22.3
-    prosemirror-schema-basic: ^1.2.3
-    prosemirror-schema-list: ^1.4.1
-    prosemirror-state: ^1.4.3
-    prosemirror-tables: ^1.4.0
-    prosemirror-trailing-node: ^3.0.0
-    prosemirror-transform: ^1.10.0
-    prosemirror-view: ^1.33.10
-  checksum: 6c18f67f66c88e1317d1a80fc802f02daed1ed16c043637d943606c3d197576d998991bf42c1750337ea8e8ac48e21c42b2da0546980eac7ddc7d7e864df0125
-  languageName: node
-  linkType: hard
-
-"@tiptap/pm@npm:^2.9.1":
+"@tiptap/pm@npm:^2.8.0, @tiptap/pm@npm:^2.9.1":
   version: 2.9.1
   resolution: "@tiptap/pm@npm:2.9.1"
   dependencies:
@@ -15487,17 +15452,6 @@ __metadata:
     prosemirror-state: ^1.0.0
     prosemirror-transform: ^1.1.0
   checksum: 1006585b7c4f2fd59af352cb4c9845050b7170edb94981f1a16281fecc498cbd8bf7941acbe96bf4b723c8b9496a28662b96b8959bc9bebc7c19d4f21f5ec0d8
-  languageName: node
-  linkType: hard
-
-"prosemirror-view@npm:^1.33.10":
-  version: 1.34.3
-  resolution: "prosemirror-view@npm:1.34.3"
-  dependencies:
-    prosemirror-model: ^1.20.0
-    prosemirror-state: ^1.0.0
-    prosemirror-transform: ^1.1.0
-  checksum: 622a9e40616da70a3f0368979a8b1e1639c90781ebfd3528c1cbf9863d2eed3186d862c9fa76ff04d13b5b277bc10d3fb28c72ff665f8a018e0db068c9a80c79
   languageName: node
   linkType: hard
 
