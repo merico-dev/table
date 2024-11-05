@@ -25,12 +25,6 @@ import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
-import '@mantine/code-highlight/styles.css';
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/tiptap/styles.css';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import { createDashboardRenderModel } from './model';
 
 registerThemes();
