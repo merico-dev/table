@@ -164,6 +164,55 @@ export const QueryRenderModel = types
           }
         }
       }),
+      runMericoMetricQuery: flow(function* () {
+        if (!self.valid || !self.datasource) {
+          return;
+        }
+        self.controller?.abort();
+        if (!self.runByConditionsMet) {
+          return;
+        }
+
+        self.controller = new AbortController();
+        self.state = 'loading';
+        try {
+          // TODO: MMS
+          // const { type, key, post_process } = self.json;
+          // let config = JSON.parse(self.httpConfigString);
+          // config = preProcessWithDataSource(self.datasource, config);
+
+          // const response = yield* toGenerator(
+          //   queryByHTTP(
+          //     {
+          //       type,
+          //       key,
+          //       configString: JSON.stringify(config),
+          //       name: self.name,
+          //       additionals: self.additionalQueryInfo,
+          //     },
+          //     self.controller.signal,
+          //   ),
+          // );
+          // const result = postProcessWithDataSource(self.datasource, response);
+          // const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
+
+          // self.data = data;
+          self.state = 'idle';
+          self.error = null;
+        } catch (error) {
+          console.error(error);
+          if (!axios.isCancel(error)) {
+            self.data = [];
+            const fallback = get(error, 'message', 'unkown error');
+            self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
+            self.state = 'error';
+          } else {
+            console.debug(`🟡 Query[${self.name}] is cancelled`);
+            self.data = [];
+            self.state = 'idle';
+          }
+        }
+      }),
       runTransformation() {
         self.state = 'loading';
         try {
@@ -199,7 +248,13 @@ export const QueryRenderModel = types
         if (self.isTransform) {
           return self.runTransformation();
         }
-        return self.typedAsHTTP ? self.runHTTP() : self.runSQL();
+        if (self.typedAsHTTP) {
+          return self.runHTTP();
+        }
+        if (self.isMericoMetricQuery) {
+          return self.runMericoMetricQuery();
+        }
+        return self.runSQL();
       },
 
       beforeDestroy() {
@@ -225,6 +280,10 @@ export const QueryRenderModel = types
               return deps.join('--');
             }
             if (self.typedAsHTTP) {
+              return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
+            }
+            // TODO: MMS
+            if (self.isMericoMetricQuery) {
               return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }
             // NOTE(leto): sql queries don't need datasource info

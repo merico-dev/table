@@ -1,5 +1,4 @@
-import { getParent, types } from 'mobx-state-tree';
-import { DataSourceType } from '~/model';
+import { types } from 'mobx-state-tree';
 
 export type TableInfoType = {
   table_schema: string;

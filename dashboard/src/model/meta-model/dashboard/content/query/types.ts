@@ -3,4 +3,5 @@ export enum DataSourceType {
   MySQL = 'mysql',
   HTTP = 'http',
   Transform = 'transform',
+  MericoMetricSystem = 'merico_metric_system',
 }

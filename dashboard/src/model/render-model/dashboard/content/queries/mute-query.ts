@@ -112,6 +112,9 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   get typedAsHTTP() {
     return [DataSourceType.HTTP].includes(self.type);
   },
+  get isMericoMetricQuery() {
+    return self.type === DataSourceType.MericoMetricSystem;
+  },
   get isTransform() {
     return self.type === DataSourceType.Transform;
   },
