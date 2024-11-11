@@ -2,7 +2,7 @@ import { ActionIcon, Checkbox, Group, Stack, Switch, Table, Text, Tooltip } from
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
-import { MetricTableStyles } from '../table-styles';
+import { MetricTableStyles } from './table-styles';
 
 const rows = [
   { metric: '时间维度：commit_author_time', variable: 'filter.date_range', checked: true },
