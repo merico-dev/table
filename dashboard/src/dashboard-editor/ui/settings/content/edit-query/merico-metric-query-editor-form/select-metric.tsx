@@ -12,6 +12,7 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
   return (
     <Group justify="flex-end" gap={4} align="flex-end">
       <Select
+        size="xs"
         label="指标"
         data={[
           { value: 'react', label: 'React' },
@@ -25,7 +26,7 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
         <ActionIcon
           size="md"
           variant="subtle"
-          mb={4}
+          mb={2}
           onClick={() => showNotification({ message: 'TODO', color: 'red' })}
         >
           <MericoIconExternalLink width={14} height={14} />

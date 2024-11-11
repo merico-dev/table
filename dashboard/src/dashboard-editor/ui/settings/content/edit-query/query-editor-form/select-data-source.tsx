@@ -47,8 +47,9 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
 };
 type Props = {
   queryModel: QueryModelInstance;
+  size?: string;
 };
-export const SelectDataSource = observer(({ queryModel }: Props) => {
+export const SelectDataSource = observer(({ queryModel, size = 'sm' }: Props) => {
   const { t } = useTranslation();
   const model = useEditDashboardContext();
   const { data: dataSources = [], loading } = useRequest(
@@ -96,6 +97,7 @@ export const SelectDataSource = observer(({ queryModel }: Props) => {
   }, [model, queryModel.type, queryModel.key]);
   return (
     <Select
+      size={size}
       data={dataSourceOptions}
       label={
         <Group justify="space-between">
