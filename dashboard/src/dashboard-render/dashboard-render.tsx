@@ -26,6 +26,7 @@ import { useTopLevelServices } from '../components/plugins/service/use-top-level
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
+import { MantineEmotionProvider } from '@mantine/emotion';
 
 registerThemes();
 registerECharts();
@@ -130,40 +131,42 @@ const _ReadOnlyDashboard = ({
     lang,
   });
   return (
-    <I18nextContextProvider lang={lang}>
-      <ModalsProvider>
-        <DatesProvider>
-          <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
-            <DashboardModelContextProvider value={model}>
-              <ContentModelContextProvider value={model.content}>
-                <FullScreenPanelContext.Provider
-                  value={{
-                    fullScreenPanelID,
-                    setFullScreenPanelID,
-                  }}
-                >
-                  <LayoutStateContext.Provider
+    <MantineEmotionProvider>
+      <I18nextContextProvider lang={lang}>
+        <ModalsProvider>
+          <DatesProvider>
+            <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
+              <DashboardModelContextProvider value={model}>
+                <ContentModelContextProvider value={model.content}>
+                  <FullScreenPanelContext.Provider
                     value={{
-                      inEditMode: false,
+                      fullScreenPanelID,
+                      setFullScreenPanelID,
                     }}
                   >
-                    <Box className={`${className} dashboard-root`}>
-                      <PluginContext.Provider value={pluginContext}>
-                        <ServiceLocatorProvider configure={configureServices}>
-                          {model.content.views.visibleViews.map((view) => (
-                            <DashboardViewRender key={view.id} view={view} />
-                          ))}
-                        </ServiceLocatorProvider>
-                      </PluginContext.Provider>
-                    </Box>
-                  </LayoutStateContext.Provider>
-                </FullScreenPanelContext.Provider>
-              </ContentModelContextProvider>
-            </DashboardModelContextProvider>
-          </DashboardThemeContextProvider>
-        </DatesProvider>
-      </ModalsProvider>
-    </I18nextContextProvider>
+                    <LayoutStateContext.Provider
+                      value={{
+                        inEditMode: false,
+                      }}
+                    >
+                      <Box className={`${className} dashboard-root`}>
+                        <PluginContext.Provider value={pluginContext}>
+                          <ServiceLocatorProvider configure={configureServices}>
+                            {model.content.views.visibleViews.map((view) => (
+                              <DashboardViewRender key={view.id} view={view} />
+                            ))}
+                          </ServiceLocatorProvider>
+                        </PluginContext.Provider>
+                      </Box>
+                    </LayoutStateContext.Provider>
+                  </FullScreenPanelContext.Provider>
+                </ContentModelContextProvider>
+              </DashboardModelContextProvider>
+            </DashboardThemeContextProvider>
+          </DatesProvider>
+        </ModalsProvider>
+      </I18nextContextProvider>
+    </MantineEmotionProvider>
   );
 };
 
