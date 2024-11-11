@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { listDataSources } from '~/api-caller';
 import { useEditDashboardContext } from '~/contexts';
-import { DataSourceType } from '~/model';
+import { DataSourceType, QueryRenderModelInstance } from '~/model';
 import { DBExplorerModal } from '../../db-explorer-modal';
 
 type CustomOption = { label: string; type: DataSourceType } & ComboboxItem;
@@ -37,11 +37,10 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
     </Group>
   );
 };
-interface ISelectDataSource {
-  value: { type: DataSourceType; key: string };
-  onChange: (v: { type: DataSourceType; key: string }) => void;
-}
-export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource) => {
+type Props = {
+  queryModel: QueryRenderModelInstance;
+};
+export const SelectDataSource = observer(({ queryModel }: Props) => {
   const { t } = useTranslation();
   const model = useEditDashboardContext();
   const { data: dataSources = [], loading } = useRequest(
@@ -77,15 +76,16 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     if (key === null) {
       return;
     }
-    onChange({
-      key,
-      type: dataSourceTypeMap[key],
-    });
+    queryModel.setKey(key);
+    queryModel.setType(dataSourceTypeMap[key]);
   };
 
   const dataSource = useMemo(() => {
-    return model.datasources.find(value);
-  }, [model, value]);
+    return model.datasources.find({
+      type: queryModel.type,
+      key: queryModel.key,
+    });
+  }, [model, queryModel.type, queryModel.key]);
   return (
     <Select
       data={dataSourceOptions}
@@ -118,7 +118,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
         },
       }}
       disabled={loading}
-      value={value.key}
+      value={queryModel.key}
       onChange={handleChange}
     />
   );

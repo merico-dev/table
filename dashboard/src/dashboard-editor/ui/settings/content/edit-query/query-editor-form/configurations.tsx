@@ -46,16 +46,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
             queryModel.setName(name);
           }}
         />
-        <SelectDataSource
-          value={{
-            type: queryModel.type,
-            key: queryModel.key,
-          }}
-          onChange={({ type, key }) => {
-            queryModel.setKey(key);
-            queryModel.setType(type);
-          }}
-        />
+        <SelectDataSource queryModel={queryModel} />
         <Divider mt={10} mb={-10} variant="dashed" label={t('query.conditions')} labelPosition="center" />
         <MultiSelect
           label={t('query.run_by_condition.label')}
