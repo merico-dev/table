@@ -15,12 +15,12 @@ export class Query {
   })
   id: string;
 
-  @IsIn(['postgresql', 'mysql', 'http', 'transform'])
+  @IsIn(['postgresql', 'mysql', 'http', 'transform', 'merico_metric_system'])
   @ApiModelProperty({
     description: 'Datasource type',
     required: true,
   })
-  type: 'postgresql' | 'mysql' | 'http' | 'transform';
+  type: 'postgresql' | 'mysql' | 'http' | 'transform' | 'merico_metric_system';
 
   @IsString()
   @ApiModelProperty({
