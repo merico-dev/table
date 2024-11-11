@@ -18,7 +18,10 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
         className="transform-query-option"
         justify="flex-start"
         {...others}
-        sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
+        sx={{
+          flexGrow: 1,
+          '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } },
+        }}
       >
         <IconVectorTriangle size={14} color="#228be6" />
         <Text size="sm" c="blue">
@@ -28,7 +31,7 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
     );
   }
   return (
-    <Group justify="space-between" {...others}>
+    <Group justify="space-between" {...others} sx={{ flexGrow: 1 }}>
       <Text size="sm">{label}</Text>
       <Text size="sm">{type}</Text>
     </Group>
