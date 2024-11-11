@@ -2,7 +2,7 @@ import { Button, Group, Tabs } from '@mantine/core';
 import { IconEye } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
-import { EditMetricQuery } from './edit-metric-query';
+import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 
 const TabsStyles = {
   list: {
