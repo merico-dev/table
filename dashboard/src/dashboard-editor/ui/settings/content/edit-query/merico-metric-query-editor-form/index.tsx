@@ -1,4 +1,4 @@
-import { Group, Stack, TextInput } from '@mantine/core';
+import { Box, Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
@@ -7,6 +7,9 @@ import { SelectDataSource } from '../query-editor-form/select-data-source';
 import { MoreActions } from './more-actions';
 import { RunQuery } from './run-query';
 import { SelectMetric } from './select-metric';
+import { QueryVariablesGuide } from '../../view-query-vars/query-variables-guide';
+import { QueryTabs } from './query-tabs';
+import { QueryVariablesPreview } from './query-variables-preview';
 
 type Props = {
   queryModel: QueryModelInstance;
@@ -43,6 +46,11 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
           <RunQuery queryModel={queryModel} />
           <MoreActions queryModel={queryModel} />
         </Group>
+      </Group>
+
+      <Group justify="space-between" grow gap={12} align="flex-start">
+        <QueryTabs queryModel={queryModel} />
+        <QueryVariablesPreview />
       </Group>
     </Stack>
   );
