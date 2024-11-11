@@ -2,14 +2,14 @@ import { ActionIcon, Center, Divider, MultiSelect, Stack, TextInput } from '@man
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { QueryRenderModelInstance } from '~/model';
+import { useTranslation } from 'react-i18next';
+import { CustomSelectorItem } from '~/components/widgets/custom-selector-item';
+import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DeleteQuery } from './delete-query';
 import { SelectDataSource } from './select-data-source';
-import { CustomSelectorItem } from '~/components/widgets/custom-selector-item';
-import { useTranslation } from 'react-i18next';
 
 interface IQueryConfigurations {
-  queryModel: QueryRenderModelInstance;
+  queryModel: QueryModelInstance;
 }
 
 export const QueryConfigurations = observer(({ queryModel }: IQueryConfigurations) => {

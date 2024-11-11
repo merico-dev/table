@@ -6,7 +6,8 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { listDataSources } from '~/api-caller';
 import { useEditDashboardContext } from '~/contexts';
-import { DataSourceType, QueryRenderModelInstance } from '~/model';
+import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceType } from '~/model';
 import { DBExplorerModal } from '../../db-explorer-modal';
 
 type CustomOption = { label: string; type: DataSourceType } & ComboboxItem;
@@ -38,7 +39,7 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
   );
 };
 type Props = {
-  queryModel: QueryRenderModelInstance;
+  queryModel: QueryModelInstance;
 };
 export const SelectDataSource = observer(({ queryModel }: Props) => {
   const { t } = useTranslation();
