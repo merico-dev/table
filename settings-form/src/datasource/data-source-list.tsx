@@ -47,9 +47,10 @@ export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = def
           <Table.Tbody>
             {data.map((dataSource) => {
               const { id, key, type, is_preset } = dataSource;
+              const isMericoMetricSystem = type === 'merico_metric_system';
               return (
                 <Table.Tr key={key}>
-                  <Table.Td width={200}>
+                  <Table.Td width={230}>
                     <DataSourceIcon type={type} />
                   </Table.Td>
                   <Table.Td>{key}</Table.Td>
@@ -57,7 +58,7 @@ export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = def
                     <Group justify="flex-start">
                       <EditDataSource dataSource={dataSource} onSuccess={refresh} styles={styles} />
                       <DeleteDataSource
-                        isProtected={is_preset}
+                        isProtected={is_preset || isMericoMetricSystem}
                         id={id}
                         name={key}
                         onSuccess={refresh}
