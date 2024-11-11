@@ -19,7 +19,9 @@ export const SettingsNavbar = observer(() => {
         },
       }}
     >
-      <AppShell.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
+      <AppShell.Section
+        sx={{ borderBottom: '1px solid #eee', padding: 'var(--mantine-spacing-xs) var(--mantine-spacing-md)' }}
+      >
         <Text size="sm" ta="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           {t('common.titles.settings')}
         </Text>
