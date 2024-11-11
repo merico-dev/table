@@ -1,15 +1,15 @@
-import { Box, Group, Stack, TextInput } from '@mantine/core';
+import { Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { SelectDataSource } from '../query-editor-form/select-data-source';
 import { MoreActions } from './more-actions';
-import { RunQuery } from './run-query';
-import { SelectMetric } from './select-metric';
-import { QueryVariablesGuide } from '../../view-query-vars/query-variables-guide';
+import { PreviewData } from './preview-data';
 import { QueryTabs } from './query-tabs';
 import { QueryVariablesPreview } from './query-variables-preview';
+import { RunQuery } from './run-query';
+import { SelectMetric } from './select-metric';
 
 type Props = {
   queryModel: QueryModelInstance;
@@ -21,7 +21,17 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
   const noUsage = usage.length === 0;
 
   return (
-    <Stack py={8} px={24} gap={8}>
+    <Stack
+      py={8}
+      px={24}
+      gap={8}
+      styles={{
+        root: {
+          height: '100vh',
+          overflow: 'hidden',
+        },
+      }}
+    >
       <TextInput
         size="xs"
         placeholder={t('query.name_description')}
@@ -48,10 +58,17 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
         </Group>
       </Group>
 
-      <Group justify="space-between" grow gap={12} align="flex-start">
+      <Group
+        justify="space-between"
+        grow
+        gap={12}
+        align="flex-start"
+        sx={{ flexGrow: 1, flexShrink: 1, overflowY: 'hidden' }}
+      >
         <QueryTabs queryModel={queryModel} />
         <QueryVariablesPreview />
       </Group>
+      <PreviewData queryModel={queryModel} />
     </Stack>
   );
 });

@@ -5,12 +5,20 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 
 const TabsStyles = {
+  root: {
+    height: '100%',
+    overflow: 'hidden',
+  },
   list: {
     '&::before': {
       borderColor: 'transparent',
     },
   },
-};
+  panel: {
+    height: 'calc(100% - 36px)',
+    overflowY: 'auto',
+  },
+} as const;
 
 type Props = {
   queryModel: QueryModelInstance;
