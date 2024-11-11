@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Select } from '@mantine/core';
+import { ActionIcon, Group, Select, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MericoIconExternalLink } from './merico-icons';
@@ -21,9 +21,16 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
         ]}
         styles={{ root: { flexGrow: 1 } }}
       />
-      <ActionIcon size="md" variant="subtle" mb={4} onClick={() => showNotification({ message: 'TODO', color: 'red' })}>
-        <MericoIconExternalLink width={14} height={14} />
-      </ActionIcon>
+      <Tooltip label="跳转到指标明细页查看详情。">
+        <ActionIcon
+          size="md"
+          variant="subtle"
+          mb={4}
+          onClick={() => showNotification({ message: 'TODO', color: 'red' })}
+        >
+          <MericoIconExternalLink width={14} height={14} />
+        </ActionIcon>
+      </Tooltip>
     </Group>
   );
 });
