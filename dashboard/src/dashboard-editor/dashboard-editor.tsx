@@ -29,6 +29,7 @@ import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, EditorSpotlight, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
+import { MantineEmotionProvider } from '@mantine/emotion';
 
 registerThemes();
 registerECharts();
@@ -157,57 +158,59 @@ const _DashboardEditor = (
     lang,
   });
   return (
-    <I18nextContextProvider lang={lang}>
-      <ModalsProvider>
-        <DatesProvider>
-          <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
-            <DashboardModelContextProvider value={model}>
-              <ContentModelContextProvider value={model.content}>
-                <LayoutStateContext.Provider
-                  value={{
-                    inEditMode: true,
-                  }}
-                >
-                  <EditorSpotlight />
-                  <PluginContext.Provider value={pluginContext}>
-                    <ServiceLocatorProvider configure={configureServices}>
-                      <AppShell
-                        padding={0}
-                        navbar={{
-                          width: { base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 },
-                          breakpoint: 'xxs', //FIXME(leto): not sure
-                        }}
-                        styles={AppShellStyles}
-                      >
-                        <DashboardEditorHeader
-                          onExit={onExit}
-                          saveDashboardChanges={saveDashboardChanges}
-                          headerSlot={headerSlot}
-                        />
-                        <DashboardEditorNavbar />
-                        <AppShell.Main>
-                          <Box
-                            className={`${className} dashboard-root`}
-                            sx={{
-                              position: 'relative',
-                            }}
-                          >
-                            {model.content.views.visibleViews.map((view) => (
-                              <DashboardViewEditor key={view.id} view={view} />
-                            ))}
-                          </Box>
-                        </AppShell.Main>
-                      </AppShell>
-                      <Settings />
-                    </ServiceLocatorProvider>
-                  </PluginContext.Provider>
-                </LayoutStateContext.Provider>
-              </ContentModelContextProvider>
-            </DashboardModelContextProvider>
-          </DashboardThemeContextProvider>
-        </DatesProvider>
-      </ModalsProvider>
-    </I18nextContextProvider>
+    <MantineEmotionProvider>
+      <I18nextContextProvider lang={lang}>
+        <ModalsProvider>
+          <DatesProvider>
+            <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
+              <DashboardModelContextProvider value={model}>
+                <ContentModelContextProvider value={model.content}>
+                  <LayoutStateContext.Provider
+                    value={{
+                      inEditMode: true,
+                    }}
+                  >
+                    <EditorSpotlight />
+                    <PluginContext.Provider value={pluginContext}>
+                      <ServiceLocatorProvider configure={configureServices}>
+                        <AppShell
+                          padding={0}
+                          navbar={{
+                            width: { base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 },
+                            breakpoint: 'xxs', //FIXME(leto): not sure
+                          }}
+                          styles={AppShellStyles}
+                        >
+                          <DashboardEditorHeader
+                            onExit={onExit}
+                            saveDashboardChanges={saveDashboardChanges}
+                            headerSlot={headerSlot}
+                          />
+                          <DashboardEditorNavbar />
+                          <AppShell.Main>
+                            <Box
+                              className={`${className} dashboard-root`}
+                              sx={{
+                                position: 'relative',
+                              }}
+                            >
+                              {model.content.views.visibleViews.map((view) => (
+                                <DashboardViewEditor key={view.id} view={view} />
+                              ))}
+                            </Box>
+                          </AppShell.Main>
+                        </AppShell>
+                        <Settings />
+                      </ServiceLocatorProvider>
+                    </PluginContext.Provider>
+                  </LayoutStateContext.Provider>
+                </ContentModelContextProvider>
+              </DashboardModelContextProvider>
+            </DashboardThemeContextProvider>
+          </DatesProvider>
+        </ModalsProvider>
+      </I18nextContextProvider>
+    </MantineEmotionProvider>
   );
 };
 
