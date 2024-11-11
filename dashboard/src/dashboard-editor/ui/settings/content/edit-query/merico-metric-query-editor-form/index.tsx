@@ -1,4 +1,4 @@
-import { Group, Stack } from '@mantine/core';
+import { Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
@@ -17,6 +17,20 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
 
   return (
     <Stack py={8} px={24} gap={8}>
+      <TextInput
+        placeholder={t('query.name_description')}
+        label={t('query.name')}
+        sx={{ flex: 1 }}
+        value={queryModel.name}
+        onChange={(e) => {
+          queryModel.setName(e.currentTarget.value);
+        }}
+        styles={{
+          root: {
+            width: '300px',
+          },
+        }}
+      />
       <Group justify="space-between" grow gap={8}>
         <Group justify="flex-start" grow gap={24}>
           <SelectDataSource queryModel={queryModel} />
