@@ -116,7 +116,7 @@ export const SelectDataSource = observer(({ queryModel }: Props) => {
       rightSectionWidth={85}
       maxDropdownHeight={500}
       styles={{
-        root: { flex: 1 },
+        root: { flex: 1, minWidth: '300px' },
         label: { display: 'block' },
         section: {
           pointerEvents: 'none',
