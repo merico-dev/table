@@ -34,7 +34,7 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
           },
         }}
       />
-      <Group justify="space-between" grow gap={8}>
+      <Group justify="space-between" grow gap={8} align="flex-end">
         <Group justify="flex-start" grow gap={24}>
           <SelectDataSource queryModel={queryModel} size="xs" />
           <SelectMetric queryModel={queryModel} />
