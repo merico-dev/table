@@ -10,6 +10,13 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceType } from '~/model';
 import { DBExplorerModal } from '../../db-explorer-modal';
 
+const DataSourceTypeNames: Record<string, string> = {
+  http: 'HTTP',
+  mysql: 'MySQL',
+  postgresql: 'PostgreSQL',
+  merico_metric_system: '指标系统',
+};
+
 type CustomOption = { label: string; type: DataSourceType } & ComboboxItem;
 const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => {
   const { label, type } = option as CustomOption;
@@ -34,7 +41,7 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
   return (
     <Group justify="space-between" {...others} sx={{ flexGrow: 1 }}>
       <Text size="sm">{label}</Text>
-      <Text size="sm">{type}</Text>
+      <Text size="sm">{DataSourceTypeNames[type]}</Text>
     </Group>
   );
 };
@@ -102,7 +109,7 @@ export const SelectDataSource = observer(({ queryModel }: Props) => {
       rightSection={
         dataSource ? (
           <Text size="xs" c="dimmed">
-            {dataSource.type}
+            {DataSourceTypeNames[dataSource.type] ?? dataSource.type}
           </Text>
         ) : undefined
       }
