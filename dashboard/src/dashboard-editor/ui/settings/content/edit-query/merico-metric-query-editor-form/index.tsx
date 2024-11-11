@@ -1,11 +1,12 @@
-import { Button, Group, Stack, TextInput } from '@mantine/core';
+import { Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { SelectDataSource } from '../query-editor-form/select-data-source';
+import { MoreActions } from './more-actions';
+import { RunQuery } from './run-query';
 import { SelectMetric } from './select-metric';
-import { MericoIconPlay } from './merico-icons';
 
 type Props = {
   queryModel: QueryModelInstance;
@@ -39,9 +40,8 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
           <SelectMetric queryModel={queryModel} />
         </Group>
         <Group justify="flex-end">
-          <Button size="xs" leftSection={<MericoIconPlay width={14} height={14} />} variant="filled" color="red">
-            执行查询
-          </Button>
+          <RunQuery queryModel={queryModel} />
+          <MoreActions queryModel={queryModel} />
         </Group>
       </Group>
     </Stack>
