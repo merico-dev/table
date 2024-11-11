@@ -28,7 +28,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
 
       <Table withTableBorder withColumnBorders layout="fixed" styles={MetricTableStyles}>
         <colgroup>
-          <col style={{ width: 240 }} />
+          <col style={{ width: 250 }} />
           <col />
           <col style={{ width: 130 }} />
           <col style={{ width: 40 }} />
@@ -46,7 +46,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
               <Table.Td>{row.metric}</Table.Td>
               <Table.Td colSpan={2}>{row.variable}</Table.Td>
               <Table.Td>
-                <Checkbox size="xs" defaultChecked={row.checked} />
+                <Checkbox size="xs" defaultChecked={row.checked} color="red" />
               </Table.Td>
             </Table.Tr>
           ))}
