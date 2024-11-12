@@ -4,6 +4,13 @@ import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 import { QueryUsage } from '../../query-editor-form/query-usage';
+import { InlineFunctionInput } from '~/components/widgets';
+
+const DEFAULT_MMQ_REQ_POST_PROCESSING = [
+  'function process_result(resp, utils, state) {',
+  '    return resp.data',
+  '}',
+].join('\n');
 
 const TabsStyles = {
   root: {
@@ -60,12 +67,13 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
         <EditMetricQuery queryModel={queryModel} />
       </Tabs.Panel>
 
-      <Tabs.Panel value="加工请求" pt="xs">
-        Messages tab content
-      </Tabs.Panel>
-
       <Tabs.Panel value="加工结果" pt="xs">
-        Settings tab content
+        <InlineFunctionInput
+          label=""
+          value={queryModel.post_process}
+          onChange={queryModel.setPostProcess}
+          defaultValue={DEFAULT_MMQ_REQ_POST_PROCESSING}
+        />
       </Tabs.Panel>
       <Tabs.Panel value="使用情况" pt="xs">
         <QueryUsage queryModel={queryModel} />
