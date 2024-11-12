@@ -33,9 +33,6 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
           <Tabs.Tab value="编辑查询" size="xs">
             编辑查询
           </Tabs.Tab>
-          <Tabs.Tab value="加工请求" size="xs">
-            加工请求
-          </Tabs.Tab>
           <Tabs.Tab value="加工结果" size="xs">
             加工结果
           </Tabs.Tab>

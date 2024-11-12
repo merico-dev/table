@@ -24,7 +24,8 @@ export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }
   const { t } = useTranslation();
   const [opened, setOpened] = useState(false);
 
-  if (dataSource.type === 'http') {
+  const { type } = dataSource;
+  if (type === 'http' || type === 'merico_metric_system') {
     return null;
   }
   return (

@@ -8,7 +8,7 @@ const rows = [
   { metric: 'repository_project -> id', variable: 'filter.project_ids', checked: true },
   { metric: 'account -> id', variable: 'filter.contributor', checked: false },
   { metric: 'organization -> id', variable: 'context.orgId', checked: false },
-  { metric: 'organization -> id', variable: 'context.orgId', checked: true },
+  { metric: 'team -> id', variable: 'context.teamId', checked: true },
 ];
 
 type Props = {
