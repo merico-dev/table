@@ -1,7 +1,6 @@
 import { Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { useEditContentModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { SelectDataSource } from '../query-editor-form/select-data-source';
 import { MoreActions } from './more-actions';
@@ -16,9 +15,6 @@ type Props = {
 };
 export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
   const { t } = useTranslation();
-  const content = useEditContentModelContext();
-  const usage = content.findQueryUsage(queryModel.id);
-  const noUsage = usage.length === 0;
 
   return (
     <Stack
@@ -51,7 +47,7 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
         />
       </Group>
       <Group justify="space-between" grow gap={8} align="flex-end" styles={{ root: { flexGrow: 0, flexShrink: 0 } }}>
-        <Group justify="flex-start" grow gap={24}>
+        <Group justify="flex-start" grow gap={24} align="flex-end">
           <SelectDataSource queryModel={queryModel} size="xs" />
           <SelectMetric queryModel={queryModel} />
         </Group>
