@@ -30,7 +30,7 @@ export function DataTable({ data }: { data: AnyObject[] }) {
   }
   return (
     <ErrorBoundary>
-      <Table sx={TableStyle}>
+      <Table sx={TableStyle} stickyHeader stickyHeaderOffset={0}>
         <Table.Thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Tr key={headerGroup.id}>

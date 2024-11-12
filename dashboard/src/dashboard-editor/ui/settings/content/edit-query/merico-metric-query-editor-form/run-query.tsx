@@ -14,7 +14,7 @@ export const RunQuery = observer(({ queryModel }: Props) => {
       leftSection={<MericoIconPlay width={14} height={14} />}
       variant="filled"
       color="red"
-      onClick={() => showNotification({ message: 'TODO' })}
+      onClick={() => queryModel.fetchData(true)}
     >
       执行查询
     </Button>

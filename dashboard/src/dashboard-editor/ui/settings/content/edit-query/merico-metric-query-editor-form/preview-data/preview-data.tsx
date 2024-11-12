@@ -30,7 +30,10 @@ export const PreviewData = observer(({ queryModel }: Props) => {
 
   const dataEmpty = !Array.isArray(data) || data.length === 0;
   return (
-    <Stack gap={0} sx={{ minHeight: '250px', flexGrow: 1, flexShrink: 0, background: '#F9F9FA' }}>
+    <Stack
+      gap={0}
+      sx={{ minHeight: '250px', maxHeight: 'calc(50vh - 48px)', flexGrow: 1, flexShrink: 0, background: '#F9F9FA' }}
+    >
       <Group justify="space-between" py={7} px={8}>
         <Text size="sm" fw={500}>
           查询结果
@@ -46,7 +49,7 @@ export const PreviewData = observer(({ queryModel }: Props) => {
           下载查询结果
         </Button>
       </Group>
-      <Box pb={20} sx={{ position: 'relative', flexGrow: 1, overflow: 'auto' }}>
+      <Box sx={{ position: 'relative', flexGrow: 1, overflow: 'hidden' }}>
         <QueryStateMessage queryModel={queryModel} />
         <DataTableWithPagination data={data} loading={loading} />
       </Box>

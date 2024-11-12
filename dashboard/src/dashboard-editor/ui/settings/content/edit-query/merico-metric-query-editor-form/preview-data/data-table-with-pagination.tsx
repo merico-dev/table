@@ -1,4 +1,4 @@
-import { Box, LoadingOverlay } from '@mantine/core';
+import { Box, LoadingOverlay, Stack } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { ErrorBoundary, errorBoundary } from '~/utils';
 import { DataTable } from './data-table';
@@ -14,11 +14,13 @@ export const DataTableWithPagination = errorBoundary(({ data, loading }: { data:
   }, [data, page, limit]);
   return (
     <ErrorBoundary>
-      <PaginationControl data={data} page={page} setPage={setPage} limit={limit} setLimit={setLimit} />
-      <Box py={10} sx={{ width: '100%', height: 'calc(100% - 42px)', overflow: 'auto', position: 'relative' }}>
-        <LoadingOverlay visible={loading} overlayProps={{ blur: 2 }} />
-        <DataTable data={tableData} />
-      </Box>
+      <Stack gap={10} styles={{ root: { height: '100%', overflow: 'hidden' } }}>
+        <PaginationControl data={data} page={page} setPage={setPage} limit={limit} setLimit={setLimit} />
+        <Box sx={{ width: '100%', height: 'calc(100% - 42px)', overflow: 'auto', position: 'relative' }}>
+          <LoadingOverlay visible={loading} overlayProps={{ blur: 2 }} />
+          <DataTable data={tableData} />
+        </Box>
+      </Stack>
     </ErrorBoundary>
   );
 });

@@ -32,7 +32,7 @@ export const QueryMeta = types
       }
       if (self.type === DataSourceType.MericoMetricSystem) {
         // TODO: MMS
-        return !!self.pre_process;
+        return true;
       }
       return !!self.sql;
     },

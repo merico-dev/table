@@ -10,14 +10,18 @@ const limitOptions = [
 ];
 
 const selectorStyles = {
-  icon: {
-    width: '80px',
-    textAlign: 'center',
+  root: {
+    width: '150px',
+  },
+  section: {
+    '&[data-position=left]': {
+      width: '70px',
+      textAlign: 'center',
+    },
   },
   input: {
-    '&[data-with-icon]': {
-      paddingLeft: '80px',
-    },
+    paddingLeft: '70px',
+    paddingRight: 0,
   },
 };
 
@@ -50,20 +54,10 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
   return (
     <Group pt={10} px={10} justify="space-between">
       <Group justify="flex-start">
-        {maxPage > 1 && (
-          <Pagination
-            size="sm"
-            value={page}
-            onChange={setPage}
-            total={maxPage}
-            withEdges={maxPage > 7}
-            styles={{ control: { height: '30px' } }}
-          />
-        )}
         {!hideLimitSelector && (
           <Select
             leftSection={
-              <Text ta="center" c="dimmed" size={'14px'}>
+              <Text ta="center" c="dimmed" size="xs">
                 {t('common.pagination.page_size')}
               </Text>
             }
@@ -73,6 +67,16 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
             data={limitOptions}
             value={String(limit)}
             onChange={changeLimit}
+          />
+        )}
+        {maxPage > 1 && (
+          <Pagination
+            size="sm"
+            value={page}
+            onChange={setPage}
+            total={maxPage}
+            withEdges={maxPage > 7}
+            styles={{ control: { height: '30px' } }}
           />
         )}
       </Group>

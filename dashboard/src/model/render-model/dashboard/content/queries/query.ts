@@ -7,6 +7,8 @@ import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
 import _ from 'lodash';
+import { faker } from '@faker-js/faker';
+import { AnyObject } from '~/types';
 
 enum QueryState {
   idle = 'idle',
@@ -20,7 +22,7 @@ export const QueryRenderModel = types
     MuteQueryModel,
     types.model({
       state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
-      data: types.optional(types.frozen<string[][] | number[][]>([]), []),
+      data: types.optional(types.frozen<string[][] | number[][] | AnyObject[]>([]), []),
       error: types.frozen(),
     }),
   )
@@ -195,8 +197,16 @@ export const QueryRenderModel = types
           // );
           // const result = postProcessWithDataSource(self.datasource, response);
           // const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
-
-          // self.data = data;
+          const data = Array.from(new Array(100), () => {
+            return {
+              date: '2024-07-30',
+              accountId: faker.datatype.uuid(),
+              accountName: faker.name.fullName(),
+              accountXXX: faker.animal.type(),
+              value: faker.datatype.number(),
+            };
+          });
+          self.data = data;
           self.state = 'idle';
           self.error = null;
         } catch (error) {
