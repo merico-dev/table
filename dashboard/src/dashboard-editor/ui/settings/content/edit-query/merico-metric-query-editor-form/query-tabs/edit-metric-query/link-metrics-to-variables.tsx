@@ -1,20 +1,24 @@
-import { ActionIcon, Checkbox, Group, Select, Stack, Table, Text, Tooltip } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons-react';
+import { ActionIcon, Checkbox, Group, Select, Stack, Table, Text, ThemeIcon, Tooltip } from '@mantine/core';
+import { IconInfoCircle, IconPoint, IconPointFilled } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MetricTableStyles } from './table-styles';
+import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import _ from 'lodash';
+import { VariableStat } from './variable-stats';
 
 const rows = [
-  { metric: 'repository_project -> id', variable: 'filter.project_ids', checked: true },
-  { metric: 'account -> id', variable: 'filter.contributor', checked: false },
-  { metric: 'organization -> id', variable: 'context.orgId', checked: false },
-  { metric: 'team -> id', variable: 'context.teamId', checked: true },
+  { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
+  { metric: 'account -> id', variable: 'context.account_id', checked: false },
+  { metric: 'organization -> id', variable: 'filters.tree_select', checked: false },
+  { metric: 'team -> id', variable: 'filters.multi_select', checked: true },
 ];
 
 type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
+  const model = useEditDashboardContext();
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -44,7 +48,12 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
           {rows.map((row) => (
             <Table.Tr key={row.metric}>
               <Table.Td>{row.metric}</Table.Td>
-              <Table.Td colSpan={2}>{row.variable}</Table.Td>
+              <Table.Td colSpan={2}>
+                <Group justify="flex-start" gap={0}>
+                  <VariableStat variable={row.variable} />
+                  {row.variable}
+                </Group>
+              </Table.Td>
               <Table.Td>
                 <Checkbox size="xs" defaultChecked={row.checked} color="red" />
               </Table.Td>

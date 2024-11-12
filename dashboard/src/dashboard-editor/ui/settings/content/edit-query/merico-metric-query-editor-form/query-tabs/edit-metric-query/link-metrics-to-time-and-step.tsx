@@ -3,6 +3,7 @@ import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MetricTableStyles } from './table-styles';
+import { VariableStat } from './variable-stats';
 
 const rows = [
   { metric: '时间维度：commit_author_time', variable: 'filter.date_range', checked: true },
@@ -43,7 +44,12 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
           {rows.map((row) => (
             <Table.Tr key={row.metric}>
               <Table.Td>{row.metric}</Table.Td>
-              <Table.Td colSpan={2}>{row.variable}</Table.Td>
+              <Table.Td colSpan={2}>
+                <Group justify="flex-start" gap={0}>
+                  <VariableStat variable={row.variable} />
+                  {row.variable}
+                </Group>
+              </Table.Td>
               <Table.Td>
                 <Checkbox size="xs" defaultChecked={row.checked} color="red" />
               </Table.Td>
