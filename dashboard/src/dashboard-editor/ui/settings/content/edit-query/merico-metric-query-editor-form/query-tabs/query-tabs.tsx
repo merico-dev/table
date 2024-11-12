@@ -3,6 +3,7 @@ import { IconEye } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
+import { QueryUsage } from '../../query-editor-form/query-usage';
 
 const TabsStyles = {
   root: {
@@ -36,8 +37,8 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
           <Tabs.Tab value="加工结果" size="xs">
             加工结果
           </Tabs.Tab>
-          <Tabs.Tab value="设置" size="xs">
-            设置
+          <Tabs.Tab value="使用情况" size="xs">
+            使用情况
           </Tabs.Tab>
         </Tabs.List>
         <Button
@@ -66,8 +67,8 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
       <Tabs.Panel value="加工结果" pt="xs">
         Settings tab content
       </Tabs.Panel>
-      <Tabs.Panel value="设置" pt="xs">
-        Settings tab content
+      <Tabs.Panel value="使用情况" pt="xs">
+        <QueryUsage queryModel={queryModel} />
       </Tabs.Panel>
     </Tabs>
   );
