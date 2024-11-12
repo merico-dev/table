@@ -35,7 +35,7 @@ const DeleteQuery = observer(({ queryModel }: Props) => {
   if (disabled) {
     return (
       <Tooltip
-        label="此查询在使用中，不能删除。请查看“设置”标签页以了解详情"
+        label="此查询在使用中，不能删除。请查看“使用情况”标签页以了解详情"
         withArrow
         events={{ hover: true, focus: false, touch: false }}
         withinPortal
