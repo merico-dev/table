@@ -1,24 +1,10 @@
 import { CodeHighlight } from '@mantine/code-highlight';
 import { Box, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 
 export const QueryVariablesPreview = observer(() => {
   const model = useEditDashboardContext();
-  const content = useEditContentModelContext();
-  const contextInfo = model.context.current;
-
-  const variablesString = (() => {
-    const ret: Record<string, $TSFixMe> = {
-      context: {
-        ...content.mock_context.current,
-        ...contextInfo,
-      },
-      filters: content.filters.previewValues,
-    };
-
-    return JSON.stringify(ret, null, 2);
-  })();
 
   return (
     <Stack
@@ -42,7 +28,7 @@ export const QueryVariablesPreview = observer(() => {
         language="json"
         sx={{ width: '100%', height: '100%', minHeight: '400px', overflowY: 'auto' }}
         withCopyButton={false}
-        code={variablesString}
+        code={model.queryVariablesString}
       />
     </Stack>
   );
