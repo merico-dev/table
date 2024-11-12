@@ -22,7 +22,8 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
 
   return (
     <Stack
-      py={8}
+      pt={8}
+      pb={16}
       px={24}
       gap={8}
       styles={{
@@ -32,22 +33,24 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
         },
       }}
     >
-      <TextInput
-        size="xs"
-        placeholder={t('query.name_description')}
-        label={t('query.name')}
-        value={queryModel.name}
-        onChange={(e) => {
-          queryModel.setName(e.currentTarget.value);
-        }}
-        styles={{
-          root: {
-            flex: 1,
-            width: '300px',
-          },
-        }}
-      />
-      <Group justify="space-between" grow gap={8} align="flex-end">
+      <Group styles={{ root: { flexGrow: 0, flexShrink: 0 } }}>
+        <TextInput
+          size="xs"
+          placeholder={t('query.name_description')}
+          label={t('query.name')}
+          value={queryModel.name}
+          onChange={(e) => {
+            queryModel.setName(e.currentTarget.value);
+          }}
+          styles={{
+            root: {
+              flexGrow: 1,
+              width: '300px',
+            },
+          }}
+        />
+      </Group>
+      <Group justify="space-between" grow gap={8} align="flex-end" styles={{ root: { flexGrow: 0, flexShrink: 0 } }}>
         <Group justify="flex-start" grow gap={24}>
           <SelectDataSource queryModel={queryModel} size="xs" />
           <SelectMetric queryModel={queryModel} />
@@ -63,7 +66,7 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
         grow
         gap={12}
         align="flex-start"
-        sx={{ flexGrow: 1, flexShrink: 1, overflowY: 'hidden' }}
+        sx={{ flexGrow: 0, flexShrink: 1, overflowY: 'hidden' }}
       >
         <QueryTabs queryModel={queryModel} />
         <QueryVariablesPreview />

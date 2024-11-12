@@ -6,6 +6,8 @@ import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 
 const TabsStyles = {
   root: {
+    minHeight: '350px',
+    maxHeight: '50vh',
     height: '100%',
     overflow: 'hidden',
   },

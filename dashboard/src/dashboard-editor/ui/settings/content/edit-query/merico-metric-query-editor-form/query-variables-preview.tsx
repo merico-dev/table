@@ -27,6 +27,8 @@ export const QueryVariablesPreview = observer(() => {
           borderRadius: 4,
           backgroundColor: '#F9F9FA',
           height: '100%',
+          minHeight: '350px',
+          maxHeight: '50vh',
           overflow: 'hidden',
         },
       }}
