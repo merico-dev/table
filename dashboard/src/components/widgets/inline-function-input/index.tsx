@@ -7,16 +7,16 @@ import { useTranslation } from 'react-i18next';
 import { OnMount } from '@monaco-editor/react';
 // @ts-expect-error type of this lib
 import { constrainedEditor } from 'constrained-editor-plugin/dist/esm/constrainedEditor.js';
-interface IInlineFunctionInput {
+type Props = {
   value: TFunctionString;
   onChange: (v: TFunctionString) => void;
   defaultValue: TFunctionString;
   label: string;
   restrictions?: MonacoEditorRestriction[];
-}
+};
 
-export const InlineFunctionInput = forwardRef(
-  ({ value, onChange, label, defaultValue, restrictions = [] }: IInlineFunctionInput, _ref: any) => {
+export const InlineFunctionInput = forwardRef<HTMLElement, Props>(
+  ({ value, onChange, label, defaultValue, restrictions = [] }, _ref) => {
     const { t } = useTranslation();
     const [localValue, setLocalValue] = useState<string>(value);
 
