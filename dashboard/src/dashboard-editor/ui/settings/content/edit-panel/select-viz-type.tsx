@@ -56,7 +56,13 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
       onChange={setType}
       data={selectData}
       rightSection={
-        <ActionIcon variant="filled" color="green" disabled={!changed} onClick={() => submit(type)}>
+        <ActionIcon
+          variant="filled"
+          color="green"
+          disabled={!changed}
+          onClick={() => submit(type)}
+          styles={{ root: { pointerEvents: 'all' } }}
+        >
           <IconDeviceFloppy size={20} />
         </ActionIcon>
       }
