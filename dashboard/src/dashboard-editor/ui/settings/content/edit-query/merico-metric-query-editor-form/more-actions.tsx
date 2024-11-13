@@ -72,7 +72,7 @@ export const MoreActions = observer(({ queryModel }: Props) => {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item leftSection={<MericoIconCopy width={14} height={14} />}>复制API</Menu.Item>
+        {/* <Menu.Item leftSection={<MericoIconCopy width={14} height={14} />}>复制API</Menu.Item> */}
         <DeleteQuery queryModel={queryModel} />
       </Menu.Dropdown>
     </Menu>

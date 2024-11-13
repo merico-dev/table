@@ -77,6 +77,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
             total={maxPage}
             withEdges={maxPage > 7}
             styles={{ control: { height: '30px' } }}
+            color="red"
           />
         )}
       </Group>

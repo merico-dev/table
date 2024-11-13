@@ -23,7 +23,7 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
             <IconInfoCircle />
           </ActionIcon>
         </Tooltip>
-        <Switch size="xs" defaultChecked />
+        <Switch size="xs" defaultChecked color="red" />
       </Group>
 
       <Table withTableBorder withColumnBorders layout="fixed" styles={MetricTableStyles}>

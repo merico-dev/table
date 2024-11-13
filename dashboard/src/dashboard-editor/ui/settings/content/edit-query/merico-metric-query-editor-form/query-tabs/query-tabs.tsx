@@ -52,6 +52,7 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
           variant="subtle"
           ml="auto"
           size="xs"
+          color="gray"
           leftSection={<IconEye size={14} />}
           styles={{
             section: {
