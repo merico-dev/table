@@ -1,7 +1,7 @@
 import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
-import { DataSourceType, QueryMeta } from '~/model';
+import { DashboardFilterType, DataSourceType, QueryMeta } from '~/model';
 import { explainHTTPRequest } from '~/utils';
 import { explainSQL } from '~/utils';
 import { DependencyInfo, UsageRegs } from '~/utils';
@@ -30,19 +30,22 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
           label: k,
           value,
           description: undefined,
+          type: 'context',
         };
       }),
     };
 
     const filterGroup: ComboboxItemGroup = {
-      items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem) => {
       group: 'filter.labels',
+      items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem & { widget: DashboardFilterType }) => {
         const value = `filters.${o.value}`;
         validValues.add(value);
         return {
           label: o.label,
           value,
           description: o.value,
+          type: 'filter',
+          widget: o.widget,
         };
       }),
     };
@@ -61,7 +64,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       });
     });
 
-    const ret: Array<ComboboxItemGroup | ComboboxItem> = [contextGroup, filterGroup, invalidGroup];
+    const ret: Array<ComboboxItemGroup> = [contextGroup, filterGroup, invalidGroup];
     return ret;
   },
   get unmetRunByConditions() {
