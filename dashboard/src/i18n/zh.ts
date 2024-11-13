@@ -286,6 +286,7 @@ export const zh = {
       info: '信息',
       min: '最小值',
       max: '最大值',
+      invalid: '无效的',
       data_field: '数据字段',
       name_data_field: '名称字段',
       value_data_field: '值字段',

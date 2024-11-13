@@ -56,7 +56,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   get conditionOptionsWithInvalidRunbys() {
     const { optionGroups, validValues } = this.conditionOptions;
     const invalidGroup: ComboboxItemGroup = {
-      group: 'Invalid',
+      group: 'common.invalid',
       items: [],
     };
     self.run_by.forEach((c) => {

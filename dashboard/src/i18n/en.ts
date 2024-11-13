@@ -286,6 +286,7 @@ export const en = {
       info: 'Info',
       min: 'Min',
       max: 'Max',
+      invalid: 'Invalid',
       data_field: 'Data Field',
       name_data_field: 'Name Data Field',
       value_data_field: 'Value Data Field',
