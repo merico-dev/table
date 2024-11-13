@@ -22,7 +22,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     const { context } = this.contentModel.payloadForSQL;
 
     const contextGroup: ComboboxItemGroup = {
-      group: 'Context',
+      group: 'context.label',
       items: Object.keys(context).map((k) => {
         const value = `context.${k}`;
         validValues.add(value);
@@ -35,8 +35,8 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     };
 
     const filterGroup: ComboboxItemGroup = {
-      group: 'Filters',
       items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem) => {
+      group: 'filter.labels',
         const value = `filters.${o.value}`;
         validValues.add(value);
         return {

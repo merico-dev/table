@@ -1,7 +1,7 @@
 import { ActionIcon, Center, Divider, MultiSelect, Stack, TextInput } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomSelectorItem } from '~/components/widgets/custom-selector-item';
 import { QueryModelInstance } from '~/dashboard-editor/model';
@@ -18,6 +18,16 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
   useEffect(() => {
     setName(queryModel.name);
   }, [queryModel.name]);
+
+  const options = useMemo(() => {
+    return queryModel.conditionOptions.map((optionGroup) => {
+      const group = t(optionGroup.group);
+      return {
+        group,
+        items: optionGroup.items,
+      };
+    });
+  }, [queryModel.conditionOptions]);
   return (
     <Center ml={20} mt={20} sx={{ maxWidth: '600px' }}>
       <Stack gap={10} sx={{ width: '100%' }}>
@@ -52,7 +62,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
           label={t('query.run_by_condition.label')}
           description={t('query.run_by_condition.description')}
           placeholder={t('query.run_by_condition.unset')}
-          data={queryModel.conditionOptions}
+          data={options}
           value={[...queryModel.run_by]}
           onChange={queryModel.setRunBy}
           renderOption={CustomSelectorItem}
@@ -62,7 +72,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
           <MultiSelect
             label={t('query.re_run_condition.label')}
             placeholder={t('query.re_run_condition.label')}
-            data={queryModel.conditionOptions}
+            data={options}
             value={[...queryModel.react_to]}
             onChange={queryModel.setReactTo}
             renderOption={CustomSelectorItem}
