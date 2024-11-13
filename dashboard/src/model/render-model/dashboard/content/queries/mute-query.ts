@@ -15,7 +15,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get conditionOptions() {
     if (!isAlive(self)) {
-      return [];
+      return { optionGroups: [], validValues: new Set() };
     }
 
     const validValues: Set<string> = new Set();
@@ -50,6 +50,11 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       }),
     };
 
+    const optionGroups: Array<ComboboxItemGroup> = [contextGroup, filterGroup];
+    return { optionGroups, validValues };
+  },
+  get conditionOptionsWithInvalidRunbys() {
+    const { optionGroups, validValues } = this.conditionOptions;
     const invalidGroup: ComboboxItemGroup = {
       group: 'Invalid',
       items: [],
@@ -64,8 +69,10 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       });
     });
 
-    const ret: Array<ComboboxItemGroup> = [contextGroup, filterGroup, invalidGroup];
-    return ret;
+    return {
+      optionGroups: [...optionGroups, invalidGroup],
+      validValues,
+    };
   },
   get unmetRunByConditions() {
     // this computed has dependencies on reactive values outside the model,

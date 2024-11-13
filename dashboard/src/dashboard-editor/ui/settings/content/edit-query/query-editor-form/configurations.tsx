@@ -20,14 +20,16 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
   }, [queryModel.name]);
 
   const options = useMemo(() => {
-    return queryModel.conditionOptions.map((optionGroup) => {
+    const groups = queryModel.conditionOptionsWithInvalidRunbys.optionGroups;
+    return groups.map((optionGroup) => {
       const group = t(optionGroup.group);
       return {
         group,
         items: optionGroup.items,
       };
     });
-  }, [queryModel.conditionOptions]);
+  }, [queryModel.conditionOptionsWithInvalidRunbys.optionGroups]);
+
   return (
     <Center ml={20} mt={20} sx={{ maxWidth: '600px' }}>
       <Stack gap={10} sx={{ width: '100%' }}>
