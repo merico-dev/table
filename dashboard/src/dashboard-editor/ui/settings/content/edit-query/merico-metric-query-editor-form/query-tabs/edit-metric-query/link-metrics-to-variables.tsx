@@ -1,12 +1,11 @@
-import { ActionIcon, Checkbox, Group, Select, Stack, Table, Text, ThemeIcon, Tooltip } from '@mantine/core';
-import { IconInfoCircle, IconPoint, IconPointFilled } from '@tabler/icons-react';
+import { ActionIcon, Checkbox, Group, Select, Stack, Table, Text, Tooltip } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useEditDashboardContext } from '~/contexts';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MetricTableStyles } from './table-styles';
-import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
-import _ from 'lodash';
-import { VariableStat } from './variable-stats';
 import { VariableSelector } from './variable-selector';
+import { VariableStat } from './variable-stats';
 
 const rows = [
   { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
@@ -49,10 +48,10 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
           {rows.map((row) => (
             <Table.Tr key={row.metric}>
               <Table.Td>{row.metric}</Table.Td>
-              <Table.Td colSpan={2}>
-                <Group justify="flex-start" gap={0}>
+              <Table.Td colSpan={2} pr={0}>
+                <Group justify="flex-start" grow gap={0} w="100%">
                   <VariableStat variable={row.variable} />
-                  {row.variable}
+                  <VariableSelector queryModel={queryModel} value={row.variable} onChange={console.log} />
                 </Group>
               </Table.Td>
               <Table.Td>
@@ -61,7 +60,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
             </Table.Tr>
           ))}
           <Table.Tr className="add-a-row">
-            <Table.Td style={{ padding: 0 }}>
+            <Table.Td p={0}>
               <Select
                 size="xs"
                 data={['React', 'Angular', 'Vue', 'Svelte']}
@@ -70,8 +69,8 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 styles={{ input: { border: 'none' } }}
               />
             </Table.Td>
-            <Table.Td colSpan={2} style={{ padding: 0 }}>
-              <VariableSelector queryModel={queryModel} />
+            <Table.Td colSpan={2} p={0}>
+              <VariableSelector queryModel={queryModel} value={null} onChange={console.log} />
             </Table.Td>
             <Table.Td />
           </Table.Tr>

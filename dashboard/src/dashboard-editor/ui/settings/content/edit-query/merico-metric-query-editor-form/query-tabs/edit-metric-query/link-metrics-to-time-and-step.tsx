@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MetricTableStyles } from './table-styles';
 import { VariableStat } from './variable-stats';
+import { VariableSelector } from './variable-selector';
 
 const rows = [
   { metric: '时间维度：commit_author_time', variable: 'filter.date_range', checked: true },
@@ -44,10 +45,10 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
           {rows.map((row) => (
             <Table.Tr key={row.metric}>
               <Table.Td>{row.metric}</Table.Td>
-              <Table.Td colSpan={2}>
-                <Group justify="flex-start" gap={0}>
+              <Table.Td colSpan={2} pr={0}>
+                <Group justify="flex-start" gap={0} grow>
                   <VariableStat variable={row.variable} />
-                  {row.variable}
+                  <VariableSelector queryModel={queryModel} value={row.variable} onChange={console.log} />
                 </Group>
               </Table.Td>
               <Table.Td>

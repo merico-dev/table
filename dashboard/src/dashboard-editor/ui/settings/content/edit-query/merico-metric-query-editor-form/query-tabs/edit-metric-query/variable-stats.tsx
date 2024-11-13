@@ -8,7 +8,12 @@ export const VariableStat = observer(({ variable }: { variable: string }) => {
   const model = useEditDashboardContext();
   const valid = _.has(model.queryVariables, variable);
   return (
-    <ThemeIcon variant="white" size="xs" color={valid ? '#88CE98' : '#F15050'}>
+    <ThemeIcon
+      variant="white"
+      size="xs"
+      color={valid ? '#88CE98' : '#F15050'}
+      styles={{ root: { flexGrow: 0, flexShrink: 0 } }}
+    >
       <IconPointFilled />
     </ThemeIcon>
   );

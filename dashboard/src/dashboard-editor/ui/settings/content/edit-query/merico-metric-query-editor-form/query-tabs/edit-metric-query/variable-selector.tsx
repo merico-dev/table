@@ -1,12 +1,15 @@
 import { ComboboxItem, Group, Select, SelectProps, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DashboardFilterType } from '~/types';
 
 const SelectorStyles: SelectProps['styles'] = {
+  root: {
+    maxWidth: 'unset',
+  },
   option: {
     fontFamily: 'monospace',
   },
@@ -59,29 +62,40 @@ const renderOption: SelectProps['renderOption'] = ({ option, ...rest }) => {
 
 type Props = {
   queryModel: QueryModelInstance;
+  value: string | null;
+  onChange: (value: string | null, option: CustomOption) => void;
 };
 
-export const VariableSelector = observer(({ queryModel }: Props) => {
+export const VariableSelector = observer(({ queryModel, value, onChange }: Props) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState<string[]>([]);
   const options = useMemo(() => {
     return queryModel.conditionOptions.map((optionGroup) => {
       const count = optionGroup.items.length;
       const name = t(optionGroup.group);
-      optionGroup.group = `${name}(${count})`;
-      return optionGroup;
+      return {
+        group: `${name}(${count})`,
+        items: optionGroup.items,
+      };
     });
   }, [queryModel.conditionOptions, t]);
+  const handleChange = useCallback(
+    (value: string | null, option: ComboboxItem) => {
+      onChange(value, option as CustomOption);
+    },
+    [onChange],
+  );
+
   return (
     <Select
       size="xs"
-      searchable
+      // searchable
       placeholder="选择变量"
-      defaultDropdownOpened
       styles={SelectorStyles}
       data={options}
       renderOption={renderOption}
       maxDropdownHeight={600}
+      value={value}
+      onChange={handleChange}
     />
   );
 });

@@ -1,10 +1,10 @@
 import { ActionIcon, Button, Menu, Tooltip } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { MericoIconCopy, MericoIconDelete, MericoIconMore } from './merico-icons';
-import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { useModals } from '@mantine/modals';
+import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import { QueryModelInstance } from '~/dashboard-editor/model';
+import { MericoIconDelete, MericoIconMore } from './merico-icons';
 
 type Props = {
   queryModel: QueryModelInstance;
