@@ -68,7 +68,8 @@ type Props = {
 export const VariableSelector = observer(({ queryModel, value, onChange }: Props) => {
   const { t } = useTranslation();
   const options = useMemo(() => {
-    return queryModel.conditionOptions.map((optionGroup) => {
+    const groups = queryModel.getConditionOptionsWithInvalidValue(value).optionGroups;
+    return groups.map((optionGroup) => {
       const count = optionGroup.items.length;
       const name = t(optionGroup.group);
       return {
@@ -76,7 +77,7 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
         items: optionGroup.items,
       };
     });
-  }, [queryModel.conditionOptions, t]);
+  }, [queryModel.getConditionOptionsWithInvalidValue, t, value]);
 
   const handleChange = useCallback(
     (value: string | null, option: ComboboxItem) => {

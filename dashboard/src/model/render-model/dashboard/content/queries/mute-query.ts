@@ -53,6 +53,26 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     const optionGroups: Array<ComboboxItemGroup> = [contextGroup, filterGroup];
     return { optionGroups, validValues };
   },
+  getConditionOptionsWithInvalidValue(value: string | null) {
+    const { optionGroups, validValues } = this.conditionOptions;
+    if (!value || validValues.has(value)) {
+      return this.conditionOptions;
+    }
+
+    const invalidGroup: ComboboxItemGroup = {
+      group: 'common.invalid',
+      items: [
+        {
+          label: value,
+          value,
+        },
+      ],
+    };
+    return {
+      optionGroups: [...optionGroups, invalidGroup],
+      validValues,
+    };
+  },
   get conditionOptionsWithInvalidRunbys() {
     const { optionGroups, validValues } = this.conditionOptions;
     const invalidGroup: ComboboxItemGroup = {
