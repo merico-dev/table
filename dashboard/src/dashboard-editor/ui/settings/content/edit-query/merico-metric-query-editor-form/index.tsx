@@ -40,8 +40,8 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
           }}
           styles={{
             root: {
-              flexGrow: 1,
-              width: '300px',
+              flexGrow: 0,
+              width: 'calc(50% - 44px)',
             },
           }}
         />
