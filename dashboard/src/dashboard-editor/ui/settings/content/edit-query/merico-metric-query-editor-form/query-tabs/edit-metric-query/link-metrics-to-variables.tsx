@@ -6,6 +6,7 @@ import { MetricTableStyles } from './table-styles';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import _ from 'lodash';
 import { VariableStat } from './variable-stats';
+import { VariableSelector } from './variable-selector';
 
 const rows = [
   { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
@@ -70,13 +71,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
               />
             </Table.Td>
             <Table.Td colSpan={2} style={{ padding: 0 }}>
-              <Select
-                size="xs"
-                data={['React', 'Angular', 'Vue', 'Svelte']}
-                searchable
-                placeholder="选择变量"
-                styles={{ input: { border: 'none' } }}
-              />
+              <VariableSelector queryModel={queryModel} />
             </Table.Td>
             <Table.Td />
           </Table.Tr>
