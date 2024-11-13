@@ -13,7 +13,6 @@ const SelectorStyles: SelectProps['styles'] = {
   option: {
     fontFamily: 'monospace',
   },
-  input: { border: 'none' },
   groupLabel: {
     '&::before': {
       content: '""',
@@ -78,6 +77,7 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
       };
     });
   }, [queryModel.conditionOptions, t]);
+
   const handleChange = useCallback(
     (value: string | null, option: ComboboxItem) => {
       onChange(value, option as CustomOption);
@@ -88,6 +88,7 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
   return (
     <Select
       size="xs"
+      variant="unstyled"
       // searchable
       placeholder="选择变量"
       styles={SelectorStyles}
