@@ -25,7 +25,12 @@ const SelectorStyles: SelectProps['styles'] = {
   },
 };
 
-type CustomOption = ComboboxItem & { description: string; type: string; widget: DashboardFilterType };
+type CustomOption = ComboboxItem & {
+  description: string;
+  type: string;
+  widget: DashboardFilterType;
+  widget_label: string;
+};
 const renderOption: SelectProps['renderOption'] = ({ option, ...rest }) => {
   const { t } = useTranslation();
   const o = option as CustomOption;
@@ -46,11 +51,11 @@ const renderOption: SelectProps['renderOption'] = ({ option, ...rest }) => {
         <Text size="xs">{option.value}</Text>
       </Group>
       {showDescription && (
-        <Group justify="space-between">
-          <Text size="xs" c={rest.checked ? 'rgba(255,255,255,.8)' : 'dimmed'}>
-            {o.label}
+        <Group justify="space-between" wrap="nowrap">
+          <Text size="xs" c={rest.checked ? 'rgba(255,255,255,.8)' : 'dimmed'} style={{ flexShrink: 1, flexGrow: 1 }}>
+            {o.widget_label}
           </Text>
-          <Text size="xs" c={rest.checked ? 'rgba(255,255,255,.8)' : 'dimmed'}>
+          <Text size="xs" c={rest.checked ? 'rgba(255,255,255,.8)' : 'dimmed'} style={{ flexShrink: 0, flexGrow: 0 }}>
             {t(filterTypeNames[o.widget])}
           </Text>
         </Group>
@@ -74,7 +79,11 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
       const name = t(optionGroup.group);
       return {
         group: `${name}(${count})`,
-        items: optionGroup.items,
+        items: optionGroup.items.map((item) => ({
+          ...item,
+          label: item.value,
+          widget_label: item.label,
+        })),
       };
     });
   }, [queryModel.getConditionOptionsWithInvalidValue, t, value]);
