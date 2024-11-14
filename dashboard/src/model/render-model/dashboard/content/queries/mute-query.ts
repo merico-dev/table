@@ -21,7 +21,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     const validValues: Set<string> = new Set();
     const { context } = this.contentModel.payloadForSQL;
 
-    const contextGroup: ComboboxItemGroup = {
+    const contextGroup: ComboboxItemGroup<ComboboxItem> = {
       group: 'context.label',
       items: Object.keys(context).map((k) => {
         const value = `context.${k}`;
@@ -35,7 +35,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       }),
     };
 
-    const filterGroup: ComboboxItemGroup = {
+    const filterGroup: ComboboxItemGroup<ComboboxItem> = {
       group: 'filter.labels',
       items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem & { widget: DashboardFilterType }) => {
         const value = `filters.${o.value}`;
@@ -50,7 +50,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       }),
     };
 
-    const optionGroups: Array<ComboboxItemGroup> = [contextGroup, filterGroup];
+    const optionGroups: Array<ComboboxItemGroup<ComboboxItem>> = [contextGroup, filterGroup];
     return { optionGroups, validValues };
   },
   getConditionOptionsWithInvalidValue(value: string | null) {
@@ -59,7 +59,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return this.conditionOptions;
     }
 
-    const invalidGroup: ComboboxItemGroup = {
+    const invalidGroup: ComboboxItemGroup<ComboboxItem> = {
       group: 'common.invalid',
       items: [
         {
