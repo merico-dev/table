@@ -70,7 +70,7 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
           )}
         />
       </Group>
-      <Group grow wrap="nowrap">
+      <SimpleGrid cols={2}>
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
@@ -91,7 +91,7 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
             />
           )}
         />
-      </Group>
+      </SimpleGrid>
       <Group grow>
         <Controller
           name={`series.${index}.group_by_key`}
