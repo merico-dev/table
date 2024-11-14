@@ -18,6 +18,11 @@ export const SetGroupbyMetrics = observer(({ queryModel }: Props) => {
       description="指标在查询时按照哪些维度进行聚合计算。最多支持两个维度的聚合计算。若选择按时间序列展示，则仅可选择一个聚合维度。"
       data={options}
       searchable
+      styles={{
+        label: {
+          fontWeight: 'normal',
+        },
+      }}
     />
   );
 });
