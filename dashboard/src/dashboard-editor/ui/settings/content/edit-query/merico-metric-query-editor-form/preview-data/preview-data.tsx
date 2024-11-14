@@ -41,10 +41,10 @@ export const PreviewData = observer(({ queryModel }: Props) => {
         <Button
           size="xs"
           variant="transparent"
+          color="gray"
           leftSection={<IconDownload size={16} />}
           disabled={loading || dataEmpty}
           onClick={download}
-          styles={{ root: { backgroundColor: 'transparent' } }}
         >
           下载查询结果
         </Button>
