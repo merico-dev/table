@@ -69,7 +69,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 styles={{ input: { border: 'none' } }}
               />
             </Table.Td>
-            <Table.Td colSpan={2} p={0}>
+            <Table.Td colSpan={2} pr={0} py={0}>
               <VariableSelector queryModel={queryModel} value={null} onChange={console.log} />
             </Table.Td>
             <Table.Td />
