@@ -39,7 +39,7 @@ export const AxisLabelRotateInput = forwardRef(
           if (typeof v === 'string') {
             return;
           }
-          onChange;
+          onChange(v);
         }}
       />
     );
