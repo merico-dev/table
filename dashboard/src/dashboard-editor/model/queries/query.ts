@@ -17,6 +17,21 @@ export const QueryModel = QueryRenderModel.views((self) => ({
   get usage() {
     return self.contentModel.findQueryUsage(self.id) as QueryUsageType[];
   },
+  get runBySet() {
+    return new Set(...self.run_by);
+  },
+  keyInRunBy(key: string) {
+    return this.runBySet.has(key);
+  },
+})).actions((self) => ({
+  changeRunByRecord(key: string, checked: boolean) {
+    const set = new Set(self.run_by);
+    if (!checked) {
+      set.delete(key);
+    } else {
+      set.add(key);
+    }
+  },
 }));
 
 export type QueryModelInstance = Instance<typeof QueryModel>;
