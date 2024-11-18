@@ -6,6 +6,7 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
+import { DimensionSelector } from './dimension-selector';
 
 const rows = [
   { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
@@ -60,16 +61,16 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
             </Table.Tr>
           ))}
           <Table.Tr className="add-a-row">
-            <Table.Td p={0}>
-              <Select
-                size="xs"
-                data={['React', 'Angular', 'Vue', 'Svelte']}
-                searchable
-                placeholder="选择维度"
-                styles={{ input: { border: 'none' } }}
+            <Table.Td pr={0}>
+              <DimensionSelector
+                queryModel={queryModel}
+                value={null}
+                onChange={function (v: string | null): void {
+                  throw new Error('Function not implemented.');
+                }}
               />
             </Table.Td>
-            <Table.Td colSpan={2} pr={0} py={0}>
+            <Table.Td colSpan={2} pr={0}>
               <VariableSelector queryModel={queryModel} value={null} onChange={console.log} />
             </Table.Td>
             <Table.Td />

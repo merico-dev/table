@@ -1,20 +1,21 @@
-import { ActionIcon, Checkbox, Group, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, Select, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { RunByCheckbox } from './run-by-checkbox';
 import { MetricTableStyles } from './table-styles';
-import { VariableStat } from './variable-stats';
 import { VariableSelector } from './variable-selector';
-
-const rows = [
-  { metric: '时间维度：commit_author_time', variable: 'filter.date_range', checked: true },
-  { metric: '步长', variable: 'filter.granularity', checked: true },
-];
+import { VariableStat } from './variable-stats';
+import { DimensionSelector } from './dimension-selector';
 
 type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
+  const [timeField, setTimeField] = useState<string | null>('commit_author_time');
+  const [timeVar, setTimeVar] = useState<string | null>('filter.date_range');
+  const [stepVar, setStepVar] = useState<string | null>('filter.granularity');
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -42,20 +43,32 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {rows.map((row) => (
-            <Table.Tr key={row.metric}>
-              <Table.Td>{row.metric}</Table.Td>
-              <Table.Td colSpan={2} pr={0}>
-                <Group justify="flex-start" gap={0} grow>
-                  <VariableStat variable={row.variable} />
-                  <VariableSelector queryModel={queryModel} value={row.variable} onChange={console.log} />
-                </Group>
-              </Table.Td>
-              <Table.Td>
-                <Checkbox size="xs" defaultChecked={row.checked} color="red" />
-              </Table.Td>
-            </Table.Tr>
-          ))}
+          <Table.Tr key="dimension.time">
+            <Table.Td pr={0}>
+              <DimensionSelector queryModel={queryModel} label="时间维度" value={timeField} onChange={setTimeField} />
+            </Table.Td>
+            <Table.Td colSpan={2} pr={0}>
+              <Group justify="flex-start" gap={0} grow>
+                <VariableStat variable={timeVar} />
+                <VariableSelector queryModel={queryModel} value={timeVar} onChange={setTimeVar} />
+              </Group>
+            </Table.Td>
+            <Table.Td>
+              <RunByCheckbox queryModel={queryModel} variable={timeVar} />
+            </Table.Td>
+          </Table.Tr>
+          <Table.Tr key="dimension.step">
+            <Table.Td>步长</Table.Td>
+            <Table.Td colSpan={2} pr={0}>
+              <Group justify="flex-start" gap={0} grow>
+                <VariableStat variable={stepVar} />
+                <VariableSelector queryModel={queryModel} value={stepVar} onChange={setStepVar} />
+              </Group>
+            </Table.Td>
+            <Table.Td>
+              <RunByCheckbox queryModel={queryModel} variable={stepVar} />
+            </Table.Td>
+          </Table.Tr>
         </Table.Tbody>
       </Table>
     </Stack>

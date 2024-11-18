@@ -4,8 +4,12 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 
-export const VariableStat = observer(({ variable }: { variable: string }) => {
+export const VariableStat = observer(({ variable }: { variable: string | null }) => {
   const model = useEditDashboardContext();
+  if (!variable) {
+    return null;
+  }
+
   const valid = _.has(model.queryVariables, variable);
   return (
     <ThemeIcon
