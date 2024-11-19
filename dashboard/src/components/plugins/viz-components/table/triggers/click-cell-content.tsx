@@ -124,6 +124,10 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
       label={t('viz.table.click_cell.choose_a_column')}
       value={column.toString()}
       onChange={handleFieldChange}
+      comboboxProps={{
+        zIndex: 340,
+      }}
+      maxDropdownHeight={500}
     />
   );
 }
