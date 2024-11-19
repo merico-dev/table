@@ -1,11 +1,12 @@
 import { Text } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useRenderContentModelContext } from '~/contexts';
 
 interface IQueryStateMessage {
   queryID: string;
 }
-export const QueryStateMessage = ({ queryID }: IQueryStateMessage) => {
+export const QueryStateMessage = observer(({ queryID }: IQueryStateMessage) => {
   const model = useRenderContentModelContext();
   const { state, error } = model.getDataStuffByID(queryID);
   const query = React.useMemo(() => model.queries.findByID(queryID), [model, queryID]);
@@ -28,4 +29,4 @@ export const QueryStateMessage = ({ queryID }: IQueryStateMessage) => {
   }
 
   return null;
-};
+});

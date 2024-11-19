@@ -30,6 +30,20 @@ export const DashboardModel = types
         content_id: self.content_id,
       };
     },
+    get queryVariables() {
+      const ret: Record<string, any> = {
+        context: {
+          ...self.content.mock_context.current,
+          ...self.context.current,
+        },
+        filters: self.content.filters.previewValues,
+      };
+
+      return ret;
+    },
+    get queryVariablesString() {
+      return JSON.stringify(this.queryVariables, null, 2);
+    },
   }))
   .actions((self) => ({
     updateCurrentContent(content: DashboardContentDBType) {

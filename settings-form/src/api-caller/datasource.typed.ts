@@ -1,4 +1,4 @@
-export type DataSourceType = 'postgresql' | 'mysql' | 'http';
+export type DataSourceType = 'postgresql' | 'mysql' | 'http' | 'merico_metric_system';
 
 export interface IDataSource {
   id: string;

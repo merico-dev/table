@@ -4,7 +4,12 @@ import { DataSourceType } from '~/model';
 
 export const DataSourceMetaModel = types.model('DataSourceMetaModel', {
   id: types.string,
-  type: types.enumeration('DataSourceType', [DataSourceType.HTTP, DataSourceType.MySQL, DataSourceType.Postgresql]),
+  type: types.enumeration('DataSourceType', [
+    DataSourceType.HTTP,
+    DataSourceType.MySQL,
+    DataSourceType.Postgresql,
+    DataSourceType.MericoMetricSystem,
+  ]),
   key: types.string,
   config: types.frozen<TDataSourceConfig>(),
 });

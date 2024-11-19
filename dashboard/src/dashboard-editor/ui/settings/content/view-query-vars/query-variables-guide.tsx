@@ -33,16 +33,9 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
   const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
-  const contextInfo = model.context.current;
 
   const variablesString = (() => {
-    const ret: Record<string, $TSFixMe> = {
-      context: {
-        ...content.mock_context.current,
-        ...contextInfo,
-      },
-      filters: content.filters.previewValues,
-    };
+    const ret: Record<string, any> = model.queryVariables;
 
     if (showSQLSnippets) {
       ret.sql_snippets = content.sqlSnippets.record;

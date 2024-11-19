@@ -11,6 +11,7 @@ export const QueryMeta = types
       DataSourceType.MySQL,
       DataSourceType.HTTP,
       DataSourceType.Transform,
+      DataSourceType.MericoMetricSystem,
     ]),
     key: types.string,
     sql: types.string,
@@ -28,6 +29,10 @@ export const QueryMeta = types
       }
       if (self.type === DataSourceType.HTTP) {
         return !!self.pre_process;
+      }
+      if (self.type === DataSourceType.MericoMetricSystem) {
+        // TODO: MMS
+        return true;
       }
       return !!self.sql;
     },

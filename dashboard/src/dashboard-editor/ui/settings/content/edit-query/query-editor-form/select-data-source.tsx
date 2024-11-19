@@ -6,8 +6,16 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { listDataSources } from '~/api-caller';
 import { useEditDashboardContext } from '~/contexts';
+import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceType } from '~/model';
 import { DBExplorerModal } from '../../db-explorer-modal';
+
+const DataSourceTypeNames: Record<string, string> = {
+  http: 'HTTP',
+  mysql: 'MySQL',
+  postgresql: 'PostgreSQL',
+  merico_metric_system: '指标系统',
+};
 
 type CustomOption = { label: string; type: DataSourceType } & ComboboxItem;
 const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => {
@@ -18,7 +26,10 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
         className="transform-query-option"
         justify="flex-start"
         {...others}
-        sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
+        sx={{
+          flexGrow: 1,
+          '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } },
+        }}
       >
         <IconVectorTriangle size={14} color="#228be6" />
         <Text size="sm" c="blue">
@@ -28,17 +39,17 @@ const DataSourceLabel: SelectProps['renderOption'] = ({ option, ...others }) => 
     );
   }
   return (
-    <Group justify="space-between" {...others}>
+    <Group justify="space-between" {...others} sx={{ flexGrow: 1 }}>
       <Text size="sm">{label}</Text>
-      <Text size="sm">{type}</Text>
+      <Text size="sm">{DataSourceTypeNames[type]}</Text>
     </Group>
   );
 };
-interface ISelectDataSource {
-  value: { type: DataSourceType; key: string };
-  onChange: (v: { type: DataSourceType; key: string }) => void;
-}
-export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource) => {
+type Props = {
+  queryModel: QueryModelInstance;
+  size?: string;
+};
+export const SelectDataSource = observer(({ queryModel, size = 'sm' }: Props) => {
   const { t } = useTranslation();
   const model = useEditDashboardContext();
   const { data: dataSources = [], loading } = useRequest(
@@ -74,17 +85,19 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     if (key === null) {
       return;
     }
-    onChange({
-      key,
-      type: dataSourceTypeMap[key],
-    });
+    queryModel.setKey(key);
+    queryModel.setType(dataSourceTypeMap[key]);
   };
 
   const dataSource = useMemo(() => {
-    return model.datasources.find(value);
-  }, [model, value]);
+    return model.datasources.find({
+      type: queryModel.type,
+      key: queryModel.key,
+    });
+  }, [model, queryModel.type, queryModel.key]);
   return (
     <Select
+      size={size}
       data={dataSourceOptions}
       label={
         <Group justify="space-between">
@@ -98,14 +111,14 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       rightSection={
         dataSource ? (
           <Text size="xs" c="dimmed">
-            {dataSource.type}
+            {DataSourceTypeNames[dataSource.type] ?? dataSource.type}
           </Text>
         ) : undefined
       }
       rightSectionWidth={85}
       maxDropdownHeight={500}
       styles={{
-        root: { flex: 1 },
+        root: { flex: 1, minWidth: '300px' },
         label: { display: 'block' },
         section: {
           pointerEvents: 'none',
@@ -115,7 +128,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
         },
       }}
       disabled={loading}
-      value={value.key}
+      value={queryModel.key}
       onChange={handleChange}
     />
   );

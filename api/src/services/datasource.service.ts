@@ -72,12 +72,12 @@ export class DataSourceService {
   }
 
   async create(
-    type: 'mysql' | 'postgresql' | 'http' | 'transform',
+    type: 'mysql' | 'postgresql' | 'http' | 'transform' | 'merico_metric_system',
     key: string,
     config: DataSourceConfig,
     locale: string,
   ): Promise<DataSource> {
-    if (type !== 'http' && type !== 'transform') {
+    if (type === 'mysql' || type === 'postgresql') {
       await this.testDatabaseConfiguration(type, config, locale);
     }
     maybeEncryptPassword(config);

@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { QueryEditorForm } from './query-editor-form';
 import { QueryModelInstance } from '~/dashboard-editor/model/queries';
+import { MericoMetricQueryEditorForm } from './merico-metric-query-editor-form';
 
 export const EditQuery = observer(({ id }: { id: string }) => {
   const content = useEditContentModelContext();
@@ -20,5 +21,8 @@ export const EditQuery = observer(({ id }: { id: string }) => {
     );
   }
 
+  if (query.isMericoMetricQuery) {
+    return <MericoMetricQueryEditorForm queryModel={query} />;
+  }
   return <QueryEditorForm queryModel={query} />;
 });

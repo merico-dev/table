@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn } from 'mobx-state-tree';
-import { QueryRenderModel } from '~/model';
+import { QueryRenderModel, QueryUsageType } from '~/model';
 
 export const QueryModel = QueryRenderModel.views((self) => ({
   get canPreviewData() {
@@ -13,6 +13,24 @@ export const QueryModel = QueryRenderModel.views((self) => ({
       return 'Need to complete settings in Transform tab';
     }
     return 'Need to pick a Data Source first';
+  },
+  get usage() {
+    return self.contentModel.findQueryUsage(self.id) as QueryUsageType[];
+  },
+  get runBySet() {
+    return new Set(...self.run_by);
+  },
+  keyInRunBy(key: string) {
+    return this.runBySet.has(key);
+  },
+})).actions((self) => ({
+  changeRunByRecord(key: string, checked: boolean) {
+    const set = new Set(self.run_by);
+    if (!checked) {
+      set.delete(key);
+    } else {
+      set.add(key);
+    }
   },
 }));
 

@@ -178,7 +178,7 @@ export class DataSourceController implements interfaces.Controller {
   }
 
   private validateConfig(
-    type: 'mysql' | 'postgresql' | 'http' | 'transform',
+    type: 'mysql' | 'postgresql' | 'http' | 'transform' | 'merico_metric_system',
     config: DataSourceConfig,
     locale: string,
   ): void {

@@ -1520,7 +1520,7 @@ describe('DataSourceCreateRequest', () => {
           property: 'type',
           children: [],
           constraints: {
-            isIn: 'type must be one of the following values: postgresql, mysql, http, transform',
+            isIn: 'type must be one of the following values: postgresql, mysql, http, transform, merico_metric_system',
             isString: 'type must be a string',
           },
         },

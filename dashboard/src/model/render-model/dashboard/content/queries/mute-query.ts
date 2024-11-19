@@ -1,7 +1,7 @@
 import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
-import { DataSourceType, QueryMeta } from '~/model';
+import { DashboardFilterType, DataSourceType, QueryMeta } from '~/model';
 import { explainHTTPRequest } from '~/utils';
 import { explainSQL } from '~/utils';
 import { DependencyInfo, UsageRegs } from '~/utils';
@@ -15,14 +15,14 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get conditionOptions() {
     if (!isAlive(self)) {
-      return [];
+      return { optionGroups: [], validValues: new Set() };
     }
 
     const validValues: Set<string> = new Set();
     const { context } = this.contentModel.payloadForSQL;
 
-    const contextGroup: ComboboxItemGroup = {
-      group: 'Context',
+    const contextGroup: ComboboxItemGroup<ComboboxItem> = {
+      group: 'context.label',
       items: Object.keys(context).map((k) => {
         const value = `context.${k}`;
         validValues.add(value);
@@ -30,25 +30,53 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
           label: k,
           value,
           description: undefined,
+          type: 'context',
         };
       }),
     };
 
-    const filterGroup: ComboboxItemGroup = {
-      group: 'Filters',
-      items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem) => {
+    const filterGroup: ComboboxItemGroup<ComboboxItem> = {
+      group: 'filter.labels',
+      items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem & { widget: DashboardFilterType }) => {
         const value = `filters.${o.value}`;
         validValues.add(value);
         return {
           label: o.label,
           value,
           description: o.value,
+          type: 'filter',
+          widget: o.widget,
         };
       }),
     };
 
+    const optionGroups: Array<ComboboxItemGroup<ComboboxItem>> = [contextGroup, filterGroup];
+    return { optionGroups, validValues };
+  },
+  getConditionOptionsWithInvalidValue(value: string | null) {
+    const { optionGroups, validValues } = this.conditionOptions;
+    if (!value || validValues.has(value)) {
+      return this.conditionOptions;
+    }
+
+    const invalidGroup: ComboboxItemGroup<ComboboxItem> = {
+      group: 'common.invalid',
+      items: [
+        {
+          label: value,
+          value,
+        },
+      ],
+    };
+    return {
+      optionGroups: [...optionGroups, invalidGroup],
+      validValues,
+    };
+  },
+  get conditionOptionsWithInvalidRunbys() {
+    const { optionGroups, validValues } = this.conditionOptions;
     const invalidGroup: ComboboxItemGroup = {
-      group: 'Invalid',
+      group: 'common.invalid',
       items: [],
     };
     self.run_by.forEach((c) => {
@@ -61,8 +89,10 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       });
     });
 
-    const ret: Array<ComboboxItemGroup | ComboboxItem> = [contextGroup, filterGroup, invalidGroup];
-    return ret;
+    return {
+      optionGroups: [...optionGroups, invalidGroup],
+      validValues,
+    };
   },
   get unmetRunByConditions() {
     // this computed has dependencies on reactive values outside the model,
@@ -111,6 +141,9 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get typedAsHTTP() {
     return [DataSourceType.HTTP].includes(self.type);
+  },
+  get isMericoMetricQuery() {
+    return self.type === DataSourceType.MericoMetricSystem;
   },
   get isTransform() {
     return self.type === DataSourceType.Transform;

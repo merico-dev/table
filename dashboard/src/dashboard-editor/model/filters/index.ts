@@ -72,6 +72,7 @@ export const FiltersModel = types
       return self.current.map((f) => ({
         label: f.label ?? f.key,
         value: f.key,
+        widget: f.type,
       }));
     },
     get sortedList() {

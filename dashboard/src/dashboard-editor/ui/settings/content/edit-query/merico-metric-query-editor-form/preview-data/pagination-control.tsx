@@ -1,0 +1,91 @@
+import { Group, Pagination, Select, Text } from '@mantine/core';
+import { SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
+
+const limitOptions = [
+  { label: '10', value: '10' },
+  { label: '20', value: '20' },
+  { label: '50', value: '50' },
+  { label: '100', value: '100' },
+];
+
+const selectorStyles = {
+  root: {
+    width: '150px',
+  },
+  section: {
+    '&[data-position=left]': {
+      width: '70px',
+      textAlign: 'center',
+    },
+  },
+  input: {
+    paddingLeft: '70px',
+    paddingRight: 0,
+  },
+};
+
+type Props = {
+  data: TQueryData;
+  page: number;
+  setPage: React.Dispatch<SetStateAction<number>>;
+  limit: number;
+  setLimit: React.Dispatch<SetStateAction<number>>;
+};
+export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Props) => {
+  const { t } = useTranslation();
+  const total = data.length;
+  const maxPage = Math.ceil(total / limit);
+
+  const changeLimit = (limit: string | null) => {
+    if (!limit) {
+      return;
+    }
+
+    setPage(1);
+    setLimit(Number(limit));
+  };
+
+  if (total === 0) {
+    return null;
+  }
+
+  const hideLimitSelector = maxPage === 1 && total <= 10;
+  return (
+    <Group pt={10} px={10} justify="space-between">
+      <Group justify="flex-start">
+        {!hideLimitSelector && (
+          <Select
+            leftSection={
+              <Text ta="center" c="dimmed" size="xs">
+                {t('common.pagination.page_size')}
+              </Text>
+            }
+            size="xs"
+            // @ts-expect-error type error caused by !important
+            styles={selectorStyles}
+            data={limitOptions}
+            value={String(limit)}
+            onChange={changeLimit}
+          />
+        )}
+        {maxPage > 1 && (
+          <Pagination
+            size="sm"
+            value={page}
+            onChange={setPage}
+            total={maxPage}
+            withEdges={maxPage > 7}
+            styles={{ control: { height: '30px' } }}
+            color="red"
+          />
+        )}
+      </Group>
+      <Group justify="flex-end">
+        <Text c="dimmed" my={0} size={'14px'}>
+          {t('common.pagination.total_rows', { total })}
+        </Text>
+      </Group>
+    </Group>
+  );
+};
