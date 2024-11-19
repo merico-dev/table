@@ -7,7 +7,7 @@ import { RunByCheckbox } from './run-by-checkbox';
 import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
-import { DimensionSelector } from './dimension-selector';
+import { DimensionSelector } from './dimension-selector/dimension-selector';
 
 type Props = {
   queryModel: QueryModelInstance;

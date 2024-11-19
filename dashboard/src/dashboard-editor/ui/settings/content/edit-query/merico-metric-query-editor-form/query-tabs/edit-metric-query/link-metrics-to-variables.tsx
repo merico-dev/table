@@ -6,7 +6,7 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
-import { DimensionSelector } from './dimension-selector';
+import { DimensionSelector } from './dimension-selector/dimension-selector';
 
 const rows = [
   { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
