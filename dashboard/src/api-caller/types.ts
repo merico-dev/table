@@ -16,7 +16,15 @@ export type TDataSourceConfig_HTTP = {
   };
 };
 
-export type TDataSourceConfig = TDataSourceConfig_DB | TDataSourceConfig_HTTP;
+export type TDataSourceConfig_MericoMetricSystem = {
+  host: string;
+  processing: {
+    pre: TFunctionString;
+    post: TFunctionString;
+  };
+};
+
+export type TDataSourceConfig = TDataSourceConfig_DB | TDataSourceConfig_HTTP | TDataSourceConfig_MericoMetricSystem;
 
 export interface IDataSource {
   id: string;
