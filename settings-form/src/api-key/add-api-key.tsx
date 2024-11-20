@@ -46,6 +46,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         message: t('api_key.state.added'),
         color: 'green',
         autoClose: true,
+        loading: false,
       });
       postSubmit(app_id, app_secret);
     } catch (error: $TSFixMe) {
@@ -55,6 +56,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         message: error.message,
         color: 'red',
         autoClose: true,
+        loading: false,
       });
     }
   };

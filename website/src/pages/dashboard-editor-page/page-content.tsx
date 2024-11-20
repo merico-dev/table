@@ -64,6 +64,7 @@ export const DashboardEditorPageContent = observer(
           title: 'Successful',
           message: 'This dashboard is updated',
           color: 'green',
+          loading: false,
           autoClose: true,
         });
         await store.currentDetail?.content.load();
@@ -75,6 +76,7 @@ export const DashboardEditorPageContent = observer(
           // @ts-expect-error type of error
           message: error.message,
           color: 'red',
+          loading: false,
           autoClose: true,
         });
       }

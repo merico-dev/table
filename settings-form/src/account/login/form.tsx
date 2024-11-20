@@ -43,6 +43,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         message: t('account.state.logged_in'),
         color: 'green',
         autoClose: true,
+        loading: false,
       });
       postSubmit(res);
     } catch (error: $TSFixMe) {
@@ -52,6 +53,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         message: error.message,
         color: 'red',
         autoClose: true,
+        loading: false,
       });
     }
   };
