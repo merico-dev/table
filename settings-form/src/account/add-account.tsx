@@ -49,6 +49,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         message: t('account.state.added'),
         color: 'green',
         autoClose: true,
+        loading: false,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -58,6 +59,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         message: error.message,
         color: 'red',
         autoClose: true,
+        loading: false,
       });
     }
   };

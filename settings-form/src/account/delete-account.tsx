@@ -36,6 +36,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
         message: t('account.state.deleted', { name }),
         color: 'green',
         autoClose: true,
+        loading: false,
       });
       onSuccess();
     } catch (error: $TSFixMe) {
@@ -45,6 +46,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
         message: error.message,
         color: 'red',
         autoClose: true,
+        loading: false,
       });
     }
   };

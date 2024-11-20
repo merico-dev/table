@@ -58,6 +58,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         message: t('account.state.updated'),
         color: 'green',
         autoClose: true,
+        loading: false,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -67,6 +68,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         message: error.message,
         color: 'red',
         autoClose: true,
+        loading: false,
       });
     }
   };

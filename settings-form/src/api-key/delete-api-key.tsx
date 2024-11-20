@@ -36,6 +36,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
         message: t('global_sql_snippet.state.deleted', { name }),
         color: 'green',
         autoClose: true,
+        loading: false,
       });
       onSuccess();
     } catch (error: $TSFixMe) {
@@ -45,6 +46,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
         message: error.message,
         color: 'red',
         autoClose: true,
+        loading: false,
       });
     }
   };
