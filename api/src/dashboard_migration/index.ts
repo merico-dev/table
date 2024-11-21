@@ -26,6 +26,7 @@ export const versions = [
   '10.41.0',
   '11.0.0',
   '11.10.0',
+  '13.45.0',
   // ... future versions
 ];
 
