@@ -1,11 +1,17 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { shallowToJS } from '~/utils';
+import { DBQueryMeta } from './db-query';
+import { HTTPQueryMeta } from './http-query';
+import { TransformQueryMeta } from './transform-query';
+import { MericoMetricQueryMeta } from './merico-metric-query';
+
 import { DataSourceType } from './types';
+import { shallowToJS } from '~/utils';
 
 export const QueryMeta = types
   .model('QueryMeta', {
     id: types.string,
     name: types.string,
+    key: types.string,
     type: types.enumeration('DataSourceType', [
       DataSourceType.Postgresql,
       DataSourceType.MySQL,
@@ -13,67 +19,38 @@ export const QueryMeta = types
       DataSourceType.Transform,
       DataSourceType.MericoMetricSystem,
     ]),
-    key: types.string,
-    sql: types.string,
+    config: types.union(DBQueryMeta, HTTPQueryMeta, TransformQueryMeta, MericoMetricQueryMeta),
     pre_process: types.optional(types.string, ''),
     post_process: types.optional(types.string, ''),
     run_by: types.optional(types.array(types.string), []),
-    react_to: types.optional(types.array(types.string), []),
-    dep_query_ids: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
-    get valid() {
-      const infoValid = self.id && self.type && self.key && self.name;
-      if (!infoValid) {
-        return false;
-      }
-      if (self.type === DataSourceType.HTTP) {
-        return !!self.pre_process;
-      }
-      if (self.type === DataSourceType.MericoMetricSystem) {
-        // TODO: MMS
-        return true;
-      }
-      return !!self.sql;
-    },
     get json() {
-      const { id, name, type, key, sql, run_by, react_to, pre_process, post_process, dep_query_ids } = self;
-      return shallowToJS({ id, key, sql, name, type, run_by, react_to, pre_process, post_process, dep_query_ids });
+      const { id, name, key, type, config, pre_process, post_process, run_by } = self;
+      return shallowToJS({ id, name, key, type, config: config.json, pre_process, post_process, run_by });
     },
   }))
-  .actions((self) => {
-    return {
-      setName(name: string) {
-        self.name = name;
-      },
-      setKey(key: string) {
-        self.key = key;
-      },
-      setType(type: DataSourceType) {
-        self.type = type;
-      },
-      setSQL(sql: string) {
-        self.sql = sql;
-      },
-      setRunBy(v: string[]) {
-        self.run_by.length = 0;
-        self.run_by.push(...v);
-      },
-      setReactTo(v: string[]) {
-        self.react_to.length = 0;
-        self.react_to.push(...v);
-      },
-      setPreProcess(v: string) {
-        self.pre_process = v;
-      },
-      setPostProcess(v: string) {
-        self.post_process = v;
-      },
-      setDependantQueryIDs(v: string[]) {
-        self.dep_query_ids.length = 0;
-        self.dep_query_ids.push(...v);
-      },
-    };
-  });
+  .actions((self) => ({
+    setName(name: string) {
+      self.name = name;
+    },
+    setKey(key: string) {
+      self.key = key;
+    },
+    setType(type: DataSourceType) {
+      self.type = type;
+    },
+    setRunBy(v: string[]) {
+      self.run_by.length = 0;
+      self.run_by.push(...v);
+    },
+    setPreProcess(v: string) {
+      self.pre_process = v;
+    },
+    setPostProcess(v: string) {
+      self.post_process = v;
+    },
+  }));
+
 export type QueryMetaInstance = Instance<typeof QueryMeta>;
 export type QueryMetaSnapshotIn = SnapshotIn<QueryMetaInstance>;
