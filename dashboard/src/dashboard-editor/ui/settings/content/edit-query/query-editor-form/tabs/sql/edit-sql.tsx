@@ -6,6 +6,7 @@ import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor'
 import { QueryRenderModelInstance } from '~/model';
 import { QueryDependency } from './query-dependency';
 import { useTranslation } from 'react-i18next';
+import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 
 interface IEditSQL {
   queryModel: QueryRenderModelInstance;
@@ -15,14 +16,15 @@ const defaultValue = 'SELECT 1';
 
 export const EditSQL = observer(({ queryModel }: IEditSQL) => {
   const { t } = useTranslation();
-  const [localValue, setLocalValue] = useState<string>(queryModel.sql);
+  const config = queryModel.config as DBQueryMetaInstance;
+  const [localValue, setLocalValue] = useState<string>(config.sql);
 
   const handleOk = () => {
-    queryModel.setSQL(localValue);
+    config.setSQL(localValue);
   };
 
   const handleCancel = () => {
-    setLocalValue(queryModel.sql);
+    setLocalValue(config.sql);
   };
 
   const resetFuncContent = () => {
@@ -30,10 +32,10 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
   };
 
   useEffect(() => {
-    setLocalValue(queryModel.sql);
-  }, [queryModel.sql]);
+    setLocalValue(config.sql);
+  }, [config.sql]);
 
-  const hasChanges = localValue !== queryModel.sql;
+  const hasChanges = localValue !== config.sql;
 
   return (
     <Stack gap={4} sx={{ height: '100%' }}>

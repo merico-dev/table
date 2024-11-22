@@ -1,8 +1,10 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
+import { DataSourceType } from './types';
 
 export const TransformQueryMeta = types
   .model('TransformQueryMeta', {
+    _type: types.literal(DataSourceType.Transform),
     dep_query_ids: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
@@ -10,8 +12,8 @@ export const TransformQueryMeta = types
       return self.dep_query_ids.length > 0;
     },
     get json() {
-      const { dep_query_ids } = self;
-      return shallowToJS({ dep_query_ids });
+      const { dep_query_ids, _type } = self;
+      return shallowToJS({ dep_query_ids, _type });
     },
   }))
   .actions((self) => ({

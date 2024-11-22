@@ -1,10 +1,12 @@
 import { Instance, SnapshotIn } from 'mobx-state-tree';
 import { QueryRenderModel, QueryUsageType } from '~/model';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 
 export const QueryModel = QueryRenderModel.views((self) => ({
   get canPreviewData() {
     if (self.isTransform) {
-      return self.dep_query_ids.length > 0 && !!self.pre_process;
+      const config = self.config as TransformQueryMetaInstance;
+      return config.dep_query_ids.length > 0 && !!self.pre_process;
     }
     return !!self.datasource;
   },

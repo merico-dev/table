@@ -7,6 +7,7 @@ import { DBExplorerModal } from '../../../../db-explorer-modal';
 import { EditSQL } from './edit-sql';
 import { PreviewSQL } from './preview-sql';
 import { useTranslation } from 'react-i18next';
+import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 
 export const DEFAULT_SQL_REQ_PROCESSING = {
   pre: [
@@ -28,6 +29,8 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
   if (!queryModel.typedAsSQL) {
     return null;
   }
+
+  const config = queryModel.config as DBQueryMetaInstance;
   return (
     <Tabs
       defaultValue="Edit"
@@ -52,7 +55,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
         <EditSQL queryModel={queryModel} />
       </Tabs.Panel>
       <Tabs.Panel value="Preview" p={0} pl={4}>
-        <PreviewSQL value={queryModel.sql} />
+        <PreviewSQL value={config.sql} />
       </Tabs.Panel>
       <Tabs.Panel value="pre_process" sx={{ position: 'relative' }} p="sm">
         <InlineFunctionInput

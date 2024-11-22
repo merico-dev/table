@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
 import { useEditContentModelContext } from '~/contexts';
 import { QueryRenderModelInstance } from '~/model';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 
 export const DEFAULT_TRANSFORM_REQ_PROCESSING = {
   pre: [
@@ -24,13 +25,15 @@ export const TabPanel_Transform = observer(({ queryModel }: { queryModel: QueryR
     return null;
   }
 
+  const config = queryModel.config as TransformQueryMetaInstance;
+
   return (
     <Stack py={20} px={20} sx={{ height: '100%' }}>
       <Text size="sm">{t('query.transform.guide.pick_queries')}</Text>
       <MultiSelect
         data={content.queries.optionsWithoutTransform}
-        value={[...queryModel.dep_query_ids]}
-        onChange={queryModel.setDependantQueryIDs}
+        value={[...config.dep_query_ids]}
+        onChange={config.setDependantQueryIDs}
         maxDropdownHeight={800}
       />
       <Text size="sm">{t('query.transform.guide.write_function')}</Text>

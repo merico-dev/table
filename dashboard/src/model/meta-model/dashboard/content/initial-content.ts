@@ -1,7 +1,7 @@
 import { TDashboardContent } from '~/types';
 import { EViewComponentType } from './view';
 
-export const CURRENT_SCHEMA_VERSION = '11.10.0';
+export const CURRENT_SCHEMA_VERSION = '13.45.0';
 
 export const initialDashboardContent: TDashboardContent = {
   definition: {

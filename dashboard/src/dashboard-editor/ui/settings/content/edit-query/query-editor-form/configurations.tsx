@@ -7,6 +7,7 @@ import { CustomSelectorItem } from '~/components/widgets/custom-selector-item';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DeleteQuery } from './delete-query';
 import { SelectDataSource } from './select-data-source';
+import { HTTPQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/http-query';
 
 interface IQueryConfigurations {
   queryModel: QueryModelInstance;
@@ -75,8 +76,8 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
             label={t('query.re_run_condition.label')}
             placeholder={t('query.re_run_condition.label')}
             data={options}
-            value={[...queryModel.react_to]}
-            onChange={queryModel.setReactTo}
+            value={[...(queryModel.config as HTTPQueryMetaInstance).react_to]}
+            onChange={(queryModel.config as HTTPQueryMetaInstance).setReactTo}
             renderOption={CustomSelectorItem}
             maxDropdownHeight={500}
           />

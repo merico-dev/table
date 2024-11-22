@@ -1,5 +1,6 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
+import { DataSourceType } from './types';
 
 export type MericoMetricType = 'derived' | 'combined';
 export type MericoMetricQueryFilter = {
@@ -9,6 +10,7 @@ export type MericoMetricQueryFilter = {
 
 export const MericoMetricQueryMeta = types
   .model('MericoMetricQueryMeta', {
+    _type: types.literal(DataSourceType.MericoMetricSystem),
     id: types.optional(types.string, ''),
     type: types.optional(types.enumeration('MetricType', ['derived', 'combined']), 'derived'),
     filters: types.optional(types.array(types.frozen<MericoMetricQueryFilter>()), []),
@@ -25,8 +27,8 @@ export const MericoMetricQueryMeta = types
       return !!self.id;
     },
     get json() {
-      const { id, type, filters, groupBys, timeQuery } = self;
-      return shallowToJS({ id, type, filters, groupBys, timeQuery });
+      const { id, type, filters, groupBys, timeQuery, _type } = self;
+      return shallowToJS({ id, type, filters, groupBys, timeQuery, _type });
     },
   }))
   .actions((self) => ({

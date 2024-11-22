@@ -9,6 +9,8 @@ import { MuteQueryModel } from './mute-query';
 import _ from 'lodash';
 import { faker } from '@faker-js/faker';
 import { AnyObject } from '~/types';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
+import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 
 enum QueryState {
   idle = 'idle',
@@ -35,7 +37,8 @@ export const QueryRenderModel = types
       return self.contentModel.getAdditionalQueryInfo(self.id);
     },
     get depQueryModels() {
-      return self.contentModel.queries.findByIDSet(new Set(self.dep_query_ids));
+      const ids = _.get(self, 'config.dep_query_ids', []);
+      return self.contentModel.queries.findByIDSet(new Set(ids));
     },
     get depQueryModelStates() {
       // NOTE(leto): can't use QueryRenderModelInstance. 'QueryRenderModel' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
@@ -92,12 +95,19 @@ export const QueryRenderModel = types
         self.state = 'loading';
         try {
           const payload = self.payload;
+          const config = self.config as DBQueryMetaInstance;
           self.data = yield* toGenerator(
             queryBySQL(
               {
                 payload,
                 name: self.name,
-                query: self.json,
+                query: {
+                  type: self.type,
+                  key: self.key,
+                  sql: config.sql,
+                  pre_process: self.pre_process,
+                  post_process: self.post_process,
+                },
                 additionals: self.additionalQueryInfo,
               },
               self.controller.signal,
@@ -226,8 +236,7 @@ export const QueryRenderModel = types
       runTransformation() {
         self.state = 'loading';
         try {
-          const queryModels = self.contentModel.queries.findByIDSet(new Set(self.dep_query_ids));
-          const queries = queryModels.map((q: QueryRenderModelInstance) => ({
+          const queries = self.depQueryModels.map((q: QueryRenderModelInstance) => ({
             id: q.id,
             name: q.name,
             data: _.cloneDeep(q.data),
@@ -279,11 +288,12 @@ export const QueryRenderModel = types
         reaction(
           () => {
             if (self.isTransform) {
+              const config = self.config as TransformQueryMetaInstance;
               const deps = [
                 self.inUse,
                 self.id,
                 self.key,
-                self.dep_query_ids.toString(),
+                config.dep_query_ids.toString(),
                 self.pre_process,
                 self.depQueryModelStatesString,
               ];

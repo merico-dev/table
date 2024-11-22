@@ -1,8 +1,10 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
+import { DataSourceType } from './types';
 
 export const HTTPQueryMeta = types
   .model('HTTPQueryMeta', {
+    _type: types.literal(DataSourceType.HTTP),
     react_to: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
@@ -10,8 +12,8 @@ export const HTTPQueryMeta = types
       return true;
     },
     get json() {
-      const { react_to } = self;
-      return shallowToJS({ react_to });
+      const { react_to, _type } = self;
+      return shallowToJS({ react_to, _type });
     },
   }))
   .actions((self) => ({

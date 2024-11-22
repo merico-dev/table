@@ -122,7 +122,8 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     return self.contentModel.payloadForSQL;
   },
   get formattedSQL() {
-    return explainSQL(self.sql, this.payload);
+    const sql = _.get(self, 'config.sql', '');
+    return explainSQL(sql, this.payload);
   },
 
   get httpConfigString() {
@@ -149,7 +150,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     return self.type === DataSourceType.Transform;
   },
   get reQueryKey() {
-    const { react_to = [] } = self;
+    const react_to = _.get(self, 'config.react_to', []);
     if (react_to.length === 0) {
       return '';
     }
@@ -192,9 +193,14 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return [];
     }
 
-    const sqlSnippetKeys = _.uniq(self.sql.match(UsageRegs.sqlSnippet));
-    const filterKeys = _.uniq(self.sql.match(UsageRegs.filter));
-    const contextKeys = _.uniq(self.sql.match(UsageRegs.context));
+    const sql = _.get(self, 'config.sql', '') as string;
+    if (!sql) {
+      return [];
+    }
+
+    const sqlSnippetKeys = _.uniq(sql.match(UsageRegs.sqlSnippet));
+    const filterKeys = _.uniq(sql.match(UsageRegs.filter));
+    const contextKeys = _.uniq(sql.match(UsageRegs.context));
 
     const ret: DependencyInfo[] = [];
     sqlSnippetKeys.forEach((key) => {

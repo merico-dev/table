@@ -3,6 +3,7 @@ import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
 import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
 import { QueryRenderModel, QueryRenderModelInstance } from './query';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -56,10 +57,11 @@ export const QueriesRenderModel = types
       });
 
       queries.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
-        if (!q.isTransform || q.dep_query_ids.length === 0) {
+        const config = q.config as TransformQueryMetaInstance;
+        if (!q.isTransform || config.dep_query_ids.length === 0) {
           return;
         }
-        queryIDs.push(...q.dep_query_ids);
+        queryIDs.push(...config.dep_query_ids);
       });
 
       const ret = new Set(queryIDs);

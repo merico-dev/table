@@ -25,6 +25,10 @@ export const QueryMeta = types
     run_by: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
+    get valid() {
+      const { id, name, key, type, config } = self;
+      return config.valid && !!id && !!name && !!key && !!type;
+    },
     get json() {
       const { id, name, key, type, config, pre_process, post_process, run_by } = self;
       return shallowToJS({ id, name, key, type, config: config.json, pre_process, post_process, run_by });
