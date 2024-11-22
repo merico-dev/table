@@ -21,24 +21,28 @@ type BaseQuery = {
 type DBQuery = BaseQuery & {
   type: 'postgresql' | 'mysql';
   config: {
+    _type: 'postgresql' | 'mysql';
     sql: string;
   };
 };
 type HTTPQuery = BaseQuery & {
   type: 'http';
   config: {
+    _type: 'http';
     react_to: string[];
   };
 };
 type TransformQuery = BaseQuery & {
   type: 'transform';
   config: {
+    _type: 'transform';
     dep_query_ids: string[];
   };
 };
 type MericoMetricQuery = BaseQuery & {
   type: 'merico_metric_system';
   config: {
+    _type: 'merico_metric_system';
     id: string;
     type: string;
     filters: Array<{
@@ -70,7 +74,7 @@ function toDBQuery(q: LegacyQuery): DBQuery {
   return {
     ...getCommonProperties(q),
     type,
-    config: { sql },
+    config: { _type: type, sql },
   };
 }
 
@@ -83,7 +87,7 @@ function toHTTPQuery(q: LegacyQuery): HTTPQuery {
   return {
     ...getCommonProperties(q),
     type,
-    config: { react_to },
+    config: { react_to, _type: type },
   };
 }
 
@@ -96,7 +100,7 @@ function toTransformQuery(q: LegacyQuery): TransformQuery {
   return {
     ...getCommonProperties(q),
     type,
-    config: { dep_query_ids },
+    config: { _type: type, dep_query_ids },
   };
 }
 
@@ -110,6 +114,7 @@ function toMMQuery(q: LegacyQuery): MericoMetricQuery {
     ...getCommonProperties(q),
     type,
     config: {
+      _type: type,
       id: '',
       type: 'derived',
       filters: [],
