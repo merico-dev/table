@@ -23,7 +23,7 @@ const selectorStyles: EmotionStyles = {
 
 export const PaginationControl = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const { t } = useTranslation();
-  const { tableData } = dataSource;
+  const { tableData } = dataSource.dbInfo;
   return (
     <Group pt={10} px={10} justify="space-between">
       <Group justify="flex-start">
