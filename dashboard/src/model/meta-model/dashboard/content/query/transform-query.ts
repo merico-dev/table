@@ -24,3 +24,9 @@ export const TransformQueryMeta = types
   }));
 export type TransformQueryMetaInstance = Instance<typeof TransformQueryMeta>;
 export type TransformQueryMetaSnapshotIn = SnapshotIn<TransformQueryMetaInstance>;
+
+export const createTransformQueryConfig = () =>
+  TransformQueryMeta.create({
+    _type: DataSourceType.Transform,
+    dep_query_ids: [],
+  });

@@ -24,3 +24,9 @@ export const HTTPQueryMeta = types
   }));
 export type HTTPQueryMetaInstance = Instance<typeof HTTPQueryMeta>;
 export type HTTPQueryMetaSnapshotIn = SnapshotIn<HTTPQueryMetaInstance>;
+
+export const createHTTPQueryConfig = () =>
+  HTTPQueryMeta.create({
+    _type: DataSourceType.HTTP,
+    react_to: [],
+  });

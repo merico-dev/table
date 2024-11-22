@@ -1,8 +1,8 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { DBQueryMeta } from './db-query';
-import { HTTPQueryMeta } from './http-query';
-import { TransformQueryMeta } from './transform-query';
-import { MericoMetricQueryMeta } from './merico-metric-query';
+import { createDBQueryConfig, DBQueryMeta } from './db-query';
+import { HTTPQueryMeta, createHTTPQueryConfig } from './http-query';
+import { TransformQueryMeta, createTransformQueryConfig } from './transform-query';
+import { MericoMetricQueryMeta, createMericoMetricQueryMetaConfig } from './merico-metric-query';
 
 import { DataSourceType } from './types';
 import { shallowToJS } from '~/utils';
@@ -43,6 +43,23 @@ export const QueryMeta = types
     },
     setType(type: DataSourceType) {
       self.type = type;
+      switch (type) {
+        case DataSourceType.HTTP:
+          self.config = createHTTPQueryConfig();
+          break;
+        case DataSourceType.MySQL:
+        case DataSourceType.Postgresql:
+          self.config = createDBQueryConfig(type);
+          break;
+        case DataSourceType.Transform:
+          self.config = createTransformQueryConfig();
+          break;
+        case DataSourceType.MericoMetricSystem:
+          self.config = createMericoMetricQueryMetaConfig();
+          break;
+        default:
+          throw new Error(`Unexpected query type[${type}]`);
+      }
     },
     setRunBy(v: string[]) {
       self.run_by.length = 0;

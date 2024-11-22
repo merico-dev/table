@@ -27,3 +27,9 @@ export const DBQueryMeta = types
   });
 export type DBQueryMetaInstance = Instance<typeof DBQueryMeta>;
 export type DBQueryMetaSnapshotIn = SnapshotIn<DBQueryMetaInstance>;
+
+export const createDBQueryConfig = (type: DataSourceType.MySQL | DataSourceType.Postgresql) =>
+  DBQueryMeta.create({
+    _type: type,
+    sql: '',
+  });

@@ -58,3 +58,18 @@ export const MericoMetricQueryMeta = types
   }));
 export type MericoMetricQueryMetaInstance = Instance<typeof MericoMetricQueryMeta>;
 export type MericoMetricQueryMetaSnapshotIn = SnapshotIn<MericoMetricQueryMetaInstance>;
+
+export const createMericoMetricQueryMetaConfig = () =>
+  MericoMetricQueryMeta.create({
+    _type: DataSourceType.MericoMetricSystem,
+    id: '',
+    type: 'derived',
+    filters: [],
+    groupBys: [],
+    timeQuery: {
+      range_variable: '',
+      unit_variable: '',
+      timezone: 'PRC',
+      stepKeyFormat: 'YYYY-MM-DD',
+    },
+  });
