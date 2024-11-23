@@ -28,12 +28,23 @@ export type TQueryStructureRequest = {
   offset?: number; // default 0
 };
 
+export type QueryMMInfoRequest = {
+  key: string;
+  query: string;
+  env?: AnyObject;
+  content_id: string;
+  params: TDashboardState;
+};
+
 export interface IDashboardAPIClient extends IAPIClient {
   query: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryPayload, options?: AnyObject) => Promise<T>;
   httpDataSourceQuery: <T = $TSFixMe>(
     signal?: AbortSignal,
   ) => (data: TQueryPayload, options?: AnyObject) => Promise<AxiosResponse<T>>;
   structure: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryStructureRequest, options?: AnyObject) => Promise<T>;
+  mericoMetricInfo: <T = $TSFixMe>(
+    signal?: AbortSignal,
+  ) => (data: QueryMMInfoRequest, options?: AnyObject) => Promise<T>;
 }
 
 export class DashboardApiClient extends DefaultApiClient implements IDashboardAPIClient {
@@ -64,6 +75,12 @@ export class DashboardApiClient extends DefaultApiClient implements IDashboardAP
       return this.post<T>(signal)('/query/structure', data, options);
     };
   }
+
+  mericoMetricInfo<T>(signal?: AbortSignal): (data: QueryMMInfoRequest, options?: AnyObject) => Promise<T> {
+    return async (data: QueryMMInfoRequest, options: AnyObject = {}) => {
+      return this.post<T>(signal)('/query/merico_metric_info', data, options, true);
+    };
+  }
 }
 
 export class DashboardApiFacadeClient implements IDashboardAPIClient {
@@ -79,6 +96,10 @@ export class DashboardApiFacadeClient implements IDashboardAPIClient {
 
   structure(signal?: AbortSignal) {
     return this.implementation.structure(signal);
+  }
+
+  mericoMetricInfo(signal?: AbortSignal) {
+    return this.implementation.mericoMetricInfo(signal);
   }
 
   getRequest<T>(method: Method, signal?: AbortSignal) {
