@@ -165,6 +165,19 @@ export class QueryService {
       `;
   }
 
+  async queryMericoMetricInfo(
+    key: string,
+    query: string,
+    content_id: string,
+    params: QueryParams,
+    env: Record<string, any>,
+    refresh_cache = false,
+    locale: string,
+    auth?: Account | ApiKey,
+  ): Promise<any> {
+    const result = await this.mericoMetricQuery(key, query);
+    return result;
+  }
   async queryStructure(
     query_type: string,
     type: string,
@@ -269,6 +282,10 @@ export class QueryService {
         result = await this.httpQuery(parsedKey, q);
         break;
 
+      case 'merico_metric_system':
+        result = await this.mericoMetricQuery(parsedKey, q);
+        break;
+
       default:
         return null;
     }
@@ -320,7 +337,7 @@ export class QueryService {
     if (!rawQuery) {
       throw new ApiError(BAD_REQUEST, { message: translate('QUERY_ID_NOT_FOUND', locale) });
     }
-    if (rawQuery.type === 'http') {
+    if (rawQuery.type === 'http' || rawQuery.type === 'merico_metric_system') {
       return { parsedType: type, parsedKey: key, parsedQuery: query };
     }
     return await this.prepareDBQuery(rawQuery, content.definition.sqlSnippets, params, locale);
@@ -408,6 +425,17 @@ export class QueryService {
   private async httpQuery(key: string, query: string): Promise<any> {
     const options = validateClass(HttpParams, JSON.parse(query));
     const sourceConfig = await DataSourceService.getByTypeKey('http', key);
+    let { host } = sourceConfig.config;
+    if (!host) {
+      host = options.host;
+    }
+    return APIClient.request(host)(options);
+  }
+
+  private async mericoMetricQuery(key: string, query: string): Promise<any> {
+    // const options = validateClass(HttpParams, JSON.parse(query));
+    const options = JSON.parse(query);
+    const sourceConfig = await DataSourceService.getByTypeKey('merico_metric_system', key);
     let { host } = sourceConfig.config;
     if (!host) {
       host = options.host;

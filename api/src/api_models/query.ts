@@ -34,9 +34,9 @@ export class QueryRequest {
   @ApiModelProperty({
     description: 'datasource type of query',
     required: true,
-    enum: ['postgresql', 'mysql', 'http'],
+    enum: ['postgresql', 'mysql', 'http', 'merico_metric_system'],
   })
-  type: 'postgresql' | 'mysql' | 'http';
+  type: 'postgresql' | 'mysql' | 'http' | 'merico_metric_system';
 
   @IsString()
   @ApiModelProperty({
@@ -218,4 +218,69 @@ export class QueryStructureRequest {
     required: false,
   })
   offset?: number;
+}
+
+@ApiModel({
+  description: 'Query Merico Metrics Info',
+  name: 'QueryMericoMetricInfoRequest',
+})
+export class QueryMericoMetricInfoRequest {
+  @IsString()
+  @ApiModelProperty({
+    description: 'datasource key',
+    required: true,
+  })
+  key: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description:
+      'query to be executed against selected datasource. For http data sources query must be a json parsable object string',
+    required: true,
+  })
+  query: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'id of the dashboard content',
+    required: true,
+  })
+  content_id: string;
+
+  @IsObject()
+  @Type(() => QueryParams)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Query params',
+    required: true,
+    model: 'QueryParams',
+  })
+  params: QueryParams;
+
+  @IsOptional()
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query env config',
+    required: false,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  env?: Record<string, any>;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'refresh cached data',
+    required: false,
+  })
+  refresh_cache?: boolean;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }

@@ -4,7 +4,7 @@ import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath } from 'swagger-express-ts';
 import { QueryService } from '../services/query.service';
 import { validate } from '../middleware/validation';
-import { QueryRequest, QueryStructureRequest } from '../api_models/query';
+import { QueryRequest, QueryStructureRequest, QueryMericoMetricInfoRequest } from '../api_models/query';
 import permission from '../middleware/permission';
 import { PERMISSIONS } from '../services/role.service';
 import { ApiKey } from '../api_models/api';
@@ -83,6 +83,46 @@ export class QueryController implements interfaces.Controller {
         table_name,
         limit,
         offset,
+      );
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @ApiOperationPost({
+    path: '/merico_metric_info',
+    description: 'query merico_metric_info',
+    parameters: {
+      body: { description: 'Query Metric Info', required: true, model: 'QueryMericoMetricInfoRequest' },
+    },
+    responses: {
+      200: { description: 'Query result' },
+      500: { description: 'ApiError', model: 'ApiError' },
+    },
+  })
+  @httpPost(
+    '/merico_metric_info',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(QueryMericoMetricInfoRequest),
+  )
+  public async queryMericoMetricInfo(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ): Promise<void> {
+    try {
+      const auth: Account | ApiKey | undefined = req.body.auth;
+      const { key, query, content_id, params, env, refresh_cache } = req.body as QueryMericoMetricInfoRequest;
+      const result = await this.queryService.queryMericoMetricInfo(
+        key,
+        query,
+        content_id,
+        params,
+        env || {},
+        refresh_cache,
+        req.locale,
+        auth,
       );
       res.json(result);
     } catch (error) {
