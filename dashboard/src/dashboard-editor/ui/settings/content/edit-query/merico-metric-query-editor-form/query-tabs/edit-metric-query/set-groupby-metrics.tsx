@@ -1,16 +1,19 @@
-import { MultiSelect } from '@mantine/core';
+import { Loader, MultiSelect } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
-
-const options = [
-  { label: 'account', value: 'account' },
-  { label: 'team', value: 'team' },
-];
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 
 type Props = {
   queryModel: QueryModelInstance;
 };
-export const SetGroupbyMetrics = observer(({ queryModel }: Props) => {
+export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+  const metric = mmInfo.metricDetail;
+  const loading = mmInfo.metrics.loading || metric.loading;
+
+  const options = metric.groupByColOptions;
+  console.log('GroupBy Metrics:', options);
   return (
     <MultiSelect
       size="sm"
@@ -23,6 +26,7 @@ export const SetGroupbyMetrics = observer(({ queryModel }: Props) => {
           fontWeight: 'normal',
         },
       }}
+      rightSection={loading ? <Loader size="xs" /> : null}
     />
   );
 });

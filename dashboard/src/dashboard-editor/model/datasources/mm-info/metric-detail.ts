@@ -7,7 +7,7 @@ import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
 import { CombinedMetricCol, DimensionCol, MetricDetail, MetricSourceCol } from './metric-detail.types';
-import { makeColOptions, parseData } from './metric-detail.utils';
+import { makeColOptions, makeGroupByColOptions, parseData } from './metric-detail.utils';
 
 function getURLByType(type: 'derived' | 'combined', id: string) {
   if (!id) {
@@ -60,9 +60,6 @@ export const MetricDetailModel = types
         case 'filter':
           cols = self.filters;
           break;
-        case 'group_by':
-          cols = self.groupBys;
-          break;
         case 'trending_date_col':
           cols = self.trendingDateCols;
           break;
@@ -71,6 +68,9 @@ export const MetricDetailModel = types
       }
 
       return makeColOptions(cols);
+    },
+    get groupByColOptions() {
+      return makeGroupByColOptions(self.groupBys);
     },
   }))
   .actions((self) => ({

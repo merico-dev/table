@@ -70,3 +70,22 @@ export function makeColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>)
   }));
   return ret;
 }
+
+export function makeGroupByColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>) {
+  if (cols.length === 0) {
+    return [];
+  }
+  const grouped = groupCols(cols);
+
+  const ret = Object.entries(grouped).map(([k, items]) => ({
+    group: `${k}(${items.length})`,
+    items: items.map((col) => {
+      return {
+        label: col.name,
+        value: col.name,
+        ...col,
+      };
+    }),
+  }));
+  return ret;
+}
