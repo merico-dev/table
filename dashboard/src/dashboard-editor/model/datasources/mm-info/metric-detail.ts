@@ -6,55 +6,7 @@ import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
-
-export type MetricSourceCol_Simple = {
-  id: string;
-  colType: 'value_col' | 'dimension_col' | 'dimension';
-  name: string;
-  description: string;
-  dataType: DimensionColDataType;
-  dimension: null;
-};
-export type MetricSourceCol_Dimension = {
-  id: string;
-  colType: 'dimension';
-  name: string;
-  description: string;
-  dataType: null;
-  dimension: {
-    id: string;
-    name: string;
-    fields: {
-      id: string;
-      description: string;
-      field: string; // name
-      dataType: DimensionColDataType;
-    }[];
-  };
-};
-
-export type MetricSourceCol = MetricSourceCol_Simple | MetricSourceCol_Dimension;
-export type DimensionColDataType = 'number' | 'string' | 'date' | 'boolean';
-export type DimensionCol = {
-  id: string;
-  type: 'filter' | 'group_by' | 'default_filter' | 'trending_date_col';
-  defaultFilterComparison: any | null;
-  dimensionFieldId: string | null;
-  metricSourceCol: MetricSourceCol;
-};
-export type DerivedMetric = {
-  id: string;
-  name: string;
-  description: string;
-  cols: DimensionCol[];
-};
-export type CombinedMetric = {
-  id: string;
-  name: string;
-  description: string;
-  // derivedMetrics: DerivedMetric[];
-  cols: DimensionCol[];
-};
+import { DimensionCol, DimensionColDataType, MetricDetail } from './metric-detail.types';
 
 const dimensionColDataTypeNames: Record<DimensionColDataType | 'dimension', string> = {
   string: '维度列',
@@ -63,8 +15,6 @@ const dimensionColDataTypeNames: Record<DimensionColDataType | 'dimension', stri
   boolean: '维度列',
   dimension: '扩展维度',
 };
-
-export type MetricDetail = DerivedMetric | CombinedMetric;
 
 function getURLByType(type: 'derived' | 'combined', id: string) {
   if (!id) {

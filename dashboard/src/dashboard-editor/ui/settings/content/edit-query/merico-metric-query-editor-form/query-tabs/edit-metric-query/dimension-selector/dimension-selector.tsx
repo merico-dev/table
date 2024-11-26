@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
-import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info/metric-detail';
+import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { ComboBoxStyles, getInputStyles } from './styles';
 
