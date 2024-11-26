@@ -7,17 +7,45 @@ import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
 
-export type MetricBriefInfo = {
+export type DerivedMetricCol = {
+  id: string;
+  type: 'filter' | 'group_by' | 'default_filter' | 'trending_date_col';
+  defaultFilterComparison: any | null;
+  dimensionFieldId: string | null;
+};
+export type DerivedMetric = {
   id: string;
   name: string;
   description: string;
-  type: 'derived' | 'combined';
+  cols: DerivedMetricCol[];
+};
+export type CombinedMetric = {
+  id: string;
+  name: string;
+  description: string;
+  derivedMetrics: DerivedMetric[];
+  supportTrending: boolean;
 };
 
-export const MetricsModel = types
+export type MetricDetail = DerivedMetric | CombinedMetric;
+
+function getURLByType(type: 'derived' | 'combined', id: string) {
+  if (!id) {
+    throw new Error(`Shouldnt run query without ID`);
+  }
+
+  if (type === 'derived') {
+    return `/buffet/api/metric_management/derived_metric/${id}`;
+  }
+  if (type === 'combined') {
+    return `/buffet/api/metric_management/combined_metric/${id}`;
+  }
+  throw new Error(`Unexpected metric type[${type}]`);
+}
+
+export const MetricDetailModel = types
   .model({
-    keyword: types.optional(types.string, ''),
-    data: types.optional(types.frozen<MetricBriefInfo[]>(), []),
+    data: types.optional(types.frozen<MetricDetail[]>(), []),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
@@ -34,10 +62,14 @@ export const MetricsModel = types
     get mmInfo() {
       return getParent(self) as any;
     },
-  }))
-  .actions((self) => ({
-    setKeyword(v: string) {
-      self.keyword = v;
+    get metricID() {
+      return this.mmInfo.metricID as string;
+    },
+    get metric() {
+      return this.mmInfo.metric;
+    },
+    get metricType() {
+      return this.metric?.type;
     },
   }))
   .actions((self) => ({
@@ -45,21 +77,24 @@ export const MetricsModel = types
       if (self.mmInfo.type !== DataSourceType.MericoMetricSystem) {
         return;
       }
+      if (!self.metricID) {
+        return;
+      }
 
       self.controller?.abort();
       self.controller = new AbortController();
       self.state = 'loading';
       try {
+        const url = getURLByType(self.metricType, self.metricID);
         const config = preProcessWithDataSource(self.mmInfo.dataSource, {
-          url: '/buffet/api/metric_management/search',
-          method: 'POST',
+          url,
+          method: 'GET',
           data: {
             key: self.mmInfo.key,
           },
-          params: { search: self.keyword },
         });
         const response = yield* toGenerator(
-          APIClient.mericoMetricInfo<AxiosResponse<MetricBriefInfo[]>>(self.controller.signal)(
+          APIClient.mericoMetricInfo<AxiosResponse<MetricDetail[]>>(self.controller.signal)(
             {
               key: self.mmInfo.key,
               query: JSON.stringify(config),
@@ -87,7 +122,7 @@ export const MetricsModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => `${self.mmInfo.type}:${self.keyword}`, self.load, {
+        reaction(() => self.metricID, self.load, {
           fireImmediately: true,
           delay: 0,
         }),

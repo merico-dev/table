@@ -1,10 +1,11 @@
-import { ComboboxLikeRenderOptionInput, Group, Select, SelectProps, Stack, Text } from '@mantine/core';
+import { ComboboxLikeRenderOptionInput, Group, Loader, Select, SelectProps, Stack, Text } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { DimensionOption } from './type';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 
 const data: DimensionOption[] = [
   {
@@ -110,6 +111,9 @@ type DimensionSelectorProps = {
   label?: string;
 };
 export const DimensionSelector = observer(({ queryModel, label, value, onChange }: DimensionSelectorProps) => {
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+  const loading = mmInfo.metrics.loading || mmInfo.metricDetail.loading;
   const DimensionSelectorStyles = useMemo(
     () => ({
       root: {
@@ -159,6 +163,8 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange 
       data={options}
       maxDropdownHeight={600}
       renderOption={renderOption}
+      disabled={loading}
+      rightSection={loading && <Loader size="xs" color="red" />}
     />
   );
 });
