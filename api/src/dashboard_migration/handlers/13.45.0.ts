@@ -45,10 +45,7 @@ type MericoMetricQuery = BaseQuery & {
     _type: 'merico_metric_system';
     id: string;
     type: string;
-    filters: Array<{
-      dimension: string;
-      variable: string;
-    }>;
+    filters: Record<string, string>;
     groupBys: string[];
     timeQuery: {
       range_variable: string;
@@ -117,7 +114,7 @@ function toMMQuery(q: LegacyQuery): MericoMetricQuery {
       _type: type,
       id: '',
       type: 'derived',
-      filters: [],
+      filters: {},
       groupBys: [],
       timeQuery: {
         range_variable: '',
