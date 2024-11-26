@@ -27,72 +27,46 @@ const dimensionColDataTypeNames: Record<DimensionColDataType | 'dimension', stri
   dimension: '扩展维度',
 };
 
-function makeColsOptionsForDerivedMetric(cols: MetricSourceCol[]) {
+function groupCols(cols: MetricSourceCol[] | CombinedMetricCol[]) {
   const grouped = _.groupBy(cols, (c) => {
     const { dataType } = c;
     if (dataType) {
       return dimensionColDataTypeNames[dataType];
-    } else if ('dimension' in c) {
+    } else if (c.dimension !== null) {
       return dimensionColDataTypeNames.dimension;
     }
     return 'ERROR';
   });
-
-  const ret = Object.entries(grouped).map(([k, items]) => ({
-    group: `${k}(${items.length})`,
-    items: items.map((item) => {
-      const col = item;
-      const dataType = _.get(item, 'dataType', null);
-      if (dataType) {
-        return {
-          label: col.name,
-          value: item.id,
-          ...col,
-        };
-      }
-      return {
-        group: col.name,
-        description: col.description,
-        items: col.dimension?.fields.map((f) => ({
-          label: f.field,
-          value: f.id,
-          ...f,
-        })),
-      };
-    }),
-  }));
-  return ret;
-}
-
-function makeColsOptionsForCombinedMetric(cols: CombinedMetricCol[]) {
-  const grouped = {
-    [dimensionColDataTypeNames.dimension]: cols,
-  };
-
-  const ret = Object.entries(grouped).map(([k, items]) => ({
-    group: `${k}(${items.length})`,
-    items: items.map((item) => {
-      const col = item;
-      return {
-        group: col.name,
-        description: '',
-        items: col.dimension?.fields.map((f) => ({
-          label: f.field,
-          value: f.id,
-          ...f,
-        })),
-      };
-    }),
-  }));
-  return ret;
+  return grouped;
 }
 
 export function makeColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>) {
   if (cols.length === 0) {
     return [];
   }
-  if ('dataType' in cols[0]) {
-    return makeColsOptionsForDerivedMetric(cols as MetricSourceCol[]);
-  }
-  return makeColsOptionsForCombinedMetric(cols as CombinedMetricCol[]);
+  const grouped = groupCols(cols);
+
+  const ret = Object.entries(grouped).map(([k, items]) => ({
+    group: `${k}(${items.length})`,
+    items: items.map((col) => {
+      const { dataType, dimension } = col;
+      if (!dimension) {
+        return {
+          label: col.name,
+          value: col.name,
+          ...col,
+        };
+      }
+      return {
+        group: col.name,
+        description: col.description,
+        items: dimension.fields.map((f) => ({
+          label: f.field,
+          value: f.field,
+          ...f,
+        })),
+      };
+    }),
+  }));
+  return ret;
 }

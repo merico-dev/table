@@ -42,10 +42,7 @@ export type DerivedMetric = {
   cols: DimensionCol[];
 };
 
-export type CombinedMetricCol = {
-  name: string;
-  dimension: DimensionInfo;
-};
+export type CombinedMetricCol = Omit<MetricSourceCol_Simple, 'id'> | Omit<MetricSourceCol_Dimension, 'id'>;
 export type CombinedMetric = {
   id: string;
   name: string;
