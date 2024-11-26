@@ -12,7 +12,7 @@ const renderOption = (
     label: string;
     value: string;
     description: string;
-    dataType: DimensionColDataType;
+    dataType: DimensionColDataType | null;
   },
   isSubOption: boolean,
 ) => {
@@ -45,9 +45,7 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
   const loading = mmInfo.metrics.loading || metric.loading;
   const InputStyles = useMemo(() => getInputStyles(label), [label]);
 
-  const options = useMemo(() => {
-    return metric.colOptions(type);
-  }, [metric.cols, type]);
+  const options = metric.colOptions(type);
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),

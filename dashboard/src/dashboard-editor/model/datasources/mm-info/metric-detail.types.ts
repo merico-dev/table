@@ -1,3 +1,14 @@
+export type DimensionInfo = {
+  id: string;
+  name: string;
+  fields: {
+    id: string;
+    description: string;
+    field: string; // name
+    dataType: DimensionColDataType;
+  }[];
+};
+
 export type MetricSourceCol_Simple = {
   id: string;
   colType: 'value_col' | 'dimension_col' | 'dimension';
@@ -12,16 +23,7 @@ export type MetricSourceCol_Dimension = {
   name: string;
   description: string;
   dataType: null;
-  dimension: {
-    id: string;
-    name: string;
-    fields: {
-      id: string;
-      description: string;
-      field: string; // name
-      dataType: DimensionColDataType;
-    }[];
-  };
+  dimension: DimensionInfo;
 };
 
 export type MetricSourceCol = MetricSourceCol_Simple | MetricSourceCol_Dimension;
@@ -39,12 +41,17 @@ export type DerivedMetric = {
   description: string;
   cols: DimensionCol[];
 };
+
+export type CombinedMetricCol = {
+  name: string;
+  dimension: DimensionInfo;
+};
 export type CombinedMetric = {
   id: string;
   name: string;
   description: string;
-  // derivedMetrics: DerivedMetric[];
-  cols: DimensionCol[];
+  filters: CombinedMetricCol[];
+  groupBys: CombinedMetricCol[];
 };
 
 export type MetricDetail = DerivedMetric | CombinedMetric;

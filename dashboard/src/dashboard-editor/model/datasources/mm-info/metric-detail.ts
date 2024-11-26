@@ -6,15 +6,8 @@ import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
-import { DimensionCol, DimensionColDataType, MetricDetail } from './metric-detail.types';
-
-const dimensionColDataTypeNames: Record<DimensionColDataType | 'dimension', string> = {
-  string: '维度列',
-  number: '数值列',
-  date: '数值列',
-  boolean: '维度列',
-  dimension: '扩展维度',
-};
+import { CombinedMetricCol, DimensionCol, MetricDetail, MetricSourceCol } from './metric-detail.types';
+import { makeColOptions, parseData } from './metric-detail.utils';
 
 function getURLByType(type: 'derived' | 'combined', id: string) {
   if (!id) {
@@ -33,6 +26,9 @@ function getURLByType(type: 'derived' | 'combined', id: string) {
 export const MetricDetailModel = types
   .model({
     data: types.optional(types.frozen<MetricDetail | null>(), null),
+    filters: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
+    groupBys: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
+    trendingDateCols: types.optional(types.frozen<Array<MetricSourceCol>>(), []),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
@@ -58,50 +54,23 @@ export const MetricDetailModel = types
     get metricType() {
       return this.metric?.type;
     },
-    get cols() {
-      if (self.data === null) {
-        return [];
-      }
-      return self.data.cols;
-    },
     colOptions(type: DimensionCol['type'] | null) {
-      let cols = this.cols;
-      console.log({ cols });
-      if (type) {
-        cols = cols.filter((c) => c.type === type);
+      let cols;
+      switch (type) {
+        case 'filter':
+          cols = self.filters;
+          break;
+        case 'group_by':
+          cols = self.groupBys;
+          break;
+        case 'trending_date_col':
+          cols = self.trendingDateCols;
+          break;
+        default:
+          throw new Error(`Unexpected type[${type}] for cols`);
       }
-      const grouped = _.groupBy(cols, (c) => {
-        const { colType, dataType } = c.metricSourceCol;
-        if (dataType) {
-          return dimensionColDataTypeNames[dataType];
-        } else if (colType === 'dimension') {
-          return dimensionColDataTypeNames.dimension;
-        }
-        return 'ERROR';
-      });
-      const ret = Object.entries(grouped).map(([k, items]) => ({
-        group: `${k}(${items.length})`,
-        items: items.map((item) => {
-          const col = item.metricSourceCol;
-          if (col.colType !== 'dimension') {
-            return {
-              label: col.name,
-              value: item.id,
-              ...col,
-            };
-          }
-          return {
-            group: col.name,
-            description: col.description,
-            items: col.dimension?.fields.map((f) => ({
-              label: f.field,
-              value: f.id,
-              ...f,
-            })),
-          };
-        }),
-      }));
-      return ret;
+
+      return makeColOptions(cols);
     },
   }))
   .actions((self) => ({
@@ -137,8 +106,11 @@ export const MetricDetailModel = types
         );
         const result = postProcessWithDataSource(self.mmInfo.dataSource, response);
         const data = _.cloneDeep(result.data);
-        console.log({ data });
+        const { filters, groupBys, trendingDateCols } = parseData(result.data);
         self.data = data;
+        self.filters = filters;
+        self.groupBys = groupBys;
+        self.trendingDateCols = trendingDateCols;
         self.state = 'idle';
         self.error = null;
       } catch (error) {
