@@ -20,7 +20,7 @@ export const QueryModel = QueryRenderModel.views((self) => ({
     return self.contentModel.findQueryUsage(self.id) as QueryUsageType[];
   },
   get runBySet() {
-    return new Set(...self.run_by);
+    return new Set(self.run_by);
   },
   keyInRunBy(key: string) {
     return this.runBySet.has(key);
@@ -33,6 +33,8 @@ export const QueryModel = QueryRenderModel.views((self) => ({
     } else {
       set.add(key);
     }
+    self.run_by.length = 0;
+    self.run_by.push(...set);
   },
 }));
 

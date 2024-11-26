@@ -7,19 +7,14 @@ import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
 import { DimensionSelector } from './dimension-selector/dimension-selector';
-
-const rows = [
-  { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
-  { metric: 'account -> id', variable: 'context.account_id', checked: false },
-  { metric: 'organization -> id', variable: 'filters.tree_select', checked: false },
-  { metric: 'team -> id', variable: 'filters.multi_select', checked: true },
-];
+import { MericoMetricQueryMetaInstance } from '~/model';
 
 type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
   const model = useEditDashboardContext();
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -46,17 +41,33 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {rows.map((row) => (
-            <Table.Tr key={row.metric}>
-              <Table.Td>{row.metric}</Table.Td>
+          {Object.entries(config.filters).map(([k, v]) => (
+            <Table.Tr key={k}>
+              <Table.Td>
+                <DimensionSelector
+                  queryModel={queryModel}
+                  value={k}
+                  onChange={(dimension: string | null) => dimension && config.changeFilterVariable(dimension, v)}
+                  type="filter"
+                />
+              </Table.Td>
               <Table.Td colSpan={2} pr={0}>
                 <Group justify="flex-start" grow gap={0} w="100%">
-                  <VariableStat variable={row.variable} />
-                  <VariableSelector queryModel={queryModel} value={row.variable} onChange={console.log} />
+                  <VariableStat variable={v} />
+                  <VariableSelector
+                    queryModel={queryModel}
+                    value={v}
+                    onChange={(value: string | null) => value && config.changeFilterVariable(k, value)}
+                  />
                 </Group>
               </Table.Td>
               <Table.Td>
-                <Checkbox size="xs" defaultChecked={row.checked} color="red" />
+                <Checkbox
+                  size="xs"
+                  checked={queryModel.keyInRunBy(v)}
+                  onChange={(event) => queryModel.changeRunByRecord(v, event.currentTarget.checked)}
+                  color="red"
+                />
               </Table.Td>
             </Table.Tr>
           ))}
@@ -65,9 +76,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
               <DimensionSelector
                 queryModel={queryModel}
                 value={null}
-                onChange={function (v: string | null): void {
-                  throw new Error('Function not implemented.');
-                }}
+                onChange={(dimension: string | null) => dimension && config.addFilter(dimension)}
                 type="filter"
               />
             </Table.Td>

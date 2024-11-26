@@ -3,17 +3,13 @@ import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
 
 export type MericoMetricType = 'derived' | 'combined';
-export type MericoMetricQueryFilter = {
-  dimension: string;
-  variable: string;
-};
 
 export const MericoMetricQueryMeta = types
   .model('MericoMetricQueryMeta', {
     _type: types.literal(DataSourceType.MericoMetricSystem),
     id: types.optional(types.string, ''),
     type: types.optional(types.enumeration('MetricType', ['derived', 'combined']), 'derived'),
-    filters: types.optional(types.array(types.frozen<MericoMetricQueryFilter>()), []),
+    filters: types.optional(types.frozen<Record<string, string>>(), {}),
     groupBys: types.optional(types.array(types.string), []),
     timeQuery: types.model({
       range_variable: types.optional(types.string, ''),
@@ -41,9 +37,20 @@ export const MericoMetricQueryMeta = types
       }
       self.type = type;
     },
-    setFilters(v: MericoMetricQueryFilter[]) {
-      self.filters.length = 0;
-      self.filters.push(...v);
+    addFilter(k: string) {
+      if (k in self.filters) {
+        return;
+      }
+      self.filters = {
+        ...self.filters,
+        [k]: '',
+      };
+    },
+    changeFilterVariable(k: string, v: string) {
+      self.filters = {
+        ...self.filters,
+        [k]: v,
+      };
     },
     setGroupBys(v: string[]) {
       self.groupBys.length = 0;
@@ -64,7 +71,7 @@ export const createMericoMetricQueryMetaConfig = () =>
     _type: DataSourceType.MericoMetricSystem,
     id: '',
     type: 'derived',
-    filters: [],
+    filters: {},
     groupBys: [],
     timeQuery: {
       range_variable: '',
