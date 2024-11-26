@@ -45,7 +45,13 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
         <Table.Tbody>
           <Table.Tr key="dimension.time">
             <Table.Td pr={0}>
-              <DimensionSelector queryModel={queryModel} label="时间维度" value={timeField} onChange={setTimeField} />
+              <DimensionSelector
+                queryModel={queryModel}
+                label="时间维度"
+                value={timeField}
+                onChange={setTimeField}
+                type="trending_date_col"
+              />
             </Table.Td>
             <Table.Td colSpan={2} pr={0}>
               <Group justify="flex-start" gap={0} grow>

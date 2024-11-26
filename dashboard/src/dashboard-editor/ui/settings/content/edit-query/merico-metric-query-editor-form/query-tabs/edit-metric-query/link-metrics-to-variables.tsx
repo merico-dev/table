@@ -68,6 +68,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 onChange={function (v: string | null): void {
                   throw new Error('Function not implemented.');
                 }}
+                type="filter"
               />
             </Table.Td>
             <Table.Td colSpan={2} pr={0}>
