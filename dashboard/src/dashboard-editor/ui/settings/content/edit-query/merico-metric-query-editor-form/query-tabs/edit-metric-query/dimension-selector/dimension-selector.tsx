@@ -7,6 +7,30 @@ import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/dat
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { ComboBoxStyles, getInputStyles } from './styles';
 
+const renderOption = (
+  option: {
+    label: string;
+    value: string;
+    description: string;
+    dataType: DimensionColDataType;
+  },
+  isSubOption: boolean,
+) => {
+  return (
+    <Combobox.Option key={option.value} value={option.value} className={isSubOption ? 'sub-option' : ''}>
+      <Stack gap={1}>
+        <Group gap={4}>
+          <DimensionIcon type={option.dataType} />
+          <Text size="xs">{option.label}</Text>
+        </Group>
+        <Text size="xs" c="dimmed" pl={18}>
+          {option.description}
+        </Text>
+      </Stack>
+    </Combobox.Option>
+  );
+};
+
 type DimensionSelectorProps = {
   queryModel: QueryModelInstance;
   value: string | null;
@@ -20,30 +44,6 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
   const metric = mmInfo.metricDetail;
   const loading = mmInfo.metrics.loading || metric.loading;
   const InputStyles = useMemo(() => getInputStyles(label), [label]);
-
-  const renderOption = (
-    option: {
-      label: string;
-      value: string;
-      description: string;
-      dataType: DimensionColDataType;
-    },
-    isSubOption: boolean,
-  ) => {
-    return (
-      <Combobox.Option key={option.value} value={option.value} className={isSubOption ? 'sub-option' : ''}>
-        <Stack gap={1}>
-          <Group gap={4}>
-            <DimensionIcon type={option.dataType} />
-            <Text size="xs">{option.label}</Text>
-          </Group>
-          <Text size="xs" c="dimmed" pl={18}>
-            {option.description}
-          </Text>
-        </Stack>
-      </Combobox.Option>
-    );
-  };
 
   const options = useMemo(() => {
     return metric.colOptions(type);
