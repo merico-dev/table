@@ -1,4 +1,4 @@
-import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { destroy, getParent, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
 
@@ -8,7 +8,7 @@ const MetricFilterColMeta = types
     variable: types.optional(types.string, ''),
   })
   .views((self) => ({
-    get allClear() {
+    get allEmpty() {
       return !self.dimension && !self.variable;
     },
     get json() {
@@ -17,13 +17,25 @@ const MetricFilterColMeta = types
     },
   }))
   .actions((self) => ({
+    removeSelf() {
+      const p = getParent(self, 2) as any;
+      p.removeFilter(self);
+    },
     setDimension(v: string | null) {
       self.dimension = v ?? '';
+      if (self.allEmpty) {
+        this.removeSelf();
+      }
     },
     setVariable(v: string | null) {
       self.variable = v ?? '';
+      if (self.allEmpty) {
+        this.removeSelf();
+      }
     },
   }));
+
+type MetricFilterColMetaInstance = Instance<typeof MetricFilterColMeta>;
 
 export type MericoMetricType = 'derived' | 'combined';
 
@@ -86,6 +98,9 @@ export const MericoMetricQueryMeta = types
           variable: v,
         }),
       );
+    },
+    removeFilter(filter: MetricFilterColMetaInstance) {
+      destroy(filter);
     },
     setGroupBys(v: string[]) {
       self.groupBys.length = 0;
