@@ -12,6 +12,7 @@ export const MericoMetricQueryMeta = types
     filters: types.optional(types.frozen<Record<string, string>>(), {}),
     groupBys: types.optional(types.array(types.string), []),
     timeQuery: types.model({
+      enabled: types.optional(types.boolean, false),
       range_variable: types.optional(types.string, ''),
       unit_variable: types.optional(types.string, ''),
       timezone: types.optional(types.string, 'PRC'),
@@ -66,11 +67,18 @@ export const MericoMetricQueryMeta = types
       self.groupBys.length = 0;
       self.groupBys.push(...v);
     },
-    setRangeVariable(v: string) {
-      self.timeQuery.range_variable = v;
+    setRangeVariable(v: string | null) {
+      self.timeQuery.range_variable = v ?? '';
     },
-    setUnitVariable(v: string) {
-      self.timeQuery.unit_variable = v;
+    setUnitVariable(v: string | null) {
+      self.timeQuery.unit_variable = v ?? '';
+    },
+    setTimeQueryEnabled(v: boolean) {
+      self.timeQuery.enabled = v;
+      if (!v) {
+        self.timeQuery.range_variable = '';
+        self.timeQuery.unit_variable = '';
+      }
     },
   }));
 export type MericoMetricQueryMetaInstance = Instance<typeof MericoMetricQueryMeta>;

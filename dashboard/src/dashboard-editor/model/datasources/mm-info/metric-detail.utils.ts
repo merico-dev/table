@@ -8,14 +8,14 @@ export function parseData(data: MetricDetail) {
     return {
       filters: data.cols.filter((c) => c.type === 'filter').map((c) => c.metricSourceCol),
       groupBys: data.cols.filter((c) => c.type === 'group_by').map((c) => c.metricSourceCol),
-      trendingDateCols: data.cols.filter((c) => c.type === 'trending_date_col').map((c) => c.metricSourceCol),
+      trendingDateCol: data.cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null,
     };
   }
 
   return {
     filters: data.filters,
     groupBys: data.groupBys,
-    trendingDateCols: [],
+    trendingDateCol: null,
   };
 }
 

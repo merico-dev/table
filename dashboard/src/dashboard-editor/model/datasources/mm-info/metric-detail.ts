@@ -28,7 +28,7 @@ export const MetricDetailModel = types
     data: types.optional(types.frozen<MetricDetail | null>(), null),
     filters: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
     groupBys: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
-    trendingDateCols: types.optional(types.frozen<Array<MetricSourceCol>>(), []),
+    trendingDateCol: types.optional(types.frozen<MetricSourceCol | null>(), null),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
@@ -59,9 +59,6 @@ export const MetricDetailModel = types
       switch (type) {
         case 'filter':
           cols = self.filters;
-          break;
-        case 'trending_date_col':
-          cols = self.trendingDateCols;
           break;
         default:
           throw new Error(`Unexpected type[${type}] for cols`);
@@ -106,11 +103,11 @@ export const MetricDetailModel = types
         );
         const result = postProcessWithDataSource(self.mmInfo.dataSource, response);
         const data = _.cloneDeep(result.data);
-        const { filters, groupBys, trendingDateCols } = parseData(result.data);
+        const { filters, groupBys, trendingDateCol } = parseData(result.data);
         self.data = data;
         self.filters = filters;
         self.groupBys = groupBys;
-        self.trendingDateCols = trendingDateCols;
+        self.trendingDateCol = trendingDateCol;
         self.state = 'idle';
         self.error = null;
       } catch (error) {

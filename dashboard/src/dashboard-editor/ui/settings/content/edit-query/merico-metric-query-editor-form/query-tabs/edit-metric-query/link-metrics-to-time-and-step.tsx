@@ -1,22 +1,90 @@
-import { ActionIcon, Group, Select, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { MericoMetricQueryMetaInstance } from '~/model';
 import { RunByCheckbox } from './run-by-checkbox';
 import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
-import { DimensionSelector } from './dimension-selector/dimension-selector';
-import { MericoMetricQueryMetaInstance } from '~/model';
+
+const TrendingDateSettings = observer(({ queryModel }: Props) => {
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+  const metric = mmInfo.metricDetail;
+  const trendingDateCol = metric.trendingDateCol;
+  if (!config.timeQuery.enabled || !trendingDateCol) {
+    return null;
+  }
+
+  return (
+    <Table withTableBorder withColumnBorders layout="fixed" styles={MetricTableStyles}>
+      <colgroup>
+        <col style={{ width: 250 }} />
+        <col />
+        <col style={{ width: 130 }} />
+        <col style={{ width: 40 }} />
+      </colgroup>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Td></Table.Td>
+          <Table.Td>看板变量</Table.Td>
+          <Table.Td colSpan={2}>变量值为真时运行查询</Table.Td>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        <Table.Tr key="dimension.time">
+          <Table.Td pr={0}>
+            <Group gap={4}>
+              <Text size="xs">时间维度：</Text>
+              <Text size="xs" c="dimmed" ff="monospace">
+                {trendingDateCol.name}
+              </Text>
+            </Group>
+          </Table.Td>
+          <Table.Td colSpan={2} pr={0}>
+            <Group justify="flex-start" gap={0} grow>
+              <VariableStat variable={config.timeQuery.range_variable} />
+              <VariableSelector
+                queryModel={queryModel}
+                value={config.timeQuery.range_variable}
+                onChange={config.setRangeVariable}
+              />
+            </Group>
+          </Table.Td>
+          <Table.Td>
+            <RunByCheckbox queryModel={queryModel} variable={config.timeQuery.range_variable} />
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr key="dimension.step">
+          <Table.Td>步长</Table.Td>
+          <Table.Td colSpan={2} pr={0}>
+            <Group justify="flex-start" gap={0} grow>
+              <VariableStat variable={config.timeQuery.unit_variable} />
+              <VariableSelector
+                queryModel={queryModel}
+                value={config.timeQuery.unit_variable}
+                onChange={config.setUnitVariable}
+              />
+            </Group>
+          </Table.Td>
+          <Table.Td>
+            <RunByCheckbox queryModel={queryModel} variable={config.timeQuery.unit_variable} />
+          </Table.Td>
+        </Table.Tr>
+      </Table.Tbody>
+    </Table>
+  );
+});
 
 type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
-  const [timeField, setTimeField] = useState<string | null>('commit_author_time');
-  const [timeVar, setTimeVar] = useState<string | null>('filter.date_range');
-  const [stepVar, setStepVar] = useState<string | null>('filter.granularity');
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
+
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -26,58 +94,15 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
             <IconInfoCircle />
           </ActionIcon>
         </Tooltip>
-        <Switch size="xs" defaultChecked color="red" />
+        <Switch
+          size="xs"
+          color="red"
+          checked={config.timeQuery.enabled}
+          onChange={(e) => config.setTimeQueryEnabled(e.currentTarget.checked)}
+        />
       </Group>
 
-      <Table withTableBorder withColumnBorders layout="fixed" styles={MetricTableStyles}>
-        <colgroup>
-          <col style={{ width: 250 }} />
-          <col />
-          <col style={{ width: 130 }} />
-          <col style={{ width: 40 }} />
-        </colgroup>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Td></Table.Td>
-            <Table.Td>看板变量</Table.Td>
-            <Table.Td colSpan={2}>变量值为真时运行查询</Table.Td>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          <Table.Tr key="dimension.time">
-            <Table.Td pr={0}>
-              <DimensionSelector
-                queryModel={queryModel}
-                label="时间维度"
-                value={timeField}
-                onChange={setTimeField}
-                type="trending_date_col"
-              />
-            </Table.Td>
-            <Table.Td colSpan={2} pr={0}>
-              <Group justify="flex-start" gap={0} grow>
-                <VariableStat variable={timeVar} />
-                <VariableSelector queryModel={queryModel} value={timeVar} onChange={setTimeVar} />
-              </Group>
-            </Table.Td>
-            <Table.Td>
-              <RunByCheckbox queryModel={queryModel} variable={timeVar} />
-            </Table.Td>
-          </Table.Tr>
-          <Table.Tr key="dimension.step">
-            <Table.Td>步长</Table.Td>
-            <Table.Td colSpan={2} pr={0}>
-              <Group justify="flex-start" gap={0} grow>
-                <VariableStat variable={stepVar} />
-                <VariableSelector queryModel={queryModel} value={stepVar} onChange={setStepVar} />
-              </Group>
-            </Table.Td>
-            <Table.Td>
-              <RunByCheckbox queryModel={queryModel} variable={stepVar} />
-            </Table.Td>
-          </Table.Tr>
-        </Table.Tbody>
-      </Table>
+      <TrendingDateSettings queryModel={queryModel} />
     </Stack>
   );
 });
