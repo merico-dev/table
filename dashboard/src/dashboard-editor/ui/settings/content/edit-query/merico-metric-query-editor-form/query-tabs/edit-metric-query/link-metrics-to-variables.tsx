@@ -41,31 +41,27 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {Object.entries(config.filters).map(([k, v]) => (
-            <Table.Tr key={k}>
+          {config.filters.map((f) => (
+            <Table.Tr key={f.dimension}>
               <Table.Td>
                 <DimensionSelector
                   queryModel={queryModel}
-                  value={k}
-                  onChange={(dimension: string | null) => dimension && config.changeFilterVariable(dimension, v)}
+                  value={f.dimension}
+                  onChange={f.setDimension}
                   type="filter"
                 />
               </Table.Td>
               <Table.Td colSpan={2} pr={0}>
                 <Group justify="flex-start" grow gap={0} w="100%">
-                  <VariableStat variable={v} />
-                  <VariableSelector
-                    queryModel={queryModel}
-                    value={v}
-                    onChange={(value: string | null) => config.changeFilterVariable(k, value)}
-                  />
+                  <VariableStat variable={f.variable} />
+                  <VariableSelector queryModel={queryModel} value={f.variable} onChange={f.setVariable} />
                 </Group>
               </Table.Td>
               <Table.Td>
                 <Checkbox
                   size="xs"
-                  checked={queryModel.keyInRunBy(v)}
-                  onChange={(event) => queryModel.changeRunByRecord(v, event.currentTarget.checked)}
+                  checked={queryModel.keyInRunBy(f.variable)}
+                  onChange={(event) => queryModel.changeRunByRecord(f.variable, event.currentTarget.checked)}
                   color="red"
                 />
               </Table.Td>
@@ -76,12 +72,16 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
               <DimensionSelector
                 queryModel={queryModel}
                 value={null}
-                onChange={(dimension: string | null) => dimension && config.addFilter(dimension)}
+                onChange={(v: string | null) => v && config.addFilter(v, '')}
                 type="filter"
               />
             </Table.Td>
             <Table.Td colSpan={2} pr={0}>
-              <VariableSelector queryModel={queryModel} value={null} onChange={console.log} />
+              <VariableSelector
+                queryModel={queryModel}
+                value={null}
+                onChange={(v: string | null) => v && config.addFilter('', v)}
+              />
             </Table.Td>
             <Table.Td />
           </Table.Tr>

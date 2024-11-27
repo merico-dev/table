@@ -2,6 +2,29 @@ import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
 
+const MetricFilterColMeta = types
+  .model('MetricFilterColMeta', {
+    dimension: types.optional(types.string, ''),
+    variable: types.optional(types.string, ''),
+  })
+  .views((self) => ({
+    get allClear() {
+      return !self.dimension && !self.variable;
+    },
+    get json() {
+      const { dimension, variable } = self;
+      return { dimension, variable };
+    },
+  }))
+  .actions((self) => ({
+    setDimension(v: string | null) {
+      self.dimension = v ?? '';
+    },
+    setVariable(v: string | null) {
+      self.variable = v ?? '';
+    },
+  }));
+
 export type MericoMetricType = 'derived' | 'combined';
 
 export const MericoMetricQueryMeta = types
@@ -9,7 +32,7 @@ export const MericoMetricQueryMeta = types
     _type: types.literal(DataSourceType.MericoMetricSystem),
     id: types.optional(types.string, ''),
     type: types.optional(types.enumeration('MetricType', ['derived', 'combined']), 'derived'),
-    filters: types.optional(types.frozen<Record<string, string>>(), {}),
+    filters: types.optional(types.array(MetricFilterColMeta), []),
     groupBys: types.optional(types.array(types.string), []),
     timeQuery: types.model({
       enabled: types.optional(types.boolean, false),
@@ -25,16 +48,18 @@ export const MericoMetricQueryMeta = types
     },
     get json() {
       const { id, type, filters, groupBys, timeQuery, _type } = self;
-      return shallowToJS({ id, type, filters, groupBys, timeQuery, _type });
+      return shallowToJS({ id, type, filters: filters.map((f) => f.json), groupBys, timeQuery, _type });
     },
     get selectedDimensionSet() {
-      const keys = [...Object.keys(self.filters), ...self.groupBys].filter((k) => !!k);
+      const keys = self.filters.map((f) => f.dimension).filter((k) => !!k);
       return new Set(keys);
     },
     get selectedVariableSet() {
-      const keys = [...Object.values(self.filters), self.timeQuery.range_variable, self.timeQuery.unit_variable].filter(
-        (k) => !!k,
-      );
+      const keys = [
+        ...self.filters.map((f) => f.variable),
+        self.timeQuery.range_variable,
+        self.timeQuery.unit_variable,
+      ].filter((k) => !!k);
       return new Set(keys);
     },
   }))
@@ -48,20 +73,19 @@ export const MericoMetricQueryMeta = types
       }
       self.type = type;
     },
-    addFilter(k: string) {
-      if (k in self.filters) {
+    addFilter(k: string, v: string) {
+      if (k && self.selectedDimensionSet.has(k)) {
         return;
       }
-      self.filters = {
-        ...self.filters,
-        [k]: '',
-      };
-    },
-    changeFilterVariable(k: string, v: string | null) {
-      self.filters = {
-        ...self.filters,
-        [k]: v ?? '',
-      };
+      if (v && self.selectedVariableSet.has(v)) {
+        return;
+      }
+      self.filters.push(
+        MetricFilterColMeta.create({
+          dimension: k,
+          variable: v,
+        }),
+      );
     },
     setGroupBys(v: string[]) {
       self.groupBys.length = 0;
@@ -89,7 +113,7 @@ export const createMericoMetricQueryMetaConfig = () =>
     _type: DataSourceType.MericoMetricSystem,
     id: '',
     type: 'derived',
-    filters: {},
+    filters: [],
     groupBys: [],
     timeQuery: {
       range_variable: '',
