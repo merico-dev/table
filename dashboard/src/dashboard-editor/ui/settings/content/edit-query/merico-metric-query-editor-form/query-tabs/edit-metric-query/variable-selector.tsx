@@ -1,6 +1,6 @@
 import { ComboboxItem, Group, Select, SelectProps, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { QueryModelInstance } from '~/dashboard-editor/model';
@@ -12,6 +12,9 @@ const SelectorStyles: SelectProps['styles'] = {
     maxWidth: 'unset',
   },
   option: {
+    fontFamily: 'monospace',
+  },
+  input: {
     fontFamily: 'monospace',
   },
   groupLabel: {
