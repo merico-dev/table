@@ -57,7 +57,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                   <VariableSelector
                     queryModel={queryModel}
                     value={v}
-                    onChange={(value: string | null) => value && config.changeFilterVariable(k, value)}
+                    onChange={(value: string | null) => config.changeFilterVariable(k, value)}
                   />
                 </Group>
               </Table.Td>

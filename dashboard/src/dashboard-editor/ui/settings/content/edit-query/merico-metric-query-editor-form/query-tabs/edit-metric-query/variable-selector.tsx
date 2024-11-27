@@ -107,6 +107,7 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
       maxDropdownHeight={600}
       value={value}
       onChange={handleChange}
+      clearable
     />
   );
 });

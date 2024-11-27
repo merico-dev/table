@@ -46,10 +46,10 @@ export const MericoMetricQueryMeta = types
         [k]: '',
       };
     },
-    changeFilterVariable(k: string, v: string) {
+    changeFilterVariable(k: string, v: string | null) {
       self.filters = {
         ...self.filters,
-        [k]: v,
+        [k]: v ?? '',
       };
     },
     setGroupBys(v: string[]) {
