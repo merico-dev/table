@@ -42,22 +42,16 @@ export const ComboBoxStyles = {
   },
 };
 
-export const getInputStyles = (label?: string) => ({
+export const InputStyles = {
   root: {
     maxWidth: 'unset',
   },
   option: {
     fontFamily: 'monospace',
   },
-  section: {
-    '&[data-position="left"]': {
-      width: label ? '70px' : '0px',
-      justifyContent: 'flex-start',
-    },
-  },
   input: {
-    paddingInlineStart: label ? '70px' : 'var(--input-padding-inline-start)',
-    color: label ? 'gray' : 'black',
+    paddingInlineStart: 'var(--input-padding-inline-start)',
+    color: 'black',
     fontFamily: 'monospace',
   },
-});
+};

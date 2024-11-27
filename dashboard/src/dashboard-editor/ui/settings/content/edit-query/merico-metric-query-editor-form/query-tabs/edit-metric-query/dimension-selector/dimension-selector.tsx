@@ -1,12 +1,23 @@
-import { Combobox, Group, Input, InputBase, Loader, Stack, Text, Tooltip, useCombobox } from '@mantine/core';
+import {
+  CloseButton,
+  Combobox,
+  Group,
+  Input,
+  InputBase,
+  Loader,
+  Stack,
+  Text,
+  Tooltip,
+  useCombobox,
+} from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
-import { DimensionIcon } from './dimension-icon/dimension-icon';
-import { ComboBoxStyles, getInputStyles } from './styles';
 import { MericoMetricQueryMetaInstance } from '~/model';
+import { DimensionIcon } from './dimension-icon/dimension-icon';
+import { ComboBoxStyles, InputStyles } from './styles';
+import { useMemo } from 'react';
 
 const renderOption = (
   option: {
@@ -44,10 +55,9 @@ type DimensionSelectorProps = {
   queryModel: QueryModelInstance;
   value: string | null;
   onChange: (v: string | null) => void;
-  label?: string;
   type: DimensionCol['type'];
 };
-export const DimensionSelector = observer(({ queryModel, label, value, onChange, type }: DimensionSelectorProps) => {
+export const DimensionSelector = observer(({ queryModel, value, onChange, type }: DimensionSelectorProps) => {
   const config = queryModel.config as MericoMetricQueryMetaInstance;
   const ds = queryModel.datasource as DataSourceModelInstance;
   const mmInfo = ds.mericoMetricInfo;
@@ -61,7 +71,16 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  const InputStyles = useMemo(() => getInputStyles(label), [label]);
+
+  const rightSection = useMemo(() => {
+    if (loading) {
+      return <Loader size="xs" />;
+    }
+    if (!!value) {
+      return <CloseButton size="xs" onClick={() => onChange(null)} />;
+    }
+    return <Combobox.Chevron size="xs" />;
+  }, [loading, value]);
 
   const Trigger = (
     <InputBase
@@ -70,15 +89,8 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
       variant="unstyled"
       size="xs"
       pointer
-      leftSection={
-        label ? (
-          <Text size="sm" c="black">
-            {label}
-          </Text>
-        ) : null
-      }
-      rightSection={loading ? <Loader size="xs" /> : null}
-      rightSectionPointerEvents="none"
+      rightSection={rightSection}
+      rightSectionPointerEvents={!loading && !!value ? 'all' : 'none'}
       onClick={() => combobox.toggleDropdown()}
       disabled={loading || options.length === 0}
       styles={InputStyles}

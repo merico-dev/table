@@ -43,7 +43,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
         <Table.Tbody>
           {config.filters.map((f) => (
             <Table.Tr key={f.dimension}>
-              <Table.Td>
+              <Table.Td pr={0}>
                 <DimensionSelector
                   queryModel={queryModel}
                   value={f.dimension}
