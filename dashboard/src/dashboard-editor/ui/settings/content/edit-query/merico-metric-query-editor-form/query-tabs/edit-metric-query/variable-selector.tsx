@@ -13,6 +13,9 @@ const SelectorStyles: SelectProps['styles'] = {
   },
   option: {
     fontFamily: 'monospace',
+    '&[data-checked=true][data-combobox-disabled]': {
+      opacity: 1,
+    },
   },
   input: {
     fontFamily: 'monospace',
