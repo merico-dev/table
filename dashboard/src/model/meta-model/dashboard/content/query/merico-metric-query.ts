@@ -175,7 +175,7 @@ export const MericoMetricQueryMeta = types
       if (!v) {
         self.timeQuery.range_variable = '';
         self.timeQuery.unit_variable = '';
-      } else {
+      } else if (self.groupBys.length > 1) {
         self.groupBys.length = 0;
       }
     },
