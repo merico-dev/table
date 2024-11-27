@@ -75,7 +75,7 @@ export const MetricsModel = types
         self.error = null;
       } catch (error) {
         if (!axios.isCancel(error)) {
-          self.data.length = 0;
+          self.data = [];
           const fallback = _.get(error, 'message', 'unkown error');
           self.error = _.get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
           self.state = 'error';
