@@ -51,6 +51,7 @@ const TrendingDateSettings = observer(({ queryModel }: Props) => {
                 queryModel={queryModel}
                 value={config.timeQuery.range_variable}
                 onChange={config.setRangeVariable}
+                usedKeys={config.usedTimeQueryVariableSet}
               />
             </Group>
           </Table.Td>
@@ -67,6 +68,7 @@ const TrendingDateSettings = observer(({ queryModel }: Props) => {
                 queryModel={queryModel}
                 value={config.timeQuery.unit_variable}
                 onChange={config.setUnitVariable}
+                usedKeys={config.usedTimeQueryVariableSet}
               />
             </Group>
           </Table.Td>

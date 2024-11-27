@@ -11,13 +11,12 @@ import {
   useCombobox,
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
-import { MericoMetricQueryMetaInstance } from '~/model';
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { ComboBoxStyles, InputStyles } from './styles';
-import { useMemo } from 'react';
 
 const renderOption = (
   option: {
@@ -56,16 +55,15 @@ type DimensionSelectorProps = {
   value: string | null;
   onChange: (v: string | null) => void;
   type: DimensionCol['type'];
+  usedKeys: Set<string>;
 };
-export const DimensionSelector = observer(({ queryModel, value, onChange, type }: DimensionSelectorProps) => {
-  const config = queryModel.config as MericoMetricQueryMetaInstance;
+export const DimensionSelector = observer(({ queryModel, value, onChange, type, usedKeys }: DimensionSelectorProps) => {
   const ds = queryModel.datasource as DataSourceModelInstance;
   const mmInfo = ds.mericoMetricInfo;
   const metric = mmInfo.metricDetail;
 
   const loading = mmInfo.metrics.loading || metric.loading;
   const error = metric.error;
-  const selectedDimensionSet = config.selectedDimensionSet;
   const options = metric.colOptions(type);
 
   const combobox = useCombobox({
@@ -131,12 +129,12 @@ export const DimensionSelector = observer(({ queryModel, value, onChange, type }
                         </Group>
                       }
                     >
-                      {item.items?.map((o) => renderOption(o, true, selectedDimensionSet.has(o.value)))}
+                      {item.items?.map((o) => renderOption(o, true, usedKeys.has(o.value)))}
                     </Combobox.Group>
                   );
                 }
 
-                return renderOption(item, false, selectedDimensionSet.has(item.value));
+                return renderOption(item, false, usedKeys.has(item.value));
               })}
             </Combobox.Group>
           ))}

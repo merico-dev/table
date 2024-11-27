@@ -1,13 +1,13 @@
-import { ActionIcon, Checkbox, Group, Select, Stack, Table, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Checkbox, Group, Stack, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { MericoMetricQueryMetaInstance } from '~/model';
+import { DimensionSelector } from './dimension-selector/dimension-selector';
 import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
-import { DimensionSelector } from './dimension-selector/dimension-selector';
-import { MericoMetricQueryMetaInstance } from '~/model';
 
 type Props = {
   queryModel: QueryModelInstance;
@@ -49,12 +49,18 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                   value={f.dimension}
                   onChange={f.setDimension}
                   type="filter"
+                  usedKeys={config.usedFilterDimensionKeys}
                 />
               </Table.Td>
               <Table.Td colSpan={2} pr={0}>
                 <Group justify="flex-start" grow gap={0} w="100%">
                   <VariableStat variable={f.variable} />
-                  <VariableSelector queryModel={queryModel} value={f.variable} onChange={f.setVariable} />
+                  <VariableSelector
+                    queryModel={queryModel}
+                    value={f.variable}
+                    onChange={f.setVariable}
+                    usedKeys={config.usedFilterVariableSet}
+                  />
                 </Group>
               </Table.Td>
               <Table.Td>
@@ -74,6 +80,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 value={null}
                 onChange={(v: string | null) => v && config.addFilter(v, '')}
                 type="filter"
+                usedKeys={config.usedFilterDimensionKeys}
               />
             </Table.Td>
             <Table.Td colSpan={2} pr={0}>
@@ -81,6 +88,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 queryModel={queryModel}
                 value={null}
                 onChange={(v: string | null) => v && config.addFilter('', v)}
+                usedKeys={config.usedFilterVariableSet}
               />
             </Table.Td>
             <Table.Td />

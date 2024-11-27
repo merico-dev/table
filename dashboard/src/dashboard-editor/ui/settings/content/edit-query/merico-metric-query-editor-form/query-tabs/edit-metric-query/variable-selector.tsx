@@ -72,13 +72,13 @@ type Props = {
   queryModel: QueryModelInstance;
   value: string | null;
   onChange: (value: string | null, option: CustomOption) => void;
+  usedKeys: Set<string>;
 };
 
-export const VariableSelector = observer(({ queryModel, value, onChange }: Props) => {
+export const VariableSelector = observer(({ queryModel, value, onChange, usedKeys }: Props) => {
   const { t } = useTranslation();
 
   const config = queryModel.config as MericoMetricQueryMetaInstance;
-  const selectedVariableSet = config.selectedVariableSet;
 
   const options = useMemo(() => {
     const groups = queryModel.getConditionOptionsWithInvalidValue(value).optionGroups;
@@ -91,11 +91,11 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
           ...item,
           label: item.value,
           widget_label: item.label,
-          disabled: selectedVariableSet.has(item.value),
+          disabled: usedKeys.has(item.value),
         })),
       };
     });
-  }, [queryModel.getConditionOptionsWithInvalidValue, t, value, selectedVariableSet]);
+  }, [queryModel.getConditionOptionsWithInvalidValue, t, value, usedKeys]);
 
   const handleChange = useCallback(
     (value: string | null, option: ComboboxItem) => {

@@ -62,16 +62,16 @@ export const MericoMetricQueryMeta = types
       const { id, type, filters, groupBys, timeQuery, _type } = self;
       return shallowToJS({ id, type, filters: filters.map((f) => f.json), groupBys, timeQuery, _type });
     },
-    get selectedDimensionSet() {
+    get usedFilterDimensionKeys() {
       const keys = self.filters.map((f) => f.dimension).filter((k) => !!k);
       return new Set(keys);
     },
-    get selectedVariableSet() {
-      const keys = [
-        ...self.filters.map((f) => f.variable),
-        self.timeQuery.range_variable,
-        self.timeQuery.unit_variable,
-      ].filter((k) => !!k);
+    get usedFilterVariableSet() {
+      const keys = [...self.filters.map((f) => f.variable)].filter((k) => !!k);
+      return new Set(keys);
+    },
+    get usedTimeQueryVariableSet() {
+      const keys = [self.timeQuery.range_variable, self.timeQuery.unit_variable].filter((k) => !!k);
       return new Set(keys);
     },
   }))
@@ -86,10 +86,10 @@ export const MericoMetricQueryMeta = types
       self.type = type;
     },
     addFilter(k: string, v: string) {
-      if (k && self.selectedDimensionSet.has(k)) {
+      if (k && self.usedFilterDimensionKeys.has(k)) {
         return;
       }
-      if (v && self.selectedVariableSet.has(v)) {
+      if (v && self.usedFilterVariableSet.has(v)) {
         return;
       }
       self.filters.push(
