@@ -5,6 +5,8 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 import { QueryUsage } from '../../query-editor-form/query-usage';
 import { InlineFunctionInput } from '~/components/widgets';
+import { PreviewMetricQuery } from './preview-metric-query';
+import { useState } from 'react';
 
 const DEFAULT_MMQ_REQ_POST_PROCESSING = [
   'function process_result(resp, utils, state) {',
@@ -34,8 +36,10 @@ type Props = {
   queryModel: QueryModelInstance;
 };
 export const QueryTabs = observer(({ queryModel }: Props) => {
+  const [activeTab, setActiveTab] = useState<string | null>('编辑查询');
+
   return (
-    <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles}>
+    <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles} value={activeTab} onChange={setActiveTab}>
       <Group>
         <Tabs.List>
           <Tabs.Tab value="编辑查询" size="xs">
@@ -59,6 +63,9 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
               marginInlineEnd: 4,
             },
           }}
+          onClick={() => {
+            setActiveTab((t) => (t === '预览查询' ? '编辑查询' : '预览查询'));
+          }}
         >
           预览查询
         </Button>
@@ -78,6 +85,9 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
       </Tabs.Panel>
       <Tabs.Panel value="使用情况" pt="xs">
         <QueryUsage queryModel={queryModel} />
+      </Tabs.Panel>
+      <Tabs.Panel value="预览查询" pt="xs">
+        <PreviewMetricQuery queryModel={queryModel} />
       </Tabs.Panel>
     </Tabs>
   );

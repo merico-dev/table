@@ -1,6 +1,22 @@
-import { destroy, getParent, Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { destroy, getParent, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
+import { MetricGroupByColOption } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
+
+type MetricQueryPayload = {
+  id: string;
+  type: MericoMetricType;
+  filters: Record<string, { eq: string }>;
+  groupBys: string[];
+  timeQuery?: {
+    start: string;
+    end: string;
+    unitOfTime: string;
+    unitNumber: 1; //目前不支持配置这个字段，只用unitOfTime即可
+    timezone: string;
+    stepKeyFormat: 'YYYY-MM-DD';
+  };
+};
 
 const MetricFilterColMeta = types
   .model('MetricFilterColMeta', {
@@ -77,6 +93,34 @@ export const MericoMetricQueryMeta = types
     get groupByValues() {
       const withoutLeaves = self.groupBys.map((g) => g.replace(/^(.+)\s->\s(.*)/, '$1'));
       return Array.from(new Set(withoutLeaves));
+    },
+    get queryPayload() {
+      const filters = self.filters.reduce((acc, curr) => {
+        acc[curr.dimension] = {
+          eq: `TODO:${curr.variable}`,
+        };
+        return acc;
+      }, {} as MetricQueryPayload['filters']);
+      const ret: MetricQueryPayload = {
+        id: self.id,
+        type: self.type as MericoMetricType,
+        filters,
+        groupBys: self.groupBys,
+      };
+      if (self.timeQuery.enabled) {
+        ret.timeQuery = {
+          start: 'TODO',
+          end: 'TODO',
+          unitOfTime: 'TODO',
+          unitNumber: 1,
+          timezone: 'PRC',
+          stepKeyFormat: 'YYYY-MM-DD',
+        };
+      }
+      return ret;
+    },
+    get queryPayloadString() {
+      return JSON.stringify(this.queryPayload, null, 2);
     },
   }))
   .actions((self) => ({
