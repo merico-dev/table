@@ -2,11 +2,12 @@ import { ActionIcon, ComboboxItem, Group, Loader, Select, SelectProps, Stack, Te
 import { showNotification } from '@mantine/notifications';
 import { IconHash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { ErrorBoundary } from '~/utils';
 import { MericoIconExternalLink } from './merico-icons';
+import { MericoMetricQueryMetaInstance } from '~/model';
 
 type CustomOption = ComboboxItem & { description: string };
 const renderSelectOption: SelectProps['renderOption'] = ({ option, ...rest }) => {
@@ -39,6 +40,7 @@ type Props = {
 };
 
 export const SelectMetric = observer(({ queryModel }: Props) => {
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
   const ds = queryModel.datasource as DataSourceModelInstance;
   const mmInfo = ds.mericoMetricInfo;
   const metrics = mmInfo.metrics;
@@ -53,6 +55,18 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
       description: d.description,
     }));
   }, [metrics.data]);
+
+  const handleChange = useCallback(
+    (id: string | null) => {
+      if (!id) {
+        return;
+      }
+
+      mmInfo.selectMetric(id);
+      config.setID(id);
+    },
+    [mmInfo, config],
+  );
 
   const { loading, error } = metrics;
   return (
@@ -71,7 +85,7 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
             styles={{ root: { flexGrow: 1 } }}
             maxDropdownHeight={500}
             value={mmInfo.metricID}
-            onChange={mmInfo.selectMetric}
+            onChange={handleChange}
             rightSection={loading ? <Loader size="xs" /> : null}
           />
         )}

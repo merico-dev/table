@@ -37,7 +37,7 @@ export const MMInfoModel = types
     },
   }))
   .actions((self) => ({
-    selectMetric(metricID: string | null) {
-      self.metricID = metricID ?? '';
+    selectMetric(metricID: string) {
+      self.metricID = metricID;
     },
   }));
