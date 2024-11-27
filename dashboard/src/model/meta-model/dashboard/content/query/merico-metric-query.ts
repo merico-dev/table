@@ -74,6 +74,10 @@ export const MericoMetricQueryMeta = types
       const keys = [self.timeQuery.range_variable, self.timeQuery.unit_variable].filter((k) => !!k);
       return new Set(keys);
     },
+    get groupByValues() {
+      const withoutLeaves = self.groupBys.map((g) => g.replace(/^(.+)\s->\s(.*)/, '$1'));
+      return Array.from(new Set(withoutLeaves));
+    },
   }))
   .actions((self) => ({
     setID(v: string) {

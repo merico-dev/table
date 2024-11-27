@@ -1,5 +1,11 @@
 import _ from 'lodash';
-import { CombinedMetricCol, DimensionColDataType, MetricDetail, MetricSourceCol } from './metric-detail.types';
+import {
+  CombinedMetricCol,
+  DimensionColDataType,
+  DimensionInfo,
+  MetricDetail,
+  MetricSourceCol,
+} from './metric-detail.types';
 
 const isDerivedMetric = (data: MetricDetail) => 'cols' in data;
 
@@ -71,13 +77,23 @@ export function makeColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>)
   return ret;
 }
 
+export type MetricGroupByColOption = {
+  group: string;
+  items: {
+    label: string;
+    value: string;
+    description: string;
+    dataType: DimensionColDataType | 'dimension';
+    dimension: DimensionInfo | null;
+  }[];
+};
 export function makeGroupByColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>) {
   if (cols.length === 0) {
     return [];
   }
   const grouped = groupCols(cols);
 
-  const ret = Object.entries(grouped).map(([k, items]) => ({
+  const ret: MetricGroupByColOption[] = Object.entries(grouped).map(([k, items]) => ({
     group: `${k}(${items.length})`,
     items: items.map((col) => {
       return {
@@ -85,6 +101,7 @@ export function makeGroupByColOptions(cols: Array<CombinedMetricCol | MetricSour
         value: col.name,
         description: col.description,
         dataType: col.dataType ?? 'dimension',
+        dimension: col.dimension,
       };
     }),
   }));

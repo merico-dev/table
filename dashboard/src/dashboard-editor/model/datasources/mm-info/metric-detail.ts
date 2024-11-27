@@ -7,7 +7,7 @@ import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
 import { CombinedMetricCol, DimensionCol, MetricDetail, MetricSourceCol } from './metric-detail.types';
-import { makeColOptions, makeGroupByColOptions, parseData } from './metric-detail.utils';
+import { makeColOptions, makeGroupByColOptions, MetricGroupByColOption, parseData } from './metric-detail.utils';
 
 function getURLByType(type: 'derived' | 'combined', id: string) {
   if (!id) {
@@ -68,6 +68,18 @@ export const MetricDetailModel = types
     },
     get groupByColOptions() {
       return makeGroupByColOptions(self.groupBys);
+    },
+    get flatGroupByColOptions() {
+      const groupedOptions = this.groupByColOptions;
+      const ret: MetricGroupByColOption['items'] = [];
+      groupedOptions.forEach(({ group, items }) => {
+        ret.push(...items);
+      });
+      return ret;
+    },
+    getGroupByOptions(values: string[]) {
+      const set = new Set(values);
+      return this.flatGroupByColOptions.filter((o) => set.has(o.value));
     },
   }))
   .actions((self) => ({

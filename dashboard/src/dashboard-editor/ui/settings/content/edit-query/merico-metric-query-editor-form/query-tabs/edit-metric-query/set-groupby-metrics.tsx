@@ -42,6 +42,21 @@ export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
   const loading = mmInfo.metrics.loading || metric.loading;
 
   const options = metric.groupByColOptions;
+
+  const handleChange = (values: string[]) => {
+    const selection = metric.getGroupByOptions(values);
+    const withLeaves: string[] = [];
+    selection.forEach((s) => {
+      if (!s.dimension) {
+        withLeaves.push(s.value);
+      } else {
+        s.dimension.fields.forEach((f) => {
+          withLeaves.push(`${s.value} -> ${f.field}`);
+        });
+      }
+    });
+    config.setGroupBys(withLeaves);
+  };
   return (
     <MultiSelect
       size="sm"
@@ -59,8 +74,8 @@ export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
       }}
       renderOption={renderOption}
       rightSection={loading ? <Loader size="xs" /> : null}
-      value={[...config.groupBys]}
-      onChange={config.setGroupBys}
+      value={[...config.groupByValues]}
+      onChange={handleChange}
       maxValues={config.timeQuery.enabled ? 1 : 2}
       placeholder={config.timeQuery.enabled ? '最多选一个维度' : '最多选两个维度'}
     />
