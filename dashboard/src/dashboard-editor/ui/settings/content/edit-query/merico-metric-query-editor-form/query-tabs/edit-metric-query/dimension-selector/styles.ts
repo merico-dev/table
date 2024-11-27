@@ -23,7 +23,11 @@ export const ComboBoxStyles = {
       insetInline: 0,
       height: 'calc(0.0625rem* var(--mantine-scale))',
       marginInlineEnd: 'var(--mantine-spacing-xs)',
-      backgroundColor: 'var(--mantine-color-gray-2)',
+      borderBottom: '1px dashed var(--mantine-color-gray-2)',
+    },
+    '&::after': {
+      borderBottom: '1px dashed var(--mantine-color-gray-2)',
+      background: 'none',
     },
   },
   group: {
