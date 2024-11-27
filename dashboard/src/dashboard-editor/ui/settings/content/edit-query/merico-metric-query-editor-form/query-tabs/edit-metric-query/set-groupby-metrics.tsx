@@ -96,8 +96,7 @@ export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
       value={[...config.groupByValues]}
       onChange={handleChange}
       maxValues={config.timeQuery.enabled ? 1 : 2}
-      placeholder={config.timeQuery.enabled ? '最多选一个维度' : '最多选两个维度'}
-      defaultDropdownOpened
+      placeholder={config.timeQuery.enabled ? '仅可选一个维度' : '最多选两个维度'}
     />
   );
 });

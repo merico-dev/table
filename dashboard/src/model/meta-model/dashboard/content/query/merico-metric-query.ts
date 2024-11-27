@@ -124,7 +124,17 @@ export const MericoMetricQueryMeta = types
     },
   }))
   .actions((self) => ({
+    reset() {
+      self.filters.length = 0;
+      self.groupBys.length = 0;
+      self.timeQuery.enabled = false;
+      self.timeQuery.range_variable = '';
+      self.timeQuery.unit_variable = '';
+    },
     setID(v: string) {
+      if (v !== self.id) {
+        this.reset();
+      }
       self.id = v;
     },
     setType(type: string) {
