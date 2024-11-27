@@ -1,16 +1,15 @@
+import { faker } from '@faker-js/faker';
 import axios from 'axios';
-import { get } from 'lodash';
+import _, { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
+import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
+import { AnyObject } from '~/types';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
-import _ from 'lodash';
-import { faker } from '@faker-js/faker';
-import { AnyObject } from '~/types';
-import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
-import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 
 enum QueryState {
   idle = 'idle',

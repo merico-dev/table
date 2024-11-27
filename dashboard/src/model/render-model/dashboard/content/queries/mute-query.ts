@@ -1,10 +1,32 @@
 import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
-import { DashboardFilterType, DataSourceType, QueryMeta } from '~/model';
+import {
+  DashboardFilterType,
+  DataSourceType,
+  MericoMetricQueryMetaInstance,
+  MericoMetricType,
+  QueryMeta,
+} from '~/model';
 import { explainHTTPRequest } from '~/utils';
 import { explainSQL } from '~/utils';
 import { DependencyInfo, UsageRegs } from '~/utils';
+
+type MetricQueryPayload = {
+  id: string;
+  type: MericoMetricType;
+  filters: Record<string, { eq: string }>;
+  groupBys: string[];
+  timeQuery?: {
+    start: string;
+    end: string;
+    unitOfTime: string;
+    unitNumber: 1; //目前不支持配置这个字段，只用unitOfTime即可
+    timezone: string;
+    stepKeyFormat: 'YYYY-MM-DD';
+  };
+};
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
   get rootModel(): any {
@@ -216,6 +238,56 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     });
 
     return ret;
+  },
+  get metricQueryPayload() {
+    if (self.type !== DataSourceType.MericoMetricSystem) {
+      return null;
+    }
+    const payload = this.payload;
+    const config = self.config as MericoMetricQueryMetaInstance;
+    const filters = config.filters.reduce((acc, curr) => {
+      acc[curr.dimension] = {
+        eq: _.get(payload, curr.variable),
+      };
+      return acc;
+    }, {} as MetricQueryPayload['filters']);
+    const ret: MetricQueryPayload = {
+      id: self.id,
+      type: config.type as MericoMetricType,
+      filters,
+      groupBys: config.groupBys,
+    };
+    if (!config.timeQuery.enabled) {
+      return ret;
+    }
+    const { range_variable, unit_variable } = config.timeQuery;
+    const stepKeyFormat = 'YYYY-MM-DD';
+    const timezone = 'PRC';
+    const timeQuery: MetricQueryPayload['timeQuery'] = {
+      start: '',
+      end: '',
+      unitOfTime: _.get(payload, unit_variable, ''),
+      unitNumber: 1,
+      timezone: 'PRC',
+      stepKeyFormat,
+    };
+    if (range_variable) {
+      const range = _.get(payload, range_variable);
+      console.log({ range, range_variable });
+      if (Array.isArray(range) && range.length === 2) {
+        timeQuery.start = dayjs(range[0]).tz(timezone).format(stepKeyFormat);
+        timeQuery.end = dayjs(range[1]).tz(timezone).format(stepKeyFormat);
+      }
+    }
+
+    ret.timeQuery = timeQuery;
+    return ret;
+  },
+  get metricQueryPayloadString() {
+    if (!this.metricQueryPayload) {
+      return '';
+    }
+    return JSON.stringify(this.metricQueryPayload, null, 2);
   },
 }));
 

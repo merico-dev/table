@@ -16,7 +16,7 @@ export const PreviewMetricQuery = observer(({ queryModel }: Props) => {
         language="json"
         sx={{ width: '100%', height: '100%', minHeight: '400px', overflowY: 'auto' }}
         withCopyButton={false}
-        code={config.queryPayloadString}
+        code={queryModel.metricQueryPayloadString}
       />
     </Stack>
   );
