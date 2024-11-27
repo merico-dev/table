@@ -1,9 +1,9 @@
-import { DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info/metric-detail';
 import { DimensionIconBoolean } from './boolean';
 import { DimensionIconDate } from './date';
 import { DimensionIconNumber } from './number';
 import { DimensionIconString } from './string';
 import { DimensionIconDimension } from './dimension';
+import { DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
 
 export const DimensionIcon = ({ type }: { type: DimensionColDataType | 'dimension' | null }) => {
   switch (type) {

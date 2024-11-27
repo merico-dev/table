@@ -83,7 +83,8 @@ export function makeGroupByColOptions(cols: Array<CombinedMetricCol | MetricSour
       return {
         label: col.name,
         value: col.name,
-        ...col,
+        description: col.description,
+        dataType: col.dataType ?? 'dimension',
       };
     }),
   }));

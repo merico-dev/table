@@ -1,7 +1,33 @@
-import { Loader, MultiSelect } from '@mantine/core';
+import { Combobox, Group, Loader, MultiSelect, MultiSelectProps, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
+import { DimensionIcon } from './dimension-selector/dimension-icon';
+
+type CustomOption = {
+  label: string;
+  value: string;
+  description: string;
+  dataType: DimensionColDataType | null;
+};
+
+const renderOption: MultiSelectProps['renderOption'] = (item) => {
+  const option = item.option as CustomOption;
+  return (
+    <Combobox.Option key={option.value} value={option.value}>
+      <Stack gap={1}>
+        <Group gap={4}>
+          <DimensionIcon type={option.dataType} />
+          <Text size="xs">{option.label}</Text>
+        </Group>
+        <Text size="xs" c="dimmed" pl={18}>
+          {option.description}
+        </Text>
+      </Stack>
+    </Combobox.Option>
+  );
+};
 
 type Props = {
   queryModel: QueryModelInstance;
@@ -26,6 +52,7 @@ export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
           fontWeight: 'normal',
         },
       }}
+      renderOption={renderOption}
       rightSection={loading ? <Loader size="xs" /> : null}
     />
   );
