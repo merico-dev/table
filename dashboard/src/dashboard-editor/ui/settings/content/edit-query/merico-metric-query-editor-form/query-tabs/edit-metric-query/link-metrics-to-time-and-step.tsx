@@ -8,6 +8,7 @@ import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
 import { DimensionSelector } from './dimension-selector/dimension-selector';
+import { MericoMetricQueryMetaInstance } from '~/model';
 
 type Props = {
   queryModel: QueryModelInstance;

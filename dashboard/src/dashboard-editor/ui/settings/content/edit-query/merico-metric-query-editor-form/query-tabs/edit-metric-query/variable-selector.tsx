@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { MericoMetricQueryMetaInstance } from '~/model';
 import { DashboardFilterType } from '~/types';
 
 const SelectorStyles: SelectProps['styles'] = {
@@ -72,6 +73,10 @@ type Props = {
 
 export const VariableSelector = observer(({ queryModel, value, onChange }: Props) => {
   const { t } = useTranslation();
+
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
+  const selectedVariableSet = config.selectedVariableSet;
+
   const options = useMemo(() => {
     const groups = queryModel.getConditionOptionsWithInvalidValue(value).optionGroups;
     return groups.map((optionGroup) => {
@@ -83,10 +88,11 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
           ...item,
           label: item.value,
           widget_label: item.label,
+          disabled: selectedVariableSet.has(item.value),
         })),
       };
     });
-  }, [queryModel.getConditionOptionsWithInvalidValue, t, value]);
+  }, [queryModel.getConditionOptionsWithInvalidValue, t, value, selectedVariableSet]);
 
   const handleChange = useCallback(
     (value: string | null, option: ComboboxItem) => {

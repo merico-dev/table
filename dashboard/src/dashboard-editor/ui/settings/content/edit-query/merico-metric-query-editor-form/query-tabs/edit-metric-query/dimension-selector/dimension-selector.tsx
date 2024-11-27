@@ -6,6 +6,7 @@ import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/da
 import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { ComboBoxStyles, getInputStyles } from './styles';
+import { MericoMetricQueryMetaInstance } from '~/model';
 
 const renderOption = (
   option: {
@@ -15,9 +16,17 @@ const renderOption = (
     dataType: DimensionColDataType | null;
   },
   isSubOption: boolean,
+  disabled: boolean,
 ) => {
+  const classNames = [];
+  if (isSubOption) {
+    classNames.push('sub-option');
+  }
+  if (disabled) {
+    classNames.push('disabled');
+  }
   return (
-    <Combobox.Option key={option.value} value={option.value} className={isSubOption ? 'sub-option' : ''}>
+    <Combobox.Option key={option.value} value={option.value} className={classNames.join(' ')} disabled={disabled}>
       <Stack gap={1}>
         <Group gap={4}>
           <DimensionIcon type={option.dataType} />
@@ -39,18 +48,20 @@ type DimensionSelectorProps = {
   type: DimensionCol['type'];
 };
 export const DimensionSelector = observer(({ queryModel, label, value, onChange, type }: DimensionSelectorProps) => {
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
   const ds = queryModel.datasource as DataSourceModelInstance;
   const mmInfo = ds.mericoMetricInfo;
   const metric = mmInfo.metricDetail;
+
   const loading = mmInfo.metrics.loading || metric.loading;
   const error = metric.error;
-  const InputStyles = useMemo(() => getInputStyles(label), [label]);
-
+  const selectedDimensionSet = config.selectedDimensionSet;
   const options = metric.colOptions(type);
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
+  const InputStyles = useMemo(() => getInputStyles(label), [label]);
 
   const Trigger = (
     <InputBase
@@ -76,6 +87,7 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
       {value || <Input.Placeholder>选择维度</Input.Placeholder>}
     </InputBase>
   );
+
   return (
     <Combobox
       store={combobox}
@@ -107,12 +119,12 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
                         </Group>
                       }
                     >
-                      {item.items?.map((o) => renderOption(o, true))}
+                      {item.items?.map((o) => renderOption(o, true, selectedDimensionSet.has(o.value)))}
                     </Combobox.Group>
                   );
                 }
 
-                return renderOption(item, false);
+                return renderOption(item, false, selectedDimensionSet.has(item.value));
               })}
             </Combobox.Group>
           ))}

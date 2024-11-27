@@ -26,6 +26,16 @@ export const MericoMetricQueryMeta = types
       const { id, type, filters, groupBys, timeQuery, _type } = self;
       return shallowToJS({ id, type, filters, groupBys, timeQuery, _type });
     },
+    get selectedDimensionSet() {
+      const keys = [...Object.keys(self.filters), ...self.groupBys].filter((k) => !!k);
+      return new Set(keys);
+    },
+    get selectedVariableSet() {
+      const keys = [...Object.values(self.filters), self.timeQuery.range_variable, self.timeQuery.unit_variable].filter(
+        (k) => !!k,
+      );
+      return new Set(keys);
+    },
   }))
   .actions((self) => ({
     setID(v: string) {
