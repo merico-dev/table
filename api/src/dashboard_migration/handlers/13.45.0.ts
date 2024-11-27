@@ -39,15 +39,20 @@ type TransformQuery = BaseQuery & {
     dep_query_ids: string[];
   };
 };
+type DimensionToVariable = {
+  dimension: string;
+  variable: string;
+};
 type MericoMetricQuery = BaseQuery & {
   type: 'merico_metric_system';
   config: {
     _type: 'merico_metric_system';
     id: string;
     type: string;
-    filters: Record<string, string>;
+    filters: DimensionToVariable[];
     groupBys: string[];
     timeQuery: {
+      enabled: boolean;
       range_variable: string;
       unit_variable: string;
       timezone: string;
@@ -114,9 +119,10 @@ function toMMQuery(q: LegacyQuery): MericoMetricQuery {
       _type: type,
       id: '',
       type: 'derived',
-      filters: {},
+      filters: [],
       groupBys: [],
       timeQuery: {
+        enabled: false,
         range_variable: '',
         unit_variable: '',
         timezone: 'PRC',
