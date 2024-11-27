@@ -1,4 +1,4 @@
-import { Combobox, Group, Input, InputBase, Loader, Stack, Text, useCombobox } from '@mantine/core';
+import { Combobox, Group, Input, InputBase, Loader, Stack, Text, Tooltip, useCombobox } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
@@ -43,6 +43,7 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
   const mmInfo = ds.mericoMetricInfo;
   const metric = mmInfo.metricDetail;
   const loading = mmInfo.metrics.loading || metric.loading;
+  const error = metric.error;
   const InputStyles = useMemo(() => getInputStyles(label), [label]);
 
   const options = metric.colOptions(type);
@@ -50,6 +51,31 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
+
+  const Trigger = (
+    <InputBase
+      component="button"
+      type="button"
+      variant="unstyled"
+      size="xs"
+      pointer
+      leftSection={
+        label ? (
+          <Text size="sm" c="black">
+            {label}
+          </Text>
+        ) : null
+      }
+      rightSection={loading ? <Loader size="xs" /> : null}
+      rightSectionPointerEvents="none"
+      onClick={() => combobox.toggleDropdown()}
+      disabled={loading || options.length === 0}
+      styles={InputStyles}
+      error={!!error}
+    >
+      {value || <Input.Placeholder>选择维度</Input.Placeholder>}
+    </InputBase>
+  );
   return (
     <Combobox
       store={combobox}
@@ -59,29 +85,7 @@ export const DimensionSelector = observer(({ queryModel, label, value, onChange,
       }}
       styles={ComboBoxStyles}
     >
-      <Combobox.Target>
-        <InputBase
-          component="button"
-          type="button"
-          variant="unstyled"
-          size="xs"
-          pointer
-          leftSection={
-            label ? (
-              <Text size="sm" c="black">
-                {label}
-              </Text>
-            ) : null
-          }
-          rightSection={loading ? <Loader size="xs" /> : null}
-          rightSectionPointerEvents="none"
-          onClick={() => combobox.toggleDropdown()}
-          disabled={loading || options.length === 0}
-          styles={InputStyles}
-        >
-          {value || <Input.Placeholder>选择维度</Input.Placeholder>}
-        </InputBase>
-      </Combobox.Target>
+      <Combobox.Target>{error ? <Tooltip label={error}>{Trigger}</Tooltip> : Trigger}</Combobox.Target>
 
       <Combobox.Dropdown miw={300}>
         <Combobox.Options>

@@ -1,4 +1,4 @@
-import { ActionIcon, ComboboxItem, Group, Select, SelectProps, Stack, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, ComboboxItem, Group, Loader, Select, SelectProps, Stack, Text, Tooltip } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { IconHash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -41,32 +41,41 @@ type Props = {
 export const SelectMetric = observer(({ queryModel }: Props) => {
   const ds = queryModel.datasource as DataSourceModelInstance;
   const mmInfo = ds.mericoMetricInfo;
+  const metrics = mmInfo.metrics;
   useEffect(() => {
-    mmInfo.metrics.load();
-  }, [mmInfo]);
+    metrics.load();
+  }, [metrics]);
 
   const options = useMemo(() => {
-    return mmInfo.metrics.data.map((d) => ({
+    return metrics.data.map((d) => ({
       label: d.name,
       value: d.id,
       description: d.description,
     }));
-  }, [mmInfo.metrics.data]);
+  }, [metrics.data]);
 
+  const { loading, error } = metrics;
   return (
     <ErrorBoundary>
       <Group justify="flex-end" gap={4} align="flex-end">
-        <Select
-          size="xs"
-          label="指标"
-          data={options}
-          renderOption={renderSelectOption}
-          styles={{ root: { flexGrow: 1 } }}
-          maxDropdownHeight={500}
-          value={mmInfo.metricID}
-          onChange={mmInfo.selectMetric}
-        />
-        <Tooltip label="跳转到指标明细页查看详情。">
+        {error ? (
+          <Tooltip label={error}>
+            <Select size="xs" label="指标" error styles={{ root: { flexGrow: 1 } }} />
+          </Tooltip>
+        ) : (
+          <Select
+            size="xs"
+            label="指标"
+            data={options}
+            renderOption={renderSelectOption}
+            styles={{ root: { flexGrow: 1 } }}
+            maxDropdownHeight={500}
+            value={mmInfo.metricID}
+            onChange={mmInfo.selectMetric}
+            rightSection={loading ? <Loader size="xs" /> : null}
+          />
+        )}
+        <Tooltip label="跳转到指标明细页查看详情。" disabled={loading}>
           <ActionIcon
             size="md"
             variant="subtle"
