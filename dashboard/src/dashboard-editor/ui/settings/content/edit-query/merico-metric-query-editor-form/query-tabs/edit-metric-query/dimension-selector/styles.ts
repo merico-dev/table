@@ -57,7 +57,7 @@ export const getInputStyles = (label?: string) => ({
   },
   input: {
     paddingInlineStart: label ? '70px' : 'var(--input-padding-inline-start)',
-    color: 'gray',
+    color: label ? 'gray' : 'black',
     fontFamily: 'monospace',
   },
 });
