@@ -86,6 +86,10 @@ type Props = {
 };
 export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
   const config = queryModel.config as MericoMetricQueryMetaInstance;
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+  const metric = mmInfo.metricDetail;
+  const trendingDateCol = metric.trendingDateCol;
 
   return (
     <Stack gap={7}>
@@ -101,6 +105,7 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
           color="red"
           checked={config.timeQuery.enabled}
           onChange={(e) => config.setTimeQueryEnabled(e.currentTarget.checked)}
+          disabled={!trendingDateCol}
         />
       </Group>
 
