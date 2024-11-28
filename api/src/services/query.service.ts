@@ -20,6 +20,8 @@ import { QUERY_PARSING_ENABLED } from '../utils/constants';
 import { PERMISSIONS } from './role.service';
 import { Query, Snippet } from '../api_models/dashboard_content';
 import log, { LOG_LABELS, LOG_LEVELS } from '../utils/logger';
+import { AxiosError } from 'axios';
+import _ from 'lodash';
 
 @injectable()
 export class QueryService {
@@ -440,6 +442,6 @@ export class QueryService {
     if (!host) {
       host = options.host;
     }
-    return APIClient.request(host)(options);
+    return APIClient.request(host)(options, (err) => _.get(err, 'response.data.detail.message', err.message));
   }
 }
