@@ -1,7 +1,6 @@
-import { destroy, getParent, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { destroy, getParent, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
-import { MetricGroupByColOption } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
 
 const MetricFilterColMeta = types
   .model('MetricFilterColMeta', {

@@ -252,7 +252,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return acc;
     }, {} as MetricQueryPayload['filters']);
     const ret: MetricQueryPayload = {
-      id: self.id,
+      id: config.id,
       type: config.type as MericoMetricType,
       filters,
       groupBys: config.groupBys,

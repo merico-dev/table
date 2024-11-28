@@ -48,6 +48,12 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
     metrics.load();
   }, [metrics]);
 
+  useEffect(() => {
+    if (!mmInfo.metricID && !!config.id) {
+      mmInfo.selectMetric(config.id);
+    }
+  }, [config.id]);
+
   const options = useMemo(() => {
     return metrics.data.map((d) => ({
       label: d.name,
@@ -84,7 +90,7 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
             renderOption={renderSelectOption}
             styles={{ root: { flexGrow: 1 } }}
             maxDropdownHeight={500}
-            value={mmInfo.metricID}
+            value={config.id}
             onChange={handleChange}
             rightSection={loading ? <Loader size="xs" /> : null}
           />

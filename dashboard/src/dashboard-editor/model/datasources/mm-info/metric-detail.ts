@@ -78,7 +78,7 @@ export const MetricDetailModel = types
       if (self.mmInfo.type !== DataSourceType.MericoMetricSystem) {
         return;
       }
-      if (!self.metricID) {
+      if (!self.metricID || !self.metricType) {
         return;
       }
 
@@ -127,7 +127,7 @@ export const MetricDetailModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => self.metricID, self.load, {
+        reaction(() => self.metricID + self.metricType, self.load, {
           fireImmediately: true,
           delay: 0,
         }),
