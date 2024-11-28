@@ -350,7 +350,7 @@ export class QueryService {
     locale: string,
   ): Promise<{ parsedType: string; parsedKey: string; parsedQuery: string }> {
     try {
-      const query = rawQuery.sql;
+      const query = rawQuery.config.sql;
 
       const sqlSnippetKeys = this.extractKeysFromQuery(query, /(?<=sql_snippets\.)([^\?}.]+)/gm, 'sql_snippets.', '');
       const sqlSnippets =
