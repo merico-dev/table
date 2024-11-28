@@ -30,7 +30,7 @@ export class QueryParams {
   name: 'QueryRequest',
 })
 export class QueryRequest {
-  @IsIn(['postgresql', 'mysql', 'http'])
+  @IsIn(['postgresql', 'mysql', 'http', 'merico_metric_system'])
   @ApiModelProperty({
     description: 'datasource type of query',
     required: true,

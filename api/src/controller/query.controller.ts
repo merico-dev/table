@@ -38,10 +38,11 @@ export class QueryController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { type, key, query, content_id, query_id, params, env, refresh_cache } = req.body as QueryRequest;
+      const needToDecodeQuery = type !== 'http' && type !== 'merico_metric_system';
       const result = await this.queryService.query(
         type,
         key,
-        type !== 'http' ? decode(query) : query,
+        needToDecodeQuery ? decode(query) : query,
         content_id,
         query_id,
         params,
