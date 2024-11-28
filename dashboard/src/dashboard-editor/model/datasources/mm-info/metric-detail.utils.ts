@@ -46,7 +46,7 @@ function groupCols(cols: MetricSourceCol[] | CombinedMetricCol[]) {
   return grouped;
 }
 
-export function makeColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>) {
+export function makeFilterColOptions(cols: Array<CombinedMetricCol | MetricSourceCol>) {
   if (cols.length === 0) {
     return [];
   }

@@ -64,7 +64,7 @@ export const DimensionSelector = observer(({ queryModel, value, onChange, type, 
 
   const loading = mmInfo.metrics.loading || metric.loading;
   const error = metric.error;
-  const options = metric.colOptions(type);
+  const options = metric.filterColOptions;
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),

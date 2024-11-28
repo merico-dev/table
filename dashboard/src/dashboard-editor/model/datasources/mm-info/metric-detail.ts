@@ -6,8 +6,8 @@ import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
-import { CombinedMetricCol, DimensionCol, MetricDetail, MetricSourceCol } from './metric-detail.types';
-import { makeColOptions, makeGroupByColOptions, MetricGroupByColOption, parseData } from './metric-detail.utils';
+import { CombinedMetricCol, MetricDetail, MetricSourceCol } from './metric-detail.types';
+import { makeFilterColOptions, makeGroupByColOptions, MetricGroupByColOption, parseData } from './metric-detail.utils';
 
 function getURLByType(type: 'derived' | 'combined', id: string) {
   if (!id) {
@@ -54,17 +54,8 @@ export const MetricDetailModel = types
     get metricType() {
       return this.metric?.type;
     },
-    colOptions(type: DimensionCol['type'] | null) {
-      let cols;
-      switch (type) {
-        case 'filter':
-          cols = self.filters;
-          break;
-        default:
-          throw new Error(`Unexpected type[${type}] for cols`);
-      }
-
-      return makeColOptions(cols);
+    get filterColOptions() {
+      return makeFilterColOptions(self.filters);
     },
     get groupByColOptions() {
       return makeGroupByColOptions(self.groupBys);
