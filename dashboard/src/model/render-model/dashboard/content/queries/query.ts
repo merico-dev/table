@@ -3,7 +3,7 @@ import axios from 'axios';
 import _, { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
+import { queryByHTTP, queryBySQL, QueryFailureError, runMetricQuery } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
@@ -187,35 +187,28 @@ export const QueryRenderModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          // TODO: MMS
-          // const { type, key, post_process } = self.json;
-          // let config = JSON.parse(self.httpConfigString);
-          // config = preProcessWithDataSource(self.datasource, config);
+          const { type, key, post_process } = self.json;
+          let config = {
+            url: '/buffet/api/metric_management/query',
+            method: 'POST',
+            data: self.metricQueryPayload,
+          };
+          config = preProcessWithDataSource(self.datasource, config);
 
-          // const response = yield* toGenerator(
-          //   queryByHTTP(
-          //     {
-          //       type,
-          //       key,
-          //       configString: JSON.stringify(config),
-          //       name: self.name,
-          //       additionals: self.additionalQueryInfo,
-          //     },
-          //     self.controller.signal,
-          //   ),
-          // );
-          // const result = postProcessWithDataSource(self.datasource, response);
-          // const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
-          const data = Array.from(new Array(100), () => {
-            return {
-              date: '2024-07-30',
-              accountId: faker.datatype.uuid(),
-              accountName: faker.name.fullName(),
-              accountXXX: faker.animal.type(),
-              value: faker.datatype.number(),
-            };
-          });
-          self.data = data;
+          const response = yield* toGenerator(
+            runMetricQuery(
+              {
+                key,
+                configString: JSON.stringify(config),
+                name: self.name,
+                additionals: self.additionalQueryInfo,
+              },
+              self.controller.signal,
+            ),
+          );
+          const result = postProcessWithDataSource(self.datasource, response);
+          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
+          self.data = data.data;
           self.state = 'idle';
           self.error = null;
         } catch (error) {
