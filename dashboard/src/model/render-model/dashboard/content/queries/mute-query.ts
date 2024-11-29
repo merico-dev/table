@@ -273,7 +273,6 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     };
     if (range_variable) {
       const range = _.get(payload, range_variable);
-      console.log({ range, range_variable });
       if (Array.isArray(range) && range.length === 2) {
         timeQuery.start = dayjs(range[0]).tz(timezone).format(stepKeyFormat);
         timeQuery.end = dayjs(range[1]).tz(timezone).format(stepKeyFormat);
@@ -288,6 +287,36 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return '';
     }
     return JSON.stringify(this.metricQueryPayload, null, 2);
+  },
+  get metricQueryPayloadError() {
+    const errors: string[] = [];
+    if (!this.metricQueryPayload) {
+      return errors;
+    }
+    const { groupBys, timeQuery } = this.metricQueryPayload;
+    if (groupBys.length === 0) {
+      errors.push('分组聚合维度：不可为空');
+    }
+    if (!timeQuery) {
+      return errors;
+    }
+    if (groupBys.length > 1) {
+      errors.push('分组聚合维度：按时间序列展示时，仅可选择一个聚合维度');
+    }
+    const { start, end, unitOfTime } = timeQuery;
+    if (!start || !end) {
+      errors.push('时间维度：时间范围不完整');
+    }
+    if (!unitOfTime) {
+      errors.push('步长：必选');
+    }
+    return errors;
+  },
+  get metricQueryPayloadValid() {
+    if (!this.metricQueryPayload) {
+      return false;
+    }
+    return this.metricQueryPayloadError.length === 0;
   },
 }));
 

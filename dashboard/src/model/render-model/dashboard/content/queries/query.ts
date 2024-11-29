@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import axios from 'axios';
 import _, { get } from 'lodash';
 import { reaction } from 'mobx';
@@ -181,6 +180,9 @@ export const QueryRenderModel = types
         }
         self.controller?.abort();
         if (!self.runByConditionsMet) {
+          return;
+        }
+        if (!self.metricQueryPayloadValid) {
           return;
         }
 

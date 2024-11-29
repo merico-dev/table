@@ -60,7 +60,9 @@ const TrendingDateSettings = observer(({ queryModel }: Props) => {
           </Table.Td>
         </Table.Tr>
         <Table.Tr key="dimension.step">
-          <Table.Td>步长</Table.Td>
+          <Table.Td>
+            <Text size="xs">步长</Text>
+          </Table.Td>
           <Table.Td colSpan={2} pr={0}>
             <Group justify="flex-start" gap={0} grow>
               <VariableStat variable={config.timeQuery.unit_variable} />
