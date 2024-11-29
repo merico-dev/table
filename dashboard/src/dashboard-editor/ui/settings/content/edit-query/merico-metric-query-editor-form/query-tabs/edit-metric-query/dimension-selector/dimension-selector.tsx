@@ -12,9 +12,7 @@ import {
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
-import { DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
+import { DimensionColDataType, MMInfoModelInstance } from '~/dashboard-editor/model/datasources/mm-info';
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { ComboBoxStyles, InputStyles } from './styles';
 
@@ -51,14 +49,12 @@ const renderOption = (
 };
 
 type DimensionSelectorProps = {
-  queryModel: QueryModelInstance;
+  mmInfo: MMInfoModelInstance;
   value: string | null;
   onChange: (v: string | null) => void;
   usedKeys: Set<string>;
 };
-export const DimensionSelector = observer(({ queryModel, value, onChange, usedKeys }: DimensionSelectorProps) => {
-  const ds = queryModel.datasource as DataSourceModelInstance;
-  const mmInfo = ds.mericoMetricInfo;
+export const DimensionSelector = observer(({ mmInfo, value, onChange, usedKeys }: DimensionSelectorProps) => {
   const metric = mmInfo.metricDetail;
 
   const loading = mmInfo.metrics.loading || metric.loading;

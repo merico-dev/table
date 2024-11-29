@@ -52,7 +52,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
             <Table.Tr key={f.dimension}>
               <Table.Td pr={0}>
                 <DimensionSelector
-                  queryModel={queryModel}
+                  mmInfo={mmInfo}
                   value={f.dimension}
                   onChange={f.setDimension}
                   usedKeys={config.usedFilterDimensionKeys}
@@ -82,7 +82,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
           <Table.Tr className="add-a-row">
             <Table.Td pr={0}>
               <DimensionSelector
-                queryModel={queryModel}
+                mmInfo={mmInfo}
                 value={null}
                 onChange={(v: string | null) => v && config.addFilter(v, '')}
                 usedKeys={config.usedFilterDimensionKeys}

@@ -1,4 +1,4 @@
-import { getParent, getRoot, types } from 'mobx-state-tree';
+import { getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { MetricDetailModel } from './metric-detail';
 import { MetricsModel } from './metrics';
@@ -41,3 +41,5 @@ export const MMInfoModel = types
       self.metricID = metricID;
     },
   }));
+
+export type MMInfoModelInstance = Instance<typeof MMInfoModel>;
