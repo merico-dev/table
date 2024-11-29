@@ -313,6 +313,9 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     }
     return errors;
   },
+  get metricQueryPayloadErrorString() {
+    return this.metricQueryPayloadError.join('\n');
+  },
   get metricQueryPayloadValid() {
     if (!this.metricQueryPayload) {
       return false;
