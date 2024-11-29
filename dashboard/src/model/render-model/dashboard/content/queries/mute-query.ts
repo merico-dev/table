@@ -293,6 +293,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (!this.metricQueryPayload) {
       return errors;
     }
+    const config = self.config as MericoMetricQueryMetaInstance;
     const { groupBys, timeQuery } = this.metricQueryPayload;
     if (groupBys.length === 0) {
       errors.push('分组聚合维度：不可为空');
@@ -300,7 +301,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (!timeQuery) {
       return errors;
     }
-    if (groupBys.length > 1) {
+    if (config.groupByValues.length > 1) {
       errors.push('分组聚合维度：按时间序列展示时，仅可选择一个聚合维度');
     }
     const { start, end, unitOfTime } = timeQuery;

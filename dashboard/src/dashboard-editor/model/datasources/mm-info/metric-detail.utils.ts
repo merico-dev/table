@@ -68,7 +68,7 @@ export function makeFilterColOptions(cols: Array<CombinedMetricCol | MetricSourc
         description: col.description,
         items: dimension.fields.map((f) => ({
           label: f.field,
-          value: f.field,
+          value: `${col.name} -> ${f.field}`,
           ...f,
         })),
       };
