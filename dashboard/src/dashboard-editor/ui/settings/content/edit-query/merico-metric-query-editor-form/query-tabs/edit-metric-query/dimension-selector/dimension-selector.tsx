@@ -14,7 +14,7 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
-import { DimensionCol, DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
+import { DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
 import { DimensionIcon } from './dimension-icon/dimension-icon';
 import { ComboBoxStyles, InputStyles } from './styles';
 
@@ -54,10 +54,9 @@ type DimensionSelectorProps = {
   queryModel: QueryModelInstance;
   value: string | null;
   onChange: (v: string | null) => void;
-  type: DimensionCol['type'];
   usedKeys: Set<string>;
 };
-export const DimensionSelector = observer(({ queryModel, value, onChange, type, usedKeys }: DimensionSelectorProps) => {
+export const DimensionSelector = observer(({ queryModel, value, onChange, usedKeys }: DimensionSelectorProps) => {
   const ds = queryModel.datasource as DataSourceModelInstance;
   const mmInfo = ds.mericoMetricInfo;
   const metric = mmInfo.metricDetail;

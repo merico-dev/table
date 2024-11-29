@@ -1,8 +1,9 @@
 import { ActionIcon, Checkbox, Group, Stack, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useEditDashboardContext } from '~/contexts';
+import { useEffect } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { MericoMetricQueryMetaInstance } from '~/model';
 import { DimensionSelector } from './dimension-selector/dimension-selector';
 import { MetricTableStyles } from './table-styles';
@@ -13,8 +14,14 @@ type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
-  const model = useEditDashboardContext();
   const config = queryModel.config as MericoMetricQueryMetaInstance;
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+
+  useEffect(() => {
+    mmInfo.selectMetric(config.id);
+  }, [config.id, mmInfo]);
+
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -48,7 +55,6 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                   queryModel={queryModel}
                   value={f.dimension}
                   onChange={f.setDimension}
-                  type="filter"
                   usedKeys={config.usedFilterDimensionKeys}
                 />
               </Table.Td>
@@ -79,7 +85,6 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 queryModel={queryModel}
                 value={null}
                 onChange={(v: string | null) => v && config.addFilter(v, '')}
-                type="filter"
                 usedKeys={config.usedFilterDimensionKeys}
               />
             </Table.Td>
