@@ -90,7 +90,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
     );
   }
 
-  if (dataSource.type !== 'http') {
+  if (dataSource.type !== 'http' && dataSource.type !== 'merico_metric_system') {
     return (
       <Tooltip withArrow events={{ hover: true, touch: false, focus: false }} label={t('datasource.cant_edit.db')}>
         <Button
