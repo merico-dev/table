@@ -40,36 +40,20 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
 
   return (
     <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles} value={activeTab} onChange={setActiveTab}>
-      <Group>
-        <Tabs.List>
-          <Tabs.Tab value="编辑查询" size="xs">
-            编辑查询
-          </Tabs.Tab>
-          <Tabs.Tab value="加工结果" size="xs">
-            加工结果
-          </Tabs.Tab>
-          <Tabs.Tab value="使用情况" size="xs">
-            使用情况
-          </Tabs.Tab>
-        </Tabs.List>
-        <Button
-          variant="subtle"
-          ml="auto"
-          size="xs"
-          color="gray"
-          leftSection={<IconEye size={14} />}
-          styles={{
-            section: {
-              marginInlineEnd: 4,
-            },
-          }}
-          onClick={() => {
-            setActiveTab((t) => (t === '预览查询' ? '编辑查询' : '预览查询'));
-          }}
-        >
+      <Tabs.List>
+        <Tabs.Tab value="编辑查询" size="xs">
+          编辑查询
+        </Tabs.Tab>
+        <Tabs.Tab value="加工结果" size="xs">
+          加工结果
+        </Tabs.Tab>
+        <Tabs.Tab value="使用情况" size="xs">
+          使用情况
+        </Tabs.Tab>
+        <Tabs.Tab value="预览查询" size="xs" leftSection={<IconEye size={14} />} ml="auto">
           预览查询
-        </Button>
-      </Group>
+        </Tabs.Tab>
+      </Tabs.List>
 
       <Tabs.Panel value="编辑查询" pt="xs">
         <EditMetricQuery queryModel={queryModel} />
