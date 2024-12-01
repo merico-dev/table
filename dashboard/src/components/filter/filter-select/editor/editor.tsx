@@ -17,15 +17,15 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
-import { CustomDefaultValueEditor } from '../custom-default-value-editor';
-import { PickQueryForFilter } from '../pick-query-for-filter';
-import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
+import { CustomDefaultValueEditor } from '../../custom-default-value-editor';
+import { PickQueryForFilter } from '../../pick-query-for-filter';
+import { ExpectedStructureForSelect } from '../../pick-query-for-filter/expected-structure-for-select';
 
-interface IFilterEditorSelect {
+type Props = {
   filter: FilterMetaInstance;
-}
+};
 
-export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter }: IFilterEditorSelect) {
+export const FilterEditorSelect = observer(({ filter }: Props) => {
   const { t, i18n } = useTranslation();
   const config = filter.config as FilterSelectConfigInstance;
 
