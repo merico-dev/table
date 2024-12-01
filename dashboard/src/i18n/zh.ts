@@ -56,6 +56,10 @@ export const zh = {
           default_selection: '默认选项',
           no_default_selection: '无',
           select_first_option_by_default: '默认选中第一个选项',
+          preset_options: {
+            apply: '使用预设选项列表',
+            date_unit: '日期步长',
+          },
         },
         multi_select: {
           width_description: '至少160px',

@@ -1,46 +1,19 @@
-import {
-  ActionIcon,
-  Button,
-  Center,
-  Checkbox,
-  Divider,
-  Flex,
-  Group,
-  Overlay,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import { IconPlaylistAdd, IconTrash } from '@tabler/icons-react';
+import { Center, Checkbox, Divider, Group, Overlay, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
 import { CustomDefaultValueEditor } from '../../custom-default-value-editor';
 import { PickQueryForFilter } from '../../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../../pick-query-for-filter/expected-structure-for-select';
+import { StaticOptions } from './static-options';
 
 type Props = {
   filter: FilterMetaInstance;
 };
 
 export const FilterEditorSelect = observer(({ filter }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const config = filter.config as FilterSelectConfigInstance;
-
-  const addStaticOption = () => {
-    config.addStaticOption({
-      label: '',
-      value: '',
-    });
-  };
-
-  const staticOptionFields = config.static_options;
-
-  const optionsForDefaultValue = useMemo(() => {
-    return [{ label: t('filter.widget.select.no_default_selection'), value: '' }, ...staticOptionFields];
-  }, [i18n.language, staticOptionFields]);
 
   return (
     <>
@@ -79,54 +52,7 @@ export const FilterEditorSelect = observer(({ filter }: Props) => {
             </Center>
           </>
         )}
-        {staticOptionFields.length > 0 && (
-          <Select
-            label={t('filter.widget.select.default_selection')}
-            data={optionsForDefaultValue}
-            value={config.default_value}
-            onChange={config.setDefaultValue}
-          />
-        )}
-        {staticOptionFields.map((_optionField, optionIndex) => (
-          <Flex gap={10} key={optionIndex} sx={{ position: 'relative' }} pr="40px">
-            <TextInput
-              label={t('common.label')}
-              required
-              value={config.static_options[optionIndex].label}
-              onChange={(e) => {
-                config.static_options[optionIndex].setLabel(e.currentTarget.value);
-              }}
-              sx={{ flexGrow: 1 }}
-            />
-            <TextInput
-              label={t('common.value')}
-              required
-              value={config.static_options[optionIndex].value}
-              onChange={(e) => {
-                config.static_options[optionIndex].setValue(e.currentTarget.value);
-              }}
-              sx={{ flexGrow: 1 }}
-            />
-            <ActionIcon
-              color="red"
-              variant="subtle"
-              onClick={() => config.removeStaticOption(optionIndex)}
-              sx={{ position: 'absolute', top: 28, right: 5 }}
-            >
-              <IconTrash size={16} />
-            </ActionIcon>
-          </Flex>
-        ))}
-        <Button
-          size="xs"
-          color="blue"
-          leftSection={<IconPlaylistAdd size={20} />}
-          onClick={addStaticOption}
-          sx={{ width: '50%' }}
-          mx="auto"
-        >
-          {t('common.actions.add_an_option')}
-        </Button>
+        <StaticOptions config={config} />
       </Stack>
       <Divider label={t('filter.widget.common.or_fetch_options_from_datasource')} labelPosition="center" />
       <Checkbox
