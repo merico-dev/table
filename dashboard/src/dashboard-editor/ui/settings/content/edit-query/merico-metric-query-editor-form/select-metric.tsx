@@ -1,4 +1,15 @@
-import { ActionIcon, ComboboxItem, Group, Loader, Select, SelectProps, Stack, Text, Tooltip } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  ComboboxItem,
+  Group,
+  Loader,
+  Select,
+  SelectProps,
+  Stack,
+  Text,
+  Tooltip,
+} from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { IconHash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -77,7 +88,7 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
   const { loading, error } = metrics;
   return (
     <ErrorBoundary>
-      <Group justify="flex-end" gap={4} align="flex-end">
+      <Group justify="flex-end" gap={12} align="flex-end">
         {error ? (
           <Tooltip label={error}>
             <Select size="xs" label="指标" error styles={{ root: { flexGrow: 1 } }} />
@@ -96,14 +107,16 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
           />
         )}
         <Tooltip label="跳转到指标明细页查看详情。" disabled={loading}>
-          <ActionIcon
+          <Anchor
             size="md"
             variant="subtle"
             mb={2}
-            onClick={() => showNotification({ message: 'TODO', color: 'red' })}
+            href={`/admin/metrics/detail/${config.id}`}
+            target="_blank"
+            underline="never"
           >
             <MericoIconExternalLink width={14} height={14} />
-          </ActionIcon>
+          </Anchor>
         </Tooltip>
       </Group>
     </ErrorBoundary>
