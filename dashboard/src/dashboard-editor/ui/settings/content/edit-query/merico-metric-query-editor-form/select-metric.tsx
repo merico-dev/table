@@ -70,17 +70,19 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
       label: d.name,
       value: d.id,
       description: d.description,
+      type: d.type,
     }));
   }, [metrics.data]);
 
   const handleChange = useCallback(
-    (id: string | null) => {
+    (id: string | null, option: any) => {
       if (!id) {
         return;
       }
 
       mmInfo.selectMetric(id);
       config.setID(id);
+      config.setType(option.type);
     },
     [mmInfo, config],
   );
