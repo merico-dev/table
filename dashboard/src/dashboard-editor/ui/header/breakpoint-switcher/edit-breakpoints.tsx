@@ -26,7 +26,6 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
     name: 'list',
     rules: {
       validate: (values: LayoutSetFormInfo[]) => {
-        console.log({ values });
         if (_.uniqBy(values, 'breakpoint').length !== values.length) {
           return 'Screen sizes should be unique by min width';
         }

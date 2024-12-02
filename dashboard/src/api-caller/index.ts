@@ -84,7 +84,6 @@ export async function runMetricQuery(
   signal: AbortSignal,
 ) {
   try {
-    console.log({ configString });
     const ret = await APIClient.mericoMetricQuery<AnyObject>(signal)(
       { type: 'merico_metric_system', key, query: configString, ...additionals },
       { params: { name } },

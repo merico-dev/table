@@ -25,7 +25,6 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
   const shortcuts = useMemo(() => {
     const shortcutsInGroups = getShortcutsInGroups();
     return Object.entries(shortcutsInGroups).map(([group, items]) => {
-      console.log(group, items);
       return {
         group: t(`filter.widget.date_range.shortcut.${group}.label`),
         items: items.map(({ key, value }) => ({
@@ -35,8 +34,6 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
       };
     });
   }, []);
-
-  console.log(shortcuts);
 
   const defaultValue = [...config.default_value] as DateRangeValue_Value;
   return (

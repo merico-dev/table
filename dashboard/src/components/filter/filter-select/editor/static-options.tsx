@@ -64,7 +64,6 @@ export const StaticOptions = observer(({ config }: Props) => {
     return [{ label: t('filter.widget.select.no_default_selection'), value: '' }, ...staticOptionFields];
   }, [i18n.language, staticOptionFields]);
 
-  console.log(config.default_value);
   if (staticOptionFields.length === 0) {
     return <AddOrUsePreset config={config} />;
   }
