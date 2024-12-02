@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Box, Group, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
@@ -102,13 +102,20 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
             <IconInfoCircle />
           </ActionIcon>
         </Tooltip>
-        <Switch
-          size="xs"
-          color="red"
-          checked={config.timeQuery.enabled}
-          onChange={(e) => config.setTimeQueryEnabled(e.currentTarget.checked)}
-          disabled={!trendingDateCol}
-        />
+        {trendingDateCol ? (
+          <Switch
+            size="xs"
+            color="red"
+            checked={config.timeQuery.enabled}
+            onChange={(e) => config.setTimeQueryEnabled(e.currentTarget.checked)}
+          />
+        ) : (
+          <Tooltip label="由于指标未设定时序维度，所以不具备时间序列展示功能。">
+            <Box>
+              <Switch size="xs" color="red" disabled={!trendingDateCol} />
+            </Box>
+          </Tooltip>
+        )}
       </Group>
 
       <TrendingDateSettings queryModel={queryModel} />
