@@ -1,20 +1,20 @@
 import _ from 'lodash';
 import {
   CombinedMetricCol,
+  DerivedMetric,
   DimensionColDataType,
   DimensionInfo,
   MetricDetail,
   MetricSourceCol,
 } from './metric-detail.types';
 
-const isDerivedMetric = (data: MetricDetail) => 'cols' in data;
-
 export function parseData(data: MetricDetail) {
-  if (isDerivedMetric(data)) {
+  if ('cols' in data) {
+    const { cols } = data as DerivedMetric;
     return {
-      filters: data.cols.filter((c) => c.type === 'filter').map((c) => c.metricSourceCol),
-      groupBys: data.cols.filter((c) => c.type === 'group_by').map((c) => c.metricSourceCol),
-      trendingDateCol: data.cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null,
+      filters: cols.filter((c) => c.type === 'filter').map((c) => c.metricSourceCol),
+      groupBys: cols.filter((c) => c.type === 'group_by').map((c) => c.metricSourceCol),
+      trendingDateCol: cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null,
     };
   }
 
