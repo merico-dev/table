@@ -294,11 +294,11 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return errors;
     }
     const config = self.config as MericoMetricQueryMetaInstance;
-    const { groupBys, timeQuery } = this.metricQueryPayload;
-    if (groupBys.length === 0) {
-      errors.push('分组聚合维度：不可为空');
-    }
+    const { timeQuery } = this.metricQueryPayload;
     if (!timeQuery) {
+      if (config.groupByValues.length > 2) {
+        errors.push('分组聚合维度：最多支持两个维度的聚合计算');
+      }
       return errors;
     }
     if (config.groupByValues.length > 1) {
