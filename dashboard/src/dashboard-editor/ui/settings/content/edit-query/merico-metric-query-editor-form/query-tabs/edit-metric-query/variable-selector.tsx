@@ -1,9 +1,10 @@
 import { ComboboxItem, Group, Select, SelectProps, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { MericoMetricQueryMetaInstance } from '~/model';
 import { DashboardFilterType } from '~/types';
 
 const SelectorStyles: SelectProps['styles'] = {
@@ -11,6 +12,12 @@ const SelectorStyles: SelectProps['styles'] = {
     maxWidth: 'unset',
   },
   option: {
+    fontFamily: 'monospace',
+    '&[data-checked=true][data-combobox-disabled]': {
+      opacity: 1,
+    },
+  },
+  input: {
     fontFamily: 'monospace',
   },
   groupLabel: {
@@ -68,10 +75,14 @@ type Props = {
   queryModel: QueryModelInstance;
   value: string | null;
   onChange: (value: string | null, option: CustomOption) => void;
+  usedKeys: Set<string>;
 };
 
-export const VariableSelector = observer(({ queryModel, value, onChange }: Props) => {
+export const VariableSelector = observer(({ queryModel, value, onChange, usedKeys }: Props) => {
   const { t } = useTranslation();
+
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
+
   const options = useMemo(() => {
     const groups = queryModel.getConditionOptionsWithInvalidValue(value).optionGroups;
     return groups.map((optionGroup) => {
@@ -83,10 +94,11 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
           ...item,
           label: item.value,
           widget_label: item.label,
+          disabled: usedKeys.has(item.value),
         })),
       };
     });
-  }, [queryModel.getConditionOptionsWithInvalidValue, t, value]);
+  }, [queryModel.getConditionOptionsWithInvalidValue, t, value, usedKeys]);
 
   const handleChange = useCallback(
     (value: string | null, option: ComboboxItem) => {
@@ -107,6 +119,7 @@ export const VariableSelector = observer(({ queryModel, value, onChange }: Props
       maxDropdownHeight={600}
       value={value}
       onChange={handleChange}
+      clearable
     />
   );
 });

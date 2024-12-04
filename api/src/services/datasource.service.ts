@@ -66,7 +66,7 @@ export class DataSourceService {
       offset,
       data: datasources.map((d) => ({
         ...d,
-        config: d.type !== 'http' ? {} : d.config,
+        config: d.type !== 'http' && d.type !== 'merico_metric_system' ? {} : d.config,
       })),
     };
   }
@@ -120,7 +120,7 @@ export class DataSourceService {
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = await dataSourceRepo.findOneByOrFail({ id });
-    if (dataSource.type !== 'http') {
+    if (dataSource.type !== 'http' && dataSource.type !== 'merico_metric_system') {
       throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_ONLY_HTTP_IS_EDITABLE', locale) });
     }
     dataSource.config = config;

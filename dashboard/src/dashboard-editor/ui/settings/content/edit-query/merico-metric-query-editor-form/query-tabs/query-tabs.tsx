@@ -1,10 +1,10 @@
-import { Button, Group, Tabs } from '@mantine/core';
-import { IconEye } from '@tabler/icons-react';
+import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
-import { QueryUsage } from '../../query-editor-form/query-usage';
+import { useState } from 'react';
 import { InlineFunctionInput } from '~/components/widgets';
+import { QueryModelInstance } from '~/dashboard-editor/model';
+import { QueryUsage } from '../../query-editor-form/query-usage';
+import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 
 const DEFAULT_MMQ_REQ_POST_PROCESSING = [
   'function process_result(resp, utils, state) {',
@@ -34,35 +34,21 @@ type Props = {
   queryModel: QueryModelInstance;
 };
 export const QueryTabs = observer(({ queryModel }: Props) => {
+  const [activeTab, setActiveTab] = useState<string | null>('编辑查询');
+
   return (
-    <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles}>
-      <Group>
-        <Tabs.List>
-          <Tabs.Tab value="编辑查询" size="xs">
-            编辑查询
-          </Tabs.Tab>
-          <Tabs.Tab value="加工结果" size="xs">
-            加工结果
-          </Tabs.Tab>
-          <Tabs.Tab value="使用情况" size="xs">
-            使用情况
-          </Tabs.Tab>
-        </Tabs.List>
-        <Button
-          variant="subtle"
-          ml="auto"
-          size="xs"
-          color="gray"
-          leftSection={<IconEye size={14} />}
-          styles={{
-            section: {
-              marginInlineEnd: 4,
-            },
-          }}
-        >
-          预览查询
-        </Button>
-      </Group>
+    <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles} value={activeTab} onChange={setActiveTab}>
+      <Tabs.List>
+        <Tabs.Tab value="编辑查询" size="xs">
+          编辑查询
+        </Tabs.Tab>
+        <Tabs.Tab value="加工结果" size="xs">
+          加工结果
+        </Tabs.Tab>
+        <Tabs.Tab value="使用情况" size="xs">
+          使用情况
+        </Tabs.Tab>
+      </Tabs.List>
 
       <Tabs.Panel value="编辑查询" pt="xs">
         <EditMetricQuery queryModel={queryModel} />

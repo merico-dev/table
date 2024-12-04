@@ -72,6 +72,28 @@ export async function queryByHTTP({ type, key, configString, name, additionals }
   }
 }
 
+type RunMetricQueryProps = {
+  key: string;
+  configString: string;
+  name: string;
+  additionals: TAdditionalQueryInfo;
+};
+
+export async function runMetricQuery(
+  { key, configString, name, additionals }: RunMetricQueryProps,
+  signal: AbortSignal,
+) {
+  try {
+    const ret = await APIClient.mericoMetricQuery<AnyObject>(signal)(
+      { type: 'merico_metric_system', key, query: configString, ...additionals },
+      { params: { name } },
+    );
+    return ret;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export type TQuerySources = Record<string, string[]>;
 
 export async function listDataSources(): Promise<IDataSource[]> {

@@ -1,10 +1,24 @@
-import { ActionIcon, ComboboxItem, Group, Select, Text, Stack, ThemeIcon, Tooltip, SelectProps } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { MericoIconExternalLink } from './merico-icons';
+import {
+  ActionIcon,
+  Anchor,
+  ComboboxItem,
+  Group,
+  Loader,
+  Select,
+  SelectProps,
+  Stack,
+  Text,
+  Tooltip,
+} from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { IconHash } from '@tabler/icons-react';
+import { observer } from 'mobx-react-lite';
+import { useCallback, useEffect, useMemo } from 'react';
+import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { ErrorBoundary } from '~/utils';
+import { MericoIconExternalLink } from './merico-icons';
+import { MericoMetricQueryMetaInstance } from '~/model';
 
 type CustomOption = ComboboxItem & { description: string };
 const renderSelectOption: SelectProps['renderOption'] = ({ option, ...rest }) => {
@@ -32,46 +46,79 @@ const renderSelectOption: SelectProps['renderOption'] = ({ option, ...rest }) =>
   );
 };
 
-const mockOptions = [
-  {
-    label: '项目的重点问题数（aspect）',
-    value: '项目的重点问题数（aspect）',
-    description: '代码提交的最终提交时间。',
-  },
-  { label: '衍生指标1', value: '衍生指标1', description: '代码提交的最终提交时间。' },
-  { label: '衍生指标2', value: '衍生指标2', description: '代码提交的最终提交时间。' },
-  { label: '衍生指标3', value: '衍生指标3', description: '代码提交的最终提交时间。' },
-  { label: '项目的新增代码当量', value: '项目的新增代码当量', description: '代码提交的最终提交时间。' },
-  { label: '衍生指标4', value: '衍生指标4', description: '代码提交的最终提交时间。' },
-  { label: '衍生指标5', value: '衍生指标5', description: '代码提交的最终提交时间。' },
-  { label: '衍生指标6', value: '衍生指标6', description: '代码提交的最终提交时间。' },
-];
-
 type Props = {
   queryModel: QueryModelInstance;
 };
 
 export const SelectMetric = observer(({ queryModel }: Props) => {
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+  const metrics = mmInfo.metrics;
+  useEffect(() => {
+    metrics.load();
+  }, [metrics]);
+
+  useEffect(() => {
+    if (!mmInfo.metricID && !!config.id) {
+      mmInfo.selectMetric(config.id);
+    }
+  }, [config.id]);
+
+  const options = useMemo(() => {
+    return metrics.data.map((d) => ({
+      label: d.name,
+      value: d.id,
+      description: d.description,
+      type: d.type,
+    }));
+  }, [metrics.data]);
+
+  const handleChange = useCallback(
+    (id: string | null, option: any) => {
+      if (!id) {
+        return;
+      }
+
+      mmInfo.selectMetric(id);
+      config.setID(id);
+      config.setType(option.type);
+    },
+    [mmInfo, config],
+  );
+
+  const { loading, error } = metrics;
   return (
     <ErrorBoundary>
-      <Group justify="flex-end" gap={4} align="flex-end">
-        <Select
-          size="xs"
-          label="指标"
-          data={mockOptions}
-          renderOption={renderSelectOption}
-          styles={{ root: { flexGrow: 1 } }}
-          maxDropdownHeight={500}
-        />
-        <Tooltip label="跳转到指标明细页查看详情。">
-          <ActionIcon
+      <Group justify="flex-end" gap={12} align="flex-end">
+        {error ? (
+          <Tooltip label={error}>
+            <Select size="xs" label="指标" error styles={{ root: { flexGrow: 1 } }} />
+          </Tooltip>
+        ) : (
+          <Select
+            size="xs"
+            label="指标"
+            data={options}
+            renderOption={renderSelectOption}
+            styles={{ root: { flexGrow: 1 } }}
+            maxDropdownHeight={500}
+            value={config.id}
+            onChange={handleChange}
+            rightSection={loading ? <Loader size="xs" /> : null}
+          />
+        )}
+        <Tooltip label="跳转到指标明细页查看详情。" disabled={loading}>
+          <Anchor
             size="md"
             variant="subtle"
             mb={2}
-            onClick={() => showNotification({ message: 'TODO', color: 'red' })}
+            href={`/admin/metrics/detail/${config.id}`}
+            target="_blank"
+            underline="never"
           >
             <MericoIconExternalLink width={14} height={14} />
-          </ActionIcon>
+          </Anchor>
         </Tooltip>
       </Group>
     </ErrorBoundary>

@@ -56,6 +56,10 @@ export const en = {
           default_selection: 'Default Selection',
           no_default_selection: 'none',
           select_first_option_by_default: 'Select the first option by default',
+          preset_options: {
+            apply: 'Apply preset options',
+            date_unit: 'Date units',
+          },
         },
         multi_select: {
           width_description: 'At least 160px',

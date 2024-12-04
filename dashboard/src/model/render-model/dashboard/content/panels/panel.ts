@@ -100,7 +100,6 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       });
       const arr = [];
       if (context.size > 0) {
-        console.log(context);
         arr.push(`context: ${Array.from(context).join(', ')}`);
       }
       if (filters.size > 0) {
@@ -113,7 +112,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return arr.join(' ');
     },
     get queryErrors() {
-      return this.queries.map((q) => q.error).filter((e) => !!e);
+      return this.queries.map((q) => q.error ?? q.metricQueryPayloadErrorString).filter((e) => !!e);
     },
     get canRenderViz() {
       return this.queryErrors.length === 0 && this.queryStateMessages === '' && !this.dataLoading;

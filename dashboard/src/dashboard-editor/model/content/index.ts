@@ -33,6 +33,8 @@ import {
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
+import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 import { payloadToDashboardState, UsageRegs } from '~/utils';
 import { LayoutsModel } from '../layouts';
 import { PanelsModel } from '../panels';
@@ -90,20 +92,10 @@ const _ContentModel = types
     get queriesChanged() {
       const fields = 'queries.current';
       const snapshot = (getSnapshot(get(self, fields)) as AnyObject[]).map((it: $TSFixMe) =>
-        pick(it, [
-          'id',
-          'name',
-          'key',
-          'type',
-          'sql',
-          'run_by',
-          'react_to',
-          'pre_process',
-          'post_process',
-          'dep_query_ids',
-        ]),
+        pick(it, ['id', 'name', 'key', 'type', 'run_by', 'pre_process', 'post_process', 'config']),
       );
-      return !isEqual(snapshot, get(self.origin, fields));
+      const original = get(self.origin, fields);
+      return !isEqual(snapshot, original);
     },
     get sqlSnippetsChanged() {
       const fields = 'sqlSnippets.current';
@@ -256,7 +248,8 @@ const _ContentModel = types
         if (!q.isTransform) {
           return;
         }
-        q.dep_query_ids.forEach((queryID) => {
+        const config = q.config as TransformQueryMetaInstance;
+        config.dep_query_ids.forEach((queryID) => {
           usages.push({
             type: 'transform-query',
             type_label: 'query.transform.full_label',
@@ -282,7 +275,8 @@ const _ContentModel = types
         if (!q.typedAsSQL) {
           return;
         }
-        const keys = _.uniq(q.sql.match(UsageRegs.sqlSnippet));
+        const config = q.config as DBQueryMetaInstance;
+        const keys = _.uniq(config.sql.match(UsageRegs.sqlSnippet));
         keys.forEach((k) => {
           usages.push({
             queryID: q.id,

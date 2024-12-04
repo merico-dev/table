@@ -5,8 +5,8 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { SelectDataSource } from '../query-editor-form/select-data-source';
 import { MoreActions } from './more-actions';
 import { PreviewData } from './preview-data';
+import { PreviewQueryAndVars } from './preview-query-and-vars';
 import { QueryTabs } from './query-tabs';
-import { QueryVariablesPreview } from './query-variables-preview';
 import { RunQuery } from './run-query';
 import { SelectMetric } from './select-metric';
 
@@ -65,7 +65,7 @@ export const MericoMetricQueryEditorForm = observer(({ queryModel }: Props) => {
         sx={{ flexGrow: 0, flexShrink: 1, overflowY: 'hidden' }}
       >
         <QueryTabs queryModel={queryModel} />
-        <QueryVariablesPreview />
+        <PreviewQueryAndVars queryModel={queryModel} />
       </Group>
       <PreviewData queryModel={queryModel} />
     </Stack>

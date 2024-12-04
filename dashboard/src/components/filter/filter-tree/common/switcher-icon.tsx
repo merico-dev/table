@@ -20,9 +20,6 @@ const CaretIcon = ({ rotate, onClick }: { rotate: string; onClick: () => void })
 };
 
 export const SwitcherIcon = ({ expanded, isLeaf, value, onClick, ...rest }: TreeNodeProps) => {
-  if (value === '0-0-value') {
-    console.log(rest);
-  }
   if (isLeaf) {
     return <span style={{ width: '14px', display: 'inline-block' }} />;
   }

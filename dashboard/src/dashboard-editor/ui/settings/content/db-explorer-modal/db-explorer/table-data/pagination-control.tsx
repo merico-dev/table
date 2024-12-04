@@ -13,17 +13,19 @@ const limitOptions = [
 
 const selectorStyles: EmotionStyles = {
   section: {
-    width: '50px',
-    textAlign: 'center',
+    '&[data-position=left]': {
+      width: '70px',
+      textAlign: 'center',
+    },
   },
   input: {
-    paddingLeft: '50px',
+    paddingLeft: '70px',
   },
 };
 
 export const PaginationControl = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const { t } = useTranslation();
-  const { tableData } = dataSource;
+  const { tableData } = dataSource.dbInfo;
   return (
     <Group pt={10} px={10} justify="space-between">
       <Group justify="flex-start">

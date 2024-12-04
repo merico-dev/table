@@ -2,12 +2,12 @@ import { Table } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
-import { MYSQLIndexInfoType, PGIndexInfoType } from '~/dashboard-editor/model/datasources/indexes';
+import { MYSQLIndexInfoType, PGIndexInfoType } from '~/dashboard-editor/model/datasources/db-info/indexes';
 import { DataSourceType } from '~/model';
 import { TooltipValue } from './tooltip-value';
 
 export const MySQLIndexesTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const { indexes } = dataSource;
+  const { indexes } = dataSource.dbInfo;
   const data = indexes.data as MYSQLIndexInfoType[];
   return (
     <Table
@@ -54,7 +54,7 @@ export const MySQLIndexesTable = observer(({ dataSource }: { dataSource: DataSou
 });
 
 export const PGIndexesTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const { indexes } = dataSource;
+  const { indexes } = dataSource.dbInfo;
   const data = indexes.data as PGIndexInfoType[];
   return (
     <Table
@@ -110,7 +110,7 @@ export const PGIndexesTable = observer(({ dataSource }: { dataSource: DataSource
 });
 
 export const IndexesTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const { indexes } = dataSource;
+  const { indexes } = dataSource.dbInfo;
 
   if (indexes.loading || indexes.empty) {
     return null;

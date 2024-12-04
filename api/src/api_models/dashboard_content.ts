@@ -29,12 +29,12 @@ export class Query {
   })
   key: string;
 
-  @IsString()
+  @IsObject()
   @ApiModelProperty({
-    description: 'Query SQL',
+    description: 'Query config, vary by type',
     required: true,
   })
-  sql: string;
+  config: any;
 
   @IsString()
   @ApiModelProperty({

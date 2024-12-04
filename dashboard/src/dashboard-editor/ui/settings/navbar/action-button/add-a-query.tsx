@@ -15,7 +15,10 @@ export const AddAQuery = observer(() => {
       name: id,
       type: DataSourceType.Postgresql,
       key: '',
-      sql: '',
+      config: {
+        _type: DataSourceType.Postgresql,
+        sql: '',
+      },
     } as QueryRenderModelInstance;
     model.content.queries.append(v);
     model.editor.setPath(['_QUERIES_', id]);

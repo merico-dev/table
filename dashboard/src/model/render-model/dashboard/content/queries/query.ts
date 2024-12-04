@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { get } from 'lodash';
+import _, { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
+import { queryByHTTP, queryBySQL, QueryFailureError, runMetricQuery } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
+import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
+import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
+import { AnyObject } from '~/types';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
-import _ from 'lodash';
-import { faker } from '@faker-js/faker';
-import { AnyObject } from '~/types';
 
 enum QueryState {
   idle = 'idle',
@@ -35,7 +35,8 @@ export const QueryRenderModel = types
       return self.contentModel.getAdditionalQueryInfo(self.id);
     },
     get depQueryModels() {
-      return self.contentModel.queries.findByIDSet(new Set(self.dep_query_ids));
+      const ids = _.get(self, 'config.dep_query_ids', []);
+      return self.contentModel.queries.findByIDSet(new Set(ids));
     },
     get depQueryModelStates() {
       // NOTE(leto): can't use QueryRenderModelInstance. 'QueryRenderModel' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
@@ -71,7 +72,7 @@ export const QueryRenderModel = types
       if (self.data.length > 0) {
         return '';
       }
-      return 'Empty Data';
+      return 'data.empty_data';
     },
   }))
   .volatile(() => ({
@@ -92,12 +93,19 @@ export const QueryRenderModel = types
         self.state = 'loading';
         try {
           const payload = self.payload;
+          const config = self.config as DBQueryMetaInstance;
           self.data = yield* toGenerator(
             queryBySQL(
               {
                 payload,
                 name: self.name,
-                query: self.json,
+                query: {
+                  type: self.type,
+                  key: self.key,
+                  sql: config.sql,
+                  pre_process: self.pre_process,
+                  post_process: self.post_process,
+                },
                 additionals: self.additionalQueryInfo,
               },
               self.controller.signal,
@@ -174,39 +182,35 @@ export const QueryRenderModel = types
         if (!self.runByConditionsMet) {
           return;
         }
+        if (!self.metricQueryPayloadValid) {
+          return;
+        }
 
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          // TODO: MMS
-          // const { type, key, post_process } = self.json;
-          // let config = JSON.parse(self.httpConfigString);
-          // config = preProcessWithDataSource(self.datasource, config);
+          const { type, key, post_process } = self.json;
+          let config = {
+            url: '/buffet/api/metric_management/query',
+            method: 'POST',
+            data: self.metricQueryPayload,
+          };
+          config = preProcessWithDataSource(self.datasource, config);
 
-          // const response = yield* toGenerator(
-          //   queryByHTTP(
-          //     {
-          //       type,
-          //       key,
-          //       configString: JSON.stringify(config),
-          //       name: self.name,
-          //       additionals: self.additionalQueryInfo,
-          //     },
-          //     self.controller.signal,
-          //   ),
-          // );
-          // const result = postProcessWithDataSource(self.datasource, response);
-          // const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
-          const data = Array.from(new Array(100), () => {
-            return {
-              date: '2024-07-30',
-              accountId: faker.datatype.uuid(),
-              accountName: faker.name.fullName(),
-              accountXXX: faker.animal.type(),
-              value: faker.datatype.number(),
-            };
-          });
-          self.data = data;
+          const response = yield* toGenerator(
+            runMetricQuery(
+              {
+                key,
+                configString: JSON.stringify(config),
+                name: self.name,
+                additionals: self.additionalQueryInfo,
+              },
+              self.controller.signal,
+            ),
+          );
+          const result = postProcessWithDataSource(self.datasource, response);
+          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
+          self.data = data.data;
           self.state = 'idle';
           self.error = null;
         } catch (error) {
@@ -226,8 +230,7 @@ export const QueryRenderModel = types
       runTransformation() {
         self.state = 'loading';
         try {
-          const queryModels = self.contentModel.queries.findByIDSet(new Set(self.dep_query_ids));
-          const queries = queryModels.map((q: QueryRenderModelInstance) => ({
+          const queries = self.depQueryModels.map((q: QueryRenderModelInstance) => ({
             id: q.id,
             name: q.name,
             data: _.cloneDeep(q.data),
@@ -279,11 +282,12 @@ export const QueryRenderModel = types
         reaction(
           () => {
             if (self.isTransform) {
+              const config = self.config as TransformQueryMetaInstance;
               const deps = [
                 self.inUse,
                 self.id,
                 self.key,
-                self.dep_query_ids.toString(),
+                config.dep_query_ids.toString(),
                 self.pre_process,
                 self.depQueryModelStatesString,
               ];

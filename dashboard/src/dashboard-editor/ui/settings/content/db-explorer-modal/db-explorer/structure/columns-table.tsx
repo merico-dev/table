@@ -1,6 +1,6 @@
 import { Badge, Table, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ColumnInfoType } from '~/dashboard-editor/model/datasources/columns';
+import { ColumnInfoType } from '~/dashboard-editor/model/datasources/db-info/columns';
 
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { LoadingSkeleton } from './loading-skeleton';
@@ -19,7 +19,7 @@ const ColumnKey = ({ column }: { column: ColumnInfoType }) => {
 };
 
 export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const { columns } = dataSource;
+  const { columns } = dataSource.dbInfo;
 
   if (columns.loading) {
     return <LoadingSkeleton height="24px" width="100%" lastWidth="100%" count={20} pl={6} />;

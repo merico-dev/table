@@ -7,7 +7,7 @@ import { FullSpaceLoading } from '../full-space-loading';
 import { PaginationControl } from './pagination-control';
 
 export const TableData = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const tableData = dataSource.tableData;
+  const tableData = dataSource.dbInfo.tableData;
   if (tableData.maxPage === 0) {
     return (
       <Text mt={20} c="red" size="md" ta="center" ff="monospace">

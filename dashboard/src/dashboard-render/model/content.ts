@@ -131,7 +131,7 @@ export const ContentRenderModel = types
         data: q.data,
         len: q.data.length,
         state: q.state,
-        error: q.error,
+        error: q.error ?? q.metricQueryPayloadErrorString,
       };
     },
   }))

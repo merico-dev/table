@@ -1,25 +1,27 @@
-import { ActionIcon, Checkbox, Group, Select, Stack, Table, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Checkbox, Group, Stack, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useEditDashboardContext } from '~/contexts';
+import { useEffect } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { MericoMetricQueryMetaInstance } from '~/model';
+import { DimensionSelector } from './dimension-selector/dimension-selector';
 import { MetricTableStyles } from './table-styles';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
-import { DimensionSelector } from './dimension-selector/dimension-selector';
-
-const rows = [
-  { metric: 'repository_project -> id', variable: 'context.project_ids', checked: true },
-  { metric: 'account -> id', variable: 'context.account_id', checked: false },
-  { metric: 'organization -> id', variable: 'filters.tree_select', checked: false },
-  { metric: 'team -> id', variable: 'filters.multi_select', checked: true },
-];
 
 type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
-  const model = useEditDashboardContext();
+  const config = queryModel.config as MericoMetricQueryMetaInstance;
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+
+  useEffect(() => {
+    mmInfo.selectMetric(config.id);
+  }, [config.id, mmInfo]);
+
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -46,32 +48,53 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {rows.map((row) => (
-            <Table.Tr key={row.metric}>
-              <Table.Td>{row.metric}</Table.Td>
+          {config.filters.map((f) => (
+            <Table.Tr key={f.dimension}>
+              <Table.Td pr={0}>
+                <DimensionSelector
+                  mmInfo={mmInfo}
+                  value={f.dimension}
+                  onChange={f.setDimension}
+                  usedKeys={config.usedFilterDimensionKeys}
+                />
+              </Table.Td>
               <Table.Td colSpan={2} pr={0}>
                 <Group justify="flex-start" grow gap={0} w="100%">
-                  <VariableStat variable={row.variable} />
-                  <VariableSelector queryModel={queryModel} value={row.variable} onChange={console.log} />
+                  <VariableStat variable={f.variable} />
+                  <VariableSelector
+                    queryModel={queryModel}
+                    value={f.variable}
+                    onChange={f.setVariable}
+                    usedKeys={config.usedFilterVariableSet}
+                  />
                 </Group>
               </Table.Td>
               <Table.Td>
-                <Checkbox size="xs" defaultChecked={row.checked} color="red" />
+                <Checkbox
+                  size="xs"
+                  checked={queryModel.keyInRunBy(f.variable)}
+                  onChange={(event) => queryModel.changeRunByRecord(f.variable, event.currentTarget.checked)}
+                  color="red"
+                />
               </Table.Td>
             </Table.Tr>
           ))}
           <Table.Tr className="add-a-row">
             <Table.Td pr={0}>
               <DimensionSelector
-                queryModel={queryModel}
+                mmInfo={mmInfo}
                 value={null}
-                onChange={function (v: string | null): void {
-                  throw new Error('Function not implemented.');
-                }}
+                onChange={(v: string | null) => v && config.addFilter(v, '')}
+                usedKeys={config.usedFilterDimensionKeys}
               />
             </Table.Td>
             <Table.Td colSpan={2} pr={0}>
-              <VariableSelector queryModel={queryModel} value={null} onChange={console.log} />
+              <VariableSelector
+                queryModel={queryModel}
+                value={null}
+                onChange={(v: string | null) => v && config.addFilter('', v)}
+                usedKeys={config.usedFilterVariableSet}
+              />
             </Table.Td>
             <Table.Td />
           </Table.Tr>

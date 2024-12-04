@@ -25,14 +25,15 @@ const tabsStyles = {
 
 export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const { t } = useTranslation();
+  const dbInfo = dataSource.dbInfo;
   useEffect(() => {
-    dataSource.loadTablesIfEmpty();
-  }, [dataSource]);
+    dbInfo.loadTablesIfEmpty();
+  }, [dbInfo]);
 
-  if (dataSource.tables.error) {
+  if (dbInfo.tables.error) {
     return (
       <Text c="red" size="md" ta="center" ff="monospace">
-        {dataSource.tables.error}
+        {dbInfo.tables.error}
       </Text>
     );
   }

@@ -1,10 +1,13 @@
-import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
+import { ComboboxItem } from '@mantine/core';
+import { Instance, cast, detach, getParent, getRoot, types } from 'mobx-state-tree';
 
 export type TSelectOption = {
   label: string;
   value: string;
   description?: string;
 };
+
+export type StaticOption = ComboboxItem;
 
 export const FilterConfigModel_SelectOption = types
   .model({
@@ -71,11 +74,16 @@ export const FilterBaseSelectConfigMeta = types
     setRequired(required: boolean) {
       self.required = required;
     },
-    addStaticOption(option: { label: string; value: string }) {
+    addStaticOption(option: StaticOption) {
       self.static_options.push(option);
     },
     removeStaticOption(index: number) {
       self.static_options.splice(index, 1);
+    },
+    replaceStaticOptions(options: StaticOption[]) {
+      self.static_options.forEach((o) => detach(o));
+      const newOptions = options.map((o) => FilterConfigModel_SelectOption.create(o));
+      self.static_options.replace(newOptions);
     },
     setDefaultSelectionCount(v: string | number) {
       const n = Number(v);

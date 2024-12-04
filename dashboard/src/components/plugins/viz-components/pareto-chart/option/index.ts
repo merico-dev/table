@@ -30,6 +30,5 @@ export function getOption(conf: IParetoChartConf, data: TPanelData, variables: I
       containLabel: true,
     },
   };
-  console.log(option);
   return option;
 }
