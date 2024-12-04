@@ -6,7 +6,7 @@ type Props = {
   queryModel: QueryModelInstance;
 };
 export const QueryStateMessage = observer(({ queryModel }: Props) => {
-  const { state, error, metricQueryPayloadError, stateMessage } = queryModel;
+  const { state, error, metricQueryPayloadErrorString, stateMessage } = queryModel;
   if (state === 'loading') {
     return null;
   }
@@ -17,10 +17,10 @@ export const QueryStateMessage = observer(({ queryModel }: Props) => {
       </Text>
     );
   }
-  if (!!metricQueryPayloadError) {
+  if (!!metricQueryPayloadErrorString) {
     return (
       <Text mt={10} c="red" size="md" ta="center" ff="monospace">
-        {metricQueryPayloadError}
+        {metricQueryPayloadErrorString}
       </Text>
     );
   }
