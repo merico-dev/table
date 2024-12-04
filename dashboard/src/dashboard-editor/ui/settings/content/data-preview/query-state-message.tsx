@@ -1,12 +1,14 @@
 import { Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
 
 interface IQueryStateMessage {
   queryID: string;
 }
 export const QueryStateMessage = observer(({ queryID }: IQueryStateMessage) => {
+  const { t } = useTranslation();
   const model = useRenderContentModelContext();
   const query = React.useMemo(() => model.queries.findByID(queryID), [model, queryID]);
   if (!query) {
@@ -27,7 +29,7 @@ export const QueryStateMessage = observer(({ queryID }: IQueryStateMessage) => {
   if (!!stateMessage) {
     return (
       <Text size="sm" mt={10} c="gray" ta="center">
-        {stateMessage}
+        {t(stateMessage)}
       </Text>
     );
   }

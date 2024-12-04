@@ -1,11 +1,13 @@
 import { Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 
 type Props = {
   queryModel: QueryModelInstance;
 };
 export const QueryStateMessage = observer(({ queryModel }: Props) => {
+  const { t } = useTranslation();
   const { state, error, metricQueryPayloadErrorString, stateMessage } = queryModel;
   if (state === 'loading') {
     return null;
@@ -27,7 +29,7 @@ export const QueryStateMessage = observer(({ queryModel }: Props) => {
   if (!!stateMessage) {
     return (
       <Text size="sm" mt={10} c="gray" ta="center">
-        {stateMessage}
+        {t(stateMessage)}
       </Text>
     );
   }

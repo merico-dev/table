@@ -72,7 +72,7 @@ export const QueryRenderModel = types
       if (self.data.length > 0) {
         return '';
       }
-      return 'Empty Data';
+      return 'data.empty_data';
     },
   }))
   .volatile(() => ({
