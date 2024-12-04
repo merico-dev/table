@@ -13,11 +13,13 @@ const limitOptions = [
 
 const selectorStyles: EmotionStyles = {
   section: {
-    width: '50px',
-    textAlign: 'center',
+    '&[data-position=left]': {
+      width: '70px',
+      textAlign: 'center',
+    },
   },
   input: {
-    paddingLeft: '50px',
+    paddingLeft: '70px',
   },
 };
 

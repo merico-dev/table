@@ -10,14 +10,14 @@ const limitOptions = [
 ];
 
 const selectorStyles = {
-  icon: {
-    width: '80px',
-    textAlign: 'center',
+  section: {
+    '&[data-position=left]': {
+      width: '70px',
+      textAlign: 'center',
+    },
   },
   input: {
-    '&[data-with-icon]': {
-      paddingLeft: '80px',
-    },
+    paddingLeft: '70px',
   },
 };
 
