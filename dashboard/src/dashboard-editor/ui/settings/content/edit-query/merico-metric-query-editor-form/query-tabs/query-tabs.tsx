@@ -1,12 +1,10 @@
-import { Button, Group, Tabs } from '@mantine/core';
-import { IconEye } from '@tabler/icons-react';
+import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
-import { QueryUsage } from '../../query-editor-form/query-usage';
-import { InlineFunctionInput } from '~/components/widgets';
-import { PreviewMetricQuery } from './preview-metric-query';
 import { useState } from 'react';
+import { InlineFunctionInput } from '~/components/widgets';
+import { QueryModelInstance } from '~/dashboard-editor/model';
+import { QueryUsage } from '../../query-editor-form/query-usage';
+import { EditMetricQuery } from './edit-metric-query/edit-metric-query';
 
 const DEFAULT_MMQ_REQ_POST_PROCESSING = [
   'function process_result(resp, utils, state) {',
@@ -50,9 +48,6 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
         <Tabs.Tab value="使用情况" size="xs">
           使用情况
         </Tabs.Tab>
-        <Tabs.Tab value="预览查询" size="xs" leftSection={<IconEye size={14} />} ml="auto">
-          预览查询
-        </Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="编辑查询" pt="xs">
@@ -69,9 +64,6 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
       </Tabs.Panel>
       <Tabs.Panel value="使用情况" pt="xs">
         <QueryUsage queryModel={queryModel} />
-      </Tabs.Panel>
-      <Tabs.Panel value="预览查询" pt="xs">
-        <PreviewMetricQuery queryModel={queryModel} />
       </Tabs.Panel>
     </Tabs>
   );
