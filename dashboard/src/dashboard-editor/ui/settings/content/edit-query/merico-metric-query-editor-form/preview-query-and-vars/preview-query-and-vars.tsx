@@ -12,7 +12,7 @@ export const PreviewQueryAndVars = observer(({ queryModel }: Props) => {
 
   return (
     <Tabs
-      defaultValue="查询预览"
+      defaultValue="看板变量预览"
       styles={{
         root: {
           borderRadius: 4,
@@ -26,8 +26,8 @@ export const PreviewQueryAndVars = observer(({ queryModel }: Props) => {
       color="red"
     >
       <Tabs.List>
-        <Tabs.Tab value="查询预览">查询预览</Tabs.Tab>
         <Tabs.Tab value="看板变量预览">看板变量预览</Tabs.Tab>
+        <Tabs.Tab value="查询预览">查询预览</Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="查询预览">
