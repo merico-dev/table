@@ -854,6 +854,7 @@ export const en = {
         y_axis_name: 'Y Axis Name',
         y_axis_name_anchor: 'Name Anchor',
         y_axis_data_field: 'Y Axis Data Field',
+        inverse: 'Inverse',
         layout: 'Layout',
         position: {
           label: 'Position',

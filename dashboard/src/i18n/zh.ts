@@ -854,6 +854,7 @@ export const zh = {
         y_axis_name: 'Y轴名称',
         y_axis_name_anchor: '名称贴靠侧',
         y_axis_data_field: 'Y轴数据字段',
+        inverse: '反向坐标轴',
         layout: '布局',
         position: {
           label: '位置',

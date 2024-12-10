@@ -31,6 +31,7 @@ export interface IHeatmapConf {
   };
   y_axis: {
     name: string;
+    inverse: boolean;
     data_key: TDataKey;
     nameAlignment: EChartsNameTextAlign;
     axisLabel: {
@@ -67,6 +68,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
   },
   y_axis: {
     name: 'Y Axis',
+    inverse: false,
     data_key: '',
     nameAlignment: 'center',
     axisLabel: {

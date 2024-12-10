@@ -1,4 +1,4 @@
-import { Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Checkbox, Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
@@ -37,6 +37,22 @@ export function YAxisField({ control, watch }: IYAxisField) {
           render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
+      <Controller
+        name="y_axis.inverse"
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            checked={field.value}
+            onChange={(event) => field.onChange(event.currentTarget.checked)}
+            label={t('chart.y_axis.inverse')}
+            styles={{
+              root: {
+                transform: 'translateY(6px)',
+              },
+            }}
+          />
+        )}
+      />
       <Divider mb={-15} variant="dashed" label={t('chart.axis.tick_label')} labelPosition="center" />
       <Controller
         name="y_axis.axisLabel.overflow"

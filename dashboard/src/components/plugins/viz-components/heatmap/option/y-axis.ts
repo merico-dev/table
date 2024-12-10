@@ -5,7 +5,7 @@ import { FormatterFuncType } from '~/components/plugins/common-echarts-fields/x-
 import _ from 'lodash';
 
 export function getYAxis(conf: IHeatmapConf, formatterFunc: FormatterFuncType, borderWidth: number) {
-  const { nameAlignment, data_key, ...rest } = conf.y_axis;
+  const { nameAlignment, data_key, inverse, ...rest } = conf.y_axis;
 
   const { overflow, rotate } = conf.y_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
@@ -45,8 +45,9 @@ export function getYAxis(conf: IHeatmapConf, formatterFunc: FormatterFuncType, b
       fontWeight: 'bold',
       align: nameAlignment,
     },
-    nameLocation: 'end',
+    nameLocation: inverse ? 'start' : 'end',
     nameGap: 15,
+    inverse,
     z: 3,
   });
 }
