@@ -42,12 +42,20 @@ export function YAxisField({ control, watch }: IYAxisField) {
         control={control}
         render={({ field }) => (
           <Checkbox
+            size="sm"
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
             label={t('chart.y_axis.inverse')}
             styles={{
               root: {
                 transform: 'translateY(6px)',
+              },
+              label: {
+                cursor: 'pointer',
+                userSelect: 'none',
+              },
+              input: {
+                cursor: 'pointer',
               },
             }}
           />
