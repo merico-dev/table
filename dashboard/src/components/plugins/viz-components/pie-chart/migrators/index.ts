@@ -35,3 +35,14 @@ export function v4(legacyConf: any): IPieChartConf {
     radius,
   };
 }
+
+export function v5(legacyConf: any): IPieChartConf {
+  const { color, ...rest } = legacyConf;
+  return {
+    ...rest,
+    color: {
+      ...color,
+      map: color.map ?? [],
+    },
+  };
+}

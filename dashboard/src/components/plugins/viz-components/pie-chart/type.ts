@@ -3,6 +3,9 @@ export interface IPieChartConf {
   value_field: TDataKey;
   color_field: TDataKey;
   radius: [string, string];
+  color: {
+    map: { name: string; color: string }[];
+  };
 }
 
 export const DEFAULT_CONFIG: IPieChartConf = {
@@ -10,4 +13,7 @@ export const DEFAULT_CONFIG: IPieChartConf = {
   value_field: '',
   color_field: '',
   radius: ['50%', '80%'],
+  color: {
+    map: [],
+  },
 };

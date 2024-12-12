@@ -37,8 +37,15 @@ class VizPieChartMigrator extends VersionBasedMigrator {
         config: Migrators.v4(data.config),
       };
     });
+    this.version(5, (data) => {
+      return {
+        ...data,
+        version: 5,
+        config: Migrators.v5(data.config),
+      };
+    });
   }
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 }
 
 export const PieChartVizComponent: VizComponent = {
@@ -50,7 +57,7 @@ export const PieChartVizComponent: VizComponent = {
   configRender: VizPieChartEditor,
   createConfig() {
     return {
-      version: 4,
+      version: 5,
       config: cloneDeep(DEFAULT_CONFIG) as IPieChartConf,
     };
   },
