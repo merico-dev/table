@@ -68,16 +68,11 @@ function Editor({ conf, setConf, context }: EditorProps) {
             render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
 
-          <Stack gap={4} pt={4}>
-            <Text size="sm" fw="500">
-              {t('viz.pie_chart.color.map.label')}
-            </Text>
-            <Controller
-              control={control}
-              name="color.map"
-              render={({ field }) => <PieColorMapEditor names={names} {...field} />}
-            />
-          </Stack>
+          <Controller
+            control={control}
+            name="color.map"
+            render={({ field }) => <PieColorMapEditor names={names} {...field} />}
+          />
         </Stack>
       </form>
     </Stack>

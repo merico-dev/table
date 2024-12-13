@@ -12,6 +12,7 @@ import {
   Flex,
   Group,
   Stack,
+  Text,
 } from '@mantine/core';
 import { IconGripVertical, IconPlus } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
@@ -142,6 +143,7 @@ type Props = {
 };
 
 export const PieColorMapEditor = forwardRef<HTMLDivElement, Props>(({ value, onChange, zIndex = 340, names }, ref) => {
+  const { t } = useTranslation();
   const rows = useMemo(() => {
     return value.map((r) => ({
       id: uuidv4(),
@@ -173,7 +175,13 @@ export const PieColorMapEditor = forwardRef<HTMLDivElement, Props>(({ value, onC
   };
 
   return (
-    <Stack ref={ref}>
+    <Stack ref={ref} pt={4}>
+      <Group justify="space-between">
+        <Text size="sm" fw="500" mb={-4}>
+          {t('viz.pie_chart.color.map.label')}
+        </Text>
+        {/* <SelectPalette value={value} onChange={onChange}/> */}
+      </Group>
       <DragDropProvider onDragEnd={onDragEnd}>
         {rows.map((r, index) => (
           <RowEditor
