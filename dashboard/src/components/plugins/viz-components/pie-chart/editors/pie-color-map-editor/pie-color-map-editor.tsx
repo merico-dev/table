@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { NameColorMapRow } from '../../type';
 import { RowEditor } from './row-editor';
 import { AddARow } from './add-a-row';
+import { SelectPalette } from './select-palette';
 
 type Props = {
   value: NameColorMapRow[];
@@ -54,7 +55,7 @@ export const PieColorMapEditor = forwardRef<HTMLDivElement, Props>(({ value, onC
         <Text size="sm" fw="500" mb={-4}>
           {t('viz.pie_chart.color.map.label')}
         </Text>
-        {/* <SelectPalette value={value} onChange={onChange}/> */}
+        <SelectPalette value={value} onChange={onChange} />
       </Group>
       <DragDropProvider onDragEnd={onDragEnd}>
         {rows.map((r, index) => (
