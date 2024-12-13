@@ -10,6 +10,9 @@ import { FieldArrayTabs, VizConfigBanner } from '../../editor-components';
 import { RadiusSlider } from './editors';
 import { IPieChartConf } from './type';
 import { PieColorMapEditor } from './editors/pie-color-map';
+import { useEditPanelContext } from '~/contexts';
+import { extractData } from '~/utils';
+import _ from 'lodash';
 
 type StorageData = ReturnType<typeof useStorageData<IPieChartConf>>;
 
@@ -27,7 +30,16 @@ function Editor({ conf, setConf, context }: EditorProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['label_field', 'value_field', 'color_field', 'color']);
+  const [label_field] = watch(['label_field', 'value_field', 'color_field', 'color']);
+
+  const { panel } = useEditPanelContext();
+  const names = useMemo(() => {
+    if (!label_field) {
+      return [];
+    }
+    const data = extractData(panel.data, label_field);
+    return _.uniq(data);
+  }, [label_field, panel.data]);
 
   return (
     <Stack gap="xs">
@@ -49,16 +61,22 @@ function Editor({ conf, setConf, context }: EditorProps) {
             name="radius"
             render={({ field }) => <RadiusSlider label={t('viz.pie_chart.radius.label')} {...field} />}
           />
-          <Divider label={t('chart.color.label')} labelPosition="center" variant="dotted" />
+          <Divider label={t('chart.color.label')} labelPosition="center" variant="dashed" />
           <Controller
             control={control}
             name="color_field"
             render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
 
-          <Stack>
-            <Text size="sm">{t('viz.pie_chart.color.map.label')}</Text>
-            <Controller control={control} name="color.map" render={({ field }) => <PieColorMapEditor {...field} />} />
+          <Stack gap={4} pt={4}>
+            <Text size="sm" fw="500">
+              {t('viz.pie_chart.color.map.label')}
+            </Text>
+            <Controller
+              control={control}
+              name="color.map"
+              render={({ field }) => <PieColorMapEditor names={names} {...field} />}
+            />
           </Stack>
         </Stack>
       </form>

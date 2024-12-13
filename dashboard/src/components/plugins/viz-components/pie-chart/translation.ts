@@ -11,6 +11,13 @@ const en = {
       inner: 'Inner',
       outer: 'Outer',
     },
+    color: {
+      map: {
+        label: 'Color Map',
+        name: 'Record name',
+        add_a_row: 'Add a mapping rule',
+      },
+    },
   },
 };
 
@@ -24,6 +31,13 @@ const zh = {
       label: '内外半径',
       inner: '内',
       outer: '外',
+    },
+    color: {
+      map: {
+        label: '颜色映射表',
+        name: '数据名称',
+        add_a_row: '增加一条映射规则',
+      },
     },
   },
 };

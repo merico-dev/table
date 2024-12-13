@@ -1,15 +1,25 @@
 import { move } from '@dnd-kit/helpers';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable } from '@dnd-kit/react/sortable';
-import { ActionIcon, Badge, Center, CloseButton, ColorInput, Flex, Group, Stack, TextInput } from '@mantine/core';
-import { IconGripVertical } from '@tabler/icons-react';
+import {
+  ActionIcon,
+  Autocomplete,
+  Badge,
+  Button,
+  Center,
+  CloseButton,
+  ColorInput,
+  Flex,
+  Group,
+  Stack,
+} from '@mantine/core';
+import { IconGripVertical, IconPlus } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
-import { Ref, forwardRef, useMemo, useState } from 'react';
+import _ from 'lodash';
+import { forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { NameColorMapRow } from '../type';
-import _ from 'lodash';
-import { useDisclosure } from '@mantine/hooks';
 
 type RowFieldItem = {
   id: string;
@@ -20,8 +30,10 @@ type NameColorMapRowProps = {
   handleChange: (v: RowFieldItem) => void;
   handleRemove: () => void;
   index: number;
+  names: string[];
 };
-const RowEditor = ({ row, index, handleChange, handleRemove }: NameColorMapRowProps) => {
+const RowEditor = ({ row, index, handleChange, handleRemove, names }: NameColorMapRowProps) => {
+  const { t } = useTranslation();
   const [touched, { setTrue: setTouched }] = useBoolean(false);
   const [hovering, { setTrue, setFalse }] = useBoolean(false);
   const { ref, handleRef } = useSortable({
@@ -66,12 +78,15 @@ const RowEditor = ({ row, index, handleChange, handleRemove }: NameColorMapRowPr
         )}
       </Center>
       <Group grow wrap="nowrap" style={{ flex: 1 }}>
-        <TextInput
+        <Autocomplete
           size="xs"
           value={row.name}
-          onChange={(e) => changeName(e.currentTarget.value)}
+          placeholder={t('viz.pie_chart.color.map.name')}
+          onChange={changeName}
           onClick={setTouched}
           error={touched && !row.name}
+          data={names}
+          maxDropdownHeight={500}
         />
         <ColorInput
           styles={{
@@ -97,14 +112,36 @@ const RowEditor = ({ row, index, handleChange, handleRemove }: NameColorMapRowPr
   );
 };
 
+type AddARowProps = {
+  append: (v: NameColorMapRow) => void;
+};
+const AddARow = ({ append }: AddARowProps) => {
+  const { t } = useTranslation();
+
+  const add = () => {
+    append({ name: '', color: '' });
+  };
+  return (
+    <Flex gap="sm" justify="flex-start" align="center" direction="row" wrap="nowrap">
+      <div style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }} />
+      <Group wrap="nowrap" style={{ flex: 1 }}>
+        <Button size="xs" variant="subtle" onClick={add} leftSection={<IconPlus size={14} />}>
+          {t('viz.pie_chart.color.map.add_a_row')}
+        </Button>
+      </Group>
+      <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }} />
+    </Flex>
+  );
+};
+
 type Props = {
   value: NameColorMapRow[];
   onChange: (v: NameColorMapRow[]) => void;
   zIndex?: number;
+  names: string[];
 };
 
-export const PieColorMapEditor = forwardRef(({ value, onChange, zIndex = 340 }: Props, ref: Ref<HTMLDivElement>) => {
-  const { t } = useTranslation();
+export const PieColorMapEditor = forwardRef<HTMLDivElement, Props>(({ value, onChange, zIndex = 340, names }, ref) => {
   const rows = useMemo(() => {
     return value.map((r) => ({
       id: uuidv4(),
@@ -129,20 +166,6 @@ export const PieColorMapEditor = forwardRef(({ value, onChange, zIndex = 340 }: 
     onChange(newValue);
   };
 
-  const [newName, setNewName] = useState('');
-  const [newColor, setNewColor] = useState('');
-  const addNewColor = () => {
-    if (newColor) {
-      append({ name: '', color: newColor });
-      setNewColor('');
-    }
-  };
-  const addNewName = () => {
-    if (newName) {
-      append({ name: newName, color: '' });
-      setNewName('');
-    }
-  };
   const onDragEnd = (event: any) => {
     const { source, target } = event.operation;
     const newRows = move(rows, source, target);
@@ -159,33 +182,11 @@ export const PieColorMapEditor = forwardRef(({ value, onChange, zIndex = 340 }: 
             handleChange={getChangeHandler(index)}
             handleRemove={() => remove(index)}
             index={index}
+            names={names}
           />
         ))}
       </DragDropProvider>
-      <Flex gap="sm" justify="flex-start" align="center" direction="row" wrap="nowrap">
-        <div style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }} />
-        <Group grow wrap="nowrap" style={{ flex: 1 }}>
-          <TextInput
-            size="xs"
-            value={newName}
-            onChange={(e) => setNewName(e.currentTarget.value)}
-            onBlur={addNewName}
-            placeholder={t('viz.pie_chart.color.map.add_by_name')}
-          />
-          <ColorInput
-            popoverProps={{
-              withinPortal: true,
-              zIndex,
-            }}
-            placeholder={t('chart.color.click_to_add_a_color')}
-            value={newColor}
-            onChange={setNewColor}
-            onBlur={addNewColor}
-            size="xs"
-          />
-        </Group>
-        <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }} />
-      </Flex>
+      <AddARow append={append} />
     </Stack>
   );
 });
