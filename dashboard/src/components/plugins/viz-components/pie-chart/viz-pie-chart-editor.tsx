@@ -9,7 +9,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { FieldArrayTabs, VizConfigBanner } from '../../editor-components';
 import { RadiusSlider } from './editors';
 import { IPieChartConf } from './type';
-import { PieColorMapEditor } from './editors/pie-color-map';
+import { PieColorMapEditor } from './editors/pie-color-map-editor';
 import { useEditPanelContext } from '~/contexts';
 import { extractData } from '~/utils';
 import _ from 'lodash';
