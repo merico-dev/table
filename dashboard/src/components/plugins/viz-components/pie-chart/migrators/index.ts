@@ -37,7 +37,7 @@ export function v4(legacyConf: any): IPieChartConf {
 }
 
 export function v5(legacyConf: any): IPieChartConf {
-  const { color, ...rest } = legacyConf;
+  const { color = { map: [] }, ...rest } = legacyConf;
   return {
     ...rest,
     color: {
