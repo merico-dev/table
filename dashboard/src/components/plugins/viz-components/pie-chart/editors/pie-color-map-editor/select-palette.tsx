@@ -49,7 +49,6 @@ export const SelectPalette = ({ value, onChange }: Props) => {
       withArrow
       shadow="md"
       width={400}
-      defaultOpened
       styles={{
         item: {
           overflowX: 'hidden',
