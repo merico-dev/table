@@ -1,7 +1,6 @@
 import { set } from 'lodash';
+import { getColorFeed, parseDataKey } from '~/utils';
 import { IPieChartConf } from '../type';
-import { getColorFeed } from '~/utils';
-import { parseDataKey } from '~/utils';
 
 type TDataItem = {
   name: string;
@@ -9,20 +8,37 @@ type TDataItem = {
   color?: string;
 };
 
+type NameColorMap = Record<string, string>;
+
+function getColor(row: Record<string, any>, colorColumnKey: string, name: string, colorMap: NameColorMap) {
+  const mappedColor = colorMap[name];
+  if (mappedColor) {
+    return mappedColor;
+  }
+  return colorColumnKey ? row[colorColumnKey] : undefined;
+}
+
 export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) {
-  const { label_field, value_field, color_field } = conf;
+  const { label_field, value_field, color_field, color } = conf;
   if (!label_field || !value_field) {
     return {};
   }
   const label = parseDataKey(label_field);
   const value = parseDataKey(value_field);
-  const color = parseDataKey(color_field);
+  const colorDataKey = parseDataKey(color_field);
+  const colorMap = color.map.reduce((acc, curr) => {
+    acc[curr.name] = curr.color;
+    return acc;
+  }, {} as NameColorMap);
 
-  const chartData: TDataItem[] = data[label.queryID].map((d) => ({
-    name: d[label.columnKey],
-    value: Number(d[value.columnKey]),
-    color: color.columnKey ? d[color.columnKey] : undefined,
-  }));
+  const chartData: TDataItem[] = data[label.queryID].map((d) => {
+    const name = d[label.columnKey];
+    return {
+      name,
+      value: Number(d[value.columnKey]),
+      color: getColor(d, colorDataKey.columnKey, name, colorMap),
+    };
+  });
 
   const colorFeed = getColorFeed('multiple');
   return {
