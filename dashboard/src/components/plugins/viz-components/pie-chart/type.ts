@@ -1,10 +1,14 @@
+export type NameColorMapRow = {
+  name: string;
+  color: string;
+};
 export interface IPieChartConf {
   label_field: TDataKey;
   value_field: TDataKey;
   color_field: TDataKey;
   radius: [string, string];
   color: {
-    map: { name: string; color: string }[];
+    map: NameColorMapRow[];
   };
 }
 
