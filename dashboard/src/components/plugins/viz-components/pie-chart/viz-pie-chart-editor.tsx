@@ -1,4 +1,4 @@
-import { Stack } from '@mantine/core';
+import { Divider, Stack, Text } from '@mantine/core';
 import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -6,9 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { VizConfigBanner } from '../../editor-components';
+import { FieldArrayTabs, VizConfigBanner } from '../../editor-components';
 import { RadiusSlider } from './editors';
 import { IPieChartConf } from './type';
+import { PieColorMapEditor } from './editors/pie-color-map-editor';
+import { useEditPanelContext } from '~/contexts';
+import { extractData } from '~/utils';
+import _ from 'lodash';
 
 type StorageData = ReturnType<typeof useStorageData<IPieChartConf>>;
 
@@ -26,7 +30,16 @@ function Editor({ conf, setConf, context }: EditorProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['label_field', 'value_field', 'color_field']);
+  const [label_field] = watch(['label_field', 'value_field', 'color_field', 'color']);
+
+  const { panel } = useEditPanelContext();
+  const names = useMemo(() => {
+    if (!label_field) {
+      return [];
+    }
+    const data = extractData(panel.data, label_field);
+    return _.uniq(data);
+  }, [label_field, panel.data]);
 
   return (
     <Stack gap="xs">
@@ -45,13 +58,20 @@ function Editor({ conf, setConf, context }: EditorProps) {
           />
           <Controller
             control={control}
+            name="radius"
+            render={({ field }) => <RadiusSlider label={t('viz.pie_chart.radius.label')} {...field} />}
+          />
+          <Divider label={t('chart.color.label')} labelPosition="center" variant="dashed" />
+          <Controller
+            control={control}
             name="color_field"
             render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
+
           <Controller
             control={control}
-            name="radius"
-            render={({ field }) => <RadiusSlider label={t('viz.pie_chart.radius.label')} {...field} />}
+            name="color.map"
+            render={({ field }) => <PieColorMapEditor names={names} {...field} />}
           />
         </Stack>
       </form>
