@@ -27,7 +27,11 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
   const value = parseDataKey(value_field);
   const colorDataKey = parseDataKey(color_field);
   const colorMap = color.map.reduce((acc, curr) => {
-    acc[curr.name] = curr.color;
+    const { name, color } = curr;
+    if (!name || !color) {
+      return acc;
+    }
+    acc[name] = color;
     return acc;
   }, {} as NameColorMap);
 
