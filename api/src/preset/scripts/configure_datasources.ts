@@ -47,6 +47,10 @@ class PresetDatasources {
   @ValidateNested({ each: true })
   @Type(() => DatabaseSource)
   http: DatabaseSource[];
+
+  @ValidateNested({ each: true })
+  @Type(() => DatabaseSource)
+  merico_metric_system: DatabaseSource[];
 }
 
 async function upsert() {
@@ -106,6 +110,21 @@ async function upsert() {
       if (!dataSource) {
         dataSource = new DataSource();
         dataSource.type = 'http';
+        dataSource.key = key;
+      }
+      dataSource.config = config;
+      dataSource.is_preset = true;
+      await datasourceRepo.save(dataSource);
+    }
+
+    for (const source of data.merico_metric_system) {
+      const { key } = validateClass(DatabaseSource, source);
+      const config = validateClass(BaseConfig, source.config);
+      let dataSource: DataSource | null;
+      dataSource = await datasourceRepo.findOneBy({ type: 'merico_metric_system', key });
+      if (!dataSource) {
+        dataSource = new DataSource();
+        dataSource.type = 'merico_metric_system';
         dataSource.key = key;
       }
       dataSource.config = config;
