@@ -20,6 +20,7 @@ import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-st
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { useTranslation } from 'react-i18next';
 import { IconPlaylistAdd, IconTrash } from '@tabler/icons-react';
+import { useMemo } from 'react';
 
 interface IFilterEditorMultiSelect {
   filter: FilterMetaInstance;
@@ -39,8 +40,8 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   };
 
   const staticOptionFields = config.static_options;
+  const validStaticOptions = staticOptionFields.filter((o) => o.value !== '' && o.label !== '');
 
-  const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
       <Group justify="space-between">
@@ -74,10 +75,11 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
             </Center>
           </>
         )}
-        {staticOptionFields.length > 0 && (
+        {validStaticOptions.length > 0 && (
           <MultiSelect
             label={t('filter.widget.select.default_selection')}
-            data={optionsForDefaultValue}
+            placeholder={t('filter.widget.select.no_default_selection')}
+            data={validStaticOptions}
             value={[...config.default_value]}
             onChange={config.setDefaultValue}
           />
