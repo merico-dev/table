@@ -61,7 +61,10 @@ export const StaticOptions = observer(({ config }: Props) => {
   const { t, i18n } = useTranslation();
   const staticOptionFields = [...config.static_options];
   const optionsForDefaultValue = useMemo(() => {
-    return [{ label: t('filter.widget.select.no_default_selection'), value: '' }, ...staticOptionFields];
+    return [
+      { label: t('filter.widget.select.no_default_selection'), value: '' },
+      ...staticOptionFields.filter((o) => o.value !== ''),
+    ];
   }, [i18n.language, staticOptionFields]);
 
   if (staticOptionFields.length === 0) {
