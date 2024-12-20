@@ -21,7 +21,7 @@ type LocalFilterMetaSnapshotOut = {
 
 export function getStaticDefaultValue(filter: LocalFilterMetaSnapshotOut) {
   const config = filter.config;
-  const v = config.default_value;
+  const v = config?.default_value;
 
   if (v === undefined) {
     return v;
