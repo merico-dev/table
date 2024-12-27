@@ -7,6 +7,7 @@ import { defineConfig } from 'vitest/config';
 import { dependencies, peerDependencies } from './package.json';
 import { writeVersionFile } from './rollup-plugin-write-version-file';
 import * as path from 'path';
+import { escapeRegExp } from 'lodash';
 
 const GLOBAL_MODULE_IDS = {
   'crypto-js': 'CryptoJS',
@@ -21,32 +22,31 @@ const EXTERNAL_PATHS = [
   'echarts-for-react/lib/core',
   '/node_modules/echarts',
   '/node_modules/dayjs',
-  /^dayjs\/plugin/,
-  /^dayjs$/,
-  // babel transforms module id of emotion, we need to exclude all of them
-  /^@emotion/,
 ];
 
-function shouldExternalize(id: string) {
-  // check id against external paths
-  for (const path of EXTERNAL_PATHS) {
-    if (typeof path === 'string') {
-      if (id.includes(path)) {
-        return true;
-      }
-    } else if (path.test(id)) {
-      return true;
-    }
+class ModuleExternalizer {
+  makeModuleIdMatcher(id: string) {
+    return new RegExp(`^${escapeRegExp(id)}`);
   }
-  return false;
+  dependencies = Object.keys(dependencies)
+    .concat(Object.keys(peerDependencies))
+    .concat([
+      // babel transforms module id of emotion, we need to exclude all of them
+      '@emotion',
+    ])
+    .map((it) => this.makeModuleIdMatcher(it));
+  extraPaths = ['/node_modules/echarts', '/node_modules/dayjs'].map((it) => new RegExp(escapeRegExp(it)));
+  matchers = this.dependencies.concat(this.extraPaths);
+
+  shouldExternalize(id: string) {
+    return this.matchers.some((matcher) => matcher.test(id));
+  }
 }
 
-const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
+const moduleExternalizer = new ModuleExternalizer();
+
 const externals = (id: string) => {
-  if (shouldExternalize(id)) {
-    return true;
-  }
-  return DEPENDENCIES.has(id);
+  return moduleExternalizer.shouldExternalize(id);
 };
 
 export default defineConfig({
