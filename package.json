@@ -1,6 +1,6 @@
 {
   "name": "@devtable/root",
-  "version": "14.3.6",
+  "version": "14.4.1",
   "private": true,
   "workspaces": [
     "api",

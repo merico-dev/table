@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Group, Stack, Switch, Table, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, Stack, Table, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
@@ -6,6 +6,7 @@ import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/da
 import { MericoMetricQueryMetaInstance } from '~/model';
 import { RunByCheckbox } from './run-by-checkbox';
 import { MetricTableStyles } from './table-styles';
+import { TimeQuerySwitch } from './time-query-switch';
 import { VariableSelector } from './variable-selector';
 import { VariableStat } from './variable-stats';
 
@@ -15,7 +16,7 @@ const TrendingDateSettings = observer(({ queryModel }: Props) => {
   const mmInfo = ds.mericoMetricInfo;
   const metric = mmInfo.metricDetail;
   const trendingDateCol = metric.trendingDateCol;
-  if (!config.timeQuery.enabled || !trendingDateCol) {
+  if (!config.timeQuery.enabled || !metric.supportTrending) {
     return null;
   }
 
@@ -38,9 +39,9 @@ const TrendingDateSettings = observer(({ queryModel }: Props) => {
         <Table.Tr key="dimension.time">
           <Table.Td pr={0}>
             <Group gap={4}>
-              <Text size="xs">时间维度：</Text>
+              <Text size="xs">时间维度</Text>
               <Text size="xs" c="dimmed" ff="monospace">
-                {trendingDateCol.name}
+                {trendingDateCol?.name ?? null}
               </Text>
             </Group>
           </Table.Td>
@@ -87,12 +88,6 @@ type Props = {
   queryModel: QueryModelInstance;
 };
 export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
-  const config = queryModel.config as MericoMetricQueryMetaInstance;
-  const ds = queryModel.datasource as DataSourceModelInstance;
-  const mmInfo = ds.mericoMetricInfo;
-  const metric = mmInfo.metricDetail;
-  const trendingDateCol = metric.trendingDateCol;
-
   return (
     <Stack gap={7}>
       <Group justify="flex-start" gap={8}>
@@ -102,20 +97,7 @@ export const LinkMetricsToTimeAndStep = observer(({ queryModel }: Props) => {
             <IconInfoCircle />
           </ActionIcon>
         </Tooltip>
-        {trendingDateCol ? (
-          <Switch
-            size="xs"
-            color="red"
-            checked={config.timeQuery.enabled}
-            onChange={(e) => config.setTimeQueryEnabled(e.currentTarget.checked)}
-          />
-        ) : (
-          <Tooltip label="由于指标未设定时序维度，所以不具备时间序列展示功能。">
-            <Box>
-              <Switch size="xs" color="red" disabled={!trendingDateCol} />
-            </Box>
-          </Tooltip>
-        )}
+        <TimeQuerySwitch queryModel={queryModel} />
       </Group>
 
       <TrendingDateSettings queryModel={queryModel} />

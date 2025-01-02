@@ -8,20 +8,51 @@ import {
   MetricSourceCol,
 } from './metric-detail.types';
 
+const TrendingCalculationTypeSet = new Set(['yoy_ratio', 'step_ratio', 'span_steps_calculation']);
+const DerivedCalculationLabelMap = {
+  accumulate: '累计计算',
+  yoy_ratio: '年同比率（yoy）',
+  step_ratio: '环比率',
+  span_steps_calculation: '移动计算',
+  percentage_total: '总占',
+} as const;
+
 export function parseData(data: MetricDetail) {
   if ('cols' in data) {
     const { cols } = data as DerivedMetric;
+    const trendingDateCol = cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null;
+    const requireTrendingReason = TrendingCalculationTypeSet.has(data.calculation)
+      ? `当前指标涉及 ${_.get(
+          DerivedCalculationLabelMap,
+          data.calculation!,
+          data.calculation,
+        )}，缺少时序则无法展示有效结果。
+`
+      : '';
     return {
       filters: cols.filter((c) => c.type === 'filter').map((c) => c.metricSourceCol),
       groupBys: cols.filter((c) => c.type === 'group_by').map((c) => c.metricSourceCol),
-      trendingDateCol: cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null,
+      trendingDateCol,
+      supportTrending: !!trendingDateCol,
+      requireTrendingReason,
     };
   }
+
+  const calcs = _.uniq(data.derivedMetrics.map((it) => it.calculation)).filter((calc) =>
+    TrendingCalculationTypeSet.has(calc),
+  );
+  const requireTrendingReason = data.supportTrending
+    ? `当前指标涉及 ${calcs
+        .map((it) => _.get(DerivedCalculationLabelMap, it, it))
+        .join('、')}，缺少时序则无法展示有效结果。`
+    : '';
 
   return {
     filters: data.filters,
     groupBys: data.groupBys,
     trendingDateCol: null,
+    supportTrending: data.supportTrending && calcs.length > 0,
+    requireTrendingReason, // supportTrending, then requireTrending
   };
 }
 
