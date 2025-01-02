@@ -55,6 +55,7 @@ export const InputStyles = {
   },
   input: {
     paddingInlineStart: 'var(--input-padding-inline-start)',
+    height: 'auto',
     color: 'black',
     fontFamily: 'monospace',
   },

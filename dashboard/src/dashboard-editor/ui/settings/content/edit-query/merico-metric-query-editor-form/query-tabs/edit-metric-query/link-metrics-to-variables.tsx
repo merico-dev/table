@@ -35,7 +35,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
 
       <Table withTableBorder withColumnBorders layout="fixed" styles={MetricTableStyles}>
         <colgroup>
-          <col style={{ width: 250 }} />
+          <col style={{ width: '49%' }} />
           <col />
           <col style={{ width: 130 }} />
           <col style={{ width: 40 }} />
