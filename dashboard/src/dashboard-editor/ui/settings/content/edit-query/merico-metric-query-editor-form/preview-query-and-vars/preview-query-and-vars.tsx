@@ -13,6 +13,8 @@ export const PreviewQueryAndVars = observer(({ queryModel }: Props) => {
   return (
     <Tabs
       defaultValue="看板变量预览"
+      w="40%"
+      maw="600px"
       styles={{
         root: {
           borderRadius: 4,

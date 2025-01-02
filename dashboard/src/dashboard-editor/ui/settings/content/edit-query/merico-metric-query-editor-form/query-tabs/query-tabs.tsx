@@ -37,7 +37,7 @@ export const QueryTabs = observer(({ queryModel }: Props) => {
   const [activeTab, setActiveTab] = useState<string | null>('编辑查询');
 
   return (
-    <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles} value={activeTab} onChange={setActiveTab}>
+    <Tabs color="red" defaultValue="编辑查询" styles={TabsStyles} value={activeTab} onChange={setActiveTab} w="60%">
       <Tabs.List>
         <Tabs.Tab value="编辑查询" size="xs">
           编辑查询
