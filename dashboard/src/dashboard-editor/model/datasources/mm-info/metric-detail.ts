@@ -6,7 +6,7 @@ import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import { postProcessWithDataSource, preProcessWithDataSource } from '~/utils';
-import { CombinedMetricCol, MetricDetail, MetricSourceCol } from './metric-detail.types';
+import { CombinedMetric, CombinedMetricCol, DerivedMetric, MetricDetail, MetricSourceCol } from './metric-detail.types';
 import { makeFilterColOptions, makeGroupByColOptions, MetricGroupByColOption, parseData } from './metric-detail.utils';
 
 function getURLByType(type: 'derived' | 'combined', id: string) {
@@ -29,6 +29,8 @@ export const MetricDetailModel = types
     filters: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
     groupBys: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
     trendingDateCol: types.optional(types.frozen<MetricSourceCol | null>(), null),
+    supportTrending: types.optional(types.boolean, false),
+    requireTrendingReason: types.optional(types.string, ''),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
@@ -106,10 +108,12 @@ export const MetricDetailModel = types
         );
         const result = postProcessWithDataSource(self.mmInfo.dataSource, response);
         const data = _.cloneDeep(result.data);
-        const { filters, groupBys, trendingDateCol } = parseData(result.data);
+        const { filters, groupBys, trendingDateCol, supportTrending, requireTrendingReason } = parseData(result.data);
         self.data = data;
         self.filters = filters;
         self.groupBys = groupBys;
+        self.supportTrending = supportTrending;
+        self.requireTrendingReason = requireTrendingReason;
         self.trendingDateCol = trendingDateCol;
         self.state = 'idle';
         self.error = null;

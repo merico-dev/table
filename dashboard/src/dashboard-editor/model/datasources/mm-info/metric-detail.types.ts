@@ -35,10 +35,12 @@ export type DimensionCol = {
   dimensionFieldId: string | null;
   metricSourceCol: MetricSourceCol;
 };
+
 export type DerivedMetric = {
   id: string;
   name: string;
   description: string;
+  calculation: 'accumulate' | 'percentage_total' | 'yoy_ratio' | 'step_ratio' | 'span_steps_calculation';
   cols: DimensionCol[];
 };
 
@@ -49,6 +51,8 @@ export type CombinedMetric = {
   description: string;
   filters: CombinedMetricCol[];
   groupBys: CombinedMetricCol[];
+  derivedMetrics: DerivedMetric[];
+  supportTrending: boolean;
 };
 
 export type MetricDetail = DerivedMetric | CombinedMetric;
