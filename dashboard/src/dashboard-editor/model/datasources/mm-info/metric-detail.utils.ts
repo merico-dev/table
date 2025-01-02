@@ -38,9 +38,9 @@ export function parseData(data: MetricDetail) {
     };
   }
 
-  const calcs = _.uniq(data.derivedMetrics.map((it) => it.calculation))
-    .filter((calc) => TrendingCalculationTypeSet.has(calc))
-    .concat(['span_steps_calculation', 'step_ratio', 'yoy_ratio']);
+  const calcs = _.uniq(data.derivedMetrics.map((it) => it.calculation)).filter((calc) =>
+    TrendingCalculationTypeSet.has(calc),
+  );
   const requireTrendingReason = data.supportTrending
     ? `当前指标涉及 ${calcs
         .map((it) => _.get(DerivedCalculationLabelMap, it, it))
