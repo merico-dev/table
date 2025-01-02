@@ -33,6 +33,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
         title: t('common.state.successful'),
         message: t('datasource.state.updated'),
         color: 'green',
+        loading: false,
         autoClose: true,
       });
       postSubmit();
@@ -42,6 +43,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
         title: t('common.state.failed'),
         message: error.message,
         color: 'red',
+        loading: false,
         autoClose: true,
       });
     }
