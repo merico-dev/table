@@ -105,7 +105,7 @@ export const DimensionSelector = observer(({ mmInfo, value, onChange, usedKeys }
       <Combobox.Target>{error ? <Tooltip label={error}>{Trigger}</Tooltip> : Trigger}</Combobox.Target>
 
       <Combobox.Dropdown miw={300}>
-        <Combobox.Options>
+        <Combobox.Options mah={500} style={{ overflowY: 'auto' }}>
           {options.map(({ group, items }) => (
             <Combobox.Group key={group} label={group}>
               {items.map((item) => {
