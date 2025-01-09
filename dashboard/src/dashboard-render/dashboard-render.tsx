@@ -1,10 +1,10 @@
 import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-import { useCreation, useRequest, useWhyDidYouUpdate } from 'ahooks';
+import { useCreation, useLatest, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
-import { PluginContext, createPluginContext } from '~/components/plugins';
+import { createPluginContext, PluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewRender } from '~/components/view';
 import {
@@ -20,13 +20,14 @@ import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType, TabInfo } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
 import { registerECharts } from '~/utils';
-import { IDashboardConfig } from '..';
+import { DashboardRenderModelInstance, IDashboardConfig } from '..';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
 import { MantineEmotionProvider } from '@mantine/emotion';
+import { comparer, reaction } from 'mobx';
 
 registerThemes();
 registerECharts();
@@ -92,20 +93,14 @@ const _ReadOnlyDashboard = ({
     model.globalSQLSnippets.replace(globalSQLSnippets);
   }, [globalSQLSnippets]);
 
-  React.useEffect(() => {
-    console.log('⚪️ calling onFilterValuesChange: ', model.content.filters.values);
-    onFilterValuesChange?.(model.content.filters.values);
-  }, [onFilterValuesChange, model.content.filters.valuesString]);
+  useNotifyValueChange('onFilterValuesChange', onFilterValuesChange, () => model.content.filters.values);
+  useNotifyValueChange('onActiveTabChange', onActiveTabChange, () => model.content.views.firstVisibleTabsViewActiveTab);
 
   React.useEffect(() => {
     if (filterValues) {
       model.content.filters.patchValues(filterValues);
     }
   }, [filterValues, model.content.filters.patchValues]);
-
-  React.useEffect(() => {
-    onActiveTabChange?.(model.content.views.firstVisibleTabsViewActiveTab);
-  }, [onActiveTabChange, model.content.views.firstVisibleTabsViewActiveTabStr]);
 
   React.useEffect(() => {
     if (activeTab) {
@@ -171,3 +166,20 @@ const _ReadOnlyDashboard = ({
 };
 
 export const ReadOnlyDashboard = observer(_ReadOnlyDashboard);
+
+function useNotifyValueChange<T>(logName: string, onValueChange: ((val: T) => void) | undefined, getter: () => T) {
+  const callbackRef = useLatest(onValueChange);
+  React.useEffect(() => {
+    const dispose = reaction(
+      () => getter(),
+      (val) => {
+        console.log(`⚪️ calling ${logName} callback: `, val);
+        callbackRef.current?.(val);
+      },
+      {
+        equals: comparer.structural,
+      },
+    );
+    return () => dispose();
+  }, [getter, callbackRef]);
+}
