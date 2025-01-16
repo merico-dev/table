@@ -3,6 +3,7 @@ import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { PanelContextProvider } from '~/contexts/panel-context';
+import { PanelAddonProvider } from '~/components/plugins/panel-addon';
 import { PanelRenderModelInstance } from '~/model';
 import { DescriptionPopover } from './description-popover';
 import './panel-render-base.css';
@@ -20,7 +21,6 @@ const baseStyle: EmotionSx = { border: '1px solid #e9ecef' };
 
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
-  const titleHeight = panel.title.show ? '60px' : '28px';
   return (
     <PanelContextProvider
       value={{
@@ -40,12 +40,14 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
           ...panelStyle,
         }}
       >
-        <Box className="panel-description-popover-wrapper">
-          <DescriptionPopover />
-        </Box>
-        {dropdownContent}
-        <PanelTitleBar />
-        <PanelVizSection panel={panel} />
+        <PanelAddonProvider>
+          <Box className="panel-description-popover-wrapper">
+            <DescriptionPopover />
+          </Box>
+          {dropdownContent}
+          <PanelTitleBar />
+          <PanelVizSection panel={panel} />
+        </PanelAddonProvider>
       </Box>
     </PanelContextProvider>
   );

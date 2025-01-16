@@ -7,6 +7,7 @@ export function useTopLevelServices(pluginContext: IPluginContextProps) {
     return services
       .provideValue(tokens.pluginManager, pluginContext.pluginManager)
       .provideValue(tokens.vizManager, pluginContext.vizManager)
+      .provideValue(tokens.panelAddonManager, pluginContext.panelAddonManager)
       .provideValue(tokens.colorManager, pluginContext.colorManager);
   }, []);
 }

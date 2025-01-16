@@ -105,6 +105,7 @@ export type TranslationPatch = {
   lang: 'en' | 'zh';
   resources: Record<string, any>;
 }[];
+
 export interface VizComponent {
   name: string;
   displayName?: string;
@@ -130,9 +131,20 @@ export interface IConfigMigrator extends IPanelScopeConfigMigrator {
   migrate(ctx: IConfigMigrationContext): Promise<void>;
 }
 
+export interface IPanelAddonRenderProps {
+  viz: VizInstance;
+  isInEditMode: boolean;
+}
+
+export interface IPanelAddon {
+  name: string;
+  addonRender: React.ComponentType<IPanelAddonRenderProps>;
+}
+
 export interface IPluginManifest {
   viz: VizComponent[];
   color: IColorPaletteItem[];
+  panelAddon?: IPanelAddon[];
 }
 
 export interface IDashboardPlugin {
@@ -208,7 +220,9 @@ export interface IVizTriggerManager {
   retrieveTrigger(id: string): Promise<ITrigger | undefined>;
 
   watchTriggerSnapshotList(callback: (triggerList: ITriggerSnapshot<AnyObject>[]) => void): () => void;
+
   needMigration(): Promise<boolean>;
+
   runMigration(): Promise<void>;
 }
 
@@ -242,6 +256,7 @@ export interface IVizOperationManager {
   retrieveTrigger(operationId: string): Promise<IDashboardOperation | undefined>;
 
   runMigration(): Promise<void>;
+
   needMigration(): Promise<boolean>;
 }
 

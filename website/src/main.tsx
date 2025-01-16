@@ -21,6 +21,7 @@ import { SQLSnippetPage } from './pages/sql-snippet-page';
 import { StatusPage } from './pages/status-page';
 import { MantineProviders } from './utils/mantine-providers';
 import('./utils/configure-monaco-editor');
+import './utils/install-dashboard-website-plugin';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(

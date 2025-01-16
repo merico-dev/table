@@ -1,4 +1,6 @@
 import { ButtonProps } from '@mantine/core';
+import './init-dayjs';
+import './i18n';
 
 export const getVersion = () =>
   import('../package.json').then(({ version }) => {
@@ -16,9 +18,6 @@ export * from './model';
 export * from './api-caller/request';
 export type { AnyObject } from './types/utils';
 
-import './init-dayjs';
-import './i18n';
-
 // NOTE: keep it align with global.d.ts
 export interface IDashboardConfig {
   basename: string;
@@ -29,3 +28,6 @@ export interface IDashboardConfig {
   monacoPath: string;
   searchButtonProps: ButtonProps;
 }
+
+export { pluginManager } from './components/plugins';
+export { type IPanelAddon, type IPanelAddonRenderProps } from './types/plugin';
