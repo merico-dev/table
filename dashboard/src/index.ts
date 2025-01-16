@@ -1,6 +1,6 @@
 import { ButtonProps } from '@mantine/core';
 import './init-dayjs';
-import './i18n'; // NOTE: keep it align with global.d.ts
+import './i18n';
 
 export const getVersion = () =>
   import('../package.json').then(({ version }) => {
