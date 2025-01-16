@@ -12,7 +12,8 @@ import {
 } from '~/components/plugins/service/service-locator/use-service-locator';
 import { WidthAndHeight } from '~/components/plugins/viz-manager/components';
 import { ErrorBoundary } from '~/utils';
-import { useRenderPanelContext } from '../../../../contexts';
+import { usePanelAddonSlot } from '~/components/plugins/panel-addon';
+import { LayoutStateContext, useRenderPanelContext } from '../../../../contexts';
 import { IViewPanelInfo, PluginContext, tokens } from '../../../plugins';
 import { PluginVizViewComponent } from '../../plugin-adaptor';
 import './viz.css';
@@ -44,7 +45,7 @@ function usePluginViz(data: TPanelData, measure: WidthAndHeight): ReactNode | nu
           variables={variables}
           vizManager={vizManager}
         />
-        <PanelVizAddons panelId={panel.id} />
+        <PanelVizAddons />
       </ServiceLocatorProvider>
     );
   } catch (e) {
@@ -70,13 +71,23 @@ export const Viz = observer(function _Viz({ data }: IViz) {
   );
 });
 
-export const PanelVizAddons = ({ panelId }: { panelId: string }) => {
+export const PanelVizAddons = () => {
   const sl = useServiceLocator();
   const instance = sl.getRequired(tokens.instanceScope.vizInstance);
+  const { inEditMode } = useContext(LayoutStateContext);
   const addonManager = sl.getRequired(tokens.panelAddonManager);
-  const panelRoot = document.getElementById(`panel-root-${panelId}`);
+  const panelRoot = usePanelAddonSlot();
   if (!panelRoot) {
     return null;
   }
-  return createPortal(<>{addonManager.createPanelAddonNode({ viz: instance })}</>, panelRoot, 'addon');
+  return createPortal(
+    <>
+      {addonManager.createPanelAddonNode({
+        viz: instance,
+        isInEditMode: inEditMode,
+      })}
+    </>,
+    panelRoot,
+    'addon',
+  );
 };

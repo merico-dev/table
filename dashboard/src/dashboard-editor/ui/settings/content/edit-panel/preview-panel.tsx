@@ -5,6 +5,7 @@ import '~/components/panel/panel-render/panel-render-base.css';
 import { PanelVizSection } from '~/components/panel/panel-render/viz/panel-viz-section';
 import { useRenderPanelContext } from '~/contexts';
 import { ErrorBoundary } from '~/utils';
+import { PanelAddonProvider } from '~/components/plugins/panel-addon';
 
 const PreviewTitleBar = observer(() => {
   const { panel } = useRenderPanelContext();
@@ -38,11 +39,13 @@ export const PreviewPanel = observer(() => {
           height: '450px !important',
         }}
       >
-        <Box className="panel-description-popover-wrapper">
-          <DescriptionPopover />
-        </Box>
-        <PreviewTitleBar />
-        <PanelVizSection panel={panel} />
+        <PanelAddonProvider>
+          <Box className="panel-description-popover-wrapper">
+            <DescriptionPopover />
+          </Box>
+          <PreviewTitleBar />
+          <PanelVizSection panel={panel} />
+        </PanelAddonProvider>
       </Box>
     </ErrorBoundary>
   );

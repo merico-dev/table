@@ -133,6 +133,7 @@ export interface IConfigMigrator extends IPanelScopeConfigMigrator {
 
 export interface IPanelAddonRenderProps {
   viz: VizInstance;
+  isInEditMode: boolean;
 }
 
 export interface IPanelAddon {
