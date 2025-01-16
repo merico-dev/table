@@ -1,15 +1,19 @@
 import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
+import { createPortal } from 'react-dom';
 
 import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
-import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
+import {
+  ServiceLocatorProvider,
+  useServiceLocator,
+} from '~/components/plugins/service/service-locator/use-service-locator';
 import { WidthAndHeight } from '~/components/plugins/viz-manager/components';
 import { ErrorBoundary } from '~/utils';
 import { useRenderPanelContext } from '../../../../contexts';
-import { IViewPanelInfo, PluginContext } from '../../../plugins';
+import { IViewPanelInfo, PluginContext, tokens } from '../../../plugins';
 import { PluginVizViewComponent } from '../../plugin-adaptor';
 import './viz.css';
 
@@ -40,6 +44,7 @@ function usePluginViz(data: TPanelData, measure: WidthAndHeight): ReactNode | nu
           variables={variables}
           vizManager={vizManager}
         />
+        <PanelVizAddons panelId={panel.id} />
       </ServiceLocatorProvider>
     );
   } catch (e) {
@@ -64,3 +69,14 @@ export const Viz = observer(function _Viz({ data }: IViz) {
     </div>
   );
 });
+
+export const PanelVizAddons = ({ panelId }: { panelId: string }) => {
+  const sl = useServiceLocator();
+  const instance = sl.getRequired(tokens.instanceScope.vizInstance);
+  const addonManager = sl.getRequired(tokens.panelAddonManager);
+  const panelRoot = document.getElementById(`panel-root-${panelId}`);
+  if (!panelRoot) {
+    return null;
+  }
+  return createPortal(<>{addonManager.createPanelAddonNode({ viz: instance })}</>, panelRoot, 'addon');
+};

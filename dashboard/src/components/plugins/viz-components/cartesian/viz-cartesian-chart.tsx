@@ -2,6 +2,7 @@ import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
+import { useLatest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -33,6 +34,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  onChartRenderFinished,
 }: {
   conf: ICartesianChartConf;
   data: TPanelData;
@@ -40,6 +42,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  onChartRenderFinished: (chartOptions: unknown) => void;
 }) {
   const rowDataMap = useRowDataMap(data, conf.x_axis_data_key);
 
@@ -60,13 +63,18 @@ function Chart({
   }, [conf, data]);
 
   const echartsRef = React.useRef<EChartsInstance>();
+  const onRenderFinishedRef = useLatest(onChartRenderFinished);
+  const handleEChartsFinished = useCallback(() => {
+    onRenderFinishedRef.current(echartsRef.current?.getOption());
+  }, []);
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
+      finished: handleEChartsFinished,
     };
   }, [handleSeriesClick]);
 
-  const onChartReady = (echartsInstance: EChartsInstance) => {
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
     echartsRef.current = echartsInstance;
     updateRegressionLinesColor(echartsInstance);
   };
@@ -85,7 +93,7 @@ function Chart({
       option={option}
       style={{ width, height }}
       onEvents={onEvents}
-      onChartReady={onChartReady}
+      onChartReady={handleChartReady}
       notMerge
       theme="merico-light"
     />
@@ -109,11 +117,16 @@ export const VizCartesianChart = observer(({ context, instance }: VizViewProps) 
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
 
+  function handleChartRenderFinished(chartOptions: unknown) {
+    instance.messageChannels.getChannel('viz').emit('rendered', chartOptions);
+  }
+
   return (
     <DefaultVizBox width={width} height={height}>
       <StatsAroundViz onHeightChange={setTopStatsHeight} value={conf.stats.top} context={context} />
 
       <Chart
+        onChartRenderFinished={handleChartRenderFinished}
         variables={variables}
         width={finalWidth}
         height={finalHeight}

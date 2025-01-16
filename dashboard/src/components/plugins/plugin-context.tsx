@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/components/plugins/colors';
 import { InstanceMigrator } from '~/components/plugins/instance-migrator';
 import { token } from '~/components/plugins/service/service-locator';
+import { PanelAddonManager } from '~/components/plugins/panel-addon';
 
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import {
@@ -39,12 +40,12 @@ import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-
 import { MericoEstimationChartVizComponent } from './viz-components/merico-estimation-chart';
 import { MericoStatsVizComponent } from './viz-components/merico-stats';
 import { MericoHeatmapVizComponent } from './viz-components/merico-heatmap';
-import _ from 'lodash';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
   vizManager: VizManager;
   colorManager: IColorManager;
+  panelAddonManager: PanelAddonManager;
 }
 
 const basicColors = [
@@ -170,6 +171,7 @@ export const tokens = {
   pluginManager: token<IPluginManager>('pluginManager'),
   vizManager: token<VizManager>('vizManager'),
   colorManager: token<IColorManager>('colorManager'),
+  panelAddonManager: token<PanelAddonManager>('panelAddonManager'),
   instanceScope: {
     panelModel: token<PanelModelInstance>('panelModel'),
     vizInstance: token<VizInstance>('vizInstance'),
@@ -189,7 +191,8 @@ export const createPluginContext = (): IPluginContextProps => {
   }
   const vizManager = new VizManager(pluginManager);
   const colorManager = new ColorManager(pluginManager);
-  return { pluginManager, vizManager, colorManager };
+  const panelAddonManager = new PanelAddonManager(pluginManager);
+  return { pluginManager, vizManager, colorManager, panelAddonManager };
 };
 
 export const PluginContext = createContext<IPluginContextProps>(createPluginContext());
