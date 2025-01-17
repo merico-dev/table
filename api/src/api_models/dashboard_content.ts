@@ -287,14 +287,16 @@ export class DashboardContentCreateRequest {
   name: string;
 
   @IsObject()
-  @Type(() => Content)
+  // Don't validate content when creating a content,
+  // so legacy content could have a chance to migrate.
+  // @Type(() => Content)
   @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'content stored in json object format',
     required: true,
     model: 'Content',
   })
-  content: Content;
+  content: Record<string, any>;
 
   @IsOptional()
   @Type(() => Authentication)
