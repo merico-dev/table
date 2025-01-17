@@ -68,6 +68,7 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
         title: 'Successful',
         message: 'A new dashboard is created',
         color: 'green',
+        loading: false,
         autoClose: true,
       });
       postSubmit();
@@ -78,6 +79,7 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
         title: 'Failed',
         message: error.message,
         color: 'red',
+        loading: false,
         autoClose: true,
       });
     }
