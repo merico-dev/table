@@ -70,6 +70,7 @@ export function OverwriteWithJSONForm({
         title: 'Successful',
         message: 'Dashboard is updated',
         color: 'green',
+        loading: false,
         autoClose: true,
       });
       postSubmit();
@@ -79,6 +80,7 @@ export function OverwriteWithJSONForm({
         title: 'Failed',
         message: error.message,
         color: 'red',
+        loading: false,
         autoClose: true,
       });
     } finally {
