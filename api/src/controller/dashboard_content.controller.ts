@@ -194,7 +194,7 @@ export class DashboardContentController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { id, name, content } = req.body as DashboardContentUpdateRequest;
-      const result = await this.dashboardContentService.update(id, name, content, req.locale, auth);
+      const result = await this.dashboardContentService.update(id, name, content as Content, req.locale, auth);
       let auth_id: string | null = null;
       let auth_type: 'APIKEY' | 'ACCOUNT' | null = null;
       if (auth) {
