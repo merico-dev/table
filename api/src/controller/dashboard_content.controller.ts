@@ -9,6 +9,7 @@ import { Account } from '../api_models/account';
 import { DashboardPermissionService } from '../services/dashboard_permission.service';
 import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket';
 import {
+  Content,
   DashboardContentCreateRequest,
   DashboardContentIDRequest,
   DashboardContentListRequest,
@@ -118,7 +119,7 @@ export class DashboardContentController implements interfaces.Controller {
         auth_role_id,
         auth_permissions,
       );
-      const result = await this.dashboardContentService.create(dashboard_id, name, content, req.locale);
+      const result = await this.dashboardContentService.create(dashboard_id, name, content as Content, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
@@ -193,7 +194,7 @@ export class DashboardContentController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { id, name, content } = req.body as DashboardContentUpdateRequest;
-      const result = await this.dashboardContentService.update(id, name, content, req.locale, auth);
+      const result = await this.dashboardContentService.update(id, name, content as Content, req.locale, auth);
       let auth_id: string | null = null;
       let auth_type: 'APIKEY' | 'ACCOUNT' | null = null;
       if (auth) {

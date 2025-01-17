@@ -287,14 +287,16 @@ export class DashboardContentCreateRequest {
   name: string;
 
   @IsObject()
-  @Type(() => Content)
+  // Don't validate content when creating a content,
+  // so legacy content could have a chance to migrate.
+  // @Type(() => Content)
   @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'content stored in json object format',
     required: true,
     model: 'Content',
   })
-  content: Content;
+  content: Record<string, any>;
 
   @IsOptional()
   @Type(() => Authentication)
@@ -330,14 +332,16 @@ export class DashboardContentUpdateRequest {
 
   @IsOptional()
   @IsObject()
-  @Type(() => Content)
+  // Don't validate content when updating a content,
+  // so legacy content from 'Overwrite with JSON file' could have a chance to migrate.
+  // @Type(() => Content)
   @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'content of the dashboard stored in json object format',
     required: false,
     model: 'Content',
   })
-  content?: Content;
+  content?: Record<string, any>;
 
   @IsOptional()
   @Type(() => Authentication)
