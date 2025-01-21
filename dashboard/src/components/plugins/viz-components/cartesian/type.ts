@@ -17,6 +17,7 @@ import {
 import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { EchartsLineAreaStyle } from '../../common-echarts-fields/line-area-style';
+import { SeriesOrder } from '../../common-echarts-fields/series-order';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -36,6 +37,7 @@ export interface ICartesianChartSeriesItem {
   smooth: boolean;
   step: false | 'start' | 'middle' | 'end';
   group_by_key: string;
+  order_in_group: SeriesOrder;
   aggregation_on_value?: AggregationType;
   lineStyle: {
     type: IEChartsLineType;

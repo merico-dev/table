@@ -13,6 +13,7 @@ export function getSeriesItemOrItems(
     label_position,
     name,
     group_by_key,
+    order_in_group,
     aggregation_on_value,
     stack,
     color,
@@ -89,7 +90,13 @@ export function getSeriesItemOrItems(
     x_axis_data_key,
     y_axis_data_key,
   });
-  return Object.entries(groupedData).map(([groupName, data]) => {
+
+  let groupedDataEntries = Object.entries(groupedData);
+  if (order_in_group.key === 'name') {
+    groupedDataEntries = _.orderBy(Object.entries(groupedData), 0, [order_in_group.order]);
+  }
+
+  return groupedDataEntries.map(([groupName, data]) => {
     const ret = cloneDeep(seriesItem);
     ret.name = groupName;
     ret.color = undefined;

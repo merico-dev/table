@@ -10,6 +10,7 @@ import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
 import { LineFields } from './fields.line';
 import { ScatterFields } from './fields.scatter';
+import { SeriesOrderSelector } from '~/components/plugins/common-echarts-fields/series-order';
 
 interface ISeriesItemField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -24,6 +25,7 @@ interface ISeriesItemField {
 export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: ISeriesItemField) {
   const { t } = useTranslation();
   const type = seriesItem.type;
+  const group_by_key = seriesItem.group_by_key;
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Stack>
@@ -101,6 +103,15 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
           )}
         />
       </Group>
+      {!!group_by_key && (
+        <Controller
+          name={`series.${index}.order_in_group`}
+          control={control}
+          render={({ field }) => (
+            <SeriesOrderSelector label={t('chart.series_order.label')} hiddenKeys={['value']} {...field} />
+          )}
+        />
+      )}
       {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'bar' && <BarFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'scatter' && <ScatterFields index={index} control={control} />}
