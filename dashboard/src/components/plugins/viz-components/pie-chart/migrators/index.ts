@@ -46,3 +46,11 @@ export function v5(legacyConf: any): IPieChartConf {
     },
   };
 }
+
+export function v6(legacyConf: any): IPieChartConf {
+  const { series_order = '', ...rest } = legacyConf;
+  return {
+    ...rest,
+    series_order,
+  };
+}

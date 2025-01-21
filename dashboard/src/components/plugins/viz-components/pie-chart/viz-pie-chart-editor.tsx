@@ -13,6 +13,7 @@ import { PieColorMapEditor } from './editors/pie-color-map-editor';
 import { useEditPanelContext } from '~/contexts';
 import { extractData } from '~/utils';
 import _ from 'lodash';
+import { SeriesOrderSelector } from '../../common-echarts-fields/series-order';
 
 type StorageData = ReturnType<typeof useStorageData<IPieChartConf>>;
 
@@ -55,6 +56,11 @@ function Editor({ conf, setConf, context }: EditorProps) {
             control={control}
             name="value_field"
             render={({ field }) => <DataFieldSelector label={t('common.value_data_field')} required {...field} />}
+          />
+          <Controller
+            control={control}
+            name="series_order"
+            render={({ field }) => <SeriesOrderSelector label={t('chart.series_order.label')} {...field} />}
           />
           <Controller
             control={control}
