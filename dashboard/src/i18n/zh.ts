@@ -624,6 +624,8 @@ export const zh = {
         name: '名称',
         value: '值',
         raw: '不排序，保持数据本身的顺序',
+        asc: '升序',
+        desc: '降序',
       },
       label: {
         label: '文案',

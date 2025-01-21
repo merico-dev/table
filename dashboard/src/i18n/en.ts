@@ -624,6 +624,8 @@ export const en = {
         name: 'Name',
         value: 'Value',
         raw: 'Record order',
+        asc: 'Ascending',
+        desc: 'Descending',
       },
       label: {
         label: 'Label',
