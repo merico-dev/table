@@ -1,6 +1,7 @@
 import { set } from 'lodash';
 import { getColorFeed, parseDataKey } from '~/utils';
 import { IPieChartConf } from '../type';
+import _ from 'lodash';
 
 type TDataItem = {
   name: string;
@@ -19,7 +20,7 @@ function getColor(row: Record<string, any>, colorColumnKey: string, name: string
 }
 
 export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) {
-  const { label_field, value_field, color_field, color } = conf;
+  const { label_field, value_field, series_order, color_field, color } = conf;
   if (!label_field || !value_field) {
     return {};
   }
@@ -35,7 +36,7 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
     return acc;
   }, {} as NameColorMap);
 
-  const chartData: TDataItem[] = data[label.queryID].map((d) => {
+  let chartData: TDataItem[] = data[label.queryID].map((d) => {
     const name = d[label.columnKey];
     return {
       name,
@@ -43,6 +44,9 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
       color: getColor(d, colorDataKey.columnKey, name, colorMap),
     };
   });
+  if (series_order) {
+    chartData = _.orderBy(chartData, [series_order.key], [series_order.order]);
+  }
 
   const colorFeed = getColorFeed('multiple');
   return {

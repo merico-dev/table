@@ -1,5 +1,6 @@
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
 import { IPieChartConf } from '../type';
+import { getDefaultSeriesOrder } from '~/components/plugins/common-echarts-fields/series-order';
 
 export function v2(legacyConf: $TSFixMe): IPieChartConf {
   const { color_field = '', ...rest } = legacyConf;
@@ -48,7 +49,7 @@ export function v5(legacyConf: any): IPieChartConf {
 }
 
 export function v6(legacyConf: any): IPieChartConf {
-  const { series_order = '', ...rest } = legacyConf;
+  const { series_order = getDefaultSeriesOrder(), ...rest } = legacyConf;
   return {
     ...rest,
     series_order,

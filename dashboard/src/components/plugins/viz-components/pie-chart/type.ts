@@ -1,4 +1,4 @@
-import { SeriesOrder } from '../../common-echarts-fields/series-order';
+import { getDefaultSeriesOrder, SeriesOrder } from '../../common-echarts-fields/series-order';
 
 export type NameColorMapRow = {
   name: string;
@@ -23,5 +23,5 @@ export const DEFAULT_CONFIG: IPieChartConf = {
   color: {
     map: [],
   },
-  series_order: '',
+  series_order: getDefaultSeriesOrder(),
 };
