@@ -619,6 +619,12 @@ export const en = {
         echarts_based_charts: 'ECharts-based charts',
         others: 'Others',
       },
+      series_order: {
+        label: 'Order series by...',
+        name: 'Name',
+        value: 'Value',
+        raw: 'Record order',
+      },
       label: {
         label: 'Label',
         label_full: 'Label',

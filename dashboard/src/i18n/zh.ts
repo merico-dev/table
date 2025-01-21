@@ -619,6 +619,12 @@ export const zh = {
         echarts_based_charts: '基于ECharts的图表',
         others: '其他',
       },
+      series_order: {
+        label: '排序依据',
+        name: '名称',
+        value: '值',
+        raw: '不排序，保持数据本身的顺序',
+      },
       label: {
         label: '文案',
         label_full: '标签文案',
