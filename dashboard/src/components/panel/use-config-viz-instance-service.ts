@@ -4,8 +4,9 @@ import { InstanceMigrator } from '~/components/plugins/instance-migrator';
 import { IServiceLocator } from '~/components/plugins/service/service-locator';
 import { useRenderPanelContext } from '~/contexts';
 import { InteractionManager, OPERATIONS } from '~/interactions';
+import { NullInteractionManager } from '~/interactions/null-interaction-manager';
 
-export function useConfigVizInstanceService(panel: IPanelInfo) {
+export function useConfigVizInstanceService(panel: IPanelInfo, withInteraction = true) {
   const { panel: panelModel } = useRenderPanelContext();
   return useCallback(
     (services: IServiceLocator) => {
@@ -16,7 +17,11 @@ export function useConfigVizInstanceService(panel: IPanelInfo) {
         .provideFactory(tokens.instanceScope.vizInstance, () => vizManager.getOrCreateInstance(panel))
         .provideFactory(tokens.instanceScope.interactionManager, (services) => {
           const instance = services.getRequired(tokens.instanceScope.vizInstance);
-          return new InteractionManager(instance, component, OPERATIONS);
+          if (withInteraction) {
+            return new InteractionManager(instance, component, OPERATIONS);
+          } else {
+            return new NullInteractionManager();
+          }
         })
         .provideFactory(tokens.instanceScope.operationManager, (services) => {
           // todo: create operation manager with instance
@@ -28,6 +33,6 @@ export function useConfigVizInstanceService(panel: IPanelInfo) {
         .provideValue(tokens.instanceScope.panelModel, panelModel)
         .provideFactory(tokens.instanceScope.migrator, (services) => new InstanceMigrator(services));
     },
-    [panel.viz.type, panel.viz.conf],
+    [panel.viz.type, panel.viz.conf, withInteraction],
   );
 }

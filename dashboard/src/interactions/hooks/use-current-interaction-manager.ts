@@ -1,18 +1,11 @@
-import { useCreation } from 'ahooks';
-import { InteractionManager } from '~/interactions/interaction-manager';
-import { OPERATIONS } from '~/interactions/operation/operations';
-import { IVizManager } from '~/components/plugins';
+import { IVizManager, tokens } from '~/components/plugins';
 import { IVizInteractionManager, VizInstance } from '~/types/plugin';
+import { useServiceLocator } from '~/components/plugins/service/service-locator/use-service-locator';
 
-export const useCurrentInteractionManager = ({
-  vizManager,
-  instance,
-}: {
+export const useCurrentInteractionManager = ({}: {
   vizManager: IVizManager;
   instance: VizInstance;
 }): IVizInteractionManager => {
-  return useCreation(
-    () => new InteractionManager(instance, vizManager.resolveComponent(instance.type), OPERATIONS),
-    [instance, vizManager],
-  );
+  const sl = useServiceLocator();
+  return sl.getRequired(tokens.instanceScope.interactionManager);
 };

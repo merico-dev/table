@@ -15,6 +15,7 @@ import { ErrorBoundary } from '~/utils';
 import { usePanelAddonSlot } from '~/components/plugins/panel-addon';
 import { LayoutStateContext, useRenderPanelContext } from '../../../../contexts';
 import { IViewPanelInfo, PluginContext, tokens } from '../../../plugins';
+import { usePanelVizFeatures } from '../panel-viz-features';
 import { PluginVizViewComponent } from '../../plugin-adaptor';
 import './viz.css';
 
@@ -31,7 +32,8 @@ function usePluginViz(data: TPanelData, measure: WidthAndHeight): ReactNode | nu
     queryIDs,
     viz,
   };
-  const configureService = useConfigVizInstanceService(panel);
+  const { withInteraction } = usePanelVizFeatures();
+  const configureService = useConfigVizInstanceService(panel, withInteraction);
   try {
     // ensure that the plugin is loaded
     vizManager.resolveComponent(viz.type);
