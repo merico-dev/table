@@ -1,15 +1,16 @@
 import { Box } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
-import { ReactNode } from 'react';
-import { PanelContextProvider } from '~/contexts/panel-context';
+import React, { ReactNode } from 'react';
 import { PanelAddonProvider } from '~/components/plugins/panel-addon';
+import { PanelContextProvider } from '~/contexts/panel-context';
 import { PanelRenderModelInstance } from '~/model';
 import { DescriptionPopover } from './description-popover';
 import './panel-render-base.css';
 import { PanelTitleBar } from './title-bar';
 import { useDownloadPanelScreenshot } from './use-download-panel-screenshot';
 import { PanelVizSection } from './viz';
+import { usePanelVizFeatures } from '~/components/panel/panel-render/panel-viz-features';
 
 interface IPanelBase {
   panel: PanelRenderModelInstance;
@@ -21,6 +22,8 @@ const baseStyle: EmotionSx = { border: '1px solid #e9ecef' };
 
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
+  const { withAddon, withPanelTitle } = usePanelVizFeatures();
+  const OptionalAddon = withAddon ? PanelAddonProvider : React.Fragment;
   return (
     <PanelContextProvider
       value={{
@@ -40,14 +43,18 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
           ...panelStyle,
         }}
       >
-        <PanelAddonProvider>
-          <Box className="panel-description-popover-wrapper">
-            <DescriptionPopover />
-          </Box>
-          {dropdownContent}
-          <PanelTitleBar />
+        <OptionalAddon>
+          {withPanelTitle && (
+            <>
+              <Box className="panel-description-popover-wrapper">
+                <DescriptionPopover />
+              </Box>
+              {dropdownContent}
+              <PanelTitleBar />
+            </>
+          )}
           <PanelVizSection panel={panel} />
-        </PanelAddonProvider>
+        </OptionalAddon>
       </Box>
     </PanelContextProvider>
   );
