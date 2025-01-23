@@ -1,9 +1,12 @@
 import { Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAsyncEffect } from 'ahooks';
+import { isEqual } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import { MigrationResultType, MigrationStatus } from '~/components/plugins/instance-migrator';
 import { useServiceLocator } from '~/components/plugins/service/service-locator/use-service-locator';
+import { LayoutStateContext } from '../..';
+import { AnyObject, IVizConfig } from '../../types';
 import { IPanelInfo, tokens } from '../plugins';
 import {
   IConfigComponentProps,
@@ -11,8 +14,6 @@ import {
   VizConfigComponent,
   VizViewComponent,
 } from '../plugins/viz-manager/components';
-import { AnyObject, IVizConfig } from '../../types';
-import { LayoutStateContext } from '../..';
 
 function usePluginMigration(onMigrate?: () => void) {
   const [migrated, setMigrated] = useState(false);
@@ -46,8 +47,12 @@ type SetVizConfType = { setVizConf: (val: React.SetStateAction<IVizConfig['conf'
 
 function useSyncVizConf(setVizConf: SetVizConfType['setVizConf'], panel: IPanelInfo) {
   const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
+  useAsyncEffect(async () => {
+    if (!isEqual(await instance.instanceData.getItem(null), panel.viz.conf)) {
+      await instance.instanceData.setItem(null, panel.viz.conf);
+    }
+  }, [instance, panel.viz.conf]);
   useEffect(() => {
-    instance.instanceData.setItem(null, panel.viz.conf);
     return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
       setVizConf(configData);
     });

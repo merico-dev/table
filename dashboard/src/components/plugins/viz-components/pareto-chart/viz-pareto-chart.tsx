@@ -71,6 +71,7 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
       <ReactEChartsCore
         echarts={echarts}
         option={option}
+        ref={echartsInstanceRef}
         style={getBoxContentStyle(width, height)}
         onEvents={onEvents}
         notMerge

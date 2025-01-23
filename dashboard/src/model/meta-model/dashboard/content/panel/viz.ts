@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { types } from 'mobx-state-tree';
 import { AnyObject } from '~/types';
 
@@ -19,6 +20,7 @@ export const PanelVizMeta = types
       self.type = type;
     },
     setConf(conf: AnyObject) {
+      if (isEqual(self.conf, conf)) return;
       self.conf = conf;
     },
   }));
