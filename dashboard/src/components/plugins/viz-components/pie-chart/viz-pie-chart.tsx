@@ -6,7 +6,8 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
+import { notifyVizRendered } from '../viz-instance-api';
 import { getOption } from './option';
 import { ClickPieChart } from './triggers';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
@@ -20,18 +21,21 @@ interface IClickEchartsSeries {
   color: string;
   value: string; // string-typed number
 }
+
 function Chart({
   conf,
   data,
   width,
   height,
   interactionManager,
+  instance,
 }: {
   conf: IPieChartConf;
   data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
+  instance: VizInstance;
 }) {
   const rowDataMap = useRowDataMap(data, conf.label_field);
 
@@ -47,6 +51,13 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = React.useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
+
   const option = React.useMemo(() => {
     return getOption(conf, data, width);
   }, [conf, data, width]);
@@ -54,8 +65,9 @@ function Chart({
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
+      finished: handleFinished,
     };
-  }, [handleSeriesClick]);
+  }, [handleSeriesClick, handleFinished]);
 
   if (!width || !height || !option.series.name) {
     return null;
@@ -64,6 +76,7 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge
@@ -71,6 +84,7 @@ function Chart({
     />
   );
 }
+
 export function VizPieChart({ context, instance }: VizViewProps) {
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
@@ -87,6 +101,7 @@ export function VizPieChart({ context, instance }: VizViewProps) {
   return (
     <DefaultVizBox width={width} height={height}>
       <Chart
+        instance={instance}
         conf={conf}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}

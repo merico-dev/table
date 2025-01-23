@@ -2,16 +2,17 @@ import { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { defaultsDeep } from 'lodash';
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { parseDataKey } from '~/utils';
+import { notifyVizRendered } from '../viz-instance-api';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
-export function VizRegressionChart({ context }: VizViewProps) {
+export function VizRegressionChart({ context, instance }: VizViewProps) {
   const { value: conf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
   const { width, height } = context.viewport;
 
@@ -45,6 +46,17 @@ export function VizRegressionChart({ context }: VizViewProps) {
   const onChartReady = (echartsInstance: EChartsInstance) => {
     echartsRef.current = echartsInstance;
   };
+  const handleFinished = useCallback(() => {
+    const chart = echartsRef.current;
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
+  const onEvents = useMemo(
+    () => ({
+      finished: handleFinished,
+    }),
+    [handleFinished],
+  );
 
   if (!width || !height || !conf) {
     return null;
@@ -56,6 +68,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
         echarts={echarts}
         onChartReady={onChartReady}
         option={option}
+        onEvents={onEvents}
         style={getBoxContentStyle(width, height)}
         notMerge
         theme="merico-light"

@@ -7,9 +7,10 @@ import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
 import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
+import { notifyVizRendered } from '../viz-instance-api';
 import { getOption } from './option';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
@@ -32,6 +33,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  instance,
 }: {
   conf: IScatterChartConf;
   data: TPanelData;
@@ -39,6 +41,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  instance: VizInstance;
 }) {
   const rowDataMap = useRowDataMap(data, conf.x_axis.data_key);
 
@@ -57,11 +60,19 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = React.useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
+
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
+      finished: handleFinished,
     };
-  }, [handleSeriesClick]);
+  }, [handleSeriesClick, handleFinished]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
@@ -71,6 +82,7 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge
@@ -104,6 +116,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
       <StatsAroundViz onHeightChange={setTopStatsHeight} value={conf.stats.top} context={context} />
 
       <Chart
+        instance={instance}
         variables={variables}
         width={finalWidth}
         height={finalHeight}

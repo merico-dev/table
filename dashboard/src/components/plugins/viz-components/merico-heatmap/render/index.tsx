@@ -6,8 +6,9 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, parseDataKey } from '~/utils';
+import { notifyVizRendered } from '../../viz-instance-api';
 import { ClickHeatBlock } from '../triggers';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
 import { getOption } from './option';
@@ -30,6 +31,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  instance,
 }: {
   conf: TMericoHeatmapConf;
   data: TPanelData;
@@ -37,6 +39,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  instance: VizInstance;
 }) {
   const rowDataMap = useMemo(() => {
     const x = parseDataKey(conf.x_axis.data_key);
@@ -57,11 +60,18 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
   const onEvents = useMemo(() => {
     return {
       click: handleHeatBlockClick,
+      finished: handleFinished,
     };
-  }, [handleHeatBlockClick]);
+  }, [handleHeatBlockClick, handleFinished]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
@@ -71,6 +81,7 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge
@@ -98,6 +109,7 @@ export function RenderMericoHeatmap({ context, instance }: VizViewProps) {
   return (
     <DefaultVizBox width={width} height={height}>
       <Chart
+        instance={instance}
         variables={variables}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}

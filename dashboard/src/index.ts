@@ -29,5 +29,5 @@ export interface IDashboardConfig {
   searchButtonProps: ButtonProps;
 }
 
-export { pluginManager } from './components/plugins';
+export { pluginManager, onVizRendered, notifyVizRendered } from './components/plugins';
 export { type IPanelAddon, type IPanelAddonRenderProps } from './types/plugin';

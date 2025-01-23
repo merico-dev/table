@@ -6,11 +6,12 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
 import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
+import { notifyVizRendered } from '../viz-instance-api';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -29,6 +30,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  instance,
 }: {
   conf: IHorizontalBarChartConf;
   data: TPanelData;
@@ -36,6 +38,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  instance: VizInstance;
 }) {
   const rowDataMap = useRowDataMap(data, conf.y_axis.data_key);
 
@@ -54,9 +57,16 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = React.useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
+      finished: handleFinished,
     };
   }, [handleSeriesClick]);
 
@@ -68,6 +78,7 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge
@@ -94,6 +105,7 @@ export function VizHorizontalBarChart({ context, instance }: VizViewProps) {
   return (
     <DefaultVizBox width={width} height={height}>
       <Chart
+        instance={instance}
         variables={variables}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}

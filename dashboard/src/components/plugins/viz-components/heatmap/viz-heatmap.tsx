@@ -6,7 +6,7 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, parseDataKey } from '~/utils';
 import { HeatmapPagination } from './heatmap-pagination';
 import { getOption } from './option';
@@ -14,6 +14,7 @@ import { useHeatmapGroupedData } from './render/use-heatmap-grouped-data';
 import { SeriesDataItem, useHeatmapSeriesData } from './render/use-heatmap-series-data';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
+import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 
 interface IClickHeatBlock {
   type: 'click';
@@ -34,6 +35,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  instance,
 }: {
   conf: IHeatmapConf;
   data: TPanelData;
@@ -42,6 +44,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  instance: VizInstance;
 }) {
   const rowDataMap = useMemo(() => {
     const x = parseDataKey(conf.x_axis.data_key);
@@ -61,12 +64,19 @@ function Chart({
     },
     [rowDataMap, triggers, interactionManager],
   );
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
 
   const onEvents = useMemo(() => {
     return {
       click: handleHeatBlockClick,
+      finished: handleFinished,
     };
-  }, [handleHeatBlockClick]);
+  }, [handleHeatBlockClick, handleFinished]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, seriesData, variables, width, height);
@@ -77,6 +87,7 @@ function Chart({
       echarts={echarts}
       option={option}
       style={{ width, height }}
+      ref={echartsInstanceRef}
       onEvents={onEvents}
       notMerge
       theme="merico-light"
@@ -109,6 +120,7 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
         <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
       )}
       <Chart
+        instance={instance}
         variables={variables}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}
