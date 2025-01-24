@@ -5,10 +5,11 @@ import { defaults } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { getBoxContentHeight, getBoxContentWidth, paddings } from '~/styles/viz-box';
-import { VizViewProps } from '~/types/plugin';
+import { VizInstance, VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
+import { notifyVizRendered } from '../viz-instance-api';
 
 function Chart({
   conf,
@@ -16,21 +17,44 @@ function Chart({
   width,
   height,
   metricKey,
+  instance,
 }: {
   conf: IMericoEstimationChartConf;
   data: TPanelData;
   width: number;
   height: number;
   metricKey: string;
+  instance: VizInstance;
 }) {
   const option = React.useMemo(() => {
     return getOption(conf, metricKey, data);
   }, [conf, data, metricKey]);
 
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = React.useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
+  const onEvents = useMemo(() => {
+    return {
+      finished: handleFinished,
+    };
+  }, [handleFinished]);
+  return (
+    <ReactEChartsCore
+      ref={echartsInstanceRef}
+      onEvents={onEvents}
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      notMerge
+      theme="merico-light"
+    />
+  );
 }
 
-export function VizMericoEstimationChart({ context }: VizViewProps) {
+export function VizMericoEstimationChart({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<IMericoEstimationChartConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
@@ -59,7 +83,14 @@ export function VizMericoEstimationChart({ context }: VizViewProps) {
       sx={{ overflow: 'hidden', height, width }}
     >
       <Toolbox conf={conf} metricKey={metricKey} setMetricKey={setMetricKey} />
-      <Chart width={finalWidth} height={finalHeight - 30} data={data} conf={conf} metricKey={metricKey} />
+      <Chart
+        instance={instance}
+        width={finalWidth}
+        height={finalHeight - 30}
+        data={data}
+        conf={conf}
+        metricKey={metricKey}
+      />
     </Box>
   );
 }

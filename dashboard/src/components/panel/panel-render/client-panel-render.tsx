@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useDashboardContext } from '~/contexts';
 import { PanelRenderBase } from './panel-render-base';
 import { PanelVizFeatures } from './panel-viz-features';
@@ -14,7 +15,7 @@ export interface IClientPanelRenderProps {
  */
 export function ClientPanelRender(props: IClientPanelRenderProps) {
   const dashboardModel = useDashboardContext();
-  const panel = dashboardModel.content.panels.findByID(props.panelId);
+  const panel = useMemo(() => dashboardModel.content.panels.findByID(props.panelId), [props.panelId]);
   if (!panel) {
     return null;
   }

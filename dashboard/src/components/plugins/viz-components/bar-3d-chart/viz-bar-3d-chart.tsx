@@ -2,21 +2,15 @@ import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
 import * as echarts from 'echarts/core';
 import { defaults, get, maxBy, minBy } from 'lodash';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { extractFullQueryData, parseDataKey } from '~/utils';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
+import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 
-const paddings = {
-  top: 16,
-  right: 16,
-  bottom: 16,
-  left: 16,
-};
-
-export function VizBar3dChart({ context }: VizViewProps) {
+export function VizBar3dChart({ context, instance }: VizViewProps) {
   const { value: conf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
   const data = context.data;
   const { width, height } = context.viewport;
@@ -44,6 +38,17 @@ export function VizBar3dChart({ context }: VizViewProps) {
     };
   }, [queryData, z]);
 
+  const echartsInstanceRef = useRef<ReactEChartsCore>(null);
+  const handleEvents = useMemo(
+    () => ({
+      finished: () => {
+        const chart = echartsInstanceRef.current?.getEchartsInstance();
+        if (!chart) return;
+        notifyVizRendered(instance, chart.getOption());
+      },
+    }),
+    [],
+  );
   const option = {
     tooltip: {},
     backgroundColor: '#fff',
@@ -103,9 +108,11 @@ export function VizBar3dChart({ context }: VizViewProps) {
     <DefaultVizBox width={width} height={height}>
       <ReactEChartsCore
         echarts={echarts}
+        ref={echartsInstanceRef}
         option={option}
         style={getBoxContentStyle(width, height)}
         notMerge
+        onEvents={handleEvents}
         theme="merico-light"
       />
     </DefaultVizBox>

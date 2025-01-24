@@ -8,6 +8,7 @@ import { NullInteractionManager } from '~/interactions/null-interaction-manager'
 
 export function useConfigVizInstanceService(panel: IPanelInfo, withInteraction = true) {
   const { panel: panelModel } = useRenderPanelContext();
+
   return useCallback(
     (services: IServiceLocator) => {
       const vizManager = services.getRequired(tokens.vizManager);

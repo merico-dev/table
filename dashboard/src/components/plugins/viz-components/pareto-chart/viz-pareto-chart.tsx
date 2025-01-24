@@ -1,12 +1,13 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
+import { notifyVizRendered } from '../viz-instance-api';
 import { getOption } from './option';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
@@ -49,11 +50,18 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
     [rowDataMap, triggers, interactionManager],
   );
 
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
+      finished: handleFinished,
     };
-  }, [handleSeriesClick]);
+  }, [handleSeriesClick, handleFinished]);
 
   if (!conf || !width || !height) {
     return null;
@@ -63,6 +71,7 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
       <ReactEChartsCore
         echarts={echarts}
         option={option}
+        ref={echartsInstanceRef}
         style={getBoxContentStyle(width, height)}
         onEvents={onEvents}
         notMerge

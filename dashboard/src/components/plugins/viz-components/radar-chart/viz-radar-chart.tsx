@@ -1,13 +1,14 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaultsDeep, isEmpty } from 'lodash';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, parseDataKey } from '~/utils';
+import { notifyVizRendered } from '../viz-instance-api';
 import { getOption } from './option';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
@@ -29,6 +30,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  instance,
 }: {
   conf: IRadarChartConf;
   data: TPanelData;
@@ -36,6 +38,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  instance: VizInstance;
 }) {
   const rowDataMap = useMemo(() => {
     const { queryID, columnKey } = parseDataKey(conf.series_name_key);
@@ -50,6 +53,13 @@ function Chart({
 
   const triggers = useTriggerSnapshotList<IRadarChartConf>(interactionManager.triggerManager, ClickRadarChartSeries.id);
 
+  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const handleFinished = React.useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
+
   const handleRadarSeriesClick = useCallback(
     (params: IClickRadarSeries) => {
       const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
@@ -63,6 +73,7 @@ function Chart({
   const onEvents = useMemo(() => {
     return {
       click: handleRadarSeriesClick,
+      finished: handleFinished,
     };
   }, [handleRadarSeriesClick]);
 
@@ -77,6 +88,7 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge
@@ -103,6 +115,7 @@ export function VizRadarChart({ context, instance }: VizViewProps) {
   return (
     <DefaultVizBox width={width} height={height}>
       <Chart
+        instance={instance}
         variables={variables}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}

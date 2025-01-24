@@ -16,6 +16,7 @@ import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
+import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -118,7 +119,7 @@ export const VizCartesianChart = observer(({ context, instance }: VizViewProps) 
   const finalWidth = getBoxContentWidth(width);
 
   function handleChartRenderFinished(chartOptions: unknown) {
-    instance.messageChannels.getChannel('viz').emit('rendered', chartOptions);
+    notifyVizRendered(instance, chartOptions);
   }
 
   return (

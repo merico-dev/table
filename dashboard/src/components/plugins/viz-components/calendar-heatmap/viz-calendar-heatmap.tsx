@@ -1,17 +1,18 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _ from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
-import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
 import { getOption } from './option';
 import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
+import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 
 interface IClickCalendarDate {
   type: 'click';
@@ -40,6 +41,7 @@ function Chart({
   height,
   interactionManager,
   variables,
+  instance,
 }: {
   conf: ICalendarHeatmapConf;
   data: TPanelData;
@@ -47,6 +49,7 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
+  instance: VizInstance;
 }) {
   const rowDataMap = useRowDataMap(data, conf.calendar.data_key);
 
@@ -65,13 +68,20 @@ function Chart({
     },
     [rowDataMap, triggers, interactionManager],
   );
+  const echartsInstanceRef = useRef<ReactEChartsCore>(null);
+  const handleFinished = useCallback(() => {
+    const chart = echartsInstanceRef.current?.getEchartsInstance();
+    if (!chart) return;
+    notifyVizRendered(instance, chart.getOption());
+  }, [instance]);
 
   const onEvents = useMemo(() => {
     return {
       click: handleHeatBlockClick,
       legendselectchanged: handleLegendSelected,
+      finished: handleFinished,
     };
-  }, [handleHeatBlockClick]);
+  }, [handleHeatBlockClick, handleFinished]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
@@ -81,6 +91,7 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge
@@ -113,6 +124,7 @@ export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
   return (
     <DefaultVizBox width={width} height={height}>
       <Chart
+        instance={instance}
         variables={variables}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}
