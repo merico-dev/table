@@ -16,20 +16,25 @@ const fallbackValue: DateRangeValue = {
   shortcut: null,
 };
 
+export const formatDateRangeValue = (value: DateRangeValue) => {
+  const valueFromShortcut = getDateRangeShortcutValue(value.shortcut);
+  if (valueFromShortcut) {
+    return valueFromShortcut;
+  }
+  if (Array.isArray(value.value)) {
+    return value;
+  }
+  return fallbackValue;
+};
+
+const useFormattedDateRangeValue = (value: DateRangeValue) => {
+  const formattedValue: DateRangeValue = useMemo(() => formatDateRangeValue(value), [value]);
+  return formattedValue;
+};
 export const FilterDateRange = observer(
   ({ label, config, value = fallbackValue, onChange, disabled }: IFilterDateRange) => {
     const { inputFormat, required, max_days, allowSingleDateInRange } = config;
-
-    const formattedValue: DateRangeValue = useMemo(() => {
-      const valueFromShortcut = getDateRangeShortcutValue(value.shortcut);
-      if (valueFromShortcut) {
-        return valueFromShortcut;
-      }
-      if (Array.isArray(value.value)) {
-        return value;
-      }
-      return fallbackValue;
-    }, [value]);
+    const formattedValue = useFormattedDateRangeValue(value);
 
     return (
       <DateRangeWidget

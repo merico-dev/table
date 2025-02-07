@@ -5,12 +5,14 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, ViewMetaInstance } from '~/model';
 import { Filter } from './filter';
 import { SearchButton } from './search-button';
 import { useUpdateFilterPreviewValues } from './use-update-filter-preview-values';
-import { useTranslation } from 'react-i18next';
+
+export { type IFormattedFilter, useVisibleFilters } from './use-visible-filters';
 
 const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
   const { t } = useTranslation();

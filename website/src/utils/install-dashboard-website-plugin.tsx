@@ -1,4 +1,4 @@
-import { IPanelAddonRenderProps, pluginManager } from '@devtable/dashboard';
+import { IPanelAddonRenderProps, pluginManager, useVisibleFilters } from '@devtable/dashboard';
 import { ActionIcon } from '@mantine/core';
 import { IconBug } from '@tabler/icons-react';
 import React from 'react';
@@ -15,6 +15,7 @@ export const PrintEChartsOptionAddon = ({ viz, isInEditMode }: IPanelAddonRender
       channel.off('rendered', listener);
     };
   }, [viz.messageChannels]);
+  const formattedFilters = useVisibleFilters();
   if (!renderOptions || isInEditMode) {
     return null;
   }
@@ -24,7 +25,7 @@ export const PrintEChartsOptionAddon = ({ viz, isInEditMode }: IPanelAddonRender
         onClick={(ev) => {
           ev.stopPropagation();
           ev.preventDefault();
-          console.log('ask ai', renderOptions);
+          console.log('debug', renderOptions, 'filters', formattedFilters);
         }}
         size="sm"
         variant="transparent"
