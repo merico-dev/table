@@ -12,6 +12,7 @@ export * from './dashboard-editor';
 export * from './dashboard-render';
 export * from './components/view';
 export * from './components/panel';
+export { type IFormattedFilter, useVisibleFilters } from './components/filter';
 export * from './contexts';
 export * from './types';
 export * from './model';
