@@ -1643,7 +1643,7 @@ __metadata:
   dependencies:
     "@dnd-kit/core": ^6.1.0
     "@dnd-kit/helpers": ^0.0.3
-    "@dnd-kit/react": ^0.0.4
+    "@dnd-kit/react": ^0.0.9
     "@dnd-kit/sortable": ^8.0.0
     "@emotion/babel-plugin": ^11.11.0
     "@emotion/cache": ^11.11.0
@@ -1925,14 +1925,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/abstract@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@dnd-kit/abstract@npm:0.0.4"
+"@dnd-kit/abstract@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@dnd-kit/abstract@npm:0.0.9"
   dependencies:
-    "@dnd-kit/geometry": ^0.0.4
-    "@dnd-kit/state": ^0.0.4
+    "@dnd-kit/geometry": ^0.0.9
+    "@dnd-kit/state": ^0.0.9
     tslib: ^2.6.2
-  checksum: ffea4733a44aa31cfe9c6c65055a927bf3daaf4cfae98eff945dcc952d7c3beb713e69145f08e9c753dbcea81eebbdc12babe2bffae868689ad33f8ee23f0e66
+  checksum: af08500d1cb16624de5566e984ab25178eba9afb4e2e6a63e357341671cabd2412225ec4cedb4099d6c35facd3c93642612b3cc1296c7c486acdd689dfd5b820
   languageName: node
   linkType: hard
 
@@ -1947,14 +1947,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/collision@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@dnd-kit/collision@npm:0.0.4"
+"@dnd-kit/collision@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@dnd-kit/collision@npm:0.0.9"
   dependencies:
-    "@dnd-kit/abstract": ^0.0.4
-    "@dnd-kit/geometry": ^0.0.4
+    "@dnd-kit/abstract": ^0.0.9
+    "@dnd-kit/geometry": ^0.0.9
     tslib: ^2.6.2
-  checksum: f2cb12da7e143e8ac1178a50af531bacd19efb5eb379222e779c8ca7055aaa99aa9aaffafa0db44129139fefdb575eb2a86f662b831fa4ef385795e20ab66fa8
+  checksum: 0b87a532a00c66b6db42db3d2c99ac1c34c7ddaf55d8e41bc6c76f84f627d8f586961b97aaaf438daabfba09112983e650d16bdc674bd36970f71c4aabd83572
   languageName: node
   linkType: hard
 
@@ -1972,16 +1972,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/dom@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@dnd-kit/dom@npm:0.0.4"
+"@dnd-kit/dom@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@dnd-kit/dom@npm:0.0.9"
   dependencies:
-    "@dnd-kit/abstract": ^0.0.4
-    "@dnd-kit/collision": ^0.0.4
-    "@dnd-kit/geometry": ^0.0.4
-    "@dnd-kit/state": ^0.0.4
+    "@dnd-kit/abstract": ^0.0.9
+    "@dnd-kit/collision": ^0.0.9
+    "@dnd-kit/geometry": ^0.0.9
+    "@dnd-kit/state": ^0.0.9
     tslib: ^2.6.2
-  checksum: a138904cda47cfc57fce6231b4c42df33a5eb19a9457121c260edf8a95ea28e8a251d69bcff38a80e76f51874e64b0fe28ed2d8916dcb6512d0f4a46df96fb41
+  checksum: 0d94d31a2584d3b785d679c058a3d1222f9e5d94109fd23c49b12ba45d625e03704c51fd933d59fdc849c026d4487d1dedf1adadae3190025cb59b70c3d85675
   languageName: node
   linkType: hard
 
@@ -1995,13 +1995,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/geometry@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@dnd-kit/geometry@npm:0.0.4"
+"@dnd-kit/geometry@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@dnd-kit/geometry@npm:0.0.9"
   dependencies:
-    "@dnd-kit/state": ^0.0.4
+    "@dnd-kit/state": ^0.0.9
     tslib: ^2.6.2
-  checksum: 283246c0feab6672b9e4b5718396ce6c74eaae517d8393164214503933edf7ed398ea7267579139ebcc84eb910c98a81d4015ee66478cdf340037a3200724364
+  checksum: 0c584cc583486dd65625cf03e76212622f632e28a829385510a379432944dc74928fef3fdcd970b40d5077b250b74209559957c6249b055fab2c2c914c6a6255
   languageName: node
   linkType: hard
 
@@ -2015,18 +2015,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/react@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@dnd-kit/react@npm:0.0.4"
+"@dnd-kit/react@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@dnd-kit/react@npm:0.0.9"
   dependencies:
-    "@dnd-kit/abstract": ^0.0.4
-    "@dnd-kit/dom": ^0.0.4
-    "@dnd-kit/state": ^0.0.4
+    "@dnd-kit/abstract": ^0.0.9
+    "@dnd-kit/dom": ^0.0.9
+    "@dnd-kit/state": ^0.0.9
     tslib: ^2.6.2
   peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 58f30c518d235a9df0f905c44ca3dbf22782255a78730e32f6baca6350a636466b1b89087238f6b9185d6a2663067c3b10ccc622cb8cd4753f292a1cf37627bd
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  checksum: 4a2aaf911d3bc57b225ac00bfd21ee24113c87103554317cf66b2ffc2ff1e16f530a28f6a7de4a083c38f9e81f5004cf25ec980887a886a866a9a89d276ac625
   languageName: node
   linkType: hard
 
@@ -2053,13 +2053,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/state@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@dnd-kit/state@npm:0.0.4"
+"@dnd-kit/state@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@dnd-kit/state@npm:0.0.9"
   dependencies:
     "@preact/signals-core": ^1.6.0
     tslib: ^2.6.2
-  checksum: 619ab47ed2a9c0a537f25373a1c13218506ac5951e3fe106f0f605251b689c53460022152ec6bc6cc10b7a8eba8b174277ab8e31c42b0b47b20a4865ad84d23c
+  checksum: 08864b21c44a776b0cd966b786d22ced87db52b2fec41ad4cb14fcab79c9d58f52d315b1ccd78af6a9ff2bfa2aef3741a8a68bb66e4df96c76708459ad0342e6
   languageName: node
   linkType: hard
 
