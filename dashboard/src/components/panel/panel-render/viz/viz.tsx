@@ -78,8 +78,9 @@ export const PanelVizAddons = () => {
   const instance = sl.getRequired(tokens.instanceScope.vizInstance);
   const { inEditMode } = useContext(LayoutStateContext);
   const addonManager = sl.getRequired(tokens.panelAddonManager);
+  const { withAddon } = usePanelVizFeatures();
   const panelRoot = usePanelAddonSlot();
-  if (!panelRoot) {
+  if (!panelRoot || !withAddon) {
     return null;
   }
   return createPortal(
