@@ -134,9 +134,11 @@ export const MultiSelectWidget = ({
         filterOption={false}
         dropdownRender={(menu) => (
           <>
-            <Group px="xs" py="xs" onClick={toggleSelectAll} styles={DropdownHeaderStyles}>
-              <Checkbox size="xs" checked={allSelected} onChange={_.noop} label={t('common.actions.select_all')} />
-            </Group>
+            {allValueSet.size > 0 && !keyword && (
+              <Group px="xs" py="xs" onClick={toggleSelectAll} styles={DropdownHeaderStyles}>
+                <Checkbox size="xs" checked={allSelected} onChange={_.noop} label={t('common.actions.select_all')} />
+              </Group>
+            )}
             <Divider />
             {menu}
           </>
