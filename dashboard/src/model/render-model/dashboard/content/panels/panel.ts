@@ -123,7 +123,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       self.queries.forEach((q) => q.fetchData(true));
     },
     downloadData() {
-      self.contentModel.queries.downloadDataByQueryIDs(self.queryIDs);
+      self.contentModel.queries.downloadDataByQueryIDs(self.name, self.queryIDs);
     },
     getSchema() {
       const panel = self.json;

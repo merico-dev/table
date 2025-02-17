@@ -16,13 +16,13 @@ export async function makeCSV(data: TQueryData) {
   return csv;
 }
 
-export async function downloadDataAsCSV(id: string, data: TQueryData) {
+export async function downloadDataAsCSV(filename: string, data: TQueryData) {
   const csv = await makeCSV(data);
   const blob = new Blob([csv], { type: 'text/csv' });
-  saveAs(blob, `${id}.csv`);
+  saveAs(blob, `${filename}.csv`);
 }
 
-export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQueryData }>) {
+export function downloadDataListAsZip(filename: string, idDataList: Array<{ id: string; data: TQueryData }>) {
   const zip = new JSZip();
   const promises = idDataList.map(async ({ id, data }) => {
     const csv = await makeCSV(data);
@@ -31,7 +31,7 @@ export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQue
   Promise.all(promises)
     .then(() => {
       zip.generateAsync({ type: 'blob' }).then((content) => {
-        saveAs(content, 'dashboard_data.zip');
+        saveAs(content, `${filename}.zip`);
       });
     })
     .catch((err) => {

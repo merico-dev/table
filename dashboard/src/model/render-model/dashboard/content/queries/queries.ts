@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, getParent, getRoot, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
 import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
 import { QueryRenderModel, QueryRenderModelInstance } from './query';
@@ -27,6 +27,12 @@ export const QueriesRenderModel = types
     },
     get json() {
       return self.current.filter((o) => o.id && o.key).map((o) => o.json);
+    },
+    get root() {
+      return getRoot(self) as any;
+    },
+    get dashboardName() {
+      return this.root.name;
     },
     get contentModel() {
       return getParent(self, 1);
@@ -79,9 +85,12 @@ export const QueriesRenderModel = types
           id: name,
           data,
         }));
-        downloadDataListAsZip(idDataList);
+        downloadDataListAsZip(self.dashboardName, idDataList);
       },
-      downloadDataByQueryIDs(ids: string[]) {
+      downloadDataByQueryIDs(filename: string, ids: string[]) {
+        if (ids.length === 1) {
+          return this.downloadDataByQueryID(filename, ids[0]);
+        }
         const idset = new Set(ids);
         const idDataList = self.current
           .filter((q) => idset.has(q.id))
@@ -89,15 +98,16 @@ export const QueriesRenderModel = types
             id: name,
             data,
           }));
-        downloadDataListAsZip(idDataList);
+        downloadDataListAsZip(filename, idDataList);
       },
-      downloadDataByQueryID(id: string) {
+      downloadDataByQueryID(filename: string | null, id: string) {
         const query = self.findByID(id);
         if (!query) {
           console.log(`[downloadDataByQueryID] query not found`);
           return;
         }
-        const { name, data } = query;
+        const { data } = query;
+        const name = filename ?? query.name;
         downloadDataAsCSV(name, data);
       },
       refetchDataByQueryID(queryID: string) {
