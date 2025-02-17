@@ -136,7 +136,7 @@ export const MultiSelectWidget = ({
         dropdownRender={(menu) => (
           <>
             <Group px="xs" py="xs" onClick={toggleSelectAll} styles={DropdownHeaderStyles}>
-              <Checkbox size="xs" checked={allSelected} onChange={_.noop} label="全选" />
+              <Checkbox size="xs" checked={allSelected} onChange={_.noop} label={t('common.actions.select_all')} />
             </Group>
             <Divider />
             {menu}
