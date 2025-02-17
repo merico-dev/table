@@ -26,23 +26,27 @@ export const clearFsCache = () => {
   fs.emptyDirSync(cacheDir);
 };
 
-export const putFsCache = async (key: string, data: any): Promise<void> => {
-  fs.ensureDirSync(cacheDir);
-  const filename = `${key}.json`;
-  await fs.writeJSON(path.join(cacheDir, filename), data);
+export const clearFsCacheByContentId = (contentId: string) => {
+  fs.emptyDirSync(path.join(cacheDir, contentId));
 };
 
-export const getFsCache = async (key: string): Promise<any> => {
+export const putFsCache = async (contentId: string, key: string, data: any): Promise<void> => {
+  fs.ensureDirSync(cacheDir);
+  const filename = `${key}.json`;
+  await fs.writeJSON(path.join(cacheDir, contentId, filename), data);
+};
+
+export const getFsCache = async (contentId: string, key: string): Promise<any> => {
   fs.ensureDirSync(cacheDir);
   const ttl = await getTTL();
   const filename = `${key}.json`;
   try {
-    const fileInfo = await fs.stat(path.join(cacheDir, filename));
+    const fileInfo = await fs.stat(path.join(cacheDir, contentId, filename));
     if (fileInfo.mtimeMs + ttl * 1000 < Date.now()) {
-      await fs.remove(path.join(cacheDir, filename));
+      await fs.remove(path.join(cacheDir, contentId, filename));
       return null;
     }
-    return fs.readJSON(path.join(cacheDir, filename));
+    return fs.readJSON(path.join(cacheDir, contentId, filename));
   } catch (err) {
     return null;
   }
