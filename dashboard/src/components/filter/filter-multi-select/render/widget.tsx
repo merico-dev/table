@@ -1,9 +1,24 @@
-import { Badge, CloseButton, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
+import { Badge, Checkbox, CloseButton, Divider, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
+import { EmotionStyles } from '@mantine/emotion';
+import _ from 'lodash';
 import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import useStyles from './widget.styles';
+
+const DropdownHeaderStyles: EmotionStyles = {
+  root: {
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'var(--mantine-color-default-hover)',
+    },
+    'input, .mantine-Checkbox-labelWrapper': {
+      cursor: 'pointer',
+      pointerEvents: 'none',
+    },
+  },
+};
 
 export type TSelectOption = {
   label: string;
@@ -55,6 +70,30 @@ export const MultiSelectWidget = ({
     return options.filter(match);
   }, [keyword, options]);
 
+  const allValueSet = useMemo(() => {
+    return new Set(options.map((o) => o.value));
+  }, [options]);
+
+  const selectedValueSet = useMemo(() => {
+    return new Set(value);
+  }, [value]);
+
+  const allSelected = useMemo(() => {
+    if (selectedValueSet.size !== allValueSet.size) {
+      return false;
+    }
+    return Array.from(allValueSet).every((v) => selectedValueSet.has(v));
+  }, [selectedValueSet, allValueSet]);
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      onChange([]);
+      return;
+    }
+    const newValue = Array.from(allValueSet);
+    onChange(newValue);
+  };
+
   return (
     <Stack gap={3}>
       <Group justify="space-between">
@@ -93,6 +132,17 @@ export const MultiSelectWidget = ({
         searchValue={keyword}
         onSearch={setKeyword}
         filterOption={false}
+        dropdownRender={(menu) => (
+          <>
+            {allValueSet.size > 0 && !keyword && (
+              <Group px="xs" py="xs" onClick={toggleSelectAll} styles={DropdownHeaderStyles}>
+                <Checkbox size="xs" checked={allSelected} onChange={_.noop} label={t('common.actions.select_all')} />
+              </Group>
+            )}
+            <Divider />
+            {menu}
+          </>
+        )}
       >
         {filteredOptions.map((o) => (
           <Option key={o.value} title={o.label}>

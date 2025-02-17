@@ -170,6 +170,9 @@ export default createStyles((theme, { radius = 4, name, ...rest }: MultiSelectWi
           overflowWrap: 'break-word',
         },
       },
+      '.rc-select-item-option-state-icon': {
+        lineHeight: '20px',
+      },
     },
     '.rc-virtual-list-holder-inner': {
       alignItems: 'flex-start',
