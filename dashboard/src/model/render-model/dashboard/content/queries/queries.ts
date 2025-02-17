@@ -82,6 +82,9 @@ export const QueriesRenderModel = types
         downloadDataListAsZip(idDataList);
       },
       downloadDataByQueryIDs(ids: string[]) {
+        if (ids.length === 1) {
+          return this.downloadDataByQueryID(ids[0]);
+        }
         const idset = new Set(ids);
         const idDataList = self.current
           .filter((q) => idset.has(q.id))
