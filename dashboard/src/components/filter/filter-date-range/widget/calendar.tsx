@@ -1,7 +1,6 @@
 import { DatePicker } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { DateRangeValue, DateRangeValue_Value } from '~/model';
 
 type Props = {
@@ -12,7 +11,6 @@ type Props = {
   allowSingleDateInRange: boolean;
 };
 export const Calendar = ({ value, onChange, close, max_days, allowSingleDateInRange }: Props) => {
-  const { i18n } = useTranslation();
   const v = value.value;
   const [begin, end] = v;
   const dateLeft = useMemo(() => {
@@ -59,7 +57,6 @@ export const Calendar = ({ value, onChange, close, max_days, allowSingleDateInRa
       minDate={minDate}
       maxDate={maxDate}
       allowSingleDateInRange={allowSingleDateInRange}
-      locale={i18n.language}
     />
   );
 };
