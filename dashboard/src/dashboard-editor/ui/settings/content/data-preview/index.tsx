@@ -19,7 +19,7 @@ export const DataPreview = observer(
     }, [id, content]);
 
     const download = () => {
-      content.queries.downloadDataByQueryID(id);
+      content.queries.downloadDataByQueryID(null, id);
     };
 
     useEffect(() => {
