@@ -1,11 +1,11 @@
-import { Badge, Box, Checkbox, CloseButton, Divider, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
+import { Badge, Checkbox, CloseButton, Divider, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
+import { EmotionStyles } from '@mantine/emotion';
+import _ from 'lodash';
 import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import useStyles from './widget.styles';
-import _ from 'lodash';
-import { EmotionStyles } from '@mantine/emotion';
 
 const DropdownHeaderStyles: EmotionStyles = {
   root: {
@@ -132,7 +132,6 @@ export const MultiSelectWidget = ({
         searchValue={keyword}
         onSearch={setKeyword}
         filterOption={false}
-        defaultOpen
         dropdownRender={(menu) => (
           <>
             <Group px="xs" py="xs" onClick={toggleSelectAll} styles={DropdownHeaderStyles}>
