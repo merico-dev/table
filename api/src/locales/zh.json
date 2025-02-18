@@ -14,6 +14,8 @@
 	"ACCOUNT_NOT_FOUND": "账户不存在",
 	"ACCOUNT_NO_DELETE_SUPERADMIN": "无法删除超级管理员",
 	"DATASOURCE_HTTP_REQUIRED_FIELDS": "HTTP数据源需要预处理和后处理",
+	"DATASOURCE_HTTP_MISSING_HOST": "请求的HTTP数据源未配置Host信息",
+	"DATASOURCE_MMS_MISSING_HOST": "请求的指标系统数据源未配置Host信息",
 	"DATASOURCE_DB_REQUIRED_FIELDS": "Mysql|Postgresql配置必须包含[port，username，password，database]",
 	"DATASOURCE_RENAME_SAME_KEY": "新key与旧key相同",
 	"DATASOURCE_NO_DELETE_PRESET": "无法删除预设数据源",

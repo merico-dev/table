@@ -23,7 +23,7 @@ export const en = {
         cant_delete_preset: 'This is a preset datasource, it can not be deleted',
       },
       http: {
-        base_url: 'Base URL',
+        host: 'Host',
         processing: {
           pre: {
             label: 'Pre processing of queries',

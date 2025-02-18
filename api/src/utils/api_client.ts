@@ -1,11 +1,12 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { HttpParams } from '../api_models/query';
 import log, { LOG_LABELS, LOG_LEVELS } from './logger';
+import _ from 'lodash';
 
 export const APIClient = {
   request(host: string) {
     return (options: HttpParams, errorMessageGetter?: (err: AxiosError) => string) => {
-      const { method, url, headers, params, data, ...restOptions } = options;
+      const { method, url, headers, params, data, ...restOptions } = _.omit(options, 'host');
 
       const conf: AxiosRequestConfig = {
         baseURL: host,

@@ -71,7 +71,8 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             <TextInput
               mb={styles.spacing}
               size={styles.size}
-              label={t('datasource.http.base_url')}
+              required
+              label={t('datasource.http.host')}
               sx={{ flexGrow: 1 }}
               {...field}
             />

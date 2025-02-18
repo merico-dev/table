@@ -14,6 +14,8 @@
 	"ACCOUNT_NOT_FOUND": "Account not found",
 	"ACCOUNT_NO_DELETE_SUPERADMIN": "Can not delete superadmin account",
 	"DATASOURCE_HTTP_REQUIRED_FIELDS": "Pre processing and post processing are both required for HTTP datasource",
+	"DATASOURCE_HTTP_MISSING_HOST": "Host info is required but missing in this HTTP datasource",
+	"DATASOURCE_MMS_MISSING_HOST": "Host info is required but missing in this Merico Metric System datasource",
 	"DATASOURCE_DB_REQUIRED_FIELDS": "Mysql|Postgresql config must contain [port, username, password, database]",
 	"DATASOURCE_RENAME_SAME_KEY": "New key is the same as the old one",
 	"DATASOURCE_NO_DELETE_PRESET": "Can not delete preset datasources",
