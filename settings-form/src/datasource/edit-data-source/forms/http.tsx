@@ -51,7 +51,8 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
             <TextInput
               mb={styles.spacing}
               size={styles.size}
-              label={t('datasource.http.base_url')}
+              required
+              label={t('datasource.http.host')}
               sx={{ flexGrow: 1 }}
               {...field}
             />

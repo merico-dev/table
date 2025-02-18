@@ -23,7 +23,7 @@ export const zh = {
         cant_delete_preset: '这是预设数据源，不可删除',
       },
       http: {
-        base_url: '访问地址',
+        host: 'Host',
         processing: {
           pre: {
             label: '查询请求预处理',
