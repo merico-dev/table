@@ -177,7 +177,7 @@ export class QueryService {
     locale: string,
     auth?: Account | ApiKey,
   ): Promise<any> {
-    const result = await this.mericoMetricQuery(key, query);
+    const result = await this.mericoMetricQuery(key, query, locale);
     return result;
   }
   async queryStructure(
@@ -281,11 +281,11 @@ export class QueryService {
         break;
 
       case 'http':
-        result = await this.httpQuery(parsedKey, q);
+        result = await this.httpQuery(parsedKey, q, locale);
         break;
 
       case 'merico_metric_system':
-        result = await this.mericoMetricQuery(parsedKey, q);
+        result = await this.mericoMetricQuery(parsedKey, q, locale);
         break;
 
       default:
@@ -424,23 +424,23 @@ export class QueryService {
     return source.query(sql);
   }
 
-  private async httpQuery(key: string, query: string): Promise<any> {
+  private async httpQuery(key: string, query: string, locale: string): Promise<any> {
     const options = validateClass(HttpParams, JSON.parse(query));
     const sourceConfig = await DataSourceService.getByTypeKey('http', key);
-    let { host } = sourceConfig.config;
+    const { host } = sourceConfig.config;
     if (!host) {
-      host = options.host;
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_HTTP_MISSING_HOST', locale) });
     }
     return APIClient.request(host)(options);
   }
 
-  private async mericoMetricQuery(key: string, query: string): Promise<any> {
+  private async mericoMetricQuery(key: string, query: string, locale: string): Promise<any> {
     // const options = validateClass(HttpParams, JSON.parse(query));
     const options = JSON.parse(query);
     const sourceConfig = await DataSourceService.getByTypeKey('merico_metric_system', key);
-    let { host } = sourceConfig.config;
+    const { host } = sourceConfig.config;
     if (!host) {
-      host = options.host;
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_MMS_MISSING_HOST', locale) });
     }
     return APIClient.request(host)(options, (err) => _.get(err, 'response.data.detail.message', err.message));
   }
