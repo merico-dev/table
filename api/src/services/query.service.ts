@@ -265,7 +265,7 @@ export class QueryService {
     const fsCacheEnabled = await isFsCacheEnabled();
     const cacheKey = getFsCacheKey(`${parsedType}:${parsedKey}:${q}`);
     if (fsCacheEnabled && !refresh_cache) {
-      const cached = await getFsCache(cacheKey);
+      const cached = await getFsCache(content_id, cacheKey);
       if (cached) {
         return cached;
       }
@@ -292,7 +292,7 @@ export class QueryService {
         return null;
     }
     if (fsCacheEnabled) {
-      await putFsCache(cacheKey, result);
+      await putFsCache(content_id, cacheKey, result);
     }
     return result;
   }

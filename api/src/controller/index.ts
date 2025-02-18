@@ -14,6 +14,7 @@ import { DashboardContentController } from './dashboard_content.controller';
 import { DashboardContentChangelogController } from './dashboard_content_changelog.controller';
 import { CustomFunctionController } from './custom_function.controller';
 import { SqlSnippetController } from './sql_snippet.controller';
+import { CacheController } from './cache.controller';
 
 export function bindControllers(container: Container) {
   container
@@ -86,4 +87,9 @@ export function bindControllers(container: Container) {
     .to(SqlSnippetController)
     .inSingletonScope()
     .whenTargetNamed(SqlSnippetController.TARGET_NAME);
+  container
+    .bind<interfaces.Controller>(TYPE.Controller)
+    .to(CacheController)
+    .inSingletonScope()
+    .whenTargetNamed(CacheController.TARGET_NAME);
 }

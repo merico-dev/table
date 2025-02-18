@@ -105,6 +105,7 @@ import {
   SqlSnippetSortObject,
 } from './sql_snippet';
 import { ApiError, Authentication, FilterObject } from './base';
+import { CacheClearRequest } from './cache';
 
 export default {
   ApiError,
@@ -224,4 +225,6 @@ export default {
   SqlSnippetListRequest,
   SqlSnippetPaginationResponse,
   SqlSnippetSortObject,
+
+  CacheClearRequest,
 };
