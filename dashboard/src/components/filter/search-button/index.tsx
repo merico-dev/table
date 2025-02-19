@@ -1,12 +1,15 @@
 import { Button } from '@mantine/core';
 import { useDashboardThemeContext } from '~/contexts';
+import { RenderSearchButtonProps } from '~/index';
 
-export const SearchButton = ({ disabled }: { disabled: boolean }) => {
-  const { searchButtonProps } = useDashboardThemeContext();
-  const { children = 'Search', ...rest } = searchButtonProps;
+export const SearchButton = ({ disabled, onSubmit }: RenderSearchButtonProps) => {
+  const { renderSearchButton } = useDashboardThemeContext();
+  if (renderSearchButton) {
+    return renderSearchButton({ disabled, onSubmit });
+  }
   return (
-    <Button color="blue" size="sm" type="submit" {...rest} disabled={disabled || rest.disabled}>
-      {children}
+    <Button color="blue" size="sm" onClick={onSubmit} disabled={disabled}>
+      Search
     </Button>
   );
 };
