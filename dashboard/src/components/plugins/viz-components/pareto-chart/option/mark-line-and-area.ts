@@ -1,3 +1,4 @@
+import numbro from 'numbro';
 import { IParetoChartConf } from '../type';
 import { TLineDataItem } from './types';
 import { formatPercentage } from './utils';
@@ -29,6 +30,16 @@ function getMarkLineLabel(conf: IParetoChartConf, percentage: IPercentage, count
   return new Function(...names, `return \`${label_template}\`;`)(...vals);
 }
 
+function getAlignByX(indexPoistion: number) {
+  const v = Number(numbro(indexPoistion).format({ output: 'number', mantissa: 2 }));
+  if (v < 0.33) {
+    return 'left';
+  }
+  if (v > 0.66) {
+    return 'right';
+  }
+  return 'center';
+}
 export function getMarkLineAndArea(conf: IParetoChartConf, lineData: TLineDataItem[]) {
   if (lineData.length === 0) {
     return {};
@@ -40,8 +51,9 @@ export function getMarkLineAndArea(conf: IParetoChartConf, lineData: TLineDataIt
   }
 
   const match = lineData[i];
+  const indexPosition = (i + 1) / lineData.length;
   const percentage = {
-    x: formatPercentage((i + 1) / lineData.length),
+    x: formatPercentage(indexPosition),
     y: formatPercentage(match[1]),
   };
   const count = {
@@ -71,6 +83,8 @@ export function getMarkLineAndArea(conf: IParetoChartConf, lineData: TLineDataIt
           },
           label: {
             formatter: getMarkLineLabel(conf, percentage, count),
+            position: 'end',
+            align: getAlignByX(indexPosition),
           },
         },
       ],
