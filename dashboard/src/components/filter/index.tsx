@@ -70,8 +70,10 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
       }
     };
 
+  const submit = useMemo(() => handleSubmit(content.filters.setValues), [handleSubmit, content.filters.setValues]);
+
   return (
-    <form onSubmit={handleSubmit(content.filters.setValues)}>
+    <form>
       <FilterToggler opened={opened} toggle={toggle} />
       <Collapse in={opened}>
         <Group
@@ -94,7 +96,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
           </Group>
           {!allAutoSubmit && (
             <Group sx={{ alignSelf: 'flex-end' }}>
-              <SearchButton disabled={searchButtonDisabled} />
+              <SearchButton disabled={searchButtonDisabled} onSubmit={submit} />
             </Group>
           )}
         </Group>

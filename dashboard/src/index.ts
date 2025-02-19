@@ -1,6 +1,7 @@
 import { ButtonProps } from '@mantine/core';
 import './init-dayjs';
 import './i18n';
+import { ReactNode } from 'react';
 
 export const getVersion = () =>
   import('../package.json').then(({ version }) => {
@@ -19,7 +20,10 @@ export * from './model';
 export * from './api-caller/request';
 export type { AnyObject } from './types/utils';
 
-// NOTE: keep it align with global.d.ts
+export type RenderSearchButtonProps = {
+  disabled: boolean;
+  onSubmit: () => void;
+};
 export interface IDashboardConfig {
   basename: string;
   apiBaseURL: string;
@@ -27,7 +31,7 @@ export interface IDashboardConfig {
   app_id?: string;
   app_secret?: string;
   monacoPath: string;
-  searchButtonProps: ButtonProps;
+  renderSearchButton?: (props: RenderSearchButtonProps) => ReactNode;
 }
 
 export { pluginManager, onVizRendered, notifyVizRendered } from './components/plugins';

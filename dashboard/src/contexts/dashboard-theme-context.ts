@@ -1,11 +1,9 @@
-import { ButtonProps } from '@mantine/core';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { RenderSearchButtonProps } from '..';
 
 const DashboardThemeContext = React.createContext<{
-  searchButtonProps: ButtonProps;
-}>({
-  searchButtonProps: {},
-});
+  renderSearchButton?: (props: RenderSearchButtonProps) => ReactNode;
+}>({});
 
 export const DashboardThemeContextProvider = DashboardThemeContext.Provider;
 

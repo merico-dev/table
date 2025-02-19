@@ -162,7 +162,7 @@ const _DashboardEditor = (
       <I18nextContextProvider lang={lang}>
         <ModalsProvider>
           <DatesProvider>
-            <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
+            <DashboardThemeContextProvider value={{ renderSearchButton: config.renderSearchButton }}>
               <DashboardModelContextProvider value={model}>
                 <ContentModelContextProvider value={model.content}>
                   <LayoutStateContext.Provider

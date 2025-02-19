@@ -15,7 +15,7 @@ export const BaseDashboardConfig: IDashboardConfig = {
   basename: import.meta.env.VITE_WEBSITE_BASE_URL,
   monacoPath: MonacoPath,
   makeQueryENV: () => ({}),
-  searchButtonProps: {},
+  renderSearchButton: undefined,
 };
 
 export const getDashboardConfig = async (signal: AbortSignal): Promise<IDashboardConfig> => {
