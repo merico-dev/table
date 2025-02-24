@@ -113,7 +113,7 @@ const _ReadOnlyDashboard = ({
     }
   }, [activeTab, model.content.views.setFirstVisibleTabsViewActiveTab]);
 
-  const pluginContext = useCreation(createPluginContext, []);
+  const pluginContext = useCreation(createPluginContext, [model]);
   const configureServices = useTopLevelServices(pluginContext);
 
   useWhyDidYouUpdate('@devtable/dashboard render', {
