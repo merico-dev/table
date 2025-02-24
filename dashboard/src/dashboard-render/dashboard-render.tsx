@@ -76,7 +76,7 @@ const _ReadOnlyDashboard = ({
         filterValues ?? {},
         activeTab ?? null,
       ),
-    [dashboard, content, activeTab],
+    [dashboard, content],
   );
   useInteractionOperationHacks(model.content, false);
 
