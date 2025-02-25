@@ -1,7 +1,6 @@
-import { ButtonProps } from '@mantine/core';
-import './init-dayjs';
-import './i18n';
 import { ReactNode } from 'react';
+import './i18n';
+import './init-dayjs';
 
 export const getVersion = () =>
   import('../package.json').then(({ version }) => {
@@ -9,15 +8,15 @@ export const getVersion = () =>
     return version;
   });
 
+export * from './api-caller/request';
+export { useVisibleFilters, type IFormattedFilter } from './components/filter';
+export * from './components/panel';
+export * from './components/view';
+export * from './contexts';
 export * from './dashboard-editor';
 export * from './dashboard-render';
-export * from './components/view';
-export * from './components/panel';
-export { type IFormattedFilter, useVisibleFilters } from './components/filter';
-export * from './contexts';
-export * from './types';
 export * from './model';
-export * from './api-caller/request';
+export * from './types';
 export type { AnyObject } from './types/utils';
 
 export type OnFiltersSubmit = (props?: { force?: boolean }) => void;
@@ -36,5 +35,5 @@ export interface IDashboardConfig {
   renderSearchButton?: (props: RenderSearchButtonProps) => ReactNode;
 }
 
-export { pluginManager, onVizRendered, notifyVizRendered } from './components/plugins';
+export { notifyVizRendered, onVizRendered, pluginManager } from './components/plugins';
 export { type IPanelAddon, type IPanelAddonRenderProps } from './types/plugin';

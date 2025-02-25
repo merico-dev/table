@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Menu } from '@mantine/core';
+import { Button, Menu } from '@mantine/core';
 import { IconChevronDown, IconRefresh } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useDashboardThemeContext } from '~/contexts';
