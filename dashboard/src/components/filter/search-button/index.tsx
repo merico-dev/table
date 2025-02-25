@@ -8,7 +8,7 @@ export const SearchButton = ({ disabled, onSubmit }: RenderSearchButtonProps) =>
     return renderSearchButton({ disabled, onSubmit });
   }
   return (
-    <Button color="blue" size="sm" onClick={onSubmit} disabled={disabled}>
+    <Button color="blue" size="sm" onClick={() => onSubmit()} disabled={disabled}>
       Search
     </Button>
   );
