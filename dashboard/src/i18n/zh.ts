@@ -299,6 +299,8 @@ export const zh = {
       copied: '已复制到剪切板',
       action: '操作',
       actions: {
+        search: '查询',
+        reload: '刷新',
         actions: '操作',
         open: '打开',
         close: '关闭',

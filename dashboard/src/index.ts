@@ -20,9 +20,11 @@ export * from './model';
 export * from './api-caller/request';
 export type { AnyObject } from './types/utils';
 
+export type OnFiltersSubmit = (props?: { force?: boolean }) => void;
+
 export type RenderSearchButtonProps = {
   disabled: boolean;
-  onSubmit: () => void;
+  onSubmit: OnFiltersSubmit;
 };
 export interface IDashboardConfig {
   basename: string;

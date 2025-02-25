@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Instance, SnapshotIn, getParent, getRoot, types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, flow, getParent, getRoot, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
 import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
 import { QueryRenderModel, QueryRenderModelInstance } from './query';
@@ -35,11 +35,11 @@ export const QueriesRenderModel = types
       return this.root.name;
     },
     get contentModel() {
-      return getParent(self, 1);
+      // FIXME: type
+      return getParent(self, 1) as any;
     },
     get visibleQueryIDSet() {
-      // FIXME: type
-      const { views, filters, queries } = this.contentModel as any;
+      const { views, filters } = this.contentModel;
       const queryIDs: string[] = [];
 
       views.visibleViews.forEach((v: any) => {
@@ -62,7 +62,7 @@ export const QueriesRenderModel = types
         }
       });
 
-      queries.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
+      this.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
         const config = q.config as TransformQueryMetaInstance;
         if (!q.isTransform || config.dep_query_ids.length === 0) {
           return;
@@ -76,6 +76,59 @@ export const QueriesRenderModel = types
     },
     isQueryInUse(queryID: string) {
       return this.visibleQueryIDSet.has(queryID);
+    },
+    addTransformDepQueryIDs(targetSet: Set<string>, excludeSet?: Set<string>) {
+      this.findByIDSet(targetSet).forEach((q: QueryRenderModelInstance) => {
+        const config = q.config as TransformQueryMetaInstance;
+        if (!q.isTransform || config.dep_query_ids.length === 0) {
+          return;
+        }
+        config.dep_query_ids.forEach((id) => {
+          if (excludeSet?.has(id)) {
+            return;
+          }
+          targetSet.add(id);
+        });
+      });
+    },
+    get querisToForceReload() {
+      const filterQueryIDSet = new Set<string>();
+      const panelQueryIDSet = new Set<string>();
+
+      const { views, filters } = this.contentModel;
+      const visibleViewIDs: string[] = _.uniq(views.visibleViews.map((v: any) => v.renderViewIDs).flat());
+
+      // make filterQueryIDSet
+      filters.current.forEach((f: any) => {
+        const id = _.get(f, 'config.options_query_id');
+        if (!id) {
+          return;
+        }
+
+        const visible = visibleViewIDs.some((viewID) => f.visibleInViewsIDSet.has(viewID));
+        if (visible) {
+          filterQueryIDSet.add(id);
+        }
+      });
+      this.addTransformDepQueryIDs(filterQueryIDSet);
+
+      // make panelQueryIDSet
+      views.visibleViews.forEach((v: any) => {
+        v.panels.forEach((p: any) => {
+          p.queryIDs.forEach((id: string) => {
+            if (filterQueryIDSet.has(id)) {
+              return;
+            }
+            panelQueryIDSet.add(id);
+          });
+        });
+      });
+      this.addTransformDepQueryIDs(panelQueryIDSet, filterQueryIDSet);
+
+      return {
+        filterQueries: this.findByIDSet(filterQueryIDSet),
+        panelQueries: this.findByIDSet(panelQueryIDSet),
+      };
     },
   }))
   .actions((self) => {
@@ -134,6 +187,22 @@ export const QueriesRenderModel = types
         const filename = 'Queries';
         downloadJSON(filename, schema);
       },
+      forceReloadVisibleQueries: flow(function* () {
+        const { filterQueries, panelQueries } = self.querisToForceReload;
+        console.log('🟡 Force reloading queries');
+        if (filterQueries.length > 0) {
+          const result = yield Promise.allSettled(filterQueries.map((q) => q.fetchData(true)));
+          console.log('🟡 Queries from filters reloaded', result);
+        } else {
+          console.log('🟡 Found no query from visible filters, skipping');
+        }
+        if (panelQueries.length > 0) {
+          const result = yield Promise.allSettled(panelQueries.map((q) => q.fetchData(true)));
+          console.log('🟡 Queries from filters reloaded', result);
+        } else {
+          console.log('🟡 Found no query from visible panels, skipping');
+        }
+      }),
     };
   });
 
