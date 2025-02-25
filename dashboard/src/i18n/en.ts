@@ -299,6 +299,8 @@ export const en = {
       copied: 'Copied to clipboard',
       action: 'Action',
       actions: {
+        search: 'Search',
+        reload: 'Reload',
         actions: 'Actions',
         open: 'Open',
         close: 'Close',
