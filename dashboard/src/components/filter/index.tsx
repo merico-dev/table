@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconChevronsDown, IconChevronsUp } from '@tabler/icons-react';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
@@ -11,6 +11,7 @@ import { FilterMetaInstance, ViewMetaInstance } from '~/model';
 import { Filter } from './filter';
 import { SearchButton } from './search-button';
 import { useUpdateFilterPreviewValues } from './use-update-filter-preview-values';
+import { OnFiltersSubmit } from '~/index';
 
 export { type IFormattedFilter, useVisibleFilters } from './use-visible-filters';
 
@@ -70,7 +71,16 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
       }
     };
 
-  const submit = useMemo(() => handleSubmit(content.filters.setValues), [handleSubmit, content.filters.setValues]);
+  const submit = useCallback<OnFiltersSubmit>(
+    (props) => {
+      const force = _.get(props, 'force', false);
+      handleSubmit(content.filters.setValues);
+      if (force) {
+        content.queries.forceReloadVisibleQueries();
+      }
+    },
+    [handleSubmit, content.filters.setValues],
+  );
 
   return (
     <form>
