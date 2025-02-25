@@ -35,11 +35,11 @@ export const QueriesRenderModel = types
       return this.root.name;
     },
     get contentModel() {
-      return getParent(self, 1);
+      // FIXME: type
+      return getParent(self, 1) as any;
     },
     get visibleQueryIDSet() {
-      // FIXME: type
-      const { views, filters, queries } = this.contentModel as any;
+      const { views, filters } = this.contentModel;
       const queryIDs: string[] = [];
 
       views.visibleViews.forEach((v: any) => {
@@ -62,7 +62,7 @@ export const QueriesRenderModel = types
         }
       });
 
-      queries.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
+      this.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
         const config = q.config as TransformQueryMetaInstance;
         if (!q.isTransform || config.dep_query_ids.length === 0) {
           return;
