@@ -59,10 +59,6 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
     return requiredFilters.some((f) => !f.requiredAndPass(formValue[f.key]));
   }, [formValue, requiredFilters]);
 
-  if (filters.length === 0) {
-    return null;
-  }
-
   const getChangeHandler =
     (filter: FilterMetaInstance, onChange: (v: any) => void) => (v: any, forceSubmit?: boolean) => {
       onChange(v);
@@ -81,6 +77,10 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
     },
     [handleSubmit, content.filters.setValues],
   );
+
+  if (filters.length === 0) {
+    return null;
+  }
 
   return (
     <form>
