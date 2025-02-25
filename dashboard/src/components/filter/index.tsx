@@ -74,7 +74,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
   const submit = useCallback<OnFiltersSubmit>(
     (props) => {
       const force = _.get(props, 'force', false);
-      handleSubmit(content.filters.setValues);
+      handleSubmit(content.filters.setValues)();
       if (force) {
         content.queries.forceReloadVisibleQueries();
       }
