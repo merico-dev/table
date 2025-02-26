@@ -31,13 +31,13 @@ export const clearFsCacheByContentId = (contentId: string) => {
 };
 
 export const putFsCache = async (contentId: string, key: string, data: any): Promise<void> => {
-  fs.ensureDirSync(cacheDir);
+  fs.ensureDirSync(path.join(cacheDir, contentId));
   const filename = `${key}.json`;
   await fs.writeJSON(path.join(cacheDir, contentId, filename), data);
 };
 
 export const getFsCache = async (contentId: string, key: string): Promise<any> => {
-  fs.ensureDirSync(cacheDir);
+  fs.ensureDirSync(path.join(cacheDir, contentId));
   const ttl = await getTTL();
   const filename = `${key}.json`;
   try {
