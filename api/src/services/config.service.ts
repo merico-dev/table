@@ -66,7 +66,7 @@ export class ConfigService {
         update: PERMISSIONS.CONFIG_SET_QUERY_CACHE_ENABLED,
       },
       isGlobal: true,
-      default: 'false',
+      default: 'true',
     },
     query_cache_expire_time: {
       description: 'CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME',
