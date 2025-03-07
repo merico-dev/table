@@ -68,6 +68,11 @@ export const FilterTreeSingleSelectConfigMeta = types
         return;
       }
 
+      if (self.default_value_mode === 'reset') {
+        self.filter.setValue(self.defaultSelection);
+        return;
+      }
+
       const currentSelection = self.filter.value;
       if (self.optionValuesSet.has(currentSelection)) {
         self.filter.setValue(currentSelection);

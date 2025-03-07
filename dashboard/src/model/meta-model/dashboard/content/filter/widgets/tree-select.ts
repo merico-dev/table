@@ -74,6 +74,11 @@ export const FilterTreeSelectConfigMeta = types
         return;
       }
 
+      if (self.default_value_mode === 'reset') {
+        self.filter.setValue(self.defaultSelection);
+        return;
+      }
+
       const currentSelection = self.filter.value;
       const options = new Set(self.plainData.map((o: any) => o.value));
       const validValues = (currentSelection ?? []).filter((v: any) => options.has(v));
