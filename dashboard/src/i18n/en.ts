@@ -43,6 +43,11 @@ export const en = {
           default_selection_count: 'Select first N options by default',
           min_width: 'Min width',
           x_selected: '{{count}} selected',
+          default_value_mode: {
+            label: 'When options change',
+            intersect: 'Preserve valid entries from current selection',
+            reset: 'Use new options',
+          },
         },
         text_input: {
           default_value: 'Default Value',
