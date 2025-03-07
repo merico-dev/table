@@ -15,10 +15,10 @@ function getURLByType(type: 'derived' | 'combined', id: string) {
   }
 
   if (type === 'derived') {
-    return `/buffet/api/metric_management/derived_metric/${id}`;
+    return `/api/metric_management/derived_metric/${id}`;
   }
   if (type === 'combined') {
-    return `/buffet/api/metric_management/combined_metric/${id}`;
+    return `/api/metric_management/combined_metric/${id}`;
   }
   throw new Error(`Unexpected metric type[${type}]`);
 }

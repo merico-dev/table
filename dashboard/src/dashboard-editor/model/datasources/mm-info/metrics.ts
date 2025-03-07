@@ -51,7 +51,7 @@ export const MetricsModel = types
       self.state = 'loading';
       try {
         const config = preProcessWithDataSource(self.mmInfo.dataSource, {
-          url: '/buffet/api/metric_management/search',
+          url: '/api/metric_management/search',
           method: 'POST',
           data: {
             key: self.mmInfo.key,
