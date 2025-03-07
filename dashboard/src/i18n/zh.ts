@@ -43,6 +43,11 @@ export const zh = {
           default_selection_count: '默认选中前N项',
           min_width: '控件最小宽度',
           x_selected: '已选数：{{count}}',
+          default_value_mode: {
+            label: '当选项变更时',
+            intersect: '保持已选值的有效部分',
+            reset: '忽略已选值，使用新选项',
+          },
         },
         text_input: {
           default_value: '默认值',

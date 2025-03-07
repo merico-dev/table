@@ -17,6 +17,7 @@ export const FilterTreeSelectConfigMeta = types
       const {
         _name,
         default_value,
+        default_value_mode,
         required,
         min_width,
         static_options,
@@ -32,6 +33,7 @@ export const FilterTreeSelectConfigMeta = types
         static_options,
         options_query_id,
         treeCheckStrictly,
+        default_value_mode,
         default_selection_count,
       };
     },
@@ -66,11 +68,22 @@ export const FilterTreeSelectConfigMeta = types
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
     },
+    setDefaultValueMode(v: string | null) {
+      if (v !== 'intersect' && v !== 'reset') {
+        return;
+      }
+      self.default_value_mode = v;
+    },
     setTreeCheckStrictly(v: boolean) {
       self.treeCheckStrictly = v;
     },
     applyDefaultSelection() {
       if (self.optionsLoading) {
+        return;
+      }
+
+      if (self.default_value_mode === 'reset') {
+        self.filter.setValue(self.defaultSelection);
         return;
       }
 

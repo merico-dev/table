@@ -2,6 +2,7 @@ import { reaction, toJS } from 'mobx';
 import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { FilterBaseSelectConfigMeta } from './select-base';
+import { DefaultValueModeModelType } from '../types';
 
 export const FilterMultiSelectConfigMeta = types
   .compose(
@@ -10,13 +11,22 @@ export const FilterMultiSelectConfigMeta = types
       _name: types.literal('multi-select'),
       min_width: types.optional(types.string, ''),
       default_value: types.optional(types.array(types.string), []),
+      default_value_mode: DefaultValueModeModelType,
     }),
     FilterBaseSelectConfigMeta,
   )
   .views((self) => ({
     get json() {
-      const { _name, default_value, required, min_width, static_options, options_query_id, default_selection_count } =
-        self;
+      const {
+        _name,
+        default_value,
+        default_value_mode,
+        required,
+        min_width,
+        static_options,
+        options_query_id,
+        default_selection_count,
+      } = self;
       return shallowToJS({
         _name,
         required: !!required,
@@ -24,6 +34,7 @@ export const FilterMultiSelectConfigMeta = types
         default_value,
         static_options,
         options_query_id,
+        default_value_mode,
         default_selection_count,
       });
     },
@@ -52,13 +63,25 @@ export const FilterMultiSelectConfigMeta = types
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
     },
+    setDefaultValueMode(v: string | null) {
+      if (v !== 'intersect' && v !== 'reset') {
+        return;
+      }
+      self.default_value_mode = v;
+    },
     setMinWidth(v: string) {
       self.min_width = v;
     },
-    setDefaultSelection() {
+    applyDefaultSelection() {
       if (self.optionsLoading) {
         return;
       }
+
+      if (self.default_value_mode === 'reset') {
+        self.filter.setValue(self.defaultSelection);
+        return;
+      }
+
       const options = new Set(self.options.map((o: any) => o.value));
       const currentValue = self.filter.value ?? [];
       const validValues = currentValue.filter((v: any) => options.has(v));
@@ -73,7 +96,7 @@ export const FilterMultiSelectConfigMeta = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => toJS(self.defaultSelection), self.setDefaultSelection, {
+        reaction(() => toJS(self.defaultSelection), self.applyDefaultSelection, {
           fireImmediately: false,
           delay: 0,
         }),

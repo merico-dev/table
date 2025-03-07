@@ -5,6 +5,7 @@ import { CustomDefaultValueEditor } from '~/components/filter/custom-default-val
 import { PickQueryForFilter } from '~/components/filter/pick-query-for-filter';
 import { FilterMetaInstance, FilterTreeSingleSelectConfigInstance } from '~/model';
 import { ExpectedStructureForTreeSelect } from '../../common/expected-structure';
+import { DefaultValueModeSelector } from '~/components/filter/default-value-mode-selector';
 
 type Props = {
   filter: FilterMetaInstance;
@@ -30,12 +31,13 @@ export const FilterEditorTreeSingleSelect = observer(({ filter }: Props) => {
         placeholder="200px"
       />
       <Divider label={t('filter.widget.common.fetch_options_from_datasource')} labelPosition="center" />
+      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
       <Checkbox
         checked={config.default_selection_count === 1}
         onChange={(e) => config.setDefaultSelectionCount(e.currentTarget.checked ? 1 : 0)}
         label={t('filter.widget.tree_single_select.select_first_option_by_default')}
       />
-      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
+      <DefaultValueModeSelector config={config} />
       <ExpectedStructureForTreeSelect />
     </>
   );

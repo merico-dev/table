@@ -15,13 +15,13 @@ interface Props {
 
 export const MantineSizeSelector = forwardRef(
   ({ label, value, onChange, sx, disabled }: Props, ref: Ref<HTMLInputElement>) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const options = useMemo(() => {
       return MANTINE_SIZES.map((size) => ({
         label: t(`style.size.${size}`),
         value: size,
       }));
-    }, []);
+    }, [i18n.language]);
 
     return (
       <Select
