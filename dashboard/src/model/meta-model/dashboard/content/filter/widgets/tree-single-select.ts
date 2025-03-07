@@ -13,8 +13,16 @@ export const FilterTreeSingleSelectConfigMeta = types
   )
   .views((self) => ({
     get json() {
-      const { _name, default_value, required, min_width, static_options, options_query_id, default_selection_count } =
-        self;
+      const {
+        _name,
+        default_value,
+        default_value_mode,
+        required,
+        min_width,
+        static_options,
+        options_query_id,
+        default_selection_count,
+      } = self;
       return {
         _name,
         required: !!required,
@@ -22,6 +30,7 @@ export const FilterTreeSingleSelectConfigMeta = types
         default_value,
         static_options,
         options_query_id,
+        default_value_mode,
         default_selection_count,
       };
     },
@@ -64,7 +73,7 @@ export const FilterTreeSingleSelectConfigMeta = types
       self.default_value = default_value;
     },
     setDefaultValueMode(v: string | null) {
-      if (v !== 'intersection' && v !== 'reset') {
+      if (v !== 'intersect' && v !== 'reset') {
         return;
       }
       self.default_value_mode = v;

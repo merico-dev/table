@@ -17,8 +17,16 @@ export const FilterMultiSelectConfigMeta = types
   )
   .views((self) => ({
     get json() {
-      const { _name, default_value, required, min_width, static_options, options_query_id, default_selection_count } =
-        self;
+      const {
+        _name,
+        default_value,
+        default_value_mode,
+        required,
+        min_width,
+        static_options,
+        options_query_id,
+        default_selection_count,
+      } = self;
       return shallowToJS({
         _name,
         required: !!required,
@@ -26,6 +34,7 @@ export const FilterMultiSelectConfigMeta = types
         default_value,
         static_options,
         options_query_id,
+        default_value_mode,
         default_selection_count,
       });
     },
