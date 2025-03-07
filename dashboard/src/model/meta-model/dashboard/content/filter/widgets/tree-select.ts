@@ -66,6 +66,12 @@ export const FilterTreeSelectConfigMeta = types
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
     },
+    setDefaultValueMode(v: string | null) {
+      if (v !== 'intersection' && v !== 'reset') {
+        return;
+      }
+      self.default_value_mode = v;
+    },
     setTreeCheckStrictly(v: boolean) {
       self.treeCheckStrictly = v;
     },

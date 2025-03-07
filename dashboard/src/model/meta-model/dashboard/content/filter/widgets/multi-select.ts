@@ -54,6 +54,12 @@ export const FilterMultiSelectConfigMeta = types
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
     },
+    setDefaultValueMode(v: string | null) {
+      if (v !== 'intersect' && v !== 'reset') {
+        return;
+      }
+      self.default_value_mode = v;
+    },
     setMinWidth(v: string) {
       self.min_width = v;
     },

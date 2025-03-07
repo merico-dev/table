@@ -63,6 +63,12 @@ export const FilterTreeSingleSelectConfigMeta = types
     setDefaultValue(default_value: string) {
       self.default_value = default_value;
     },
+    setDefaultValueMode(v: string | null) {
+      if (v !== 'intersection' && v !== 'reset') {
+        return;
+      }
+      self.default_value_mode = v;
+    },
     applyDefaultSelection() {
       if (self.treeDataLoading) {
         return;
