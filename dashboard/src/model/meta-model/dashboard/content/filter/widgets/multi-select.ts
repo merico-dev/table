@@ -55,7 +55,7 @@ export const FilterMultiSelectConfigMeta = types
     setMinWidth(v: string) {
       self.min_width = v;
     },
-    setDefaultSelection() {
+    applyDefaultSelection() {
       if (self.optionsLoading) {
         return;
       }
@@ -73,7 +73,7 @@ export const FilterMultiSelectConfigMeta = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => toJS(self.defaultSelection), self.setDefaultSelection, {
+        reaction(() => toJS(self.defaultSelection), self.applyDefaultSelection, {
           fireImmediately: false,
           delay: 0,
         }),
