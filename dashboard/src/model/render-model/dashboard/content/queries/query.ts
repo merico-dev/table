@@ -191,7 +191,7 @@ export const QueryRenderModel = types
         try {
           const { type, key, post_process } = self.json;
           let config = {
-            url: '/buffet/api/metric_management/query',
+            url: '/api/metric_management/query',
             method: 'POST',
             data: self.metricQueryPayload,
           };
