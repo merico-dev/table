@@ -10,8 +10,8 @@ export enum DashboardFilterType {
   DateRange = 'date-range',
 }
 
-export type DefaultValueMode = 'intersection' | 'reset';
+export type DefaultValueMode = 'intersect' | 'reset';
 export const DefaultValueModeModelType = types.optional(
-  types.enumeration<DefaultValueMode>(['intersection', 'reset']),
-  'intersection',
+  types.enumeration<DefaultValueMode>(['intersect', 'reset']),
+  'intersect',
 );
