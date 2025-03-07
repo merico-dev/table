@@ -21,6 +21,7 @@ import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { useTranslation } from 'react-i18next';
 import { IconPlaylistAdd, IconTrash } from '@tabler/icons-react';
 import { useMemo } from 'react';
+import { DefaultValueModeSelector } from '../default-value-mode-selector';
 
 interface IFilterEditorMultiSelect {
   filter: FilterMetaInstance;
@@ -127,12 +128,13 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         </Button>
       </Stack>
       <Divider label={t('filter.widget.common.or_fetch_options_from_datasource')} labelPosition="center" />
+      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
       <NumberInput
         value={config.default_selection_count}
         onChange={config.setDefaultSelectionCount}
         label={t('filter.widget.common.default_selection_count')}
       />
-      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
+      <DefaultValueModeSelector config={config} />
       <ExpectedStructureForSelect />
     </>
   );

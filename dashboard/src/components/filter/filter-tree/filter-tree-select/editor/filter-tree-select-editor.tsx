@@ -5,6 +5,7 @@ import { ExpectedStructureForTreeSelect } from '../../common/expected-structure'
 import { useTranslation } from 'react-i18next';
 import { CustomDefaultValueEditor } from '~/components/filter/custom-default-value-editor';
 import { PickQueryForFilter } from '~/components/filter/pick-query-for-filter';
+import { DefaultValueModeSelector } from '~/components/filter/default-value-mode-selector';
 
 interface IFilterEditorTreeSelect {
   filter: FilterMetaInstance;
@@ -35,12 +36,13 @@ export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect(
         onChange={(e) => config.setTreeCheckStrictly(e.currentTarget.checked)}
         label={t('filter.widget.tree_select.strictly')}
       />
+      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
       <NumberInput
         value={config.default_selection_count}
         onChange={config.setDefaultSelectionCount}
         label={t('filter.widget.common.default_selection_count')}
       />
-      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
+      <DefaultValueModeSelector config={config} />
       <ExpectedStructureForTreeSelect />
     </>
   );
