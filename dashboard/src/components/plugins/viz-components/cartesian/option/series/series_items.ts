@@ -50,6 +50,7 @@ export function getSeriesItemOrItems(
   if (rest.type === 'line') {
     seriesItem.lineStyle = {
       width: rest.lineStyle.width,
+      type: rest.lineStyle.type,
       shadowColor: 'rgba(255,255,255,1)',
       shadowBlur: 0,
       shadowOffsetX: 0,
