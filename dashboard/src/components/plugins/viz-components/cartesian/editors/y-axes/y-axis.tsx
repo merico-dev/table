@@ -37,6 +37,18 @@ export function YAxisField({ control, index }: IYAxisField) {
           control={control}
           render={({ field }) => <YAxisPositionSelector sx={{ flex: 1 }} {...field} />}
         />
+        <Controller
+          name={`y_axes.${index}.mirror`}
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              pt={20}
+              label={t('chart.y_axis.mirror.label')}
+              checked={field.value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+            />
+          )}
+        />
       </Group>
       <Stack>
         <Divider mb={-15} variant="dashed" label={t('chart.y_axis.label_format')} labelPosition="center" />

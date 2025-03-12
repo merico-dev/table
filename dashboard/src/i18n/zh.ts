@@ -881,6 +881,9 @@ export const zh = {
         value_max: '最大值',
         behavior: '表现',
         visible: '可见',
+        mirror: {
+          label: '上下镜像',
+        },
       },
       stats: {
         label: '统计内容',
