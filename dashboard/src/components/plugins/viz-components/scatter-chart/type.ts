@@ -96,6 +96,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       min: '',
       max: '',
       show: true,
+      mirror: false,
     },
   ],
   tooltip: {

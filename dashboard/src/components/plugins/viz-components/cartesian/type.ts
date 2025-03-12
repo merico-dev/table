@@ -55,6 +55,7 @@ export interface IYAxisConf {
   position: EChartsYAxisPosition;
   nameAlignment: EChartsNameTextAlign;
   label_formatter: TNumberFormat;
+  mirror: boolean;
 }
 
 export interface IRegressionConf {
@@ -140,6 +141,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       position: 'left',
       nameAlignment: 'center',
       label_formatter: defaultNumberFormat,
+      mirror: false,
     },
   ],
   reference_lines: [],
