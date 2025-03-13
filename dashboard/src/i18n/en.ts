@@ -881,6 +881,9 @@ export const en = {
         value_max: 'Max',
         behavior: 'Behavior',
         visible: 'Visible',
+        mirror: {
+          label: 'Mirror',
+        },
       },
       stats: {
         label: 'Stats',

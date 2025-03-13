@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { ICartesianChartConf, IYAxisConf } from '../type';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { YAXisOption } from 'echarts/types/dist/shared';
 
 type SeriesDataOut = number[];
 type SeriesDataIn = [string | number, number][] | SeriesDataOut;
@@ -52,13 +53,26 @@ function getReduceIntervalNeeds(series: PartialSeriesConfType[]) {
   return ret;
 }
 
+function getExtremeValue(value: string, min: string, max: string, mirror: boolean, factor: -1 | 1) {
+  if (!mirror) {
+    return value || undefined;
+  }
+  return (v: { min: number; max: number }) => {
+    const _min = !!min && Number.isFinite(Number(min)) ? Math.abs(Number(min)) : Math.abs(v.min);
+    const _max = !!max && Number.isFinite(Number(max)) ? Math.abs(Number(max)) : Math.abs(v.max);
+
+    const extreme = Math.max(_min, _max, 0);
+    return factor * extreme;
+  };
+}
+
 export function getYAxes(
   conf: ICartesianChartConf,
   labelFormatters: Record<string, (p: $TSFixMe) => string>,
   series: PartialSeriesConfType[],
 ) {
   const intervals = getReduceIntervalNeeds(series);
-  return conf.y_axes.map(({ nameAlignment, min, max, show, ...rest }: IYAxisConf, index: number) => {
+  return conf.y_axes.map(({ nameAlignment, min, max, show, mirror, ...rest }: IYAxisConf, index: number) => {
     let position = rest.position;
     if (!position) {
       position = index > 0 ? 'right' : 'left';
@@ -67,8 +81,9 @@ export function getYAxes(
       ...rest,
       minInterval: intervals[index] ?? 0,
       show,
-      min: min ? min : undefined,
-      max: max ? max : undefined,
+      alignTicks: mirror,
+      min: getExtremeValue(min, min, max, mirror, -1),
+      max: getExtremeValue(max, min, max, mirror, 1),
       position,
       axisLabel: {
         show,

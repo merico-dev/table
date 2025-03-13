@@ -21,6 +21,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
       min: '',
       max: '',
       show: true,
+      mirror: false,
     };
     return item;
   };

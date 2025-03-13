@@ -22,6 +22,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
       show: true,
       position: 'right',
       nameAlignment: 'right',
+      mirror: false,
     };
     return item;
   };
