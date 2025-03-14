@@ -126,9 +126,13 @@ export default createStyles((theme, { radius = 4, width, name }: TreeSelectWidge
   dropdown: {
     fontSize: theme.fontSizes.xs,
     zIndex: 300,
-    paddingTop: '6px',
+    // paddingTop: '6px',
     position: 'absolute',
     width: `${width} !important`,
+    backgroundColor: '#fff',
+    border: '1px solid #e9ecef',
+    boxShadow: '0 1px 3px rgb(0 0 0 / 5%), rgb(0 0 0 / 5%) 0px 10px 15px -5px, rgb(0 0 0 / 4%) 0px 7px 7px -5px',
+    borderRadius: '4px',
     '&.rc-tree-select-dropdown-slide-up-leave-active': {
       display: 'none',
     },
@@ -136,11 +140,7 @@ export default createStyles((theme, { radius = 4, width, name }: TreeSelectWidge
       // maxHeight: '500px !important'
     },
     '.rc-tree-select-tree-list, .rc-tree-select-empty': {
-      backgroundColor: '#fff',
-      border: '1px solid #e9ecef',
       padding: 0,
-      boxShadow: '0 1px 3px rgb(0 0 0 / 5%), rgb(0 0 0 / 5%) 0px 10px 15px -5px, rgb(0 0 0 / 4%) 0px 7px 7px -5px',
-      borderRadius: '4px',
     },
     '.rc-tree-select-empty': {
       padding: '8px 12px',
