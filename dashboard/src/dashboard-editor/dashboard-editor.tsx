@@ -30,6 +30,7 @@ import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, EditorSpotlight, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { MantineEmotionProvider } from '@mantine/emotion';
+import { useConfirmBeforeTabClose } from './use-confirm-before-tab-close';
 
 registerThemes();
 registerECharts();
@@ -142,6 +143,8 @@ const _DashboardEditor = (
 
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);
+
+  useConfirmBeforeTabClose(model.content.changed);
 
   useWhyDidYouUpdate('@devtable/dashboard editor', {
     context,
