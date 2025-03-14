@@ -31,7 +31,6 @@ export const useSelectAll = (
   }, [value]);
 
   const allSelected = useMemo(() => {
-    console.log(selectedValueSet, allValueSet);
     if (selectedValueSet.size !== allValueSet.size) {
       return false;
     }
@@ -39,7 +38,6 @@ export const useSelectAll = (
   }, [selectedValueSet, allValueSet]);
 
   const toggleSelectAll = () => {
-    console.log(allSelected);
     if (allSelected) {
       onChange([]);
       return;
