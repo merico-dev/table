@@ -1,4 +1,4 @@
-import { Badge, CloseButton, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
+import { Badge, Checkbox, CloseButton, Divider, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
 import { TreeItem } from 'performant-array-to-tree';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
 import { useState } from 'react';
@@ -7,6 +7,23 @@ import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not
 import { SwitcherIcon } from '../../common/switcher-icon';
 import { TreeIcon } from '../../common/tree-icon';
 import useStyles from './widget.styles';
+import { useSelectAll } from './use-select-all';
+import { EmotionStyles } from '@mantine/emotion';
+import _ from 'lodash';
+
+const DropdownHeaderStyles: EmotionStyles = {
+  root: {
+    cursor: 'pointer',
+    backgroundColor: '#FFF',
+    '&:hover': {
+      backgroundColor: 'var(--mantine-color-default-hover)',
+    },
+    'input, .mantine-Checkbox-labelWrapper': {
+      cursor: 'pointer',
+      pointerEvents: 'none',
+    },
+  },
+};
 
 type Props = {
   radius?: MantineRadius;
@@ -43,6 +60,9 @@ export const FilterTreeSelectWidget = ({
     setShowTooltip(visible);
   };
   const tooltipVisible = showTooltip && value?.length > 0;
+
+  const selectAll = useSelectAll(treeData, value, onChange, treeCheckStrictly);
+  const [keyword, setKeyword] = useState('');
 
   return (
     <Stack gap={3}>
@@ -89,6 +109,24 @@ export const FilterTreeSelectWidget = ({
         onSelect={console.log}
         maxTagCount={0}
         maxTagPlaceholder={() => t('filter.widget.common.x_selected', { count: value.length })}
+        searchValue={keyword}
+        onSearch={setKeyword}
+        dropdownRender={(menu) => (
+          <>
+            {selectAll.allValueSet.size > 0 && !keyword && (
+              <Group px="xs" pt={8} pb={8} onClick={selectAll.toggleSelectAll} styles={DropdownHeaderStyles}>
+                <Checkbox
+                  size="xs"
+                  checked={selectAll.allSelected}
+                  onChange={_.noop}
+                  label={t('common.actions.select_all')}
+                />
+              </Group>
+            )}
+            <Divider />
+            {menu}
+          </>
+        )}
       />
     </Stack>
   );
