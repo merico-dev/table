@@ -16,7 +16,7 @@ import { DependencyInfo, UsageRegs } from '~/utils';
 type MetricQueryPayload = {
   id: string;
   type: MericoMetricType;
-  filters: Record<string, { eq: string }>;
+  filters: Record<string, { eq: string } | { in: Array<string> }>;
   groupBys: string[];
   timeQuery?: {
     start: string;
@@ -246,9 +246,17 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     const payload = this.payload;
     const config = self.config as MericoMetricQueryMetaInstance;
     const filters = config.filters.reduce((acc, curr) => {
-      acc[curr.dimension] = {
-        eq: _.get(payload, curr.variable),
-      };
+      const v = _.get(payload, curr.variable);
+      if (Array.isArray(v)) {
+        acc[curr.dimension] = {
+          in: v,
+        };
+      } else {
+        acc[curr.dimension] = {
+          eq: v,
+        };
+      }
+
       return acc;
     }, {} as MetricQueryPayload['filters']);
     const ret: MetricQueryPayload = {
