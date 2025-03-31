@@ -2,8 +2,9 @@ import { Text, TextProps } from '@mantine/core';
 import { Instance, types } from 'mobx-state-tree';
 import React from 'react';
 import { queryDataToTree, ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree';
-import { FilterBaseSelectConfigMeta } from './select-base';
+import { FilterBaseSelectConfigMeta, type IFilterBaseSelectConfigInstance } from './select-base';
 import { DefaultValueModeModelType } from '../types';
+import { typeAssert } from '~/types/utils';
 
 function addLabelToData(data: ITreeDataQueryOption[]) {
   return data.map((d) => {
@@ -63,3 +64,20 @@ export const FilterBaseTreeSelectConfigMeta = types
   }));
 
 export type FilterBaseTreeSelectConfigMetaInstance = Instance<typeof FilterBaseTreeSelectConfigMeta>;
+
+export interface IFilterBaseTreeSelectConfigInstance extends IFilterBaseSelectConfigInstance {
+  // Properties
+  min_width: string;
+  default_value_mode: 'intersect' | 'reset';
+
+  // Views
+  readonly plainData: ITreeDataQueryOption[];
+  readonly treeData: ITreeDataRenderItem[];
+  readonly errorMessage: string | undefined;
+  readonly treeDataLoading: boolean;
+
+  // Actions
+  setMinWidth(v: string): void;
+}
+
+typeAssert.shouldExtends<IFilterBaseTreeSelectConfigInstance, FilterBaseTreeSelectConfigMetaInstance>();
