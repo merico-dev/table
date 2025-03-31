@@ -1,6 +1,8 @@
-import { reaction, toJS } from 'mobx';
+import { reaction, toJS, type IObservableArray } from 'mobx';
 import { addDisposer, Instance, types } from 'mobx-state-tree';
-import { FilterBaseTreeSelectConfigMeta } from './tree-select-base';
+import { FilterBaseTreeSelectConfigMeta, type IFilterBaseTreeSelectConfigInstance } from './tree-select-base';
+import { typeAssert } from '~/types/utils';
+import type { IFilterConfigModel_SelectOption } from './select-base';
 
 export const FilterTreeSingleSelectConfigMeta = types
   .compose(
@@ -107,6 +109,37 @@ export const FilterTreeSingleSelectConfigMeta = types
   }));
 
 export type FilterTreeSingleSelectConfigInstance = Instance<typeof FilterTreeSingleSelectConfigMeta>;
+
+export interface IFilterTreeSingleSelectConfig extends IFilterBaseTreeSelectConfigInstance {
+  // Properties
+  _name: 'tree-single-select';
+  default_value: string;
+
+  // Views
+  readonly json: {
+    _name: 'tree-single-select';
+    required: boolean;
+    min_width: string;
+    default_value: string;
+    static_options: IObservableArray<IFilterConfigModel_SelectOption>;
+    options_query_id: string;
+    default_value_mode: 'intersect' | 'reset';
+    default_selection_count: number;
+  };
+  readonly selectFirstByDefault: boolean;
+  readonly defaultSelection: string;
+  valueObject(value: string | null): unknown;
+  initialSelection(value: string | null): string;
+  truthy(value: unknown): boolean;
+
+  // Actions
+  setDefaultValue(default_value: string): void;
+  setDefaultValueMode(v: string | null): void;
+  applyDefaultSelection(): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<IFilterTreeSingleSelectConfig, FilterTreeSingleSelectConfigInstance>();
 
 export const createFilterTreeSingleSelectConfig = () =>
   FilterTreeSingleSelectConfigMeta.create({
