@@ -224,7 +224,7 @@ export interface IQueriesRenderModel {
   // Views
   readonly idSet: Set<string>;
   readonly firstID: string | undefined;
-  readonly json: Array<IQueryRenderModel>;
+  readonly json: Array<IQueryRenderModel['json']>;
   readonly root: Record<string, unknown>;
   readonly dashboardName: string;
   readonly contentModel: Record<string, unknown>;
@@ -242,10 +242,10 @@ export interface IQueriesRenderModel {
   downloadAllData(): void;
   downloadDataByQueryIDs(filename: string, ids: string[]): void;
   downloadDataByQueryID(filename: string | null, id: string): void;
-  refetchDataByQueryID(queryID: string): Promise<void>;
+  refetchDataByQueryID(queryID: string): Promise<void> | void;
   getSchema(ids: string[]): {
     definition: {
-      queries: Array<IQueryRenderModel>;
+      queries: Array<IQueryRenderModel['json']>;
     };
     version: string;
   };
@@ -254,3 +254,4 @@ export interface IQueriesRenderModel {
 }
 
 typeAssert.shouldExtends<IQueriesRenderModel, QueriesRenderModelInstance>();
+typeAssert.shouldExtends<QueriesRenderModelInstance, IQueriesRenderModel>();

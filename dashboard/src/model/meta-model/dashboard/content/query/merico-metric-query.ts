@@ -57,7 +57,7 @@ export const MericoMetricQueryMeta = types
   .model('MericoMetricQueryMeta', {
     _type: types.literal(DataSourceType.MericoMetricSystem),
     id: types.optional(types.string, ''),
-    type: types.optional(types.enumeration('MetricType', ['derived', 'combined']), 'derived'),
+    type: types.optional(types.enumeration<MericoMetricType>('MetricType', ['derived', 'combined']), 'derived'),
     filters: types.optional(types.array(MetricFilterColMeta), []),
     groupBys: types.optional(types.array(types.string), []),
     timeQuery: types.model({
@@ -180,7 +180,7 @@ export interface IMericoMetricQueryMeta {
   readonly json: {
     id: string;
     type: 'derived' | 'combined';
-    filters: IObservableArray<{
+    filters: Array<{
       dimension: string;
       variable: string;
     }>;
@@ -212,6 +212,7 @@ export interface IMericoMetricQueryMeta {
 }
 
 typeAssert.shouldExtends<IMericoMetricQueryMeta, MericoMetricQueryMetaInstance>();
+typeAssert.shouldExtends<MericoMetricQueryMetaInstance, IMericoMetricQueryMeta>();
 
 export const createMericoMetricQueryMetaConfig = () =>
   MericoMetricQueryMeta.create({

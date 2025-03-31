@@ -44,6 +44,7 @@ export interface IHTTPQueryMeta {
 }
 
 typeAssert.shouldExtends<IHTTPQueryMeta, HTTPQueryMetaInstance>();
+typeAssert.shouldExtends<HTTPQueryMetaInstance, IHTTPQueryMeta>();
 
 export const createHTTPQueryConfig = () =>
   HTTPQueryMeta.create({

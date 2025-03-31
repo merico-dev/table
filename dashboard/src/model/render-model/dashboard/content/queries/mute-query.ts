@@ -37,7 +37,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   get contentModel(): any {
     return this.rootModel.content; // dashboard content model
   },
-  get conditionOptions() {
+  get conditionOptions(): { optionGroups: Array<ComboboxItemGroup<ComboboxItem>>; validValues: Set<string> } {
     if (!isAlive(self)) {
       return { optionGroups: [], validValues: new Set() };
     }
@@ -97,9 +97,12 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       validValues,
     };
   },
-  get conditionOptionsWithInvalidRunbys() {
+  get conditionOptionsWithInvalidRunbys(): {
+    optionGroups: Array<ComboboxItemGroup<ComboboxItem>>;
+    validValues: Set<string>;
+  } {
     const { optionGroups, validValues } = this.conditionOptions;
-    const invalidGroup: ComboboxItemGroup = {
+    const invalidGroup: ComboboxItemGroup<ComboboxItem> = {
       group: 'common.invalid',
       items: [],
     };
@@ -379,3 +382,4 @@ export interface IMuteQueryModel extends IQueryMeta {
 }
 
 typeAssert.shouldExtends<IMuteQueryModel, MuteQueryModelInstance>();
+typeAssert.shouldExtends<MuteQueryModelInstance, IMuteQueryModel>();

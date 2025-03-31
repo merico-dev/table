@@ -10,9 +10,14 @@ import {
 } from 'mobx-state-tree';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
-  CURRENT_SCHEMA_VERSION,
   ContextRecordType,
   FiltersRenderModel,
+  ILayoutsRenderModel,
+  IMockContextMeta,
+  IPanelsRenderModel,
+  IQueriesRenderModel,
+  ISQLSnippetsRenderModel,
+  IViewsRenderModel,
   LayoutsRenderModel,
   MockContextMeta,
   PanelsRenderModel,
@@ -28,8 +33,11 @@ import {
   getInitialQueriesRenderModel,
   getInitialSQLSnippetsRenderModel,
   getInitialViewsRenderModel,
+  type IFiltersRenderModel,
+  type IQueryRenderModelData,
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
+import { typeAssert } from '~/types/utils';
 import { payloadToDashboardState } from '~/utils';
 
 export const ContentRenderModel = types
@@ -110,14 +118,19 @@ export const ContentRenderModel = types
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
       return { content_id: self.id, query_id, params: this.dashboardState };
     },
-    get data() {
+    get data(): Record<string, IQueryRenderModelData> {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));
       return data.reduce((ret, curr) => {
         ret[curr.id] = curr.data;
         return ret;
-      }, {} as Record<string, $TSFixMe[]>);
+      }, {} as Record<string, IQueryRenderModelData>);
     },
-    getDataStuffByID(queryID: string) {
+    getDataStuffByID(queryID: string): {
+      data: IQueryRenderModelData;
+      len: number;
+      state: string;
+      error?: Error;
+    } {
       const q = self.queries.findByID(queryID);
       if (!q) {
         return {
@@ -169,6 +182,39 @@ export const ContentRenderModel = types
 export type ContentRenderModelInstance = Instance<typeof ContentRenderModel>;
 export type ContentRenderModelCreationType = SnapshotIn<ContentRenderModelInstance>;
 export type ContentRenderModelSnapshotType = SnapshotOut<ContentRenderModelInstance>;
+
+export interface IContentRenderModel {
+  id: string;
+  name: string;
+  dashboard_id: string;
+  create_time: string;
+  update_time: string;
+  version: string;
+  filters: IFiltersRenderModel;
+  queries: IQueriesRenderModel;
+  sqlSnippets: ISQLSnippetsRenderModel;
+  views: IViewsRenderModel;
+  panels: IPanelsRenderModel;
+  layouts: ILayoutsRenderModel;
+  mock_context: IMockContextMeta;
+
+  readonly json: DashboardContentDBType;
+  readonly contentJSON: DashboardContentDBType['content'];
+  readonly payloadForSQL: TPayloadForSQL;
+  readonly payloadForViz: TPayloadForViz;
+  readonly dashboardState: ReturnType<typeof payloadToDashboardState>;
+  getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo;
+  readonly data: Record<string, IQueryRenderModelData>;
+  getDataStuffByID(queryID: string): {
+    data: IQueryRenderModelData;
+    len: number;
+    state: string;
+    error?: Error;
+  };
+}
+
+typeAssert.shouldExtends<ContentRenderModelInstance, IContentRenderModel>();
+typeAssert.shouldExtends<IContentRenderModel, ContentRenderModelInstance>();
 
 export function createContentRenderModel(
   { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,

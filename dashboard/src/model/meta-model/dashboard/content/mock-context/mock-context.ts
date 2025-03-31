@@ -1,5 +1,6 @@
-import { types } from 'mobx-state-tree';
+import { types, type Instance } from 'mobx-state-tree';
 import { ContextRecordType } from '~/model';
+import { typeAssert } from '~/types/utils';
 
 export const MockContextMeta = types
   .model('MockContextMeta', {
@@ -39,3 +40,19 @@ export const MockContextMeta = types
 export function getInitialMockContextMeta(context: ContextRecordType) {
   return { current: context };
 }
+
+export interface IMockContextMeta {
+  current: ContextRecordType;
+
+  readonly keys: string[];
+  readonly keySet: Set<string>;
+  readonly entries: Array<[string, ContextRecordType]>;
+
+  replace(record: ContextRecordType): void;
+  defaults(record: ContextRecordType): void;
+  get<T = any>(key: string): T;
+  set<T = any>(key: string, value: T): void;
+}
+
+typeAssert.shouldExtends<Instance<typeof MockContextMeta>, IMockContextMeta>();
+typeAssert.shouldExtends<IMockContextMeta, Instance<typeof MockContextMeta>>();

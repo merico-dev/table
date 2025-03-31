@@ -1,8 +1,10 @@
-import { cast, types } from 'mobx-state-tree';
-import { PanelStyleMeta } from './style';
-import { PanelTitleMeta } from './title';
-import { VariableMeta, VariableMetaInstance, VariableMetaSnapshotIn } from './variable';
-import { PanelVizMeta } from './viz';
+import { cast, types, type Instance } from 'mobx-state-tree';
+import { type IObservableArray } from 'mobx';
+import { PanelStyleMeta, type IPanelStyleMeta } from './style';
+import { PanelTitleMeta, type IPanelTitleMeta } from './title';
+import { VariableMeta, VariableMetaInstance, VariableMetaSnapshotIn, type IVariableMeta } from './variable';
+import { PanelVizMeta, type IPanelVizMeta } from './viz';
+import { typeAssert } from '~/types/utils';
 
 export const PanelMeta = types
   .model({
@@ -67,3 +69,39 @@ export const PanelMeta = types
       self.variables.remove(variable);
     },
   }));
+
+export interface IPanelMeta {
+  id: string;
+  name: string;
+  title: IPanelTitleMeta;
+  description: string;
+  queryIDs: IObservableArray<string>;
+  viz: IPanelVizMeta;
+  style: IPanelStyleMeta;
+  variables: IObservableArray<IVariableMeta>;
+
+  readonly json: {
+    id: string;
+    viz: IPanelVizMeta['json'];
+    name: string;
+    style: IPanelStyleMeta['json'];
+    title: IPanelTitleMeta['json'];
+    queryIDs: string[];
+    variables: Array<IVariableMeta['json']>;
+    description: string;
+  };
+  readonly queryIDSet: Set<string>;
+
+  setID(id: string): void;
+  setName(name: string): void;
+  setDescription(description: string): void;
+  addQueryID(queryID: string): void;
+  removeQueryID(queryID: string): void;
+  setQueryIDs(queryIDs: string[]): void;
+  addVariable(variable: VariableMetaSnapshotIn): void;
+  removeVariable(variable: VariableMetaInstance): void;
+}
+
+typeAssert.shouldExtends<IPanelMeta, Instance<typeof PanelMeta>>();
+
+typeAssert.shouldExtends<Instance<typeof PanelMeta>, IPanelMeta>();

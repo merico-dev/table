@@ -1,12 +1,14 @@
 import { addDisposer, getRoot, Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
+import { IObservableArray } from 'mobx';
 
 import { v4 as uuidv4 } from 'uuid';
 import { shallowToJS } from '~/utils';
-import { LayoutItem, LayoutItemMeta } from './layout-item';
+import { LayoutItem, LayoutItemMeta, ILayoutItemMeta } from './layout-item';
 import { Layout } from 'react-grid-layout';
 import _ from 'lodash';
 import { reaction } from 'mobx';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { typeAssert } from '~/types/utils';
 
 export type LayoutSetInfo = { id: string; name: string; breakpoint: number };
 
@@ -130,3 +132,39 @@ export const LayoutSetMeta = types
 export type LayoutSetMetaInstance = Instance<typeof LayoutSetMeta>;
 export type LayoutSetMetaSnapshotIn = SnapshotIn<LayoutSetMetaInstance>;
 export type LayoutSetMetaSnapshotOut = SnapshotOut<LayoutSetMetaInstance>;
+
+export interface ILayoutSetMeta {
+  id: string;
+  name: string;
+  breakpoint: number;
+  list: IObservableArray<ILayoutItemMeta>;
+
+  readonly contentModel: Record<string, unknown>;
+  readonly json: {
+    id: string;
+    name: string;
+    breakpoint: number;
+    list: Array<ILayoutItemMeta['json']>;
+  };
+
+  jsonByPanelIDSet(panelIDSet: Set<string>): {
+    id: string;
+    name: string;
+    breakpoint: number;
+    list: Array<ILayoutItemMeta['json']>;
+  };
+  findByID(id: string): ILayoutItemMeta | undefined;
+  findByPanelID(panelID: string): ILayoutItemMeta | undefined;
+
+  setName(v: string): void;
+  setBreakpoint(v: number): void;
+  addLayout(layoutItem: LayoutItem): void;
+  addNewLayout(panelID: string): void;
+  removeByPanelID(panelID: string): void;
+  removeByPanelIDs(panelIDs: string[]): void;
+  updateLayoutItem(item: Layout): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<ILayoutSetMeta, LayoutSetMetaInstance>();
+typeAssert.shouldExtends<LayoutSetMetaInstance, ILayoutSetMeta>();

@@ -4,7 +4,10 @@ import { typeAssert } from '~/types/utils';
 
 export const DBQueryMeta = types
   .model('DBQueryMeta', {
-    _type: types.enumeration([DataSourceType.MySQL, DataSourceType.Postgresql]),
+    _type: types.enumeration<DataSourceType.MySQL | DataSourceType.Postgresql>([
+      DataSourceType.MySQL,
+      DataSourceType.Postgresql,
+    ]),
     sql: types.string,
   })
   .views((self) => ({
@@ -48,6 +51,7 @@ export interface IDBQueryMeta {
 }
 
 typeAssert.shouldExtends<IDBQueryMeta, DBQueryMetaInstance>();
+typeAssert.shouldExtends<DBQueryMetaInstance, IDBQueryMeta>();
 
 export const createDBQueryConfig = (type: DataSourceType.MySQL | DataSourceType.Postgresql) =>
   DBQueryMeta.create({

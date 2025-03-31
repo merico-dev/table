@@ -1,8 +1,21 @@
 import _ from 'lodash';
-import { getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
+import {
+  getRoot,
+  Instance,
+  SnapshotIn,
+  IMSTArray,
+  ISimpleType,
+  IStateTreeNode,
+  IOptionalIType,
+  IArrayType,
+} from 'mobx-state-tree';
+import { type ReactNode } from 'react';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
-import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
-import { QueryRenderModelInstance } from '../queries';
+import { PanelMeta, type IPanelMeta } from '~/model/meta-model/dashboard/content/panel';
+import { type IPanelStyleMeta } from '~/model/meta-model/dashboard/content/panel/style';
+import { type IPanelTitleMeta } from '~/model/meta-model/dashboard/content/panel/title';
+import { type IVariableMeta } from '~/model/meta-model/dashboard/content/panel/variable';
+import { QueryRenderModelInstance, type IQueryRenderModel } from '../queries';
 import { downloadJSON } from '~/utils/download';
 import {
   formatAggregatedValue,
@@ -11,7 +24,9 @@ import {
   ITemplateVariable,
   variablesToStrings,
 } from '~/utils';
-import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
+import { CURRENT_SCHEMA_VERSION, type IQueryMeta } from '~/model/meta-model';
+import { typeAssert } from '~/types/utils';
+import { DataSourceType } from '~/model/meta-model/dashboard/content/query/types';
 
 export type VariableValueMap = Record<string, string | number>;
 export type VariableAggValueMap = Record<string, string | number>;
@@ -42,7 +57,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       }
       return [];
     },
-    queryByID(queryID: string) {
+    queryByID(queryID: string): QueryRenderModelInstance | undefined {
       return this.queries.find((q) => q.id === queryID);
     },
     get data() {
@@ -177,3 +192,39 @@ export function getNewPanel(id: string): PanelRenderModelSnapshotIn {
     },
   };
 }
+
+export interface IPanelRenderModel extends IPanelMeta {
+  readonly contentModel: {
+    content: {
+      queries: {
+        findByIDSet(ids: Set<string>): QueryRenderModelInstance[];
+      };
+    };
+  };
+  readonly queries: QueryRenderModelInstance[];
+  readonly firstQuery: QueryRenderModelInstance | null;
+  readonly firstQueryData: Array<string[] | number[] | Record<string, unknown>>;
+  readonly data: TPanelData;
+  readonly variableStrings: Record<string, ReactNode>;
+  readonly variableAggValueMap: VariableAggValueMap;
+  readonly variableValueMap: VariableValueMap;
+  readonly variableStyleMap: VariableStyleMap;
+  readonly dataLoading: boolean;
+  readonly queryStateMessages: string;
+  readonly queryErrors: string[];
+  readonly canRenderViz: boolean;
+
+  queryByID(queryID: string): IQueryRenderModel | undefined;
+  refreshData(): void;
+  downloadData(): void;
+  getSchema(): {
+    panel: IPanelMeta['json'];
+    queries: Array<IQueryRenderModel['json']>;
+    layouts: unknown;
+  };
+  downloadSchema(): void;
+}
+
+typeAssert.shouldExtends<IPanelRenderModel, Instance<typeof PanelRenderModel>>();
+
+typeAssert.shouldExtends<Instance<typeof PanelRenderModel>, IPanelRenderModel>();
