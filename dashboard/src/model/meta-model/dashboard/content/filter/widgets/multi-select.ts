@@ -1,8 +1,13 @@
-import { reaction, toJS } from 'mobx';
+import { reaction, toJS, type IObservableArray } from 'mobx';
 import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
-import { FilterBaseSelectConfigMeta } from './select-base';
-import { DefaultValueModeModelType } from '../types';
+import {
+  FilterBaseSelectConfigMeta,
+  type IFilterBaseSelectConfigInstance,
+  type IFilterConfigModel_SelectOption,
+} from './select-base';
+import { DefaultValueModeModelType, type DefaultValueMode } from '../types';
+import { typeAssert } from '~/types/utils';
 
 export const FilterMultiSelectConfigMeta = types
   .compose(
@@ -105,6 +110,38 @@ export const FilterMultiSelectConfigMeta = types
   }));
 
 export type FilterMultiSelectConfigInstance = Instance<typeof FilterMultiSelectConfigMeta>;
+
+export interface IFilterMultiSelectConfig extends IFilterBaseSelectConfigInstance {
+  // Properties
+  _name: 'multi-select';
+  default_value: IObservableArray<string>;
+  default_value_mode: 'intersect' | 'reset';
+  min_width: string;
+
+  // Views
+  readonly json: {
+    _name: 'multi-select';
+    required: boolean;
+    min_width: string;
+    default_value: IObservableArray<string>;
+    static_options: IObservableArray<IFilterConfigModel_SelectOption>;
+    options_query_id: string;
+    default_value_mode: DefaultValueMode;
+    default_selection_count: number;
+  };
+  readonly defaultSelection: string[];
+  initialSelection(value: string[] | null): string[];
+  truthy(value: unknown): boolean;
+
+  // Actions
+  setDefaultValue(default_value: string[]): void;
+  setDefaultValueMode(v: string | null): void;
+  setMinWidth(v: string): void;
+  applyDefaultSelection(): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<IFilterMultiSelectConfig, FilterMultiSelectConfigInstance>();
 
 export const createFilterMultiSelectConfig = () =>
   FilterMultiSelectConfigMeta.create({

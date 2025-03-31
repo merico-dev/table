@@ -1,7 +1,13 @@
-import { reaction, toJS } from 'mobx';
+import { reaction, toJS, type IObservableArray } from 'mobx';
 import { addDisposer, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
-import { FilterBaseSelectConfigMeta } from './select-base';
+import {
+  FilterBaseSelectConfigMeta,
+  type IFilterBaseSelectConfigInstance,
+  type IFilterConfigModel_SelectOption,
+  type TSelectOption,
+} from './select-base';
+import { typeAssert } from '~/types/utils';
 
 export const FilterSelectConfigMeta = types
   .compose(
@@ -90,6 +96,38 @@ export const FilterSelectConfigMeta = types
   }));
 
 export type FilterSelectConfigInstance = Instance<typeof FilterSelectConfigMeta>;
+
+export interface IFilterSelectConfig extends IFilterBaseSelectConfigInstance {
+  // Properties
+  _name: 'select';
+  default_value: string;
+  width: string;
+  clearable: boolean;
+
+  // Views
+  readonly json: {
+    _name: 'select';
+    width: string;
+    required: boolean;
+    clearable: boolean;
+    default_value: string;
+    static_options: IObservableArray<IFilterConfigModel_SelectOption>;
+    options_query_id: string;
+    default_selection_count: number;
+  };
+  readonly default_selection: string | undefined;
+  truthy(value: unknown): boolean;
+  getSelectOption(value: string): TSelectOption | undefined;
+
+  // Actions
+  setDefaultValue(default_value: string | null): void;
+  setWidth(v: string): void;
+  setClearable(v: boolean): void;
+  setDefaultSelection(): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<IFilterSelectConfig, FilterSelectConfigInstance>();
 
 export const createFilterSelectConfig = () =>
   FilterSelectConfigMeta.create({

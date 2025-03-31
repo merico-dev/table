@@ -1,5 +1,7 @@
 import { ComboboxItem } from '@mantine/core';
-import { Instance, cast, detach, getParent, getRoot, types } from 'mobx-state-tree';
+import type { IObservableArray } from 'mobx';
+import { Instance, detach, getParent, getRoot, types } from 'mobx-state-tree';
+import { typeAssert } from '~/types/utils';
 
 export type TSelectOption = {
   label: string;
@@ -24,6 +26,14 @@ export const FilterConfigModel_SelectOption = types
   }));
 
 export type IFilterSelectConfigMetaOption = Instance<typeof FilterConfigModel_SelectOption>;
+
+export interface IFilterConfigModel_SelectOption {
+  label: string;
+  value: string;
+  setLabel(label: string): void;
+  setValue(value: string): void;
+}
+typeAssert.shouldExtends<IFilterConfigModel_SelectOption, IFilterSelectConfigMetaOption>();
 
 export const FilterBaseSelectConfigMeta = types
   .model('FilterConfigModel_BaseSelect', {
@@ -97,3 +107,35 @@ export const FilterBaseSelectConfigMeta = types
   }));
 
 export type FilterBaseSelectConfigInstance = Instance<typeof FilterBaseSelectConfigMeta>;
+
+export interface IFilterBaseSelectConfigInstance {
+  // Properties
+  static_options: IObservableArray<IFilterConfigModel_SelectOption>;
+  options_query_id: string;
+  default_selection_count: number;
+  required: boolean;
+
+  // todo: improve type
+  // Views
+  readonly contentModel: {
+    getDataStuffByID(id: string): {
+      state: 'loading' | 'error' | 'done';
+      data: TSelectOption[];
+    };
+  };
+  readonly filter: Record<string, unknown>;
+  readonly usingQuery: boolean;
+  readonly optionsLoading: boolean;
+  readonly options: TSelectOption[];
+  readonly optionValuesSet: Set<string>;
+
+  // Actions
+  setRequired(required: boolean): void;
+  addStaticOption(option: StaticOption): void;
+  removeStaticOption(index: number): void;
+  replaceStaticOptions(options: StaticOption[]): void;
+  setDefaultSelectionCount(v: string | number): void;
+  setOptionsQueryID(id: string | null): void;
+}
+
+typeAssert.shouldExtends<IFilterBaseSelectConfigInstance, FilterBaseSelectConfigInstance>();
