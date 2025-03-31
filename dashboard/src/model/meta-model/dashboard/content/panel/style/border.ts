@@ -1,4 +1,5 @@
-import { types } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
+import { typeAssert } from '~/types/utils';
 
 export const PanelStyleBorderMeta = types
   .model('PanelStyleBorderMeta', {
@@ -17,3 +18,14 @@ export const PanelStyleBorderMeta = types
       self.enabled = v;
     },
   }));
+
+export interface IPanelStyleBorderMeta {
+  enabled: boolean;
+  json: {
+    enabled: boolean;
+  };
+
+  setEnabled(v: boolean): void;
+}
+
+typeAssert.shouldExtends<IPanelStyleBorderMeta, Instance<typeof PanelStyleBorderMeta>>();

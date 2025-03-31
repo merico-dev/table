@@ -131,11 +131,20 @@ export const FiltersRenderModel = types
       return self.values[key];
     },
 
-    getSchema(ids: string[], raw?: boolean) {
+    getSchema(
+      ids: string[],
+      raw?: boolean,
+    ): {
+      filters: IFilterSchemaItem[];
+      version: string;
+    } {
       const filters = self.findByIDSet(new Set(ids));
 
       const ret = {
-        filters: filters.map((f) => ({ ...f.json, visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : [] })),
+        filters: filters.map((f) => ({
+          ...f.json,
+          visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : ([] as string[]),
+        })),
         version: CURRENT_SCHEMA_VERSION,
       };
       return ret;
@@ -175,6 +184,10 @@ export interface IFilterJsonType {
   default_value_func: string;
 }
 
+export interface IFilterSchemaItem extends Omit<IFilterJsonType, 'visibleInViewsIDs'> {
+  visibleInViewsIDs: string[];
+}
+
 export interface IFiltersRenderModel {
   // Properties
   current: IObservableArray<IFilterMeta>;
@@ -203,7 +216,7 @@ export interface IFiltersRenderModel {
   readonly firstFilterValueKey: string;
   getSelectOption(id: string): Record<string, unknown>;
 
-  // Actions
+  // ActionvisibleInViewsIDss
   setValues(values: Record<string, unknown>): void;
   patchValues(values: FilterValuesType): void;
   setValueByKey(key: string, value: unknown): void;
@@ -213,10 +226,11 @@ export interface IFiltersRenderModel {
     ids: string[],
     raw?: boolean,
   ): {
-    filters: IFilterJsonType[];
+    filters: IFilterSchemaItem[];
     version: string;
   };
   downloadSchema(ids: string[]): void;
 }
 
 typeAssert.shouldExtends<IFiltersRenderModel, FiltersRenderModelInstance>();
+typeAssert.shouldExtends<FiltersRenderModelInstance, IFiltersRenderModel>();
