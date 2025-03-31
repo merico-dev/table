@@ -15,3 +15,4 @@ export function useDashboardContext<T = DashboardModelInstance>() {
 }
 
 export const useEditDashboardContext = () => useDashboardContext<DashboardModelInstance>();
+export const useRenderDashboardContext = () => useDashboardContext<DashboardRenderModelInstance>();

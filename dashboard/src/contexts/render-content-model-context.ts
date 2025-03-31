@@ -1,6 +1,6 @@
 import { IContentRenderModel } from '../dashboard-render';
-import { useDashboardContext } from './dashboard-context';
+import { useContentModelContext } from './content-model-context';
 
-export const useRenderDashboardContext = () => useDashboardContext<IContentRenderModel>();
+export const useRenderContentModelContext = () => useContentModelContext<IContentRenderModel>();
 
 // use a separate file to allow tsc generate proper types
