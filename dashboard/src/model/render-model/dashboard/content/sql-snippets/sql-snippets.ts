@@ -1,7 +1,9 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { IObservableArray } from 'mobx';
 import { CURRENT_SCHEMA_VERSION, SQLSnippetMetaSnapshotIn } from '~/model';
 import { downloadJSON } from '~/utils/download';
-import { SQLSnippetRenderModel } from './sql-snippet';
+import { SQLSnippetRenderModel, type ISQLSnippetRenderModel } from './sql-snippet';
+import { typeAssert } from '~/types/utils';
 
 export const SQLSnippetsRenderModel = types
   .model('SQLSnippetsRenderModel', {
@@ -54,6 +56,30 @@ export const SQLSnippetsRenderModel = types
   }));
 
 export type SQLSnippetsRenderModelSnapshotIn = SnapshotIn<Instance<typeof SQLSnippetsRenderModel>>;
+
+export interface ISQLSnippetsRenderModel {
+  // Properties
+  current: IObservableArray<ISQLSnippetRenderModel>;
+
+  // Views
+  readonly json: Array<ISQLSnippetRenderModel['json']>;
+  readonly record: Record<string, string>;
+  readonly keySet: Set<string>;
+  readonly firstKey: string | undefined;
+
+  // Methods
+  findByKey(key: string): ISQLSnippetRenderModel | undefined;
+  findByKeySet(keySet: Set<string>): ISQLSnippetRenderModel[];
+  getSchema(keys: string[]): {
+    definition: {
+      sqlSnippets: Array<ISQLSnippetRenderModel['json']>;
+    };
+    version: string;
+  };
+  downloadSchema(keys: string[]): void;
+}
+
+typeAssert.shouldExtends<ISQLSnippetsRenderModel, Instance<typeof SQLSnippetsRenderModel>>();
 
 export function getInitialSQLSnippetsRenderModel(
   snippets: SQLSnippetMetaSnapshotIn[],
