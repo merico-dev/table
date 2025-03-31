@@ -1,9 +1,20 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { type IObservableArray } from 'mobx';
 import { IDashboardView } from '~/types';
+import { TabsVariant } from '@mantine/core';
 
-import { EViewComponentType, TabInfo, TabModelInstance, ViewMetaInstance, ViewRenderModel } from '~/model';
+import {
+  EViewComponentType,
+  TabInfo,
+  TabModelInstance,
+  ViewMetaInstance,
+  ViewRenderModel,
+  type IViewRenderModel,
+} from '~/model';
+import { TabsOrientation, type IViewMeta } from '~/model/meta-model';
 import { shallowToJS } from '~/utils';
 import _ from 'lodash';
+import { typeAssert } from '~/types/utils';
 
 export const ViewsRenderModel = types
   .model('ViewsRenderModel', {
@@ -71,6 +82,30 @@ export const ViewsRenderModel = types
   }));
 
 export type ViewsRenderModelInstance = Instance<typeof ViewsRenderModel>;
+
+export interface IViewsRenderModel {
+  // Properties
+  current: IObservableArray<IViewRenderModel>;
+  visibleViewIDs: IObservableArray<string>;
+
+  // Views
+  readonly json: Array<IViewRenderModel['json']>;
+  readonly idMap: Map<string, IViewMeta>;
+  readonly firstVisibleView: IViewRenderModel | undefined;
+  readonly visibleViews: IViewRenderModel[];
+  readonly firstVisibleTabsView: IViewRenderModel | undefined;
+  readonly firstVisibleTabsViewActiveTab: TabInfo | null;
+  readonly firstVisibleTabsViewActiveTabStr: string;
+
+  // Methods
+  findByID(id: string): IViewRenderModel | undefined;
+  appendToVisibles(viewID: string): void;
+  rmVisibleViewID(id: string): void;
+  setFirstVisibleTabsViewActiveTab(tabInfo: TabInfo | null): void;
+}
+
+typeAssert.shouldExtends<IViewsRenderModel, Instance<typeof ViewsRenderModel>>();
+typeAssert.shouldExtends<Instance<typeof ViewsRenderModel>, IViewsRenderModel>();
 
 export function getInitialViewsRenderModel(
   views: IDashboardView[],
