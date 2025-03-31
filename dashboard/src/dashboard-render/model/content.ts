@@ -1,44 +1,38 @@
 import {
-  Instance,
-  SnapshotIn,
-  SnapshotOut,
   addDisposer,
   applyPatch,
   getParent,
+  Instance,
   onSnapshot,
+  SnapshotIn,
+  SnapshotOut,
   types,
 } from 'mobx-state-tree';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   ContextRecordType,
   FiltersRenderModel,
-  ILayoutsRenderModel,
-  IMockContextMeta,
-  IPanelsRenderModel,
-  IQueriesRenderModel,
-  ISQLSnippetsRenderModel,
-  IViewsRenderModel,
-  LayoutsRenderModel,
-  MockContextMeta,
-  PanelsRenderModel,
-  QueriesRenderModel,
-  SQLSnippetsRenderModel,
-  TPayloadForSQL,
-  TPayloadForViz,
-  TabInfo,
-  ViewsRenderModel,
   formatSQLSnippet,
   getInitialFiltersConfig,
   getInitialMockContextMeta,
   getInitialQueriesRenderModel,
   getInitialSQLSnippetsRenderModel,
   getInitialViewsRenderModel,
-  type IFiltersRenderModel,
   type IQueryRenderModelData,
+  LayoutsRenderModel,
+  MockContextMeta,
+  PanelsRenderModel,
+  QueriesRenderModel,
+  SQLSnippetsRenderModel,
+  TabInfo,
+  TPayloadForSQL,
+  TPayloadForViz,
+  ViewsRenderModel,
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
 import { typeAssert } from '~/types/utils';
 import { payloadToDashboardState } from '~/utils';
+import { IContentRenderModel } from './types';
 
 export const ContentRenderModel = types
   .model({
@@ -182,36 +176,6 @@ export const ContentRenderModel = types
 export type ContentRenderModelInstance = Instance<typeof ContentRenderModel>;
 export type ContentRenderModelCreationType = SnapshotIn<ContentRenderModelInstance>;
 export type ContentRenderModelSnapshotType = SnapshotOut<ContentRenderModelInstance>;
-
-export interface IContentRenderModel {
-  id: string;
-  name: string;
-  dashboard_id: string;
-  create_time: string;
-  update_time: string;
-  version: string;
-  filters: IFiltersRenderModel;
-  queries: IQueriesRenderModel;
-  sqlSnippets: ISQLSnippetsRenderModel;
-  views: IViewsRenderModel;
-  panels: IPanelsRenderModel;
-  layouts: ILayoutsRenderModel;
-  mock_context: IMockContextMeta;
-
-  readonly json: DashboardContentDBType;
-  readonly contentJSON: DashboardContentDBType['content'];
-  readonly payloadForSQL: TPayloadForSQL;
-  readonly payloadForViz: TPayloadForViz;
-  readonly dashboardState: ReturnType<typeof payloadToDashboardState>;
-  getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo;
-  readonly data: Record<string, IQueryRenderModelData>;
-  getDataStuffByID(queryID: string): {
-    data: IQueryRenderModelData;
-    len: number;
-    state: string;
-    error?: string;
-  };
-}
 
 typeAssert.shouldExtends<ContentRenderModelInstance, IContentRenderModel>();
 typeAssert.shouldExtends<IContentRenderModel, ContentRenderModelInstance>();
