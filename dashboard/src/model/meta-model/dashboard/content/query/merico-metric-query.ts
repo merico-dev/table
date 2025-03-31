@@ -1,6 +1,8 @@
 import { destroy, getParent, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
+import { typeAssert } from '~/types/utils';
+import type { IObservableArray } from 'mobx';
 
 const MetricFilterColMeta = types
   .model('MetricFilterColMeta', {
@@ -36,6 +38,18 @@ const MetricFilterColMeta = types
   }));
 
 type MetricFilterColMetaInstance = Instance<typeof MetricFilterColMeta>;
+
+export type IMetricFilterColMeta = {
+  dimension: string;
+  variable: string;
+  allEmpty: boolean;
+  json: { dimension: string; variable: string };
+  removeSelf(): void;
+  setDimension(v: string | null): void;
+  setVariable(v: string | null): void;
+};
+
+typeAssert.shouldExtends<IMetricFilterColMeta, MetricFilterColMetaInstance>();
 
 export type MericoMetricType = 'derived' | 'combined';
 
@@ -145,6 +159,59 @@ export const MericoMetricQueryMeta = types
   }));
 export type MericoMetricQueryMetaInstance = Instance<typeof MericoMetricQueryMeta>;
 export type MericoMetricQueryMetaSnapshotIn = SnapshotIn<MericoMetricQueryMetaInstance>;
+
+export interface IMericoMetricQueryMeta {
+  // Properties
+  _type: DataSourceType.MericoMetricSystem;
+  id: string;
+  type: 'derived' | 'combined';
+  filters: IObservableArray<IMetricFilterColMeta>;
+  groupBys: IObservableArray<string>;
+  timeQuery: {
+    enabled: boolean;
+    range_variable: string;
+    unit_variable: string;
+    timezone: string;
+    stepKeyFormat: string;
+  };
+
+  // Views
+  readonly valid: boolean;
+  readonly json: {
+    id: string;
+    type: 'derived' | 'combined';
+    filters: IObservableArray<{
+      dimension: string;
+      variable: string;
+    }>;
+    groupBys: IObservableArray<string>;
+    timeQuery: {
+      enabled: boolean;
+      range_variable: string;
+      unit_variable: string;
+      timezone: string;
+      stepKeyFormat: string;
+    };
+    _type: DataSourceType.MericoMetricSystem;
+  };
+  readonly usedFilterDimensionKeys: Set<string>;
+  readonly usedFilterVariableSet: Set<string>;
+  readonly usedTimeQueryVariableSet: Set<string>;
+  readonly groupByValues: string[];
+
+  // Actions
+  reset(): void;
+  setID(v: string): void;
+  setType(type: string): void;
+  addFilter(k: string, v: string): void;
+  removeFilter(filter: IMetricFilterColMeta): void;
+  setGroupBys(v: string[]): void;
+  setRangeVariable(v: string | null): void;
+  setUnitVariable(v: string | null): void;
+  setTimeQueryEnabled(v: boolean): void;
+}
+
+typeAssert.shouldExtends<IMericoMetricQueryMeta, MericoMetricQueryMetaInstance>();
 
 export const createMericoMetricQueryMetaConfig = () =>
   MericoMetricQueryMeta.create({

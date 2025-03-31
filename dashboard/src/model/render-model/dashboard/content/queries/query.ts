@@ -8,7 +8,8 @@ import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 import { AnyObject } from '~/types';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
-import { MuteQueryModel } from './mute-query';
+import { MuteQueryModel, type IMuteQueryModel } from './mute-query';
+import { typeAssert } from '~/types/utils';
 
 enum QueryState {
   idle = 'idle',
@@ -326,6 +327,33 @@ export const QueryRenderModel = types
 
 export type QueryRenderModelInstance = Instance<typeof QueryRenderModel>;
 export type QueryRenderModelSnapshotIn = SnapshotIn<QueryRenderModelInstance>;
+
+export interface IQueryRenderModel extends IMuteQueryModel {
+  // Properties
+  state: QueryState;
+  data: string[][] | number[][] | AnyObject[];
+  error: QueryFailureError | null;
+  controller: AbortController;
+
+  // Views
+  readonly datasource: Record<string, unknown> | undefined;
+  readonly additionalQueryInfo: TAdditionalQueryInfo;
+  readonly depQueryModels: IQueryRenderModel[];
+  readonly depQueryModelStates: QueryState[];
+  readonly depQueryModelStatesString: string;
+  readonly stateMessage: string;
+
+  // Actions
+  runSQL(): Promise<void>;
+  runHTTP(): Promise<void>;
+  runMericoMetricQuery(): Promise<void>;
+  runTransformation(): Promise<void>;
+  fetchData(force: boolean): Promise<void>;
+  beforeDestroy(): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<IQueryRenderModel, QueryRenderModelInstance>();
 
 export type QueryUsageType =
   | {

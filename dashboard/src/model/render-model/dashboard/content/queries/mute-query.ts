@@ -8,7 +8,9 @@ import {
   MericoMetricQueryMetaInstance,
   MericoMetricType,
   QueryMeta,
+  type IQueryMeta,
 } from '~/model';
+import { typeAssert } from '~/types/utils';
 import { explainHTTPRequest } from '~/utils';
 import { explainSQL } from '~/utils';
 import { DependencyInfo, UsageRegs } from '~/utils';
@@ -333,3 +335,47 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
 }));
 
 export type MuteQueryModelInstance = Instance<typeof MuteQueryModel>;
+
+export interface IMuteQueryModel extends IQueryMeta {
+  // Views
+  readonly rootModel: Record<string, unknown>;
+  readonly contentModel: Record<string, unknown>;
+  readonly conditionOptions: {
+    optionGroups: Array<ComboboxItemGroup<ComboboxItem>>;
+    validValues: Set<string>;
+  };
+  readonly payload: Record<string, unknown>;
+  readonly formattedSQL: string;
+  readonly httpConfigString: string;
+  readonly typedAsSQL: boolean;
+  readonly typedAsHTTP: boolean;
+  readonly isMericoMetricQuery: boolean;
+  readonly isTransform: boolean;
+  readonly reQueryKey: string;
+  readonly runByConditionsMet: boolean;
+  readonly conditionNames: {
+    context: string[];
+    filters: string[];
+  };
+  readonly queries: string[];
+  readonly inUse: boolean;
+  readonly dependencies: DependencyInfo[];
+  readonly metricQueryPayload: MetricQueryPayload | null;
+  readonly metricQueryPayloadString: string;
+  readonly metricQueryPayloadError: string[];
+  readonly metricQueryPayloadErrorString: string;
+  readonly metricQueryPayloadValid: boolean;
+  readonly unmetRunByConditions: string[];
+  readonly conditionOptionsWithInvalidRunbys: {
+    optionGroups: Array<ComboboxItemGroup<ComboboxItem>>;
+    validValues: Set<string>;
+  };
+
+  // Methods
+  getConditionOptionsWithInvalidValue(value: string | null): {
+    optionGroups: Array<ComboboxItemGroup<ComboboxItem>>;
+    validValues: Set<string>;
+  };
+}
+
+typeAssert.shouldExtends<IMuteQueryModel, MuteQueryModelInstance>();

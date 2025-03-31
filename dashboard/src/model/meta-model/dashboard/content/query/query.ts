@@ -1,11 +1,17 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { createDBQueryConfig, DBQueryMeta } from './db-query';
-import { HTTPQueryMeta, createHTTPQueryConfig } from './http-query';
-import { TransformQueryMeta, createTransformQueryConfig } from './transform-query';
-import { MericoMetricQueryMeta, createMericoMetricQueryMetaConfig } from './merico-metric-query';
+import { type IObservableArray } from 'mobx';
+import { createDBQueryConfig, DBQueryMeta, type IDBQueryMeta } from './db-query';
+import { HTTPQueryMeta, createHTTPQueryConfig, type IHTTPQueryMeta } from './http-query';
+import { TransformQueryMeta, createTransformQueryConfig, type ITransformQueryMeta } from './transform-query';
+import {
+  MericoMetricQueryMeta,
+  createMericoMetricQueryMetaConfig,
+  type IMericoMetricQueryMeta,
+} from './merico-metric-query';
 
 import { DataSourceType } from './types';
 import { shallowToJS } from '~/utils';
+import { typeAssert } from '~/types/utils';
 
 export const QueryMeta = types
   .model('QueryMeta', {
@@ -75,3 +81,38 @@ export const QueryMeta = types
 
 export type QueryMetaInstance = Instance<typeof QueryMeta>;
 export type QueryMetaSnapshotIn = SnapshotIn<QueryMetaInstance>;
+
+export interface IQueryMeta {
+  // Properties
+  id: string;
+  name: string;
+  key: string;
+  type: DataSourceType;
+  config: IDBQueryMeta | IHTTPQueryMeta | ITransformQueryMeta | IMericoMetricQueryMeta;
+  pre_process: string;
+  post_process: string;
+  run_by: IObservableArray<string>;
+
+  // Views
+  readonly valid: boolean;
+  readonly json: {
+    id: string;
+    name: string;
+    key: string;
+    type: DataSourceType;
+    config: IDBQueryMeta | IHTTPQueryMeta | ITransformQueryMeta | IMericoMetricQueryMeta;
+    pre_process: string;
+    post_process: string;
+    run_by: IObservableArray<string>;
+  };
+
+  // Actions
+  setName(name: string): void;
+  setKey(key: string): void;
+  setType(type: DataSourceType): void;
+  setRunBy(v: string[]): void;
+  setPreProcess(v: string): void;
+  setPostProcess(v: string): void;
+}
+
+typeAssert.shouldExtends<IQueryMeta, QueryMetaInstance>();
