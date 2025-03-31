@@ -1,7 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
-import { PanelRenderModel, PanelRenderModelInstance, type IPanelRenderModel } from './panel';
 import { typeAssert } from '~/types/utils';
-import type { IObservableArray } from 'mobx';
+import { PanelRenderModel, PanelRenderModelInstance } from './panel';
+import { IPanelsRenderModel } from './types';
 
 export const PanelsRenderModel = types
   .model('PanelsRenderModel', {
@@ -38,14 +38,6 @@ export const PanelsRenderModel = types
   }));
 
 export type PanelsRenderModelInstance = Instance<typeof PanelsRenderModel>;
-
-export interface IPanelsRenderModel {
-  list: IObservableArray<IPanelRenderModel>;
-  readonly json: IPanelRenderModel['json'][];
-  findByID<T = IPanelRenderModel>(id: string): T | undefined;
-  readonly idMap: Map<string, IPanelRenderModel>;
-  panelsByIDs(ids: string[]): IPanelRenderModel[];
-}
 
 typeAssert.shouldExtends<IPanelsRenderModel, Instance<typeof PanelsRenderModel>>();
 typeAssert.shouldExtends<Instance<typeof PanelsRenderModel>, IPanelsRenderModel>();
