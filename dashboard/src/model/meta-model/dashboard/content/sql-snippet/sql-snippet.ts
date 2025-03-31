@@ -1,4 +1,5 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { typeAssert } from '~/types/utils';
 
 export const SQLSnippetMeta = types
   .model('SQLSnippetMeta', {
@@ -24,3 +25,21 @@ export const SQLSnippetMeta = types
   }));
 
 export type SQLSnippetMetaSnapshotIn = SnapshotIn<Instance<typeof SQLSnippetMeta>>;
+
+export interface ISQLSnippetMeta {
+  // Properties
+  key: string;
+  value: string;
+
+  // Views
+  readonly json: {
+    key: string;
+    value: string;
+  };
+
+  // Actions
+  setKey(key: string): void;
+  setValue(value: string): void;
+}
+
+typeAssert.shouldExtends<ISQLSnippetMeta, Instance<typeof SQLSnippetMeta>>();
