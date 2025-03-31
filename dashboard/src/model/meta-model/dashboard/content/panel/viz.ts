@@ -1,6 +1,7 @@
 import { isEqual } from 'lodash';
-import { types } from 'mobx-state-tree';
+import { types, type Instance } from 'mobx-state-tree';
 import { AnyObject } from '~/types';
+import { typeAssert } from '~/types/utils';
 
 export const PanelVizMeta = types
   .model('PanelVizMeta', {
@@ -24,3 +25,15 @@ export const PanelVizMeta = types
       self.conf = conf;
     },
   }));
+
+export interface IPanelVizMeta {
+  type: string;
+  conf: AnyObject;
+  readonly json: { type: string; conf: AnyObject };
+  setType(type: string): void;
+  setConf(conf: AnyObject): void;
+}
+
+typeAssert.shouldExtends<IPanelVizMeta, Instance<typeof PanelVizMeta>>();
+
+typeAssert.shouldExtends<Instance<typeof PanelVizMeta>, IPanelVizMeta>();

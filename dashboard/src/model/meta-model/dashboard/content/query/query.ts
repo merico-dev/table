@@ -100,7 +100,7 @@ export interface IQueryMeta {
     name: string;
     key: string;
     type: DataSourceType;
-    config: IDBQueryMeta | IHTTPQueryMeta | ITransformQueryMeta | IMericoMetricQueryMeta;
+    config: (IDBQueryMeta | IHTTPQueryMeta | ITransformQueryMeta | IMericoMetricQueryMeta)['json'];
     pre_process: string;
     post_process: string;
     run_by: IObservableArray<string>;
@@ -116,3 +116,4 @@ export interface IQueryMeta {
 }
 
 typeAssert.shouldExtends<IQueryMeta, QueryMetaInstance>();
+typeAssert.shouldExtends<QueryMetaInstance, IQueryMeta>();

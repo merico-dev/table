@@ -237,3 +237,4 @@ export interface IFilterMeta {
 }
 
 typeAssert.shouldExtends<IFilterMeta, FilterMetaInstance>();
+typeAssert.shouldExtends<FilterMetaInstance, IFilterMeta>();

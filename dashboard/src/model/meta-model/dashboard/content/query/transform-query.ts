@@ -44,6 +44,7 @@ export interface ITransformQueryMeta {
 }
 
 typeAssert.shouldExtends<ITransformQueryMeta, TransformQueryMetaInstance>();
+typeAssert.shouldExtends<TransformQueryMetaInstance, ITransformQueryMeta>();
 
 export const createTransformQueryConfig = () =>
   TransformQueryMeta.create({

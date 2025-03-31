@@ -1,7 +1,8 @@
-import { reaction } from 'mobx';
-import { Instance, addDisposer, getRoot, types } from 'mobx-state-tree';
+import { IObservableArray, reaction } from 'mobx';
+import { Instance, addDisposer, getRoot, types, IAnyStateTreeNode } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
-import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance } from '~/model/meta-model';
+import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance, ILayoutSetMeta } from '~/model/meta-model';
+import { typeAssert } from '~/types/utils';
 
 function getRangeText({ min, max }: any) {
   const _min = `${min}px`;
@@ -153,3 +154,46 @@ export const LayoutsRenderModel = types
   }));
 
 export type LayoutsRenderModelInstance = Instance<typeof LayoutsRenderModel>;
+
+export interface ILayoutBreakPointRange {
+  id: string;
+  name: string;
+  min: number;
+  max: number;
+  text: string;
+}
+
+export interface ILayoutsRenderModel {
+  list: IObservableArray<ILayoutSetMeta>;
+  currentBreakpoint: string;
+
+  readonly json: Array<ILayoutSetMeta['json']>;
+  jsonByPanelIDSet(panelIDSet: Set<string>): Array<ILayoutSetMeta['json']>;
+  readonly root: IAnyStateTreeNode;
+  readonly contentModel: Record<string, unknown>;
+  readonly basisLayoutSet: ILayoutSetMeta;
+  readonly currentLayoutSet: ILayoutSetMeta;
+  readonly currentLayoutRange: ILayoutBreakPointRange;
+  readonly currentRangeText: string;
+  readonly cols: Record<string, 36>;
+  readonly breakpoints: Record<string, number>;
+  readonly breakpointNameRecord: Record<string, number>;
+  readonly breakpointRanges: Array<ILayoutBreakPointRange>;
+  readonly breakpointsInfo: Array<{
+    id: string;
+    name: string;
+    breakpoint: number;
+  }>;
+  readonly currentBreakpointRange: ILayoutBreakPointRange | undefined;
+  readonly currentLayoutPreviewWidth: number | undefined;
+  items(panelIDs: string[]): Array<LayoutItemMetaInstance>;
+  gridLayouts(panelIDs: string[]): Record<string, Layout[]>;
+  findItemByPanelID(panelID: string): LayoutItemMetaInstance;
+
+  setCurrentBreakpoint(b: string): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<ILayoutsRenderModel, Instance<typeof LayoutsRenderModel>>();
+
+typeAssert.shouldExtends<Instance<typeof LayoutsRenderModel>, ILayoutsRenderModel>();
