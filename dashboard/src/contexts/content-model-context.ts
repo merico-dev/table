@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContentModelInstance } from '~/dashboard-editor/model/content';
-import { ContentRenderModelInstance } from '~/dashboard-render/model/content';
+import { ContentRenderModelInstance, type IContentRenderModel } from '~/dashboard-render/model/content';
 
 const ContentModelContext = React.createContext<ContentModelInstance | ContentRenderModelInstance | null>(null);
 
@@ -14,4 +14,4 @@ function useContentModelContext<T = ContentModelInstance>() {
   return model as T;
 }
 export const useEditContentModelContext = () => useContentModelContext<ContentModelInstance>();
-export const useRenderContentModelContext = () => useContentModelContext<ContentRenderModelInstance>();
+export const useRenderContentModelContext = () => useContentModelContext<IContentRenderModel>();
