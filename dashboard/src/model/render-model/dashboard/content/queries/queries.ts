@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import { Instance, SnapshotIn, flow, getParent, getRoot, types } from 'mobx-state-tree';
+import { IObservableArray } from 'mobx';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
 import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
-import { QueryRenderModel, QueryRenderModelInstance } from './query';
+import { QueryRenderModel, QueryRenderModelInstance, type IQueryRenderModel } from './query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
+import { typeAssert } from '~/types/utils';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -214,3 +216,41 @@ export function getInitialQueriesRenderModel(queries: QueryMetaSnapshotIn[]): Qu
     current: queries,
   };
 }
+
+export interface IQueriesRenderModel {
+  // Properties
+  current: IObservableArray<IQueryRenderModel>;
+
+  // Views
+  readonly idSet: Set<string>;
+  readonly firstID: string | undefined;
+  readonly json: Array<IQueryRenderModel>;
+  readonly root: Record<string, unknown>;
+  readonly dashboardName: string;
+  readonly contentModel: Record<string, unknown>;
+  readonly visibleQueryIDSet: Set<string>;
+  readonly querisToForceReload: {
+    filterQueries: IQueryRenderModel[];
+    panelQueries: IQueryRenderModel[];
+  };
+
+  // Methods
+  findByID(id: string): IQueryRenderModel | undefined;
+  findByIDSet(idset: Set<string>): IQueryRenderModel[];
+  isQueryInUse(queryID: string): boolean;
+  addTransformDepQueryIDs(targetSet: Set<string>, excludeSet?: Set<string>): void;
+  downloadAllData(): void;
+  downloadDataByQueryIDs(filename: string, ids: string[]): void;
+  downloadDataByQueryID(filename: string | null, id: string): void;
+  refetchDataByQueryID(queryID: string): Promise<void>;
+  getSchema(ids: string[]): {
+    definition: {
+      queries: Array<IQueryRenderModel>;
+    };
+    version: string;
+  };
+  downloadSchema(ids: string[]): void;
+  forceReloadVisibleQueries(): Promise<void>;
+}
+
+typeAssert.shouldExtends<IQueriesRenderModel, QueriesRenderModelInstance>();

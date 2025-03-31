@@ -1,6 +1,8 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
+import { typeAssert } from '~/types/utils';
+import type { IObservableArray } from 'mobx';
 
 export const TransformQueryMeta = types
   .model('TransformQueryMeta', {
@@ -24,6 +26,24 @@ export const TransformQueryMeta = types
   }));
 export type TransformQueryMetaInstance = Instance<typeof TransformQueryMeta>;
 export type TransformQueryMetaSnapshotIn = SnapshotIn<TransformQueryMetaInstance>;
+
+export interface ITransformQueryMeta {
+  // Properties
+  _type: DataSourceType.Transform;
+  dep_query_ids: IObservableArray<string>;
+
+  // Views
+  readonly valid: boolean;
+  readonly json: {
+    dep_query_ids: IObservableArray<string>;
+    _type: DataSourceType.Transform;
+  };
+
+  // Actions
+  setDependantQueryIDs(v: string[]): void;
+}
+
+typeAssert.shouldExtends<ITransformQueryMeta, TransformQueryMetaInstance>();
 
 export const createTransformQueryConfig = () =>
   TransformQueryMeta.create({
