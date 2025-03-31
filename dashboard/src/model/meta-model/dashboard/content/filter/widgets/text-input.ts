@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import { typeAssert } from '~/types/utils';
 
 export const FilterTextInputConfigMeta = types
   .model('FilterTextInputConfigMeta', {
@@ -32,6 +33,27 @@ export const FilterTextInputConfigMeta = types
   }));
 
 export type FilterTextInputConfigInstance = Instance<typeof FilterTextInputConfigMeta>;
+
+export interface IFilterTextInputConfig {
+  // Properties
+  _name: 'text-input';
+  required: boolean;
+  default_value: string;
+
+  // Views
+  readonly json: {
+    _name: 'text-input';
+    required: boolean;
+    default_value: string;
+  };
+  truthy(value: unknown): boolean;
+
+  // Actions
+  setRequired(required: boolean): void;
+  setDefaultValue(default_value: string): void;
+}
+
+typeAssert.shouldExtends<IFilterTextInputConfig, FilterTextInputConfigInstance>();
 
 export const createFilterTextInputConfig = () =>
   FilterTextInputConfigMeta.create({
