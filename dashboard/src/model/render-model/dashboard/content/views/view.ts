@@ -1,12 +1,24 @@
-import { reaction } from 'mobx';
+import { reaction, type IObservableArray } from 'mobx';
 import { saveAs } from 'file-saver';
 import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { EViewComponentType, TabInfo, TabModelInstance, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
+import {
+  EViewComponentType,
+  TabInfo,
+  TabModelInstance,
+  ViewMeta,
+  ViewTabsConfigInstance,
+  type ITabModel,
+  type IViewMeta,
+} from '~/model/meta-model';
 // @ts-expect-error dom-to-image-more's declaration file
 import domtoimage from 'dom-to-image-more';
 import JSZip from 'jszip';
 import { notifications } from '@mantine/notifications';
 import _ from 'lodash';
+import { typeAssert } from '~/types/utils';
+import { ViewsRenderModel } from './views';
+
+type ViewsRenderModelInstance = Instance<typeof ViewsRenderModel>;
 
 export const ViewRenderModel = types
   .compose(
@@ -105,3 +117,25 @@ export const ViewRenderModel = types
   }));
 
 export type ViewRenderModelInstance = Instance<typeof ViewRenderModel>;
+
+export interface IViewRenderModel extends IViewMeta {
+  // Properties
+  tab: string;
+
+  // Views
+  readonly tabs: IObservableArray<ITabModel>;
+  readonly tabInfo: TabInfo | null;
+  readonly tabView: ITabModel | null | undefined;
+  readonly tabViewID: string;
+  readonly contentModel: any; // todo: fix type
+  readonly panels: IObservableArray<any>;
+  readonly renderViewIDs: string[];
+
+  // Methods
+  setTab(tab: string | null): void;
+  setTabByTabInfo(tabInfo: TabInfo): void;
+  downloadScreenshot(dom: HTMLElement): Promise<void>;
+}
+
+typeAssert.shouldExtends<IViewRenderModel, Instance<typeof ViewRenderModel>>();
+typeAssert.shouldExtends<Instance<typeof ViewRenderModel>, IViewRenderModel>();
