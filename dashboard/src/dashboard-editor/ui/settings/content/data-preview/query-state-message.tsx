@@ -22,7 +22,7 @@ export const QueryStateMessage = observer(({ queryID }: IQueryStateMessage) => {
   if (!!error || !!metricQueryPayloadErrorString) {
     return (
       <Text mt={10} c="red" size="md" ta="center" ff="monospace">
-        {error ?? metricQueryPayloadErrorString}
+        {(error as unknown as string) ?? metricQueryPayloadErrorString}
       </Text>
     );
   }
