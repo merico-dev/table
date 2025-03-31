@@ -1,14 +1,35 @@
 import _ from 'lodash';
-import { toJS } from 'mobx';
+import { toJS, type IObservableArray } from 'mobx';
 import { Instance, SnapshotOut, getRoot, types } from 'mobx-state-tree';
 import { DashboardFilterType } from './types';
-import { FilterCheckboxConfigMeta, createFilterCheckboxConfig } from './widgets/checkbox';
-import { FilterDateRangeConfigMeta, createFilterDateRangeConfig } from './widgets/date-range';
-import { FilterMultiSelectConfigMeta, createFilterMultiSelectConfig } from './widgets/multi-select';
-import { FilterSelectConfigMeta, createFilterSelectConfig } from './widgets/select';
-import { FilterTextInputConfigMeta, createFilterTextInputConfig } from './widgets/text-input';
-import { FilterTreeSelectConfigMeta, createFilterTreeSelectConfig } from './widgets/tree-select';
-import { createFilterTreeSingleSelectConfig, FilterTreeSingleSelectConfigMeta } from './widgets';
+import { FilterCheckboxConfigMeta, createFilterCheckboxConfig, type IFilterCheckboxConfig } from './widgets/checkbox';
+import {
+  FilterDateRangeConfigMeta,
+  createFilterDateRangeConfig,
+  type IFilterDateRangeConfig,
+} from './widgets/date-range';
+import {
+  FilterMultiSelectConfigMeta,
+  createFilterMultiSelectConfig,
+  type IFilterMultiSelectConfig,
+} from './widgets/multi-select';
+import { FilterSelectConfigMeta, createFilterSelectConfig, type IFilterSelectConfig } from './widgets/select';
+import {
+  FilterTextInputConfigMeta,
+  createFilterTextInputConfig,
+  type IFilterTextInputConfig,
+} from './widgets/text-input';
+import {
+  FilterTreeSelectConfigMeta,
+  createFilterTreeSelectConfig,
+  type IFilterTreeSelectConfig,
+} from './widgets/tree-select';
+import {
+  createFilterTreeSingleSelectConfig,
+  FilterTreeSingleSelectConfigMeta,
+  type IFilterTreeSingleSelectConfig,
+} from './widgets';
+import { typeAssert } from '~/types/utils';
 
 export const FilterMeta = types
   .model('FilterMeta', {
@@ -160,3 +181,59 @@ export const FilterMeta = types
 
 export type FilterMetaInstance = Instance<typeof FilterMeta>;
 export type FilterMetaSnapshotOut = SnapshotOut<FilterMetaInstance>;
+
+export interface IFilterMeta {
+  // Properties
+  id: string;
+  key: string;
+  label: string;
+  order: number;
+  visibleInViewsIDs: IObservableArray<string>;
+  auto_submit: boolean;
+  default_value_func: string;
+  type: DashboardFilterType;
+  config:
+    | IFilterSelectConfig
+    | IFilterMultiSelectConfig
+    | IFilterTreeSelectConfig
+    | IFilterTreeSingleSelectConfig
+    | IFilterTextInputConfig
+    | IFilterCheckboxConfig
+    | IFilterDateRangeConfig;
+
+  // Views
+  readonly contentModel: Record<string, unknown>;
+  readonly filters: Record<string, unknown>;
+  readonly value: unknown;
+  readonly plainDefaultValue: unknown;
+  readonly usingDefaultValue: boolean;
+  readonly usingDefaultValueFunc: boolean;
+  readonly formattedDefaultValue: unknown;
+  readonly auto_submit_supported: boolean;
+  readonly json: {
+    id: string;
+    key: string;
+    type: DashboardFilterType;
+    label: string;
+    order: number;
+    config: Record<string, unknown>;
+    auto_submit: boolean;
+    visibleInViewsIDs: IObservableArray<string>;
+    default_value_func: string;
+  };
+  readonly visibleInViewsIDSet: Set<string>;
+  readonly should_auto_submit: boolean;
+  requiredAndPass(value: unknown): boolean;
+
+  // Actions
+  setKey(key: string): void;
+  setValue(value: unknown): void;
+  setLabel(label: string): void;
+  setOrder(order: number | string): void;
+  setType(type: string | null): void;
+  setVisibleInViewsIDs(ids: string[]): void;
+  setAutoSubmit(v: boolean): void;
+  setDefaultValueFunc(v: string): void;
+}
+
+typeAssert.shouldExtends<IFilterMeta, FilterMetaInstance>();

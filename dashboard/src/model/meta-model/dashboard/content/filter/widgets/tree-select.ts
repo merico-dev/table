@@ -1,6 +1,8 @@
-import { reaction } from 'mobx';
+import { reaction, type IObservableArray } from 'mobx';
 import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
-import { FilterBaseTreeSelectConfigMeta } from './tree-select-base';
+import { FilterBaseTreeSelectConfigMeta, type IFilterBaseTreeSelectConfigInstance } from './tree-select-base';
+import { typeAssert } from '~/types/utils';
+import type { IFilterConfigModel_SelectOption } from './select-base';
 
 export const FilterTreeSelectConfigMeta = types
   .compose(
@@ -108,6 +110,41 @@ export const FilterTreeSelectConfigMeta = types
   }));
 
 export type FilterTreeSelectConfigInstance = Instance<typeof FilterTreeSelectConfigMeta>;
+
+export interface IFilterTreeSelectConfigJson {
+  _name: 'tree-select';
+  required: boolean;
+  min_width: string;
+  default_value: IObservableArray<string>;
+  static_options: IObservableArray<IFilterConfigModel_SelectOption>;
+  options_query_id: string;
+  treeCheckStrictly: boolean;
+  default_value_mode: 'intersect' | 'reset';
+  default_selection_count: number;
+}
+
+export interface IFilterTreeSelectConfig extends IFilterBaseTreeSelectConfigInstance {
+  // Properties
+  _name: 'tree-select';
+  default_value: IObservableArray<string>;
+  treeCheckStrictly: boolean;
+
+  // Views
+  readonly json: IFilterTreeSelectConfigJson;
+  readonly defaultSelection: string[];
+  valueObjects(value: string[]): unknown[];
+  initialSelection(value: string[] | null): string[];
+  truthy(value: unknown): boolean;
+
+  // Actions
+  setDefaultValue(default_value: string[]): void;
+  setDefaultValueMode(v: string | null): void;
+  setTreeCheckStrictly(v: boolean): void;
+  applyDefaultSelection(): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<IFilterTreeSelectConfig, FilterTreeSelectConfigInstance>();
 
 export const createFilterTreeSelectConfig = () =>
   FilterTreeSelectConfigMeta.create({
