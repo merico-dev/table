@@ -1,5 +1,6 @@
 import { getParent, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType, TPayloadForSQLSnippet } from '~/model';
+import { typeAssert } from '~/types/utils';
 
 const CustomModalTitleModel = types
   .model('CustomModalTitleModel', {
@@ -48,6 +49,18 @@ const CustomModalTitleModel = types
     },
   }));
 
+export interface ICustomModalTitleModel {
+  enabled: boolean;
+  func_content: string;
+  readonly json: { enabled: boolean; func_content: string };
+  readonly value: string;
+  setEnabled(v: boolean): void;
+  setFuncContent(v: string): void;
+  replace({ enabled, func_content }: { enabled: boolean; func_content: string }): void;
+}
+
+typeAssert.shouldExtends<ICustomModalTitleModel, Instance<typeof CustomModalTitleModel>>();
+
 export interface ICustomModalTitle {
   enabled: boolean;
   func_content: string;
@@ -89,6 +102,23 @@ export const ViewModalConfig = types
 
 export type ViewModalConfigInstance = Instance<typeof ViewModalConfig>;
 export type ViewModalConfigSnapshotIn = SnapshotIn<ViewModalConfigInstance>;
+
+export interface IViewModalConfig {
+  _name: EViewComponentType.Modal;
+  width: string;
+  height: string;
+  custom_modal_title: ICustomModalTitleModel;
+  readonly json: {
+    _name: EViewComponentType.Modal;
+    width: string;
+    height: string;
+    custom_modal_title: { enabled: boolean; func_content: string };
+  };
+  setWidth(v: string): void;
+  setHeight(v: string): void;
+}
+
+typeAssert.shouldExtends<IViewModalConfig, Instance<typeof ViewModalConfig>>();
 
 export const createViewModalConfig = () =>
   ViewModalConfig.create({
