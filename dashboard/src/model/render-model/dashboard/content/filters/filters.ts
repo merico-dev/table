@@ -1,14 +1,18 @@
 import _ from 'lodash';
 import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
+import { type IObservableArray } from 'mobx';
 import {
   CURRENT_SCHEMA_VERSION,
   ContextRecordType,
   FilterMeta,
   FilterMetaSnapshotOut,
   FilterValuesType,
+  type DashboardFilterType,
+  type IFilterMeta,
 } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters, formatInputFilterValues } from './utils';
+import { typeAssert } from '~/types/utils';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -158,3 +162,61 @@ export function getInitialFiltersConfig(
     values: initialValues,
   };
 }
+
+export interface IFilterJsonType {
+  id: string;
+  key: string;
+  type: DashboardFilterType;
+  label: string;
+  order: number;
+  config: Record<string, unknown>;
+  auto_submit: boolean;
+  visibleInViewsIDs: IObservableArray<string>;
+  default_value_func: string;
+}
+
+export interface IFiltersRenderModel {
+  // Properties
+  current: IObservableArray<IFilterMeta>;
+  values: Record<string, unknown>;
+
+  // Views
+  readonly json: IFilterJsonType[];
+  readonly valuesString: string;
+  readonly filter: unknown;
+  readonly valuesForPayload: Record<string, unknown>;
+  readonly contentModel: unknown;
+  readonly context: ContextRecordType;
+  readonly initialValuesDep: string;
+  readonly formattedDefaultValues: Record<string, unknown>;
+  readonly firstID: string | undefined;
+  readonly keySet: Set<string>;
+  readonly keyLabelMap: Record<string, string>;
+  readonly empty: boolean;
+
+  // Methods
+  findByID(id: string): IFilterMeta | undefined;
+  findByKey(key: string): IFilterMeta | undefined;
+  findByIDSet(idset: Set<string>): IFilterMeta[];
+  readonly inOrder: IFilterMeta[];
+  visibleInView(viewID: string): IFilterMeta[];
+  readonly firstFilterValueKey: string;
+  getSelectOption(id: string): Record<string, unknown>;
+
+  // Actions
+  setValues(values: Record<string, unknown>): void;
+  patchValues(values: FilterValuesType): void;
+  setValueByKey(key: string, value: unknown): void;
+  applyValuesPatch(values: Record<string, unknown>): void;
+  getValueByKey(key: string): unknown;
+  getSchema(
+    ids: string[],
+    raw?: boolean,
+  ): {
+    filters: IFilterJsonType[];
+    version: string;
+  };
+  downloadSchema(ids: string[]): void;
+}
+
+typeAssert.shouldExtends<IFiltersRenderModel, FiltersRenderModelInstance>();
