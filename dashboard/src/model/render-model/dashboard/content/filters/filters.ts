@@ -13,6 +13,7 @@ import {
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters, formatInputFilterValues } from './utils';
 import { typeAssert } from '~/types/utils';
+import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -96,7 +97,7 @@ export const FiltersRenderModel = types
       }, {} as Record<string, string>);
     },
     getSelectOption(id: string) {
-      const filter = this.findByID(id);
+      const filter = this.findByID(id) as IFilterMeta | undefined;
       if (!filter || !('getSelectOption' in filter.config)) {
         return null;
       }
@@ -214,7 +215,7 @@ export interface IFiltersRenderModel {
   readonly inOrder: IFilterMeta[];
   visibleInView(viewID: string): IFilterMeta[];
   readonly firstFilterValueKey: string;
-  getSelectOption(id: string): Record<string, unknown>;
+  getSelectOption(id: string): TSelectOption | null | undefined;
 
   // ActionvisibleInViewsIDss
   setValues(values: Record<string, unknown>): void;

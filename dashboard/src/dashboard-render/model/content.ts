@@ -129,7 +129,7 @@ export const ContentRenderModel = types
       data: IQueryRenderModelData;
       len: number;
       state: string;
-      error?: Error;
+      error?: string;
     } {
       const q = self.queries.findByID(queryID);
       if (!q) {
@@ -209,7 +209,7 @@ export interface IContentRenderModel {
     data: IQueryRenderModelData;
     len: number;
     state: string;
-    error?: Error;
+    error?: string;
   };
 }
 
