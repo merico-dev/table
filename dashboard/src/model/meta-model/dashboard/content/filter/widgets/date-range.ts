@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-
+import { type IObservableArray } from 'mobx';
 import { getParent, Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
+import { typeAssert } from '~/types/utils';
 
 export type DateRangeValue_Value = [Date | null, Date | null];
 export type DateRangeValue = {
@@ -189,6 +190,43 @@ export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRang
 });
 
 export type FilterDateRangeConfigInstance = Instance<typeof FilterDateRangeConfigMeta>;
+export interface IFilterDateRangeConfig {
+  // Properties
+  _name: 'date-range';
+  required: boolean;
+  inputFormat: 'YYYY' | 'YYYYMM' | 'YYYYMMDD' | 'YYYY-MM' | 'YYYY-MM-DD';
+  default_value: IObservableArray<Date | null>;
+  default_shortcut: string;
+  clearable: boolean;
+  max_days: number;
+  allowSingleDateInRange: boolean;
+
+  // Views
+  readonly json: {
+    _name: 'date-range';
+    max_days: number;
+    required: boolean;
+    clearable: boolean;
+    inputFormat: 'YYYY' | 'YYYYMM' | 'YYYYMMDD' | 'YYYY-MM' | 'YYYY-MM-DD';
+    default_value: string[];
+    default_shortcut: string;
+    allowSingleDateInRange: boolean;
+  };
+  truthy(fullValue: DateRangeValue): boolean;
+  readonly filter: Record<string, unknown>;
+  readonly dateStringsValue: [string, string];
+
+  // Actions
+  setFilterValue(v: DateRangeValue): void;
+  setRequired(required: boolean): void;
+  setClearable(clearable: boolean): void;
+  setInputFormat(inputFormat: string | null): void;
+  setDefaultValue(v: DateRangeValue): void;
+  setDefaultShortcut(v: string | null): void;
+  setMaxDays(v: number | string): void;
+  setAllowSingleDateInRange(v: boolean): void;
+}
+typeAssert.shouldExtends<IFilterDateRangeConfig, FilterDateRangeConfigInstance>();
 export type FilterDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterDateRangeConfigMeta>;
 
 export const createFilterDateRangeConfig = () =>
