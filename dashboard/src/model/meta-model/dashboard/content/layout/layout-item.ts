@@ -2,6 +2,7 @@ import { Instance, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 import type { IPanelRenderModel } from '~/model/render-model';
 import { typeAssert } from '~/types/utils';
+import { IContentRenderModel } from '../../../../../dashboard-render';
 
 export const LayoutItemMeta = types
   .model('LayoutItemMeta', {
@@ -83,7 +84,7 @@ export interface ILayoutItemMeta {
     panelID: string;
   };
 
-  readonly contentModel: Record<string, unknown>; // FIXME: should move to LayoutItemRenderModel
+  readonly contentModel: IContentRenderModel; // FIXME: should move to LayoutItemRenderModel
   readonly panel: IPanelRenderModel;
   readonly layoutProperies: Layout;
 
