@@ -2,6 +2,7 @@ import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
+import { IContentRenderModel } from '~/dashboard-render';
 import {
   DashboardFilterType,
   DataSourceType,
@@ -342,7 +343,7 @@ export type MuteQueryModelInstance = Instance<typeof MuteQueryModel>;
 export interface IMuteQueryModel extends IQueryMeta {
   // Views
   readonly rootModel: Record<string, unknown>;
-  readonly contentModel: Record<string, unknown>;
+  readonly contentModel: IContentRenderModel;
   readonly conditionOptions: {
     optionGroups: Array<ComboboxItemGroup<ComboboxItem>>;
     validValues: Set<string>;

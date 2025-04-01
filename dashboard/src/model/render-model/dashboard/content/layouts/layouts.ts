@@ -3,6 +3,7 @@ import { Instance, addDisposer, getRoot, types, IAnyStateTreeNode } from 'mobx-s
 import { Layout } from 'react-grid-layout';
 import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance, ILayoutSetMeta } from '~/model/meta-model';
 import { typeAssert } from '~/types/utils';
+import { IContentRenderModel } from '../../../../../dashboard-render';
 
 function getRangeText({ min, max }: any) {
   const _min = `${min}px`;
@@ -170,7 +171,7 @@ export interface ILayoutsRenderModel {
   readonly json: Array<ILayoutSetMeta['json']>;
   jsonByPanelIDSet(panelIDSet: Set<string>): Array<ILayoutSetMeta['json']>;
   readonly root: IAnyStateTreeNode;
-  readonly contentModel: Record<string, unknown>;
+  readonly contentModel: IContentRenderModel;
   readonly basisLayoutSet: ILayoutSetMeta;
   readonly currentLayoutSet: ILayoutSetMeta;
   readonly currentLayoutRange: ILayoutBreakPointRange;
