@@ -14,6 +14,7 @@ import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters, formatInputFilterValues } from './utils';
 import { typeAssert } from '~/types/utils';
 import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
+import { IContentRenderModel } from '~/dashboard-render';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -199,7 +200,7 @@ export interface IFiltersRenderModel {
   readonly valuesString: string;
   readonly filter: unknown;
   readonly valuesForPayload: Record<string, unknown>;
-  readonly contentModel: unknown;
+  readonly contentModel: IContentRenderModel;
   readonly context: ContextRecordType;
   readonly initialValuesDep: string;
   readonly formattedDefaultValues: Record<string, unknown>;
