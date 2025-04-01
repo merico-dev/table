@@ -51,7 +51,7 @@ export function parseData(data: MetricDetail) {
     filters: data.filters,
     groupBys: data.groupBys,
     trendingDateCol: null,
-    supportTrending: data.supportTrending && calcs.length > 0,
+    supportTrending: data.supportTrending,
     requireTrendingReason, // supportTrending, then requireTrending
   };
 }
