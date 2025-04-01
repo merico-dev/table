@@ -24,6 +24,9 @@ export const PreviewQueryAndVars = observer(({ queryModel }: Props) => {
           maxHeight: '50vh',
           overflow: 'hidden',
         },
+        panel: {
+          height: 'calc(100% - 36px)',
+        },
       }}
       color="red"
     >
