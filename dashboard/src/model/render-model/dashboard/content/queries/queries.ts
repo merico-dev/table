@@ -3,6 +3,7 @@ import { Instance, SnapshotIn, flow, getParent, getRoot, types } from 'mobx-stat
 import { IObservableArray } from 'mobx';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
 import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
+import { IContentRenderModel } from '../../../../../dashboard-render';
 import { QueryRenderModel, QueryRenderModelInstance, type IQueryRenderModel } from './query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 import { typeAssert } from '~/types/utils';
@@ -227,7 +228,7 @@ export interface IQueriesRenderModel {
   readonly json: Array<IQueryRenderModel['json']>;
   readonly root: Record<string, unknown>;
   readonly dashboardName: string;
-  readonly contentModel: Record<string, unknown>;
+  readonly contentModel: IContentRenderModel;
   readonly visibleQueryIDSet: Set<string>;
   readonly querisToForceReload: {
     filterQueries: IQueryRenderModel[];

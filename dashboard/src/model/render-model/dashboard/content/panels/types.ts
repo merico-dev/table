@@ -1,17 +1,12 @@
 import type { IObservableArray } from 'mobx';
 import type { ReactNode } from 'react';
+import { IContentRenderModel } from '../../../../../dashboard-render';
 import type { IPanelMeta } from '../../../../meta-model';
 import { type IQueryRenderModel, QueryRenderModelInstance } from '../queries';
 import { VariableAggValueMap, VariableStyleMap, VariableValueMap } from './panel';
 
 export interface IPanelRenderModel extends IPanelMeta {
-  readonly contentModel: {
-    content: {
-      queries: {
-        findByIDSet(ids: Set<string>): QueryRenderModelInstance[];
-      };
-    };
-  };
+  readonly contentModel: IContentRenderModel;
   readonly queries: QueryRenderModelInstance[];
   readonly firstQuery: QueryRenderModelInstance | null;
   readonly firstQueryData: Array<string[] | number[] | Record<string, unknown>>;
