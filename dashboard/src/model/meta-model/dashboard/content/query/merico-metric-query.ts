@@ -55,6 +55,9 @@ export const MericoMetricQueryMeta = types
     }),
   })
   .views((self) => ({
+    get query() {
+      return getParent(self) as any;
+    },
     get valid() {
       return !!self.id;
     },
@@ -86,6 +89,10 @@ export const MericoMetricQueryMeta = types
       self.timeQuery.enabled = false;
       self.timeQuery.range_variable = '';
       self.timeQuery.unit_variable = '';
+      if ('data' in self.query) {
+        self.query.setData([]);
+        self.query.setError(null);
+      }
     },
     setID(v: string) {
       if (v !== self.id) {
