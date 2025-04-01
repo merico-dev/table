@@ -25,6 +25,7 @@ export type RenderSearchButtonProps = {
   disabled: boolean;
   onSubmit: OnFiltersSubmit;
 };
+
 export interface IDashboardConfig {
   basename: string;
   apiBaseURL: string;
@@ -35,5 +36,13 @@ export interface IDashboardConfig {
   renderSearchButton?: (props: RenderSearchButtonProps) => ReactNode;
 }
 
-export { notifyVizRendered, onVizRendered, pluginManager } from './components/plugins';
+export {
+  notifyVizRendered,
+  onVizRendered,
+  pluginManager,
+  tokens as pluginServices,
+  useServiceLocator,
+} from './components/plugins';
+export type * from './components/plugins';
+export type { IServiceLocator } from './components/plugins';
 export { type IPanelAddon, type IPanelAddonRenderProps } from './types/plugin';
