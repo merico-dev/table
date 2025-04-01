@@ -3,6 +3,7 @@ import { IObservableArray } from 'mobx';
 
 import { v4 as uuidv4 } from 'uuid';
 import { shallowToJS } from '~/utils';
+import { IContentRenderModel } from '../../../../../dashboard-render';
 import { LayoutItem, LayoutItemMeta, ILayoutItemMeta } from './layout-item';
 import { Layout } from 'react-grid-layout';
 import _ from 'lodash';
@@ -139,7 +140,7 @@ export interface ILayoutSetMeta {
   breakpoint: number;
   list: IObservableArray<ILayoutItemMeta>;
 
-  readonly contentModel: Record<string, unknown>;
+  readonly contentModel: IContentRenderModel;
   readonly json: {
     id: string;
     name: string;

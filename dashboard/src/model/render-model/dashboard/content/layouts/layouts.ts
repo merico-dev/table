@@ -1,7 +1,13 @@
 import { IObservableArray, reaction } from 'mobx';
 import { Instance, addDisposer, getRoot, types, IAnyStateTreeNode } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
-import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance, ILayoutSetMeta } from '~/model/meta-model';
+import {
+  LayoutItemMetaInstance,
+  LayoutSetMeta,
+  LayoutSetMetaInstance,
+  ILayoutSetMeta,
+  ILayoutItemMeta,
+} from '~/model/meta-model';
 import { typeAssert } from '~/types/utils';
 import { IContentRenderModel } from '../../../../../dashboard-render';
 
@@ -187,7 +193,7 @@ export interface ILayoutsRenderModel {
   }>;
   readonly currentBreakpointRange: ILayoutBreakPointRange | undefined;
   readonly currentLayoutPreviewWidth: number | undefined;
-  items(panelIDs: string[]): Array<LayoutItemMetaInstance>;
+  items(panelIDs: string[]): Array<ILayoutItemMeta>;
   gridLayouts(panelIDs: string[]): Record<string, Layout[]>;
   findItemByPanelID(panelID: string): LayoutItemMetaInstance;
 
