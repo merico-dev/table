@@ -78,6 +78,14 @@ export const QueryRenderModel = types
   .volatile(() => ({
     controller: new AbortController(),
   }))
+  .actions((self) => ({
+    setData(data: string[][] | number[][] | AnyObject[]) {
+      self.data = data;
+    },
+    setError(err: string | null) {
+      self.error = err;
+    },
+  }))
   .actions((self) => {
     return {
       runSQL: flow(function* () {
