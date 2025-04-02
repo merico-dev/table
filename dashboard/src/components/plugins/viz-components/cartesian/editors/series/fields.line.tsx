@@ -1,4 +1,4 @@
-import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
+import { Box, Divider, Group, NumberInput, Select, Stack, Switch, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { SymbolSizeSelector } from '../../../../common-echarts-fields/symbol-size';
@@ -30,6 +30,18 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
 
   return (
     <>
+      <Controller
+        name={`series.${index}.stack`}
+        control={control}
+        render={({ field }) => (
+          <TextInput
+            label={t('chart.series.bar.stack')}
+            placeholder={t('chart.series.bar.stack_hint')}
+            sx={{ flexGrow: 1 }}
+            {...field}
+          />
+        )}
+      />
       <Divider mb={-15} variant="dashed" label={t('chart.series.line.line_settings')} labelPosition="center" />
       <Group grow>
         <Controller
