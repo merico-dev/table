@@ -3,6 +3,7 @@ import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
 import { typeAssert } from '~/types/utils';
 import type { IObservableArray } from 'mobx';
+import { IQueryRenderModel } from '~/model/render-model';
 
 const MetricFilterColMeta = types
   .model('MetricFilterColMeta', {
@@ -176,6 +177,7 @@ export interface IMericoMetricQueryMeta {
   };
 
   // Views
+  readonly query: IQueryRenderModel;
   readonly valid: boolean;
   readonly json: {
     id: string;

@@ -18,7 +18,6 @@ import {
   getInitialQueriesRenderModel,
   getInitialSQLSnippetsRenderModel,
   getInitialViewsRenderModel,
-  type IQueryRenderModelData,
   LayoutsRenderModel,
   MockContextMeta,
   PanelsRenderModel,
@@ -112,15 +111,15 @@ export const ContentRenderModel = types
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
       return { content_id: self.id, query_id, params: this.dashboardState };
     },
-    get data(): Record<string, IQueryRenderModelData> {
+    get data(): Record<string, TQueryData> {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));
       return data.reduce((ret, curr) => {
         ret[curr.id] = curr.data;
         return ret;
-      }, {} as Record<string, IQueryRenderModelData>);
+      }, {} as Record<string, TQueryData>);
     },
     getDataStuffByID(queryID: string): {
-      data: IQueryRenderModelData;
+      data: TQueryData;
       len: number;
       state: string;
       error?: string;

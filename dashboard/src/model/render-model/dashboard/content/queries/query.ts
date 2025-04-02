@@ -10,6 +10,8 @@ import { AnyObject } from '~/types';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel, type IMuteQueryModel } from './mute-query';
 import { typeAssert } from '~/types/utils';
+import { DataSourceMetaModelInstance } from '~/model/meta-model';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 
 type QueryStateType = 'idle' | 'loading' | 'error';
 
@@ -20,7 +22,7 @@ export const QueryRenderModel = types
     types.model({
       state: types.optional(types.enumeration<QueryStateType>(['idle', 'loading', 'error']), 'idle'),
       data: types.optional(types.frozen<string[][] | number[][] | AnyObject[]>([]), []),
-      error: types.frozen(),
+      error: types.optional(types.frozen<string | null>(), null),
     }),
   )
   .views((self) => ({
@@ -122,7 +124,7 @@ export const QueryRenderModel = types
           if (!axios.isCancel(error)) {
             self.data = [];
             const fallback = get(error, 'message', 'unkown error');
-            self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
+            self.error = get(error, 'response.data.detail.message', fallback) as unknown as string | null;
             self.state = 'error';
           } else {
             console.debug(`🟡 Query[${self.name}] is cancelled`);
@@ -170,7 +172,7 @@ export const QueryRenderModel = types
           if (!axios.isCancel(error)) {
             self.data = [];
             const fallback = get(error, 'message', 'unkown error');
-            self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
+            self.error = get(error, 'response.data.detail.message', fallback) as unknown as string | null;
             self.state = 'error';
           } else {
             console.debug(`🟡 Query[${self.name}] is cancelled`);
@@ -223,7 +225,7 @@ export const QueryRenderModel = types
           if (!axios.isCancel(error)) {
             self.data = [];
             const fallback = get(error, 'message', 'unkown error');
-            self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
+            self.error = get(error, 'response.data.detail.message', fallback) as unknown as string | null;
             self.state = 'error';
           } else {
             console.debug(`🟡 Query[${self.name}] is cancelled`);
@@ -324,16 +326,16 @@ export const QueryRenderModel = types
 export type QueryRenderModelInstance = Instance<typeof QueryRenderModel>;
 export type QueryRenderModelSnapshotIn = SnapshotIn<QueryRenderModelInstance>;
 
-export type IQueryRenderModelData = string[][] | number[][] | AnyObject[];
 export interface IQueryRenderModel extends IMuteQueryModel {
   // Properties
   state: QueryStateType;
-  data: IQueryRenderModelData;
-  error: QueryFailureError | null;
+  data: TQueryData;
+  error: string | null;
   controller: AbortController;
 
   // Views
-  readonly datasource: Record<string, unknown> | undefined;
+  readonly datasource: DataSourceMetaModelInstance | DataSourceModelInstance | undefined;
+
   readonly additionalQueryInfo: TAdditionalQueryInfo;
   readonly depQueryModels: IQueryRenderModel[];
   readonly depQueryModelStates: QueryStateType[];
@@ -348,6 +350,8 @@ export interface IQueryRenderModel extends IMuteQueryModel {
   fetchData(force: boolean): Promise<void> | void;
   beforeDestroy(): void;
   afterCreate(): void;
+  setData(data: TQueryData): void;
+  setError(error: string | null): void;
 }
 
 typeAssert.shouldExtends<IQueryRenderModel, QueryRenderModelInstance>();
