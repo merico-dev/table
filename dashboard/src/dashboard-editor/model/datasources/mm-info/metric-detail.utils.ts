@@ -41,11 +41,12 @@ export function parseData(data: MetricDetail) {
   const calcs = _.uniq(data.derivedMetrics.map((it) => it.calculation)).filter((calc) =>
     TrendingCalculationTypeSet.has(calc),
   );
-  const requireTrendingReason = data.supportTrending
-    ? `当前指标涉及 ${calcs
-        .map((it) => _.get(DerivedCalculationLabelMap, it, it))
-        .join('、')}，缺少时序则无法展示有效结果。`
-    : '';
+  const requireTrendingReason =
+    data.supportTrending && calcs.length > 0
+      ? `当前指标涉及 ${calcs
+          .map((it) => _.get(DerivedCalculationLabelMap, it, it))
+          .join('、')}，缺少时序则无法展示有效结果。`
+      : '';
 
   return {
     filters: data.filters,
