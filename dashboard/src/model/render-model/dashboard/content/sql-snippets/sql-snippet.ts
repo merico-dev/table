@@ -1,6 +1,7 @@
 import { getParent, Instance, SnapshotIn } from 'mobx-state-tree';
-import { SQLSnippetMeta } from '~/model';
+import { SQLSnippetMeta, type ISQLSnippetMeta } from '~/model';
 import { SQLSnippetsRenderModelInstance } from './types';
+import { typeAssert } from '~/types/utils';
 
 export const SQLSnippetRenderModel = SQLSnippetMeta.views((self) => ({
   isADuplicatedKey(newKey: string) {
@@ -21,5 +22,11 @@ export const SQLSnippetRenderModel = SQLSnippetMeta.views((self) => ({
 
 export type SQLSnippetRenderModelInstance = Instance<typeof SQLSnippetRenderModel>;
 export type SQLSnippetRenderModelSnapshotIn = SnapshotIn<SQLSnippetRenderModelInstance>;
+
+export interface ISQLSnippetRenderModel extends ISQLSnippetMeta {
+  isADuplicatedKey(newKey: string): boolean;
+}
+
+typeAssert.shouldExtends<ISQLSnippetRenderModel, SQLSnippetRenderModelInstance>();
 
 export type SQLSnippetUsageType = { queryID: string; sqlSnippetKey: string; queryName: string };

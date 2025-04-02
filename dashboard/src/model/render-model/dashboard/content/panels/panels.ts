@@ -1,5 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
+import { typeAssert } from '~/types/utils';
 import { PanelRenderModel, PanelRenderModelInstance } from './panel';
+import { IPanelsRenderModel } from './types';
 
 export const PanelsRenderModel = types
   .model('PanelsRenderModel', {
@@ -36,3 +38,6 @@ export const PanelsRenderModel = types
   }));
 
 export type PanelsRenderModelInstance = Instance<typeof PanelsRenderModel>;
+
+typeAssert.shouldExtends<IPanelsRenderModel, Instance<typeof PanelsRenderModel>>();
+typeAssert.shouldExtends<Instance<typeof PanelsRenderModel>, IPanelsRenderModel>();

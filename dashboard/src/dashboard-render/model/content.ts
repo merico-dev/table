@@ -1,36 +1,38 @@
 import {
-  Instance,
-  SnapshotIn,
-  SnapshotOut,
   addDisposer,
   applyPatch,
   getParent,
+  Instance,
   onSnapshot,
+  SnapshotIn,
+  SnapshotOut,
   types,
 } from 'mobx-state-tree';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
-  CURRENT_SCHEMA_VERSION,
   ContextRecordType,
   FiltersRenderModel,
-  LayoutsRenderModel,
-  MockContextMeta,
-  PanelsRenderModel,
-  QueriesRenderModel,
-  SQLSnippetsRenderModel,
-  TPayloadForSQL,
-  TPayloadForViz,
-  TabInfo,
-  ViewsRenderModel,
   formatSQLSnippet,
   getInitialFiltersConfig,
   getInitialMockContextMeta,
   getInitialQueriesRenderModel,
   getInitialSQLSnippetsRenderModel,
   getInitialViewsRenderModel,
+  type IQueryRenderModelData,
+  LayoutsRenderModel,
+  MockContextMeta,
+  PanelsRenderModel,
+  QueriesRenderModel,
+  SQLSnippetsRenderModel,
+  TabInfo,
+  TPayloadForSQL,
+  TPayloadForViz,
+  ViewsRenderModel,
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
+import { typeAssert } from '~/types/utils';
 import { payloadToDashboardState } from '~/utils';
+import { IContentRenderModel } from './types';
 
 export const ContentRenderModel = types
   .model({
@@ -110,14 +112,19 @@ export const ContentRenderModel = types
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
       return { content_id: self.id, query_id, params: this.dashboardState };
     },
-    get data() {
+    get data(): Record<string, IQueryRenderModelData> {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));
       return data.reduce((ret, curr) => {
         ret[curr.id] = curr.data;
         return ret;
-      }, {} as Record<string, $TSFixMe[]>);
+      }, {} as Record<string, IQueryRenderModelData>);
     },
-    getDataStuffByID(queryID: string) {
+    getDataStuffByID(queryID: string): {
+      data: IQueryRenderModelData;
+      len: number;
+      state: string;
+      error?: string;
+    } {
       const q = self.queries.findByID(queryID);
       if (!q) {
         return {
@@ -169,6 +176,9 @@ export const ContentRenderModel = types
 export type ContentRenderModelInstance = Instance<typeof ContentRenderModel>;
 export type ContentRenderModelCreationType = SnapshotIn<ContentRenderModelInstance>;
 export type ContentRenderModelSnapshotType = SnapshotOut<ContentRenderModelInstance>;
+
+typeAssert.shouldExtends<ContentRenderModelInstance, IContentRenderModel>();
+typeAssert.shouldExtends<IContentRenderModel, ContentRenderModelInstance>();
 
 export function createContentRenderModel(
   { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,

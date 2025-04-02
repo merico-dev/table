@@ -1,12 +1,21 @@
-import { reaction } from 'mobx';
-import { saveAs } from 'file-saver';
-import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { EViewComponentType, TabInfo, TabModelInstance, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
+import { notifications } from '@mantine/notifications';
 // @ts-expect-error dom-to-image-more's declaration file
 import domtoimage from 'dom-to-image-more';
+import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
-import { notifications } from '@mantine/notifications';
-import _ from 'lodash';
+import { type IObservableArray } from 'mobx';
+import { getParent, Instance, types } from 'mobx-state-tree';
+import {
+  EViewComponentType,
+  type ITabModel,
+  type IViewMeta,
+  TabInfo,
+  ViewMeta,
+  ViewTabsConfigInstance,
+} from '~/model/meta-model';
+import { typeAssert } from '~/types/utils';
+import { IContentRenderModel } from '../../../../../dashboard-render';
+import { IPanelRenderModel } from '../panels';
 
 export const ViewRenderModel = types
   .compose(
@@ -45,7 +54,7 @@ export const ViewRenderModel = types
 
       return this.tabView.view_id ?? '';
     },
-    get contentModel() {
+    get contentModel(): IContentRenderModel {
       // FIXME: type
       return getParent(self, 3) as any;
     },
@@ -105,3 +114,27 @@ export const ViewRenderModel = types
   }));
 
 export type ViewRenderModelInstance = Instance<typeof ViewRenderModel>;
+
+export interface IViewRenderModel extends IViewMeta {
+  // Properties
+  tab: string;
+
+  // Views
+  readonly tabs: IObservableArray<ITabModel>;
+  readonly tabInfo: TabInfo | null;
+  readonly tabView: ITabModel | null | undefined;
+  readonly tabViewID: string;
+  readonly contentModel: IContentRenderModel;
+  readonly panels: IPanelRenderModel[];
+  readonly renderViewIDs: string[];
+
+  // Methods
+  setTab(tab: string | null): void;
+
+  setTabByTabInfo(tabInfo: TabInfo): void;
+
+  downloadScreenshot(dom: HTMLElement): Promise<void>;
+}
+
+typeAssert.shouldExtends<IViewRenderModel, Instance<typeof ViewRenderModel>>();
+typeAssert.shouldExtends<Instance<typeof ViewRenderModel>, IViewRenderModel>();

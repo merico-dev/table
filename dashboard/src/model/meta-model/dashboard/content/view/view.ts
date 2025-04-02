@@ -1,8 +1,10 @@
 import { Instance, types } from 'mobx-state-tree';
+import { IObservableArray } from 'mobx';
 import { EViewComponentType } from './types';
-import { createViewDivisionConfig, ViewDivisionConfig } from './widgets/division';
-import { createViewModalConfig, ViewModalConfig } from './widgets/modal';
-import { createViewTabsConfig, ViewTabsConfig } from './widgets/tabs';
+import { createViewDivisionConfig, ViewDivisionConfig, type IViewDivisionConfig } from './widgets/division';
+import { createViewModalConfig, ViewModalConfig, type IViewModalConfig } from './widgets/modal';
+import { createViewTabsConfig, ViewTabsConfig, type IViewTabsConfig } from './widgets/tabs';
+import { typeAssert } from '~/types/utils';
 
 export const ViewMeta = types
   .model({
@@ -65,3 +67,31 @@ export const ViewMeta = types
   }));
 
 export type ViewMetaInstance = Instance<typeof ViewMeta>;
+
+export interface IViewMeta {
+  // Properties
+  id: string;
+  name: string;
+  type: EViewComponentType;
+  config: IViewDivisionConfig | IViewModalConfig | IViewTabsConfig;
+  panelIDs: IObservableArray<string>;
+
+  // Views
+  readonly json: {
+    id: string;
+    name: string;
+    type: EViewComponentType;
+    config: IViewDivisionConfig['json'] | IViewModalConfig['json'] | IViewTabsConfig['json'];
+    panelIDs: string[];
+  };
+
+  // Methods
+  setName(name: string): void;
+  setType(type: EViewComponentType): void;
+  appendPanelID(id: string): void;
+  appendPanelIDs(ids: string[]): void;
+  removePanelID(id: string): void;
+}
+
+typeAssert.shouldExtends<IViewMeta, Instance<typeof ViewMeta>>();
+typeAssert.shouldExtends<Instance<typeof ViewMeta>, IViewMeta>();

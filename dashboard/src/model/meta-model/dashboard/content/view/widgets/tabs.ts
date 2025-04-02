@@ -3,6 +3,8 @@ import { randomId } from '@mantine/hooks';
 import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '../types';
 import _ from 'lodash';
+import { typeAssert } from '~/types/utils';
+import type { IObservableArray } from 'mobx';
 
 export type TabInfo = { id: string; name: string };
 export type TabsOrientation = 'vertical' | 'horizontal';
@@ -51,6 +53,22 @@ const TabModel = types
 
 export type TabModelInstance = Instance<typeof TabModel>;
 type TabModelSnapshotIn = SnapshotIn<TabModelInstance>;
+
+export interface ITabModel {
+  id: string;
+  name: string;
+  view_id: string;
+  color: string;
+  order: number;
+  readonly json: { id: string; name: string; color: string; order: number; view_id: string };
+  setName(v: string): void;
+  setViewID(v: string | null): void;
+  setColor(v: string): void;
+  setOrder(v: string | number): void;
+}
+
+typeAssert.shouldExtends<ITabModel, Instance<typeof TabModel>>();
+typeAssert.shouldExtends<Instance<typeof TabModel>, ITabModel>();
 
 export const ViewTabsConfig = types
   .model('ViewTabsConfig', {
@@ -114,6 +132,44 @@ export const ViewTabsConfig = types
 
 export type ViewTabsConfigInstance = Instance<typeof ViewTabsConfig>;
 export type ViewTabsConfigSnapshotIn = SnapshotIn<ViewTabsConfigInstance>;
+
+export interface IViewTabsConfig {
+  // Properties
+  _name: EViewComponentType.Modal;
+  tabs: IObservableArray<ITabModel>;
+  variant: TabsVariant;
+  orientation: TabsOrientation;
+  grow: boolean;
+
+  // Views
+  readonly json: {
+    _name: EViewComponentType.Modal;
+    tabs: Array<ITabModel['json']>;
+    variant: TabsVariant;
+    orientation: TabsOrientation;
+    grow: boolean;
+  };
+  readonly tabsInOrder: ITabModel[];
+
+  // Methods
+  setVariant(v: string | null): void;
+  setOrientation(v: string | null): void;
+  setGrow(v: boolean): void;
+  setTabs(
+    v: Array<{
+      id: string;
+      name: string;
+      view_id: string;
+      color?: string;
+      order?: number;
+    }>,
+  ): void;
+  addTab(): void;
+  removeTab(index: number): void;
+}
+
+typeAssert.shouldExtends<IViewTabsConfig, Instance<typeof ViewTabsConfig>>();
+typeAssert.shouldExtends<Instance<typeof ViewTabsConfig>, IViewTabsConfig>();
 
 export const createViewTabsConfig = () =>
   ViewTabsConfig.create({

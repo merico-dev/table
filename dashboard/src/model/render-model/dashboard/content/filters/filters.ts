@@ -1,14 +1,20 @@
 import _ from 'lodash';
 import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
+import { type IObservableArray } from 'mobx';
 import {
   CURRENT_SCHEMA_VERSION,
   ContextRecordType,
   FilterMeta,
   FilterMetaSnapshotOut,
   FilterValuesType,
+  type DashboardFilterType,
+  type IFilterMeta,
 } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters, formatInputFilterValues } from './utils';
+import { typeAssert } from '~/types/utils';
+import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
+import { IContentRenderModel } from '~/dashboard-render';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -92,7 +98,7 @@ export const FiltersRenderModel = types
       }, {} as Record<string, string>);
     },
     getSelectOption(id: string) {
-      const filter = this.findByID(id);
+      const filter = this.findByID(id) as IFilterMeta | undefined;
       if (!filter || !('getSelectOption' in filter.config)) {
         return null;
       }
@@ -127,11 +133,20 @@ export const FiltersRenderModel = types
       return self.values[key];
     },
 
-    getSchema(ids: string[], raw?: boolean) {
+    getSchema(
+      ids: string[],
+      raw?: boolean,
+    ): {
+      filters: IFilterSchemaItem[];
+      version: string;
+    } {
       const filters = self.findByIDSet(new Set(ids));
 
       const ret = {
-        filters: filters.map((f) => ({ ...f.json, visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : [] })),
+        filters: filters.map((f) => ({
+          ...f.json,
+          visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : ([] as string[]),
+        })),
         version: CURRENT_SCHEMA_VERSION,
       };
       return ret;
@@ -158,3 +173,66 @@ export function getInitialFiltersConfig(
     values: initialValues,
   };
 }
+
+export interface IFilterJsonType {
+  id: string;
+  key: string;
+  type: DashboardFilterType;
+  label: string;
+  order: number;
+  config: Record<string, unknown>;
+  auto_submit: boolean;
+  visibleInViewsIDs: IObservableArray<string>;
+  default_value_func: string;
+}
+
+export interface IFilterSchemaItem extends Omit<IFilterJsonType, 'visibleInViewsIDs'> {
+  visibleInViewsIDs: string[];
+}
+
+export interface IFiltersRenderModel {
+  // Properties
+  current: IObservableArray<IFilterMeta>;
+  values: Record<string, unknown>;
+
+  // Views
+  readonly json: IFilterJsonType[];
+  readonly valuesString: string;
+  readonly filter: unknown;
+  readonly valuesForPayload: Record<string, unknown>;
+  readonly contentModel: IContentRenderModel;
+  readonly context: ContextRecordType;
+  readonly initialValuesDep: string;
+  readonly formattedDefaultValues: Record<string, unknown>;
+  readonly firstID: string | undefined;
+  readonly keySet: Set<string>;
+  readonly keyLabelMap: Record<string, string>;
+  readonly empty: boolean;
+
+  // Methods
+  findByID(id: string): IFilterMeta | undefined;
+  findByKey(key: string): IFilterMeta | undefined;
+  findByIDSet(idset: Set<string>): IFilterMeta[];
+  readonly inOrder: IFilterMeta[];
+  visibleInView(viewID: string): IFilterMeta[];
+  readonly firstFilterValueKey: string;
+  getSelectOption(id: string): TSelectOption | null | undefined;
+
+  // ActionvisibleInViewsIDss
+  setValues(values: Record<string, unknown>): void;
+  patchValues(values: FilterValuesType): void;
+  setValueByKey(key: string, value: unknown): void;
+  applyValuesPatch(values: Record<string, unknown>): void;
+  getValueByKey(key: string): unknown;
+  getSchema(
+    ids: string[],
+    raw?: boolean,
+  ): {
+    filters: IFilterSchemaItem[];
+    version: string;
+  };
+  downloadSchema(ids: string[]): void;
+}
+
+typeAssert.shouldExtends<IFiltersRenderModel, FiltersRenderModelInstance>();
+typeAssert.shouldExtends<FiltersRenderModelInstance, IFiltersRenderModel>();

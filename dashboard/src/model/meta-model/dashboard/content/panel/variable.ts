@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { type IObservableArray } from 'mobx';
+import { typeAssert } from '~/types/utils';
 
 export const VariableMeta = types
   .model('VariableMeta', {
@@ -65,3 +67,114 @@ export const VariableMeta = types
 export type VariableMetaType = typeof VariableMeta;
 export type VariableMetaSnapshotIn = SnapshotIn<VariableMetaType>;
 export type VariableMetaInstance = Instance<VariableMetaType>;
+
+export interface IVariableMeta {
+  name: string;
+  size: string;
+  weight: string;
+  color:
+    | {
+        type: 'static';
+        staticColor: string;
+      }
+    | {
+        type: 'continuous';
+        valueRange: IObservableArray<number>;
+        colorRange: IObservableArray<string>;
+      }
+    | {
+        type: 'piecewise';
+      };
+  formatter: {
+    output: 'number' | 'percent';
+    average: boolean;
+    mantissa: number;
+    trimMantissa: boolean;
+    absolute: boolean;
+  };
+  data_field: string;
+  aggregation:
+    | {
+        type: 'none' | 'sum' | 'mean' | 'median' | 'min' | 'max' | 'CV' | 'std';
+        config: Record<string, never>;
+        fallback: string;
+      }
+    | {
+        type: 'quantile';
+        config: {
+          p: number;
+        };
+        fallback: string;
+      }
+    | {
+        type: 'pick_record';
+        config: {
+          method: 'first' | 'last';
+        };
+        fallback: string;
+      }
+    | {
+        type: 'custom';
+        config: {
+          func: string;
+        };
+        fallback: string;
+      };
+  readonly json: {
+    name: string;
+    size: string;
+    color:
+      | {
+          type: 'static';
+          staticColor: string;
+        }
+      | {
+          type: 'continuous';
+          valueRange: IObservableArray<number>;
+          colorRange: IObservableArray<string>;
+        }
+      | {
+          type: 'piecewise';
+        };
+    weight: string;
+    formatter: {
+      output: 'number' | 'percent';
+      average: boolean;
+      mantissa: number;
+      trimMantissa: boolean;
+      absolute: boolean;
+    };
+    data_field: string;
+    aggregation:
+      | {
+          type: 'none' | 'sum' | 'mean' | 'median' | 'min' | 'max' | 'CV' | 'std';
+          config: Record<string, never>;
+          fallback: string;
+        }
+      | {
+          type: 'quantile';
+          config: {
+            p: number;
+          };
+          fallback: string;
+        }
+      | {
+          type: 'pick_record';
+          config: {
+            method: 'first' | 'last';
+          };
+          fallback: string;
+        }
+      | {
+          type: 'custom';
+          config: {
+            func: string;
+          };
+          fallback: string;
+        };
+  };
+}
+
+typeAssert.shouldExtends<IVariableMeta, Instance<typeof VariableMeta>>();
+
+typeAssert.shouldExtends<Instance<typeof VariableMeta>, IVariableMeta>();

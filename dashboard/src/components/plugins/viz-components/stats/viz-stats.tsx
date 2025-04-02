@@ -9,6 +9,7 @@ import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts'
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { VizViewProps } from '~/types/plugin';
 import { parseRichTextContent } from '~/utils';
+import { notifyVizRendered } from '../viz-instance-api';
 import { ClickStats } from './triggers';
 import { IVizStatsConf } from './type';
 
@@ -56,6 +57,9 @@ export const Render = observer(({ context, instance }: RenderProps) => {
     }
     return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
   }, [data, panel, variables, contentModel.payloadForViz]);
+  useEffect(() => {
+    notifyVizRendered(instance, { content: richTextContent });
+  }, [richTextContent]);
 
   const handleContentClick = useCallback(() => {
     triggers.forEach((t) => {

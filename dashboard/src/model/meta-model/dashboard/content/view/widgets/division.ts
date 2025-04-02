@@ -1,5 +1,6 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '../types';
+import { typeAssert } from '~/types/utils';
 
 export const ViewDivisionConfig = types
   .model('ViewDivisionConfig', {
@@ -21,3 +22,10 @@ export const createViewDivisionConfig = () =>
   ViewDivisionConfig.create({
     _name: EViewComponentType.Division,
   });
+
+export interface IViewDivisionConfig {
+  _name: EViewComponentType.Division;
+  readonly json: { _name: EViewComponentType.Division };
+}
+
+typeAssert.shouldExtends<IViewDivisionConfig, Instance<typeof ViewDivisionConfig>>();

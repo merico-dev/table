@@ -1,5 +1,5 @@
-import { Instance, types } from 'mobx-state-tree';
-import { PanelStyleBorderMeta } from './border';
+import { types } from 'mobx-state-tree';
+import { PanelStyleBorderMeta, type IPanelStyleBorderMeta } from './border';
 
 export const PanelStyleMeta = types
   .model('PanelStyleMeta', {
@@ -14,3 +14,10 @@ export const PanelStyleMeta = types
     },
   }))
   .actions((self) => ({}));
+
+export interface IPanelStyleMeta {
+  border: IPanelStyleBorderMeta;
+  json: {
+    border: IPanelStyleBorderMeta['json'];
+  };
+}

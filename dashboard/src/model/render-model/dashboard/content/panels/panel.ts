@@ -1,9 +1,8 @@
-import _ from 'lodash';
 import { getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
+import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
-import { QueryRenderModelInstance } from '../queries';
-import { downloadJSON } from '~/utils/download';
+import { typeAssert } from '~/types/utils';
 import {
   formatAggregatedValue,
   getAggregatedValue,
@@ -11,7 +10,9 @@ import {
   ITemplateVariable,
   variablesToStrings,
 } from '~/utils';
-import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
+import { downloadJSON } from '~/utils/download';
+import { QueryRenderModelInstance } from '../queries';
+import { IPanelRenderModel } from './types';
 
 export type VariableValueMap = Record<string, string | number>;
 export type VariableAggValueMap = Record<string, string | number>;
@@ -42,7 +43,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       }
       return [];
     },
-    queryByID(queryID: string) {
+    queryByID(queryID: string): QueryRenderModelInstance | undefined {
       return this.queries.find((q) => q.id === queryID);
     },
     get data() {
@@ -177,3 +178,7 @@ export function getNewPanel(id: string): PanelRenderModelSnapshotIn {
     },
   };
 }
+
+typeAssert.shouldExtends<IPanelRenderModel, Instance<typeof PanelRenderModel>>();
+
+typeAssert.shouldExtends<Instance<typeof PanelRenderModel>, IPanelRenderModel>();

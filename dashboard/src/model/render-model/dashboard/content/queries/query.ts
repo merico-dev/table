@@ -8,20 +8,17 @@ import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 import { AnyObject } from '~/types';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
-import { MuteQueryModel } from './mute-query';
+import { MuteQueryModel, type IMuteQueryModel } from './mute-query';
+import { typeAssert } from '~/types/utils';
 
-enum QueryState {
-  idle = 'idle',
-  loading = 'loading',
-  error = 'error',
-}
+type QueryStateType = 'idle' | 'loading' | 'error';
 
 export const QueryRenderModel = types
   .compose(
     'QueryRenderModel',
     MuteQueryModel,
     types.model({
-      state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
+      state: types.optional(types.enumeration<QueryStateType>(['idle', 'loading', 'error']), 'idle'),
       data: types.optional(types.frozen<string[][] | number[][] | AnyObject[]>([]), []),
       error: types.frozen(),
     }),
@@ -40,7 +37,7 @@ export const QueryRenderModel = types
     },
     get depQueryModelStates() {
       // NOTE(leto): can't use QueryRenderModelInstance. 'QueryRenderModel' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
-      return this.depQueryModels.map((q: any) => q.state as QueryState);
+      return this.depQueryModels.map((q: any) => q.state as QueryStateType);
     },
     get depQueryModelStatesString() {
       return this.depQueryModelStates.toString();
@@ -326,6 +323,35 @@ export const QueryRenderModel = types
 
 export type QueryRenderModelInstance = Instance<typeof QueryRenderModel>;
 export type QueryRenderModelSnapshotIn = SnapshotIn<QueryRenderModelInstance>;
+
+export type IQueryRenderModelData = string[][] | number[][] | AnyObject[];
+export interface IQueryRenderModel extends IMuteQueryModel {
+  // Properties
+  state: QueryStateType;
+  data: IQueryRenderModelData;
+  error: QueryFailureError | null;
+  controller: AbortController;
+
+  // Views
+  readonly datasource: Record<string, unknown> | undefined;
+  readonly additionalQueryInfo: TAdditionalQueryInfo;
+  readonly depQueryModels: IQueryRenderModel[];
+  readonly depQueryModelStates: QueryStateType[];
+  readonly depQueryModelStatesString: string;
+  readonly stateMessage: string;
+
+  // Actions
+  runSQL(): Promise<void>;
+  runHTTP(): Promise<void>;
+  runMericoMetricQuery(): Promise<void>;
+  runTransformation(): void;
+  fetchData(force: boolean): Promise<void> | void;
+  beforeDestroy(): void;
+  afterCreate(): void;
+}
+
+typeAssert.shouldExtends<IQueryRenderModel, QueryRenderModelInstance>();
+typeAssert.shouldExtends<QueryRenderModelInstance, IQueryRenderModel>();
 
 export type QueryUsageType =
   | {

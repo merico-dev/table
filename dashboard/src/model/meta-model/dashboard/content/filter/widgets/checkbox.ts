@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import { typeAssert } from '~/types/utils';
 
 export const FilterCheckboxConfigMeta = types
   .model('FilterCheckboxConfigMeta', {
@@ -30,6 +31,26 @@ export const FilterCheckboxConfigMeta = types
   }));
 
 export type FilterCheckboxConfigInstance = Instance<typeof FilterCheckboxConfigMeta>;
+
+export interface IFilterCheckboxConfig {
+  _name: 'checkbox';
+  description: string;
+  default_value: boolean;
+
+  // Views
+  readonly json: {
+    _name: 'checkbox';
+    description: string;
+    default_value: boolean;
+  };
+  readonly isDescriptionEmpty: boolean;
+
+  // Actions
+  setDefaultValue(default_value: boolean): void;
+  setDescription(v: string): void;
+}
+
+typeAssert.shouldExtends<IFilterCheckboxConfig, FilterCheckboxConfigInstance>();
 
 export const createFilterCheckboxConfig = () =>
   FilterCheckboxConfigMeta.create({
