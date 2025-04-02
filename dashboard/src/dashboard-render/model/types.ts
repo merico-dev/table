@@ -5,7 +5,6 @@ import {
   IMockContextMeta,
   IPanelsRenderModel,
   IQueriesRenderModel,
-  type IQueryRenderModelData,
   ISQLSnippetsRenderModel,
   IViewsRenderModel,
   TPayloadForSQL,
@@ -37,10 +36,10 @@ export interface IContentRenderModel {
 
   getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo;
 
-  readonly data: Record<string, IQueryRenderModelData>;
+  readonly data: Record<string, TQueryData>;
 
   getDataStuffByID(queryID: string): {
-    data: IQueryRenderModelData;
+    data: TQueryData;
     len: number;
     state: string;
     error?: string;
