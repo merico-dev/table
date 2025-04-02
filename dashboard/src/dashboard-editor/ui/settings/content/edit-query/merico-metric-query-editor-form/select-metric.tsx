@@ -87,6 +87,15 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
     [mmInfo, config],
   );
 
+  const href = useMemo(() => {
+    const base = window.localStorage.getItem('ee_site_url') ?? '';
+    let ret = `${base}/dashboard/admin/metrics/list`;
+    if (config.id && config.type) {
+      ret = `${base}/dashboard/admin/metrics/details/${config.type}/${config.id}`;
+    }
+    return ret.replace('//dashboard', '/dashboard');
+  }, [config.id, config.type]);
+
   const { loading, error } = metrics;
   return (
     <ErrorBoundary>
@@ -109,14 +118,7 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
           />
         )}
         <Tooltip label="跳转到指标明细页查看详情。" disabled={loading}>
-          <Anchor
-            size="md"
-            variant="subtle"
-            mb={2}
-            href={`/admin/metrics/detail/${config.id}`}
-            target="_blank"
-            underline="never"
-          >
+          <Anchor size="md" variant="subtle" mb={2} href={href} target="_blank" underline="never">
             <MericoIconExternalLink width={14} height={14} />
           </Anchor>
         </Tooltip>
