@@ -10,8 +10,11 @@ type TDataItem = {
   value: number;
   color?: string;
   ratio?: number;
+  percentage?: string;
   items?: TDataItem[];
 };
+
+export type OthersSectorItem = Required<TDataItem>;
 
 type NameColorMap = Record<string, string>;
 
@@ -29,7 +32,7 @@ function makeOthersSector(others_sector: PieChartOthersSector, chartData: TDataI
     return chartData;
   }
   const sum = math.sum(chartData.map((v) => v.value));
-  const threshold_value = numbro(`${threshold}%`).format({ output: 'number', mantissa: 8 });
+  const threshold_value = numbro(`${threshold}%`).format({ output: 'number', mantissa: 8, trimMantissa: true });
 
   const sector = {
     name: label,
@@ -45,6 +48,7 @@ function makeOthersSector(others_sector: PieChartOthersSector, chartData: TDataI
     } else {
       sector.value = math.add(sector.value, item.value);
       sector.ratio = math.add(sector.ratio, item.ratio);
+      item.percentage = numbro(item.ratio).format({ output: 'percent', mantissa: 2, trimMantissa: true });
       sector.items.push(item);
     }
   });
