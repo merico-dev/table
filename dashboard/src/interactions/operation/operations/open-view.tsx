@@ -14,7 +14,6 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
   const { t } = useTranslation();
   const model = useEditContentModelContext();
   const { value, set } = useStorageData<IOpenViewOperationConfig>(props.operation.operationData, 'config');
-  console.log({ value, viewID: value?.viewID });
 
   const viewID = value?.viewID || '';
   const setViewID = (viewID: string) => void set({ viewID });
