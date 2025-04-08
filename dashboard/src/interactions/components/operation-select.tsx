@@ -136,18 +136,22 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
         >
           <Stack>
             <OperationSchemaSelect model={model} />
-            <Tabs defaultValue="settings">
-              <Tabs.List>
-                <Tabs.Tab value="settings">{t('interactions.operation.settings')}</Tabs.Tab>
-                <Tabs.Tab value="variables">{t('interactions.operation.variables')}</Tabs.Tab>
-              </Tabs.List>
-              <Tabs.Panel value="settings" pt={10}>
-                <OperationSettings model={model} />
-              </Tabs.Panel>
-              <Tabs.Panel value="variables" pt={10}>
-                <VariableList title={t('interactions.operation.variables')} variables={model.variables} />
-              </Tabs.Panel>
-            </Tabs>
+            {model.variables.length > 0 ? (
+              <Tabs defaultValue="settings">
+                <Tabs.List>
+                  <Tabs.Tab value="settings">{t('interactions.operation.settings')}</Tabs.Tab>
+                  <Tabs.Tab value="variables">{t('interactions.operation.variables')}</Tabs.Tab>
+                </Tabs.List>
+                <Tabs.Panel value="settings" pt={10}>
+                  <OperationSettings model={model} />
+                </Tabs.Panel>
+                <Tabs.Panel value="variables" pt={10}>
+                  <VariableList title={t('interactions.operation.variables')} variables={model.variables} />
+                </Tabs.Panel>
+              </Tabs>
+            ) : (
+              <OperationSettings model={model} />
+            )}
           </Stack>
         </Modal>
       </>
