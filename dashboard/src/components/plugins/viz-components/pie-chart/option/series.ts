@@ -1,13 +1,20 @@
 import { set } from 'lodash';
 import { getColorFeed, parseDataKey } from '~/utils';
-import { IPieChartConf } from '../type';
+import { IPieChartConf, PieChartOthersSector } from '../type';
 import _ from 'lodash';
+import * as math from 'mathjs';
+import numbro from 'numbro';
 
 type TDataItem = {
   name: string;
   value: number;
   color?: string;
+  ratio?: number;
+  percentage?: string;
+  items?: TDataItem[];
 };
+
+export type OthersSectorItem = Required<TDataItem>;
 
 type NameColorMap = Record<string, string>;
 
@@ -19,8 +26,38 @@ function getColor(row: Record<string, any>, colorColumnKey: string, name: string
   return colorColumnKey ? row[colorColumnKey] : undefined;
 }
 
+function makeOthersSector(others_sector: PieChartOthersSector, chartData: TDataItem[]) {
+  const { label, threshold } = others_sector;
+  if (!label || !threshold) {
+    return chartData;
+  }
+  const sum = math.sum(chartData.map((v) => v.value));
+  const threshold_value = numbro(`${threshold}%`).format({ output: 'number', mantissa: 8, trimMantissa: true });
+
+  const sector = {
+    name: label,
+    value: 0,
+    ratio: 0,
+    items: [] as TDataItem[],
+  };
+  const data: TDataItem[] = [];
+  chartData.forEach((item) => {
+    item.ratio = math.divide(item.value, sum);
+    if (math.larger(item.ratio, threshold_value)) {
+      data.push(item);
+    } else {
+      sector.value = math.add(sector.value, item.value);
+      sector.ratio = math.add(sector.ratio, item.ratio);
+      item.percentage = numbro(item.ratio).format({ output: 'percent', mantissa: 2, trimMantissa: true });
+      sector.items.push(item);
+    }
+  });
+  data.push(sector);
+  return data;
+}
+
 export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) {
-  const { label_field, value_field, series_order, color_field, color } = conf;
+  const { label_field, value_field, series_order, color_field, color, others_sector } = conf;
   if (!label_field || !value_field) {
     return {};
   }
@@ -47,6 +84,7 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
   if (series_order) {
     chartData = _.orderBy(chartData, [series_order.key], [series_order.order]);
   }
+  chartData = makeOthersSector(others_sector, chartData);
 
   const colorFeed = getColorFeed('multiple');
   return {

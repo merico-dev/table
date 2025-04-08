@@ -20,6 +20,11 @@ const en = {
         click_to_apply_palette: 'Click to apply palette',
       },
     },
+    others_sector: {
+      title: 'Sector for small values',
+      label: 'Sector name',
+      threshold: 'Threshold',
+    },
   },
 };
 
@@ -42,6 +47,11 @@ const zh = {
         use_a_palette: '使用预设配色方案',
         click_to_apply_palette: '点击应用配色方案',
       },
+    },
+    others_sector: {
+      title: '合并小值为一个扇区',
+      label: '扇区名称',
+      threshold: '阈值',
     },
   },
 };

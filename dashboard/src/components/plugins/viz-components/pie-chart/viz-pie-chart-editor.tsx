@@ -1,4 +1,4 @@
-import { Divider, Stack, Text } from '@mantine/core';
+import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
 import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -67,6 +67,35 @@ function Editor({ conf, setConf, context }: EditorProps) {
             name="radius"
             render={({ field }) => <RadiusSlider label={t('viz.pie_chart.radius.label')} {...field} />}
           />
+          <Divider label={t('viz.pie_chart.others_sector.title')} labelPosition="center" variant="dashed" />
+          <Group grow>
+            <Controller
+              control={control}
+              name="others_sector.label"
+              render={({ field }) => (
+                <TextInput
+                  size="xs"
+                  label={t('viz.pie_chart.others_sector.label')}
+                  {...field}
+                  value={field.value ?? ''}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="others_sector.threshold"
+              render={({ field }) => (
+                <NumberInput
+                  size="xs"
+                  label={t('viz.pie_chart.others_sector.threshold')}
+                  suffix="%"
+                  {...field}
+                  value={field.value ?? ''}
+                />
+              )}
+            />
+          </Group>
+
           <Divider label={t('chart.color.label')} labelPosition="center" variant="dashed" />
           <Controller
             control={control}
