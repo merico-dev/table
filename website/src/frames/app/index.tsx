@@ -62,7 +62,7 @@ export function App() {
               <AccountDropdown height={39} />
             </Group>
           </Group>
-          <Box sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
+          <Box sx={{ height: 'calc(100% - 40px)', overflow: 'auto' }}>
             <Notifications position="top-right" />
             <Outlet />
           </Box>
