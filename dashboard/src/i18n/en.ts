@@ -216,6 +216,10 @@ export const en = {
           label: 'Open View',
           view: 'View',
         },
+        scroll_to_panel: {
+          label: 'Scroll to Panel',
+          panel: 'Panel',
+        },
         set_filter_values: {
           label: 'Set Filter Values',
           set_filter: 'Set filter',

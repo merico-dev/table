@@ -17,6 +17,9 @@ export const PanelsModel = types
       // @ts-expect-error type of getRoot
       return getRoot(self).content as any;
     },
+    get options() {
+      return self.list.map((p) => ({ label: p.name, value: p.id, viz_type: p.viz.type }));
+    },
     editorOptions(viewID: string, panelIDs: string[]) {
       const panels = self.panelsByIDs(panelIDs);
       if (panels.length !== panelIDs.length) {
