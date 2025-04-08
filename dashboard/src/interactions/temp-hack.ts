@@ -2,6 +2,7 @@ import _, { cloneDeepWith, template } from 'lodash';
 import { useEffect } from 'react';
 import { ContentRenderModelInstance } from '~/dashboard-render/model';
 import { AnyObject, ContentModelInstance } from '..';
+import { useNavigate } from 'react-router-dom';
 
 function logEvent(e: any) {
   console.groupCollapsed('Running operation ', e.type);
@@ -32,6 +33,28 @@ export function useInteractionOperationHacks(
       window.removeEventListener('open-view', handler);
     };
   }, [model, inEditMode]);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handler = (e: $TSFixMe) => {
+      logEvent(e);
+
+      const { panelID } = e.detail;
+      if (!panelID) {
+        console.error(new Error('[Scroll to Panel] Needs to pick a panel first'));
+        return;
+      }
+      navigate(`#${panelID}`);
+      const element = document.getElementById(panelID);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    window.addEventListener('scroll_to_panel', handler);
+    return () => {
+      window.removeEventListener('scroll_to_panel', handler);
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const handler = (e: $TSFixMe) => {

@@ -216,6 +216,10 @@ export const zh = {
           label: '唤出视图',
           view: '视图',
         },
+        scroll_to_panel: {
+          label: '滚动到卡片',
+          panel: '卡片',
+        },
         set_filter_values: {
           label: '设置筛选器值',
           set_filter: '将筛选器的值',
