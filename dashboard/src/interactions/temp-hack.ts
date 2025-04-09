@@ -45,16 +45,40 @@ export function useInteractionOperationHacks(
         return;
       }
       navigate(`#${panelID}`);
-      const element = document.getElementById(panelID);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      setTimeout(() => {
+        const element = document.getElementById(panelID);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 300);
     };
     window.addEventListener('scroll_to_panel', handler);
     return () => {
       window.removeEventListener('scroll_to_panel', handler);
     };
   }, [navigate]);
+
+  useEffect(() => {
+    const handler = (e: $TSFixMe) => {
+      logEvent(e);
+
+      const { viewID, tab } = e.detail;
+      if (!viewID) {
+        console.error(new Error('[Switch Tab] Needs to pick a view and a tab first'));
+        return;
+      }
+      const view = model.views.findByID(viewID);
+      if (!view) {
+        console.error(new Error(`[Switch Tab] View by ID[${viewID}] is not found`));
+        return;
+      }
+      view.setTab(tab);
+    };
+    window.addEventListener('switch_tab', handler);
+    return () => {
+      window.removeEventListener('switch_tab', handler);
+    };
+  }, [model, inEditMode]);
 
   useEffect(() => {
     const handler = (e: $TSFixMe) => {

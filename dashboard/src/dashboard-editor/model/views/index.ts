@@ -33,6 +33,19 @@ export const ViewsModel = types
         type: v.type as EViewComponentType,
       }));
     },
+    get tabViewOptions() {
+      return this.options.filter((o) => o.type === EViewComponentType.Tabs);
+    },
+    tabOptions(viewID: string) {
+      const view = self.current.find((v) => v.id === viewID && v.type === EViewComponentType.Tabs && v.tabs.length > 0);
+      if (!view) {
+        return [];
+      }
+      return view.tabs.map((t) => ({
+        label: t.name,
+        value: t.id,
+      }));
+    },
     get editorOptions() {
       // @ts-expect-error getRoot type, reading panels
       const panels: PanelsModelInstance = getRoot(self).content.panels;

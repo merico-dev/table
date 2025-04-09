@@ -110,6 +110,7 @@ const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfig
         withinPortal: true,
         zIndex: 340,
       }}
+      maxDropdownHeight={500}
     />
   );
 });
