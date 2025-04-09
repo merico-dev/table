@@ -216,6 +216,11 @@ export const en = {
           label: 'Open View',
           view: 'View',
         },
+        switch_tab: {
+          label: 'Switch Tab',
+          view: 'View',
+          tab: 'Tab',
+        },
         scroll_to_panel: {
           label: 'Scroll to Panel',
           panel: 'Panel',

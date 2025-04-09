@@ -5,6 +5,7 @@ import { OpenView } from './open-view';
 import { SetFilterValues } from './set-filter-values';
 import { ClearFilterValues } from './clear-filter-values';
 import { ScrollToPanel } from './scroll-to-panel';
+import { SwitchTab } from './switch-tab';
 
 export const OPERATIONS: IDashboardOperationSchema[] = [
   ConsoleLog,
@@ -12,5 +13,6 @@ export const OPERATIONS: IDashboardOperationSchema[] = [
   OpenView,
   ScrollToPanel,
   SetFilterValues,
+  SwitchTab,
   ClearFilterValues,
 ];

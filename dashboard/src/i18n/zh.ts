@@ -216,6 +216,11 @@ export const zh = {
           label: '唤出视图',
           view: '视图',
         },
+        switch_tab: {
+          label: '切换标签页',
+          view: '视图',
+          tab: '标签页',
+        },
         scroll_to_panel: {
           label: '滚动到卡片',
           panel: '卡片',
