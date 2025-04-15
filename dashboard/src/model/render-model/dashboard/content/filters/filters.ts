@@ -31,6 +31,12 @@ export const FiltersRenderModel = types
     get filter(): any {
       return getParent(self);
     },
+    get keysToTypes() {
+      return self.current.reduce((acc, curr) => {
+        acc[curr.key] = curr.type;
+        return acc;
+      }, {} as Record<string, DashboardFilterType>);
+    },
     get valuesForPayload() {
       const ret: Record<string, any> = {};
       Object.entries(self.values).forEach(([k, v]) => {
@@ -199,6 +205,7 @@ export interface IFiltersRenderModel {
   readonly json: IFilterJsonType[];
   readonly valuesString: string;
   readonly filter: unknown;
+  readonly keysToTypes: Record<string, DashboardFilterType>;
   readonly valuesForPayload: Record<string, unknown>;
   readonly contentModel: IContentRenderModel;
   readonly context: ContextRecordType;

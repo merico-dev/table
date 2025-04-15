@@ -19,7 +19,7 @@ import { DependencyInfo, UsageRegs } from '~/utils';
 type MetricQueryPayload = {
   id: string;
   type: MericoMetricType;
-  filters: Record<string, { eq: string } | { in: Array<string> }>;
+  filters: Record<string, { eq: string } | { in: Array<string> } | { between: [number, number] | any[] }>;
   groupBys: string[];
   timeQuery?: {
     start: string;
@@ -250,15 +250,24 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return null;
     }
     const payload = this.payload;
+    const types = { filters: self.contentModel.filters.keysToTypes };
     const config = self.config as MericoMetricQueryMetaInstance;
     const filters = config.filters.reduce((acc, curr) => {
       const v = _.get(payload, curr.variable);
-      if (Array.isArray(v)) {
-        acc[curr.dimension] = {
+      const t = _.get(types, curr.variable);
+      const d = curr.dimension;
+      if (t === DashboardFilterType.DateRange) {
+        const allNumber = v.every((d: string) => Number.isFinite(Number(d)));
+        const between = allNumber ? v.map((d: string) => Number(d)) : v;
+        acc[d] = {
+          between,
+        };
+      } else if (Array.isArray(v)) {
+        acc[d] = {
           in: v,
         };
       } else {
-        acc[curr.dimension] = {
+        acc[d] = {
           eq: v,
         };
       }
