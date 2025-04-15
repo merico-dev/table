@@ -13,15 +13,15 @@ import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 import { notifyVizRendered } from '../viz-instance-api';
 
-interface IClickEchartsSeries {
+type ClickSeriesParamsType = {
   type: 'click';
-  seriesType: 'line' | 'scatter' | 'bar';
-  componentSubType: 'line' | 'scatter' | 'bar';
+  seriesType: 'bar';
+  componentSubType: 'bar';
   componentType: 'series';
   name: string;
   color: string;
   value: string; // string-typed number
-}
+};
 
 function Chart({
   conf,
@@ -48,7 +48,7 @@ function Chart({
   );
 
   const handleSeriesClick = useCallback(
-    (params: IClickEchartsSeries) => {
+    (params: ClickSeriesParamsType) => {
       const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
       triggers.forEach((t) => {
         interactionManager.runInteraction(t.id, { ...params, rowData });
