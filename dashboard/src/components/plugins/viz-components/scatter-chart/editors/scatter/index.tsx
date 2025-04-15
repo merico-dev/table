@@ -54,7 +54,7 @@ export function ScatterField({ control, watch }: IScatterField) {
               withOffOption
               {...field}
               onChange={(v?: IEchartsLabelPosition) => {
-                v && field.onChange(v);
+                field.onChange(v ?? '');
               }}
             />
           )}

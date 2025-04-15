@@ -4,6 +4,7 @@ import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 import { VizHorizontalBarChart } from './viz-horizontal-bar-chart';
 import { VizHorizontalBarChartEditor } from './viz-horizontal-bar-chart-editor';
 import { translation } from './translation';
+import { ClickHorizontalBarChartSeries } from './triggers';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHorizontalBarChartConf {
   try {
@@ -69,5 +70,6 @@ export const HorizontalBarChartVizComponent: VizComponent = {
   viewRender: VizHorizontalBarChart,
   configRender: VizHorizontalBarChartEditor,
   createConfig: (): ConfigType => ({ version: 2, config: DEFAULT_CONFIG }),
+  triggers: [ClickHorizontalBarChartSeries],
   translation,
 };
