@@ -88,7 +88,7 @@ export function SeriesItemField({ control, index, seriesItem, xAxisOptions }: IS
             {...field}
             withOffOption
             onChange={(v?: IEchartsLabelPosition) => {
-              v && field.onChange(v);
+              field.onChange(v ?? '');
             }}
           />
         )}
