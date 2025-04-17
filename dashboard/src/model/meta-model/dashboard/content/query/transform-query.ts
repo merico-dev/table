@@ -8,20 +8,25 @@ export const TransformQueryMeta = types
   .model('TransformQueryMeta', {
     _type: types.literal(DataSourceType.Transform),
     dep_query_ids: types.optional(types.array(types.string), []),
+    react_to: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
     get valid() {
       return self.dep_query_ids.length > 0;
     },
     get json() {
-      const { dep_query_ids, _type } = self;
-      return shallowToJS({ dep_query_ids, _type });
+      const { dep_query_ids, _type, react_to } = self;
+      return shallowToJS({ dep_query_ids, _type, react_to });
     },
   }))
   .actions((self) => ({
     setDependantQueryIDs(v: string[]) {
       self.dep_query_ids.length = 0;
       self.dep_query_ids.push(...v);
+    },
+    setReactTo(v: string[]) {
+      self.react_to.length = 0;
+      self.react_to.push(...v);
     },
   }));
 export type TransformQueryMetaInstance = Instance<typeof TransformQueryMeta>;
@@ -31,16 +36,19 @@ export interface ITransformQueryMeta {
   // Properties
   _type: DataSourceType.Transform;
   dep_query_ids: IObservableArray<string>;
+  react_to: IObservableArray<string>;
 
   // Views
   readonly valid: boolean;
   readonly json: {
     dep_query_ids: IObservableArray<string>;
     _type: DataSourceType.Transform;
+    react_to: IObservableArray<string>;
   };
 
   // Actions
   setDependantQueryIDs(v: string[]): void;
+  setReactTo(v: string[]): void;
 }
 
 typeAssert.shouldExtends<ITransformQueryMeta, TransformQueryMetaInstance>();

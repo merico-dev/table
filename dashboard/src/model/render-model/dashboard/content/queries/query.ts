@@ -293,6 +293,7 @@ export const QueryRenderModel = types
                 self.inUse,
                 self.id,
                 self.key,
+                self.reQueryKey,
                 config.dep_query_ids.toString(),
                 self.pre_process,
                 self.depQueryModelStatesString,
