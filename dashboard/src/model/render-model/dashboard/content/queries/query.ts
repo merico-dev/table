@@ -38,8 +38,7 @@ export const QueryRenderModel = types
       return self.contentModel.queries.findByIDSet(new Set(ids));
     },
     get depQueryModelStates() {
-      // NOTE(leto): can't use QueryRenderModelInstance. 'QueryRenderModel' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
-      return this.depQueryModels.map((q: any) => q.state as QueryStateType);
+      return this.depQueryModels.map((q: any) => q.state) as QueryStateType[];
     },
     get depQueryModelStatesString() {
       return this.depQueryModelStates.toString();
