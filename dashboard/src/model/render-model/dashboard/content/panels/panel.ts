@@ -85,7 +85,12 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return ret;
     },
     get dataLoading() {
-      return this.queries.some((q) => q.state === 'loading');
+      return this.queries.some((q) => {
+        if (q.isTransform) {
+          return q.depQueryModelStates.some((s) => s === 'loading');
+        }
+        return q.state === 'loading';
+      });
     },
     get queryStateMessages() {
       const queries = this.queries.filter((q) => !q.runByConditionsMet);
