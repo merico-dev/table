@@ -1,4 +1,4 @@
-import { Button, Table, Text } from '@mantine/core';
+import { Anchor, Button, Table, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
@@ -41,27 +41,21 @@ export const FilterUsageTable = observer(({ filter }: Props) => {
         },
       }}
     >
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={{ width: 80 }}>类型</Table.Th>
-          <Table.Th>名称</Table.Th>
-          <Table.Th style={{ width: 80 }}>操作</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
+      <colgroup>
+        <col style={{ width: 80 }}></col>
+        <col></col>
+      </colgroup>
       <Table.Tbody>
         {usages.map((u) => {
           return (
             <Table.Tr key={u.id}>
-              <Table.Td>{t(u.type_label)}</Table.Td>
               <Table.Td>
-                <Text size="xs" truncate="end">
-                  {u.label}
-                </Text>
+                <Text size="xs">{t(u.type_label)}</Text>
               </Table.Td>
               <Table.Td>
-                <Button size="xs" variant="subtle" onClick={() => openEditor(u)}>
-                  打开
-                </Button>
+                <Anchor size="xs" title={u.label} onClick={() => openEditor(u)}>
+                  <Text truncate="end">{u.label}</Text>
+                </Anchor>
               </Table.Td>
             </Table.Tr>
           );
