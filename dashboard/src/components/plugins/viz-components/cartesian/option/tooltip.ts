@@ -37,6 +37,13 @@ export function getTooltip(
     return ret;
   }, {} as Record<string, number>);
 
+  const unitMap = conf.series.reduce((ret, { unit, name }) => {
+    if (unit.show_in_tooltip) {
+      ret[name] = unit.text;
+    }
+    return ret;
+  }, {} as Record<string, string>);
+
   return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     formatter: function (params: CallbackDataParams[]) {
@@ -52,13 +59,19 @@ export function getTooltip(
         if (!seriesName) {
           return value;
         }
+        const unit = unitMap[seriesName] ?? '';
         const yAxisIndex = yAxisIndexMap[seriesName];
         const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
         return `
         <tr>
           <td>${marker}</td>
           <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
-          <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
+          <td style="text-align: left; padding: 0 2px 0 1em;">
+            ${formatter({ value })}
+          </td>
+          <th style="text-align: left; padding: 0;">
+            ${unit}
+          </th>
         </tr>
         `;
       });
@@ -74,7 +87,7 @@ export function getTooltip(
         <td />
         <th style="text-align: right; padding: 0 1em;">${m.name}</th>
         ${metricValues.map((v) => {
-          return `<td style="text-align: left; padding: 0 1em;">${formatAdditionalMetric(v)}</td>`;
+          return `<td style="text-align: left; padding: 0 1em;" col-span={2}>${formatAdditionalMetric(v)}</td>`;
         })}
         </tr>`;
       });
