@@ -104,6 +104,12 @@ export const FiltersRenderModel = types
         return ret;
       }, {} as Record<string, string>);
     },
+    get keyIDMap() {
+      return self.current.reduce((ret, f) => {
+        ret[f.key] = f.id;
+        return ret;
+      }, {} as Record<string, string>);
+    },
     getSelectOption(id: string) {
       const filter = this.findByID(id) as IFilterMeta | undefined;
       if (!filter || !('getSelectOption' in filter.config)) {

@@ -14,7 +14,7 @@ import {
 } from 'mobx-state-tree';
 import { AnyObject, DashboardContentDBType, TDashboardContent } from '~/types';
 
-import { FiltersModel } from '../filters';
+import { FiltersModel, FilterUsageType } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
@@ -194,6 +194,51 @@ const _ContentModel = types
     },
   }))
   .views((self) => ({
+    get filtersUsage() {
+      const usages: FilterUsageType[] = [];
+      const viewIDMap = self.views.idMap;
+      self.filters.current.forEach((f) => {
+        f.visibleInViewsIDs.forEach((vid) => {
+          usages.push({
+            filterID: f.id,
+            type: 'view',
+            type_label: 'view.label',
+            id: vid,
+            label: viewIDMap.get(vid)?.name ?? vid,
+          });
+        });
+      });
+
+      const fkidmap = self.filters.keyIDMap;
+      self.queries.current.forEach((q) => {
+        q.usedFilterKeySet.forEach((k) => {
+          usages.push({
+            filterID: fkidmap[k] ?? k,
+            type: 'query',
+            type_label: 'query.label',
+            id: q.id,
+            label: q.name,
+          });
+        });
+      });
+
+      self.sqlSnippets.usedFilterKeyMap.forEach((filterKeySet, snippetKey) => {
+        filterKeySet.forEach((k) => {
+          usages.push({
+            filterID: fkidmap[k] ?? k,
+            type: 'sql_snippet',
+            type_label: 'sql_snippet.label',
+            id: snippetKey,
+            label: snippetKey,
+          });
+        });
+      });
+
+      return _.groupBy(usages, 'filterID');
+    },
+    findFilterUsage(filterID: string) {
+      return this.filtersUsage[filterID] ?? [];
+    },
     get queriesUsage() {
       const panelIDMap = self.panels.idMap;
       const usages: QueryUsageType[] = [];
