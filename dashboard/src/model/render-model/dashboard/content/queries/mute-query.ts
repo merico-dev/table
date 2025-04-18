@@ -247,10 +247,13 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get usedFilterKeySet() {
     const ret: Set<string> = new Set();
-    self.run_by.forEach((k) => ret.add(k));
+    const addToSet = (keyWithPrefix: string) => {
+      ret.add(keyWithPrefix.replace(/^filters\./, ''));
+    };
+    self.run_by.forEach((k) => addToSet(k));
     const react_to = _.get(self.config, 'react_to', []);
-    react_to.forEach((k) => ret.add(k));
-    if (this.typedAsSQL) {
+    react_to.forEach((k) => addToSet(k));
+    if (!this.typedAsSQL) {
       return ret;
     }
     const sql = _.get(self, 'config.sql', '') as string;
@@ -258,7 +261,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return ret;
     }
     const filterKeys = _.uniq(sql.match(UsageRegs.filter));
-    filterKeys.forEach((k) => ret.add(k));
+    filterKeys.forEach((k) => addToSet(k));
     return ret;
   },
   get metricQueryPayload() {
