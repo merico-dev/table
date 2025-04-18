@@ -635,6 +635,14 @@ export const zh = {
         echarts_based_charts: '基于ECharts的图表',
         others: '其他',
       },
+      unit: {
+        title: '单位',
+        text: {
+          placeholder: '单位文案',
+        },
+        show_in_tooltip: '在提示框中显示单位',
+        show_in_legend: '在图例中显示单位',
+      },
       series_order: {
         label: '排序依据',
         name: '名称',
