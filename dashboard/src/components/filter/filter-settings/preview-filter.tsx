@@ -1,5 +1,5 @@
 import { CodeHighlight } from '@mantine/code-highlight';
-import { Box, Text } from '@mantine/core';
+import { Box, Tabs, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { FilterMetaInstance } from '~/model';
@@ -16,16 +16,23 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
   // }, [filter]);
 
   return (
-    <Box sx={{ maxWidth: '480px' }}>
-      {/* <Text pb="md" c="gray" size="sm">
-        Preview
-      </Text>
-      <Filter filter={filter} value={value} onChange={setValue} /> */}
-
-      <Text pt="0" pb="md" c="gray" size="sm">
-        {t('common.titles.config')}
-      </Text>
-      <CodeHighlight mt={22} language="json" withCopyButton={false} code={JSON.stringify(filter, null, 4)} />
-    </Box>
+    <Tabs defaultValue="config">
+      <Tabs.List>
+        <Tabs.Tab value="config">{t('common.titles.config')}</Tabs.Tab>
+        <Tabs.Tab value="usage">{t('filter.usage.label')}</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="config">
+        <Box sx={{ maxWidth: '480px' }}>
+          {/*
+          <Text pb="md" c="gray" size="sm">
+          Preview
+          </Text>
+          <Filter filter={filter} value={value} onChange={setValue} />
+          */}
+          <CodeHighlight mt={22} language="json" withCopyButton={false} code={JSON.stringify(filter, null, 4)} />
+        </Box>
+      </Tabs.Panel>
+      <Tabs.Panel value="usage">TODO</Tabs.Panel>
+    </Tabs>
   );
 });

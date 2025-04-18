@@ -8,6 +8,10 @@ export const zh = {
       delete: '删除这个筛选器',
       show_filters: '展开筛选器',
       hide_filters: '收起筛选器',
+      usage: {
+        label: '使用情况',
+        unused_description: '此筛选器未被任何查询、SQL片段或视图使用',
+      },
       field: {
         widget: '控件',
         visible_in: '在...视图中可见',

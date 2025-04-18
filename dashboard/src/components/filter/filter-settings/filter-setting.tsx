@@ -57,7 +57,7 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
 
   return (
     <Group grow gap={20} align="top">
-      <Box sx={{ maxWidth: '600px' }}>
+      <Box w={600}>
         <Text pb="md" c="gray" size="sm">
           {t('common.titles.edit')}
         </Text>
