@@ -15,6 +15,7 @@ import { getValuesFromFilters, formatInputFilterValues } from './utils';
 import { typeAssert } from '~/types/utils';
 import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
 import { IContentRenderModel } from '~/dashboard-render';
+import { FilterModelSnapshotOut } from '~/dashboard-editor';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -166,7 +167,7 @@ export const FiltersRenderModel = types
 export type FiltersRenderModelInstance = Instance<typeof FiltersRenderModel>;
 
 export function getInitialFiltersConfig(
-  filters: FilterMetaSnapshotOut[],
+  filters: FilterModelSnapshotOut[],
   context: ContextRecordType,
   mock_context: ContextRecordType,
   filterValues: Record<string, any>,

@@ -1,13 +1,13 @@
 import { CodeHighlight } from '@mantine/code-highlight';
-import { Box, Tabs, Text } from '@mantine/core';
+import { Box, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { FilterMetaInstance } from '~/model';
+import { FilterModelInstance } from '~/dashboard-editor/model/filters/filter-model';
 
-interface IPreviewFilter {
-  filter: FilterMetaInstance;
-}
-export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
+type Props = {
+  filter: FilterModelInstance;
+};
+export const PreviewFilter = observer(({ filter }: Props) => {
   const { t } = useTranslation();
   // const [value, setValue] = React.useState(filter.plainDefaultValue);
 
