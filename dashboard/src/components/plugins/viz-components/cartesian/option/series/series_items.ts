@@ -12,6 +12,7 @@ export function getSeriesItemOrItems(
     yAxisIndex,
     label_position,
     name,
+    unit,
     group_by_key,
     order_in_group,
     aggregation_on_value,

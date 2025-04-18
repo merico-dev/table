@@ -11,6 +11,7 @@ import { BarFields } from './fields.bar';
 import { LineFields } from './fields.line';
 import { ScatterFields } from './fields.scatter';
 import { SeriesOrderSelector } from '~/components/plugins/common-echarts-fields/series-order';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface ISeriesItemField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -112,6 +113,11 @@ export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: IS
           )}
         />
       )}
+      <Controller
+        name={`series.${index}.unit`}
+        control={control}
+        render={({ field }) => <SeriesUnitField {...field} />}
+      />
       {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'bar' && <BarFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'scatter' && <ScatterFields index={index} control={control} />}

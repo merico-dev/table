@@ -8,6 +8,7 @@ import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { SeriesItemField } from './series-item';
 import { getDefaultLineAreaStyle } from '~/components/plugins/common-echarts-fields/line-area-style';
 import { getDefaultSeriesOrder } from '~/components/plugins/common-echarts-fields/series-order';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface ISeriesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -20,6 +21,7 @@ export function SeriesField({ control, watch }: ISeriesField) {
     const item: ICartesianChartSeriesItem = {
       type: 'bar',
       name: randomId(),
+      unit: getDefaultSeriesUnit(),
       showSymbol: false,
       symbolSize: DEFAULT_SCATTER_SIZE.static,
       y_axis_data_key: 'value',

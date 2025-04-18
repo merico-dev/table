@@ -11,6 +11,7 @@ import { ICartesianChartConf } from '../type';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { getDefaultLineAreaStyle } from '~/components/plugins/common-echarts-fields/line-area-style';
 import { getDefaultSeriesOrder } from '~/components/plugins/common-echarts-fields/series-order';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -340,6 +341,21 @@ export function v22(legacyConf: any): ICartesianChartConf {
   };
 }
 
+export function v23(legacyConf: any): ICartesianChartConf {
+  const { series, ...rest } = legacyConf;
+  const newSeries = series.map((s: any) => {
+    const { unit = getDefaultSeriesUnit(), ...restSeries } = s;
+    return {
+      ...restSeries,
+      unit,
+    };
+  });
+  return {
+    ...rest,
+    series: newSeries,
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -504,6 +520,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v22(data.config),
       };
     });
+    this.version(23, (data, env) => {
+      return {
+        ...data,
+        version: 23,
+        config: v23(data.config),
+      };
+    });
   }
-  readonly VERSION = 22;
+  readonly VERSION = 23;
 }
