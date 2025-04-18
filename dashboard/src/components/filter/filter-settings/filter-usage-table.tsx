@@ -25,7 +25,11 @@ export const FilterUsageTable = observer(({ filter }: Props) => {
     }
   };
   if (usages.length === 0) {
-    return <Text size="xs">{t('filter.usage.unused_description')}</Text>;
+    return (
+      <Text mt={10} ml={10} size="sm">
+        {t('filter.usage.unused_description')}
+      </Text>
+    );
   }
   return (
     <Table
