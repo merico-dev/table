@@ -245,6 +245,25 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
 
     return ret;
   },
+  get usedFilterKeySet() {
+    const ret: Set<string> = new Set();
+    const addToSet = (keyWithPrefix: string) => {
+      ret.add(keyWithPrefix.replace(/^filters\./, ''));
+    };
+    self.run_by.forEach((k) => addToSet(k));
+    const react_to = _.get(self.config, 'react_to', []);
+    react_to.forEach((k) => addToSet(k));
+    if (!this.typedAsSQL) {
+      return ret;
+    }
+    const sql = _.get(self, 'config.sql', '') as string;
+    if (!sql) {
+      return ret;
+    }
+    const filterKeys = _.uniq(sql.match(UsageRegs.filter));
+    filterKeys.forEach((k) => addToSet(k));
+    return ret;
+  },
   get metricQueryPayload() {
     if (self.type !== DataSourceType.MericoMetricSystem) {
       return null;
@@ -373,6 +392,7 @@ export interface IMuteQueryModel extends IQueryMeta {
   readonly queries: string[];
   readonly inUse: boolean;
   readonly dependencies: DependencyInfo[];
+  readonly usedFilterKeySet: Set<string>;
   readonly metricQueryPayload: MetricQueryPayload | null;
   readonly metricQueryPayloadString: string;
   readonly metricQueryPayloadError: string[];

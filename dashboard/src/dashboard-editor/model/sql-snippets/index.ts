@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { cast, detach, Instance } from 'mobx-state-tree';
 import { SQLSnippetRenderModelInstance, SQLSnippetRenderModelSnapshotIn, SQLSnippetsRenderModel } from '~/model';
+import { UsageRegs } from '~/utils';
 
 export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
   get sortedList() {
@@ -16,6 +17,20 @@ export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
         } as const),
     );
     return _.sortBy(options, (o) => o.label.toLowerCase());
+  },
+  get usedFilterKeyMap() {
+    const ret: Map<string, Set<string>> = new Map();
+    self.current.forEach((s) => {
+      const sql = _.get(s, 'value', '') as string;
+      if (!sql) {
+        return;
+      }
+      const filterKeys = _.uniq(sql.match(UsageRegs.filter));
+      const set: Set<string> = new Set();
+      filterKeys.forEach((k) => set.add(k));
+      ret.set(s.key, set);
+    });
+    return ret;
   },
 })).actions((self) => {
   return {

@@ -8,6 +8,10 @@ export const en = {
       delete: 'Delete this filter',
       show_filters: 'Show Filters',
       hide_filters: 'Hide Filters',
+      usage: {
+        label: 'Usage',
+        unused_description: 'This filter is not used by any query, SQL snippet or view',
+      },
       field: {
         widget: 'Widget',
         visible_in: 'Visible in...',

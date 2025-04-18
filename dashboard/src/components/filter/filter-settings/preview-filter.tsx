@@ -1,13 +1,14 @@
 import { CodeHighlight } from '@mantine/code-highlight';
-import { Box, Text } from '@mantine/core';
+import { Box, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { FilterMetaInstance } from '~/model';
+import { FilterModelInstance } from '~/dashboard-editor/model/filters/filter-model';
+import { FilterUsageTable } from './filter-usage-table';
 
-interface IPreviewFilter {
-  filter: FilterMetaInstance;
-}
-export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
+type Props = {
+  filter: FilterModelInstance;
+};
+export const PreviewFilter = observer(({ filter }: Props) => {
   const { t } = useTranslation();
   // const [value, setValue] = React.useState(filter.plainDefaultValue);
 
@@ -16,16 +17,25 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
   // }, [filter]);
 
   return (
-    <Box sx={{ maxWidth: '480px' }}>
-      {/* <Text pb="md" c="gray" size="sm">
-        Preview
-      </Text>
-      <Filter filter={filter} value={value} onChange={setValue} /> */}
-
-      <Text pt="0" pb="md" c="gray" size="sm">
-        {t('common.titles.config')}
-      </Text>
-      <CodeHighlight mt={22} language="json" withCopyButton={false} code={JSON.stringify(filter, null, 4)} />
-    </Box>
+    <Tabs defaultValue="usage">
+      <Tabs.List>
+        <Tabs.Tab value="config">{t('common.titles.config')}</Tabs.Tab>
+        <Tabs.Tab value="usage">{t('filter.usage.label')}</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="config">
+        <Box sx={{ minWidth: '480px' }}>
+          {/*
+          <Text pb="md" c="gray" size="sm">
+          Preview
+          </Text>
+          <Filter filter={filter} value={value} onChange={setValue} />
+          */}
+          <CodeHighlight mt={22} language="json" withCopyButton={false} code={JSON.stringify(filter, null, 4)} />
+        </Box>
+      </Tabs.Panel>
+      <Tabs.Panel value="usage">
+        <FilterUsageTable filter={filter} />
+      </Tabs.Panel>
+    </Tabs>
   );
 });

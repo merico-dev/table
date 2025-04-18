@@ -9,11 +9,12 @@ import { useEditContentModelContext } from '~/contexts';
 import { DashboardFilterType, FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
+import { FilterModelInstance } from '~/dashboard-editor';
 
 export const FilterSettings = observer(function _FilterSettings() {
   const { t } = useTranslation();
   const model = useEditContentModelContext();
-  const filters = model.filters.current;
+  const filters = model.filters.current as FilterModelInstance[];
 
   const addFilter = () => {
     const id = randomId();
@@ -72,7 +73,7 @@ export const FilterSettings = observer(function _FilterSettings() {
               {t('filter.add')}
             </Button>
             <Tabs.List justify="flex-start" sx={{ flexGrow: 1, width: '200px' }}>
-              {model.filters.current.map((field) => (
+              {filters.map((field) => (
                 <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'auto' }}>
                   {field.label}
                 </Tabs.Tab>
@@ -80,7 +81,7 @@ export const FilterSettings = observer(function _FilterSettings() {
             </Tabs.List>
           </Stack>
           <Box sx={{ flexGrow: 1, height: '100%' }}>
-            {model.filters.current.map((filter) => (
+            {filters.map((filter) => (
               <Tabs.Panel key={filter.id} value={filter.id} sx={{ height: '100%' }}>
                 <Stack sx={{ height: '100%' }} gap="sm">
                   <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>

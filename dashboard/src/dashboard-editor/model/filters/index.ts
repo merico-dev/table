@@ -12,6 +12,7 @@ import {
 import { FilterMeta, FilterMetaInstance, FiltersRenderModel } from '~/model';
 import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
 import { AnyObject, DashboardFilterType } from '~/types';
+import { FilterModel } from './filter-model';
 
 function afterModelAction<T extends IAnyComplexType>(
   target: IAnyStateTreeNode,
@@ -30,12 +31,12 @@ function afterModelAction<T extends IAnyComplexType>(
   );
 }
 
-// TODO(leto): use DraftModel?
 export const FiltersModel = types
   .compose(
     'FiltersModel',
     FiltersRenderModel,
-    types.model('FiltersModel', {
+    types.model({
+      current: types.optional(types.array(FilterModel), []),
       // values to be displayed in preview content, e.g. Data Settings
       previewValues: types.optional(types.frozen(), {}),
     }),
@@ -130,3 +131,4 @@ export const FiltersModel = types
     };
   });
 export type FiltersModelInstance = Instance<typeof FiltersModel>;
+export * from './filter-model';

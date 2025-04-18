@@ -1,8 +1,10 @@
 import { Box, Checkbox, Divider, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React, { ReactComponentElement, ReactElement, ReactNode, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
-import { DashboardFilterType, FilterMetaInstance } from '~/model';
+import { FilterModelInstance } from '~/dashboard-editor/model/filters/filter-model';
+import { DashboardFilterType } from '~/model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
 import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';
@@ -10,7 +12,6 @@ import { FilterEditorSelect } from '../filter-select/editor';
 import { FilterEditorTextInput } from '../filter-text-input/editor';
 import { FilterEditorTreeSelect, FilterEditorTreeSingleSelect } from '../filter-tree/';
 import { PreviewFilter } from './preview-filter';
-import { useTranslation } from 'react-i18next';
 
 const editors = {
   [DashboardFilterType.Select]: FilterEditorSelect,
@@ -32,11 +33,11 @@ export const filterTypeNames = {
   [DashboardFilterType.DateRange]: 'filter.widget.names.date_range',
 };
 
-interface IFilterSetting {
-  filter: FilterMetaInstance;
-}
+type Props = {
+  filter: FilterModelInstance;
+};
 
-export const FilterSetting = observer(function _FilterSetting({ filter }: IFilterSetting) {
+export const FilterSetting = observer(({ filter }: Props) => {
   const { t, i18n } = useTranslation();
   const model = useEditContentModelContext();
   const FilterEditor = React.useMemo(() => {
@@ -57,7 +58,7 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
 
   return (
     <Group grow gap={20} align="top">
-      <Box sx={{ maxWidth: '600px' }}>
+      <Box w={600}>
         <Text pb="md" c="gray" size="sm">
           {t('common.titles.edit')}
         </Text>
