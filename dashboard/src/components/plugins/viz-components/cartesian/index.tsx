@@ -16,7 +16,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianEditor,
   createConfig() {
     return {
-      version: 21,
+      version: 23,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

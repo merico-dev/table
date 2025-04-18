@@ -635,6 +635,14 @@ export const en = {
         echarts_based_charts: 'ECharts-based charts',
         others: 'Others',
       },
+      unit: {
+        title: 'Unit',
+        text: {
+          placeholder: 'Unit text',
+        },
+        show_in_tooltip: 'Show unit text in tooltip',
+        show_in_legend: 'Show unit text in legend',
+      },
       series_order: {
         label: 'Order series by...',
         name: 'Name',

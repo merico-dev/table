@@ -49,7 +49,7 @@ export function getOption(conf: ICartesianChartConf, data: TPanelData, variables
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf, data, series, labelFormatters),
     grid: getGrid(conf),
-    legend: getLegend(series),
+    legend: getLegend(conf, series),
     dataZoom: getEchartsDataZoomOption(conf.dataZoom),
   };
   return defaultsDeep({}, customOptions, defaultOption);

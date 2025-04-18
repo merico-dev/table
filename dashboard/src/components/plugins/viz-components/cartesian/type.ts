@@ -5,9 +5,12 @@ import {
 import { IRegressionLineConf, IRegressionTransform } from '~/components/plugins/common-echarts-fields/regression-line';
 import { AggregationType, defaultNumberFormat, TNumberFormat } from '~/utils';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
+import { EchartsLineAreaStyle } from '../../common-echarts-fields/line-area-style';
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import { ChartingOrientation } from '../../common-echarts-fields/orientation';
+import { SeriesOrder } from '../../common-echarts-fields/series-order';
+import { SeriesUnitType } from '../../common-echarts-fields/series-unit';
 import { SymbolSize } from '../../common-echarts-fields/symbol-size';
 import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 import {
@@ -16,13 +19,12 @@ import {
 } from '../../common-echarts-fields/x-axis-label-formatter';
 import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
-import { EchartsLineAreaStyle } from '../../common-echarts-fields/line-area-style';
-import { SeriesOrder } from '../../common-echarts-fields/series-order';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
   name: string;
   display_name_on_line: boolean;
+  unit: SeriesUnitType;
   showSymbol: boolean;
   symbolSize: SymbolSize;
   y_axis_data_key: TDataKey;
