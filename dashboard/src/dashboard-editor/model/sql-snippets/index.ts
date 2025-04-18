@@ -28,7 +28,7 @@ export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
       const filterKeys = _.uniq(sql.match(UsageRegs.filter));
       const set: Set<string> = new Set();
       filterKeys.forEach((k) => set.add(k));
-      ret.set(s.value, set);
+      ret.set(s.key, set);
     });
     return ret;
   },

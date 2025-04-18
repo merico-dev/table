@@ -25,7 +25,7 @@ export type FilterUsageType =
     };
 
 export const FilterModel = FilterMeta.views((self) => ({
-  get usage(): FilterUsageType[] {
+  get usages(): FilterUsageType[] {
     return self.contentModel.findFilterUsage(self.id);
   },
 })).actions((self) => ({}));
@@ -35,5 +35,5 @@ export type FilterModelSnapshotIn = SnapshotIn<FilterModelInstance>;
 export type FilterModelSnapshotOut = SnapshotOut<FilterModelInstance>;
 
 export interface IFilterModel extends IFilterMeta {
-  usage: FilterUsageType[];
+  usages: FilterUsageType[];
 }

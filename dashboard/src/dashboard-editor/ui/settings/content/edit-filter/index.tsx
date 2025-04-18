@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { FilterSetting } from '~/components/filter/filter-settings/filter-setting';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import { FilterModelInstance } from '~/dashboard-editor';
 
 export const EditFilter = observer(({ id }: { id: string }) => {
   const { t } = useTranslation();
@@ -39,14 +40,14 @@ export const EditFilter = observer(({ id }: { id: string }) => {
     });
   };
   return (
-    <Stack sx={{ maxWidth: '1100px', height: '100vh' }} gap="sm" pb={30}>
+    <Stack sx={{ minWidth: '1100px', height: '100vh' }} gap="sm" pb={30}>
       <Group justify="flex-end" pt={10}>
         <Button size="xs" color="red" leftSection={<IconTrash size={16} />} onClick={removeWithConfirmation}>
           {t('filter.delete')}
         </Button>
       </Group>
       <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>
-        <FilterSetting filter={filter} />
+        <FilterSetting filter={filter as FilterModelInstance} />
       </Box>
     </Stack>
   );

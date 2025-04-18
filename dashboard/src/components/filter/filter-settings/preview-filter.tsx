@@ -3,6 +3,7 @@ import { Box, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { FilterModelInstance } from '~/dashboard-editor/model/filters/filter-model';
+import { FilterUsageTable } from './filter-usage-table';
 
 type Props = {
   filter: FilterModelInstance;
@@ -16,13 +17,13 @@ export const PreviewFilter = observer(({ filter }: Props) => {
   // }, [filter]);
 
   return (
-    <Tabs defaultValue="config">
+    <Tabs defaultValue="usage">
       <Tabs.List>
         <Tabs.Tab value="config">{t('common.titles.config')}</Tabs.Tab>
         <Tabs.Tab value="usage">{t('filter.usage.label')}</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="config">
-        <Box sx={{ maxWidth: '480px' }}>
+        <Box sx={{ minWidth: '480px' }}>
           {/*
           <Text pb="md" c="gray" size="sm">
           Preview
@@ -32,7 +33,9 @@ export const PreviewFilter = observer(({ filter }: Props) => {
           <CodeHighlight mt={22} language="json" withCopyButton={false} code={JSON.stringify(filter, null, 4)} />
         </Box>
       </Tabs.Panel>
-      <Tabs.Panel value="usage">TODO</Tabs.Panel>
+      <Tabs.Panel value="usage">
+        <FilterUsageTable filter={filter} />
+      </Tabs.Panel>
     </Tabs>
   );
 });
