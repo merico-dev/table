@@ -221,6 +221,7 @@ export interface IFiltersRenderModel {
   readonly firstID: string | undefined;
   readonly keySet: Set<string>;
   readonly keyLabelMap: Record<string, string>;
+  readonly keyIDMap: Record<string, string>;
   readonly empty: boolean;
 
   // Methods
