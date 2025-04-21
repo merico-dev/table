@@ -9,6 +9,7 @@ import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
 import { VizParetoChartEditor } from './viz-pareto-chart-editor';
+import { getDefaultSeriesUnit } from '../../common-echarts-fields/series-unit';
 
 function v2(legacyConf: $TSFixMe): IParetoChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -124,8 +125,20 @@ function v9(legacyConf: any, { panelModel }: IMigrationEnv): IParetoChartConf {
   }
 }
 
+function v10(legacyConf: any): IParetoChartConf {
+  const bar = legacyConf.bar;
+  const { unit = getDefaultSeriesUnit() } = bar;
+  return {
+    ...legacyConf,
+    bar: {
+      ...bar,
+      unit,
+    },
+  };
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 9;
+  readonly VERSION = 10;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -190,6 +203,13 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: v9(data.config, env),
       };
     });
+    this.version(10, (data) => {
+      return {
+        ...data,
+        version: 10,
+        config: v10(data.config),
+      };
+    });
   }
 }
 
@@ -202,7 +222,7 @@ export const ParetoChartVizComponent: VizComponent = {
   configRender: VizParetoChartEditor,
   createConfig() {
     return {
-      version: 9,
+      version: 10,
       config: cloneDeep(DEFAULT_CONFIG) as IParetoChartConf,
     };
   },
