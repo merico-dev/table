@@ -5,6 +5,7 @@ import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { IParetoChartConf } from '../type';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface IBarField {
   control: Control<IParetoChartConf, $TSFixMe>;
@@ -34,6 +35,11 @@ export function BarField({ control, watch }: IBarField) {
           render={({ field }) => <ColorPickerPopoverForViz label={t('chart.color.label')} {...field} />}
         />
       </SimpleGrid>
+      <Controller
+        name={'bar.unit'}
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
       <Stack>
         <Divider mb={-15} variant="dashed" label={t('chart.label.label_format')} labelPosition="center" />
         <Controller

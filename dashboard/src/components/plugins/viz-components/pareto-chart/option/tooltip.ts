@@ -4,23 +4,41 @@ import { IParetoChartConf } from '../type';
 import { TParetoFormatters } from './utils';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
+function getBarUnit(conf: IParetoChartConf) {
+  const unit = conf.bar.unit;
+  if (!unit.show_in_tooltip) {
+    return '';
+  }
+  return unit.text;
+}
+
 const getTooltipFormatter = (conf: IParetoChartConf, formatters: TParetoFormatters) => (params: CallbackDataParams) => {
   const arr = Array.isArray(params) ? params : [params];
   if (arr.length === 0) {
     return '';
   }
-  const lines = arr.map((row, index) => {
-    const seriesName = row.seriesName;
+  const barUnit = getBarUnit(conf);
+  const lines = arr.map((row) => {
+    const { seriesName, componentSubType } = row;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_x, value] = row.value as [string, number];
     if (!seriesName) {
       return value;
     }
-    const formatter = index === 0 ? formatters.bar : formatters.lineValue;
+    const isBarSeries = componentSubType === 'bar';
+    if (isBarSeries) {
+      return `
+      <tr>
+        <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
+        <td style="text-align: left; padding: 0 2px 0 1em;">${formatters.bar(value as number)}</td>
+        <td style="text-align: left; padding: 0;">${componentSubType === 'bar' ? barUnit : ''}</td>
+      </tr>
+      `;
+    }
     return `
     <tr>
       <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
-      <td style="text-align: left; padding: 0 1em;">${formatter(value as number)}</td>
+      <td colspan="2" style="text-align: left; padding: 0 2px 0 1em;">${formatters.lineValue(value as number)}</td>
     </tr>
   `;
   });

@@ -11,6 +11,7 @@ import {
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
 import { ICartesianReferenceLine } from '../cartesian/type';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
@@ -33,6 +34,7 @@ export interface IParetoChartConf {
     nameAlignment: EChartsNameTextAlign;
     color: string;
     label_formatter: TNumberFormat;
+    unit: SeriesUnitType;
   };
   line: {
     name: string;
@@ -63,6 +65,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     nameAlignment: 'left',
     color: '#228be6',
     label_formatter: defaultNumberFormat,
+    unit: getDefaultSeriesUnit(),
   },
   line: {
     name: 'Value',
