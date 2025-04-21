@@ -8,7 +8,8 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils';
+import { ITemplateVariable, parseRichTextContent } from '~/utils';
+import { useRenderContentModelContext } from '../../../../contexts';
 import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { notifyVizRendered } from '../viz-instance-api';
 import { getOption } from './option';
@@ -61,10 +62,17 @@ function Chart({
   );
 
   const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
+  const contentModel = useRenderContentModelContext();
   const handleFinished = React.useCallback(() => {
     const chart = echartsInstanceRef.current?.getEchartsInstance();
     if (!chart) return;
-    notifyVizRendered(instance, chart.getOption());
+    const statsAboveViz = parseRichTextContent(conf.stats.top, variables, contentModel.payloadForViz, data);
+    const statsBelowViz = parseRichTextContent(conf.stats.bottom, variables, contentModel.payloadForViz, data);
+    notifyVizRendered(instance, {
+      ...chart.getOption(),
+      statsAboveViz,
+      statsBelowViz,
+    });
   }, [instance]);
 
   const onEvents = useMemo(() => {
