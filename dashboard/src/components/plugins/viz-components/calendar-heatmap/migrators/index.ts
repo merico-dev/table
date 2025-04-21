@@ -1,6 +1,8 @@
 import { getDefaultVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
 import { ICalendarHeatmapConf } from '../type';
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 export function v2(legacyConf: any, { panelModel }: IMigrationEnv): ICalendarHeatmapConf {
   try {
@@ -73,6 +75,20 @@ export function v4(legacyConf: any): ICalendarHeatmapConf {
       ...getDefaultVisualMap(),
       min,
       max,
+    },
+  };
+}
+
+export function v5(legacyConf: any): ICalendarHeatmapConf {
+  const metrics = legacyConf.tooltip.metrics as IEchartsTooltipMetric[];
+  return {
+    ...legacyConf,
+    tooltip: {
+      ...legacyConf.tooltip,
+      metrics: metrics.map((m) => ({
+        ...m,
+        unit: m.unit ?? getDefaultSeriesUnit(),
+      })),
     },
   };
 }

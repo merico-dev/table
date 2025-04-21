@@ -20,19 +20,17 @@ interface IGetRows {
   valueFormatters: ValueFormattersType;
   dataDict: _.Dictionary<AnyObject>;
   params: CallbackDataParams;
+  metricUnitMap: Record<string, string>;
 }
 
-function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
+function getRows({ conf, valueFormatters, dataDict, params, metricUnitMap }: IGetRows) {
   const { value } = params;
   const [date, v] = value as [string, number];
 
   const valueRow = {
     label: conf.heat_block.name,
     value: valueFormatters.heat_block(v),
-    style: {
-      label: '',
-      value: '',
-    },
+    unit: '',
   };
   const ret = [valueRow];
 
@@ -40,13 +38,11 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
   if (rowData) {
     conf.tooltip.metrics.forEach((m) => {
       const k = parseDataKey(m.data_key);
+      const unit = metricUnitMap[m.name] ?? '';
       ret.push({
         label: m.name,
         value: formatAdditionalMetric(_.get(rowData, k.columnKey, '')),
-        style: {
-          label: '',
-          value: '',
-        },
+        unit,
       });
     });
   }
@@ -57,18 +53,28 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
 export function getTooltip(conf: ICalendarHeatmapConf, data: TPanelData, valueFormatters: ValueFormattersType) {
   const c = parseDataKey(conf.calendar.data_key);
   const dataDict = _.keyBy(data[c.queryID], c.columnKey);
+  const metricUnitMap = conf.tooltip.metrics.reduce((ret, { unit, name }) => {
+    if (unit.show_in_tooltip) {
+      ret[name] = unit.text;
+    }
+    return ret;
+  }, {} as Record<string, string>);
+
   return defaultEchartsOptions.getTooltip({
     formatter: function (params: CallbackDataParams) {
-      const rows = getRows({ conf, valueFormatters, dataDict, params });
+      const rows = getRows({ conf, valueFormatters, dataDict, params, metricUnitMap });
       const trs = rows.map((r) => {
         return `
           <tr>
-            <th style="text-align: right;">
-              <div style="${r.style.label}">${r.label}</div>
+            <th style="text-align: right; padding: 0 1em;">
+              ${r.label}
             </th>
-            <td style="text-align: right; padding: 0 1em;">
-            <div style="${r.style.value}">${r.value}
+            <td style="text-align: left; padding: 0 2px 0 1em;">
+              ${r.value}
             </td>
+            <th style="text-align: left; padding: 0;">
+              ${r.unit}
+            </th>
           </tr>
         `;
       });

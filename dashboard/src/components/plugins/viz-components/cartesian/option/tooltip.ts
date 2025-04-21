@@ -96,7 +96,7 @@ export function getTooltip(
           <td />
           <th style="text-align: right; padding: 0 1em;">${m.name}</th>
           ${metricValues.map((v) => {
-            return `<td style="text-align: left; padding: 0 1em;" >${formatAdditionalMetric(v)}</td>`;
+            return `<td style="text-align: left; padding: 0 2px 0 1em;" >${formatAdditionalMetric(v)}</td>`;
           })}
           <th style="text-align: left; padding: 0;">
             ${unit}

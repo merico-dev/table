@@ -153,7 +153,7 @@ function v11(legacyConf: any): IBoxplotChartConf {
       ...legacyConf.tooltip,
       metrics: metrics.map((m) => ({
         ...m,
-        unit: getDefaultSeriesUnit(),
+        unit: m.unit ?? getDefaultSeriesUnit(),
       })),
     },
   };

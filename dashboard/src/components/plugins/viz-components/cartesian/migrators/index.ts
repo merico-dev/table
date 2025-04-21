@@ -364,7 +364,7 @@ export function v24(legacyConf: any): ICartesianChartConf {
       ...legacyConf.tooltip,
       metrics: metrics.map((m) => ({
         ...m,
-        unit: getDefaultSeriesUnit(),
+        unit: m.unit ?? getDefaultSeriesUnit(),
       })),
     },
   };
