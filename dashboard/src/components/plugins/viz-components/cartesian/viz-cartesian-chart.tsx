@@ -10,7 +10,8 @@ import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils';
+import { ITemplateVariable, parseRichTextContent } from '~/utils';
+import { useRenderContentModelContext } from '../../../../contexts';
 import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
@@ -118,8 +119,26 @@ export const VizCartesianChart = observer(({ context, instance }: VizViewProps) 
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
 
+  const contentModel = useRenderContentModelContext();
+
   function handleChartRenderFinished(chartOptions: unknown) {
-    notifyVizRendered(instance, chartOptions);
+    const statsAboveViz = parseRichTextContent(
+      conf.stats.top,
+      context.variables,
+      contentModel.payloadForViz,
+      context.data,
+    );
+    const statsBelowViz = parseRichTextContent(
+      conf.stats.bottom,
+      context.variables,
+      contentModel.payloadForViz,
+      context.data,
+    );
+    notifyVizRendered(instance, {
+      ...(chartOptions as object),
+      statsAboveViz,
+      statsBelowViz,
+    });
   }
 
   return (
