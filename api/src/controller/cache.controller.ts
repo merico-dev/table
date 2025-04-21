@@ -1,9 +1,9 @@
+import express from 'express';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath } from 'swagger-express-ts';
-import { clearFsCache, clearFsCacheByContentId } from '../utils/fs_cache';
 import { CacheClearRequest } from '../api_models/cache';
-import express from 'express';
 import { validate } from '../middleware/validation';
+import { clearCache, clearCacheByContentId } from '../utils/cache';
 @ApiPath({
   path: '/cache',
   name: 'Cache',
@@ -22,7 +22,7 @@ export class CacheController implements interfaces.Controller {
   })
   @httpPost('/clear')
   public async clear(): Promise<void> {
-    clearFsCache();
+    await clearCache();
   }
 
   @ApiOperationPost({
@@ -38,6 +38,6 @@ export class CacheController implements interfaces.Controller {
   @httpPost('/clear/dashboard', validate(CacheClearRequest))
   public async clearByContentId(req: express.Request): Promise<void> {
     const { content_id } = req.body as CacheClearRequest;
-    clearFsCacheByContentId(content_id);
+    await clearCacheByContentId(content_id);
   }
 }
