@@ -41,6 +41,12 @@ const formatAdditionalMetric = (v: number) => {
 
 export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
   const { scatter, tooltip } = conf;
+  const metricUnitMap = tooltip.metrics.reduce((ret, { unit, name }) => {
+    if (unit.show_in_tooltip) {
+      ret[name] = unit.text;
+    }
+    return ret;
+  }, {} as Record<string, string>);
   return defaultEchartsOptions.getTooltip({
     trigger: tooltip.trigger,
     formatter: function (params: TopLevelFormatterParams) {
@@ -89,17 +95,20 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       ];
 
       const additionalMetrics = conf.tooltip.metrics.map((m) => {
-        return `<tr>
-        <th style="text-align: right;">${m.name}</th>
-        ${arr
-          // @ts-expect-error type of value
-          .map(({ value }: { value: AnyObject }) => {
-            return `<td style="text-align: right; padding: 0 1em;">${formatAdditionalMetric(
-              readColumnIgnoringQuery(value, m.data_key),
-            )}</td>`;
-          })
-          .join('')}
-      </tr>`;
+        return `
+        <tr>
+          <th style="text-align: right;">${m.name}</th>
+          ${arr
+            // @ts-expect-error type of value
+            .map(({ value }: { value: AnyObject }) => {
+              return `
+              <td style="text-align: right; padding: 0 1em;">
+              ${formatAdditionalMetric(readColumnIgnoringQuery(value, m.data_key))}
+              ${metricUnitMap[m.name] ?? ''}
+              </td>`;
+            })
+            .join('')}
+        </tr>`;
       });
       metrics.push(...additionalMetrics);
 
