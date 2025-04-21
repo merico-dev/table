@@ -27,7 +27,7 @@ export function getAdditionalMetrics(config: IBoxplotChartConf, dataItem: AnyObj
       <th style="text-align: right; padding: 0 1em;">${m.name}</th>
       <td style="text-align: left; padding: 0 2px 0 1em;">${formatAdditionalMetric(dataItem[k.columnKey])}</td>
       <th style="text-align: left; padding: 0;">
-        ${unit}
+        ${unit ?? ''}
       </th>
     </tr>`;
   });

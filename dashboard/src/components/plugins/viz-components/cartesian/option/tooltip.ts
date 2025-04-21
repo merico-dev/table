@@ -77,7 +77,7 @@ export function getTooltip(
             ${formatter({ value })}
           </td>
           <th style="text-align: left; padding: 0;">
-            ${unit}
+            ${unit ?? ''}
           </th>
         </tr>
         `;
@@ -99,7 +99,7 @@ export function getTooltip(
             return `<td style="text-align: left; padding: 0 2px 0 1em;" >${formatAdditionalMetric(v)}</td>`;
           })}
           <th style="text-align: left; padding: 0;">
-            ${unit}
+            ${unit ?? ''}
           </th>
         </tr>`;
       });

@@ -112,7 +112,7 @@ export function getTooltip(
               <div style="${r.style.value}">${r.value}</div>
             </td>
             <th style="text-align: left; padding: 0;">
-              ${r.unit}
+              ${r.unit ?? ''}
             </th>
           </tr>
         `;

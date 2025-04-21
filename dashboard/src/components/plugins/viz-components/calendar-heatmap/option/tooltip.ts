@@ -73,7 +73,7 @@ export function getTooltip(conf: ICalendarHeatmapConf, data: TPanelData, valueFo
               ${r.value}
             </td>
             <th style="text-align: left; padding: 0;">
-              ${r.unit}
+              ${r.unit ?? ''}
             </th>
           </tr>
         `;
