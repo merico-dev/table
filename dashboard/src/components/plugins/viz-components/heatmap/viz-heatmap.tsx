@@ -1,8 +1,9 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
-import _, { defaults } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import _, { defaults, values } from 'lodash';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
+import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
@@ -14,7 +15,6 @@ import { useHeatmapGroupedData } from './render/use-heatmap-grouped-data';
 import { SeriesDataItem, useHeatmapSeriesData } from './render/use-heatmap-series-data';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
-import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 
 interface IClickHeatBlock {
   type: 'click';
@@ -35,7 +35,6 @@ function Chart({
   height,
   interactionManager,
   variables,
-  instance,
 }: {
   conf: IHeatmapConf;
   data: TPanelData;
@@ -65,18 +64,11 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
   const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
-  const handleFinished = useCallback(() => {
-    const chart = echartsInstanceRef.current?.getEchartsInstance();
-    if (!chart) return;
-    notifyVizRendered(instance, chart.getOption());
-  }, [instance]);
-
   const onEvents = useMemo(() => {
     return {
       click: handleHeatBlockClick,
-      finished: handleFinished,
     };
-  }, [handleHeatBlockClick, handleFinished]);
+  }, [handleHeatBlockClick]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, seriesData, variables, width, height);
@@ -107,6 +99,10 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
   const { totalPages, groupedFullData } = useHeatmapGroupedData(data, conf);
+  useEffect(() => {
+    const fullData = values(groupedFullData).flat();
+    notifyVizRendered(instance, getOption(conf, data, fullData, variables, width, height));
+  }, [groupedFullData]);
   const [page, setPage] = useState(1);
   const seriesData = useHeatmapSeriesData(groupedFullData, conf, page);
 
