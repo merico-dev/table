@@ -9,6 +9,8 @@ import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartEditor } from './viz-boxplot-chart-editor';
+import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
+import { getDefaultSeriesUnit } from '../../common-echarts-fields/series-unit';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -143,8 +145,22 @@ function v10(legacyConf: any): IBoxplotChartConf {
   };
 }
 
+function v11(legacyConf: any): IBoxplotChartConf {
+  const metrics = legacyConf.tooltip.metrics as IEchartsTooltipMetric[];
+  return {
+    ...legacyConf,
+    tooltip: {
+      ...legacyConf.tooltip,
+      metrics: metrics.map((m) => ({
+        ...m,
+        unit: getDefaultSeriesUnit(),
+      })),
+    },
+  };
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 9;
+  readonly VERSION = 11;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -195,6 +211,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 10, config: v10(config) };
     });
+    this.version(11, (data) => {
+      const { config } = data;
+      return { ...data, version: 11, config: v11(config) };
+    });
   }
 }
 
@@ -207,7 +227,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
-      version: 10,
+      version: 11,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },
