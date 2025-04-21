@@ -8,7 +8,7 @@ import { translation } from './translation';
 import * as Migrators from './migrators';
 
 class MericoHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -22,6 +22,13 @@ class MericoHeatmapMigrator extends VersionBasedMigrator {
         ...data,
         version: 2,
         config: Migrators.v2(data.config),
+      };
+    });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: Migrators.v3(data.config),
       };
     });
   }
@@ -38,7 +45,7 @@ export const MericoHeatmapVizComponent: VizComponent = {
     version: number;
     config: TMericoHeatmapConf;
   } => ({
-    version: 2,
+    version: 3,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],

@@ -1,5 +1,7 @@
 import { getDefaultVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
 import { TMericoHeatmapConf } from '../type';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 export function v2(legacyConf: any): TMericoHeatmapConf {
   const {
@@ -14,6 +16,19 @@ export function v2(legacyConf: any): TMericoHeatmapConf {
       ...getDefaultVisualMap(),
       min,
       max,
+    },
+  };
+}
+export function v3(legacyConf: any): TMericoHeatmapConf {
+  const metrics = legacyConf.tooltip.metrics as IEchartsTooltipMetric[];
+  return {
+    ...legacyConf,
+    tooltip: {
+      ...legacyConf.tooltip,
+      metrics: metrics.map((m) => ({
+        ...m,
+        unit: m.unit ?? getDefaultSeriesUnit(),
+      })),
     },
   };
 }

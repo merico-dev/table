@@ -2,6 +2,7 @@ import { Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 import { TMericoHeatmapConf } from '../../type';
 
 interface ITooltipMetricField {
@@ -27,6 +28,11 @@ export const TooltipMetricField = ({ control, index }: ITooltipMetricField) => {
           )}
         />
       </Group>
+      <Controller
+        name={`tooltip.metrics.${index}.unit`}
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
     </Stack>
   );
 };
