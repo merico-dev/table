@@ -9,7 +9,7 @@ import { translation } from './translation';
 import * as Migrators from './migrators';
 
 class VizHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 6;
+  readonly VERSION = 7;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -54,6 +54,13 @@ class VizHeatmapMigrator extends VersionBasedMigrator {
         config: Migrators.v6(data.config),
       };
     });
+    this.version(7, (data) => {
+      return {
+        ...data,
+        version: 7,
+        config: Migrators.v7(data.config),
+      };
+    });
   }
 }
 
@@ -68,7 +75,7 @@ export const HeatmapVizComponent: VizComponent = {
     version: number;
     config: IHeatmapConf;
   } => ({
-    version: 6,
+    version: 7,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],

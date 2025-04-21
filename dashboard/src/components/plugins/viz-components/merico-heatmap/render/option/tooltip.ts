@@ -22,9 +22,10 @@ interface IGetRows {
   valueFormatters: ValueFormattersType;
   dataDict: _.Dictionary<AnyObject>;
   params: CallbackDataParams;
+  metricUnitMap: Record<string, string>;
 }
 
-function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: IGetRows) {
+function getRows({ conf, labelFormatters, valueFormatters, dataDict, params, metricUnitMap }: IGetRows) {
   const { value, dataIndex } = params;
   const [x, y, v] = value as [string, string, string];
 
@@ -35,6 +36,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
       label: '',
       value: getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip),
     },
+    unit: '',
   };
 
   const yRow = {
@@ -44,6 +46,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
       label: '',
       value: getLabelOverflowStyleInTooltip(conf.y_axis.axisLabel.overflow.in_tooltip),
     },
+    unit: '',
   };
 
   const valueRow = {
@@ -53,6 +56,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
       label: '',
       value: '',
     },
+    unit: '',
   };
   const ret = [xRow, yRow, valueRow];
 
@@ -60,6 +64,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
   if (rowData) {
     conf.tooltip.metrics.forEach((m) => {
       const k = parseDataKey(m.data_key);
+      const unit = metricUnitMap[m.name];
       ret.push({
         label: m.name,
         value: formatAdditionalMetric(_.get(rowData, k.columnKey, '')),
@@ -67,6 +72,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
           label: '',
           value: '',
         },
+        unit,
       });
     });
   }
@@ -86,18 +92,28 @@ export function getTooltip(
   const h = parseDataKey(heat_block.data_key);
 
   const dataDict = _.keyBy(data[x.queryID], (d) => `${d[x.columnKey]}---${d[y.columnKey]}`);
+  const metricUnitMap = conf.tooltip.metrics.reduce((ret, { unit, name }) => {
+    if (unit.show_in_tooltip) {
+      ret[name] = unit.text;
+    }
+    return ret;
+  }, {} as Record<string, string>);
+
   return defaultEchartsOptions.getTooltip({
     formatter: function (params: CallbackDataParams) {
-      const rows = getRows({ conf, labelFormatters, valueFormatters, dataDict, params });
+      const rows = getRows({ conf, labelFormatters, valueFormatters, dataDict, params, metricUnitMap });
       const trs = rows.map((r) => {
         return `
           <tr>
-            <th style="text-align: right;">
+            <th style="text-align: right; padding: 0 1em;">
               <div style="${r.style.label}">${r.label}</div>
             </th>
-            <td style="text-align: right; padding: 0 1em;">
-            <div style="${r.style.value}">${r.value}
+            <td style="text-align: left; padding: 0 2px 0 1em;">
+              <div style="${r.style.value}">${r.value}</div>
             </td>
+            <th style="text-align: left; padding: 0;">
+              ${r.unit ?? ''}
+            </th>
           </tr>
         `;
       });

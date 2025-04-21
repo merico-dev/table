@@ -2,6 +2,8 @@ import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
 import { getHeatmapPagination, IHeatmapConf } from '../type';
 import _ from 'lodash';
 import { getDefaultVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 export function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHeatmapConf {
   try {
@@ -90,5 +92,19 @@ export function v6(legacyConf: any): IHeatmapConf {
   return {
     ...rest,
     pagination,
+  };
+}
+
+export function v7(legacyConf: any): IHeatmapConf {
+  const metrics = legacyConf.tooltip.metrics as IEchartsTooltipMetric[];
+  return {
+    ...legacyConf,
+    tooltip: {
+      ...legacyConf.tooltip,
+      metrics: metrics.map((m) => ({
+        ...m,
+        unit: m.unit ?? getDefaultSeriesUnit(),
+      })),
+    },
   };
 }

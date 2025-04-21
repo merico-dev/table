@@ -12,6 +12,7 @@ import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator'
 import { getDefaultLineAreaStyle } from '~/components/plugins/common-echarts-fields/line-area-style';
 import { getDefaultSeriesOrder } from '~/components/plugins/common-echarts-fields/series-order';
 import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -355,6 +356,19 @@ export function v23(legacyConf: any): ICartesianChartConf {
     series: newSeries,
   };
 }
+export function v24(legacyConf: any): ICartesianChartConf {
+  const metrics = legacyConf.tooltip.metrics as IEchartsTooltipMetric[];
+  return {
+    ...legacyConf,
+    tooltip: {
+      ...legacyConf.tooltip,
+      metrics: metrics.map((m) => ({
+        ...m,
+        unit: m.unit ?? getDefaultSeriesUnit(),
+      })),
+    },
+  };
+}
 
 export class VizCartesianMigrator extends VersionBasedMigrator {
   configVersions(): void {
@@ -527,6 +541,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v23(data.config),
       };
     });
+    this.version(24, (data, env) => {
+      return {
+        ...data,
+        version: 24,
+        config: v24(data.config),
+      };
+    });
   }
-  readonly VERSION = 23;
+  readonly VERSION = 24;
 }

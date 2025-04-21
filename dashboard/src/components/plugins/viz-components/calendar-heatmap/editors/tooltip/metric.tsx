@@ -4,6 +4,7 @@ import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { ICalendarHeatmapConf } from '../../type';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface ITooltipMetricField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
@@ -28,6 +29,11 @@ export const TooltipMetricField = ({ control, index }: ITooltipMetricField) => {
           )}
         />
       </Group>
+      <Controller
+        name={`tooltip.metrics.${index}.unit`}
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
     </Stack>
   );
 };

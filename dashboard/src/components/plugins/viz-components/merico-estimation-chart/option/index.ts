@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { getDataWithLevelInfo } from './data';
 import { getLegend } from './legend';
 import { parseDataKey } from '~/utils';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 const defaultOption = {
   tooltip: {
@@ -26,6 +27,7 @@ function getMetric(conf: IMericoEstimationChartConf, metricKey: TDataKey) {
     id: key,
     name: deviation.name,
     data_key: key,
+    unit: getDefaultSeriesUnit(),
   };
 }
 

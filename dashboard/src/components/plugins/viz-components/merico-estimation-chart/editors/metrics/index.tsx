@@ -7,6 +7,7 @@ import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { IMericoEstimationChartConf } from '../../type';
 import { TooltipMetricField } from './metric';
 import { IconInfoCircle } from '@tabler/icons-react';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface IMetricsField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
@@ -21,6 +22,7 @@ export const MetricsField = ({ control, watch }: IMetricsField) => {
       id: Date.now().toString(),
       data_key: '',
       name: '',
+      unit: getDefaultSeriesUnit(),
     };
     return item;
   };

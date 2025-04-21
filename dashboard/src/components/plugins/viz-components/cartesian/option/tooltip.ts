@@ -44,6 +44,13 @@ export function getTooltip(
     return ret;
   }, {} as Record<string, string>);
 
+  const metricUnitMap = conf.tooltip.metrics.reduce((ret, { unit, name }) => {
+    if (unit.show_in_tooltip) {
+      ret[name] = unit.text;
+    }
+    return ret;
+  }, {} as Record<string, string>);
+
   return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     formatter: function (params: CallbackDataParams[]) {
@@ -70,7 +77,7 @@ export function getTooltip(
             ${formatter({ value })}
           </td>
           <th style="text-align: left; padding: 0;">
-            ${unit}
+            ${unit ?? ''}
           </th>
         </tr>
         `;
@@ -83,12 +90,17 @@ export function getTooltip(
             return metricData[dataIndex];
           }),
         );
-        return `<tr>
-        <td />
-        <th style="text-align: right; padding: 0 1em;">${m.name}</th>
-        ${metricValues.map((v) => {
-          return `<td style="text-align: left; padding: 0 1em;" col-span={2}>${formatAdditionalMetric(v)}</td>`;
-        })}
+        const unit = metricUnitMap[m.name] ?? '';
+        return `
+        <tr>
+          <td />
+          <th style="text-align: right; padding: 0 1em;">${m.name}</th>
+          ${metricValues.map((v) => {
+            return `<td style="text-align: left; padding: 0 2px 0 1em;" >${formatAdditionalMetric(v)}</td>`;
+          })}
+          <th style="text-align: left; padding: 0;">
+            ${unit ?? ''}
+          </th>
         </tr>`;
       });
       lines.push(...additionalMetrics);

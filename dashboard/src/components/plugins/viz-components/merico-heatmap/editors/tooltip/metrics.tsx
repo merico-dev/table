@@ -7,6 +7,7 @@ import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-field
 import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { TMericoHeatmapConf } from '../../type';
 import { TooltipMetricField } from './metric';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface ITooltipMetricsField {
   control: Control<TMericoHeatmapConf, $TSFixMe>;
@@ -21,6 +22,7 @@ export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) =>
       id: Date.now().toString(),
       data_key: '',
       name: '',
+      unit: getDefaultSeriesUnit(),
     };
     return item;
   };

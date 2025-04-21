@@ -6,6 +6,7 @@ import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-field
 import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { IScatterChartConf } from '../../type';
 import { TooltipMetricField } from './metric';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface ITooltipMetricsField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -20,6 +21,7 @@ export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) =>
       id: Date.now().toString(),
       data_key: '',
       name: '',
+      unit: getDefaultSeriesUnit(),
     };
     return item;
   };

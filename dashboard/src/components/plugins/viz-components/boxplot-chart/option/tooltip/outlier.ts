@@ -7,7 +7,7 @@ export function getOutlierTooltipContent(config: IBoxplotChartConf, value: TOutl
   const metrics = [
     `<tr>
       <th style="text-align: right; padding: 0 1em;">${config.y_axis.name}</th>
-      <td style="text-align: left; padding: 0 1em;">${value[1]}</td>
+      <td style="text-align: left; padding: 0 2px 0 1em;">${value[1]}</td>
     </tr>
     `,
   ];

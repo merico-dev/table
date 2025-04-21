@@ -9,6 +9,8 @@ import _ from 'lodash';
 import { PanelModelInstance } from '~/dashboard-editor';
 import { ICartesianChartConf } from '../../cartesian/type';
 import { transformTemplateToRichText } from '~/utils';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -131,6 +133,21 @@ function v11(legacyConf: any, panelModel: PanelModelInstance): ICartesianChartCo
   };
 }
 
+function v12(legacyConf: any): ICartesianChartConf {
+  const { tooltip, ...rest } = legacyConf;
+  const metrics = tooltip.metrics as IEchartsTooltipMetric[];
+  return {
+    ...rest,
+    tooltip: {
+      ...tooltip,
+      metrics: metrics.map((m) => ({
+        ...m,
+        unit: m.unit ?? getDefaultSeriesUnit(),
+      })),
+    },
+  };
+}
+
 export class VizScatterChartMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -185,6 +202,10 @@ export class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 11, config: v11(config, env.panelModel) };
     });
+    this.version(12, (data) => {
+      const { config } = data;
+      return { ...data, version: 12, config: v12(config) };
+    });
   }
-  readonly VERSION = 11;
+  readonly VERSION = 12;
 }
