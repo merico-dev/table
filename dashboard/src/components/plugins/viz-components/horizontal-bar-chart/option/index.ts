@@ -32,7 +32,7 @@ export function getOption(conf: IHorizontalBarChartConf, data: TPanelData, varia
     series,
     tooltip: getTooltip(conf, series, labelFormatters),
     grid: getGrid(conf),
-    legend: getLegend(series),
+    legend: getLegend(conf, series),
   };
   return customOptions;
 }
