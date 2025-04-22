@@ -32,3 +32,14 @@ export function v3(legacyConf: any): TMericoHeatmapConf {
     },
   };
 }
+
+export function v4(legacyConf: any): TMericoHeatmapConf {
+  const { heat_block } = legacyConf;
+  return {
+    ...legacyConf,
+    heat_block: {
+      ...heat_block,
+      unit: heat_block.unit ?? getDefaultSeriesUnit(),
+    },
+  };
+}

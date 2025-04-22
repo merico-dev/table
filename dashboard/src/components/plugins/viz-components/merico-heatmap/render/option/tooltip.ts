@@ -56,7 +56,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params, met
       label: '',
       value: '',
     },
-    unit: '',
+    unit: conf.heat_block.unit.show_in_tooltip ? conf.heat_block.unit.text : '',
   };
   const ret = [xRow, yRow, valueRow];
 
