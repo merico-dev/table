@@ -30,7 +30,7 @@ function getRows({ conf, valueFormatters, dataDict, params, metricUnitMap }: IGe
   const valueRow = {
     label: conf.heat_block.name,
     value: valueFormatters.heat_block(v),
-    unit: '',
+    unit: conf.heat_block.unit.show_in_tooltip ? conf.heat_block.unit.text : '',
   };
   const ret = [valueRow];
 

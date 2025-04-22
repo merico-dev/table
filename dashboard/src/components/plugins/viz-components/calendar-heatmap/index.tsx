@@ -8,7 +8,7 @@ import { VizCalendarHeatmap } from './viz-calendar-heatmap';
 import { VizCalendarHeatmapEditor } from './viz-calendar-heatmap-editor';
 
 class VizCalendarHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 5;
+  readonly VERSION = 6;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -45,6 +45,13 @@ class VizCalendarHeatmapMigrator extends VersionBasedMigrator {
         config: Migrators.v5(data.config),
       };
     });
+    this.version(6, (data) => {
+      return {
+        ...data,
+        version: 6,
+        config: Migrators.v6(data.config),
+      };
+    });
   }
 }
 
@@ -60,7 +67,7 @@ export const CalendarHeatmapVizComponent: VizComponent = {
   name: 'calendarHeatmap',
   viewRender: VizCalendarHeatmap,
   configRender: VizCalendarHeatmapEditor,
-  createConfig: (): ConfigType => ({ version: 5, config: DEFAULT_CONFIG }),
+  createConfig: (): ConfigType => ({ version: 6, config: DEFAULT_CONFIG }),
   triggers: [ClickCalendarDate],
   translation,
 };
