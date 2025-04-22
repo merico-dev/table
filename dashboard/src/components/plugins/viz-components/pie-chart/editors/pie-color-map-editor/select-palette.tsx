@@ -18,7 +18,6 @@ function getBackgroundImage(colors: string[]) {
     stops.push(`${c} ${numbro((i + 1) * step).format(format)}`);
   });
   const ret = `linear-gradient(90deg, ${stops.join(',')})`;
-  console.log(ret);
   return ret;
 }
 

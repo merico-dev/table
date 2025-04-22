@@ -1,7 +1,8 @@
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { OthersSectorItem } from './series';
+import { IPieChartConf } from '../type';
 
-function renderOthersSectorTooltip(props: any) {
+function renderOthersSectorTooltip(unit: string, props: any) {
   const { name, color } = props;
   const data: OthersSectorItem = props.data;
 
@@ -10,7 +11,10 @@ function renderOthersSectorTooltip(props: any) {
       return `
       <tr>
         <th style="text-align: right; padding: 0 1em;">${item.name}</th>
-        <td style="text-align: left; padding: 0 1em; font-family: monospace;">${item.value}</td>
+        <td style="text-align: left; padding: 0 1em; font-family: monospace;">
+        ${item.value}
+        ${!!unit ? `<strong>${unit}</strong>` : ''}
+        </td>
         <td style="text-align: left; padding: 0 1em; font-family: monospace;">${item.percentage}</td>
       </tr>
     `;
@@ -39,11 +43,11 @@ function renderOthersSectorTooltip(props: any) {
   return template;
 }
 
-function getFormatter() {
+function getFormatter(unit: string) {
   return (props: any) => {
     const { name, value, color, data } = props;
     if ('items' in data) {
-      return renderOthersSectorTooltip(props);
+      return renderOthersSectorTooltip(unit, props);
     }
     const template = `
       <table style="width: auto">
@@ -58,7 +62,8 @@ function getFormatter() {
         <tbody>
           <tr>
             <th style="text-align: right; padding: 0 1em; ">${name}</th>
-            <td style="text-align: left; padding: 0 1em; font-family: monospace;">${value}</td>
+            <td style="text-align: left; padding: 0 2px 0 1em; font-family: monospace;">${value}</td>
+            <th style="text-align: left; padding: 0;">${unit}</th>
           </tr>
         </tbody>
       </table>
@@ -68,9 +73,10 @@ function getFormatter() {
   };
 }
 
-export function getTooltip() {
+export function getTooltip(conf: IPieChartConf) {
+  const unit = conf.unit.show_in_tooltip ? conf.unit.text : '';
   return defaultEchartsOptions.getTooltip({
     trigger: 'item',
-    formatter: getFormatter(),
+    formatter: getFormatter(unit),
   });
 }

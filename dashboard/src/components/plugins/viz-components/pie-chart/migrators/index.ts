@@ -1,6 +1,7 @@
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
 import { getDefaultOthersSector, IPieChartConf } from '../type';
 import { getDefaultSeriesOrder } from '~/components/plugins/common-echarts-fields/series-order';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
 
 export function v2(legacyConf: $TSFixMe): IPieChartConf {
   const { color_field = '', ...rest } = legacyConf;
@@ -61,5 +62,13 @@ export function v7(legacyConf: any): IPieChartConf {
   return {
     ...rest,
     others_sector,
+  };
+}
+
+export function v8(legacyConf: any): IPieChartConf {
+  const { unit } = legacyConf;
+  return {
+    ...legacyConf,
+    unit: unit ?? getDefaultSeriesUnit(),
   };
 }
