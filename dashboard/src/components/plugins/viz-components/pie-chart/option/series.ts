@@ -73,12 +73,14 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
     return acc;
   }, {} as NameColorMap);
 
+  const colorFeed = getColorFeed('multiple');
   let chartData: TDataItem[] = data[label.queryID].map((d) => {
     const name = d[label.columnKey];
+    const color = getColor(d, colorDataKey.columnKey, name, colorMap) || colorFeed.next().value;
     return {
       name,
       value: Number(d[value.columnKey]),
-      color: getColor(d, colorDataKey.columnKey, name, colorMap),
+      color,
     };
   });
   if (series_order) {
@@ -86,13 +88,12 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
   }
   chartData = makeOthersSector(others_sector, chartData);
 
-  const colorFeed = getColorFeed('multiple');
   return {
     type: 'pie',
     name: 'pie',
     radius: conf.radius,
     itemStyle: {
-      color: ({ data }: { data: TDataItem }) => (data.color ? data.color : colorFeed.next().value),
+      color: ({ data }: { data: TDataItem }) => data.color,
     },
     label: {
       position: 'outer',
