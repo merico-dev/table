@@ -1,27 +1,25 @@
-import { APIClient } from '../utils/api_client';
-import { DataSourceService } from './datasource.service';
-import { Any, DataSource } from 'typeorm';
-import { configureDatabaseSource } from '../utils/helpers';
-import { validateClass } from '../middleware/validation';
-import { HttpParams, QueryParams } from '../api_models/query';
-import { sqlRewriter } from '../plugins';
-import { ApiError, BAD_REQUEST, QUERY_ERROR } from '../utils/errors';
-import { getFsCache, getFsCacheKey, isFsCacheEnabled, putFsCache } from '../utils/fs_cache';
 import { injectable } from 'inversify';
-import { ApiKey } from '../api_models/api';
+import _, { has } from 'lodash';
+import { Any, DataSource } from 'typeorm';
 import { Account } from '../api_models/account';
-import { dashboardDataSource } from '../data_sources/dashboard';
-import DashboardContent from '../models/dashboard_content';
-import { DashboardPermissionService } from './dashboard_permission.service';
-import { has } from 'lodash';
-import { translate } from '../utils/i18n';
-import SqlSnippet from '../models/sql_snippet';
-import { QUERY_PARSING_ENABLED } from '../utils/constants';
-import { PERMISSIONS } from './role.service';
+import { ApiKey } from '../api_models/api';
 import { Query, Snippet } from '../api_models/dashboard_content';
+import { HttpParams, QueryParams } from '../api_models/query';
+import { dashboardDataSource } from '../data_sources/dashboard';
+import { validateClass } from '../middleware/validation';
+import DashboardContent from '../models/dashboard_content';
+import SqlSnippet from '../models/sql_snippet';
+import { sqlRewriter } from '../plugins';
+import { APIClient } from '../utils/api_client';
+import { getCache, getCacheKey, isCacheEnabled, putCache } from '../utils/cache';
+import { QUERY_PARSING_ENABLED } from '../utils/constants';
+import { ApiError, BAD_REQUEST, QUERY_ERROR } from '../utils/errors';
+import { configureDatabaseSource } from '../utils/helpers';
+import { translate } from '../utils/i18n';
 import log, { LOG_LABELS, LOG_LEVELS } from '../utils/logger';
-import { AxiosError } from 'axios';
-import _ from 'lodash';
+import { DashboardPermissionService } from './dashboard_permission.service';
+import { DataSourceService } from './datasource.service';
+import { PERMISSIONS } from './role.service';
 
 @injectable()
 export class QueryService {
@@ -262,10 +260,10 @@ export class QueryService {
       }
       q = sql;
     }
-    const fsCacheEnabled = await isFsCacheEnabled();
-    const cacheKey = getFsCacheKey(`${parsedType}:${parsedKey}:${q}`);
-    if (fsCacheEnabled && !refresh_cache) {
-      const cached = await getFsCache(content_id, cacheKey);
+    const cacheEnabled = await isCacheEnabled();
+    const cacheKey = getCacheKey(`${parsedType}:${parsedKey}:${q}`);
+    if (cacheEnabled && !refresh_cache) {
+      const cached = await getCache(content_id, cacheKey);
       if (cached) {
         return cached;
       }
@@ -291,8 +289,8 @@ export class QueryService {
       default:
         return null;
     }
-    if (fsCacheEnabled) {
-      await putFsCache(content_id, cacheKey, result);
+    if (cacheEnabled) {
+      await putCache(content_id, cacheKey, result);
     }
     return result;
   }

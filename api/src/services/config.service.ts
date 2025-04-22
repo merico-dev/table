@@ -1,15 +1,15 @@
-import { dashboardDataSource } from '../data_sources/dashboard';
+import { injectable } from 'inversify';
+import { has } from 'lodash';
+import { FindOptionsWhere } from 'typeorm';
 import { Account } from '../api_models/account';
 import { ApiKey } from '../api_models/api';
+import { ConfigDescription } from '../api_models/config';
+import { dashboardDataSource } from '../data_sources/dashboard';
 import Config from '../models/config';
+import { CACHE_RETAIN_TIME, DEFAULT_LANGUAGE } from '../utils/constants';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { FindOptionsWhere } from 'typeorm';
-import { DEFAULT_LANGUAGE, FS_CACHE_RETAIN_TIME } from '../utils/constants';
 import i18n, { CONFIG_DESCRIPTION_KEYS, translate } from '../utils/i18n';
 import { PERMISSIONS } from './role.service';
-import { has } from 'lodash';
-import { ConfigDescription } from '../api_models/config';
-import { injectable } from 'inversify';
 
 export enum ConfigResourceTypes {
   GLOBAL = 'GLOBAL',
@@ -75,7 +75,7 @@ export class ConfigService {
         update: PERMISSIONS.CONFIG_SET_QUERY_CACHE_EXPIRE_TIME,
       },
       isGlobal: true,
-      default: FS_CACHE_RETAIN_TIME,
+      default: CACHE_RETAIN_TIME,
     },
   };
 
