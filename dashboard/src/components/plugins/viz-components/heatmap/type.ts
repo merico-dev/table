@@ -10,6 +10,7 @@ import {
   getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export type THeatmapPagination = {
   page_size: number;
@@ -43,6 +44,7 @@ export interface IHeatmapConf {
   heat_block: {
     name: string;
     data_key: TDataKey;
+    unit: SeriesUnitType;
     value_formatter: TNumberFormat;
     label: {
       show: boolean;
@@ -80,6 +82,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
   heat_block: {
     name: 'Value',
     data_key: '',
+    unit: getDefaultSeriesUnit(),
     value_formatter: defaultNumberFormat,
     label: {
       show: false,

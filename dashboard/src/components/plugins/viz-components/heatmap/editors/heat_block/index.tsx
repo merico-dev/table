@@ -6,6 +6,7 @@ import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-
 import { NumberOrDynamicValue } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value';
 import { IHeatmapConf } from '../../type';
 import { useTranslation } from 'react-i18next';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface IHeatBlockField {
   control: Control<IHeatmapConf, $TSFixMe>;
@@ -29,6 +30,11 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
           render={({ field }) => <TextInput label={t('common.name')} sx={{ flex: 1 }} {...field} />}
         />
       </Group>
+      <Controller
+        name="heat_block.unit"
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
 
       <Divider mb={-15} variant="dashed" label={t('numbro.format.label')} labelPosition="center" />
       <Controller

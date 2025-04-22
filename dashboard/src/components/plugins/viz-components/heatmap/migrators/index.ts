@@ -108,3 +108,14 @@ export function v7(legacyConf: any): IHeatmapConf {
     },
   };
 }
+
+export function v8(legacyConf: any): IHeatmapConf {
+  const { heat_block } = legacyConf;
+  return {
+    ...legacyConf,
+    heat_block: {
+      ...heat_block,
+      unit: heat_block.unit ?? getDefaultSeriesUnit(),
+    },
+  };
+}
