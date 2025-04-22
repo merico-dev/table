@@ -1,16 +1,15 @@
-import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
-import { getDefaultScatterLabelOverfow, IScatterChartConf } from '../type';
-import { getDefaultAxisLabelOverflow } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { AnyObject } from '~/types';
 import { random } from 'chroma-js';
+import _ from 'lodash';
+import { getDefaultAxisLabelOverflow } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
+import { PanelModelInstance } from '~/dashboard-editor';
+import { AnyObject } from '~/types';
+import { transformTemplateToRichText } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR } from '../editors/scatter/series-color-select/types';
-import _ from 'lodash';
-import { PanelModelInstance } from '~/dashboard-editor';
-import { ICartesianChartConf } from '../../cartesian/type';
-import { transformTemplateToRichText } from '~/utils';
-import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
-import { getDefaultSeriesUnit } from '~/components/plugins/common-echarts-fields/series-unit';
+import { getDefaultScatterLabelOverfow, IScatterChartConf } from '../type';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -120,7 +119,7 @@ function v10(legacyConf: $TSFixMe): IScatterChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
-function v11(legacyConf: any, panelModel: PanelModelInstance): ICartesianChartConf {
+function v11(legacyConf: any, panelModel: PanelModelInstance): IScatterChartConf {
   const { stats, ...rest } = legacyConf;
   const top = transformTemplateToRichText(stats.templates.top, panelModel);
   const bottom = transformTemplateToRichText(stats.templates.bottom, panelModel);
@@ -133,7 +132,7 @@ function v11(legacyConf: any, panelModel: PanelModelInstance): ICartesianChartCo
   };
 }
 
-function v12(legacyConf: any): ICartesianChartConf {
+function v12(legacyConf: any): IScatterChartConf {
   const { tooltip, ...rest } = legacyConf;
   const metrics = tooltip.metrics as IEchartsTooltipMetric[];
   return {
@@ -148,6 +147,20 @@ function v12(legacyConf: any): ICartesianChartConf {
   };
 }
 
+function v13(legacyConf: any): IScatterChartConf {
+  const { scatter, x_axis } = legacyConf;
+  return {
+    ...legacyConf,
+    x_axis: {
+      ...x_axis,
+      unit: x_axis.unit ?? getDefaultSeriesUnit(),
+    },
+    scatter: {
+      ...scatter,
+      unit: scatter.unit ?? getDefaultSeriesUnit(),
+    },
+  };
+}
 export class VizScatterChartMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -206,6 +219,10 @@ export class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 12, config: v12(config) };
     });
+    this.version(13, (data) => {
+      const { config } = data;
+      return { ...data, version: 13, config: v13(config) };
+    });
   }
-  readonly VERSION = 12;
+  readonly VERSION = 13;
 }

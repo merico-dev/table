@@ -16,6 +16,7 @@ import {
   IXAxisLabelFormatter,
   getDefaultXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export interface IScatterLabelOverflow {
   label: IEchartsOverflow;
@@ -31,11 +32,13 @@ export interface IScatterChartConf {
       formatter: IXAxisLabelFormatter;
       overflow: IAxisLabelOverflow;
     };
+    unit: SeriesUnitType;
   };
   y_axes: IYAxisConf[];
   scatter: {
     y_data_key: TDataKey;
     name_data_key: TDataKey;
+    unit: SeriesUnitType;
     symbolSize: SymbolSize;
     label_position: IEchartsLabelPosition;
     color: TSeriesColor;
@@ -70,6 +73,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       type: 'static',
       size: 10,
     },
+    unit: getDefaultSeriesUnit(),
     color: DEFAULT_SERIES_COLOR.static,
     label_position: 'right',
     label_overflow: getDefaultScatterLabelOverfow(),
@@ -81,6 +85,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
   x_axis: {
     name: '',
     data_key: '',
+    unit: getDefaultSeriesUnit(),
     axisLabel: {
       rotate: 0,
       formatter: getDefaultXAxisLabelFormatter(),

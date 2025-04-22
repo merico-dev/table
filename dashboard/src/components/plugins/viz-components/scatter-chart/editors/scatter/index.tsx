@@ -10,6 +10,7 @@ import { SymbolSizeSelector } from '~/components/plugins/common-echarts-fields/s
 import { SeriesColorSelect } from '~/components/plugins/viz-components/scatter-chart/editors/scatter/series-color-select';
 import { IScatterChartConf } from '../../type';
 import { ScatterLabelOverflowField } from './label-overflow';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface IScatterField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -36,6 +37,11 @@ export function ScatterField({ control, watch }: IScatterField) {
           )}
         />
       </Group>
+      <Controller
+        name="scatter.unit"
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
       <Divider mb={-15} label={t('chart.style.label')} labelPosition="center" />
       <Controller
         name={`scatter.symbolSize`}
