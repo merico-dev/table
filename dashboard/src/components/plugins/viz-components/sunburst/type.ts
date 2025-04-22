@@ -1,4 +1,5 @@
 import { IEchartsLabelPosition } from '~/components/plugins/common-echarts-fields/label-position';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export interface ISunburstLevelConf {
   id: string;
@@ -17,6 +18,7 @@ export interface ISunburstConf {
   label_key: TDataKey;
   value_key: TDataKey;
   group_key: TDataKey;
+  unit: SeriesUnitType;
   levels: ISunburstLevelConf[];
 }
 
@@ -24,6 +26,7 @@ export const DEFAULT_CONFIG: ISunburstConf = {
   label_key: '',
   value_key: '',
   group_key: '',
+  unit: getDefaultSeriesUnit(),
   levels: [],
 };
 

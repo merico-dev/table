@@ -34,7 +34,7 @@ export function getOption(conf: ISunburstConf, data: TPanelData, variables: ITem
       data: chartData,
       levels: getLevels(conf),
     },
-    tooltip: getTooltip(),
+    tooltip: getTooltip(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
