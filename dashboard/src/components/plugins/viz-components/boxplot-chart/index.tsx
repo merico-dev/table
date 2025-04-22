@@ -159,8 +159,19 @@ function v11(legacyConf: any): IBoxplotChartConf {
   };
 }
 
+function v12(legacyConf: any): IBoxplotChartConf {
+  const { y_axis } = legacyConf;
+  return {
+    ...legacyConf,
+    y_axis: {
+      ...y_axis,
+      unit: y_axis.unit ?? getDefaultSeriesUnit(),
+    },
+  };
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 11;
+  readonly VERSION = 12;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -215,6 +226,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 11, config: v11(config) };
     });
+    this.version(12, (data) => {
+      const { config } = data;
+      return { ...data, version: 12, config: v12(config) };
+    });
   }
 }
 
@@ -227,7 +242,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
-      version: 11,
+      version: 12,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },

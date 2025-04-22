@@ -12,6 +12,7 @@ import {
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
 import { getDefaultDataZoomConfig, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -43,6 +44,7 @@ export interface IBoxplotChartConf {
     name: string;
     data_key: TDataKey;
     label_formatter: TNumberFormat;
+    unit: SeriesUnitType;
   };
   tooltip: {
     metrics: IEchartsTooltipMetric[];
@@ -67,6 +69,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     name: 'Y Axis',
     data_key: 'value',
     label_formatter: defaultNumberFormat,
+    unit: getDefaultSeriesUnit(),
   },
   tooltip: {
     metrics: [],
