@@ -3,11 +3,13 @@ import { IBoxplotChartConf, TScatterDataItem } from '../../type';
 import { getAdditionalMetrics } from './additional-metrics';
 
 export function getScatterTooltipContent(config: IBoxplotChartConf, value: TScatterDataItem) {
+  const unit = config.y_axis.unit.show_in_tooltip ? config.y_axis.unit.text : '';
   const xAxisLabelStyle = getLabelOverflowStyleInTooltip(config.x_axis.axisLabel.overflow.in_tooltip);
   const metrics = [
     `<tr>
       <th style="text-align: right; padding: 0 1em;">${config.y_axis.name}</th>
       <td style="text-align: left; padding: 0 2px 0 1em;">${value[1]}</td>
+      <th style="text-align: left; padding: 0;">${unit ?? ''}</th>
     </tr>
     `,
   ];

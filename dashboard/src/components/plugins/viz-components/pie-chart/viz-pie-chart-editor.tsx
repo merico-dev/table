@@ -14,6 +14,7 @@ import { useEditPanelContext } from '~/contexts';
 import { extractData } from '~/utils';
 import _ from 'lodash';
 import { SeriesOrderSelector } from '../../common-echarts-fields/series-order';
+import { SeriesUnitField } from '../../common-echarts-fields/series-unit';
 
 type StorageData = ReturnType<typeof useStorageData<IPieChartConf>>;
 
@@ -47,16 +48,24 @@ function Editor({ conf, setConf, context }: EditorProps) {
       <form onSubmit={handleSubmit(setConf)}>
         <VizConfigBanner canSubmit={formState.isDirty} />
         <Stack mt="md" gap="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
+          <Group grow wrap="nowrap">
+            <Controller
+              control={control}
+              name="label_field"
+              render={({ field }) => <DataFieldSelector label={t('common.name_data_field')} required {...field} />}
+            />
+            <Controller
+              control={control}
+              name="value_field"
+              render={({ field }) => <DataFieldSelector label={t('common.value_data_field')} required {...field} />}
+            />
+          </Group>
           <Controller
+            name="unit"
             control={control}
-            name="label_field"
-            render={({ field }) => <DataFieldSelector label={t('common.name_data_field')} required {...field} />}
+            render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
           />
-          <Controller
-            control={control}
-            name="value_field"
-            render={({ field }) => <DataFieldSelector label={t('common.value_data_field')} required {...field} />}
-          />
+          <Divider variant="dashed" />
           <Controller
             control={control}
             name="series_order"

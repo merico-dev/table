@@ -1,4 +1,5 @@
 import { getDefaultSeriesOrder, SeriesOrder } from '../../common-echarts-fields/series-order';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export type PieChartOthersSector = {
   label: string | null;
@@ -22,6 +23,7 @@ export interface IPieChartConf {
   color: {
     map: NameColorMapRow[];
   };
+  unit: SeriesUnitType;
   series_order: SeriesOrder;
   others_sector: PieChartOthersSector;
 }
@@ -34,6 +36,7 @@ export const DEFAULT_CONFIG: IPieChartConf = {
   color: {
     map: [],
   },
+  unit: getDefaultSeriesUnit(),
   series_order: getDefaultSeriesOrder(),
   others_sector: getDefaultOthersSector(),
 };

@@ -28,6 +28,13 @@ export function getTooltip(
     return ret;
   }, {} as Record<string, number>);
 
+  const unitMap = conf.series.reduce((ret, { unit, name }) => {
+    if (unit.show_in_tooltip) {
+      ret[name] = unit.text;
+    }
+    return ret;
+  }, {} as Record<string, string>);
+
   return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     axisPointer: {
@@ -52,7 +59,10 @@ export function getTooltip(
         <tr>
           <td>${marker}</td>
           <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
-          <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
+          <td style="text-align: left; padding: 0 2px 0 1em;">${formatter({ value })}</td>
+          <th style="text-align: left; padding: 0;">
+            ${unitMap[seriesName] ?? ''}
+          </th>
         </tr>
         `;
       });

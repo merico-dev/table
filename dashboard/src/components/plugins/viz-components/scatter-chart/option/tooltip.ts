@@ -40,7 +40,9 @@ const formatAdditionalMetric = (v: number) => {
 };
 
 export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
-  const { scatter, tooltip } = conf;
+  const { scatter, x_axis, y_axes, tooltip } = conf;
+  const xAxisUnit = x_axis.unit.show_in_tooltip ? x_axis.unit.text : '';
+  const scatterUnit = scatter.unit.show_in_tooltip ? scatter.unit.text : '';
   const metricUnitMap = tooltip.metrics.reduce((ret, { unit, name }) => {
     if (unit.show_in_tooltip) {
       ret[name] = unit.text;
@@ -72,22 +74,28 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip);
       const metrics = [
         `<tr>
-          <th style="text-align: right;">${conf.x_axis.name}</th>
+          <th style="text-align: right; padding: 0 1em;">${conf.x_axis.name}</th>
           ${arr
             .map(
-              (i) =>
-                `<td style="text-align: right; padding: 0 1em;"><div style="${xAxisLabelStyle}">${xAxisLabel}</div></td>`,
+              (i) => `
+                <td style="text-align: left; padding: 0 2px 0 1em;">
+                  <div style="${xAxisLabelStyle}">
+                    ${xAxisLabel}
+                    <strong>${xAxisUnit ?? ''}</strong>
+                  </div>
+                </td>`,
             )
             .join('')}
         </tr>`,
         `<tr>
-          <th style="text-align: right;">${conf.y_axes[0].name}</th>
+          <th style="text-align: right; padding: 0 1em;">${conf.y_axes[0].name}</th>
           ${arr
             // @ts-expect-error type of value
             .map(({ value }: { value: AnyObject }) => {
               return `
-              <td style="text-align: right; padding: 0 1em;">
+              <td style="text-align: left; padding: 0 2px 0 1em;">
                 ${yLabelFormatter(readColumnIgnoringQuery(value, scatter.y_data_key))}
+                <strong>${scatterUnit ?? ''}</strong>
               </td>`;
             })
             .join('')}
@@ -97,14 +105,14 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       const additionalMetrics = conf.tooltip.metrics.map((m) => {
         return `
         <tr>
-          <th style="text-align: right;">${m.name}</th>
+          <th style="text-align: right; padding: 0 1em;">${m.name}</th>
           ${arr
             // @ts-expect-error type of value
             .map(({ value }: { value: AnyObject }) => {
               return `
-              <td style="text-align: right; padding: 0 1em;">
+              <td style="text-align: left; padding: 0 2px 0 1em;">
               ${formatAdditionalMetric(readColumnIgnoringQuery(value, m.data_key))}
-              ${metricUnitMap[m.name] ?? ''}
+              <strong>${metricUnitMap[m.name] ?? ''}</strong>
               </td>`;
             })
             .join('')}

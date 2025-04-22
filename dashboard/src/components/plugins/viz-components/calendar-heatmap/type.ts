@@ -1,6 +1,7 @@
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { getDefaultVisualMap, VisualMap } from '../../common-echarts-fields/visual-map';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export interface ICalendarHeatmapConf {
   calendar: {
@@ -10,6 +11,7 @@ export interface ICalendarHeatmapConf {
   heat_block: {
     name: string;
     data_key: TDataKey;
+    unit: SeriesUnitType;
     value_formatter: TNumberFormat;
   };
   tooltip: {
@@ -26,6 +28,7 @@ export const DEFAULT_CONFIG: ICalendarHeatmapConf = {
   heat_block: {
     name: 'Value',
     data_key: '',
+    unit: getDefaultSeriesUnit(),
     value_formatter: defaultNumberFormat,
   },
   tooltip: {

@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
-import { IScatterChartConf } from '../../type';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { IScatterChartConf } from '../../type';
 
 interface IXAxisField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -30,6 +31,11 @@ export function XAxisField({ control, watch }: IXAxisField) {
           render={({ field }) => <TextInput label={t('common.name')} sx={{ flex: 1 }} {...field} />}
         />
       </Group>
+      <Controller
+        name="x_axis.unit"
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
       <Divider mb={-15} label={t('chart.axis.tick_label')} labelPosition="center" />
       <Group grow wrap="nowrap">
         <Controller

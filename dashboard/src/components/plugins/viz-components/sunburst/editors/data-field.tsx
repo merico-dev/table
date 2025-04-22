@@ -3,6 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { ISunburstConf } from '../type';
 import { useTranslation } from 'react-i18next';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface IDataField {
   control: Control<ISunburstConf, $TSFixMe>;
@@ -27,6 +28,11 @@ export function DataField({ control, watch }: IDataField) {
         name="group_key"
         control={control}
         render={({ field }) => <DataFieldSelector label={t('viz.sunburst_chart.group_key')} clearable {...field} />}
+      />
+      <Controller
+        name="unit"
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
       />
     </Stack>
   );

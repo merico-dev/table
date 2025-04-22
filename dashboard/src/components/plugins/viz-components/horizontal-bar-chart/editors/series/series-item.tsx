@@ -11,6 +11,7 @@ import { ColorPickerPopoverForViz } from '~/components/widgets';
 import { DefaultAggregation } from '~/utils';
 import { IHorizontalBarChartConf, IHorizontalBarChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface ISeriesItemField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;
@@ -77,6 +78,11 @@ export function SeriesItemField({ control, index, seriesItem, xAxisOptions }: IS
           )}
         />
       </Group>
+      <Controller
+        name={`series.${index}.unit`}
+        control={control}
+        render={({ field }) => <SeriesUnitField {...field} />}
+      />
       <BarFields index={index} control={control} seriesItem={seriesItem} />
       <Divider mb={-10} mt={10} variant="dashed" label={t('chart.style.label')} labelPosition="center" />
       <Controller

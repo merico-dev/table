@@ -14,6 +14,7 @@ import {
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
 import { EChartsXAxisPosition } from '../../common-echarts-fields/x-axis-position';
+import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
@@ -34,6 +35,7 @@ export interface IHorizontalBarChartSeriesItem {
   id: string;
   type: 'bar';
   name: string;
+  unit: SeriesUnitType;
   stack: string;
   color?: string;
   barGap?: '0%' | '-100%';
@@ -127,6 +129,7 @@ export function getNewSeriesItem(): IHorizontalBarChartSeriesItem {
     id,
     type: 'bar',
     name: id,
+    unit: getDefaultSeriesUnit(),
     stack: '',
     color: '',
     barGap: '0%',

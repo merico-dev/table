@@ -4,6 +4,7 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { IBoxplotChartConf } from '../type';
 import { useTranslation } from 'react-i18next';
+import { SeriesUnitField } from '~/components/plugins/common-echarts-fields/series-unit';
 
 interface IYAxisField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
@@ -28,6 +29,11 @@ export const YAxisField = ({ control, watch }: IYAxisField) => {
           )}
         />
       </Group>
+      <Controller
+        name="y_axis.unit"
+        control={control}
+        render={({ field }) => <SeriesUnitField hiddenFileds={['show_in_legend']} {...field} />}
+      />
       <Stack>
         <Divider
           mt={10}

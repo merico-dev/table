@@ -5,6 +5,7 @@ import { VizHorizontalBarChart } from './viz-horizontal-bar-chart';
 import { VizHorizontalBarChartEditor } from './viz-horizontal-bar-chart-editor';
 import { translation } from './translation';
 import { ClickHorizontalBarChartSeries } from './triggers';
+import { getDefaultSeriesUnit } from '../../common-echarts-fields/series-unit';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHorizontalBarChartConf {
   try {
@@ -35,9 +36,19 @@ function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHorizontalBarChart
     throw error;
   }
 }
+function v3(legacyConf: any): IHorizontalBarChartConf {
+  const newSeries = legacyConf.series.map((s: any) => ({
+    ...s,
+    unit: s.unit ?? getDefaultSeriesUnit(),
+  }));
+  return {
+    ...legacyConf,
+    series: newSeries,
+  };
+}
 
 class VizHorizontalBarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -52,6 +63,14 @@ class VizHorizontalBarChartMigrator extends VersionBasedMigrator {
         ...data,
         version: 2,
         config: v2(config, env),
+      };
+    });
+    this.version(3, (data) => {
+      const { config } = data;
+      return {
+        ...data,
+        version: 3,
+        config: v3(config),
       };
     });
   }
@@ -69,7 +88,7 @@ export const HorizontalBarChartVizComponent: VizComponent = {
   name: 'horizontalBarChart',
   viewRender: VizHorizontalBarChart,
   configRender: VizHorizontalBarChartEditor,
-  createConfig: (): ConfigType => ({ version: 2, config: DEFAULT_CONFIG }),
+  createConfig: (): ConfigType => ({ version: 3, config: DEFAULT_CONFIG }),
   triggers: [ClickHorizontalBarChartSeries],
   translation,
 };
