@@ -46,7 +46,7 @@ function renderOthersSectorTooltip(unit: string, props: any) {
 function getFormatter(unit: string) {
   return (props: any) => {
     const { name, color, data } = props;
-    const value = props.value.value;
+    const { value, percentage } = props.value;
     if ('items' in data) {
       return renderOthersSectorTooltip(unit, props);
     }
@@ -63,8 +63,8 @@ function getFormatter(unit: string) {
         <tbody>
           <tr>
             <th style="text-align: right; padding: 0 1em; ">${name}</th>
-            <td style="text-align: left; padding: 0 2px 0 1em; font-family: monospace;">${value}</td>
-            <th style="text-align: left; padding: 0;">${unit}</th>
+            <td style="text-align: left; padding: 0 0.5em 0 0; font-family: monospace;">${value}<strong>${unit}</strong></td>
+            <td style="text-align: left; padding: 0 0 0 0.5em; font-family: monospace;">${percentage}</td>
           </tr>
         </tbody>
       </table>
