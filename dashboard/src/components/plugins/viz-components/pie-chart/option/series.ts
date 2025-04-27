@@ -1,93 +1,10 @@
 import { set } from 'lodash';
-import { getColorFeed, parseDataKey } from '~/utils';
-import { IPieChartConf, PieChartOthersSector } from '../type';
-import _ from 'lodash';
-import * as math from 'mathjs';
-import numbro from 'numbro';
-
-type TDataItem = {
-  name: string;
-  value: number;
-  color?: string;
-  ratio?: number;
-  percentage?: string;
-  items?: TDataItem[];
-};
+import { IPieChartConf } from '../type';
+import { TDataItem } from './types';
 
 export type OthersSectorItem = Required<TDataItem>;
 
-type NameColorMap = Record<string, string>;
-
-function getColor(row: Record<string, any>, colorColumnKey: string, name: string, colorMap: NameColorMap) {
-  const mappedColor = colorMap[name];
-  if (mappedColor) {
-    return mappedColor;
-  }
-  return colorColumnKey ? row[colorColumnKey] : undefined;
-}
-
-function makeOthersSector(others_sector: PieChartOthersSector, chartData: TDataItem[]) {
-  const { label, threshold } = others_sector;
-  if (!label || !threshold) {
-    return chartData;
-  }
-  const sum = math.sum(chartData.map((v) => v.value));
-  const threshold_value = numbro(`${threshold}%`).format({ output: 'number', mantissa: 8, trimMantissa: true });
-
-  const sector = {
-    name: label,
-    value: 0,
-    ratio: 0,
-    items: [] as TDataItem[],
-  };
-  const data: TDataItem[] = [];
-  chartData.forEach((item) => {
-    item.ratio = math.divide(item.value, sum);
-    if (math.larger(item.ratio, threshold_value)) {
-      data.push(item);
-    } else {
-      sector.value = math.add(sector.value, item.value);
-      sector.ratio = math.add(sector.ratio, item.ratio);
-      item.percentage = numbro(item.ratio).format({ output: 'percent', mantissa: 2, trimMantissa: true });
-      sector.items.push(item);
-    }
-  });
-  data.push(sector);
-  return data;
-}
-
 export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) {
-  const { label_field, value_field, series_order, color_field, color, others_sector } = conf;
-  if (!label_field || !value_field) {
-    return {};
-  }
-  const label = parseDataKey(label_field);
-  const value = parseDataKey(value_field);
-  const colorDataKey = parseDataKey(color_field);
-  const colorMap = color.map.reduce((acc, curr) => {
-    const { name, color } = curr;
-    if (!name || !color) {
-      return acc;
-    }
-    acc[name] = color;
-    return acc;
-  }, {} as NameColorMap);
-
-  const colorFeed = getColorFeed('multiple');
-  let chartData: TDataItem[] = data[label.queryID].map((d) => {
-    const name = d[label.columnKey];
-    const color = getColor(d, colorDataKey.columnKey, name, colorMap) || colorFeed.next().value;
-    return {
-      name,
-      value: Number(d[value.columnKey]),
-      color,
-    };
-  });
-  if (series_order) {
-    chartData = _.orderBy(chartData, [series_order.key], [series_order.order]);
-  }
-  chartData = makeOthersSector(others_sector, chartData);
-
   return {
     type: 'pie',
     name: 'pie',
@@ -98,12 +15,12 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
     label: {
       position: 'outer',
       alignTo: 'edge',
-      formatter: '{name|{b}}\n{percentage|{d}%}',
+      formatter: '{name|{b}}\n{p|{@percentage}}',
       minMargin: 5,
       edgeDistance: 10,
       lineHeight: 15,
       rich: {
-        percentage: {
+        p: {
           color: '#999',
         },
       },
@@ -123,7 +40,6 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
         labelLinePoints: points,
       };
     },
-    data: chartData,
     top: 10,
     bottom: 10,
     left: 10,

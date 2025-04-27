@@ -98,6 +98,9 @@ export function VizPieChart({ context, instance }: VizViewProps) {
   if (!width || !height) {
     return null;
   }
+  if (!conf.label_field || !conf.value_field) {
+    return null;
+  }
   return (
     <DefaultVizBox width={width} height={height}>
       <Chart
