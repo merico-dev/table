@@ -26,7 +26,11 @@ function getColor(row: Record<string, any>, colorColumnKey: string, name: string
   return colorColumnKey ? row[colorColumnKey] : undefined;
 }
 
-function makeOthersSector(others_sector: PieChartOthersSector, chartData: TDataItem[]) {
+function makeOthersSector(
+  others_sector: PieChartOthersSector,
+  chartData: TDataItem[],
+  colorFeed: Generator<string, string, any>,
+) {
   const { label, threshold } = others_sector;
   if (!label || !threshold) {
     return chartData;
@@ -39,6 +43,7 @@ function makeOthersSector(others_sector: PieChartOthersSector, chartData: TDataI
     value: 0,
     ratio: 0,
     items: [] as TDataItem[],
+    color: colorFeed.next().value,
   };
   const data: TDataItem[] = [];
   chartData.forEach((item) => {
@@ -86,7 +91,7 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
   if (series_order) {
     chartData = _.orderBy(chartData, [series_order.key], [series_order.order]);
   }
-  chartData = makeOthersSector(others_sector, chartData);
+  chartData = makeOthersSector(others_sector, chartData, colorFeed);
 
   return {
     type: 'pie',
