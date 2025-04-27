@@ -45,7 +45,8 @@ function renderOthersSectorTooltip(unit: string, props: any) {
 
 function getFormatter(unit: string) {
   return (props: any) => {
-    const { name, value, color, data } = props;
+    const { name, color, data } = props;
+    const value = props.value.value;
     if ('items' in data) {
       return renderOthersSectorTooltip(unit, props);
     }
