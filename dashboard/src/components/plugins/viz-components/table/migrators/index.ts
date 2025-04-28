@@ -1,67 +1,67 @@
-import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
+import { randomId } from '@mantine/hooks';
+import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
+import * as Handlers from '../migrators/handlers';
 import { ITableConf } from '../type';
-import { parseDataKey } from '~/utils';
 
-export function v3(prev: any): ITableConf {
-  const { columns, ...rest } = prev;
-  return {
-    ...prev,
-    columns: columns.map((c: any) => ({
-      ...c,
-      align: c.align ?? 'left',
-    })),
-  };
-}
+export class VizTableMigrator extends VersionBasedMigrator {
+  readonly VERSION = 7;
 
-export function v4(legacyConf: any, { panelModel }: IMigrationEnv): ITableConf {
-  try {
-    const queryID = panelModel.queryIDs[0];
-    if (!queryID) {
-      throw new Error('cannot migrate when queryID is empty');
-    }
-    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
-    const { id_field, columns, ...rest } = legacyConf;
-    return {
-      ...rest,
-      id_field: changeKey(id_field),
-
-      columns: columns.map((c: any) => ({
-        ...c,
-        value_field: changeKey(c.value_field),
-      })),
-    };
-  } catch (error) {
-    console.error('[Migration failed]', error);
-    throw error;
+  configVersions(): void {
+    // @ts-expect-error data's type
+    this.version(1, (data: Record<string, unknown>) => {
+      return {
+        version: 1,
+        config: data,
+      };
+    });
+    this.version(2, (data) => {
+      const { columns, ...rest } = data.config as ITableConf;
+      return {
+        ...data,
+        version: 2,
+        config: {
+          ...rest,
+          columns: columns.map(({ id, ...restColumn }) => ({
+            id: id ?? randomId(),
+            ...restColumn,
+          })),
+        },
+      };
+    });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: Handlers.v3(data.config),
+      };
+    });
+    this.version(4, (data, env) => {
+      return {
+        ...data,
+        version: 4,
+        config: Handlers.v4(data.config, env),
+      };
+    });
+    this.version(5, (data) => {
+      return {
+        ...data,
+        version: 5,
+        config: Handlers.v5(data.config),
+      };
+    });
+    this.version(6, (data) => {
+      return {
+        ...data,
+        version: 6,
+        config: Handlers.v6(data.config),
+      };
+    });
+    this.version(7, (data) => {
+      return {
+        ...data,
+        version: 7,
+        config: Handlers.v7(data.config),
+      };
+    });
   }
-}
-
-export function v5(prev: any): ITableConf {
-  const { columns, ...rest } = prev;
-  return {
-    ...rest,
-    columns: columns.map((c: any) => ({
-      ...c,
-      align: c.align ?? 'left',
-      cellBackgroundColor: c.cellBackgroundColor ?? '',
-      width: c.width ?? '',
-    })),
-  };
-}
-
-export function v6(prev: any): ITableConf {
-  const { id_field, ...rest } = prev;
-  const { queryID } = parseDataKey(id_field);
-  return {
-    ...rest,
-    query_id: queryID ?? '',
-  };
-}
-
-export function v7(prev: any): ITableConf {
-  const { ignored_column_keys, ...rest } = prev;
-  return {
-    ...rest,
-    ignored_column_keys: ignored_column_keys ?? '',
-  };
 }
