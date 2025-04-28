@@ -1,5 +1,5 @@
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
-import { ITableConf } from '../type';
+import { getDefaultVizTablePagination, ITableConf } from '../type';
 import { parseDataKey } from '~/utils';
 
 export function v3(prev: any): ITableConf {
@@ -63,5 +63,13 @@ export function v7(prev: any): ITableConf {
   return {
     ...rest,
     ignored_column_keys: ignored_column_keys ?? '',
+  };
+}
+
+export function v8(prev: any): ITableConf {
+  const { pagination = getDefaultVizTablePagination(), ...rest } = prev;
+  return {
+    ...rest,
+    pagination,
   };
 }

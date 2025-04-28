@@ -63,5 +63,12 @@ export class VizTableMigrator extends VersionBasedMigrator {
         config: Handlers.v7(data.config),
       };
     });
+    this.version(8, (data) => {
+      return {
+        ...data,
+        version: 8,
+        config: Handlers.v8(data.config),
+      };
+    });
   }
 }
