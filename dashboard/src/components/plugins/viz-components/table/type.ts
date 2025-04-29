@@ -16,7 +16,7 @@ export type TVizTablePagination = {
 };
 export function getDefaultVizTablePagination(): TVizTablePagination {
   return {
-    page_size: 20,
+    page_size: 0,
   };
 }
 

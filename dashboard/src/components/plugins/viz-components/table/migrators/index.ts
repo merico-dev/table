@@ -4,7 +4,7 @@ import * as Handlers from '../migrators/handlers';
 import { ITableConf } from '../type';
 
 export class VizTableMigrator extends VersionBasedMigrator {
-  readonly VERSION = 7;
+  readonly VERSION = 8;
 
   configVersions(): void {
     // @ts-expect-error data's type

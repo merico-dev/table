@@ -284,6 +284,9 @@ export const zh = {
         page_size: '页容量',
         total: '共',
         total_rows: '共 {{total}} 行',
+        to_previous_page: '上一页',
+        to_next_page: '下一页',
+        showing_rows: '第 {{start_row}} - {{end_row}} 行，共 {{total}} 行',
       },
       align: {
         horizontal: {
