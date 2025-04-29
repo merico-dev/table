@@ -11,6 +11,15 @@ export enum ValueType {
   custom = 'custom',
 }
 
+export type TVizTablePagination = {
+  page_size: number;
+};
+export function getDefaultVizTablePagination(): TVizTablePagination {
+  return {
+    page_size: 0,
+  };
+}
+
 export type CellBackgroundColorType = string | IColorInterpolationConfig;
 
 export type ColumnAlignType = HorizontalAlign;
@@ -38,6 +47,7 @@ export interface ITableConf {
   verticalSpacing: string;
   striped: boolean;
   highlightOnHover: boolean;
+  pagination: TVizTablePagination;
 }
 
 export const DEFAULT_CELL_FUNC_CONTENT = ['function text({ value, row_data }, utils) {', '    return value', '}'].join(
@@ -54,6 +64,7 @@ export const DEFAULT_CONFIG: ITableConf = {
   use_raw_columns: true,
   ignored_column_keys: '',
   verticalSpacing: '14px',
+  pagination: getDefaultVizTablePagination(),
 };
 
 export interface ITableCellContext {

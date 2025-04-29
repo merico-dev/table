@@ -284,6 +284,9 @@ export const en = {
         page_size: 'Page Size',
         total: 'Total',
         total_rows: 'Total {{total}} row(s)',
+        to_previous_page: 'To previous page',
+        to_next_page: 'To next page',
+        showing_rows: 'Showing {{start_row}} - {{end_row}} of {{total}} rows',
       },
       align: {
         horizontal: {

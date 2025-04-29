@@ -1,5 +1,6 @@
 import { ActionIcon, Box, Table, TableProps, Text } from '@mantine/core';
 import {
+  PaginationState,
   SortingState,
   createColumnHelper,
   getCoreRowModel,
@@ -18,6 +19,7 @@ import { CellValue } from './cell-value';
 import { TableBody } from './table-body';
 import { useGetCellContext } from './use-get-cell-context';
 import { IconArrowBarToRight } from '@tabler/icons-react';
+import { PaginationOrRowCount } from './pagination-and-row-count';
 
 type IVizTableComponent = {
   queryData: TQueryData;
@@ -90,9 +92,24 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     });
     return valueCols;
   }, [finalColumns, getCellContext]);
+
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: conf.pagination.page_size,
+  });
+
+  const data = useMemo(() => {
+    const { pageIndex, pageSize } = pagination;
+    if (pageSize === 0) {
+      return queryData;
+    }
+    return queryData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+  }, [queryData, pagination]);
+
+  const pageCount = Math.ceil(queryData.length / pagination.pageSize);
   const table = useReactTable<AnyObject>({
-    data: queryData,
+    data,
     state: {
       sorting,
     },
@@ -105,7 +122,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
   const { rows } = table.getRowModel();
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const totalRows = rows.length;
+  const totalRows = queryData.length;
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
@@ -117,13 +134,13 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
       data-enable-scrollbar
       className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
     >
-      {totalRows > 0 && (
-        <Box className={classes.info_bar} sx={{ height: 22 }}>
-          <Text ta="right" pr={6} size={'14px'} c="dimmed" fw="normal">
-            {t('common.pagination.total_rows', { total: totalRows })}
-          </Text>
-        </Box>
-      )}
+      <PaginationOrRowCount
+        classes={classes}
+        pagination={pagination}
+        totalRows={totalRows}
+        setPagination={setPagination}
+        pageCount={pageCount}
+      />
       <Table sx={{ ...baseTableSX, maxHeight: tableHeight }} {...(rest as TableProps)} striped={conf.striped}>
         <Table.Thead className={classes.thead} style={{ top: theadTop }}>
           {table.getHeaderGroups().map((headerGroup) => (
