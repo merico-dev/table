@@ -88,7 +88,25 @@ if (process.env.NODE_ENV !== 'test') {
       log(LOG_LEVELS.ERROR, LOG_LABELS.SERVER, err.message);
     });
 
-    await dashboardDataSource.initialize();
+    const DB_MAX_RETRIES = parseInt(process.env.DB_MAX_RETRIES || '10', 10);
+    const DB_RETRY_INTERVAL_MS = parseInt(process.env.DB_RETRY_INTERVAL_MS || '5000', 10);
+    let retries = 0;
+    while (retries < DB_MAX_RETRIES) {
+      try {
+        await dashboardDataSource.initialize();
+        log(LOG_LEVELS.INFO, LOG_LABELS.SERVER, 'Database connected successfully.');
+        break; // Connection successful, exit loop
+      } catch (error) {
+        retries++;
+        log(LOG_LEVELS.ERROR, LOG_LABELS.SERVER, `Database connection failed. Retry ${retries}/${DB_MAX_RETRIES}. Error: ${error.message}`);
+        if (retries === DB_MAX_RETRIES) {
+          log(LOG_LEVELS.ERROR, LOG_LABELS.SERVER, 'Max database connection retries reached. Exiting.');
+          process.exit(1); // Exit if max retries reached
+        }
+        await new Promise(resolve => setTimeout(resolve, DB_RETRY_INTERVAL_MS)); // Wait for configured interval before retrying
+      }
+    }
+
     await migrateDashboardContents();
 
     await RoleService.ensureFixedRolePermissions();
