@@ -7,11 +7,11 @@ import {
   IQueriesRenderModel,
   ISQLSnippetsRenderModel,
   IViewsRenderModel,
+  TDashboardStateValues,
   TPayloadForSQL,
   TPayloadForViz,
 } from '../../model';
 import { DashboardContentDBType } from '../../types';
-import { payloadToDashboardState } from '../../utils';
 
 export interface IContentRenderModel {
   id: string;
@@ -32,7 +32,7 @@ export interface IContentRenderModel {
   readonly contentJSON: DashboardContentDBType['content'];
   readonly payloadForSQL: TPayloadForSQL;
   readonly payloadForViz: TPayloadForViz;
-  readonly dashboardState: ReturnType<typeof payloadToDashboardState>;
+  readonly dashboardState: TDashboardStateValues;
 
   getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo;
 

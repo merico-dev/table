@@ -35,7 +35,7 @@ import {
 } from '~/model';
 import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
-import { payloadToDashboardState, UsageRegs } from '~/utils';
+import { payloadToDashboardStateValues, UsageRegs } from '~/utils';
 import { LayoutsModel } from '../layouts';
 import { PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
@@ -152,7 +152,7 @@ const _ContentModel = types
       } as TPayloadForViz;
     },
     get dashboardState() {
-      return payloadToDashboardState(this.payloadForSQL);
+      return payloadToDashboardStateValues(this.payloadForSQL);
     },
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
       return { content_id: self.id, query_id, params: this.dashboardState };

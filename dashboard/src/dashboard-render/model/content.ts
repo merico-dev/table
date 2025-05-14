@@ -30,7 +30,7 @@ import {
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
 import { typeAssert } from '~/types/utils';
-import { payloadToDashboardState } from '~/utils';
+import { payloadToDashboardStateValues } from '~/utils';
 import { IContentRenderModel } from './types';
 
 export const ContentRenderModel = types
@@ -106,7 +106,7 @@ export const ContentRenderModel = types
       } as TPayloadForViz;
     },
     get dashboardState() {
-      return payloadToDashboardState(this.payloadForSQL);
+      return payloadToDashboardStateValues(this.payloadForSQL);
     },
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
       return { content_id: self.id, query_id, params: this.dashboardState };

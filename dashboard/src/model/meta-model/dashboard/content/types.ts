@@ -6,7 +6,7 @@ export type TPayloadForSQL = {
   global_sql_snippets: AnyObject;
   filters: AnyObject;
 };
-export type TDashboardState = {
+export type TDashboardStateValues = {
   filters: AnyObject;
   context: AnyObject;
 };

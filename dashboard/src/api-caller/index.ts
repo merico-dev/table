@@ -2,7 +2,7 @@ import { DataSourceType, TPayloadForSQL } from '~/model';
 import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql';
 import { APIClient, TAdditionalQueryInfo } from './request';
 import { IDataSource, PaginationResponse } from './types';
-import { payloadToDashboardState } from '~/utils';
+import { payloadToDashboardStateValues } from '~/utils';
 import { encode, decode } from 'js-base64';
 import axios, { AxiosError } from 'axios';
 import { AnyObject } from '..';
@@ -44,7 +44,7 @@ export async function queryBySQL({ query, name, payload, additionals }: IQueryBy
   const finalSQL = encode(processedSQL);
   consistencyCheck(processedSQL, finalSQL);
   let data = await APIClient.query(signal)({ type, key, query: finalSQL, ...additionals }, { params: { name } });
-  data = postProcessSQLQuery(post_process, data, payloadToDashboardState(payload));
+  data = postProcessSQLQuery(post_process, data, payloadToDashboardStateValues(payload));
   return data;
 }
 
