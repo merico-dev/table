@@ -38,7 +38,7 @@ export const VizRichText = observer(({ context }: VizViewProps) => {
           padding: 0,
         },
       }}
-      dashboardStateValues={contentModel.dashboardState}
+      dashboardStateValues={contentModel.dashboardStateValues}
       variableAggValueMap={panel.variableAggValueMap}
     />
   );

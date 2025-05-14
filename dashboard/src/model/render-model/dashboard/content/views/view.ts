@@ -87,7 +87,7 @@ export const ViewRenderModel = types
         style: { transformOrigin: '0 0', transform: 'scale(2)' },
       });
       zip.file(`${self.name}_${t}.png`, blob);
-      zip.file(`dashboard_state_${t}.json`, JSON.stringify(this.contentModel.dashboardState, null, 4));
+      zip.file(`dashboard_state_${t}.json`, JSON.stringify(this.contentModel.dashboardStateValues, null, 4));
 
       zip
         .generateAsync({ type: 'blob' })

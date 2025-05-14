@@ -33,7 +33,7 @@ const RenderPanelDescription = observer(() => {
       sx={{
         '.mantine-RichTextEditor-content .ProseMirror': { padding: '0 !important' },
       }}
-      dashboardStateValues={contentModel.dashboardState}
+      dashboardStateValues={contentModel.dashboardStateValues}
       variableAggValueMap={panel.variableAggValueMap}
     />
   );

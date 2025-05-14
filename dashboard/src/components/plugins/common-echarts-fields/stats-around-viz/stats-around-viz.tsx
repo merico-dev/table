@@ -59,7 +59,7 @@ export const StatsAroundViz = observer(({ value, context, onHeightChange }: Prop
             },
           },
         }}
-        dashboardStateValues={contentModel.dashboardState}
+        dashboardStateValues={contentModel.dashboardStateValues}
         variableAggValueMap={panel.variableAggValueMap}
       />
     </Box>

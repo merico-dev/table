@@ -14,7 +14,7 @@ export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {
   const { t } = useTranslation();
   const content = useRenderContentModelContext();
   const { panel } = useRenderPanelContext();
-  const state = content.dashboardState;
+  const state = content.dashboardStateValues;
 
   const variablesString = (() => {
     const ret: Record<string, any> = {

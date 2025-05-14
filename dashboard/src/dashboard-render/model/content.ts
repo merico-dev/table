@@ -105,11 +105,11 @@ export const ContentRenderModel = types
         filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
     },
-    get dashboardState() {
+    get dashboardStateValues() {
       return payloadToDashboardStateValues(this.payloadForSQL);
     },
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
-      return { content_id: self.id, query_id, params: this.dashboardState };
+      return { content_id: self.id, query_id, params: this.dashboardStateValues };
     },
     get data(): Record<string, TQueryData> {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));

@@ -32,7 +32,7 @@ export interface IContentRenderModel {
   readonly contentJSON: DashboardContentDBType['content'];
   readonly payloadForSQL: TPayloadForSQL;
   readonly payloadForViz: TPayloadForViz;
-  readonly dashboardState: TDashboardStateValues;
+  readonly dashboardStateValues: TDashboardStateValues;
 
   getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo;
 

@@ -124,7 +124,7 @@ export const Render = observer(({ context, instance }: RenderProps) => {
               },
             },
           }}
-          dashboardStateValues={contentModel.dashboardState}
+          dashboardStateValues={contentModel.dashboardStateValues}
           variableAggValueMap={panel.variableAggValueMap}
         />
       </Box>

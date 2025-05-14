@@ -161,7 +161,7 @@ export const QueryRenderModel = types
             ),
           );
           const result = postProcessWithDataSource(self.datasource, response);
-          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
+          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardStateValues);
 
           self.data = data;
           self.state = 'idle';
@@ -215,7 +215,7 @@ export const QueryRenderModel = types
             ),
           );
           const result = postProcessWithDataSource(self.datasource, response);
-          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
+          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardStateValues);
           self.data = data.data;
           self.state = 'idle';
           self.error = null;
@@ -241,7 +241,7 @@ export const QueryRenderModel = types
             name: q.name,
             data: _.cloneDeep(q.data),
           }));
-          const state = self.contentModel.dashboardState;
+          const state = self.contentModel.dashboardStateValues;
           const transform = self.pre_process;
           const data = new Function(`return ${transform}`)()(queries, state, functionUtils);
           self.data = data;
