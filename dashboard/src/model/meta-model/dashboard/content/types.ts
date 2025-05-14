@@ -1,4 +1,4 @@
-import { AnyObject } from '~/types';
+import { AnyObject, DashboardFilterType } from '~/types';
 
 export type TPayloadForSQL = {
   context: AnyObject;
@@ -9,6 +9,16 @@ export type TPayloadForSQL = {
 export type TDashboardStateValues = {
   filters: AnyObject;
   context: AnyObject;
+};
+export type TDashboardStateItem = {
+  type: DashboardFilterType;
+  label: string;
+  value: any;
+  string: string;
+};
+export type TDashboardState = {
+  filters: Record<string, TDashboardStateItem>;
+  context: Record<string, TDashboardStateItem>;
 };
 export type TPayloadForSQLSnippet = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
 export type TPayloadForViz = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
