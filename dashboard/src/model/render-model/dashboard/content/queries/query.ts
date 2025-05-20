@@ -305,7 +305,7 @@ export const QueryRenderModel = types
             }
             // TODO: MMS
             if (self.isMericoMetricQuery) {
-              return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
+              return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.metricQueryPayloadString}--${self.datasource?.id}`;
             }
             // NOTE(leto): sql queries don't need datasource info
             const deps = [self.inUse, self.id, self.key, self.formattedSQL, self.pre_process, self.post_process];
