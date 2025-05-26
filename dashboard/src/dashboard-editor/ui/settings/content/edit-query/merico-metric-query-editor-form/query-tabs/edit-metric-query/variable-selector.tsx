@@ -75,7 +75,7 @@ type Props = {
   queryModel: QueryModelInstance;
   value: string | null;
   onChange: (value: string | null, option: CustomOption) => void;
-  usedKeys: Set<string>;
+  usedKeys?: Set<string>;
 };
 
 export const VariableSelector = observer(({ queryModel, value, onChange, usedKeys }: Props) => {
@@ -94,7 +94,7 @@ export const VariableSelector = observer(({ queryModel, value, onChange, usedKey
           ...item,
           label: item.value,
           widget_label: item.label,
-          disabled: usedKeys.has(item.value),
+          disabled: usedKeys?.has(item.value),
         })),
       };
     });
