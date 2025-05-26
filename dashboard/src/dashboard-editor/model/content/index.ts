@@ -154,6 +154,7 @@ const _ContentModel = types
       };
       Object.entries(context).forEach(([key, value]) => {
         ret.context[key] = {
+          key,
           type: 'context',
           label: key,
           value,

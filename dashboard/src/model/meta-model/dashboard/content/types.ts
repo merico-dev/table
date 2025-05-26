@@ -12,6 +12,7 @@ export type TDashboardStateValues = {
 };
 export type TDashboardStateItem = {
   type: DashboardFilterType | 'context';
+  key: string;
   label: string;
   value: any;
   string: string;

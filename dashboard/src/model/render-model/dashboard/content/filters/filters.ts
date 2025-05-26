@@ -41,6 +41,7 @@ export const FiltersRenderModel = types
     keyStateItemMap(values: Record<string, any>) {
       return self.current.reduce((acc, f) => {
         acc[f.key] = {
+          key: f.key,
           type: f.type,
           label: f.label ?? f.id,
           value: f.id,
