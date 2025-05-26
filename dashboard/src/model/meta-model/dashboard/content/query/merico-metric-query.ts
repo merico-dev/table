@@ -125,9 +125,6 @@ export const MericoMetricQueryMeta = types
       if (k && self.usedFilterDimensionKeys.has(k)) {
         return;
       }
-      if (v && self.usedFilterVariableSet.has(v)) {
-        return;
-      }
       self.filters.push(
         MetricFilterColMeta.create({
           dimension: k,

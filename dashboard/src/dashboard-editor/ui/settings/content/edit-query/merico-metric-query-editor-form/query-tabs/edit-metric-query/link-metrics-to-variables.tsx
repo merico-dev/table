@@ -61,12 +61,7 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
               <Table.Td colSpan={2} pr={0}>
                 <Group justify="flex-start" grow gap={0} w="100%">
                   <VariableStat variable={f.variable} />
-                  <VariableSelector
-                    queryModel={queryModel}
-                    value={f.variable}
-                    onChange={f.setVariable}
-                    // usedKeys={config.usedFilterVariableSet}
-                  />
+                  <VariableSelector queryModel={queryModel} value={f.variable} onChange={f.setVariable} />
                 </Group>
               </Table.Td>
               <Table.Td>
@@ -93,7 +88,6 @@ export const LinkMetricsToVariables = observer(({ queryModel }: Props) => {
                 queryModel={queryModel}
                 value={null}
                 onChange={(v: string | null) => v && config.addFilter('', v)}
-                // usedKeys={config.usedFilterVariableSet}
               />
             </Table.Td>
             <Table.Td />
