@@ -37,7 +37,8 @@ export default ({ mode }) => {
       }),
     ],
     server: {
-      port: 32000,
+      host: '127.0.0.1',
+      port: 32100,
     },
     resolve: {
       alias: {
