@@ -9,7 +9,7 @@ import {
   Instance,
   types,
 } from 'mobx-state-tree';
-import { FilterMeta, FilterMetaInstance, FiltersRenderModel } from '~/model';
+import { FilterMeta, FilterMetaInstance, FiltersRenderModel, TDashboardStateItem } from '~/model';
 import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
 import { AnyObject, DashboardFilterType } from '~/types';
 import { FilterModel } from './filter-model';
@@ -47,6 +47,17 @@ export const FiltersModel = types
     },
     get keySet() {
       return new Set(self.current.map((f) => f.key));
+    },
+    keyStateItemMap(values: Record<string, any>) {
+      return self.current.reduce((acc, f) => {
+        acc[f.key] = {
+          type: f.type,
+          label: f.label ?? f.id,
+          value: f.id,
+          string: `${f.label}: ${values[f.key]}`,
+        };
+        return acc;
+      }, {} as Record<string, TDashboardStateItem>);
     },
     get options() {
       return self.current.map(

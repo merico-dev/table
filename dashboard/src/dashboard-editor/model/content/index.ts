@@ -30,6 +30,7 @@ import {
   MockContextMeta,
   QueryUsageType,
   SQLSnippetUsageType,
+  TDashboardState,
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
@@ -140,16 +141,27 @@ const _ContentModel = types
       };
     },
     get payloadForViz() {
-      // @ts-expect-error type of getParent
-      const context = getParent(self).context.current;
-
       return {
-        context: {
-          ...self.mock_context.current,
-          ...context,
-        },
+        context: this.context,
         filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
+    },
+    get dashboardState(): TDashboardState {
+      const { context, filters } = this.payloadForViz;
+      const ret: TDashboardState = {
+        context: {},
+        filters: self.filters.keyStateItemMap(filters),
+      };
+      Object.entries(context).forEach(([key, value]) => {
+        ret.context[key] = {
+          type: 'context',
+          label: key,
+          value,
+          string: `${key}: ${value}`,
+        };
+      });
+      console.log({ ret });
+      return ret;
     },
     get dashboardStateValues() {
       return payloadToDashboardStateValues(this.payloadForSQL);
