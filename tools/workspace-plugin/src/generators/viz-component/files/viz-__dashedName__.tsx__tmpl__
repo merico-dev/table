@@ -1,5 +1,5 @@
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/components/plugins';
 import { DEFAULT_CONFIG, I<%= pascalcase(name) %>Conf } from './type';
 
 export function Viz<%= pascalcase(name) %>({ context }: VizViewProps) {

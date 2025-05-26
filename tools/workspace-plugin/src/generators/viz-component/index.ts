@@ -7,7 +7,7 @@ interface GeneratorOptions {
 }
 
 export default async function (tree: Tree, schema: GeneratorOptions) {
-  const { name, path: generatePath = 'src/plugins/viz-components' } = schema;
+  const { name, path: generatePath = 'src/components/plugins/viz-components' } = schema;
   const project = readProjectConfiguration(tree, 'dashboard');
   const dashedName = paramCase(name);
   const outputPath = joinPathFragments(project.root, generatePath, dashedName);

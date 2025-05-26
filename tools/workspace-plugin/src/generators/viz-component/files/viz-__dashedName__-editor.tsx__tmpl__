@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form';
 import { AnyObject } from '~/types';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
-import { useStorageData } from '../../hooks';
+import { useStorageData } from '~/components/plugins';
 import { DEFAULT_CONFIG, I<%= pascalcase(name) %>Conf } from './type';
 
 export function Viz<%= pascalcase(name) %>Editor({ context }: VizConfigProps) {
     const { value: confValue, set: setConf } = useStorageData<I<%= pascalcase(name) %>Conf>(context.instanceData, 'config');
     const { variables } = context;
-    const data = context.data as AnyObject[];
+    const data = context.data;
     const conf: I<%= pascalcase(name) %>Conf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
     const { control, handleSubmit, watch, getValues, formState, reset } = useForm<I<%= pascalcase(name) %>Conf>({ defaultValues: conf });
