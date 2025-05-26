@@ -48,17 +48,6 @@ export const FiltersModel = types
     get keySet() {
       return new Set(self.current.map((f) => f.key));
     },
-    keyStateItemMap(values: Record<string, any>) {
-      return self.current.reduce((acc, f) => {
-        acc[f.key] = {
-          type: f.type,
-          label: f.label ?? f.id,
-          value: f.id,
-          string: `${f.label}: ${values[f.key]}`,
-        };
-        return acc;
-      }, {} as Record<string, TDashboardStateItem>);
-    },
     get options() {
       return self.current.map(
         (f) =>

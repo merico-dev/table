@@ -160,7 +160,6 @@ const _ContentModel = types
           string: `${key}: ${value}`,
         };
       });
-      console.log({ ret });
       return ret;
     },
     get dashboardStateValues() {

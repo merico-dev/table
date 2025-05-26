@@ -24,6 +24,7 @@ import {
   QueriesRenderModel,
   SQLSnippetsRenderModel,
   TabInfo,
+  TDashboardState,
   TPayloadForSQL,
   TPayloadForViz,
   ViewsRenderModel,
@@ -104,6 +105,22 @@ export const ContentRenderModel = types
         },
         filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
+    },
+    get dashboardState(): TDashboardState {
+      const { context, filters } = this.payloadForViz;
+      const ret: TDashboardState = {
+        context: {},
+        filters: self.filters.keyStateItemMap(filters),
+      };
+      Object.entries(context).forEach(([key, value]) => {
+        ret.context[key] = {
+          type: 'context',
+          label: key,
+          value,
+          string: `${key}: ${value}`,
+        };
+      });
+      return ret;
     },
     get dashboardStateValues() {
       return payloadToDashboardStateValues(this.payloadForSQL);

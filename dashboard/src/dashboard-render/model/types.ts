@@ -7,6 +7,7 @@ import {
   IQueriesRenderModel,
   ISQLSnippetsRenderModel,
   IViewsRenderModel,
+  TDashboardState,
   TDashboardStateValues,
   TPayloadForSQL,
   TPayloadForViz,
@@ -32,6 +33,7 @@ export interface IContentRenderModel {
   readonly contentJSON: DashboardContentDBType['content'];
   readonly payloadForSQL: TPayloadForSQL;
   readonly payloadForViz: TPayloadForViz;
+  readonly dashboardState: TDashboardState;
   readonly dashboardStateValues: TDashboardStateValues;
 
   getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo;

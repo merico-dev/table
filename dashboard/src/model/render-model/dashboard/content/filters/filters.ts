@@ -1,21 +1,21 @@
 import _ from 'lodash';
-import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
 import { type IObservableArray } from 'mobx';
+import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
+import { FilterModelSnapshotOut } from '~/dashboard-editor';
+import { IContentRenderModel } from '~/dashboard-render';
 import {
   CURRENT_SCHEMA_VERSION,
   ContextRecordType,
   FilterMeta,
-  FilterMetaSnapshotOut,
   FilterValuesType,
+  TDashboardStateItem,
   type DashboardFilterType,
   type IFilterMeta,
 } from '~/model';
-import { downloadJSON } from '~/utils/download';
-import { getValuesFromFilters, formatInputFilterValues } from './utils';
-import { typeAssert } from '~/types/utils';
 import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
-import { IContentRenderModel } from '~/dashboard-render';
-import { FilterModelSnapshotOut } from '~/dashboard-editor';
+import { typeAssert } from '~/types/utils';
+import { downloadJSON } from '~/utils/download';
+import { formatInputFilterValues, getValuesFromFilters } from './utils';
 
 export const FiltersRenderModel = types
   .model('FiltersRenderModel', {
@@ -37,6 +37,17 @@ export const FiltersRenderModel = types
         acc[curr.key] = curr.type;
         return acc;
       }, {} as Record<string, DashboardFilterType>);
+    },
+    keyStateItemMap(values: Record<string, any>) {
+      return self.current.reduce((acc, f) => {
+        acc[f.key] = {
+          type: f.type,
+          label: f.label ?? f.id,
+          value: f.id,
+          string: `${f.label}: ${values[f.key]}`,
+        };
+        return acc;
+      }, {} as Record<string, TDashboardStateItem>);
     },
     get valuesForPayload() {
       const ret: Record<string, any> = {};
@@ -229,6 +240,7 @@ export interface IFiltersRenderModel {
   findByKey(key: string): IFilterMeta | undefined;
   findByIDSet(idset: Set<string>): IFilterMeta[];
   readonly inOrder: IFilterMeta[];
+  keyStateItemMap(values: Record<string, any>): Record<string, TDashboardStateItem>;
   visibleInView(viewID: string): IFilterMeta[];
   readonly firstFilterValueKey: string;
   getSelectOption(id: string): TSelectOption | null | undefined;
