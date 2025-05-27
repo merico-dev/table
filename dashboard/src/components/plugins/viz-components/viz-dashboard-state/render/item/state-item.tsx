@@ -13,7 +13,7 @@ export const StateItem = ({ item }: Props) => {
     default:
       return (
         <Badge variant="default" color="blue" radius="xs">
-          {item.string}
+          {item.value}
         </Badge>
       );
   }

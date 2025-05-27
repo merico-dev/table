@@ -12,7 +12,7 @@ export const VizVizDashboardState = observer(({ context }: VizViewProps) => {
   }
 
   return (
-    <Group justify="xs">
+    <Group justify="xs" px={10} pt={28}>
       <StateItems conf={conf} />
     </Group>
   );
