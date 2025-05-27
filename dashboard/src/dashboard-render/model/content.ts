@@ -114,11 +114,9 @@ export const ContentRenderModel = types
       };
       Object.entries(context).forEach(([key, value]) => {
         ret.context[key] = {
-          key,
           type: 'context',
-          label: key,
+          key,
           value,
-          string: `${key}: ${value}`,
         };
       });
       return ret;

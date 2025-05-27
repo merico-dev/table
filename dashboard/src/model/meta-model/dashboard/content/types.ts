@@ -1,4 +1,5 @@
 import { AnyObject, DashboardFilterType } from '~/types';
+import { FilterMetaInstance } from './filter';
 
 export type TPayloadForSQL = {
   context: AnyObject;
@@ -10,13 +11,22 @@ export type TDashboardStateValues = {
   filters: AnyObject;
   context: AnyObject;
 };
-export type TDashboardStateItem = {
-  type: DashboardFilterType | 'context';
+
+export type TDashboardStateItem_Context = {
+  type: 'context';
   key: string;
+  value: any;
+};
+
+export type TDashboardStateItem_Filter = {
+  type: DashboardFilterType;
+  key: string;
+  model: FilterMetaInstance;
   label: string;
   value: any;
-  string: string;
 };
+export type TDashboardStateItem = TDashboardStateItem_Context | TDashboardStateItem_Filter;
+
 export type TDashboardState = {
   filters: Record<string, TDashboardStateItem>;
   context: Record<string, TDashboardStateItem>;

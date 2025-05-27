@@ -42,11 +42,11 @@ export const FiltersRenderModel = types
       return self.current.reduce((acc, f) => {
         const value = values[f.key];
         acc[f.key] = {
-          key: f.key,
           type: f.type,
+          key: f.key,
+          model: f,
           label: f.label ?? f.id,
           value: value,
-          string: `${f.label}: ${value}`,
         };
         return acc;
       }, {} as Record<string, TDashboardStateItem>);
