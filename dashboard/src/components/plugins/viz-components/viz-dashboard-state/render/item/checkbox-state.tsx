@@ -16,6 +16,7 @@ export const CheckboxState = ({ item }: { item: TDashboardStateItem }) => {
           {item.value ? <IconCheck size={12} strokeWidth={3} /> : <IconX strokeWidth={3} />}
         </ThemeIcon>
       }
+      label_description={`filters.${item.key}`}
     />
   );
 };

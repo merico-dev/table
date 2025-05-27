@@ -25,7 +25,7 @@ const _MultiSelectState = observer(({ item }: Props) => {
     <ItemBadge
       label={item.label}
       value={selection.length}
-      label_description={item.key}
+      label_description={`filters.${item.key}`}
       value_description={<SelectionTable selection={selection} />}
     />
   );

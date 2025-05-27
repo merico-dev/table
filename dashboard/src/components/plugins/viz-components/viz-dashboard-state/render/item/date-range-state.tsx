@@ -31,7 +31,7 @@ const _DateRangeState = observer(({ item }: Props) => {
     <ItemBadge
       label={item.label}
       value={item.value.join(' ~ ')}
-      label_description={item.key}
+      label_description={`filters.${item.key}`}
       value_description={label}
     />
   );

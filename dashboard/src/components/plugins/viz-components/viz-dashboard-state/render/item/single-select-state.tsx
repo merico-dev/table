@@ -24,7 +24,7 @@ const _SingleSelectState = observer(({ item }: Props) => {
     <ItemBadge
       label={item.label}
       value={labelOfSelection}
-      label_description={item.key}
+      label_description={`filters.${item.key}`}
       value_description={item.value}
     />
   );
