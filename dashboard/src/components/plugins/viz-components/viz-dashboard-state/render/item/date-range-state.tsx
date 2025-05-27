@@ -1,15 +1,9 @@
-import { Badge } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import {
-  DashboardFilterType,
-  FilterDateRangeConfigInstance,
-  TDashboardStateItem,
-  TDashboardStateItem_Filter,
-} from '~/model';
-import { ItemBadge } from './item-badge';
-import { useMemo } from 'react';
 import dayjs from 'dayjs';
+import { observer } from 'mobx-react-lite';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DashboardFilterType, TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
+import { ItemBadge } from './item-badge';
 
 type Props = {
   item: TDashboardStateItem_Filter;
@@ -17,7 +11,6 @@ type Props = {
 const _DateRangeState = observer(({ item }: Props) => {
   const { t } = useTranslation();
   const model = item.model;
-  const config = model.config as FilterDateRangeConfigInstance;
 
   const valueWithShortcut = model.value;
   const [begin, end] = valueWithShortcut.value;
@@ -34,7 +27,7 @@ const _DateRangeState = observer(({ item }: Props) => {
 
   const label = count === 1 ? t('filter.widget.date_range.one_day') : t('filter.widget.date_range.x_days', { count });
 
-  return <ItemBadge label={item.label} value={item.value.join(' ~ ')} tooltip={label} />;
+  return <ItemBadge label={item.label} value={item.value.join(' ~ ')} label_tooltip={item.key} value_tooltip={label} />;
 });
 
 export const DateRangeState = ({ item }: { item: TDashboardStateItem }) => {
