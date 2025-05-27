@@ -4,7 +4,11 @@ import { HoverCard, Text } from '@mantine/core';
 
 const HoverContent = ({ children }: { children: ReactNode }) => {
   if (['string', 'number'].includes(typeof children)) {
-    return <Text size="xs">{children}</Text>;
+    return (
+      <Text size="xs" ff="monospace">
+        {children}
+      </Text>
+    );
   }
   return children;
 };
@@ -32,7 +36,7 @@ export const ItemBadge = forwardRef<HTMLDivElement, Props>(
           <HoverCard.Target>
             <div className={classes.value}>{value}</div>
           </HoverCard.Target>
-          <HoverCard.Dropdown>
+          <HoverCard.Dropdown p="xs">
             <HoverContent>{value_description}</HoverContent>
           </HoverCard.Dropdown>
         </HoverCard>
