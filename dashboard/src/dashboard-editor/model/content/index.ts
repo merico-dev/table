@@ -7,21 +7,24 @@ import {
   getParent,
   getSnapshot,
   Instance,
+  isAlive,
   onSnapshot,
   SnapshotIn,
   SnapshotOut,
   types,
 } from 'mobx-state-tree';
-import { AnyObject, DashboardContentDBType, TDashboardContent } from '~/types';
+import { AnyObject, DashboardContentDBType, DashboardFilterType, TDashboardContent } from '~/types';
 
 import { FiltersModel, FilterUsageType } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
+import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   ContextRecordType,
+  DashboardStateVariableOptions,
   formatSQLSnippet,
   getInitialFiltersConfig,
   getInitialMockContextMeta,
@@ -156,15 +159,53 @@ const _ContentModel = types
         ret.context[key] = {
           key,
           type: 'context',
-          label: key,
           value,
-          string: `${key}: ${value}`,
         };
       });
       return ret;
     },
     get dashboardStateValues() {
       return payloadToDashboardStateValues(this.payloadForSQL);
+    },
+    get dashboardStateVariableOptions(): DashboardStateVariableOptions {
+      if (!isAlive(self)) {
+        return { optionGroups: [], validValues: new Set() };
+      }
+
+      const validValues: Set<string> = new Set();
+      const { context } = this.payloadForSQL;
+
+      const contextGroup: ComboboxItemGroup<ComboboxItem> = {
+        group: 'context.label',
+        items: Object.keys(context).map((k) => {
+          const value = `context.${k}`;
+          validValues.add(value);
+          return {
+            label: k,
+            value,
+            description: undefined,
+            type: 'context',
+          };
+        }),
+      };
+
+      const filterGroup: ComboboxItemGroup<ComboboxItem> = {
+        group: 'filter.labels',
+        items: self.filters.keyLabelOptions.map((o: ComboboxItem & { widget: DashboardFilterType }) => {
+          const value = `filters.${o.value}`;
+          validValues.add(value);
+          return {
+            label: o.label,
+            value,
+            description: o.value,
+            type: 'filter',
+            widget: o.widget,
+          };
+        }),
+      };
+
+      const optionGroups: Array<ComboboxItemGroup<ComboboxItem>> = [contextGroup, filterGroup];
+      return { optionGroups, validValues };
     },
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
       return { content_id: self.id, query_id, params: this.dashboardStateValues };

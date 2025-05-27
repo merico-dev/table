@@ -1,5 +1,6 @@
 import { AnyObject, DashboardFilterType } from '~/types';
 import { FilterMetaInstance } from './filter';
+import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 
 export type TPayloadForSQL = {
   context: AnyObject;
@@ -7,6 +8,12 @@ export type TPayloadForSQL = {
   global_sql_snippets: AnyObject;
   filters: AnyObject;
 };
+
+export type DashboardStateVariableOptions = {
+  optionGroups: Array<ComboboxItemGroup<ComboboxItem>>;
+  validValues: Set<string>;
+};
+
 export type TDashboardStateValues = {
   filters: AnyObject;
   context: AnyObject;
