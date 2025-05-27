@@ -1,7 +1,7 @@
 import { AnyObject } from '~/types';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizVizDashboardState } from './render/viz-viz-dashboard-state';
-import { VizVizDashboardStateEditor } from './viz-viz-dashboard-state-editor';
+import { VizVizDashboardStateEditor } from './editor/viz-viz-dashboard-state-editor';
 import { DEFAULT_CONFIG, IVizDashboardStateConf } from './type';
 import { translation } from './translation';
 import { VizComponent } from '~/types/plugin';
