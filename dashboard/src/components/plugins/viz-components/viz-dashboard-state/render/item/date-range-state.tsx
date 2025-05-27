@@ -27,7 +27,14 @@ const _DateRangeState = observer(({ item }: Props) => {
 
   const label = count === 1 ? t('filter.widget.date_range.one_day') : t('filter.widget.date_range.x_days', { count });
 
-  return <ItemBadge label={item.label} value={item.value.join(' ~ ')} label_tooltip={item.key} value_tooltip={label} />;
+  return (
+    <ItemBadge
+      label={item.label}
+      value={item.value.join(' ~ ')}
+      label_description={item.key}
+      value_description={label}
+    />
+  );
 });
 
 export const DateRangeState = ({ item }: { item: TDashboardStateItem }) => {
