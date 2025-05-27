@@ -1,10 +1,11 @@
-import { Badge } from '@mantine/core';
 import { DashboardFilterType, TDashboardStateItem } from '~/model';
+import { CheckboxState } from './checkbox-state';
 import { DateRangeState } from './date-range-state';
-import { SingleSelectState } from './single-select-state';
-import { TreeSingleSelectState } from './tree-single-select-state';
+import { ItemBadge } from './item-badge';
 import { MultiSelectState } from './multi-select-state';
+import { SingleSelectState } from './single-select-state';
 import { TreeSelectState } from './tree-select-state';
+import { TreeSingleSelectState } from './tree-single-select-state';
 
 type Props = {
   item: TDashboardStateItem;
@@ -22,11 +23,11 @@ export const StateItem = ({ item }: Props) => {
       return <MultiSelectState item={item} />;
     case DashboardFilterType.TreeSelect:
       return <TreeSelectState item={item} />;
+    case DashboardFilterType.TextInput:
+      return <ItemBadge label={item.label} value={item.value} />;
+    case DashboardFilterType.Checkbox:
+      return <CheckboxState item={item} />;
     default:
-      return (
-        <Badge variant="default" color="blue" radius="xs">
-          {item.value}
-        </Badge>
-      );
+      return null;
   }
 };
