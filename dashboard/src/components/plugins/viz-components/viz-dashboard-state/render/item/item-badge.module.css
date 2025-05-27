@@ -1,0 +1,31 @@
+.item_badge {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  flex-wrap: nowrap;
+  --item_badge-padding-x: calc(0.625rem * var(--mantine-scale));
+}
+.label {
+  min-width: 40px;
+  padding: 0px var(--item_badge-padding-x);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mantine-color-white);
+  background-color: var(--mantine-color-gray-filled);
+
+  border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-gray-filled);
+  border-top-left-radius: var(--mantine-radius-xs);
+  border-bottom-left-radius: var(--mantine-radius-xs);
+}
+.value {
+  padding: 0px var(--item_badge-padding-x);
+  min-width: 40px;
+  font-size: 11px;
+  color: var(--mantine-color-default-color);
+  background-color: var(--mantine-color-default);
+
+  border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-default-border);
+  border-left: none;
+  border-top-right-radius: var(--mantine-radius-xs);
+  border-bottom-right-radius: var(--mantine-radius-xs);
+}
