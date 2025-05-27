@@ -26,7 +26,12 @@ export const clearCache = async () => {
 };
 
 export const clearCacheByContentId = async (contentId: string) => {
-  await redis.del(`${cachePrefix}:${contentId}`);
+  const keys = await redis.keys(`${cachePrefix}:${contentId}:*`);
+  const pipeline = redis.pipeline();
+  keys.forEach((key) => {
+    pipeline.del(key);
+  });
+  await pipeline.exec();
 };
 
 export const putCache = async (contentId: string, key: string, data: any): Promise<void> => {
