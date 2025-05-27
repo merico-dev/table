@@ -13,16 +13,20 @@
   color: var(--mantine-color-default-color);
   background-color: var(--mantine-color-default);
 
+  cursor: pointer;
+
   border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-default-border);
   border-top-left-radius: var(--mantine-radius-xs);
   border-bottom-left-radius: var(--mantine-radius-xs);
 }
 .value {
   padding: 0px var(--item_badge-padding-x);
-  min-width: 40px;
+  min-width: 30px;
   font-size: 11px;
   color: var(--mantine-color-default-color);
   background-color: var(--mantine-color-default);
+
+  cursor: pointer;
 
   border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-default-border);
   border-left: none;

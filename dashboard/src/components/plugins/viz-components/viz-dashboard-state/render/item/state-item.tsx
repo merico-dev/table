@@ -4,6 +4,7 @@ import { DateRangeState } from './date-range-state';
 import { SingleSelectState } from './single-select-state';
 import { TreeSingleSelectState } from './tree-single-select-state';
 import { MultiSelectState } from './multi-select-state';
+import { TreeSelectState } from './tree-select-state';
 
 type Props = {
   item: TDashboardStateItem;
@@ -19,6 +20,8 @@ export const StateItem = ({ item }: Props) => {
       return <TreeSingleSelectState item={item} />;
     case DashboardFilterType.MultiSelect:
       return <MultiSelectState item={item} />;
+    case DashboardFilterType.TreeSelect:
+      return <TreeSelectState item={item} />;
     default:
       return (
         <Badge variant="default" color="blue" radius="xs">

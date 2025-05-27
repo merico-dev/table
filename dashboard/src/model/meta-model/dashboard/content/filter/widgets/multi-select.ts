@@ -3,6 +3,7 @@ import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import {
   FilterBaseSelectConfigMeta,
+  TSelectOption,
   type IFilterBaseSelectConfigInstance,
   type IFilterConfigModel_SelectOption,
 } from './select-base';
@@ -137,6 +138,7 @@ export interface IFilterMultiSelectConfig extends IFilterBaseSelectConfigInstanc
     default_selection_count: number;
   };
   readonly defaultSelection: string[];
+  optionsByValues(value: any): TSelectOption[];
   initialSelection(value: string[] | null): string[];
   truthy(value: unknown): boolean;
 
