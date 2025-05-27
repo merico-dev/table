@@ -25,7 +25,7 @@ const _SingleSelectState = observer(({ item }: Props) => {
       label={item.label}
       value={labelOfSelection}
       label_description={`filters.${item.key}`}
-      value_description={item.value}
+      // value_description={item.value}
     />
   );
 });
