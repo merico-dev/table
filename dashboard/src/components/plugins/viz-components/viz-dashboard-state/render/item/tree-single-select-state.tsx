@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  DashboardFilterType,
-  FilterTreeSingleSelectConfigInstance,
-  TDashboardStateItem,
-  TDashboardStateItem_Filter,
-} from '~/model';
+import { FilterTreeSingleSelectConfigInstance, TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
 import { ItemBadge } from './item-badge';
 
 type Props = {
@@ -31,7 +26,7 @@ const _TreeSingleSelectState = observer(({ item }: Props) => {
 });
 
 export const TreeSingleSelectState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.TreeSingleSelect) {
+  if (item.type !== 'tree-single-select') {
     return null;
   }
 

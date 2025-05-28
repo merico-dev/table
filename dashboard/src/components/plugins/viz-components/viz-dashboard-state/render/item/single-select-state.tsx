@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  DashboardFilterType,
-  FilterSelectConfigInstance,
-  TDashboardStateItem,
-  TDashboardStateItem_Filter,
-} from '~/model';
+import { FilterSelectConfigInstance, TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
 import { ItemBadge } from './item-badge';
 
 type Props = {
@@ -31,7 +26,7 @@ const _SingleSelectState = observer(({ item }: Props) => {
 });
 
 export const SingleSelectState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.Select) {
+  if (item.type !== 'select') {
     return null;
   }
 

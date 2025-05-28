@@ -1,4 +1,4 @@
-import { DashboardFilterType, TDashboardStateItem } from '~/model';
+import { TDashboardStateItem } from '~/model';
 import { CheckboxState } from './checkbox-state';
 import { ContextState } from './context-state';
 import { DateRangeState } from './date-range-state';
@@ -14,19 +14,19 @@ type Props = {
 
 export const StateItem = ({ item }: Props) => {
   switch (item.type) {
-    case DashboardFilterType.DateRange:
+    case 'date-range':
       return <DateRangeState item={item} />;
-    case DashboardFilterType.Select:
+    case 'select':
       return <SingleSelectState item={item} />;
-    case DashboardFilterType.TreeSingleSelect:
+    case 'tree-single-select':
       return <TreeSingleSelectState item={item} />;
-    case DashboardFilterType.MultiSelect:
+    case 'multi-select':
       return <MultiSelectState item={item} />;
-    case DashboardFilterType.TreeSelect:
+    case 'tree-select':
       return <TreeSelectState item={item} />;
-    case DashboardFilterType.TextInput:
+    case 'text-input':
       return <TextInputState item={item} />;
-    case DashboardFilterType.Checkbox:
+    case 'checkbox':
       return <CheckboxState item={item} />;
     case 'context':
       return <ContextState item={item} />;

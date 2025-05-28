@@ -3,14 +3,24 @@ import { IconCheck } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { useEditContentModelContext } from '~/contexts';
-import { DashboardFilterType } from '~/types';
+
+// duplicate from filter-setting.tsx
+// to avoid vitest break
+const filterTypeNames = {
+  select: 'filter.widget.names.select',
+  'multi-select': 'filter.widget.names.multi_select',
+  'tree-select': 'filter.widget.names.tree_select',
+  'tree-single-select': 'filter.widget.names.tree_single_select',
+  'text-input': 'filter.widget.names.text_input',
+  checkbox: 'filter.widget.names.checkbox',
+  'date-range': 'filter.widget.names.date_range',
+};
 
 type CustomOption = ComboboxItem & {
   description: string;
   type: string;
-  widget: DashboardFilterType;
+  widget: 'date-range' | 'select' | 'multi-select' | 'tree-select' | 'tree-single-select' | 'text-input' | 'checkbox'; // cant use DashboardFilterType or vitest breaks
   widget_label: string;
 };
 const renderOption: SelectProps['renderOption'] = ({ option, checked, ...rest }) => {

@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  DashboardFilterType,
-  FilterTreeSelectConfigInstance,
-  TDashboardStateItem,
-  TDashboardStateItem_Filter,
-} from '~/model';
+import { FilterTreeSelectConfigInstance, TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
 import { ItemBadge } from './item-badge';
 import { SelectionTable } from './selection-table';
 
@@ -32,7 +27,7 @@ const _TreeSelectState = observer(({ item }: Props) => {
 });
 
 export const TreeSelectState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.TreeSelect) {
+  if (item.type !== 'tree-select') {
     return null;
   }
 

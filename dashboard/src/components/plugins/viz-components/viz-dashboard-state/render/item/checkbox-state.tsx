@@ -1,10 +1,10 @@
 import { ThemeIcon } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
-import { DashboardFilterType, TDashboardStateItem } from '~/model';
+import { TDashboardStateItem } from '~/model';
 import { ItemBadge } from './item-badge';
 
 export const CheckboxState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.Checkbox) {
+  if (item.type !== 'checkbox') {
     return null;
   }
 

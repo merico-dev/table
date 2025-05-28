@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DashboardFilterType, TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
+import { TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
 import { ItemBadge } from './item-badge';
 
 type Props = {
@@ -38,7 +38,7 @@ const _DateRangeState = observer(({ item }: Props) => {
 });
 
 export const DateRangeState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.DateRange) {
+  if (item.type !== 'date-range') {
     return null;
   }
 

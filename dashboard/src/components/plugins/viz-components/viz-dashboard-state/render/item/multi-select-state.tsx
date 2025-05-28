@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  DashboardFilterType,
-  FilterMultiSelectConfigInstance,
-  TDashboardStateItem,
-  TDashboardStateItem_Filter,
-} from '~/model';
+import { FilterMultiSelectConfigInstance, TDashboardStateItem, TDashboardStateItem_Filter } from '~/model';
 import { ItemBadge } from './item-badge';
 import { SelectionTable } from './selection-table';
 
@@ -32,7 +27,7 @@ const _MultiSelectState = observer(({ item }: Props) => {
 });
 
 export const MultiSelectState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.MultiSelect) {
+  if (item.type !== 'multi-select') {
     return null;
   }
 

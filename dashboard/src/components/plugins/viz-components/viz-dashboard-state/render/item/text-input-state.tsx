@@ -1,9 +1,9 @@
 import { Text } from '@mantine/core';
-import { DashboardFilterType, TDashboardStateItem } from '~/model';
+import { TDashboardStateItem } from '~/model';
 import { ItemBadge } from './item-badge';
 
 export const TextInputState = ({ item }: { item: TDashboardStateItem }) => {
-  if (item.type !== DashboardFilterType.TextInput) {
+  if (item.type !== 'text-input') {
     return null;
   }
 
