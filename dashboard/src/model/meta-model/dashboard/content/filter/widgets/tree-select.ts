@@ -2,7 +2,7 @@ import { reaction, type IObservableArray } from 'mobx';
 import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import { FilterBaseTreeSelectConfigMeta, type IFilterBaseTreeSelectConfigInstance } from './tree-select-base';
 import { typeAssert } from '~/types/utils';
-import type { IFilterConfigModel_SelectOption } from './select-base';
+import type { IFilterConfigModel_SelectOption, TSelectOption } from './select-base';
 
 export const FilterTreeSelectConfigMeta = types
   .compose(
@@ -51,6 +51,13 @@ export const FilterTreeSelectConfigMeta = types
       }
       const treeData = self.treeData;
       return treeData.slice(0, default_selection_count).map((o) => o.value);
+    },
+    optionsByValues(value: any) {
+      if (!Array.isArray(value) || value.length === 0) {
+        return [];
+      }
+      const set = new Set(value);
+      return self.options.filter((o: any) => set.has(o.value));
     },
     valueObjects(value: string[]) {
       const set = new Set(value);
@@ -132,6 +139,7 @@ export interface IFilterTreeSelectConfig extends IFilterBaseTreeSelectConfigInst
   // Views
   readonly json: IFilterTreeSelectConfigJson;
   readonly defaultSelection: string[];
+  optionsByValues(value: any): TSelectOption[];
   valueObjects(value: string[]): unknown[];
   initialSelection(value: string[] | null): string[];
   truthy(value: unknown): boolean;

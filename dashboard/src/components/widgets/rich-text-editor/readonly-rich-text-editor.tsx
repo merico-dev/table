@@ -17,9 +17,9 @@ import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo } from 'react';
 import { useIsInRenderPanelContext } from '~/contexts';
-import { TDashboardState, VariableAggValueMap } from '~/model';
+import { TDashboardStateValues, VariableAggValueMap } from '~/model';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
-import { getEmptyDashboardState } from '~/utils';
+import { getEmptyDashboardStateValues } from '~/utils';
 import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
@@ -28,12 +28,15 @@ interface IReadonlyRichText {
   value: string;
   styles?: RichTextEditorProps['styles'];
   sx?: EmotionSx;
-  dashboardState?: TDashboardState;
+  dashboardStateValues?: TDashboardStateValues;
   variableAggValueMap?: VariableAggValueMap;
 }
 
 export const ReadonlyRichText = forwardRef<HTMLDivElement, IReadonlyRichText>(
-  ({ value, styles = {}, sx = {}, dashboardState = getEmptyDashboardState(), variableAggValueMap = {} }, ref) => {
+  (
+    { value, styles = {}, sx = {}, dashboardStateValues = getEmptyDashboardStateValues(), variableAggValueMap = {} },
+    ref,
+  ) => {
     const inPanelContext = useIsInRenderPanelContext();
     const extensions: Extensions = useMemo(() => {
       const ret = [
@@ -81,8 +84,8 @@ export const ReadonlyRichText = forwardRef<HTMLDivElement, IReadonlyRichText>(
     }, [value]);
 
     const dynamicColorStyles = useMemo(() => {
-      return getDynamicColorStyles(doc, dashboardState, variableAggValueMap);
-    }, [doc, dashboardState, variableAggValueMap]);
+      return getDynamicColorStyles(doc, dashboardStateValues, variableAggValueMap);
+    }, [doc, dashboardStateValues, variableAggValueMap]);
 
     const colorMappingStyles = useMemo(() => {
       return getColorMappingStyle(doc, variableAggValueMap);

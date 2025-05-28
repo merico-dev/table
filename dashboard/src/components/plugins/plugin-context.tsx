@@ -40,6 +40,7 @@ import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-
 import { MericoEstimationChartVizComponent } from './viz-components/merico-estimation-chart';
 import { MericoStatsVizComponent } from './viz-components/merico-stats';
 import { MericoHeatmapVizComponent } from './viz-components/merico-heatmap';
+import { VizDashboardStateVizComponent } from './viz-components/viz-dashboard-state';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -139,6 +140,7 @@ export const vizList = [
   MericoHeatmapVizComponent,
   MericoStatsVizComponent,
   ButtonVizComponent,
+  VizDashboardStateVizComponent,
 ];
 export type VizNameKeys = {
   displayName: string;

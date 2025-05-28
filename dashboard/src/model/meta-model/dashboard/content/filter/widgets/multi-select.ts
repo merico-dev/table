@@ -3,6 +3,7 @@ import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import {
   FilterBaseSelectConfigMeta,
+  TSelectOption,
   type IFilterBaseSelectConfigInstance,
   type IFilterConfigModel_SelectOption,
 } from './select-base';
@@ -53,6 +54,13 @@ export const FilterMultiSelectConfigMeta = types
       }
 
       return self.options.slice(0, self.default_selection_count).map((o: any) => o.value);
+    },
+    optionsByValues(value: any) {
+      if (!Array.isArray(value) || value.length === 0) {
+        return [];
+      }
+      const set = new Set(value);
+      return self.options.filter((o: any) => set.has(o.value));
     },
     initialSelection(value: string[] | null) {
       if (!value) {
@@ -130,6 +138,7 @@ export interface IFilterMultiSelectConfig extends IFilterBaseSelectConfigInstanc
     default_selection_count: number;
   };
   readonly defaultSelection: string[];
+  optionsByValues(value: any): TSelectOption[];
   initialSelection(value: string[] | null): string[];
   truthy(value: unknown): boolean;
 

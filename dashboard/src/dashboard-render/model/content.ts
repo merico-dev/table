@@ -24,13 +24,14 @@ import {
   QueriesRenderModel,
   SQLSnippetsRenderModel,
   TabInfo,
+  TDashboardState,
   TPayloadForSQL,
   TPayloadForViz,
   ViewsRenderModel,
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
 import { typeAssert } from '~/types/utils';
-import { payloadToDashboardState } from '~/utils';
+import { payloadToDashboardStateValues } from '~/utils';
 import { IContentRenderModel } from './types';
 
 export const ContentRenderModel = types
@@ -105,11 +106,26 @@ export const ContentRenderModel = types
         filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
     },
-    get dashboardState() {
-      return payloadToDashboardState(this.payloadForSQL);
+    get dashboardState(): TDashboardState {
+      const { context, filters } = this.payloadForViz;
+      const ret: TDashboardState = {
+        context: {},
+        filters: self.filters.keyStateItemMap(filters),
+      };
+      Object.entries(context).forEach(([key, value]) => {
+        ret.context[key] = {
+          type: 'context',
+          key,
+          value,
+        };
+      });
+      return ret;
+    },
+    get dashboardStateValues() {
+      return payloadToDashboardStateValues(this.payloadForSQL);
     },
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
-      return { content_id: self.id, query_id, params: this.dashboardState };
+      return { content_id: self.id, query_id, params: this.dashboardStateValues };
     },
     get data(): Record<string, TQueryData> {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));

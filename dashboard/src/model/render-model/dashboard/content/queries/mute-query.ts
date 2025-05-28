@@ -5,6 +5,7 @@ import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { IContentRenderModel } from '~/dashboard-render';
 import {
   DashboardFilterType,
+  DashboardStateVariableOptions,
   DataSourceType,
   MericoMetricQueryMetaInstance,
   MericoMetricType,
@@ -38,45 +39,8 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   get contentModel(): any {
     return this.rootModel.content; // dashboard content model
   },
-  get conditionOptions(): { optionGroups: Array<ComboboxItemGroup<ComboboxItem>>; validValues: Set<string> } {
-    if (!isAlive(self)) {
-      return { optionGroups: [], validValues: new Set() };
-    }
-
-    const validValues: Set<string> = new Set();
-    const { context } = this.contentModel.payloadForSQL;
-
-    const contextGroup: ComboboxItemGroup<ComboboxItem> = {
-      group: 'context.label',
-      items: Object.keys(context).map((k) => {
-        const value = `context.${k}`;
-        validValues.add(value);
-        return {
-          label: k,
-          value,
-          description: undefined,
-          type: 'context',
-        };
-      }),
-    };
-
-    const filterGroup: ComboboxItemGroup<ComboboxItem> = {
-      group: 'filter.labels',
-      items: this.contentModel.filters.keyLabelOptions.map((o: ComboboxItem & { widget: DashboardFilterType }) => {
-        const value = `filters.${o.value}`;
-        validValues.add(value);
-        return {
-          label: o.label,
-          value,
-          description: o.value,
-          type: 'filter',
-          widget: o.widget,
-        };
-      }),
-    };
-
-    const optionGroups: Array<ComboboxItemGroup<ComboboxItem>> = [contextGroup, filterGroup];
-    return { optionGroups, validValues };
+  get conditionOptions() {
+    return this.contentModel.dashboardStateVariableOptions as DashboardStateVariableOptions;
   },
   getConditionOptionsWithInvalidValue(value: string | null) {
     const { optionGroups, validValues } = this.conditionOptions;

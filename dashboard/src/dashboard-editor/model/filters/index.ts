@@ -9,7 +9,7 @@ import {
   Instance,
   types,
 } from 'mobx-state-tree';
-import { FilterMeta, FilterMetaInstance, FiltersRenderModel } from '~/model';
+import { FilterMeta, FilterMetaInstance, FiltersRenderModel, TDashboardStateItem } from '~/model';
 import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
 import { AnyObject, DashboardFilterType } from '~/types';
 import { FilterModel } from './filter-model';

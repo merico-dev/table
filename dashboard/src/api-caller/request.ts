@@ -1,5 +1,5 @@
 import { AxiosResponse, Method } from 'axios';
-import { DataSourceType, TDashboardState } from '~/model';
+import { DataSourceType, TDashboardStateValues } from '~/model';
 import { AnyObject, IDashboardConfig } from '..';
 import { DefaultApiClient, IAPIClient } from '../shared';
 
@@ -9,7 +9,7 @@ export type { IAPIClient, IAPIClientRequestOptions } from '../shared';
 export type TAdditionalQueryInfo = {
   content_id: string;
   query_id: string;
-  params: TDashboardState;
+  params: TDashboardStateValues;
 };
 export type TQueryPayload = {
   type: DataSourceType;
@@ -33,7 +33,7 @@ export type QueryMMInfoRequest = {
   query: string;
   env?: AnyObject;
   content_id: string;
-  params: TDashboardState;
+  params: TDashboardStateValues;
 };
 
 export type MetricQuery = {
@@ -42,7 +42,7 @@ export type MetricQuery = {
   query: string;
   env?: AnyObject;
   content_id: string;
-  params: TDashboardState;
+  params: TDashboardStateValues;
 };
 
 export interface IDashboardAPIClient extends IAPIClient {

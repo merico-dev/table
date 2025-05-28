@@ -7,21 +7,24 @@ import {
   getParent,
   getSnapshot,
   Instance,
+  isAlive,
   onSnapshot,
   SnapshotIn,
   SnapshotOut,
   types,
 } from 'mobx-state-tree';
-import { AnyObject, DashboardContentDBType, TDashboardContent } from '~/types';
+import { AnyObject, DashboardContentDBType, DashboardFilterType, TDashboardContent } from '~/types';
 
 import { FiltersModel, FilterUsageType } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
+import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   ContextRecordType,
+  DashboardStateVariableOptions,
   formatSQLSnippet,
   getInitialFiltersConfig,
   getInitialMockContextMeta,
@@ -30,12 +33,13 @@ import {
   MockContextMeta,
   QueryUsageType,
   SQLSnippetUsageType,
+  TDashboardState,
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
 import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
-import { payloadToDashboardState, UsageRegs } from '~/utils';
+import { payloadToDashboardStateValues, UsageRegs } from '~/utils';
 import { LayoutsModel } from '../layouts';
 import { PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
@@ -140,22 +144,71 @@ const _ContentModel = types
       };
     },
     get payloadForViz() {
-      // @ts-expect-error type of getParent
-      const context = getParent(self).context.current;
-
       return {
-        context: {
-          ...self.mock_context.current,
-          ...context,
-        },
+        context: this.context,
         filters: self.filters.valuesForPayload,
       } as TPayloadForViz;
     },
-    get dashboardState() {
-      return payloadToDashboardState(this.payloadForSQL);
+    get dashboardState(): TDashboardState {
+      const { context, filters } = this.payloadForViz;
+      const ret: TDashboardState = {
+        context: {},
+        filters: self.filters.keyStateItemMap(filters),
+      };
+      Object.entries(context).forEach(([key, value]) => {
+        ret.context[key] = {
+          key,
+          type: 'context',
+          value,
+        };
+      });
+      return ret;
+    },
+    get dashboardStateValues() {
+      return payloadToDashboardStateValues(this.payloadForSQL);
+    },
+    get dashboardStateVariableOptions(): DashboardStateVariableOptions {
+      if (!isAlive(self)) {
+        return { optionGroups: [], validValues: new Set() };
+      }
+
+      const validValues: Set<string> = new Set();
+      const { context } = this.payloadForSQL;
+
+      const contextGroup: ComboboxItemGroup<ComboboxItem> = {
+        group: 'context.label',
+        items: Object.keys(context).map((k) => {
+          const value = `context.${k}`;
+          validValues.add(value);
+          return {
+            label: k,
+            value,
+            description: undefined,
+            type: 'context',
+          };
+        }),
+      };
+
+      const filterGroup: ComboboxItemGroup<ComboboxItem> = {
+        group: 'filter.labels',
+        items: self.filters.keyLabelOptions.map((o: ComboboxItem & { widget: DashboardFilterType }) => {
+          const value = `filters.${o.value}`;
+          validValues.add(value);
+          return {
+            label: o.label,
+            value,
+            description: o.value,
+            type: 'filter',
+            widget: o.widget,
+          };
+        }),
+      };
+
+      const optionGroups: Array<ComboboxItemGroup<ComboboxItem>> = [contextGroup, filterGroup];
+      return { optionGroups, validValues };
     },
     getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
-      return { content_id: self.id, query_id, params: this.dashboardState };
+      return { content_id: self.id, query_id, params: this.dashboardStateValues };
     },
     get changed() {
       return (

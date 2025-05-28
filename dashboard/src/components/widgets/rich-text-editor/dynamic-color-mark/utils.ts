@@ -1,4 +1,4 @@
-import { TDashboardState, VariableValueMap } from '~/model';
+import { TDashboardStateValues, VariableValueMap } from '~/model';
 import { functionUtils } from '~/utils';
 import { MonacoEditorRestriction } from '../../function-editor';
 
@@ -65,10 +65,18 @@ export const getDynamicColorID = (size: number) => {
   return `${DynamicColorIDPrefix}${id}`;
 };
 
-export function getDynamicColorStyles(doc: Document, dashboardState: TDashboardState, variables: VariableValueMap) {
+export function getDynamicColorStyles(
+  doc: Document,
+  dashboardStateValues: TDashboardStateValues,
+  variables: VariableValueMap,
+) {
   const ret: Record<string, { color: string }> = {};
   const run = (body: string) => {
-    return new Function(`return ${completeDynamicColorFunc(body)}`)()({ variables }, dashboardState, functionUtils);
+    return new Function(`return ${completeDynamicColorFunc(body)}`)()(
+      { variables },
+      dashboardStateValues,
+      functionUtils,
+    );
   };
   const nodes = doc.querySelectorAll('dynamic-color');
   nodes.forEach((n) => {
