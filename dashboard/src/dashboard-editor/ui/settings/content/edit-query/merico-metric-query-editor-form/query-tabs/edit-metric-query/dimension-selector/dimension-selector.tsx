@@ -20,8 +20,8 @@ const renderOption = (
   option: {
     label: string;
     value: string;
-    description: string;
-    dataType: DimensionColDataType | null;
+    description?: string;
+    dataType?: DimensionColDataType | null;
   },
   isSubOption: boolean,
   disabled: boolean,
@@ -37,7 +37,7 @@ const renderOption = (
     <Combobox.Option key={option.value} value={option.value} className={classNames.join(' ')} disabled={disabled}>
       <Stack gap={1}>
         <Group gap={4}>
-          <DimensionIcon type={option.dataType} />
+          {!!option.dataType && <DimensionIcon type={option.dataType} />}
           <Text size="xs">{option.label}</Text>
         </Group>
         <Text size="xs" c="dimmed" pl={18}>

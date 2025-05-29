@@ -1,12 +1,14 @@
 export type DimensionInfo = {
   id: string;
   name: string;
-  fields: {
-    id: string;
-    description: string;
-    field: string; // name
-    dataType: DimensionColDataType;
-  }[];
+  fields:
+    | {
+        id: string;
+        description: string;
+        field: string; // name
+        dataType: DimensionColDataType;
+      }[]
+    | string[]; // alias dimension
 };
 
 export type MetricSourceCol_Simple = {
