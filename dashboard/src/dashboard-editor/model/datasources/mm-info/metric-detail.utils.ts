@@ -98,11 +98,19 @@ export function makeFilterColOptions(cols: Array<CombinedMetricCol | MetricSourc
       return {
         group: col.name,
         description: col.description,
-        items: dimension.fields.map((f) => ({
-          label: f.field,
-          value: `${col.name} -> ${f.field}`,
-          ...f,
-        })),
+        items: dimension.fields.map((f) => {
+          if (typeof f === 'string') {
+            return {
+              label: f,
+              value: f,
+            };
+          }
+          return {
+            label: f.field,
+            value: `${col.name} -> ${f.field}`,
+            ...f,
+          };
+        }),
       };
     }),
   }));
