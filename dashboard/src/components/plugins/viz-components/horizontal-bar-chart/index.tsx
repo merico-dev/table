@@ -6,6 +6,7 @@ import { VizHorizontalBarChartEditor } from './viz-horizontal-bar-chart-editor';
 import { translation } from './translation';
 import { ClickHorizontalBarChartSeries } from './triggers';
 import { getDefaultSeriesUnit } from '../../common-echarts-fields/series-unit';
+import _ from 'lodash';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHorizontalBarChartConf {
   try {
@@ -13,14 +14,14 @@ function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHorizontalBarChart
     if (!queryID) {
       throw new Error('cannot migrate when queryID is empty');
     }
-    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
-    const { x_axis, y_axis, series, ...rest } = legacyConf;
+    const changeKey = (key: string) => (!!key && !key.includes(`${queryID}.`) ? `${queryID}.${key}` : key);
+    const { x_axes, y_axis, series, ...rest } = legacyConf;
     return {
       ...rest,
-      x_axis: {
+      x_axes: x_axes.map((x_axis: any) => ({
         ...x_axis,
         data_key: changeKey(x_axis.data_key),
-      },
+      })),
       y_axis: {
         ...y_axis,
         data_key: changeKey(y_axis.data_key),
@@ -88,7 +89,7 @@ export const HorizontalBarChartVizComponent: VizComponent = {
   name: 'horizontalBarChart',
   viewRender: VizHorizontalBarChart,
   configRender: VizHorizontalBarChartEditor,
-  createConfig: (): ConfigType => ({ version: 3, config: DEFAULT_CONFIG }),
+  createConfig: (): ConfigType => ({ version: 3, config: _.cloneDeep(DEFAULT_CONFIG) as IHorizontalBarChartConf }),
   triggers: [ClickHorizontalBarChartSeries],
   translation,
 };
