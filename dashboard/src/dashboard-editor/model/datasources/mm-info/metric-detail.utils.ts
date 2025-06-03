@@ -102,7 +102,7 @@ export function makeFilterColOptions(cols: Array<CombinedMetricCol | MetricSourc
           if (typeof f === 'string') {
             return {
               label: f,
-              value: f,
+              value: `${col.name} -> ${f}`,
             };
           }
           return {
