@@ -78,7 +78,7 @@ export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
       } else {
         s.dimension.fields.forEach((f) => {
           if (typeof f === 'string') {
-            withLeaves.push(f);
+            withLeaves.push(`${s.value} -> ${f}`);
           } else {
             withLeaves.push(`${s.value} -> ${f.field}`);
           }
