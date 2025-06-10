@@ -113,10 +113,12 @@ export const CustomRichTextEditor = forwardRef(
     }, [inPanelContext]);
 
     const [focused, { setTrue, setFalse }] = useBoolean(false);
+
     const [content, setContent] = useState(value);
+
     const editor = useEditor({
       extensions,
-      content,
+      content: value,
       onUpdate: ({ editor }) => {
         const newContent = editor.getHTML();
         setContent(newContent);
@@ -131,13 +133,8 @@ export const CustomRichTextEditor = forwardRef(
     });
 
     useEffect(() => {
-      setContent((content) => {
-        if (value === content) {
-          return content;
-        }
-        editor?.commands.setContent(value);
-        return value;
-      });
+      setContent(value);
+      editor?.commands.setContent(value);
     }, [value]);
 
     const submit = () => {
