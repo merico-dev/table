@@ -68,6 +68,7 @@ export const MericoMetricQueryMeta = types
       timezone: types.optional(types.string, 'PRC'),
       stepKeyFormat: types.optional(types.string, 'YYYY-MM-DD'),
     }),
+    useDefaultValues: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get query() {
@@ -104,6 +105,7 @@ export const MericoMetricQueryMeta = types
       self.timeQuery.enabled = false;
       self.timeQuery.range_variable = '';
       self.timeQuery.unit_variable = '';
+      self.useDefaultValues = false;
       if ('data' in self.query) {
         self.query.setData([]);
         self.query.setError(null);
@@ -154,6 +156,9 @@ export const MericoMetricQueryMeta = types
         self.groupBys.length = 0;
       }
     },
+    setUseDefaultValues(v: boolean) {
+      self.useDefaultValues = v;
+    },
   }));
 export type MericoMetricQueryMetaInstance = Instance<typeof MericoMetricQueryMeta>;
 export type MericoMetricQueryMetaSnapshotIn = SnapshotIn<MericoMetricQueryMetaInstance>;
@@ -172,6 +177,7 @@ export interface IMericoMetricQueryMeta {
     timezone: string;
     stepKeyFormat: string;
   };
+  useDefaultValues: boolean;
 
   // Views
   readonly query: IQueryRenderModel;
@@ -208,6 +214,7 @@ export interface IMericoMetricQueryMeta {
   setRangeVariable(v: string | null): void;
   setUnitVariable(v: string | null): void;
   setTimeQueryEnabled(v: boolean): void;
+  setUseDefaultValues(v: boolean): void;
 }
 
 typeAssert.shouldExtends<IMericoMetricQueryMeta, MericoMetricQueryMetaInstance>();
@@ -226,4 +233,5 @@ export const createMericoMetricQueryMetaConfig = () =>
       timezone: 'PRC',
       stepKeyFormat: 'YYYY-MM-DD',
     },
+    useDefaultValues: false,
   });
