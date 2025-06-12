@@ -30,6 +30,7 @@ type MetricQueryPayload = {
     timezone: string;
     stepKeyFormat: 'YYYY-MM-DD';
   };
+  useDefaultValues?: boolean;
 };
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
@@ -263,6 +264,9 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       filters,
       groupBys: config.groupBys,
     };
+    if (config.useDefaultValues) {
+      ret.useDefaultValues = true;
+    }
     if (!config.timeQuery.enabled) {
       return ret;
     }

@@ -15,6 +15,7 @@ export function MantineProviders({ children }: { children: ReactNode }) {
     <MantineProvider
       stylesTransform={emotionTransform}
       theme={{
+        cursorType: 'pointer',
         breakpoints: {
           xs: '85em',
           sm: '90em',
