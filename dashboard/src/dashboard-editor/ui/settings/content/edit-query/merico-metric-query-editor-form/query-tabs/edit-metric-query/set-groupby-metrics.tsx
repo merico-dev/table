@@ -1,4 +1,4 @@
-import { Combobox, Group, Loader, MultiSelect, MultiSelectProps, Stack, Text } from '@mantine/core';
+import { Combobox, Group, Loader, MultiSelect, MultiSelectProps, Stack, Switch, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
@@ -88,20 +88,31 @@ export const SetGroupByMetrics = observer(({ queryModel }: Props) => {
     config.setGroupBys(withLeaves);
   };
   return (
-    <MultiSelect
-      size="sm"
-      label="分组聚合维度"
-      description="指标在查询时按照哪些维度进行聚合计算。最多支持两个维度的聚合计算。若选择按时间序列展示，则仅可选择一个聚合维度。"
-      data={options}
-      searchable
-      styles={SelectorStyles}
-      renderOption={renderOption}
-      rightSection={loading ? <Loader size="xs" /> : null}
-      value={[...config.groupByValues]}
-      onChange={handleChange}
-      maxValues={config.timeQuery.enabled ? 1 : 2}
-      placeholder={config.timeQuery.enabled ? '仅可选一个维度' : '最多选两个维度'}
-      disabled={loading}
-    />
+    <>
+      <MultiSelect
+        size="sm"
+        label="分组聚合维度"
+        description="指标在查询时按照哪些维度进行聚合计算。最多支持两个维度的聚合计算。若选择按时间序列展示，则仅可选择一个聚合维度。"
+        data={options}
+        searchable
+        styles={SelectorStyles}
+        renderOption={renderOption}
+        rightSection={loading ? <Loader size="xs" /> : null}
+        value={[...config.groupByValues]}
+        onChange={handleChange}
+        maxValues={config.timeQuery.enabled ? 1 : 2}
+        placeholder={config.timeQuery.enabled ? '仅可选一个维度' : '最多选两个维度'}
+        disabled={loading}
+      />
+      <Switch
+        labelPosition="left"
+        label="聚合维度为空时，自动补零"
+        size="sm"
+        color="red"
+        checked={config.useDefaultValues}
+        onChange={(e) => config.setUseDefaultValues(e.currentTarget.checked)}
+        disabled={options.length === 0}
+      />
+    </>
   );
 });
