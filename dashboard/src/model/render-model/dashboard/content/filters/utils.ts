@@ -1,6 +1,7 @@
 import {
   ContextRecordType,
   DashboardFilterType,
+  DateRangeValue,
   FilterDateRangeConfigSnapshotOut,
   FilterMetaSnapshotOut,
   getStaticDateRangeDefaultValue,
@@ -8,6 +9,7 @@ import {
 import { functionUtils } from '~/utils';
 import { FilterValuesType } from './types';
 import _ from 'lodash';
+import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -68,14 +70,44 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
   const ret: FilterValuesType = {};
   Object.entries(currentValues).forEach(([k, v]) => {
     const input = inputValues[k];
-    if (typeof v === 'object' && 'shortcut' in v && Array.isArray(input)) {
+    if (typeof v !== 'object' || !('shortcut' in v)) {
+      // not a date-range filter
+      ret[k] = input ?? v;
+      return ret;
+    }
+
+    // legacy date-range value
+    if (Array.isArray(input)) {
+      console.log('⚪️ adapting legacy date-range value: ', input);
       ret[k] = {
         value: input,
         shortcut: null,
       };
-    } else {
-      ret[k] = input ?? v;
+      return ret;
     }
+
+    const inputRange = input as DateRangeValue;
+    const inputValueValid = inputRange.value.every((d) => d);
+    if (inputRange.shortcut) {
+      // same shortcut, and its been applied with config
+      if (inputRange.shortcut === v.shortcut) {
+        ret[k] = v;
+        return ret;
+      }
+
+      // input shortcut is not applied
+      if (!inputValueValid) {
+        ret[k] = {
+          value: getDateRangeShortcutValue(inputRange.shortcut),
+          shortcut: inputRange.shortcut,
+        };
+        return ret;
+      }
+      ret[k] = inputRange;
+      return ret;
+    }
+
+    ret[k] = v;
     return ret;
   });
   return ret;
