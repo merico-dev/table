@@ -78,8 +78,16 @@ export const MericoMetricQueryMeta = types
       return !!self.id;
     },
     get json() {
-      const { id, type, filters, groupBys, timeQuery, _type } = self;
-      return shallowToJS({ id, type, filters: filters.map((f) => f.json), groupBys, timeQuery, _type });
+      const { id, type, filters, groupBys, timeQuery, useDefaultValues, _type } = self;
+      return shallowToJS({
+        id,
+        type,
+        filters: filters.map((f) => f.json),
+        groupBys,
+        timeQuery,
+        useDefaultValues,
+        _type,
+      });
     },
     get usedFilterDimensionKeys() {
       const keys = self.filters.map((f) => f.dimension).filter((k) => !!k);
@@ -197,6 +205,7 @@ export interface IMericoMetricQueryMeta {
       timezone: string;
       stepKeyFormat: string;
     };
+    useDefaultValues: boolean;
     _type: DataSourceType.MericoMetricSystem;
   };
   readonly usedFilterDimensionKeys: Set<string>;
