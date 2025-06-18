@@ -70,7 +70,7 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
   const ret: FilterValuesType = {};
   Object.entries(currentValues).forEach(([k, v]) => {
     const input = inputValues[k];
-    if (typeof v !== 'object' || !('shortcut' in v)) {
+    if (typeof v !== 'object' || !('shortcut' in v) || !input) {
       // not a date-range filter
       ret[k] = input ?? v;
       return ret;
