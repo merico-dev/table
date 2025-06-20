@@ -1,21 +1,9 @@
-import { parseDataKey } from '~/utils';
 import { IParetoChartConf } from '../type';
 import { getMarkLineAndArea } from './mark-line-and-area';
-import { TLineDataItem } from './types';
+import { BarData, TLineDataItem } from './types';
 import { TParetoFormatters } from './utils';
 
-export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: TParetoFormatters) {
-  const { x_axis, data_key } = conf;
-  if (!x_axis.data_key || !data_key) {
-    return [];
-  }
-  const x = parseDataKey(x_axis.data_key);
-  const y = parseDataKey(data_key);
-  if (x.queryID !== y.queryID) {
-    throw new Error('Please use the same query for X & Y axis');
-  }
-
-  const barData = data[x.queryID].map((d) => [d[x.columnKey], Number(d[y.columnKey])]).sort((a, b) => b[1] - a[1]);
+export function getSeries(conf: IParetoChartConf, barData: BarData, formatters: TParetoFormatters) {
   const sum = barData.reduce((sum, curr) => sum + curr[1], 0);
   const lineData = barData
     .reduce((ret, curr, index) => {

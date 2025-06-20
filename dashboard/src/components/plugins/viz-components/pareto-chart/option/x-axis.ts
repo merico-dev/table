@@ -3,7 +3,7 @@ import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { IParetoChartConf } from '../type';
 import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
-export function getXAxis(conf: IParetoChartConf) {
+export function getXAxis(conf: IParetoChartConf, xAxisData: Array<string | number>) {
   const { name, axisLabel } = conf.x_axis;
   const overflowOption = getLabelOverflowOptionOnAxis(axisLabel.overflow.on_axis);
   return [
@@ -21,6 +21,7 @@ export function getXAxis(conf: IParetoChartConf) {
         ...overflowOption,
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
       },
+      data: xAxisData,
     }),
   ];
 }
