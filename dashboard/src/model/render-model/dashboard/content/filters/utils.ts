@@ -87,27 +87,13 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
     }
 
     const inputRange = input as DateRangeValue;
-    const inputValueValid = inputRange.value.every((d) => d);
-    if (inputRange.shortcut) {
-      // same shortcut, and its been applied with config
-      if (inputRange.shortcut === v.shortcut) {
-        ret[k] = v;
-        return ret;
-      }
-
-      // input shortcut is not applied
-      if (!inputValueValid) {
-        ret[k] = {
-          value: getDateRangeShortcutValue(inputRange.shortcut),
-          shortcut: inputRange.shortcut,
-        };
-        return ret;
-      }
-      ret[k] = inputRange;
+    if (!inputRange.shortcut) {
+      console.log('⚪️ skipping input date range when it has no shortcut', inputRange);
+      ret[k] = v;
       return ret;
     }
 
-    ret[k] = v;
+    ret[k] = getDateRangeShortcutValue(inputRange.shortcut);
     return ret;
   });
   return ret;
