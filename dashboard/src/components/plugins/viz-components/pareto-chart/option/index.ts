@@ -39,7 +39,6 @@ export function getOption(conf: IParetoChartConf, data: TPanelData, variables: I
   const barData = data[x.queryID]
     .map((d) => [d[x.columnKey], Number(d[y.columnKey])])
     .sort((a, b) => b[1] - a[1]) as BarData;
-  console.log(barData);
 
   const xAxisData = barData.map((d) => d[0]);
   const option = {

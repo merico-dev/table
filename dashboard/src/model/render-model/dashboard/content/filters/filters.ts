@@ -194,6 +194,12 @@ export function getInitialFiltersConfig(
   const ctx = { ...mock_context, ...context };
   const defaultValues = getValuesFromFilters(filters, ctx);
   const initialValues = formatInputFilterValues(filterValues, defaultValues);
+  console.groupCollapsed('⚪️ initialValues');
+  console.log('filters', filters);
+  console.log('defaultValues', defaultValues.date_range);
+  console.log('filterValues.date_range: ', filterValues.date_range);
+  console.log('initialValues.date_range: ', initialValues.date_range);
+  console.groupEnd();
   return {
     current: filters,
     values: initialValues,
