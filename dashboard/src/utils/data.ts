@@ -1,11 +1,15 @@
 import { AnyObject } from '..';
 
+export type ParsedDataKey = {
+  columnKey: string;
+  queryID: string;
+};
 /**
  * extract queryID & columnKey from dataKey
  * @param dataKey queryID.columnKey or queryID
- * @returns
+ * @returns ParsedDataKey
  */
-export function parseDataKey(dataKey: TDataKey) {
+export function parseDataKey(dataKey: TDataKey): ParsedDataKey {
   const [queryID, columnKey] = dataKey.split('.');
   return { queryID, columnKey };
 }
