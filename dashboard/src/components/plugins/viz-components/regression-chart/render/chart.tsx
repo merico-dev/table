@@ -3,7 +3,7 @@ import * as echarts from 'echarts/core';
 
 import { EChartsInstance } from 'echarts-for-react';
 import { defaultsDeep } from 'lodash';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { VizViewProps } from '~/types/plugin';
 import { parseDataKey } from '~/utils';
 import { notifyVizRendered } from '../../viz-instance-api';
@@ -11,6 +11,7 @@ import { getDefaultConfig, IRegressionChartConf } from '../type';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { getBoxContentStyle } from '~/styles/viz-box';
+import { useDataKey } from './use-data-key';
 
 type Props = Pick<VizViewProps, 'context' | 'instance'> & {
   conf: IRegressionChartConf;
@@ -19,31 +20,14 @@ type Props = Pick<VizViewProps, 'context' | 'instance'> & {
 };
 
 export const RenderRegressionChart = ({ context, instance, conf, width, height }: Props) => {
-  // convert strings as numbers
-  const queryData = useMemo(() => {
-    const rawData = context.data;
-    const xDataKey = conf?.x_axis.data_key;
-    const yDataKey = conf?.regression?.y_axis_data_key;
-
-    if (!xDataKey || !yDataKey) {
-      return [];
-    }
-    const x = parseDataKey(xDataKey);
-    const y = parseDataKey(yDataKey);
-    return rawData[x.queryID].map((row) => {
-      if (typeof row[y.columnKey] === 'number') {
-        return row;
-      }
-      return {
-        ...row,
-        [y.columnKey]: Number(row[y.columnKey]),
-      };
-    });
-  }, [context.data, conf?.regression.y_axis_data_key]);
+  const xDataKey = useDataKey(conf.x_axis.data_key);
+  const yDataKey = useDataKey(conf.regression.y_axis_data_key);
+  const xdv = xDataKey.value;
+  const ydv = yDataKey.value;
 
   const option = useMemo(() => {
-    return getOption(defaultsDeep({}, conf, getDefaultConfig()), queryData);
-  }, [conf, queryData]);
+    return getOption(defaultsDeep({}, conf, getDefaultConfig()), context.data, xdv, ydv);
+  }, [conf, context.data, xdv, ydv]);
 
   const echartsRef = useRef<EChartsInstance | null>(null);
   const onChartReady = (echartsInstance: EChartsInstance) => {
@@ -62,7 +46,7 @@ export const RenderRegressionChart = ({ context, instance, conf, width, height }
   );
   return (
     <>
-      <Toolbox conf={conf} queryData={queryData} />
+      <Toolbox conf={conf} context={context} xDataKey={xDataKey} yDataKey={yDataKey} />
       <ReactEChartsCore
         echarts={echarts}
         onChartReady={onChartReady}

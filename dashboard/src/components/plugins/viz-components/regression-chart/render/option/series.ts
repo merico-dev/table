@@ -1,23 +1,26 @@
 import _ from 'lodash';
-import { AnyObject } from '~/types';
-import { IRegressionChartConf } from '../type';
 import { getRegressionDataSource } from '~/components/plugins/common-echarts-fields/regression-line';
-import { parseDataKey } from '~/utils';
+import { AnyObject } from '~/types';
+import { parseDataKey, ParsedDataKey } from '~/utils';
+import { IRegressionChartConf } from '../../type';
 
 export type TSeriesConf = AnyObject[];
 
-function makeXYData(conf: IRegressionChartConf, queryData: TQueryData) {
-  const x = parseDataKey(conf.x_axis.data_key);
-  const y = parseDataKey(conf.regression.y_axis_data_key);
+function makeXYData(conf: IRegressionChartConf, queryData: TQueryData, x: ParsedDataKey, y: ParsedDataKey) {
   return _.uniqBy(
     queryData.map((d) => [d[x.columnKey], d[y.columnKey]]),
     0,
   );
 }
 
-function makeSingleSeries(conf: IRegressionChartConf, queryData: TQueryData): TSeriesConf {
+function makeSingleSeries(
+  conf: IRegressionChartConf,
+  queryData: TQueryData,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+): TSeriesConf {
   const { plot, transform } = conf.regression;
-  const seriesData = makeXYData(conf, queryData);
+  const seriesData = makeXYData(conf, queryData, x, y);
   return [
     {
       type: 'scatter',
@@ -37,12 +40,17 @@ function makeSingleSeries(conf: IRegressionChartConf, queryData: TQueryData): TS
   ];
 }
 
-function makeSplittedSeries(conf: IRegressionChartConf, queryData: TQueryData): TSeriesConf {
+function makeSplittedSeries(
+  conf: IRegressionChartConf,
+  queryData: TQueryData,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+): TSeriesConf {
   const { plot, transform, group_by_key } = conf.regression;
   const g = parseDataKey(group_by_key);
   const groupedData = _.groupBy(queryData, g.columnKey);
   return Object.entries(groupedData).map(([key, partialData]) => {
-    const seriesData = makeXYData(conf, partialData);
+    const seriesData = makeXYData(conf, partialData, x, y);
     return {
       type: 'scatter',
       name: key,
@@ -59,15 +67,18 @@ function makeSplittedSeries(conf: IRegressionChartConf, queryData: TQueryData): 
   });
 }
 
-export function getSeries(conf: IRegressionChartConf, queryData: TQueryData): TSeriesConf {
-  if (queryData.length === 0) {
-    return [];
-  }
+export function getSeries(
+  conf: IRegressionChartConf,
+  rawData: TPanelData,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+): TSeriesConf {
+  const queryData = rawData[x.queryID];
   const { group_by_key } = conf.regression;
 
   if (!group_by_key) {
-    return makeSingleSeries(conf, queryData);
+    return makeSingleSeries(conf, queryData, x, y);
   }
 
-  return makeSplittedSeries(conf, queryData);
+  return makeSplittedSeries(conf, queryData, x, y);
 }

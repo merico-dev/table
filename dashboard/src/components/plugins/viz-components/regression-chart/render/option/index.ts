@@ -1,10 +1,12 @@
 import { defaultsDeep } from 'lodash';
-import { IRegressionChartConf } from '../type';
+import { IRegressionChartConf } from '../../type';
 import { getRegressionConf } from './regression-series';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getXAxis } from './x-axis';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { UseDataKeyReturn } from '../use-data-key';
+import { parseDataKey } from '~/utils';
 
 const defaultOption = {
   tooltip: {
@@ -29,14 +31,19 @@ const defaultOption = {
   ],
 };
 
-export function getOption(conf: IRegressionChartConf, queryData: TQueryData) {
-  const series = getSeries(conf, queryData);
+export function getOption(conf: IRegressionChartConf, rawData: TPanelData, xDataKey: TDataKey, yDataKey: TDataKey) {
+  if (!xDataKey || !yDataKey) {
+    return [];
+  }
+  const x = parseDataKey(xDataKey);
+  const y = parseDataKey(yDataKey);
+  const series = getSeries(conf, rawData, x, y);
   const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
-    xAxis: getXAxis(conf),
+    xAxis: getXAxis(conf, x),
     yAxis: defaultEchartsOptions.getYAxis({
-      name: conf.y_axis.name ?? '',
+      name: y.columnKey,
       nameLocation: 'end',
       nameTextStyle: {
         align: 'left',
