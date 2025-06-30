@@ -1,5 +1,5 @@
 import { Group, Text } from '@mantine/core';
-import { IRegressionChartConf } from '../../type';
+import { IRegressionChartConf } from '../../../type';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
 import _ from 'lodash';

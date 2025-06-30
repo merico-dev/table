@@ -26,7 +26,7 @@ export interface IRegressionChartConf {
   regression: IRegressionConf;
 }
 
-export const DEFAULT_CONFIG: IRegressionChartConf = {
+export const getDefaultConfig = (): IRegressionChartConf => ({
   x_axis: {
     name: 'X Axis',
     data_key: '',
@@ -62,4 +62,4 @@ export const DEFAULT_CONFIG: IRegressionChartConf = {
     group_by_key: '',
     y_axis_data_key: 'value',
   },
-};
+});

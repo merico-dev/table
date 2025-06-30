@@ -8,11 +8,11 @@ import { VizConfigBanner } from '../../editor-components';
 import { RegressionField } from './editors/regression-field';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
-import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
+import { getDefaultConfig, IRegressionChartConf } from './type';
 
 export function VizRegressionChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
-  const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
+  const defaultValues = useMemo(() => defaults({}, conf, getDefaultConfig()), [conf]);
 
   const { control, handleSubmit, watch, formState, reset } = useForm<IRegressionChartConf>({ defaultValues });
   useEffect(() => {

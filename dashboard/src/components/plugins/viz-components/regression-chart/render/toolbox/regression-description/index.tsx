@@ -4,7 +4,7 @@ import { IconInfoCircle } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorBoundary, formatNumber } from '~/utils';
-import { IRegressionChartConf } from '../../type';
+import { IRegressionChartConf } from '../../../type';
 import { TDescription, getRegressionDescription } from './desc';
 
 const TableSx: EmotionSx = {
