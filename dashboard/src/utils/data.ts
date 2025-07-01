@@ -14,6 +14,10 @@ export function parseDataKey(dataKey: TDataKey): ParsedDataKey {
   return { queryID, columnKey };
 }
 
+export function parsedDataKeyValid(v: ParsedDataKey) {
+  return !!v && !!v.columnKey && !!v.queryID;
+}
+
 export function parseDataKeyOrColumnKey(dataKeyOrColumnKey: TDataKey) {
   if (!dataKeyOrColumnKey.includes('.')) {
     return { queryID: '', columnKey: dataKeyOrColumnKey };
