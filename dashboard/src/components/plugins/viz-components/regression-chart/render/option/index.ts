@@ -68,7 +68,7 @@ export function getOption(
       top: 0,
       left: 'auto',
       itemGap: 20,
-      padding: [4, 8, 0, 140],
+      padding: [8, 8, 0, 140],
       data: series.map((s) => s.name),
     },
   };
