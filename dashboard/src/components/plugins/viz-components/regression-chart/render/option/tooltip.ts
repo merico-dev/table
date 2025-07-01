@@ -1,5 +1,5 @@
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { IRegressionChartConf } from '../type';
+import { IRegressionChartConf } from '../../type';
 
 type TFormatterParams = {
   color: string;

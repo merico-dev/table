@@ -2,7 +2,7 @@ import {
   getRegressionDataSource,
   IRegressionSeriesItem,
 } from '~/components/plugins/common-echarts-fields/regression-line';
-import { IRegressionChartConf } from '../type';
+import { IRegressionChartConf } from '../../type';
 import _ from 'lodash';
 import { TSeriesConf } from './series';
 
