@@ -19,6 +19,7 @@ export interface IPanelRenderModel extends IPanelMeta {
   readonly queryStateMessages: string;
   readonly queryErrors: string[];
   readonly canRenderViz: boolean;
+  readonly realDataFieldOptions: { label: string; value: string; group: string; group_id: string; disabled: boolean }[];
 
   queryByID(queryID: string): IQueryRenderModel | undefined;
 
@@ -33,6 +34,16 @@ export interface IPanelRenderModel extends IPanelMeta {
   };
 
   downloadSchema(): void;
+  dataFieldOptions(
+    selected: TDataKey,
+    clearable: boolean,
+    queryID?: string,
+  ): { label: string; value: string; group: string; group_id: string; disabled: boolean }[];
+  dataFieldOptionGroups(
+    selected: TDataKey,
+    clearable: boolean,
+    queryID?: string,
+  ): { group: string; items: { label: string; value: string; group_id: string; disabled: boolean }[] }[];
 }
 
 export interface IPanelsRenderModel {

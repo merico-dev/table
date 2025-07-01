@@ -8,11 +8,13 @@ import {
   getAggregatedValue,
   getColorByVariableColorConf,
   ITemplateVariable,
+  parseDataKey,
   variablesToStrings,
 } from '~/utils';
 import { downloadJSON } from '~/utils/download';
 import { QueryRenderModelInstance } from '../queries';
 import { IPanelRenderModel } from './types';
+import _ from 'lodash';
 
 export type VariableValueMap = Record<string, string | number>;
 export type VariableAggValueMap = Record<string, string | number>;
@@ -122,6 +124,65 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     },
     get canRenderViz() {
       return this.queryErrors.length === 0 && this.queryStateMessages === '' && !this.dataLoading;
+    },
+    get realDataFieldOptions() {
+      if (self.queryIDs.length === 0) {
+        return [];
+      }
+
+      return this.queries
+        .map((query) => {
+          const queryData = query.data;
+          if (queryData.length === 0) {
+            return [];
+          }
+          const keys = Object.keys(queryData[0]);
+          return keys.map((k) => ({
+            label: k,
+            value: `${query.id}.${k}`,
+            group: query.name,
+            group_id: query.id,
+            disabled: false,
+          }));
+        })
+        .flat();
+    },
+    dataFieldOptions(selected: TDataKey, clearable: boolean, queryID?: string) {
+      let options = [...this.realDataFieldOptions];
+      if (queryID) {
+        options = options.filter((o) => o.group_id === queryID);
+      }
+      if (selected && !options.find((o) => o.value === selected)) {
+        const s = parseDataKey(selected);
+        const q = this.queryByID(s.queryID);
+        options.unshift({
+          label: s.columnKey,
+          value: selected,
+          group: q ? q.name : s.queryID,
+          group_id: q ? q.id : '',
+          disabled: true,
+        });
+      }
+
+      if (clearable) {
+        options.unshift({ label: 'unset', value: '', group: '', group_id: '', disabled: false });
+      }
+      return options;
+    },
+    dataFieldOptionGroups(selected: TDataKey, clearable: boolean, queryID?: string) {
+      const options = this.dataFieldOptions(selected, clearable, queryID);
+      const ret = Object.entries(_.groupBy(options, 'group')).map(([group, items]) => {
+        return {
+          group,
+          items: items.map((item) => ({
+            label: item.label,
+            value: item.value,
+            group_id: item.group_id,
+            disabled: item.disabled,
+          })),
+        };
+      });
+      return ret;
     },
   }))
   .actions((self) => ({
