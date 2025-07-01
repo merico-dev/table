@@ -980,7 +980,7 @@ export const zh = {
           label: '方法',
           linear: '线性回归',
           exponential: '指数回归',
-          logistic: '指数回归',
+          logistic: '逻辑回归',
           polynomial: '多项式回归',
           polynomial_order: '次',
         },
