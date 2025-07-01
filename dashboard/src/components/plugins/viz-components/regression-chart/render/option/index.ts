@@ -1,12 +1,10 @@
 import { defaultsDeep } from 'lodash';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { ParsedDataKey, parsedDataKeyValid } from '~/utils';
 import { IRegressionChartConf } from '../../type';
 import { getRegressionConf } from './regression-series';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
-import { getXAxis } from './x-axis';
-import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { UseDataKeyReturn } from '../use-data-key';
-import { parseDataKey } from '~/utils';
 
 const defaultOption = {
   tooltip: {
@@ -34,21 +32,24 @@ const defaultOption = {
 export function getOption(
   conf: IRegressionChartConf,
   rawData: TPanelData,
-  xDataKey: TDataKey,
-  yDataKey: TDataKey,
-  groupKey: TDataKey,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+  g: ParsedDataKey,
 ) {
-  if (!xDataKey || !yDataKey) {
+  if (!parsedDataKeyValid(x) || !parsedDataKeyValid(y)) {
     return [];
   }
-  const x = parseDataKey(xDataKey);
-  const y = parseDataKey(yDataKey);
-  const g = parseDataKey(groupKey);
+
   const series = getSeries(conf, rawData, x, y, g);
   const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
-    xAxis: getXAxis(conf, x),
+    xAxis: defaultEchartsOptions.getXAxis({
+      type: 'value',
+      name: x.columnKey,
+      nameLocation: 'middle',
+      nameGap: 25,
+    }),
     yAxis: defaultEchartsOptions.getYAxis({
       name: y.columnKey,
       nameLocation: 'end',
@@ -58,7 +59,7 @@ export function getOption(
       nameGap: 5,
     }),
     series: [...series, ...regressionSeries],
-    tooltip: getTooltip(conf),
+    tooltip: getTooltip(x, y),
     legend: {
       show: !!g.columnKey && !!g.queryID,
       type: 'scroll',

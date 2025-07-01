@@ -11,6 +11,7 @@ import { getDefaultConfig, IRegressionChartConf } from '../type';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { useDataKey } from './use-data-key';
+import { parseDataKey } from '~/utils';
 
 type Props = Pick<VizViewProps, 'context' | 'instance'> & {
   conf: IRegressionChartConf;
@@ -22,13 +23,13 @@ export const RenderRegressionChart = ({ context, instance, conf, width, height }
   const xDataKey = useDataKey(conf.x_axis.data_key);
   const yDataKey = useDataKey(conf.regression.y_axis_data_key);
   const groupKey = useDataKey(conf.regression.group_by_key);
-  const xdv = xDataKey.value;
-  const ydv = yDataKey.value;
-  const gdv = groupKey.value;
+  const x = parseDataKey(xDataKey.value);
+  const y = parseDataKey(yDataKey.value);
+  const g = parseDataKey(groupKey.value);
 
   const option = useMemo(() => {
-    return getOption(defaultsDeep({}, conf, getDefaultConfig()), context.data, xdv, ydv, gdv);
-  }, [conf, context.data, xdv, ydv, gdv]);
+    return getOption(defaultsDeep({}, conf, getDefaultConfig()), context.data, x, y, g);
+  }, [conf, context.data, x, y, g]);
 
   const echartsRef = useRef<EChartsInstance | null>(null);
   const onChartReady = (echartsInstance: EChartsInstance) => {
@@ -49,7 +50,16 @@ export const RenderRegressionChart = ({ context, instance, conf, width, height }
   );
   return (
     <>
-      <Toolbox conf={conf} context={context} xDataKey={xDataKey} yDataKey={yDataKey} groupKey={groupKey} />
+      <Toolbox
+        conf={conf}
+        context={context}
+        xDataKey={xDataKey}
+        yDataKey={yDataKey}
+        groupKey={groupKey}
+        x={x}
+        y={y}
+        g={g}
+      />
       <ReactEChartsCore
         echarts={echarts}
         onChartReady={onChartReady}

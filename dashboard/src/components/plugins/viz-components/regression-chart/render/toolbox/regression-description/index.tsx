@@ -3,7 +3,7 @@ import { EmotionSx } from '@mantine/emotion';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ErrorBoundary, formatNumber } from '~/utils';
+import { ErrorBoundary, formatNumber, ParsedDataKey } from '~/utils';
 import { IRegressionChartConf } from '../../../type';
 import { TDescription, getRegressionDescription } from './desc';
 
@@ -53,13 +53,15 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
 export interface IRegressionDescription {
   conf: IRegressionChartConf;
   queryData: TQueryData;
-  groupKey: TDataKey;
+  x: ParsedDataKey;
+  y: ParsedDataKey;
+  g: ParsedDataKey;
 }
 
-function DescriptionInTabs({ conf, queryData, groupKey }: IRegressionDescription) {
-  const desc = useMemo(() => getRegressionDescription(queryData, groupKey, conf), [conf, queryData, groupKey]);
+function DescriptionInTabs({ conf, queryData, x, y, g }: IRegressionDescription) {
+  const desc = useMemo(() => getRegressionDescription(queryData, x, y, g, conf), [conf, queryData, x, y, g]);
 
-  if (!groupKey) {
+  if (!g.columnKey || !g.queryID) {
     return <DescriptionContent desc={desc[0]} />;
   }
 
@@ -81,7 +83,7 @@ function DescriptionInTabs({ conf, queryData, groupKey }: IRegressionDescription
   );
 }
 
-export function RegressionDescription({ conf, queryData, groupKey }: IRegressionDescription) {
+export function RegressionDescription({ conf, queryData, x, y, g }: IRegressionDescription) {
   const { t } = useTranslation();
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
@@ -92,7 +94,7 @@ export function RegressionDescription({ conf, queryData, groupKey }: IRegression
       </HoverCard.Target>
       <HoverCard.Dropdown>
         <ErrorBoundary>
-          <DescriptionInTabs conf={conf} queryData={queryData} groupKey={groupKey} />
+          <DescriptionInTabs conf={conf} queryData={queryData} x={x} y={y} g={g} />
         </ErrorBoundary>
       </HoverCard.Dropdown>
     </HoverCard>

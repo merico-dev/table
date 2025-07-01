@@ -2,7 +2,7 @@ import { Group } from '@mantine/core';
 import { useMemo } from 'react';
 import { paddings } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey, ParsedDataKey } from '~/utils/data';
 import { IRegressionChartConf } from '../../type';
 import { useDataKey } from '../use-data-key';
 import { ChooseDataKeys } from './choose-data-keys';
@@ -14,9 +14,12 @@ type Props = {
   xDataKey: ReturnType<typeof useDataKey>;
   yDataKey: ReturnType<typeof useDataKey>;
   groupKey: ReturnType<typeof useDataKey>;
+  x: ParsedDataKey;
+  y: ParsedDataKey;
+  g: ParsedDataKey;
 };
 
-export function Toolbox({ conf, context, xDataKey, yDataKey, groupKey }: Props) {
+export function Toolbox({ conf, context, xDataKey, yDataKey, groupKey, x, y, g }: Props) {
   // for description only
   const queryData = useMemo(() => {
     const rawData = context.data;
@@ -28,7 +31,7 @@ export function Toolbox({ conf, context, xDataKey, yDataKey, groupKey }: Props) 
     }
     const x = parseDataKey(xDataKey);
     const y = parseDataKey(yDataKey);
-    return rawData[x.queryID].map((row) => {
+    return rawData[x.queryID]?.map((row) => {
       if (typeof row[y.columnKey] === 'number') {
         return row;
       }
@@ -44,7 +47,7 @@ export function Toolbox({ conf, context, xDataKey, yDataKey, groupKey }: Props) 
       justify="flex-start"
       sx={{ position: 'absolute', top: 0, left: paddings.left, right: paddings.right, height: '22px', zIndex: 1 }}
     >
-      <RegressionDescription conf={conf} queryData={queryData} groupKey={groupKey.value} />
+      <RegressionDescription conf={conf} queryData={queryData} x={x} y={y} g={g} />
       <ChooseDataKeys xDataKey={xDataKey} yDataKey={yDataKey} groupKey={groupKey} />
     </Group>
   );

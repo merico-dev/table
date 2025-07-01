@@ -4,7 +4,7 @@ import { IRegressionChartConf } from '../../../type';
 import * as d3Regression from 'd3-regression';
 import _ from 'lodash';
 import { ReactNode } from 'react';
-import { TNumberFormat, formatNumber, parseDataKey } from '~/utils';
+import { ParsedDataKey, TNumberFormat, formatNumber, parseDataKey } from '~/utils';
 
 export type TDescription = {
   name: string;
@@ -29,16 +29,16 @@ function getLinearDescription(
   name: string,
   queryData: TQueryData,
   basisData: [number, number][],
-  conf: IRegressionChartConf,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
 ): TDescription {
-  const { x_axis, y_axis } = conf;
   const result = d3Regression.regressionLinear()(basisData);
   const { a, b, rSquared } = result;
   return {
     name,
     expression: (
       <Group justify="center" wrap="nowrap" gap={10}>
-        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">{y.columnKey}</Text>
         <Text size="sm">=</Text>
         <Text size="sm" fw="bold" c="red">
           {formatNumber(b, numberFormat)}
@@ -48,7 +48,7 @@ function getLinearDescription(
           {formatNumber(a, numberFormat)}
         </Text>
         <Text size="sm">×</Text>
-        <Text size="sm">{x_axis.name}</Text>
+        <Text size="sm">{x.columnKey}</Text>
       </Group>
     ),
     rSquared,
@@ -60,15 +60,15 @@ function getExponentialDescription(
   name: string,
   queryData: TQueryData,
   basisData: [number, number][],
-  conf: IRegressionChartConf,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
 ): TDescription {
-  const { x_axis, y_axis } = conf;
   const { a, b, rSquared } = d3Regression.regressionExp()(basisData);
   return {
     name,
     expression: (
       <Group justify="center" wrap="nowrap" gap={10}>
-        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">{y.columnKey}</Text>
         <Text size="sm">=</Text>
         <Text size="sm" fw="bold" c="gray">
           {a}
@@ -80,7 +80,7 @@ function getExponentialDescription(
             {b}
           </Text>
           <Text size="sm">×</Text>
-          <Text size="sm">{x_axis.name}</Text>
+          <Text size="sm">{x.columnKey}</Text>
           <Text size="sm">)</Text>
         </Group>
       </Group>
@@ -94,15 +94,15 @@ function getLogisticDescription(
   name: string,
   queryData: TQueryData,
   basisData: [number, number][],
-  conf: IRegressionChartConf,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
 ): TDescription {
-  const { x_axis, y_axis } = conf;
   const { a, b, rSquared } = d3Regression.regressionLog()(basisData);
   return {
     name,
     expression: (
       <Group justify="center" wrap="nowrap" gap={10}>
-        <Text size="sm">{y_axis.name}</Text>
+        <Text size="sm">{y.columnKey}</Text>
         <Text size="sm">=</Text>
         <Text size="sm" fw="bold" c="gray">
           {a}
@@ -110,7 +110,7 @@ function getLogisticDescription(
         <Text size="sm">×</Text>
         <Group justify="flex-start" wrap="nowrap" gap={2}>
           <Text size="sm">Math.log(</Text>
-          <Text size="sm">{x_axis.name}</Text>
+          <Text size="sm">{x.columnKey}</Text>
           <Text size="sm">)</Text>
           <Text size="sm">+</Text>
           <Text size="sm" fw="bold" c="gray">
@@ -130,7 +130,7 @@ function getPolynomialDescription(
   basisData: [number, number][],
   conf: IRegressionChartConf,
 ): TDescription {
-  const { x_axis, y_axis, regression } = conf;
+  const { regression } = conf;
   const result = d3Regression.regressionPoly().order(regression.transform.config.order)(basisData);
   const { rSquared } = result;
   console.log(result);
@@ -142,21 +142,25 @@ function getPolynomialDescription(
   };
 }
 
-function getDescription(name: string, queryData: TQueryData, conf: IRegressionChartConf): TDescription {
-  const { regression, x_axis } = conf;
-  const x = parseDataKey(x_axis.data_key);
-  const y = parseDataKey(regression.y_axis_data_key);
+function getDescription(
+  name: string,
+  queryData: TQueryData,
+  conf: IRegressionChartConf,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+): TDescription {
+  const { regression } = conf;
   const dataSource: [number, number][] = queryData.map((d) => [d[x.columnKey], d[y.columnKey]]);
 
   if (regression.transform.config.method === 'linear') {
-    return getLinearDescription(name, queryData, dataSource, conf);
+    return getLinearDescription(name, queryData, dataSource, x, y);
   }
   if (regression.transform.config.method === 'exponential') {
-    return getExponentialDescription(name, queryData, dataSource, conf);
+    return getExponentialDescription(name, queryData, dataSource, x, y);
   }
 
   if (regression.transform.config.method === 'logistic') {
-    return getLogisticDescription(name, queryData, dataSource, conf);
+    return getLogisticDescription(name, queryData, dataSource, x, y);
   }
   if (regression.transform.config.method === 'polynomial') {
     return getPolynomialDescription(name, queryData, dataSource, conf);
@@ -171,7 +175,9 @@ function getDescription(name: string, queryData: TQueryData, conf: IRegressionCh
 
 export function getRegressionDescription(
   queryData: TQueryData,
-  groupKey: TDataKey,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+  g: ParsedDataKey,
   conf?: IRegressionChartConf,
 ): TDescription[] {
   if (!conf) {
@@ -184,13 +190,12 @@ export function getRegressionDescription(
       },
     ];
   }
-  if (!groupKey) {
-    return [getDescription('', queryData, conf)];
+  if (!g.columnKey || !g.queryID) {
+    return [getDescription('', queryData, conf, x, y)];
   }
 
-  const g = parseDataKey(groupKey);
   const groupedData = _.groupBy(queryData, g.columnKey);
   return Object.entries(groupedData).map(([group, subData]) => {
-    return getDescription(group, subData, conf);
+    return getDescription(group, subData, conf, x, y);
   });
 }
