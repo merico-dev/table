@@ -24,7 +24,7 @@ function makeSingleSeries(
   return [
     {
       type: 'scatter',
-      name: conf.y_axis.name,
+      name: '',
       data: seriesData,
       symbolSize: 4,
       color: 'red',
@@ -72,11 +72,11 @@ export function getSeries(
   rawData: TPanelData,
   x: ParsedDataKey,
   y: ParsedDataKey,
+  g: ParsedDataKey,
 ): TSeriesConf {
   const queryData = rawData[x.queryID];
-  const { group_by_key } = conf.regression;
 
-  if (!group_by_key) {
+  if (!g.columnKey || !g.queryID) {
     return makeSingleSeries(conf, queryData, x, y);
   }
 

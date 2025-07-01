@@ -14,9 +14,10 @@ type Props = {
   context: VizViewProps['context'];
   xDataKey: ReturnType<typeof useDataKey>;
   yDataKey: ReturnType<typeof useDataKey>;
+  groupKey: ReturnType<typeof useDataKey>;
 };
 
-export function Toolbox({ conf, context, xDataKey, yDataKey }: Props) {
+export function Toolbox({ conf, context, xDataKey, yDataKey, groupKey }: Props) {
   // for description only
   const queryData = useMemo(() => {
     const rawData = context.data;
@@ -64,6 +65,17 @@ export function Toolbox({ conf, context, xDataKey, yDataKey }: Props) {
         rightSectionWidth={14}
         w="auto"
         miw="unset"
+      />
+      <DataKeySelector
+        variant="unstyled"
+        size="xs"
+        onChange={groupKey.set}
+        value={groupKey.value}
+        leftSection={<Text size="xs">拆分</Text>}
+        rightSectionWidth={14}
+        w="auto"
+        miw="unset"
+        clearable
       />
     </Group>
   );

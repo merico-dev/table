@@ -31,13 +31,20 @@ const defaultOption = {
   ],
 };
 
-export function getOption(conf: IRegressionChartConf, rawData: TPanelData, xDataKey: TDataKey, yDataKey: TDataKey) {
+export function getOption(
+  conf: IRegressionChartConf,
+  rawData: TPanelData,
+  xDataKey: TDataKey,
+  yDataKey: TDataKey,
+  groupKey: TDataKey,
+) {
   if (!xDataKey || !yDataKey) {
     return [];
   }
   const x = parseDataKey(xDataKey);
   const y = parseDataKey(yDataKey);
-  const series = getSeries(conf, rawData, x, y);
+  const g = parseDataKey(groupKey);
+  const series = getSeries(conf, rawData, x, y, g);
   const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
@@ -53,7 +60,7 @@ export function getOption(conf: IRegressionChartConf, rawData: TPanelData, xData
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf),
     legend: {
-      show: true,
+      show: !!g.columnKey && !!g.queryID,
       type: 'scroll',
       orient: 'horizontal',
       align: 'left',

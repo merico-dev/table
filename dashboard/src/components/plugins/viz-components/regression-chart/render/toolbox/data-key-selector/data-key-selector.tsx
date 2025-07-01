@@ -6,15 +6,17 @@ import { useEditPanelContext } from '~/contexts';
 type Props = Omit<NativeSelectProps, 'value' | 'onChange'> & {
   value: string;
   onChange: (v: string) => void;
+  clearable?: boolean;
   queryID?: string;
 };
 
 export const DataKeySelector = observer(
-  forwardRef(({ value, onChange, queryID, ...restProps }: Props, ref: React.ForwardedRef<HTMLSelectElement>) => {
+  forwardRef<HTMLSelectElement, Props>((props, ref) => {
+    const { value, onChange, queryID, clearable = false, ...restProps } = props;
     const { panel } = useEditPanelContext();
     const options = React.useMemo(() => {
-      return panel.dataFieldOptionGroups(value, false, queryID);
-    }, [value, queryID]);
+      return panel.dataFieldOptionGroups(value, clearable, queryID);
+    }, [value, clearable, queryID]);
 
     if (options.length === 0) {
       const v = panel.explainDataKey(value);
