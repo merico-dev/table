@@ -3,14 +3,13 @@ import * as echarts from 'echarts/core';
 
 import { EChartsInstance } from 'echarts-for-react';
 import { defaultsDeep } from 'lodash';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils';
 import { notifyVizRendered } from '../../viz-instance-api';
 import { getDefaultConfig, IRegressionChartConf } from '../type';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
-import { getBoxContentStyle } from '~/styles/viz-box';
 import { useDataKey } from './use-data-key';
 
 type Props = Pick<VizViewProps, 'context' | 'instance'> & {

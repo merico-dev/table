@@ -1,13 +1,12 @@
 import { Group, Text } from '@mantine/core';
-import { paddings } from '~/styles/viz-box';
-import { useDataKey } from '../use-data-key';
-import { IRegressionDescription, RegressionDescription } from './regression-description';
-import { VizViewProps } from '~/types/plugin';
-import { IRegressionChartConf } from '../../type';
-import { parseDataKey } from '~/utils/data';
-import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
-import { DataKeySelector } from './data-key-selector';
 import { useMemo } from 'react';
+import { paddings } from '~/styles/viz-box';
+import { VizViewProps } from '~/types/plugin';
+import { parseDataKey } from '~/utils/data';
+import { IRegressionChartConf } from '../../type';
+import { useDataKey } from '../use-data-key';
+import { DataKeySelector } from './data-key-selector';
+import { RegressionDescription } from './regression-description';
 
 type Props = {
   conf: IRegressionChartConf;
@@ -45,7 +44,7 @@ export function Toolbox({ conf, context, xDataKey, yDataKey, groupKey }: Props) 
       justify="flex-start"
       sx={{ position: 'absolute', top: 0, left: paddings.left, right: paddings.right, height: '22px', zIndex: 1 }}
     >
-      <RegressionDescription conf={conf} queryData={queryData} />
+      <RegressionDescription conf={conf} queryData={queryData} groupKey={groupKey.value} />
       <DataKeySelector
         variant="unstyled"
         size="xs"

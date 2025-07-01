@@ -53,15 +53,15 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
 export interface IRegressionDescription {
   conf: IRegressionChartConf;
   queryData: TQueryData;
+  groupKey: TDataKey;
 }
 
-function DescriptionInTabs({ conf, queryData }: IRegressionDescription) {
-  const desc = useMemo(() => getRegressionDescription(queryData, conf), [conf, queryData]);
+function DescriptionInTabs({ conf, queryData, groupKey }: IRegressionDescription) {
+  const desc = useMemo(() => getRegressionDescription(queryData, groupKey, conf), [conf, queryData, groupKey]);
 
-  if (!conf.regression.group_by_key) {
+  if (!groupKey) {
     return <DescriptionContent desc={desc[0]} />;
   }
-  console.log(desc);
 
   return (
     <Tabs defaultValue={desc[0]?.name} color="gray">
@@ -81,7 +81,7 @@ function DescriptionInTabs({ conf, queryData }: IRegressionDescription) {
   );
 }
 
-export function RegressionDescription({ conf, queryData }: IRegressionDescription) {
+export function RegressionDescription({ conf, queryData, groupKey }: IRegressionDescription) {
   const { t } = useTranslation();
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
@@ -92,7 +92,7 @@ export function RegressionDescription({ conf, queryData }: IRegressionDescriptio
       </HoverCard.Target>
       <HoverCard.Dropdown>
         <ErrorBoundary>
-          <DescriptionInTabs conf={conf} queryData={queryData} />
+          <DescriptionInTabs conf={conf} queryData={queryData} groupKey={groupKey} />
         </ErrorBoundary>
       </HoverCard.Dropdown>
     </HoverCard>

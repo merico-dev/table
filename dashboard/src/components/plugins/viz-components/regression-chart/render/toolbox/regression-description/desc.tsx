@@ -169,7 +169,11 @@ function getDescription(name: string, queryData: TQueryData, conf: IRegressionCh
   };
 }
 
-export function getRegressionDescription(queryData: TQueryData, conf?: IRegressionChartConf): TDescription[] {
+export function getRegressionDescription(
+  queryData: TQueryData,
+  groupKey: TDataKey,
+  conf?: IRegressionChartConf,
+): TDescription[] {
   if (!conf) {
     return [
       {
@@ -180,11 +184,11 @@ export function getRegressionDescription(queryData: TQueryData, conf?: IRegressi
       },
     ];
   }
-  if (!conf.regression.group_by_key) {
+  if (!groupKey) {
     return [getDescription('', queryData, conf)];
   }
 
-  const g = parseDataKey(conf.regression.group_by_key);
+  const g = parseDataKey(groupKey);
   const groupedData = _.groupBy(queryData, g.columnKey);
   return Object.entries(groupedData).map(([group, subData]) => {
     return getDescription(group, subData, conf);
