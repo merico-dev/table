@@ -45,9 +45,9 @@ function makeSplittedSeries(
   queryData: TQueryData,
   x: ParsedDataKey,
   y: ParsedDataKey,
+  g: ParsedDataKey,
 ): TSeriesConf {
-  const { plot, transform, group_by_key } = conf.regression;
-  const g = parseDataKey(group_by_key);
+  const { plot, transform } = conf.regression;
   const groupedData = _.groupBy(queryData, g.columnKey);
   return Object.entries(groupedData).map(([key, partialData]) => {
     const seriesData = makeXYData(conf, partialData, x, y);
@@ -80,5 +80,5 @@ export function getSeries(
     return makeSingleSeries(conf, queryData, x, y);
   }
 
-  return makeSplittedSeries(conf, queryData, x, y);
+  return makeSplittedSeries(conf, queryData, x, y, g);
 }
