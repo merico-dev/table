@@ -27,11 +27,7 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
     <Table fz={14} sx={TableSx}>
       <Table.Tbody>
         <Table.Tr>
-          <Table.Td colSpan={2}>
-            <Text size="sm" ta="center">
-              {expression}
-            </Text>
-          </Table.Td>
+          <Table.Td colSpan={2}>{expression}</Table.Td>
         </Table.Tr>
         <Table.Tr>
           <Table.Td>{t('viz.regression_chart.r_sq')}</Table.Td>
