@@ -47,3 +47,12 @@ export function v3(legacyConf: any, { panelModel }: IMigrationEnv): IRegressionC
     throw error;
   }
 }
+
+export function v4(legacyConf: any): IRegressionChartConf {
+  return {
+    x_axis: {
+      data_key: legacyConf.x_axis.data_key,
+    },
+    regression: legacyConf.regression,
+  };
+}

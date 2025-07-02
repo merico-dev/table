@@ -1,5 +1,5 @@
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { IRegressionChartConf } from '../type';
+import { ParsedDataKey } from '~/utils';
 
 type TFormatterParams = {
   color: string;
@@ -22,7 +22,7 @@ function getRows(params: TFormatterParams | TFormatterParams[]) {
   });
 }
 
-export function getTooltip(conf: IRegressionChartConf) {
+export function getTooltip(x: ParsedDataKey, y: ParsedDataKey) {
   return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     formatter: (params: TFormatterParams | TFormatterParams[]) => {
@@ -40,11 +40,11 @@ export function getTooltip(conf: IRegressionChartConf) {
           </thead>
           <tbody>
             <tr>
-              <th style="text-align: left; padding: 0 .5em;">${conf.x_axis.name}</th>
+              <th style="text-align: left; padding: 0 .5em;">${x.columnKey}</th>
               ${rows.map(({ x }) => `<td style="text-align: right; padding: 0 .5em;">${x}</td>`).join('')}
             </tr>
             <tr>
-              <th style="text-align: left; padding: 0 .5em;">${conf.y_axis.name}</th>
+              <th style="text-align: left; padding: 0 .5em;">${y.columnKey}</th>
               ${rows.map(({ y }) => `<td style="text-align: right; padding: 0 .5em;">${y}</td>`).join('')}
             </tr>
           </tbody>

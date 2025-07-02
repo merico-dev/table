@@ -1,56 +1,45 @@
-import { Stack, Tabs } from '@mantine/core';
+import { Divider, Stack } from '@mantine/core';
 import { defaults } from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
 import { RegressionField } from './editors/regression-field';
-import { XAxisField } from './editors/x-axis';
-import { YAxisField } from './editors/y-axis';
-import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
+import { IRegressionChartConf } from './type';
 
 export function VizRegressionChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
-  const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
+  const defaultValues = useMemo(() => defaults({}, conf), [conf]);
 
   const { control, handleSubmit, watch, formState, reset } = useForm<IRegressionChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['x_axis', 'y_axis', 'regression']);
-  return (
-    <Stack gap="xs">
-      <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={formState.isDirty} />
-        <Tabs
-          defaultValue="X轴"
-          orientation="vertical"
-          styles={{
-            panel: {
-              paddingTop: '6px',
-              paddingLeft: '12px',
-            },
-          }}
-        >
-          <Tabs.List>
-            <Tabs.Tab value="X轴">X轴</Tabs.Tab>
-            <Tabs.Tab value="Y轴">Y轴</Tabs.Tab>
-            <Tabs.Tab value="回归">回归</Tabs.Tab>
-          </Tabs.List>
+  watch(['x_axis', 'regression']);
+  if (!conf) {
+    return null;
+  }
 
-          <Tabs.Panel value="X轴">
-            <XAxisField watch={watch} control={control} />
-          </Tabs.Panel>
-          <Tabs.Panel value="Y轴">
-            <YAxisField watch={watch} control={control} />
-          </Tabs.Panel>
-          <Tabs.Panel value="回归">
-            <RegressionField control={control} watch={watch} />
-          </Tabs.Panel>
-        </Tabs>
-      </form>
-    </Stack>
+  return (
+    <form onSubmit={handleSubmit(setConf)}>
+      <VizConfigBanner canSubmit={formState.isDirty} />
+      <Stack gap="xs">
+        <Controller
+          name="x_axis.data_key"
+          control={control}
+          render={({ field }) => <DataFieldSelector label="默认X轴数据字段" required sx={{ flex: 1 }} {...field} />}
+        />
+        <Controller
+          name="regression.y_axis_data_key"
+          control={control}
+          render={({ field }) => <DataFieldSelector label="默认Y轴数据字段" required sx={{ flex: 1 }} {...field} />}
+        />
+        <Divider variant="dashed" />
+        <RegressionField control={control} watch={watch} />
+      </Stack>
+    </form>
   );
 }

@@ -1,14 +1,13 @@
-import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
-import { VizRegressionChart } from './viz-regression-chart';
-import { VizRegressionChartEditor } from './viz-regression-chart-editor';
-import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
-import { cloneDeep } from 'lodash';
+import { VizComponent } from '~/types/plugin';
 import * as Migrators from './migrators';
+import { VizRegressionChart } from './render';
 import { translation } from './translation';
+import { getDefaultConfig } from './type';
+import { VizRegressionChartEditor } from './viz-regression-chart-editor';
 
 class VizRegressionChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -28,6 +27,10 @@ class VizRegressionChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 3, config: Migrators.v3(config, env) };
     });
+    this.version(4, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 4, config: Migrators.v4(config) };
+    });
   }
 }
 
@@ -41,7 +44,7 @@ export const RegressionChartVizComponent: VizComponent = {
   createConfig() {
     return {
       version: 3,
-      config: cloneDeep(DEFAULT_CONFIG) as IRegressionChartConf,
+      config: getDefaultConfig(),
     };
   },
   translation,

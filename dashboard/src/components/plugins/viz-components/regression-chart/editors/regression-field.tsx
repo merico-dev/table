@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Group, NumberInput, Select, SimpleGrid } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -28,19 +28,18 @@ export function RegressionField({ control, watch }: IRegressionField) {
   );
 
   return (
-    <Stack>
-      <Group grow wrap="nowrap">
-        <Controller
-          name={`regression.name`}
-          control={control}
-          render={({ field }) => <TextInput label={t('common.name')} sx={{ flex: 1 }} {...field} />}
-        />
-      </Group>
+    <>
       <Controller
         name="regression.group_by_key"
         control={control}
         render={({ field }) => (
-          <DataFieldSelector label={t('chart.series.group_by.label')} clearable sx={{ flex: 1 }} {...field} />
+          <DataFieldSelector
+            label={'默认拆分字段'}
+            description="按此字段拆分为多个系列"
+            clearable
+            sx={{ flex: 1 }}
+            {...field}
+          />
         )}
       />
       <Group grow wrap="nowrap">
@@ -75,6 +74,6 @@ export function RegressionField({ control, watch }: IRegressionField) {
           />
         </SimpleGrid>
       )}
-    </Stack>
+    </>
   );
 }

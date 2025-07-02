@@ -1,10 +1,10 @@
 import { defaultsDeep } from 'lodash';
-import { IRegressionChartConf } from '../type';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { ParsedDataKey, parsedDataKeyValid } from '~/utils';
+import { IRegressionChartConf } from '../../type';
 import { getRegressionConf } from './regression-series';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
-import { getXAxis } from './x-axis';
-import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const defaultOption = {
   tooltip: {
@@ -29,14 +29,29 @@ const defaultOption = {
   ],
 };
 
-export function getOption(conf: IRegressionChartConf, queryData: TQueryData) {
-  const series = getSeries(conf, queryData);
+export function getOption(
+  conf: IRegressionChartConf,
+  rawData: TPanelData,
+  x: ParsedDataKey,
+  y: ParsedDataKey,
+  g: ParsedDataKey,
+) {
+  if (!parsedDataKeyValid(x) || !parsedDataKeyValid(y)) {
+    return [];
+  }
+
+  const series = getSeries(conf, rawData, x, y, g);
   const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
-    xAxis: getXAxis(conf),
+    xAxis: defaultEchartsOptions.getXAxis({
+      type: 'value',
+      name: x.columnKey,
+      nameLocation: 'middle',
+      nameGap: 25,
+    }),
     yAxis: defaultEchartsOptions.getYAxis({
-      name: conf.y_axis.name ?? '',
+      name: y.columnKey,
       nameLocation: 'end',
       nameTextStyle: {
         align: 'left',
@@ -44,9 +59,9 @@ export function getOption(conf: IRegressionChartConf, queryData: TQueryData) {
       nameGap: 5,
     }),
     series: [...series, ...regressionSeries],
-    tooltip: getTooltip(conf),
+    tooltip: getTooltip(x, y),
     legend: {
-      show: true,
+      show: !!g.columnKey && !!g.queryID,
       type: 'scroll',
       orient: 'horizontal',
       align: 'left',
@@ -54,7 +69,7 @@ export function getOption(conf: IRegressionChartConf, queryData: TQueryData) {
       top: 0,
       left: 'auto',
       itemGap: 20,
-      padding: [4, 8, 0, 140],
+      padding: [8, 8, 0, 140],
       data: series.map((s) => s.name),
     },
   };

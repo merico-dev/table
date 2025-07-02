@@ -3,8 +3,8 @@ import { EmotionSx } from '@mantine/emotion';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ErrorBoundary, formatNumber } from '~/utils';
-import { IRegressionChartConf } from '../../type';
+import { ErrorBoundary, formatNumber, ParsedDataKey } from '~/utils';
+import { IRegressionChartConf } from '../../../type';
 import { TDescription, getRegressionDescription } from './desc';
 
 const TableSx: EmotionSx = {
@@ -27,11 +27,7 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
     <Table fz={14} sx={TableSx}>
       <Table.Tbody>
         <Table.Tr>
-          <Table.Td colSpan={2}>
-            <Text size="sm" ta="center">
-              {expression}
-            </Text>
-          </Table.Td>
+          <Table.Td colSpan={2}>{expression}</Table.Td>
         </Table.Tr>
         <Table.Tr>
           <Table.Td>{t('viz.regression_chart.r_sq')}</Table.Td>
@@ -53,15 +49,17 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
 export interface IRegressionDescription {
   conf: IRegressionChartConf;
   queryData: TQueryData;
+  x: ParsedDataKey;
+  y: ParsedDataKey;
+  g: ParsedDataKey;
 }
 
-function DescriptionInTabs({ conf, queryData }: IRegressionDescription) {
-  const desc = useMemo(() => getRegressionDescription(queryData, conf), [conf, queryData]);
+function DescriptionInTabs({ conf, queryData, x, y, g }: IRegressionDescription) {
+  const desc = useMemo(() => getRegressionDescription(queryData, x, y, g, conf), [conf, queryData, x, y, g]);
 
-  if (!conf.regression.group_by_key) {
+  if (!g.columnKey || !g.queryID) {
     return <DescriptionContent desc={desc[0]} />;
   }
-  console.log(desc);
 
   return (
     <Tabs defaultValue={desc[0]?.name} color="gray">
@@ -81,7 +79,7 @@ function DescriptionInTabs({ conf, queryData }: IRegressionDescription) {
   );
 }
 
-export function RegressionDescription({ conf, queryData }: IRegressionDescription) {
+export function RegressionDescription({ conf, queryData, x, y, g }: IRegressionDescription) {
   const { t } = useTranslation();
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
@@ -92,7 +90,7 @@ export function RegressionDescription({ conf, queryData }: IRegressionDescriptio
       </HoverCard.Target>
       <HoverCard.Dropdown>
         <ErrorBoundary>
-          <DescriptionInTabs conf={conf} queryData={queryData} />
+          <DescriptionInTabs conf={conf} queryData={queryData} x={x} y={y} g={g} />
         </ErrorBoundary>
       </HoverCard.Dropdown>
     </HoverCard>
