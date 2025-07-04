@@ -89,7 +89,7 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
     const inputRange = input as DateRangeValue;
     if (!inputRange.shortcut) {
       console.log('⚪️ skipping input date range when it has no shortcut', inputRange);
-      ret[k] = v;
+      ret[k] = inputRange;
       return ret;
     }
 
