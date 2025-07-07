@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { cast, detach, Instance, types } from 'mobx-state-tree';
 import { DataSourceType, QueriesRenderModel, QueryRenderModelInstance } from '~/model';
 import { QueryModel } from './query';
+import { v4 as uuidv4 } from 'uuid';
 
 export const QueriesModel = types
   .compose(
@@ -78,6 +79,20 @@ export const QueriesModel = types
       const list = [...self.current];
       _.remove(list, (q) => set.has(q.id));
       self.current = cast(list);
+    },
+    duplicateByID(id: string) {
+      const base = self.current.find((o) => o.id === id);
+      if (!base) {
+        console.error(new Error(`[duplicate query] Can't find a query by id[${id}]`));
+        return;
+      }
+      const newID = uuidv4();
+      self.current.push({
+        ...base.json,
+        name: `${base.name} (${newID})`,
+        id: newID,
+      });
+      return newID;
     },
   }));
 
