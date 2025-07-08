@@ -11,7 +11,9 @@ export type MericoDateRangeValue = {
   step: string;
 };
 
-export function getStaticDateRangeDefaultValue(config: FilterMericoDateRangeConfigSnapshotOut): MericoDateRangeValue {
+export function getStaticMericoDateRangeDefaultValue(
+  config: FilterMericoDateRangeConfigSnapshotOut,
+): MericoDateRangeValue {
   try {
     if (config.default_shortcut) {
       const range = getMericoDateRangeShortcutValue(config.default_shortcut, config.default_step);
@@ -209,7 +211,7 @@ export interface IFilterMericoDateRangeConfig {
 typeAssert.shouldExtends<IFilterMericoDateRangeConfig, FilterMericoDateRangeConfigInstance>();
 export type FilterMericoDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterMericoDateRangeConfigMeta>;
 
-export const createFilterDateRangeConfig = () =>
+export const createFilterMericoDateRangeConfig = () =>
   FilterMericoDateRangeConfigMeta.create({
     _name: 'date-range',
     required: false,

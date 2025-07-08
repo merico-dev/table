@@ -6,7 +6,7 @@ import { typeAssert } from '~/types/utils';
 
 export type DateRangeValue_Value = [Date | null, Date | null];
 export type DateRangeValue = {
-  value: [Date | null, Date | null];
+  value: DateRangeValue_Value;
   shortcut: string | null;
 };
 
