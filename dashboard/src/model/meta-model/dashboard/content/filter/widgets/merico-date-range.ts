@@ -67,7 +67,7 @@ const _FilterMericoDateRangeConfigMeta = types
   .model('FilterMericoDateRangeConfigMeta', {
     _name: types.literal('date-range'),
     required: types.boolean,
-    inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
+    inputFormat: types.enumeration<'YYYY/MM/DD'>('DateRangeInputFormat', ['YYYY/MM/DD']),
     default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
     default_shortcut: types.optional(types.string, ''),
     default_step: types.optional(types.string, 'day'),
@@ -125,13 +125,6 @@ const _FilterMericoDateRangeConfigMeta = types
     setRequired(required: boolean) {
       self.required = required;
     },
-    setInputFormat(inputFormat: string | null) {
-      if (!inputFormat) {
-        return;
-      }
-
-      self.inputFormat = inputFormat;
-    },
     setDefaultValue(v: MericoDateRangeValue) {
       self.default_value.length = 0;
       self.default_value.push(...v.value);
@@ -179,7 +172,7 @@ export interface IFilterMericoDateRangeConfig {
   // Properties
   _name: 'date-range';
   required: boolean;
-  inputFormat: 'YYYY' | 'YYYYMM' | 'YYYYMMDD' | 'YYYY-MM' | 'YYYY-MM-DD';
+  inputFormat: 'YYYY/MM/DD';
   default_value: IObservableArray<Date | null>;
   default_shortcut: string;
   default_step: string;
@@ -189,7 +182,7 @@ export interface IFilterMericoDateRangeConfig {
   readonly json: {
     _name: 'date-range';
     required: boolean;
-    inputFormat: 'YYYY' | 'YYYYMM' | 'YYYYMMDD' | 'YYYY-MM' | 'YYYY-MM-DD';
+    inputFormat: 'YYYY/MM/DD';
     default_step: string;
     default_value: string[];
     default_shortcut: string;
@@ -202,7 +195,6 @@ export interface IFilterMericoDateRangeConfig {
   // Actions
   setFilterValue(v: MericoDateRangeValue): void;
   setRequired(required: boolean): void;
-  setInputFormat(inputFormat: string | null): void;
   setDefaultValue(v: MericoDateRangeValue): void;
   setDefaultShortcut(v: string | null): void;
   setDefaultStep(v: string | null): void;
@@ -215,7 +207,7 @@ export const createFilterMericoDateRangeConfig = () =>
   FilterMericoDateRangeConfigMeta.create({
     _name: 'date-range',
     required: false,
-    inputFormat: 'YYYY-MM-DD',
+    inputFormat: 'YYYY/MM/DD',
     default_value: [null, null],
     default_shortcut: '',
     default_step: 'day',

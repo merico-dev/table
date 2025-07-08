@@ -1,4 +1,4 @@
-import { Checkbox, Group, NumberInput, Select } from '@mantine/core';
+import { Checkbox, Group, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,19 +7,11 @@ import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { FilterMericoDateRange } from './render';
 import { getMericoShortcutsInGroups } from './widget/shortcuts/shortcuts';
 
-interface IFilterEditorDateRange {
+type Props = {
   filter: FilterMetaInstance;
-}
+};
 
-const inputFormatOptions = [
-  { label: '2022', value: 'YYYY' },
-  { label: '202201', value: 'YYYYMM' },
-  { label: '20220101', value: 'YYYYMMDD' },
-  { label: '2022-01', value: 'YYYY-MM' },
-  { label: '2022-01-01', value: 'YYYY-MM-DD' },
-];
-
-export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ filter }: IFilterEditorDateRange) {
+export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
   const { t } = useTranslation();
   const config = filter.config as FilterMericoDateRangeConfigInstance;
   const shortcuts = useMemo(() => {
@@ -48,14 +40,6 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
           checked={config.allowSingleDateInRange}
           onChange={(e) => config.setAllowSingleDateInRange(e.currentTarget.checked)}
           label={t('filter.widget.date_range.allow_single_date')}
-        />
-      </Group>
-      <Group grow>
-        <Select
-          data={inputFormatOptions}
-          label={t('filter.widget.date_range.display_format')}
-          value={config.inputFormat}
-          onChange={config.setInputFormat}
         />
       </Group>
       <Group>
