@@ -2,10 +2,12 @@ import { Checkbox, Group, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DateRangeValue_Value, FilterMericoDateRangeConfigInstance, FilterMetaInstance } from '~/model';
+import { DateRangeValue, DateRangeValue_Value, FilterMericoDateRangeConfigInstance, FilterMetaInstance } from '~/model';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { FilterMericoDateRange } from './render';
 import { getMericoShortcutsInGroups } from './widget/shortcuts/shortcuts';
+import { FilterDateRange } from '../filter-date-range/render';
+import { FilterDateRangeForEditorField } from '../filter-date-range/filter-date-range-for-editor-field';
 
 type Props = {
   filter: FilterMetaInstance;
@@ -28,6 +30,12 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
   }, []);
 
   const defaultValue = [...config.default_value] as DateRangeValue_Value;
+  const handleDefaultValueChange = (v: DateRangeValue) => {
+    config.setDefaultValue({
+      ...v,
+      step: config.default_step,
+    });
+  };
   return (
     <>
       <Group>
@@ -43,12 +51,15 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
         />
       </Group>
       <Group>
-        <FilterMericoDateRange
+        <FilterDateRangeForEditorField
           label={t('filter.widget.date_range.default_value')}
-          config={config}
-          value={{ value: defaultValue, shortcut: null, step: config.default_step }}
-          onChange={config.setDefaultValue}
+          value={{ value: defaultValue, shortcut: null }}
+          onChange={handleDefaultValueChange}
           disabled={!!config.default_shortcut}
+          inputFormat={config.inputFormat}
+          required={config.required}
+          max_days={0}
+          allowSingleDateInRange={config.allowSingleDateInRange}
         />
         <Select
           data={shortcuts}
