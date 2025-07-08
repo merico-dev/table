@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { MericoDateRangeValue } from '~/model';
 
-export type GetRange = (step: string | null) => MericoDateRangeValue;
+export type GetRange = (step: string) => MericoDateRangeValue;
 type Shrotcut = {
   key: string;
   value: string;
@@ -173,7 +173,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
   },
 ];
 
-export function getMericoDateRangeShortcutValue(shortcutValue: string | null, step: string | null) {
+export function getMericoDateRangeShortcutValue(shortcutValue: string | null, step: string) {
   if (!shortcutValue) {
     return null;
   }

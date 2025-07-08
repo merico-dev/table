@@ -29,7 +29,7 @@ export const Shortcuts = ({ onChange, step }: Props) => {
         <Table.Tbody>
           {Object.entries(shortcutGroups).map(([group, shortcuts]) => (
             <Table.Tr key={group}>
-              <Table.Th>
+              <Table.Th w={80}>
                 <Text size="xs" c="#555" fw={500} sx={{ textAlignLast: 'justify' }}>
                   {t(`filter.widget.date_range.shortcut.${group}.label`)}
                 </Text>

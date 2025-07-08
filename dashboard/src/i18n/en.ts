@@ -36,6 +36,7 @@ export const en = {
           text_input: 'Text Input',
           checkbox: 'Checkbox',
           date_range: 'Date Range',
+          merico_date_range: 'Merico Date Range',
         },
         common: {
           use_query_data_as_options: 'Use query data as options',
@@ -104,6 +105,7 @@ export const en = {
               m: 'month',
               m2: '2 months',
               m3: '3 months',
+              m6: '6 months',
               y: 'year',
               full: {
                 d: 'yesterday',
@@ -111,6 +113,7 @@ export const en = {
                 m: 'last month',
                 m2: 'last 2 months',
                 m3: 'last 3 months',
+                m6: 'last 6 months',
                 y: 'last year',
               },
             },
