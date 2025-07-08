@@ -12,6 +12,7 @@ import { FilterEditorSelect } from '../filter-select/editor';
 import { FilterEditorTextInput } from '../filter-text-input/editor';
 import { FilterEditorTreeSelect, FilterEditorTreeSingleSelect } from '../filter-tree/';
 import { PreviewFilter } from './preview-filter';
+import { FilterEditorMericoDateRange } from '../filter-merico-date-range/editor';
 
 const editors = {
   [DashboardFilterType.Select]: FilterEditorSelect,
@@ -21,6 +22,7 @@ const editors = {
   [DashboardFilterType.TextInput]: FilterEditorTextInput,
   [DashboardFilterType.Checkbox]: FilterEditorCheckbox,
   [DashboardFilterType.DateRange]: FilterEditorDateRange,
+  [DashboardFilterType.MericoDateRange]: FilterEditorMericoDateRange,
 };
 
 export const filterTypeNames = {
@@ -31,6 +33,7 @@ export const filterTypeNames = {
   [DashboardFilterType.TextInput]: 'filter.widget.names.text_input',
   [DashboardFilterType.Checkbox]: 'filter.widget.names.checkbox',
   [DashboardFilterType.DateRange]: 'filter.widget.names.date_range',
+  [DashboardFilterType.MericoDateRange]: 'filter.widget.names.merico_date_range',
 };
 
 type Props = {
@@ -53,6 +56,7 @@ export const FilterSetting = observer(({ filter }: Props) => {
       { label: t(filterTypeNames[DashboardFilterType.TextInput]), value: 'text-input' },
       { label: t(filterTypeNames[DashboardFilterType.Checkbox]), value: 'checkbox' },
       { label: t(filterTypeNames[DashboardFilterType.DateRange]), value: 'date-range' },
+      { label: t(filterTypeNames[DashboardFilterType.MericoDateRange]), value: 'merico-date-range' },
     ];
   }, [i18n.language]);
 

@@ -25,8 +25,11 @@ import {
   type IFilterTreeSelectConfig,
 } from './widgets/tree-select';
 import {
+  createFilterMericoDateRangeConfig,
   createFilterTreeSingleSelectConfig,
+  FilterMericoDateRangeConfigMeta,
   FilterTreeSingleSelectConfigMeta,
+  IFilterMericoDateRangeConfig,
   type IFilterTreeSingleSelectConfig,
 } from './widgets';
 import { typeAssert } from '~/types/utils';
@@ -48,6 +51,7 @@ export const FilterMeta = types
       DashboardFilterType.TextInput,
       DashboardFilterType.Checkbox,
       DashboardFilterType.DateRange,
+      DashboardFilterType.MericoDateRange,
     ]),
     config: types.union(
       FilterSelectConfigMeta,
@@ -57,6 +61,7 @@ export const FilterMeta = types
       FilterTextInputConfigMeta,
       FilterCheckboxConfigMeta,
       FilterDateRangeConfigMeta,
+      FilterMericoDateRangeConfigMeta,
     ),
   })
   .views((self) => ({
@@ -162,6 +167,9 @@ export const FilterMeta = types
         case DashboardFilterType.DateRange:
           self.config = createFilterDateRangeConfig();
           break;
+        case DashboardFilterType.MericoDateRange:
+          self.config = createFilterMericoDateRangeConfig();
+          break;
         default:
           return;
       }
@@ -199,7 +207,8 @@ export interface IFilterMeta {
     | IFilterTreeSingleSelectConfig
     | IFilterTextInputConfig
     | IFilterCheckboxConfig
-    | IFilterDateRangeConfig;
+    | IFilterDateRangeConfig
+    | IFilterMericoDateRangeConfig;
 
   // Views
   readonly contentModel: Record<string, unknown>;

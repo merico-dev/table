@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 const defaultFilterValueDict = {
   [DashboardFilterType.Checkbox]: 'true',
   [DashboardFilterType.DateRange]: "[new Date('2023-01-01 00:00:00'), new Date('2024-01-01 00:00:00')]",
+  [DashboardFilterType.MericoDateRange]: "[new Date('2023-01-01 00:00:00'), new Date('2024-01-01 00:00:00')]",
   [DashboardFilterType.MultiSelect]: '[]',
   [DashboardFilterType.Select]: '""',
   [DashboardFilterType.TreeSelect]: '[]',

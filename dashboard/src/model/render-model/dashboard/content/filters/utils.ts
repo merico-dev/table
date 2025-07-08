@@ -1,15 +1,15 @@
+import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 import {
   ContextRecordType,
-  DashboardFilterType,
   DateRangeValue,
   FilterDateRangeConfigSnapshotOut,
+  FilterMericoDateRangeConfigSnapshotOut,
   FilterMetaSnapshotOut,
   getStaticDateRangeDefaultValue,
+  getStaticMericoDateRangeDefaultValue,
 } from '~/model';
 import { functionUtils } from '~/utils';
 import { FilterValuesType } from './types';
-import _ from 'lodash';
-import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -31,6 +31,9 @@ export function getStaticDefaultValue(filter: LocalFilterMetaSnapshotOut) {
   if (config._name === 'date-range') {
     return getStaticDateRangeDefaultValue(config as FilterDateRangeConfigSnapshotOut);
   }
+  if (config._name === 'merico-date-range') {
+    return getStaticMericoDateRangeDefaultValue(config as FilterMericoDateRangeConfigSnapshotOut);
+  }
 
   return v;
 }
@@ -43,6 +46,13 @@ export function getDefaultValueWithFunc(filter: LocalFilterMetaSnapshotOut, cont
       return {
         value: ret,
         shortcut: null,
+      };
+    }
+    if (filter.config._name === 'merico-date-range' && Array.isArray(ret)) {
+      return {
+        value: ret,
+        shortcut: null,
+        step: filter.config.step,
       };
     }
     return ret;

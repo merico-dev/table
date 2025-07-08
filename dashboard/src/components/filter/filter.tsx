@@ -3,6 +3,7 @@ import React from 'react';
 import {
   DashboardFilterType,
   FilterDateRangeConfigInstance,
+  FilterMericoDateRangeConfigInstance,
   FilterMetaInstance,
   FilterMultiSelectConfigInstance,
   FilterSelectConfigInstance,
@@ -18,6 +19,7 @@ import { FilterMultiSelect } from './filter-multi-select/render';
 import { FilterSelect } from './filter-select/render';
 import { FilterTextInput } from './filter-text-input/render';
 import { FilterTreeSelect, FilterTreeSingleSelect } from './filter-tree';
+import { FilterMericoDateRange } from './filter-merico-date-range/render';
 
 interface IFilter {
   filter: FilterMetaInstance;
@@ -52,6 +54,10 @@ const RenderFilter = observer(
         return <FilterTextInput {...rest} {...formFieldProps} config={config as FilterTextInputConfigInstance} />;
       case DashboardFilterType.DateRange:
         return <FilterDateRange {...rest} {...formFieldProps} config={config as FilterDateRangeConfigInstance} />;
+      case DashboardFilterType.MericoDateRange:
+        return (
+          <FilterMericoDateRange {...rest} {...formFieldProps} config={config as FilterMericoDateRangeConfigInstance} />
+        );
       case DashboardFilterType.Checkbox:
         return <FilterCheckbox {...rest} {...formFieldProps} config={config as FilterCheckboxConfigInstance} />;
       default:

@@ -240,7 +240,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       const v = _.get(payload, curr.variable);
       const t = _.get(types, curr.variable);
       const d = curr.dimension;
-      if (t === DashboardFilterType.DateRange) {
+      if (t === DashboardFilterType.DateRange || t === DashboardFilterType.MericoDateRange) {
         const allNumber = v.every((d: string) => Number.isFinite(Number(d)));
         const between = allNumber ? v.map((d: string) => Number(d)) : v;
         acc[d] = {

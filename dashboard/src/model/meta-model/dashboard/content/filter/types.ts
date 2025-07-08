@@ -8,6 +8,7 @@ export enum DashboardFilterType {
   TextInput = 'text-input',
   Checkbox = 'checkbox',
   DateRange = 'date-range',
+  MericoDateRange = 'merico-date-range',
 }
 
 export type DefaultValueMode = 'intersect' | 'reset';
