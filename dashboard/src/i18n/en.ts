@@ -97,6 +97,15 @@ export const en = {
           default_by_shortcut_placeholder: 'Priors default value',
           start_date: 'Start date',
           end_date: 'End date',
+          step: {
+            label: 'Step',
+            day: 'Day',
+            week: 'Week',
+            bi_week: 'Bi-Week',
+            month: 'Month',
+            quarter: 'Quarter',
+            year: 'Year',
+          },
           shortcut: {
             last: {
               label: 'last',

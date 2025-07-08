@@ -144,8 +144,8 @@ const _FilterMericoDateRangeConfigMeta = types
     setAllowSingleDateInRange(v: boolean) {
       self.allowSingleDateInRange = v;
     },
-    setDefaultStep(v: string | null) {
-      self.default_step = v ?? '';
+    setDefaultStep(v: string) {
+      self.default_step = v;
     },
   }));
 
@@ -197,7 +197,7 @@ export interface IFilterMericoDateRangeConfig {
   setRequired(required: boolean): void;
   setDefaultValue(v: MericoDateRangeValue): void;
   setDefaultShortcut(v: string | null): void;
-  setDefaultStep(v: string | null): void;
+  setDefaultStep(v: string): void;
   setAllowSingleDateInRange(v: boolean): void;
 }
 typeAssert.shouldExtends<IFilterMericoDateRangeConfig, FilterMericoDateRangeConfigInstance>();

@@ -7,6 +7,8 @@ import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 import { Calendar } from './calendar';
 import { CountDays } from './count-days';
 import { Shortcuts } from './shortcuts';
+import { SelectStep } from './select-step';
+import classes from './index.module.css';
 
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
@@ -48,7 +50,7 @@ export const DateRangeWidget = ({
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group justify="flex-start" grow wrap="nowrap" gap={0} w="288px" sx={{ marginTop: '3px' }}>
+      <Group justify="flex-start" align="text-anchor" grow wrap="nowrap" gap={0} w="388px" sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
@@ -63,25 +65,7 @@ export const DateRangeWidget = ({
             value={beginStr}
             onFocus={open}
             styles={getInputStyles(opened)}
-            sx={{
-              '.mantine-TextInput-label': {
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                width: 'calc(240px)',
-                position: 'relative',
-                zIndex: 1,
-              },
-              '.mantine-Input-input': { borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 },
-              '.mantine-Input-input[data-disabled]': {
-                backgroundColor: 'transparent',
-                backgroundImage: 'linear-gradient(to left, #fff 0%, #f1f3f5 30%)',
-                opacity: 1,
-              },
-              '.mantine-Input-input[data-disabled]::placeholder': {
-                opacity: 0.6,
-              },
-            }}
+            className={classes.begin}
           />
         </Popover.Target>
         <TextInput
@@ -97,19 +81,9 @@ export const DateRangeWidget = ({
           value={endStr}
           onFocus={open}
           styles={getInputStyles(opened)}
-          sx={{
-            '.mantine-Input-section': { transform: 'translateX(-18px)' },
-            '.mantine-Input-input': { borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
-            '.mantine-Input-input[data-disabled]': {
-              backgroundColor: 'transparent',
-              backgroundImage: 'linear-gradient(to right, #fff 0%, #f1f3f5 30%)',
-              opacity: 1,
-            },
-            '.mantine-Input-input[data-disabled]::placeholder': {
-              opacity: 0.6,
-            },
-          }}
+          className={classes.end}
         />
+        <SelectStep value={value} onChange={onChange} />
       </Group>
       <Popover.Dropdown p="sm">
         <Calendar

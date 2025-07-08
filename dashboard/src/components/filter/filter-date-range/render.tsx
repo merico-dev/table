@@ -31,6 +31,7 @@ const useFormattedDateRangeValue = (value: DateRangeValue) => {
   const formattedValue: DateRangeValue = useMemo(() => formatDateRangeValue(value), [value]);
   return formattedValue;
 };
+
 export const FilterDateRange = observer(
   ({ label, config, value = fallbackValue, onChange, disabled }: IFilterDateRange) => {
     const { inputFormat, required, max_days, allowSingleDateInRange } = config;

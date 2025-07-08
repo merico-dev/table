@@ -1,0 +1,47 @@
+.begin :global(.mantine-TextInput-label) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 240px;
+  position: relative;
+  z-index: 1;
+}
+
+.begin :global(.mantine-Input-input) {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.begin :global(.mantine-Input-input[data-disabled]) {
+  background-color: transparent;
+  background-image: linear-gradient(to left, #fff 0%, #f1f3f5 30%);
+  opacity: 1;
+}
+.begin :global(.mantine-Input-input[data-disabled]::placeholder) {
+  opacity: 0.6;
+}
+
+.end :global(.mantine-Input-section) {
+  transform: translateX(-18px);
+}
+
+.end :global(.mantine-Input-input) {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.end :global(.mantine-Input-input[data-disabled]) {
+  background-color: transparent;
+  background-image: linear-gradient(to right, #fff 0%, #f1f3f5 30%);
+  opacity: 1;
+}
+.end :global(.mantine-Input-input[data-disabled]::placeholder) {
+  opacity: 0.6;
+}
+.step {
+  margin-left: 10px;
+}
+.step :global(.mantine-Select-label) {
+  display: block;
+  height: 21.7px;
+}

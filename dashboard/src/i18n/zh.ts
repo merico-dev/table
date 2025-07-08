@@ -97,6 +97,15 @@ export const zh = {
           default_by_shortcut_placeholder: '优先于左侧',
           start_date: '开始日期',
           end_date: '结束日期',
+          step: {
+            label: '步长',
+            day: '天',
+            week: '周',
+            bi_week: '双周',
+            month: '月',
+            quarter: '季度',
+            year: '年',
+          },
           shortcut: {
             last: {
               label: '过往整周期',
