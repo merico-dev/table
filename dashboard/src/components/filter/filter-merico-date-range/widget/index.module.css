@@ -1,8 +1,11 @@
+.begin {
+  width: 150px;
+}
 .begin :global(.mantine-TextInput-label) {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 240px;
+  width: 210px;
   position: relative;
   z-index: 1;
 }
@@ -21,14 +24,22 @@
   opacity: 0.6;
 }
 
+.end {
+  width: 110px;
+}
 .end :global(.mantine-Input-section) {
-  transform: translateX(-18px);
+  transform: translateX(-12px);
+}
+.end :global(.mantine-Select-section) {
+  --section-size: 24px !important;
 }
 
 .end :global(.mantine-Input-input) {
   border-left: none;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  padding-left: 24px !important;
+  padding-right: 0px !important;
 }
 .end :global(.mantine-Input-input[data-disabled]) {
   background-color: transparent;
@@ -40,8 +51,23 @@
 }
 .step {
   margin-left: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-width: unset !important;
 }
 .step :global(.mantine-Select-label) {
   display: block;
   height: 21.7px;
+}
+.step :global(.mantine-Input-wrapper) {
+  width: 88px;
+}
+.step :global(.mantine-Input-input) {
+  --input-bd: #e9ecef;
+  padding-left: 6px;
+  padding-right: 24px;
+}
+
+.step :global(.mantine-Select-section) {
+  --section-size: 24px !important;
 }

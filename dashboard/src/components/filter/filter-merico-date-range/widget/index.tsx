@@ -50,7 +50,7 @@ export const MericoDateRangeWidget = ({
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group justify="flex-start" align="text-anchor" grow wrap="nowrap" gap={0} w="388px" sx={{ marginTop: '3px' }}>
+      <Group justify="flex-start" align="text-anchor" grow wrap="nowrap" gap={0} sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
@@ -74,7 +74,7 @@ export const MericoDateRangeWidget = ({
               <CountDays begin={begin} end={end} />
             </Group>
           }
-          leftSection={<IconMinus size={16} />}
+          leftSection={<IconMinus size={16} onClick={open} />}
           placeholder={t('filter.widget.date_range.end_date')}
           readOnly
           disabled={!begin || disabled}

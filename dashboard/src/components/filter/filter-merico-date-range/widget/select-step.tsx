@@ -54,6 +54,7 @@ export const SelectStep = ({ value, onChange }: Props) => {
       data={options}
       value={value.step}
       onChange={handleChange}
+      w={100}
     />
   );
 };

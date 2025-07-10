@@ -4,13 +4,13 @@ import { FilterMericoDateRangeConfigInstance, MericoDateRangeValue } from '~/mod
 import { MericoDateRangeWidget } from './widget';
 import { getMericoDateRangeShortcutValue } from './widget/shortcuts/shortcuts';
 
-interface IFilterDateRange {
+type Props = {
   label: string;
   config: FilterMericoDateRangeConfigInstance;
   value: MericoDateRangeValue;
   onChange: (v: MericoDateRangeValue) => void;
   disabled?: boolean;
-}
+};
 const fallbackValue: MericoDateRangeValue = {
   value: [null, null],
   shortcut: null,
@@ -32,21 +32,19 @@ const useFormattedMericoDateRangeValue = (value: MericoDateRangeValue) => {
   const formattedValue: MericoDateRangeValue = useMemo(() => formatMericoDateRangeValue(value), [value]);
   return formattedValue;
 };
-export const FilterMericoDateRange = observer(
-  ({ label, config, value = fallbackValue, onChange, disabled }: IFilterDateRange) => {
-    const { inputFormat, required, allowSingleDateInRange } = config;
-    const formattedValue = useFormattedMericoDateRangeValue(value);
+export const FilterMericoDateRange = observer(({ label, config, value = fallbackValue, onChange, disabled }: Props) => {
+  const { inputFormat, required, allowSingleDateInRange } = config;
+  const formattedValue = useFormattedMericoDateRangeValue(value);
 
-    return (
-      <MericoDateRangeWidget
-        label={label}
-        value={formattedValue}
-        onChange={onChange}
-        inputFormat={inputFormat}
-        allowSingleDateInRange={allowSingleDateInRange}
-        required={required}
-        disabled={disabled}
-      />
-    );
-  },
-);
+  return (
+    <MericoDateRangeWidget
+      label={label}
+      value={formattedValue}
+      onChange={onChange}
+      inputFormat={inputFormat}
+      allowSingleDateInRange={allowSingleDateInRange}
+      required={required}
+      disabled={disabled}
+    />
+  );
+});
