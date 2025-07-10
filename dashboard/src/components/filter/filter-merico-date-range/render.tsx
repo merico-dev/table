@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { FilterMericoDateRangeConfigInstance, MericoDateRangeValue } from '~/model';
-import { DateRangeWidget } from './widget';
+import { MericoDateRangeWidget } from './widget';
 import { getMericoDateRangeShortcutValue } from './widget/shortcuts/shortcuts';
 
 interface IFilterDateRange {
@@ -38,7 +38,7 @@ export const FilterMericoDateRange = observer(
     const formattedValue = useFormattedMericoDateRangeValue(value);
 
     return (
-      <DateRangeWidget
+      <MericoDateRangeWidget
         label={label}
         value={formattedValue}
         onChange={onChange}

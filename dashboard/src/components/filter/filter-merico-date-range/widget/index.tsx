@@ -24,7 +24,7 @@ type Props = {
   allowSingleDateInRange: boolean;
   disabled?: boolean;
 };
-export const DateRangeWidget = ({
+export const MericoDateRangeWidget = ({
   label,
   required,
   value,

@@ -7,9 +7,11 @@ import {
   FilterMetaSnapshotOut,
   getStaticDateRangeDefaultValue,
   getStaticMericoDateRangeDefaultValue,
+  MericoDateRangeValue,
 } from '~/model';
 import { functionUtils } from '~/utils';
 import { FilterValuesType } from './types';
+import { getMericoDateRangeShortcutValue } from '~/components/filter/filter-merico-date-range/widget/shortcuts/shortcuts';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -96,14 +98,21 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
       return ret;
     }
 
-    const inputRange = input as DateRangeValue;
-    if (!inputRange.shortcut) {
+    const inputRange = input as DateRangeValue | MericoDateRangeValue;
+    const { shortcut } = inputRange;
+    if (!shortcut) {
       console.log('⚪️ skipping input date range when it has no shortcut', inputRange);
       ret[k] = inputRange;
       return ret;
     }
 
-    ret[k] = getDateRangeShortcutValue(inputRange.shortcut);
+    if ('step' in v) {
+      // merico-date-range
+      const step = (inputRange as MericoDateRangeValue).step;
+      ret[k] = getMericoDateRangeShortcutValue(shortcut, step);
+    } else {
+      ret[k] = getDateRangeShortcutValue(shortcut);
+    }
     return ret;
   });
   return ret;

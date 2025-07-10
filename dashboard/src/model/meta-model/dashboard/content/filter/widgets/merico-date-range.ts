@@ -65,7 +65,7 @@ function postProcessDefaultValue(default_value: Array<number | Date | null>, inp
 
 const _FilterMericoDateRangeConfigMeta = types
   .model('FilterMericoDateRangeConfigMeta', {
-    _name: types.literal('date-range'),
+    _name: types.literal('merico-date-range'),
     required: types.boolean,
     inputFormat: types.enumeration<'YYYY/MM/DD'>('DateRangeInputFormat', ['YYYY/MM/DD']),
     default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
@@ -170,7 +170,7 @@ export const FilterMericoDateRangeConfigMeta = types.snapshotProcessor(_FilterMe
 export type FilterMericoDateRangeConfigInstance = Instance<typeof FilterMericoDateRangeConfigMeta>;
 export interface IFilterMericoDateRangeConfig {
   // Properties
-  _name: 'date-range';
+  _name: 'merico-date-range';
   required: boolean;
   inputFormat: 'YYYY/MM/DD';
   default_value: IObservableArray<Date | null>;
@@ -180,7 +180,7 @@ export interface IFilterMericoDateRangeConfig {
 
   // Views
   readonly json: {
-    _name: 'date-range';
+    _name: 'merico-date-range';
     required: boolean;
     inputFormat: 'YYYY/MM/DD';
     default_step: string;
@@ -205,7 +205,7 @@ export type FilterMericoDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterMe
 
 export const createFilterMericoDateRangeConfig = () =>
   FilterMericoDateRangeConfigMeta.create({
-    _name: 'date-range',
+    _name: 'merico-date-range',
     required: false,
     inputFormat: 'YYYY/MM/DD',
     default_value: [null, null],
