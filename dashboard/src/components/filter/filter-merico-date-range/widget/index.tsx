@@ -1,4 +1,4 @@
-import { Group, Popover, TextInput } from '@mantine/core';
+import { Box, Group, Popover, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCalendar, IconMinus } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -50,7 +50,7 @@ export const MericoDateRangeWidget = ({
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group justify="flex-start" align="text-anchor" grow wrap="nowrap" gap={0} sx={{ marginTop: '3px' }}>
+      <Group justify="flex-start" align="text-anchor" wrap="nowrap" gap={0} sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
@@ -69,11 +69,7 @@ export const MericoDateRangeWidget = ({
           />
         </Popover.Target>
         <TextInput
-          label={
-            <Group justify="flex-end">
-              <CountDays begin={begin} end={end} />
-            </Group>
-          }
+          label={<Box>&nbsp;</Box>}
           leftSection={<IconMinus size={16} onClick={open} />}
           placeholder={t('filter.widget.date_range.end_date')}
           readOnly

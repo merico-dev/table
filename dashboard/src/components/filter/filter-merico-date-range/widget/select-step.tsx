@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MericoDateRangeValue } from '~/model';
 import classes from './index.module.css';
+import { CountDays } from './count-days';
 
 type Props = {
   value: MericoDateRangeValue;
@@ -47,14 +48,19 @@ export const SelectStep = ({ value, onChange }: Props) => {
     });
   };
 
+  const [begin, end] = value.value;
+
   return (
     <Select
       className={classes.step}
-      label={<Group justify="flex-end">&nbsp;</Group>}
+      label={
+        <Group justify="flex-end">
+          <CountDays begin={begin} end={end} />
+        </Group>
+      }
       data={options}
       value={value.step}
       onChange={handleChange}
-      w={100}
     />
   );
 };

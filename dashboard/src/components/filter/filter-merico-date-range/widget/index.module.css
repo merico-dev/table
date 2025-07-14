@@ -1,5 +1,5 @@
 .begin {
-  width: 150px;
+  width: 124px;
 }
 .begin :global(.mantine-TextInput-label) {
   text-overflow: ellipsis;
@@ -58,6 +58,10 @@
 .step :global(.mantine-Select-label) {
   display: block;
   height: 21.7px;
+}
+.step:global(.mantine-Select-root) {
+  width: 88px;
+  overflow-x: hidden;
 }
 .step :global(.mantine-Input-wrapper) {
   width: 88px;
