@@ -5,10 +5,9 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 import { Calendar } from './calendar';
-import { CountDays } from './count-days';
-import { Shortcuts } from './shortcuts';
-import { SelectStep } from './select-step';
 import classes from './index.module.css';
+import { SelectStep } from './select-step';
+import { Shortcuts } from './shortcuts';
 
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
