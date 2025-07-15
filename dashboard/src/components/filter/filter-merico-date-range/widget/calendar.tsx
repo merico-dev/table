@@ -1,7 +1,14 @@
 import { DatePicker } from '@mantine/dates';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { MericoDateRangeValue, DateRangeValue_Value } from '~/model';
+import { Calendar as MantineCalendar } from '@mantine/dates';
+import { useGetDayProps } from './use-get-day-props';
+
+function getDay(date: Date) {
+  const day = date.getDay();
+  return day === 0 ? 6 : day - 1;
+}
 
 type Props = {
   value: MericoDateRangeValue;
@@ -38,18 +45,25 @@ export const Calendar = ({ value, onChange, close, allowSingleDateInRange }: Pro
       close();
     }
   };
+  const { getDayProps } = useGetDayProps(value, handleRangeChange);
+
+  if (value.step === 'day') {
+    return (
+      <DatePicker
+        defaultDate={dateLeft}
+        numberOfColumns={2}
+        type="range"
+        value={v}
+        onChange={handleRangeChange}
+        onNextMonth={console.log}
+        minDate={minDate}
+        maxDate={maxDate}
+        allowSingleDateInRange={allowSingleDateInRange}
+      />
+    );
+  }
 
   return (
-    <DatePicker
-      defaultDate={dateLeft}
-      numberOfColumns={2}
-      type="range"
-      value={v}
-      onChange={handleRangeChange}
-      onNextMonth={console.log}
-      minDate={minDate}
-      maxDate={maxDate}
-      allowSingleDateInRange={allowSingleDateInRange}
-    />
+    <MantineCalendar defaultDate={dateLeft} numberOfColumns={2} withCellSpacing={false} getDayProps={getDayProps} />
   );
 };
