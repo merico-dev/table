@@ -1,17 +1,20 @@
-import dayjs from 'dayjs';
-import { useCallback, useMemo, useState } from 'react';
-import { MericoDateRangeValue } from '~/model';
+import dayjs, { Dayjs } from 'dayjs';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 
 function getStartOf(date: Date | null, step: string) {
+  if (!date) {
+    return null;
+  }
   const d = dayjs(date);
   switch (step) {
     case 'day':
     case 'week':
     case 'month':
     case 'quarter':
-      return d.startOf(step).toDate();
+      return d.startOf(step);
     case 'bi-week':
-      return d.startOf('week').subtract(1, 'week').toDate(); // [last week, current week]
+      return d.startOf('week').subtract(1, 'week'); // [last week, current week]
     default:
       throw new Error(`[merico-date-range] unexpected date-range step: ${step}`);
   }
@@ -27,9 +30,9 @@ function getEndOf(date: Date | null, step: string) {
     case 'week':
     case 'month':
     case 'quarter':
-      return d.endOf(step).toDate();
+      return d.endOf(step);
     case 'bi-week':
-      return d.endOf('week').toDate(); // [last week, current week]
+      return d.endOf('week'); // [last week, current week]
     default:
       throw new Error(`[merico-date-range] unexpected date-range step: ${step}`);
   }
@@ -44,13 +47,33 @@ function getEndpoints(basisDate: Date | null, step: string) {
   return { start, end };
 }
 
-function getIsInRange(calendarDate: Date, basisDate: Date | null, step: string) {
+function getIsInRange(calendarDate: Date, basisDate: Date | null, selected: DateRangeValue_Value, step: string) {
   if (!basisDate) {
     return false;
   }
+  const [s] = selected;
+  // hover week
   const start = getStartOf(basisDate, step);
   const end = getEndOf(basisDate, step);
-  return dayjs(calendarDate).isBefore(end) && dayjs(calendarDate).isAfter(start);
+  const beforeHoverEnd = dayjs(calendarDate).isBefore(end);
+  if (!s) {
+    const afterHoverStart = dayjs(calendarDate).isAfter(start);
+    return afterHoverStart && beforeHoverEnd;
+  }
+  const afterSelectedStart = dayjs(calendarDate).isAfter(s);
+  return afterSelectedStart && beforeHoverEnd;
+}
+
+function getIsStart(d: Dayjs, hoverStart: Dayjs | null, selected: DateRangeValue_Value) {
+  if (!hoverStart) {
+    return false;
+  }
+
+  const [s] = selected;
+  if (!s) {
+    return d.isSame(hoverStart, 'day');
+  }
+  return d.isSame(s, 'day');
 }
 
 type HandleCalendarChange = (value: MericoDateRangeValue['value']) => void;
@@ -58,10 +81,33 @@ type HandleCalendarChange = (value: MericoDateRangeValue['value']) => void;
 export const useGetDayProps = (value: MericoDateRangeValue, handleChange: HandleCalendarChange) => {
   const step = value.step;
   const [hovered, setHovered] = useState<Date | null>(null);
+  const [selected, setSelected] = useState<DateRangeValue_Value>([null, null]);
+
+  const handleClick = (start: Dayjs | null, end: Dayjs | null) => {
+    if (!start || !end) {
+      return;
+    }
+
+    const [currentStart, currentEnd] = selected;
+    const s = start.toDate();
+    const e = end.toDate();
+    if (currentStart === null) {
+      setSelected([s, e]);
+      return;
+    }
+    const isStartBeforeCurrentStart = s.getTime() < currentStart.getTime();
+    const newValue: DateRangeValue_Value = isStartBeforeCurrentStart ? [s, currentEnd] : [currentStart, e];
+    setSelected(newValue);
+    handleChange(newValue);
+  };
+
+  useEffect(() => {
+    setSelected([null, null]);
+  }, [value]);
 
   const getDayProps = useCallback(
     (date: Date) => {
-      const isHovered = getIsInRange(date, hovered, step);
+      const isHovered = getIsInRange(date, hovered, selected, step);
       const endpoints = getEndpoints(hovered, step);
       if (!endpoints) {
         return {
@@ -73,9 +119,10 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
           selected: false,
         };
       }
+      const d = dayjs(date);
       const { start, end } = endpoints;
-      const isStart = dayjs(date).isSame(start, 'day');
-      const isEnd = dayjs(date).isSame(end, 'day');
+      const isStart = getIsStart(d, start, selected);
+      const isEnd = d.isSame(end, 'day');
       const isInRange = isHovered || isStart || isEnd;
 
       return {
@@ -85,7 +132,7 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
         firstInRange: isInRange && isStart,
         lastInRange: isInRange && isEnd,
         selected: isStart || isEnd,
-        onClick: () => handleChange([start, end]),
+        onClick: () => handleClick(start, end),
       };
     },
     [hovered, handleChange, step],
