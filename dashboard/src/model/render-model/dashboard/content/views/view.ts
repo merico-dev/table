@@ -74,18 +74,27 @@ export const ViewRenderModel = types
       }
       return ret;
     },
-    async downloadScreenshot(dom: HTMLElement) {
+    async downloadScreenshot(dom: HTMLElement, onScreenshot?: (canvas: HTMLCanvasElement) => void) {
       const width = dom.offsetWidth * 2 + 10; // padding-right of react-grid-layout
       const height = dom.offsetHeight * 2 + 10; // padding-bottom of react-grid-layout
       const zip = new JSZip();
       const t = new Date().getTime();
 
-      const blob = await domtoimage.toBlob(dom, {
-        bgcolor: 'white',
-        width,
-        height,
-        style: { transformOrigin: '0 0', transform: 'scale(2)' },
-      });
+      const blob = await domtoimage
+        .toCanvas(dom, {
+          bgcolor: 'white',
+          width,
+          height,
+          style: { transformOrigin: '0 0', transform: 'scale(2)' },
+        })
+        .then((canvas: HTMLCanvasElement) => {
+          onScreenshot?.(canvas);
+          return new Promise<Blob>((resolve) => {
+            canvas.toBlob((blob) => {
+              resolve(blob as Blob);
+            });
+          });
+        });
       zip.file(`${self.name}_${t}.png`, blob);
       zip.file(`dashboard_state_${t}.json`, JSON.stringify(this.contentModel.dashboardStateValues, null, 4));
 
