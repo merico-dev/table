@@ -2,6 +2,7 @@ import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 import { DayPicker } from './day-picker';
 import { WeekPicker } from './week-picker';
 import { MonthPicker } from './month-picker';
+import { QuarterPicker } from './quarter-picker';
 
 type Props = {
   value: MericoDateRangeValue;
@@ -33,6 +34,16 @@ export const Calendar = ({ value, onChange, close, allowSingleDateInRange }: Pro
   if (step === 'month') {
     return (
       <MonthPicker
+        value={value}
+        handleRangeChange={handleRangeChange}
+        allowSingleDateInRange={allowSingleDateInRange}
+      />
+    );
+  }
+
+  if (step === 'quarter') {
+    return (
+      <QuarterPicker
         value={value}
         handleRangeChange={handleRangeChange}
         allowSingleDateInRange={allowSingleDateInRange}
