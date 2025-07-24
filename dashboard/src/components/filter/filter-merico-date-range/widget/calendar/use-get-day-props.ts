@@ -78,7 +78,7 @@ function getIsStart(d: Dayjs, hoverStart: Dayjs | null, selected: DateRangeValue
 
 type HandleCalendarChange = (value: MericoDateRangeValue['value']) => void;
 
-export const useGetDayProps = (value: MericoDateRangeValue, handleChange: HandleCalendarChange) => {
+export const useGetDayProps = (value: MericoDateRangeValue, handleChange: HandleCalendarChange, readonly: boolean) => {
   const step = value.step;
   const [hovered, setHovered] = useState<Date | null>(null);
   const [selected, setSelected] = useState<DateRangeValue_Value>([null, null]);
@@ -107,6 +107,28 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
 
   const getDayProps = useCallback(
     (date: Date) => {
+      const d = dayjs(date);
+      if (readonly) {
+        // show previous selection without hovering any date
+        const [s, e] = value.value;
+        if (!s || !e) {
+          return {
+            inRange: false,
+            firstInRange: false,
+            lastInRange: false,
+            selected: false,
+          };
+        }
+        const firstInRange = d.isSame(s, 'day');
+        const lastInRange = d.isSame(e, 'day');
+        const inRange = d.isBetween(s, e, 'day', '[]');
+        return {
+          inRange,
+          firstInRange,
+          lastInRange,
+          selected: firstInRange || lastInRange,
+        };
+      }
       const isHovered = getIsInRange(date, hovered, selected, step);
       const endpoints = getEndpoints(hovered, step);
       if (!endpoints) {
@@ -119,7 +141,6 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
           selected: false,
         };
       }
-      const d = dayjs(date);
       const { start, end } = endpoints;
       const isStart = getIsStart(d, start, selected);
       const isEnd = d.isSame(end, 'day');
@@ -135,7 +156,7 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
         onClick: () => handleClick(start, end),
       };
     },
-    [hovered, handleChange, step],
+    [hovered, handleChange, step, readonly],
   );
   return {
     getDayProps,
