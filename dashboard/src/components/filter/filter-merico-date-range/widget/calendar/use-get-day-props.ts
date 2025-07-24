@@ -76,6 +76,14 @@ function getIsStart(d: Dayjs, hoverStart: Dayjs | null, selected: DateRangeValue
   return d.isSame(s, 'day');
 }
 
+function getIsEnd(d: Dayjs, hoverEnd: Dayjs | null) {
+  if (!hoverEnd) {
+    return false;
+  }
+
+  return d.isSame(hoverEnd, 'day');
+}
+
 type HandleCalendarChange = (value: MericoDateRangeValue['value']) => void;
 
 export const useGetDayProps = (value: MericoDateRangeValue, handleChange: HandleCalendarChange, readonly: boolean) => {
@@ -129,6 +137,8 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
           selected: firstInRange || lastInRange,
         };
       }
+
+      // TODO: not working when picked one and hover on a previous date
       const isHovered = getIsInRange(date, hovered, selected, step);
       const endpoints = getEndpoints(hovered, step);
       if (!endpoints) {
@@ -143,7 +153,7 @@ export const useGetDayProps = (value: MericoDateRangeValue, handleChange: Handle
       }
       const { start, end } = endpoints;
       const isStart = getIsStart(d, start, selected);
-      const isEnd = d.isSame(end, 'day');
+      const isEnd = getIsEnd(d, end);
       const isInRange = isHovered || isStart || isEnd;
 
       return {

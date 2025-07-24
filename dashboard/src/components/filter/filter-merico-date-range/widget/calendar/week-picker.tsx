@@ -35,6 +35,7 @@ export const WeekPicker = ({ value, onChange, handleRangeChange }: Props) => {
       getDayProps={getDayProps}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      hideOutsideDates
     />
   );
 };
