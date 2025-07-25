@@ -1,6 +1,6 @@
 import { MonthPicker as MantineMonthPicker } from '@mantine/dates';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 import classes from './quarter-picker.module.css';
 
@@ -28,8 +28,30 @@ export const QuarterPicker = ({ value, handleRangeChange }: Props) => {
   }, [begin, end]);
 
   const maxDate = useMemo(() => {
-    return dayjs().add(365, 'days').toDate();
-  }, []);
+    return dayjs(begin).add(365, 'days').subtract(1, 'second').toDate();
+  }, [begin]);
+
+  const endDay = useMemo(() => {
+    if (!end) {
+      return null;
+    }
+    return dayjs(end);
+  }, [end]);
+
+  const getMonthControlProps = useCallback(
+    (date: Date) => {
+      if (endDay) {
+        const d = dayjs(date);
+        const sameQuarter = d.isSame(endDay, 'quarter');
+        if (sameQuarter) {
+          return { lastInRange: true, selected: true };
+        }
+      }
+
+      return {};
+    },
+    [endDay],
+  );
   return (
     <MantineMonthPicker
       classNames={{
@@ -48,6 +70,7 @@ export const QuarterPicker = ({ value, handleRangeChange }: Props) => {
       allowSingleDateInRange
       maxLevel="year"
       monthsListFormat="Q"
+      getMonthControlProps={getMonthControlProps}
     />
   );
 };
