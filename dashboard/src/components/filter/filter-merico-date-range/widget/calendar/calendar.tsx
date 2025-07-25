@@ -3,6 +3,7 @@ import { DayPicker } from './day-picker';
 import { WeekPicker } from './week-picker';
 import { MonthPicker } from './month-picker';
 import { QuarterPicker } from './quarter-picker';
+import { getEndOf, getStartOf } from './utils';
 
 type Props = {
   value: MericoDateRangeValue;
@@ -10,9 +11,11 @@ type Props = {
   close: () => void;
 };
 export const Calendar = ({ value, onChange, close }: Props) => {
-  const handleRangeChange = (value: DateRangeValue_Value) => {
-    const [b, e] = value;
-    onChange(value);
+  const handleRangeChange = (v: DateRangeValue_Value) => {
+    const [b, e] = v;
+    const begin = getStartOf(b, value.step);
+    const end = getEndOf(e, value.step);
+    onChange([begin?.toDate() ?? null, end?.toDate() ?? null]);
     if (b && e) {
       close();
     }
