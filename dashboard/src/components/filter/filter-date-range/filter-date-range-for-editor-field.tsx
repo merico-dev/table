@@ -11,7 +11,6 @@ type Props = {
   inputFormat: string;
   required: boolean;
   max_days: number;
-  allowSingleDateInRange: boolean;
 };
 const fallbackValue: DateRangeValue = {
   value: [null, null],
@@ -42,7 +41,6 @@ export const FilterDateRangeForEditorField = ({
   inputFormat,
   required,
   max_days,
-  allowSingleDateInRange,
 }: Props) => {
   const formattedValue = useFormattedDateRangeValue(value);
 
@@ -52,7 +50,7 @@ export const FilterDateRangeForEditorField = ({
       value={formattedValue}
       onChange={onChange}
       inputFormat={inputFormat}
-      allowSingleDateInRange={allowSingleDateInRange}
+      allowSingleDateInRange
       max_days={max_days}
       required={required}
       disabled={disabled}

@@ -6,9 +6,8 @@ import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 type Props = {
   value: MericoDateRangeValue;
   handleRangeChange: (value: DateRangeValue_Value) => void;
-  allowSingleDateInRange: boolean;
 };
-export const MonthPicker = ({ value, handleRangeChange, allowSingleDateInRange }: Props) => {
+export const MonthPicker = ({ value, handleRangeChange }: Props) => {
   const v = value.value;
   const [begin, end] = v;
 
@@ -39,7 +38,7 @@ export const MonthPicker = ({ value, handleRangeChange, allowSingleDateInRange }
       onChange={handleRangeChange}
       minDate={minDate}
       maxDate={maxDate}
-      allowSingleDateInRange={allowSingleDateInRange}
+      allowSingleDateInRange
     />
   );
 };

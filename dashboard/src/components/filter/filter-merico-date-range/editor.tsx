@@ -44,11 +44,6 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
           onChange={(e) => config.setRequired(e.currentTarget.checked)}
           label={t('filter.widget.date_range.required')}
         />
-        <Checkbox
-          checked={config.allowSingleDateInRange}
-          onChange={(e) => config.setAllowSingleDateInRange(e.currentTarget.checked)}
-          label={t('filter.widget.date_range.allow_single_date')}
-        />
       </Group>
       <Group>
         <FilterDateRangeForEditorField
@@ -59,7 +54,6 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
           inputFormat={config.inputFormat}
           required={config.required}
           max_days={0}
-          allowSingleDateInRange={config.allowSingleDateInRange}
         />
         <Select
           data={shortcuts}

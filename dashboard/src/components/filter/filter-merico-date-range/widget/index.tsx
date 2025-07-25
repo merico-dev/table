@@ -20,18 +20,9 @@ type Props = {
   label: string;
   required: boolean;
   inputFormat: string;
-  allowSingleDateInRange: boolean;
   disabled?: boolean;
 };
-export const MericoDateRangeWidget = ({
-  label,
-  required,
-  value,
-  onChange,
-  allowSingleDateInRange,
-  inputFormat,
-  disabled,
-}: Props) => {
+export const MericoDateRangeWidget = ({ label, required, value, onChange, inputFormat, disabled }: Props) => {
   const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -81,12 +72,7 @@ export const MericoDateRangeWidget = ({
         <SelectStep value={value} onChange={onChange} />
       </Group>
       <Popover.Dropdown p="sm">
-        <Calendar
-          value={value}
-          onChange={handleCalendarChange}
-          close={close}
-          allowSingleDateInRange={allowSingleDateInRange}
-        />
+        <Calendar value={value} onChange={handleCalendarChange} close={close} />
         <Shortcuts onChange={onChange} step={value.step} />
       </Popover.Dropdown>
     </Popover>

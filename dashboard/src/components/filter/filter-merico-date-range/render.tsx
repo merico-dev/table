@@ -33,7 +33,7 @@ const useFormattedMericoDateRangeValue = (value: MericoDateRangeValue) => {
   return formattedValue;
 };
 export const FilterMericoDateRange = observer(({ label, config, value = fallbackValue, onChange, disabled }: Props) => {
-  const { inputFormat, required, allowSingleDateInRange } = config;
+  const { inputFormat, required } = config;
   const formattedValue = useFormattedMericoDateRangeValue(value);
 
   return (
@@ -42,7 +42,6 @@ export const FilterMericoDateRange = observer(({ label, config, value = fallback
       value={formattedValue}
       onChange={onChange}
       inputFormat={inputFormat}
-      allowSingleDateInRange={allowSingleDateInRange}
       required={required}
       disabled={disabled}
     />

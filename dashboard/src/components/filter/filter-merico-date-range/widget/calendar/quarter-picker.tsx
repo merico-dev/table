@@ -7,9 +7,8 @@ import classes from './quarter-picker.module.css';
 type Props = {
   value: MericoDateRangeValue;
   handleRangeChange: (value: DateRangeValue_Value) => void;
-  allowSingleDateInRange: boolean;
 };
-export const QuarterPicker = ({ value, handleRangeChange, allowSingleDateInRange }: Props) => {
+export const QuarterPicker = ({ value, handleRangeChange }: Props) => {
   const v = value.value;
   const [begin, end] = v;
 
@@ -46,7 +45,7 @@ export const QuarterPicker = ({ value, handleRangeChange, allowSingleDateInRange
       onChange={handleRangeChange}
       minDate={minDate}
       maxDate={maxDate}
-      allowSingleDateInRange={allowSingleDateInRange}
+      allowSingleDateInRange
       maxLevel="year"
       monthsListFormat="Q"
     />

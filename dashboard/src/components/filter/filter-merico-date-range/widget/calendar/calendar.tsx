@@ -8,9 +8,8 @@ type Props = {
   value: MericoDateRangeValue;
   onChange: (v: DateRangeValue_Value) => void;
   close: () => void;
-  allowSingleDateInRange: boolean;
 };
-export const Calendar = ({ value, onChange, close, allowSingleDateInRange }: Props) => {
+export const Calendar = ({ value, onChange, close }: Props) => {
   const handleRangeChange = (value: DateRangeValue_Value) => {
     const [b, e] = value;
     onChange(value);
@@ -22,9 +21,7 @@ export const Calendar = ({ value, onChange, close, allowSingleDateInRange }: Pro
   const step = value.step;
 
   if (step === 'day') {
-    return (
-      <DayPicker value={value} handleRangeChange={handleRangeChange} allowSingleDateInRange={allowSingleDateInRange} />
-    );
+    return <DayPicker value={value} handleRangeChange={handleRangeChange} />;
   }
 
   if (step === 'week' || step === 'bi-week') {
@@ -32,23 +29,11 @@ export const Calendar = ({ value, onChange, close, allowSingleDateInRange }: Pro
   }
 
   if (step === 'month') {
-    return (
-      <MonthPicker
-        value={value}
-        handleRangeChange={handleRangeChange}
-        allowSingleDateInRange={allowSingleDateInRange}
-      />
-    );
+    return <MonthPicker value={value} handleRangeChange={handleRangeChange} />;
   }
 
   if (step === 'quarter') {
-    return (
-      <QuarterPicker
-        value={value}
-        handleRangeChange={handleRangeChange}
-        allowSingleDateInRange={allowSingleDateInRange}
-      />
-    );
+    return <QuarterPicker value={value} handleRangeChange={handleRangeChange} />;
   }
 
   return `错误的步长：${step}`;

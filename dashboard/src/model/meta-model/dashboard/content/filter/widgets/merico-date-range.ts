@@ -71,12 +71,10 @@ const _FilterMericoDateRangeConfigMeta = types
     default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
     default_shortcut: types.optional(types.string, ''),
     default_step: types.optional(types.string, 'day'),
-    allowSingleDateInRange: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get json() {
-      const { _name, required, inputFormat, default_step, default_value, default_shortcut, allowSingleDateInRange } =
-        self;
+      const { _name, required, inputFormat, default_step, default_value, default_shortcut } = self;
       return {
         _name,
         required,
@@ -84,7 +82,6 @@ const _FilterMericoDateRangeConfigMeta = types
         default_step,
         default_value: postProcessDefaultValue(default_value, inputFormat),
         default_shortcut,
-        allowSingleDateInRange,
       };
     },
     truthy(fullValue: MericoDateRangeValue) {
@@ -141,9 +138,6 @@ const _FilterMericoDateRangeConfigMeta = types
         self.setFilterValue(range);
       }
     },
-    setAllowSingleDateInRange(v: boolean) {
-      self.allowSingleDateInRange = v;
-    },
     setDefaultStep(v: string) {
       self.default_step = v;
     },
@@ -176,7 +170,6 @@ export interface IFilterMericoDateRangeConfig {
   default_value: IObservableArray<Date | null>;
   default_shortcut: string;
   default_step: string;
-  allowSingleDateInRange: boolean;
 
   // Views
   readonly json: {
@@ -186,7 +179,6 @@ export interface IFilterMericoDateRangeConfig {
     default_step: string;
     default_value: string[];
     default_shortcut: string;
-    allowSingleDateInRange: boolean;
   };
   truthy(fullValue: MericoDateRangeValue): boolean;
   readonly filter: Record<string, unknown>;
@@ -198,7 +190,6 @@ export interface IFilterMericoDateRangeConfig {
   setDefaultValue(v: MericoDateRangeValue): void;
   setDefaultShortcut(v: string | null): void;
   setDefaultStep(v: string): void;
-  setAllowSingleDateInRange(v: boolean): void;
 }
 typeAssert.shouldExtends<IFilterMericoDateRangeConfig, FilterMericoDateRangeConfigInstance>();
 export type FilterMericoDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterMericoDateRangeConfigMeta>;
@@ -211,5 +202,4 @@ export const createFilterMericoDateRangeConfig = () =>
     default_value: [null, null],
     default_shortcut: '',
     default_step: 'day',
-    allowSingleDateInRange: false,
   });
