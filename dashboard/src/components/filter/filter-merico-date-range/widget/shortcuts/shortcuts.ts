@@ -7,14 +7,27 @@ type Shrotcut = {
   key: string;
   value: string;
   group: 'last' | 'recent' | 'this' | 'this_so_far';
+  disabled: boolean;
   getRange: GetRange;
 };
+const enabledKeysByStep = {
+  day: new Set(['m', 'm2', 'm3', 'm6', 'y', 'd30', 'd60', 'd90', 'd180', 'd365']),
+  week: new Set(['m', 'm2', 'm3', 'm6', 'y']),
+  'bi-week': new Set(['m', 'm2', 'm3', 'm6', 'y']),
+  month: new Set(['m', 'm2', 'm3', 'm6', 'y']),
+  quarter: new Set(['m', 'm2', 'm6', 'y']),
+};
 
-export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
+function getDisabled(step: string, key: string) {
+  return !enabledKeysByStep[step as keyof typeof enabledKeysByStep].has(key);
+}
+
+export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
   {
     key: 'm',
     value: 'last month',
     group: 'last',
+    disabled: getDisabled(step, 'm'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -31,6 +44,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'm2',
     value: 'last 2 months',
     group: 'last',
+    disabled: getDisabled(step, 'm2'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -47,6 +61,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'm3',
     value: 'last 3 months',
     group: 'last',
+    disabled: getDisabled(step, 'm3'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -63,6 +78,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'm6',
     value: 'last 6 months',
     group: 'last',
+    disabled: getDisabled(step, 'm6'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -79,6 +95,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'y',
     value: 'last year',
     group: 'last',
+    disabled: getDisabled(step, 'y'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -95,6 +112,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'd30',
     value: 'recent 30 days',
     group: 'recent',
+    disabled: getDisabled(step, 'd30'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -111,6 +129,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'd60',
     value: 'recent 60 days',
     group: 'recent',
+    disabled: getDisabled(step, 'd60'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -127,6 +146,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'd90',
     value: 'recent 90 days',
     group: 'recent',
+    disabled: getDisabled(step, 'd90'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -143,6 +163,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'd180',
     value: 'recent 180 days',
     group: 'recent',
+    disabled: getDisabled(step, 'd180'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -159,6 +180,7 @@ export const getMericoDateRangeShortcuts = (): Shrotcut[] => [
     key: 'd365',
     value: 'recent 365 days',
     group: 'recent',
+    disabled: getDisabled(step, 'd365'),
     getRange: (step) => {
       const now = Date.now();
       return {
@@ -178,7 +200,7 @@ export function getMericoDateRangeShortcutValue(shortcutValue: string | null, st
     return null;
   }
 
-  const shortcuts = getMericoDateRangeShortcuts();
+  const shortcuts = getMericoDateRangeShortcuts(step);
   const shortcut = shortcuts.find((s) => s.value === shortcutValue);
   if (shortcut) {
     return shortcut.getRange(step);
@@ -186,6 +208,6 @@ export function getMericoDateRangeShortcutValue(shortcutValue: string | null, st
   return null;
 }
 
-export function getMericoShortcutsInGroups() {
-  return _.groupBy(getMericoDateRangeShortcuts(), 'group');
+export function getMericoShortcutsInGroups(step: string) {
+  return _.groupBy(getMericoDateRangeShortcuts(step), 'group');
 }

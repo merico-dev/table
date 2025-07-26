@@ -12,7 +12,7 @@ export const Shortcuts = ({ onChange, step }: Props) => {
     const range = getRange(step);
     onChange(range);
   };
-  const shortcutGroups = useMemo(() => getMericoShortcutsInGroups(), []);
+  const shortcutGroups = useMemo(() => getMericoShortcutsInGroups(step), [step]);
   const useFullLabel = i18n.language === 'zh';
   return (
     <>
