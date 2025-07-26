@@ -2,12 +2,19 @@ import { Checkbox, Group, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DateRangeValue, DateRangeValue_Value, FilterMericoDateRangeConfigInstance, FilterMetaInstance } from '~/model';
+import {
+  DateRangeValue,
+  DateRangeValue_Value,
+  FilterMericoDateRangeConfigInstance,
+  FilterMetaInstance,
+  MericoDateRangeValue,
+} from '~/model';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { FilterMericoDateRange } from './render';
 import { getMericoShortcutsInGroups } from './widget/shortcuts/shortcuts';
 import { FilterDateRange } from '../filter-date-range/render';
 import { FilterDateRangeForEditorField } from '../filter-date-range/filter-date-range-for-editor-field';
+import { FilterMericoDateRangeForEditorField } from './filter-merico-date-range-for-editor-field';
 
 type Props = {
   filter: FilterMetaInstance;
@@ -30,11 +37,14 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
   }, []);
 
   const defaultValue = [...config.default_value] as DateRangeValue_Value;
-  const handleDefaultValueChange = (v: DateRangeValue) => {
+  const handleDefaultValueChange = ({ value, shortcut, step }: MericoDateRangeValue) => {
     config.setDefaultValue({
-      ...v,
-      step: config.default_step,
+      value,
+      shortcut,
+      step,
     });
+    config.setDefaultShortcut(shortcut);
+    config.setDefaultStep(step);
   };
   return (
     <>
@@ -46,24 +56,12 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
         />
       </Group>
       <Group>
-        <FilterDateRangeForEditorField
+        <FilterMericoDateRangeForEditorField
           label={t('filter.widget.date_range.default_value')}
-          value={{ value: defaultValue, shortcut: null }}
+          value={{ value: defaultValue, shortcut: null, step: config.default_step }}
           onChange={handleDefaultValueChange}
-          disabled={!!config.default_shortcut}
           inputFormat={config.inputFormat}
           required={config.required}
-          max_days={0}
-        />
-        <Select
-          data={shortcuts}
-          label={t('filter.widget.date_range.default_by_shortcut')}
-          value={config.default_shortcut}
-          onChange={config.setDefaultShortcut}
-          placeholder={t('filter.widget.date_range.default_by_shortcut_placeholder')}
-          clearable
-          sx={{ flexGrow: 1 }}
-          maxDropdownHeight={500}
         />
       </Group>
       <CustomDefaultValueEditor filter={filter} />
