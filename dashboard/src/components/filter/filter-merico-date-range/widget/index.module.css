@@ -26,6 +26,7 @@
 
 .end {
   width: 110px;
+  margin-right: 10px;
 }
 .end :global(.mantine-Input-section) {
   transform: translateX(-12px);
@@ -50,7 +51,6 @@
   opacity: 0.6;
 }
 .step {
-  margin-left: 10px;
   flex-grow: 0;
   flex-shrink: 0;
   max-width: unset !important;

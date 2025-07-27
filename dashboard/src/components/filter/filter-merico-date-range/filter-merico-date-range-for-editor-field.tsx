@@ -36,7 +36,6 @@ export const FilterMericoDateRangeForEditorField = ({
   label,
   value = fallbackValue,
   onChange,
-  disabled,
   inputFormat,
   required,
 }: Props) => {
