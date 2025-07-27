@@ -45,6 +45,7 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
   };
 
   const handleShortcutChange = (shortcut: string | null) => {
+    setLocalValue([null, null]);
     config.setDefaultValue({
       value: [null, null],
       shortcut,

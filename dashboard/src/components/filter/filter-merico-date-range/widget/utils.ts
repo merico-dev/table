@@ -12,14 +12,14 @@ function formatBiWeek(begin: Dayjs, end: Dayjs): DateRangeValue_Value {
 
 export function formatDatesWithStep(begin: Date | null, end: Date | null, step: string): DateRangeValue_Value {
   if (!begin || !end) {
-    return [null, null];
+    return [begin, end];
   }
   return formatWithStep(dayjs(begin), dayjs(end), step);
 }
 
 export function formatWithStep(begin: Dayjs | null, end: Dayjs | null, step: string): DateRangeValue_Value {
   if (!begin || !end) {
-    return [null, null];
+    return [begin?.toDate() ?? null, end?.toDate() ?? null];
   }
   switch (step) {
     case 'day':
