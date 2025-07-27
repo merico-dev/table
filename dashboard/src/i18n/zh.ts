@@ -36,6 +36,7 @@ export const zh = {
           text_input: '文本框',
           checkbox: '勾选框',
           date_range: '日期范围',
+          merico_date_range: '思码逸专用日期范围',
         },
         common: {
           use_query_data_as_options: '使用所查数据为选项',
@@ -96,6 +97,15 @@ export const zh = {
           default_by_shortcut_placeholder: '优先于左侧',
           start_date: '开始日期',
           end_date: '结束日期',
+          step: {
+            label: '步长',
+            day: '天',
+            week: '周',
+            bi_week: '双周',
+            month: '月',
+            quarter: '季度',
+            year: '年',
+          },
           shortcut: {
             last: {
               label: '过往整周期',
@@ -104,6 +114,7 @@ export const zh = {
               m: '月',
               m2: '两个月',
               m3: '三个月',
+              m6: '六个月',
               y: '年',
               full: {
                 d: '昨天',
@@ -111,6 +122,7 @@ export const zh = {
                 m: '上个月',
                 m2: '上两月',
                 m3: '上三月',
+                m6: '上六个月',
                 y: '去年',
               },
             },

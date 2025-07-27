@@ -1,15 +1,17 @@
+import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 import {
   ContextRecordType,
-  DashboardFilterType,
   DateRangeValue,
   FilterDateRangeConfigSnapshotOut,
+  FilterMericoDateRangeConfigSnapshotOut,
   FilterMetaSnapshotOut,
   getStaticDateRangeDefaultValue,
+  getStaticMericoDateRangeDefaultValue,
+  MericoDateRangeValue,
 } from '~/model';
 import { functionUtils } from '~/utils';
 import { FilterValuesType } from './types';
-import _ from 'lodash';
-import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
+import { getMericoDateRangeShortcutValue } from '~/components/filter/filter-merico-date-range/widget/shortcuts/shortcuts';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -31,6 +33,9 @@ export function getStaticDefaultValue(filter: LocalFilterMetaSnapshotOut) {
   if (config._name === 'date-range') {
     return getStaticDateRangeDefaultValue(config as FilterDateRangeConfigSnapshotOut);
   }
+  if (config._name === 'merico-date-range') {
+    return getStaticMericoDateRangeDefaultValue(config as FilterMericoDateRangeConfigSnapshotOut);
+  }
 
   return v;
 }
@@ -43,6 +48,13 @@ export function getDefaultValueWithFunc(filter: LocalFilterMetaSnapshotOut, cont
       return {
         value: ret,
         shortcut: null,
+      };
+    }
+    if (filter.config._name === 'merico-date-range' && Array.isArray(ret)) {
+      return {
+        value: ret,
+        shortcut: null,
+        step: filter.config.step,
       };
     }
     return ret;
@@ -86,14 +98,21 @@ export function formatInputFilterValues(inputValues: FilterValuesType, currentVa
       return ret;
     }
 
-    const inputRange = input as DateRangeValue;
-    if (!inputRange.shortcut) {
+    const inputRange = input as DateRangeValue | MericoDateRangeValue;
+    const { shortcut } = inputRange;
+    if (!shortcut) {
       console.log('⚪️ skipping input date range when it has no shortcut', inputRange);
       ret[k] = inputRange;
       return ret;
     }
 
-    ret[k] = getDateRangeShortcutValue(inputRange.shortcut);
+    if ('step' in v) {
+      // merico-date-range
+      const step = (inputRange as MericoDateRangeValue).step;
+      ret[k] = getMericoDateRangeShortcutValue(shortcut, step);
+    } else {
+      ret[k] = getDateRangeShortcutValue(shortcut);
+    }
     return ret;
   });
   return ret;

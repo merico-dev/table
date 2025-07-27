@@ -1,0 +1,34 @@
+.calendar_header {
+  width: calc(var(--dch-control-size) * 7 + calc(0.4375rem * var(--mantine-scale)));
+}
+
+.months_list {
+  width: 100%;
+}
+.months_list > tbody {
+  display: flex;
+  justify-content: stretch;
+}
+.months_list_row {
+  display: flex;
+  --dpc-size: calc(2.25rem * var(--mantine-scale));
+  width: 50%;
+}
+.months_list_row > td:not(:first-child) {
+  display: none;
+}
+.months_list_row > td:first-child {
+  position: relative;
+  width: 100%;
+}
+
+.months_list_control {
+  width: 100%;
+  margin: 0;
+}
+.months_list tr td:nth-child(1) .months_list_control {
+  width: 100%;
+}
+.months_list tr td:nth-child(1) .months_list_control::before {
+  content: 'Q';
+}

@@ -1,23 +1,28 @@
 import dayjs from 'dayjs';
 import { type IObservableArray } from 'mobx';
 import { getParent, Instance, SnapshotOut, types } from 'mobx-state-tree';
-import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 import { typeAssert } from '~/types/utils';
+import { DateRangeValue_Value } from './date-range';
+import { getMericoDateRangeShortcutValue } from '~/components/filter/filter-merico-date-range/widget/shortcuts/shortcuts';
+import { formatDatesWithStep } from '~/components/filter/filter-merico-date-range/widget/utils';
 
-export type DateRangeValue_Value = [Date | null, Date | null];
-export type DateRangeValue = {
+export type MericoDateRangeValue = {
   value: DateRangeValue_Value;
   shortcut: string | null;
+  step: string;
 };
 
-export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnapshotOut): DateRangeValue {
+export function getStaticMericoDateRangeDefaultValue(
+  config: FilterMericoDateRangeConfigSnapshotOut,
+): MericoDateRangeValue {
   try {
     if (config.default_shortcut) {
-      const range = getDateRangeShortcutValue(config.default_shortcut);
+      const range = getMericoDateRangeShortcutValue(config.default_shortcut, config.default_step);
       if (range) {
         return {
           value: range.value.map((d) => dayjs(d).toDate()) as DateRangeValue_Value,
           shortcut: config.default_shortcut,
+          step: config.default_step,
         };
       }
     }
@@ -31,14 +36,16 @@ export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnap
     }) as DateRangeValue_Value;
 
     return {
-      value,
+      value: formatDatesWithStep(value[0], value[1], config.default_step),
       shortcut: null,
+      step: config.default_step,
     };
   } catch (error) {
     console.error(error);
     return {
       value: [null, null],
       shortcut: null,
+      step: config.default_step,
     };
   }
 }
@@ -57,41 +64,28 @@ function postProcessDefaultValue(default_value: Array<number | Date | null>, inp
   });
 }
 
-const _FilterDateRangeConfigMeta = types
-  .model('FilterDateRangeConfigMeta', {
-    _name: types.literal('date-range'),
+const _FilterMericoDateRangeConfigMeta = types
+  .model('FilterMericoDateRangeConfigMeta', {
+    _name: types.literal('merico-date-range'),
     required: types.boolean,
-    inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
+    inputFormat: types.enumeration<'YYYY/MM/DD'>('DateRangeInputFormat', ['YYYY/MM/DD']),
     default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
     default_shortcut: types.optional(types.string, ''),
-    clearable: types.boolean, // TODO: will be deprecated
-    max_days: types.optional(types.number, 0),
-    allowSingleDateInRange: types.optional(types.boolean, false),
+    default_step: types.optional(types.string, 'day'),
   })
   .views((self) => ({
     get json() {
-      const {
-        _name,
-        max_days,
-        required,
-        clearable,
-        inputFormat,
-        default_value,
-        default_shortcut,
-        allowSingleDateInRange,
-      } = self;
+      const { _name, required, inputFormat, default_step, default_value, default_shortcut } = self;
       return {
         _name,
-        max_days,
         required,
-        clearable,
         inputFormat,
+        default_step,
         default_value: postProcessDefaultValue(default_value, inputFormat),
         default_shortcut,
-        allowSingleDateInRange,
       };
     },
-    truthy(fullValue: DateRangeValue) {
+    truthy(fullValue: MericoDateRangeValue) {
       try {
         const { value } = fullValue;
         return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
@@ -117,7 +111,7 @@ const _FilterDateRangeConfigMeta = types
     },
   }))
   .actions((self) => ({
-    setFilterValue(v: DateRangeValue) {
+    setFilterValue(v: MericoDateRangeValue) {
       try {
         self.filter.setValue(v);
       } catch (error) {
@@ -129,17 +123,7 @@ const _FilterDateRangeConfigMeta = types
     setRequired(required: boolean) {
       self.required = required;
     },
-    setClearable(clearable: boolean) {
-      self.clearable = clearable;
-    },
-    setInputFormat(inputFormat: string | null) {
-      if (!inputFormat) {
-        return;
-      }
-
-      self.inputFormat = inputFormat;
-    },
-    setDefaultValue(v: DateRangeValue) {
+    setDefaultValue(v: MericoDateRangeValue) {
       self.default_value.length = 0;
       self.default_value.push(...v.value);
       self.setFilterValue(v);
@@ -150,28 +134,17 @@ const _FilterDateRangeConfigMeta = types
         return;
       }
 
-      const range = getDateRangeShortcutValue(self.default_shortcut);
+      const range = getMericoDateRangeShortcutValue(self.default_shortcut, self.default_step);
       if (range) {
         self.setFilterValue(range);
       }
     },
-    setMaxDays(v: number | string) {
-      const n = Number(v);
-      if (!Number.isFinite(n)) {
-        return;
-      }
-
-      self.max_days = n;
-      if (n > 0) {
-        self.clearable = true;
-      }
-    },
-    setAllowSingleDateInRange(v: boolean) {
-      self.allowSingleDateInRange = v;
+    setDefaultStep(v: string) {
+      self.default_step = v;
     },
   }));
 
-export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRangeConfigMeta, {
+export const FilterMericoDateRangeConfigMeta = types.snapshotProcessor(_FilterMericoDateRangeConfigMeta, {
   preProcessor({ default_value, ...rest }: $TSFixMe) {
     return {
       ...rest,
@@ -189,51 +162,45 @@ export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRang
   },
 });
 
-export type FilterDateRangeConfigInstance = Instance<typeof FilterDateRangeConfigMeta>;
-export interface IFilterDateRangeConfig {
+export type FilterMericoDateRangeConfigInstance = Instance<typeof FilterMericoDateRangeConfigMeta>;
+export interface IFilterMericoDateRangeConfig {
   // Properties
-  _name: 'date-range';
+  _name: 'merico-date-range';
   required: boolean;
-  inputFormat: 'YYYY' | 'YYYYMM' | 'YYYYMMDD' | 'YYYY-MM' | 'YYYY-MM-DD';
+  inputFormat: 'YYYY/MM/DD';
   default_value: IObservableArray<Date | null>;
   default_shortcut: string;
-  clearable: boolean;
-  max_days: number;
-  allowSingleDateInRange: boolean;
+  default_step: string;
 
   // Views
   readonly json: {
-    _name: 'date-range';
-    max_days: number;
+    _name: 'merico-date-range';
     required: boolean;
-    clearable: boolean;
-    inputFormat: 'YYYY' | 'YYYYMM' | 'YYYYMMDD' | 'YYYY-MM' | 'YYYY-MM-DD';
+    inputFormat: 'YYYY/MM/DD';
+    default_step: string;
     default_value: string[];
     default_shortcut: string;
-    allowSingleDateInRange: boolean;
   };
-  truthy(fullValue: DateRangeValue): boolean;
+  truthy(fullValue: MericoDateRangeValue): boolean;
   readonly filter: Record<string, unknown>;
   readonly dateStringsValue: [string, string];
 
   // Actions
-  setFilterValue(v: DateRangeValue): void;
+  setFilterValue(v: MericoDateRangeValue): void;
   setRequired(required: boolean): void;
-  setClearable(clearable: boolean): void;
-  setInputFormat(inputFormat: string | null): void;
-  setDefaultValue(v: DateRangeValue): void;
+  setDefaultValue(v: MericoDateRangeValue): void;
   setDefaultShortcut(v: string | null): void;
-  setMaxDays(v: number | string): void;
-  setAllowSingleDateInRange(v: boolean): void;
+  setDefaultStep(v: string): void;
 }
-typeAssert.shouldExtends<IFilterDateRangeConfig, FilterDateRangeConfigInstance>();
-export type FilterDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterDateRangeConfigMeta>;
+typeAssert.shouldExtends<IFilterMericoDateRangeConfig, FilterMericoDateRangeConfigInstance>();
+export type FilterMericoDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterMericoDateRangeConfigMeta>;
 
-export const createFilterDateRangeConfig = () =>
-  FilterDateRangeConfigMeta.create({
-    _name: 'date-range',
+export const createFilterMericoDateRangeConfig = () =>
+  FilterMericoDateRangeConfigMeta.create({
+    _name: 'merico-date-range',
     required: false,
-    inputFormat: 'YYYY-MM-DD',
-    clearable: false,
+    inputFormat: 'YYYY/MM/DD',
     default_value: [null, null],
+    default_shortcut: '',
+    default_step: 'day',
   });

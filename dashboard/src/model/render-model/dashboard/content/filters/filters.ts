@@ -196,9 +196,9 @@ export function getInitialFiltersConfig(
   const initialValues = formatInputFilterValues(filterValues, defaultValues);
   console.groupCollapsed('⚪️ initialValues');
   console.log('filters', filters);
-  console.log('defaultValues', defaultValues.date_range);
-  console.log('filterValues.date_range: ', filterValues.date_range);
-  console.log('initialValues.date_range: ', initialValues.date_range);
+  console.log('defaultValues', defaultValues);
+  console.log('filterValues ', filterValues);
+  console.log('initialValues ', initialValues);
   console.groupEnd();
   return {
     current: filters,

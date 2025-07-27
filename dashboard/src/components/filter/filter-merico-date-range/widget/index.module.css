@@ -1,0 +1,77 @@
+.begin {
+  width: 124px;
+}
+.begin :global(.mantine-TextInput-label) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 210px;
+  position: relative;
+  z-index: 1;
+}
+
+.begin :global(.mantine-Input-input) {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.begin :global(.mantine-Input-input[data-disabled]) {
+  background-color: transparent;
+  background-image: linear-gradient(to left, #fff 0%, #f1f3f5 30%);
+  opacity: 1;
+}
+.begin :global(.mantine-Input-input[data-disabled]::placeholder) {
+  opacity: 0.6;
+}
+
+.end {
+  width: 110px;
+  margin-right: 10px;
+}
+.end :global(.mantine-Input-section) {
+  transform: translateX(-12px);
+}
+.end :global(.mantine-Select-section) {
+  --section-size: 24px !important;
+}
+
+.end :global(.mantine-Input-input) {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: 24px !important;
+  padding-right: 0px !important;
+}
+.end :global(.mantine-Input-input[data-disabled]) {
+  background-color: transparent;
+  background-image: linear-gradient(to right, #fff 0%, #f1f3f5 30%);
+  opacity: 1;
+}
+.end :global(.mantine-Input-input[data-disabled]::placeholder) {
+  opacity: 0.6;
+}
+.step {
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-width: unset !important;
+}
+.step :global(.mantine-Select-label) {
+  display: block;
+  height: 21.7px;
+}
+.step:global(.mantine-Select-root) {
+  width: 88px;
+  overflow-x: hidden;
+}
+.step :global(.mantine-Input-wrapper) {
+  width: 88px;
+}
+.step :global(.mantine-Input-input) {
+  --input-bd: #e9ecef;
+  padding-left: 6px;
+  padding-right: 24px;
+}
+
+.step :global(.mantine-Select-section) {
+  --section-size: 24px !important;
+}
