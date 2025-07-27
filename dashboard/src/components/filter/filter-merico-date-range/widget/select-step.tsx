@@ -1,16 +1,16 @@
-import { Group, Select } from '@mantine/core';
-import { useMemo } from 'react';
+import { Select } from '@mantine/core';
+import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MericoDateRangeValue } from '~/model';
 import classes from './index.module.css';
-import { CountDays } from './count-days';
 
 type Props = {
-  value: MericoDateRangeValue;
-  onChange: (v: MericoDateRangeValue) => void;
+  label: ReactNode | null;
+  value: MericoDateRangeValue['step'];
+  onChange: (v: MericoDateRangeValue['step']) => void;
 };
 
-export const SelectStep = ({ value, onChange }: Props) => {
+export const SelectStep = ({ label, value, onChange }: Props) => {
   const { t, i18n } = useTranslation();
   const options = useMemo(() => {
     return [
@@ -42,25 +42,8 @@ export const SelectStep = ({ value, onChange }: Props) => {
       return;
     }
 
-    onChange({
-      ...value,
-      step,
-    });
+    onChange(step);
   };
 
-  const [begin, end] = value.value;
-
-  return (
-    <Select
-      className={classes.step}
-      label={
-        <Group justify="flex-end">
-          <CountDays begin={begin} end={end} />
-        </Group>
-      }
-      data={options}
-      value={value.step}
-      onChange={handleChange}
-    />
-  );
+  return <Select className={classes.step} label={label} data={options} value={value} onChange={handleChange} />;
 };

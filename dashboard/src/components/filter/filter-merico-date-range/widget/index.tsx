@@ -8,6 +8,7 @@ import { Calendar } from './calendar';
 import classes from './index.module.css';
 import { SelectStep } from './select-step';
 import { Shortcuts } from './shortcuts';
+import { CountDays } from './count-days';
 
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
@@ -35,6 +36,14 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
       value: v,
       shortcut: null,
       step: value.step,
+    });
+  };
+
+  const handleStepChange = (step: string) => {
+    // TODO: re-calculate value with new step & possible shortcut
+    onChange({
+      ...value,
+      step,
     });
   };
 
@@ -69,7 +78,15 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
           styles={getInputStyles(opened)}
           className={classes.end}
         />
-        <SelectStep value={value} onChange={onChange} />
+        <SelectStep
+          value={value.step}
+          onChange={handleStepChange}
+          label={
+            <Group justify="flex-end">
+              <CountDays begin={begin} end={end} />
+            </Group>
+          }
+        />
       </Group>
       <Popover.Dropdown p="sm">
         <Calendar value={value} onChange={handleCalendarChange} close={close} />

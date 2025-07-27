@@ -1,20 +1,12 @@
 import { Checkbox, Group, Select } from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  DateRangeValue,
-  DateRangeValue_Value,
-  FilterMericoDateRangeConfigInstance,
-  FilterMetaInstance,
-  MericoDateRangeValue,
-} from '~/model';
+import { DateRangeValue_Value, FilterMericoDateRangeConfigInstance, FilterMetaInstance } from '~/model';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
-import { FilterMericoDateRange } from './render';
+import { SelectStep } from './widget/select-step';
 import { getMericoShortcutsInGroups } from './widget/shortcuts/shortcuts';
-import { FilterDateRange } from '../filter-date-range/render';
-import { FilterDateRangeForEditorField } from '../filter-date-range/filter-date-range-for-editor-field';
-import { FilterMericoDateRangeForEditorField } from './filter-merico-date-range-for-editor-field';
 
 type Props = {
   filter: FilterMetaInstance;
@@ -24,7 +16,7 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
   const { t } = useTranslation();
   const config = filter.config as FilterMericoDateRangeConfigInstance;
   const shortcuts = useMemo(() => {
-    const shortcutsInGroups = getMericoShortcutsInGroups();
+    const shortcutsInGroups = getMericoShortcutsInGroups(config.default_step);
     return Object.entries(shortcutsInGroups).map(([group, items]) => {
       return {
         group: t(`filter.widget.date_range.shortcut.${group}.label`),
@@ -34,17 +26,25 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
         })),
       };
     });
-  }, []);
+  }, [config.default_step]);
 
   const defaultValue = [...config.default_value] as DateRangeValue_Value;
-  const handleDefaultValueChange = ({ value, shortcut, step }: MericoDateRangeValue) => {
+  const handleDefaultValueChange = (newValue: DateRangeValue_Value) => {
     config.setDefaultValue({
-      value,
+      value: newValue, // TODO: use step
+      shortcut: null,
+      step: config.default_step,
+    });
+    config.setDefaultShortcut(null);
+  };
+
+  const handleShortcutChange = (shortcut: string | null) => {
+    config.setDefaultValue({
+      value: [null, null],
       shortcut,
-      step,
+      step: config.default_step,
     });
     config.setDefaultShortcut(shortcut);
-    config.setDefaultStep(step);
   };
   return (
     <>
@@ -55,13 +55,30 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
           label={t('filter.widget.date_range.required')}
         />
       </Group>
+      <SelectStep value={config.default_step} onChange={config.setDefaultStep} label="默认步长" />
+
       <Group>
-        <FilterMericoDateRangeForEditorField
+        <Select
+          data={shortcuts}
+          label={t('filter.widget.date_range.default_by_shortcut')}
+          value={config.default_shortcut}
+          onChange={handleShortcutChange}
+          placeholder={t('filter.widget.date_range.default_by_shortcut_placeholder')}
+          clearable
+          sx={{ flexGrow: 1 }}
+          maxDropdownHeight={500}
+        />
+        <DatePickerInput
+          type="range"
           label={t('filter.widget.date_range.default_value')}
-          value={{ value: defaultValue, shortcut: null, step: config.default_step }}
+          value={defaultValue}
           onChange={handleDefaultValueChange}
-          inputFormat={config.inputFormat}
+          valueFormat={config.inputFormat}
           required={config.required}
+          allowSingleDateInRange
+          numberOfColumns={2}
+          w="50%"
+          disabled={!!config.default_shortcut}
         />
       </Group>
       <CustomDefaultValueEditor filter={filter} />
