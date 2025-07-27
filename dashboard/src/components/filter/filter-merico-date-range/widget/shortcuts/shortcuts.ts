@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { MericoDateRangeValue } from '~/model';
+import { formatWithStep } from '../utils';
 
 export type GetRange = (step: string) => MericoDateRangeValue;
 type Shrotcut = {
@@ -29,12 +30,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'last',
     disabled: getDisabled(step, 'm'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(1, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: formatWithStep(now.subtract(1, 'month').startOf('month'), now.subtract(1, 'month').endOf('month'), step),
         shortcut: 'last month',
         step,
       };
@@ -46,12 +44,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'last',
     disabled: getDisabled(step, 'm2'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(2, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: formatWithStep(now.subtract(2, 'month').startOf('month'), now.subtract(1, 'month').endOf('month'), step),
         shortcut: 'last 2 months',
         step,
       };
@@ -63,12 +58,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'last',
     disabled: getDisabled(step, 'm3'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(3, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: formatWithStep(now.subtract(3, 'month').startOf('month'), now.subtract(1, 'month').endOf('month'), step),
         shortcut: 'last 3 months',
         step,
       };
@@ -80,12 +72,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'last',
     disabled: getDisabled(step, 'm6'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(6, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: formatWithStep(now.subtract(6, 'month').startOf('month'), now.subtract(1, 'month').endOf('month'), step),
         shortcut: 'last 6 months',
         step,
       };
@@ -97,12 +86,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'last',
     disabled: getDisabled(step, 'y'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(1, 'year').startOf('year').toDate(),
-          dayjs(now).subtract(1, 'year').endOf('year').toDate(),
-        ],
+        value: formatWithStep(now.subtract(1, 'year').startOf('year'), now.subtract(1, 'year').endOf('year'), step),
         shortcut: 'last year',
         step,
       };
@@ -114,12 +100,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'recent',
     disabled: getDisabled(step, 'd30'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(30, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: formatWithStep(now.subtract(30, 'day').startOf('day'), now.subtract(1, 'day').endOf('day'), step),
         shortcut: 'recent 30 days',
         step,
       };
@@ -131,12 +114,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'recent',
     disabled: getDisabled(step, 'd60'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(60, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: formatWithStep(now.subtract(60, 'day').startOf('day'), now.subtract(1, 'day').endOf('day'), step),
         shortcut: 'recent 60 days',
         step,
       };
@@ -148,12 +128,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'recent',
     disabled: getDisabled(step, 'd90'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(90, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: formatWithStep(now.subtract(90, 'day').startOf('day'), now.subtract(1, 'day').endOf('day'), step),
         shortcut: 'recent 90 days',
         step,
       };
@@ -165,12 +142,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'recent',
     disabled: getDisabled(step, 'd180'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(180, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: formatWithStep(now.subtract(180, 'day').startOf('day'), now.subtract(1, 'day').endOf('day'), step),
         shortcut: 'recent 180 days',
         step,
       };
@@ -182,12 +156,9 @@ export const getMericoDateRangeShortcuts = (step: string): Shrotcut[] => [
     group: 'recent',
     disabled: getDisabled(step, 'd365'),
     getRange: (step) => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(365, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: formatWithStep(now.subtract(365, 'day').startOf('day'), now.subtract(1, 'day').endOf('day'), step),
         shortcut: 'recent 365 days',
         step,
       };

@@ -5,10 +5,12 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { DateRangeValue_Value, MericoDateRangeValue } from '~/model';
 import { Calendar } from './calendar';
+import { CountDays } from './count-days';
 import classes from './index.module.css';
 import { SelectStep } from './select-step';
 import { Shortcuts } from './shortcuts';
-import { CountDays } from './count-days';
+import { getMericoDateRangeShortcutValue } from './shortcuts/shortcuts';
+import { formatDatesWithStep } from './utils';
 
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
@@ -33,16 +35,20 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
 
   const handleCalendarChange = (v: DateRangeValue_Value) => {
     onChange({
-      value: v,
+      value: formatDatesWithStep(v[0], v[1], value.step),
       shortcut: null,
       step: value.step,
     });
   };
 
   const handleStepChange = (step: string) => {
-    // TODO: re-calculate value with new step & possible shortcut
+    if (value.shortcut) {
+      return onChange(getMericoDateRangeShortcutValue(value.shortcut, step)!);
+    }
+
     onChange({
-      ...value,
+      value: formatDatesWithStep(value.value[0], value.value[1], step),
+      shortcut: value.shortcut,
       step,
     });
   };
@@ -79,6 +85,7 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
           className={classes.end}
         />
         <SelectStep
+          className={classes.step}
           value={value.step}
           onChange={handleStepChange}
           label={

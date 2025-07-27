@@ -4,6 +4,7 @@ import { getParent, Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { typeAssert } from '~/types/utils';
 import { DateRangeValue_Value } from './date-range';
 import { getMericoDateRangeShortcutValue } from '~/components/filter/filter-merico-date-range/widget/shortcuts/shortcuts';
+import { formatDatesWithStep } from '~/components/filter/filter-merico-date-range/widget/utils';
 
 export type MericoDateRangeValue = {
   value: DateRangeValue_Value;
@@ -35,7 +36,7 @@ export function getStaticMericoDateRangeDefaultValue(
     }) as DateRangeValue_Value;
 
     return {
-      value,
+      value: formatDatesWithStep(value[0], value[1], config.default_step),
       shortcut: null,
       step: config.default_step,
     };

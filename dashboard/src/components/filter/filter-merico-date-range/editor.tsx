@@ -1,12 +1,13 @@
 import { Checkbox, Group, Select } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DateRangeValue_Value, FilterMericoDateRangeConfigInstance, FilterMetaInstance } from '~/model';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 import { SelectStep } from './widget/select-step';
 import { getMericoShortcutsInGroups } from './widget/shortcuts/shortcuts';
+import { formatDatesWithStep } from './widget/utils';
 
 type Props = {
   filter: FilterMetaInstance;
@@ -29,9 +30,14 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
   }, [config.default_step]);
 
   const defaultValue = [...config.default_value] as DateRangeValue_Value;
+  const [localValue, setLocalValue] = useState<DateRangeValue_Value>(defaultValue);
   const handleDefaultValueChange = (newValue: DateRangeValue_Value) => {
+    setLocalValue(newValue);
+    if (newValue[0] === null || newValue[1] === null) {
+      return;
+    }
     config.setDefaultValue({
-      value: newValue, // TODO: use step
+      value: formatDatesWithStep(newValue[0], newValue[1], config.default_step),
       shortcut: null,
       step: config.default_step,
     });
@@ -46,6 +52,17 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
     });
     config.setDefaultShortcut(shortcut);
   };
+
+  const handleStepChange = (step: string) => {
+    config.setDefaultValue({
+      value: config.default_shortcut
+        ? [null, null]
+        : formatDatesWithStep(config.default_value[0], config.default_value[1], step),
+      shortcut: config.default_shortcut,
+      step,
+    });
+    config.setDefaultStep(step);
+  };
   return (
     <>
       <Group>
@@ -55,7 +72,7 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
           label={t('filter.widget.date_range.required')}
         />
       </Group>
-      <SelectStep value={config.default_step} onChange={config.setDefaultStep} label="默认步长" />
+      <SelectStep value={config.default_step} onChange={handleStepChange} label="默认步长" />
 
       <Group>
         <Select
@@ -71,7 +88,7 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
         <DatePickerInput
           type="range"
           label={t('filter.widget.date_range.default_value')}
-          value={defaultValue}
+          value={localValue}
           onChange={handleDefaultValueChange}
           valueFormat={config.inputFormat}
           required={config.required}

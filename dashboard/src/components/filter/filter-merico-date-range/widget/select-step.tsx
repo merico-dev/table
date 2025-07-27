@@ -8,9 +8,10 @@ type Props = {
   label: ReactNode | null;
   value: MericoDateRangeValue['step'];
   onChange: (v: MericoDateRangeValue['step']) => void;
+  className?: string;
 };
 
-export const SelectStep = ({ label, value, onChange }: Props) => {
+export const SelectStep = ({ label, value, onChange, className }: Props) => {
   const { t, i18n } = useTranslation();
   const options = useMemo(() => {
     return [
@@ -45,5 +46,5 @@ export const SelectStep = ({ label, value, onChange }: Props) => {
     onChange(step);
   };
 
-  return <Select className={classes.step} label={label} data={options} value={value} onChange={handleChange} />;
+  return <Select className={className} label={label} data={options} value={value} onChange={handleChange} />;
 };
