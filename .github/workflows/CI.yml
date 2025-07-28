@@ -104,11 +104,12 @@ jobs:
         run: docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }} . --push
       - name: Build table website image
         run: docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile-website -t registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.TAG }} . --push
-      # - name: Trigger GitLab CI pipeline
-      #   # only runs if the previous step was successful
-      #   if: success()
-      #   uses: eic/trigger-gitlab-ci@v2
-      #   with:
-      #     token: ${{ secrets.GITLAB_TOKEN }}
-      #     project_id: ${{ secrets.GITLAB_PROJECT_ID }}
-      #     ref_name: main
+      - name: Trigger GitLab CI pipeline
+        # only runs if the previous step was successful
+        if: success()
+        uses: eic/trigger-gitlab-ci@v3
+        with:
+          token: ${{ secrets.GITLAB_TOKEN }}
+          project_id: ${{ secrets.GITLAB_PROJECT_ID }}
+          ref_name: main
+          url: ${{ secrets.GITLAB_URL }}
