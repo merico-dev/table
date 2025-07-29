@@ -1,4 +1,4 @@
-import { Box, Divider, Menu } from '@mantine/core';
+import { ActionIcon, Box, Divider, Menu } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import {
   IconAppWindow,
@@ -7,6 +7,7 @@ import {
   IconChartHistogram,
   IconCode,
   IconCopy,
+  IconDotsVertical,
   IconDownload,
   IconRefresh,
   IconRoute,
@@ -65,56 +66,56 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
   const showFullScreenOption = !inFullScreen && view.type !== EViewComponentType.Modal;
   return (
     <>
-      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }} title={title}>
-        <Menu withinPortal>
-          <Menu.Target>
-            <Box className="panel-dropdown-target" sx={{ width: '100%' }}></Box>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
-              {t('common.actions.refresh')}
+      <Menu withinPortal trigger="hover">
+        <Menu.Target>
+          <ActionIcon variant="subtle" color="black" size="md" pos="absolute" top={16} right={16}>
+            <IconDotsVertical size={14} style={{ width: '70%', height: '70%' }} />
+          </ActionIcon>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
+            {t('common.actions.refresh')}
+          </Menu.Item>
+          <Menu.Item onClick={panel.downloadData} leftSection={<IconDownload size={14} />}>
+            {t('common.actions.download_data')}
+          </Menu.Item>
+          <Menu.Item onClick={panel.downloadSchema} leftSection={<IconCode size={14} />}>
+            {t('common.actions.download_schema')}
+          </Menu.Item>
+          <Menu.Item onClick={downloadPanelScreenshot} leftSection={<IconCamera size={14} />}>
+            {t('common.actions.download_screenshot')}
+          </Menu.Item>
+          {showFullScreenOption && (
+            <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />} disabled>
+              {t('common.actions.enter_fullscreen')}
             </Menu.Item>
-            <Menu.Item onClick={panel.downloadData} leftSection={<IconDownload size={14} />}>
-              {t('common.actions.download_data')}
-            </Menu.Item>
-            <Menu.Item onClick={panel.downloadSchema} leftSection={<IconCode size={14} />}>
-              {t('common.actions.download_schema')}
-            </Menu.Item>
-            <Menu.Item onClick={downloadPanelScreenshot} leftSection={<IconCamera size={14} />}>
-              {t('common.actions.download_screenshot')}
-            </Menu.Item>
-            {showFullScreenOption && (
-              <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />} disabled>
-                {t('common.actions.enter_fullscreen')}
-              </Menu.Item>
-            )}
+          )}
 
-            <QueryMenuItems view={view} />
+          <QueryMenuItems view={view} />
 
-            <Divider label={t('common.actions.edit')} labelPosition="center" />
-            <Menu.Item onClick={openTabPanel} leftSection={<IconAppWindow size={14} />}>
-              {t('panel.label')}
-            </Menu.Item>
-            <Menu.Item onClick={openTabVar} leftSection={<IconVariable size={14} />}>
-              {t('panel.variable.labels')}
-            </Menu.Item>
-            <Menu.Item onClick={openTabViz} leftSection={<IconChartHistogram size={14} />}>
-              {t('visualization.label')}
-            </Menu.Item>
-            <Menu.Item onClick={openTabInteraction} leftSection={<IconRoute size={14} />}>
-              {t('interactions.label')}
-            </Menu.Item>
+          <Divider label={t('common.actions.edit')} labelPosition="center" />
+          <Menu.Item onClick={openTabPanel} leftSection={<IconAppWindow size={14} />}>
+            {t('panel.label')}
+          </Menu.Item>
+          <Menu.Item onClick={openTabVar} leftSection={<IconVariable size={14} />}>
+            {t('panel.variable.labels')}
+          </Menu.Item>
+          <Menu.Item onClick={openTabViz} leftSection={<IconChartHistogram size={14} />}>
+            {t('visualization.label')}
+          </Menu.Item>
+          <Menu.Item onClick={openTabInteraction} leftSection={<IconRoute size={14} />}>
+            {t('interactions.label')}
+          </Menu.Item>
 
-            <Divider label={t('common.actions.actions')} labelPosition="center" />
-            <Menu.Item onClick={duplicate} leftSection={<IconCopy size={14} />}>
-              {t('common.actions.duplicate')}
-            </Menu.Item>
-            <Menu.Item color="red" onClick={remove} leftSection={<IconTrash size={14} />}>
-              {t('common.actions.delete')}
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      </Box>
+          <Divider label={t('common.actions.actions')} labelPosition="center" />
+          <Menu.Item onClick={duplicate} leftSection={<IconCopy size={14} />}>
+            {t('common.actions.duplicate')}
+          </Menu.Item>
+          <Menu.Item color="red" onClick={remove} leftSection={<IconTrash size={14} />}>
+            {t('common.actions.delete')}
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     </>
   );
 });

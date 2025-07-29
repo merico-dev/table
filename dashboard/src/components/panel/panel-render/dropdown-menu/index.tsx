@@ -1,5 +1,5 @@
-import { Box, Menu } from '@mantine/core';
-import { IconArrowsMaximize, IconCamera, IconDownload, IconRefresh } from '@tabler/icons-react';
+import { ActionIcon, Box, Menu } from '@mantine/core';
+import { IconArrowsMaximize, IconCamera, IconDotsVertical, IconDownload, IconRefresh } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -27,28 +27,28 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
   }
 
   return (
-    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }} title={title}>
-      <Menu withinPortal>
-        <Menu.Target>
-          <Box className="panel-dropdown-target" />
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
-            {t('common.actions.refresh')}
+    <Menu withinPortal trigger="hover">
+      <Menu.Target>
+        <ActionIcon variant="subtle" color="black" size="md" pos="absolute" top={16} right={16}>
+          <IconDotsVertical size={14} style={{ width: '70%', height: '70%' }} />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
+          {t('common.actions.refresh')}
+        </Menu.Item>
+        <Menu.Item onClick={panel.downloadData} leftSection={<IconDownload size={14} />}>
+          {t('common.actions.download_data')}
+        </Menu.Item>
+        <Menu.Item onClick={downloadPanelScreenshot} leftSection={<IconCamera size={14} />}>
+          {t('common.actions.download_screenshot')}
+        </Menu.Item>
+        {showFullScreenOption && (
+          <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />}>
+            {t('common.actions.enter_fullscreen')}
           </Menu.Item>
-          <Menu.Item onClick={panel.downloadData} leftSection={<IconDownload size={14} />}>
-            {t('common.actions.download_data')}
-          </Menu.Item>
-          <Menu.Item onClick={downloadPanelScreenshot} leftSection={<IconCamera size={14} />}>
-            {t('common.actions.download_screenshot')}
-          </Menu.Item>
-          {showFullScreenOption && (
-            <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />}>
-              {t('common.actions.enter_fullscreen')}
-            </Menu.Item>
-          )}
-        </Menu.Dropdown>
-      </Menu>
-    </Box>
+        )}
+      </Menu.Dropdown>
+    </Menu>
   );
 });
