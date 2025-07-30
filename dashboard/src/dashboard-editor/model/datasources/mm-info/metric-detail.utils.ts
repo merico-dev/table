@@ -8,7 +8,6 @@ import {
   MetricSourceCol,
 } from './metric-detail.types';
 
-
 export function parseData(data: MetricDetail) {
   if ('cols' in data) {
     const { cols } = data as DerivedMetric;

@@ -1,8 +1,11 @@
-import { MultiSelect, Stack, Text, Loader } from '@mantine/core';
+import { MultiSelect, Stack, Text, Loader, Group, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
+import { useEffect, useRef } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { MericoMetricQueryMetaInstance } from '~/model';
 import type { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import type { MultiSelectProps } from '@mantine/core';
 
 interface IDerivedCalculationMetadata {
   name: string;
@@ -126,6 +129,42 @@ type Props = {
   queryModel: QueryModelInstance;
 };
 
+// Custom render option for MultiSelect to show description
+const renderOption: MultiSelectProps['renderOption'] = (item) => {
+  const option = item.option as { 
+    value: string; 
+    label: string; 
+    description: string;
+    disabled?: boolean;
+    disabledReason?: string;
+  };
+  
+  const content = (
+    <Group gap="xs" wrap="nowrap">
+      <div>
+        <Text size="sm" fw={500}>{option.label}</Text>
+        <Text size="xs" c="dimmed">{option.description}</Text>
+      </div>
+    </Group>
+  );
+
+  if (option.disabled && option.disabledReason) {
+    return (
+      <Tooltip label={option.disabledReason} position="top" withArrow>
+        <div {...item} style={{ opacity: 0.6, cursor: 'not-allowed' }}>
+          {content}
+        </div>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <div {...item}>
+      {content}
+    </div>
+  );
+};
+
 export const DerivedCalculations = observer(({ queryModel }: Props) => {
   const config = queryModel.config as MericoMetricQueryMetaInstance;
   const ds = queryModel.datasource as DataSourceModelInstance;
@@ -135,6 +174,31 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
   const loading = mmInfo.metrics.loading || metricDetail.loading;
   const error = metricDetail.error;
 
+  // Track previous timeQuery state to detect when it changes from enabled to disabled
+  const prevTimeQueryEnabled = useRef(config.timeQuery.enabled);
+
+  // Remove window-based calculations when timeQuery is disabled
+  useEffect(() => {
+    if (prevTimeQueryEnabled.current && !config.timeQuery.enabled) {
+      // TimeQuery was just disabled, remove window-based calculations
+      const currentCalculations = toJS(config.extraCalculations) || [];
+      const windowBasedCalculations = Array.from(calculationOptionsMap.entries())
+        .filter(([_, data]) => data.requireWindowConfig)
+        .map(([key]) => key);
+      
+      const filteredCalculations = currentCalculations.filter(
+        calc => !windowBasedCalculations.includes(calc)
+      );
+      
+      if (filteredCalculations.length !== currentCalculations.length) {
+        config.setExtraCalculations(filteredCalculations);
+      }
+    }
+    
+    // Update the previous state
+    prevTimeQueryEnabled.current = config.timeQuery.enabled;
+  }, [config.timeQuery.enabled, config.extraCalculations]);
+
   if (!config.id) {
     return null;
   }
@@ -142,7 +206,9 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
   if (loading) {
     return (
       <Stack gap={8}>
-        <Text size="sm" fw={500}>衍生计算配置</Text>
+        <Text size="sm" fw={500}>
+          衍生计算配置
+        </Text>
         <Loader size="xs" />
       </Stack>
     );
@@ -151,27 +217,39 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
   if (error) {
     return (
       <Stack gap={8}>
-        <Text size="sm" fw={500}>衍生计算配置</Text>
-        <Text size="sm" c="red">加载失败: {error}</Text>
+        <Text size="sm" fw={500}>
+          衍生计算配置
+        </Text>
+        <Text size="sm" c="red">
+          加载失败: {error}
+        </Text>
       </Stack>
     );
   }
 
   if (metricDetail.hasData && metricDetail.data) {
     const extraCalculations = metricDetail.data.extraCalculations;
-    
+
     if (!extraCalculations || extraCalculations.length === 0) {
       return null;
     }
 
-    // Filter available options based on the metric's extraCalculations
+    // Filter available options based on the metric's extraCalculations and timeQuery state
     const availableOptions = Array.from(calculationOptionsMap.entries())
       .filter(([key]) => extraCalculations.includes(key))
-      .map(([value, data]) => ({
-        value,
-        label: data.name,
-        description: data.description,
-      }));
+      .map(([value, data]) => {
+        const isTimeQueryDisabled = !config.timeQuery.enabled;
+        const requiresWindowConfig = data.requireWindowConfig;
+        const shouldBeDisabled = isTimeQueryDisabled && requiresWindowConfig;
+        
+        return {
+          value,
+          label: data.name,
+          description: data.description,
+          disabled: shouldBeDisabled,
+          disabledReason: shouldBeDisabled ? '需要开启按时序查询' : undefined,
+        };
+      });
 
     if (availableOptions.length === 0) {
       return null;
@@ -179,15 +257,19 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
 
     return (
       <Stack gap={8}>
-        <Text size="sm" fw={500}>衍生计算配置</Text>
+        <Text size="sm" fw={500}>
+          衍生计算配置
+        </Text>
         <MultiSelect
           data={availableOptions}
-          value={config.extraCalculations || []}
+          value={toJS(config.extraCalculations) || []}
           onChange={(values) => config.setExtraCalculations(values)}
           placeholder="选择要使用的计算方式"
           searchable
           clearable
           nothingFoundMessage="未找到可用的计算方式"
+          renderOption={renderOption}
+          maxDropdownHeight={300}
         />
       </Stack>
     );
