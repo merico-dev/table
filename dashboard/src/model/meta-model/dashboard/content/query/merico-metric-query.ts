@@ -69,6 +69,7 @@ export const MericoMetricQueryMeta = types
       stepKeyFormat: types.optional(types.string, 'YYYY-MM-DD'),
     }),
     useDefaultValues: types.optional(types.boolean, false),
+    extraCalculations: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
     get query() {
@@ -78,7 +79,7 @@ export const MericoMetricQueryMeta = types
       return !!self.id;
     },
     get json() {
-      const { id, type, filters, groupBys, timeQuery, useDefaultValues, _type } = self;
+      const { id, type, filters, groupBys, timeQuery, useDefaultValues, extraCalculations, _type } = self;
       return shallowToJS({
         id,
         type,
@@ -86,6 +87,7 @@ export const MericoMetricQueryMeta = types
         groupBys,
         timeQuery,
         useDefaultValues,
+        extraCalculations,
         _type,
       });
     },
@@ -114,6 +116,7 @@ export const MericoMetricQueryMeta = types
       self.timeQuery.range_variable = '';
       self.timeQuery.unit_variable = '';
       self.useDefaultValues = false;
+      self.extraCalculations.length = 0;
       if ('data' in self.query) {
         self.query.setData([]);
         self.query.setError(null);
@@ -167,6 +170,10 @@ export const MericoMetricQueryMeta = types
     setUseDefaultValues(v: boolean) {
       self.useDefaultValues = v;
     },
+    setExtraCalculations(v: string[]) {
+      self.extraCalculations.length = 0;
+      self.extraCalculations.push(...v);
+    },
   }));
 export type MericoMetricQueryMetaInstance = Instance<typeof MericoMetricQueryMeta>;
 export type MericoMetricQueryMetaSnapshotIn = SnapshotIn<MericoMetricQueryMetaInstance>;
@@ -186,6 +193,7 @@ export interface IMericoMetricQueryMeta {
     stepKeyFormat: string;
   };
   useDefaultValues: boolean;
+  extraCalculations: IObservableArray<string>;
 
   // Views
   readonly query: IQueryRenderModel;
@@ -206,6 +214,7 @@ export interface IMericoMetricQueryMeta {
       stepKeyFormat: string;
     };
     useDefaultValues: boolean;
+    extraCalculations: IObservableArray<string>;
     _type: DataSourceType.MericoMetricSystem;
   };
   readonly usedFilterDimensionKeys: Set<string>;
@@ -224,6 +233,7 @@ export interface IMericoMetricQueryMeta {
   setUnitVariable(v: string | null): void;
   setTimeQueryEnabled(v: boolean): void;
   setUseDefaultValues(v: boolean): void;
+  setExtraCalculations(v: string[]): void;
 }
 
 typeAssert.shouldExtends<IMericoMetricQueryMeta, MericoMetricQueryMetaInstance>();
@@ -243,4 +253,5 @@ export const createMericoMetricQueryMetaConfig = () =>
       stepKeyFormat: 'YYYY-MM-DD',
     },
     useDefaultValues: false,
+    extraCalculations: [],
   });

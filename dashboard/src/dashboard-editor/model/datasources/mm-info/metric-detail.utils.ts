@@ -8,14 +8,6 @@ import {
   MetricSourceCol,
 } from './metric-detail.types';
 
-const TrendingCalculationTypeSet = new Set(['yoy_ratio', 'step_ratio', 'span_steps_calculation']);
-const DerivedCalculationLabelMap = {
-  accumulate: '累计计算',
-  yoy_ratio: '年同比率（yoy）',
-  step_ratio: '环比率',
-  span_steps_calculation: '移动计算',
-  percentage_total: '总占',
-} as const;
 
 export function parseData(data: MetricDetail) {
   if ('cols' in data) {

@@ -42,8 +42,9 @@ export type DerivedMetric = {
   id: string;
   name: string;
   description: string;
-  calculation: 'accumulate' | 'percentage_total' | 'yoy_ratio' | 'step_ratio' | 'span_steps_calculation';
   cols: DimensionCol[];
+  extraCalculations: string[];
+  extraCalculationConfig: string;
 };
 
 export type CombinedMetricCol = Omit<MetricSourceCol_Simple, 'id'> | Omit<MetricSourceCol_Dimension, 'id'>;
@@ -55,6 +56,8 @@ export type CombinedMetric = {
   groupBys: CombinedMetricCol[];
   derivedMetrics: DerivedMetric[];
   supportTrending: boolean;
+  extraCalculations: string[];
+  extraCalculationConfig: string;
 };
 
 export type MetricDetail = DerivedMetric | CombinedMetric;
