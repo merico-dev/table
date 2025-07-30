@@ -1,18 +1,15 @@
-import { MultiSelect, Stack, Text, Loader, Group, Tooltip } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
+import type { MultiSelectProps } from '@mantine/core';
+import { Group, Loader, MultiSelect, Stack, Text, Tooltip } from '@mantine/core';
 import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import { useEffect, useRef } from 'react';
 import { QueryModelInstance } from '~/dashboard-editor/model';
-import { MericoMetricQueryMetaInstance } from '~/model';
 import type { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
-import type { MultiSelectProps } from '@mantine/core';
-
-interface IDerivedCalculationMetadata {
-  name: string;
-  description: string;
-  requireWindowConfig: boolean;
-  requireTrendingDateCol: boolean;
-}
+import {
+  calculationOptionsMap,
+  removeTrendingBasedCalculations,
+} from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
+import { MericoMetricQueryMetaInstance } from '~/model';
 
 interface IWindowConfig {
   calculation: string;
@@ -29,7 +26,7 @@ const parseWindowConfig = (configStr: string | undefined): IWindowConfig | null 
     return {
       calculation: config.calculation,
       n: config.n,
-      direction: config.direction
+      direction: config.direction,
     };
   } catch {
     return null;
@@ -37,12 +34,16 @@ const parseWindowConfig = (configStr: string | undefined): IWindowConfig | null 
 };
 
 // Generate available options for the multi-select
-const generateAvailableOptions = (extraCalculations: string[], windowConfig: IWindowConfig | null, timeQueryEnabled: boolean) => {
+const generateAvailableOptions = (
+  extraCalculations: string[],
+  windowConfig: IWindowConfig | null,
+  timeQueryEnabled: boolean,
+) => {
   const calculationNames: Record<string, string> = {
-    'max': '最大值',
-    'min': '最小值',
-    'sum': '总和',
-    'avg': '平均值',
+    max: '最大值',
+    min: '最小值',
+    sum: '总和',
+    avg: '平均值',
   };
 
   return Array.from(calculationOptionsMap.entries())
@@ -70,130 +71,6 @@ const generateAvailableOptions = (extraCalculations: string[], windowConfig: IWi
       };
     });
 };
-
-// Remove trending-based calculations when timeQuery is disabled
-const removeTrendingBasedCalculations = (currentCalculations: string[], setExtraCalculations: (calculations: string[]) => void) => {
-  const windowBasedCalculations = Array.from(calculationOptionsMap.entries())
-    .filter(([_, data]) => data.requireTrendingDateCol)
-    .map(([key]) => key);
-
-  const filteredCalculations = currentCalculations.filter((calc) => !windowBasedCalculations.includes(calc));
-
-  if (filteredCalculations.length !== currentCalculations.length) {
-    setExtraCalculations(filteredCalculations);
-  }
-};
-
-const calculationOptionsMap = new Map<string, IDerivedCalculationMetadata>([
-  [
-    'accumulate',
-    {
-      name: '累计计算',
-      description: '按指定的聚合方式，依次计算指标值的累计值。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: false,
-    },
-  ],
-  [
-    'yoyRatio',
-    {
-      name: '年同比率（yoy）',
-      description: '对比当前年份与上一个年份同期指标值的变化率。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'stepRatio',
-    {
-      name: '环比率',
-      description: '对比当前步长与上一个步长指标值的变化率。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'stepSpansRatio',
-    {
-      name: '移动计算',
-      description: '按设定的窗口沿时序对指标值进行滚动计算。',
-      requireWindowConfig: true,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'percentage',
-    {
-      name: '总占比',
-      description: '总占比 = 当前值 / 总值。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: false,
-    },
-  ],
-  [
-    'percentage_accumulate',
-    {
-      name: '累计占比',
-      description: '按聚合规则计算各项占比，再依次计算占比率的累计值，如帕累托的累计占比值。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: false,
-    },
-  ],
-  [
-    'accumulate_yoyRatio',
-    {
-      name: '累计年同比',
-      description: '按聚合规则累加数据，再与上一年同期累计值对比得出变化率。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'yoyRatio_accumulate',
-    {
-      name: '年同比累计',
-      description: '先计算各步长指标相对上一年同期的同比率，再依次计算同比率的累计值。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'stepRatio_accumulate',
-    {
-      name: '环比累计',
-      description: '先计算各步长指标相对上一步长的环比率，再依次计算环比率的累计值。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'percentage_yoyRatio',
-    {
-      name: '占比年同比',
-      description: '按聚合规则计算各项占比，再与去年同期占比对比得出变化率。',
-      requireWindowConfig: false,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'yoyRatio_stepSpansRatio',
-    {
-      name: '年同比移动计算',
-      description: '先计算各步长指标相对上一年同期的同比率，再按移动设置沿时序滚动计算。',
-      requireWindowConfig: true,
-      requireTrendingDateCol: true,
-    },
-  ],
-  [
-    'stepRatio_stepSpansRatio',
-    {
-      name: '环比移动计算',
-      description: '先计算各步长指标相对上一步长的环比率，再按移动设置沿时序滚动计算。',
-      requireWindowConfig: true,
-      requireTrendingDateCol: true,
-    },
-  ],
-]);
 
 type Props = {
   queryModel: QueryModelInstance;
@@ -254,12 +131,16 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
   useEffect(() => {
     if (prevTimeQueryEnabled.current && !config.timeQuery.enabled) {
       // TimeQuery was just disabled, remove trending-based calculations
-      removeTrendingBasedCalculations(toJS(config.extraCalculations) || [], config.setExtraCalculations);
+      const currentCalculations = toJS(config.extraCalculations) || [];
+      const filteredCalculations = removeTrendingBasedCalculations(currentCalculations, false);
+      if (filteredCalculations.length !== currentCalculations.length) {
+        config.setExtraCalculations(filteredCalculations);
+      }
     }
 
     // Update the previous state
     prevTimeQueryEnabled.current = config.timeQuery.enabled;
-  }, [config.timeQuery.enabled, config.extraCalculations]);
+  }, [config.timeQuery.enabled]);
 
   if (loading) {
     return (
