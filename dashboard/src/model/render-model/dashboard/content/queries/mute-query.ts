@@ -16,6 +16,7 @@ import { typeAssert } from '~/types/utils';
 import { explainHTTPRequest } from '~/utils';
 import { explainSQL } from '~/utils';
 import { DependencyInfo, UsageRegs } from '~/utils';
+import { removeTrendingBasedCalculations } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
 
 type MetricQueryPayload = {
   id: string;
@@ -268,7 +269,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
 
     // Include extraCalculations if any are selected
     if (config.extraCalculations && config.extraCalculations.length > 0) {
-      ret.extraCalculations = config.extraCalculations;
+      ret.extraCalculations = removeTrendingBasedCalculations(config.extraCalculations, config.timeQuery.enabled);
     }
     if (config.useDefaultValues) {
       ret.useDefaultValues = true;
@@ -296,6 +297,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     }
 
     ret.timeQuery = timeQuery;
+
     return ret;
   },
   get metricQueryPayloadString() {

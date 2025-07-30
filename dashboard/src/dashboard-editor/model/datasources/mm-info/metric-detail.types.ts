@@ -61,3 +61,12 @@ export type CombinedMetric = {
 };
 
 export type MetricDetail = DerivedMetric | CombinedMetric;
+
+interface IDerivedCalculationMetadata {
+  name: string;
+  description: string;
+  requireWindowConfig: boolean;
+  requireTrendingDateCol: boolean;
+}
+
+export type { IDerivedCalculationMetadata };
