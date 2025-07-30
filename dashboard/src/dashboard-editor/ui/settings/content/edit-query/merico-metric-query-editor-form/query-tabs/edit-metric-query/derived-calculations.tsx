@@ -14,6 +14,76 @@ interface IDerivedCalculationMetadata {
   requireTrendingDateCol: boolean;
 }
 
+interface IWindowConfig {
+  calculation: string;
+  n: number;
+  direction: 'forward' | 'backward';
+}
+
+// Parse window config from extraCalculationConfig
+const parseWindowConfig = (configStr: string | undefined): IWindowConfig | null => {
+  if (!configStr) return null;
+
+  try {
+    const config = JSON.parse(configStr);
+    return {
+      calculation: config.calculation,
+      n: config.n,
+      direction: config.direction
+    };
+  } catch {
+    return null;
+  }
+};
+
+// Generate available options for the multi-select
+const generateAvailableOptions = (extraCalculations: string[], windowConfig: IWindowConfig | null, timeQueryEnabled: boolean) => {
+  const calculationNames: Record<string, string> = {
+    'max': '最大值',
+    'min': '最小值',
+    'sum': '总和',
+    'avg': '平均值',
+  };
+
+  return Array.from(calculationOptionsMap.entries())
+    .filter(([key]) => extraCalculations.includes(key))
+    .map(([value, data]) => {
+      const isTimeQueryDisabled = !timeQueryEnabled;
+      const requiresWindowConfig = data.requireWindowConfig;
+      const shouldBeDisabled = isTimeQueryDisabled && requiresWindowConfig;
+
+      let label = data.name;
+
+      // Append window config to label for window-based calculations
+      if (requiresWindowConfig && windowConfig) {
+        const calculationName = calculationNames[windowConfig.calculation] || windowConfig.calculation;
+        const directionText = windowConfig.direction === 'forward' ? '向前' : '向后';
+        label = `${data.name} · ${calculationName} · ${windowConfig.n} 个步长 · ${directionText}`;
+      }
+
+      return {
+        value,
+        label,
+        description: data.description,
+        disabled: shouldBeDisabled,
+        disabledReason: shouldBeDisabled ? '需要开启按时序查询' : undefined,
+      };
+    });
+};
+
+// Remove trending-based calculations when timeQuery is disabled
+const removeTrendingBasedCalculations = (currentCalculations: string[], setExtraCalculations: (calculations: string[]) => void) => {
+  const windowBasedCalculations = Array.from(calculationOptionsMap.entries())
+    .filter(([_, data]) => data.requireTrendingDateCol)
+    .map(([key]) => key);
+
+  const filteredCalculations = currentCalculations.filter((calc) => !windowBasedCalculations.includes(calc));
+
+  if (filteredCalculations.length !== currentCalculations.length) {
+    setExtraCalculations(filteredCalculations);
+  }
+};
+
 const calculationOptionsMap = new Map<string, IDerivedCalculationMetadata>([
   [
     'accumulate',
@@ -131,19 +201,23 @@ type Props = {
 
 // Custom render option for MultiSelect to show description
 const renderOption: MultiSelectProps['renderOption'] = (item) => {
-  const option = item.option as { 
-    value: string; 
-    label: string; 
+  const option = item.option as {
+    value: string;
+    label: string;
     description: string;
     disabled?: boolean;
     disabledReason?: string;
   };
-  
+
   const content = (
     <Group gap="xs" wrap="nowrap">
       <div>
-        <Text size="sm" fw={500}>{option.label}</Text>
-        <Text size="xs" c="dimmed">{option.description}</Text>
+        <Text size="sm" fw={500}>
+          {option.label}
+        </Text>
+        <Text size="xs" c="dimmed">
+          {option.description}
+        </Text>
       </div>
     </Group>
   );
@@ -158,11 +232,7 @@ const renderOption: MultiSelectProps['renderOption'] = (item) => {
     );
   }
 
-  return (
-    <div {...item}>
-      {content}
-    </div>
-  );
+  return <div {...item}>{content}</div>;
 };
 
 export const DerivedCalculations = observer(({ queryModel }: Props) => {
@@ -177,31 +247,19 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
   // Track previous timeQuery state to detect when it changes from enabled to disabled
   const prevTimeQueryEnabled = useRef(config.timeQuery.enabled);
 
-  // Remove window-based calculations when timeQuery is disabled
-  useEffect(() => {
-    if (prevTimeQueryEnabled.current && !config.timeQuery.enabled) {
-      // TimeQuery was just disabled, remove window-based calculations
-      const currentCalculations = toJS(config.extraCalculations) || [];
-      const windowBasedCalculations = Array.from(calculationOptionsMap.entries())
-        .filter(([_, data]) => data.requireWindowConfig)
-        .map(([key]) => key);
-      
-      const filteredCalculations = currentCalculations.filter(
-        calc => !windowBasedCalculations.includes(calc)
-      );
-      
-      if (filteredCalculations.length !== currentCalculations.length) {
-        config.setExtraCalculations(filteredCalculations);
-      }
-    }
-    
-    // Update the previous state
-    prevTimeQueryEnabled.current = config.timeQuery.enabled;
-  }, [config.timeQuery.enabled, config.extraCalculations]);
-
   if (!config.id) {
     return null;
   }
+
+  useEffect(() => {
+    if (prevTimeQueryEnabled.current && !config.timeQuery.enabled) {
+      // TimeQuery was just disabled, remove trending-based calculations
+      removeTrendingBasedCalculations(toJS(config.extraCalculations) || [], config.setExtraCalculations);
+    }
+
+    // Update the previous state
+    prevTimeQueryEnabled.current = config.timeQuery.enabled;
+  }, [config.timeQuery.enabled, config.extraCalculations]);
 
   if (loading) {
     return (
@@ -234,22 +292,11 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
       return null;
     }
 
-    // Filter available options based on the metric's extraCalculations and timeQuery state
-    const availableOptions = Array.from(calculationOptionsMap.entries())
-      .filter(([key]) => extraCalculations.includes(key))
-      .map(([value, data]) => {
-        const isTimeQueryDisabled = !config.timeQuery.enabled;
-        const requiresWindowConfig = data.requireWindowConfig;
-        const shouldBeDisabled = isTimeQueryDisabled && requiresWindowConfig;
-        
-        return {
-          value,
-          label: data.name,
-          description: data.description,
-          disabled: shouldBeDisabled,
-          disabledReason: shouldBeDisabled ? '需要开启按时序查询' : undefined,
-        };
-      });
+    // Parse window config for display
+    const windowConfig = parseWindowConfig(metricDetail.data.extraCalculationConfig);
+
+    // Generate available options for the multi-select
+    const availableOptions = generateAvailableOptions(extraCalculations, windowConfig, config.timeQuery.enabled);
 
     if (availableOptions.length === 0) {
       return null;
