@@ -20,21 +20,10 @@
   left: 0;
   top: 0;
   height: 28px;
-  z-index: 310;
+  z-index: 410;
 }
 
-.panel-dropdown-target {
-  width: 100%;
-  height: 28px;
-  text-align: center;
-  transition: background-color 300ms ease;
-}
-.panel-dropdown-target:hover {
-  cursor: pointer;
-  background-color: rgba(100, 100, 100, 0.05);
-}
-
-.panel-root.panel-root--show-title .panel-dropdown-target {
+.panel-root.panel-root--show-title .panel-title-dragarea {
   height: 60px;
 }
 .panel-root.panel-root--show-title .panel-description-popover-wrapper {

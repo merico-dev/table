@@ -1,31 +1,21 @@
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ItemCallback, Responsive, WidthProvider } from 'react-grid-layout';
 
-import { IconArrowsMove, IconChevronDownRight } from '@tabler/icons-react';
+import { IconArrowsMove, IconChevronDownRight, IconGripVertical, IconMenu2 } from '@tabler/icons-react';
 import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
+import { useTranslation } from 'react-i18next';
 
-const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
-  <ActionIcon
-    ref={ref}
-    className="react-grid-customDragHandle"
-    sx={{
-      userSelect: 'none',
-      cursor: 'grab',
-      position: 'absolute',
-      top: 5,
-      right: h > 38 ? 5 : 20,
-      zIndex: 400,
-      '&:hover': { color: '#228be6' },
-    }}
-    variant="transparent"
-  >
-    <IconArrowsMove size={16} />
-  </ActionIcon>
+const CustomDragHandle = React.forwardRef(({ title }: { title: string }, ref: $TSFixMe) => (
+  <Box ref={ref} className="react-grid-customDragHandle" title={title}>
+    <ActionIcon variant="transparent" color="gray">
+      <IconMenu2 size={16} />
+    </ActionIcon>
+  </Box>
 ));
 
 const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, ref: $TSFixMe) => (
@@ -56,6 +46,7 @@ interface IEditLayout {
 }
 
 export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout) => {
+  const { t } = useTranslation();
   const contentModel = useEditContentModelContext();
   const layoutsModel = contentModel.layouts;
   const layoutItems = layoutsModel.items(view.panelIDs);
@@ -105,7 +96,7 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
       {layoutItems.map((l) => {
         return (
           <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
-            <CustomDragHandle h={l.h} />
+            <CustomDragHandle title={t(`view.layout.drag_to_move`)} />
             <Panel view={view} panel={l.panel} />
           </div>
         );
