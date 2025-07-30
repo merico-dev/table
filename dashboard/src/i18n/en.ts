@@ -177,6 +177,9 @@ export const en = {
       add: 'Add a View',
       delete: 'Delete this View',
       download_schema: 'Download this View',
+      layout: {
+        drag_to_move: 'Drag to move',
+      },
       component: {
         div: {
           label: 'Division',

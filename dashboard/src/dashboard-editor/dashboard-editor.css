@@ -75,3 +75,38 @@
 .mantine-Select-option[data-checked='true']:hover {
   background-color: #1c7ed6;
 }
+
+/* drag handle */
+.react-grid-customDragHandle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  left: 5px;
+  z-index: 400;
+
+  width: calc(100% - 10px);
+  height: 60px;
+
+  text-align: left;
+  transition: background-color 300ms ease;
+  user-select: none;
+  cursor: move;
+}
+.react-grid-customDragHandle > button {
+  opacity: 0;
+  transition: opacity 200ms ease;
+  height: 60px;
+  transform: translateX(-9px);
+}
+.react-grid-customDragHandle > button > span {
+  transform: scale(0.8, 1);
+}
+.react-grid-customDragHandle:hover {
+  background-color: rgba(100, 100, 100, 0.05);
+}
+.react-grid-customDragHandle:hover > button {
+  opacity: 1;
+}
+.react-grid-customDragHandle svg {
+  width: 50%;
+}

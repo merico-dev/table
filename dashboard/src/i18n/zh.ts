@@ -177,6 +177,9 @@ export const zh = {
       add: '新增视图',
       delete: '删除此视图',
       download_schema: '下载此视图描述文件',
+      layout: {
+        drag_to_move: '拖动可重排图表位置',
+      },
       component: {
         div: {
           label: '内容',
