@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 
 import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useContext } from 'react';
+import { ReactNode, useContext, useEffect } from 'react';
 import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
 import {
   ServiceLocatorProvider,
@@ -18,6 +18,8 @@ import { IViewPanelInfo, PluginContext, tokens } from '../../../plugins';
 import { usePanelVizFeatures } from '../panel-viz-features';
 import { PluginVizViewComponent } from '../../plugin-adaptor';
 import './viz.css';
+import { VizInstance } from '~/types/plugin';
+import { EChartsOption } from 'echarts';
 
 function usePluginViz(data: TPanelData, measure: WidthAndHeight): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
@@ -73,9 +75,25 @@ export const Viz = observer(function _Viz({ data }: IViz) {
   );
 });
 
+function useUpdateEchartsOptions(viz: VizInstance) {
+  const { setEchartsOptions } = useRenderPanelContext(); // useEditPanelContext has no differnece on setEchartsOptions
+  useEffect(() => {
+    const listener = (opt: unknown) => {
+      setEchartsOptions(opt as EChartsOption);
+    };
+    const channel = viz.messageChannels.getChannel('viz');
+    channel.on('rendered', listener);
+    return () => {
+      channel.off('rendered', listener);
+    };
+  }, [viz.messageChannels]);
+}
+
 export const PanelVizAddons = () => {
   const sl = useServiceLocator();
   const instance = sl.getRequired(tokens.instanceScope.vizInstance);
+  useUpdateEchartsOptions(instance);
+
   const { inEditMode } = useContext(LayoutStateContext);
   const addonManager = sl.getRequired(tokens.panelAddonManager);
   const { withAddon } = usePanelVizFeatures();

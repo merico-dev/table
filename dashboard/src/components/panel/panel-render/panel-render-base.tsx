@@ -1,7 +1,9 @@
 import { Box } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
+import { EChartsOption } from 'echarts';
 import { observer } from 'mobx-react-lite';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { usePanelVizFeatures } from '~/components/panel/panel-render/panel-viz-features';
 import { PanelAddonProvider } from '~/components/plugins/panel-addon';
 import { PanelContextProvider } from '~/contexts/panel-context';
 import { PanelRenderModelInstance } from '~/model';
@@ -10,7 +12,22 @@ import './panel-render-base.css';
 import { PanelTitleBar } from './title-bar';
 import { useDownloadPanelScreenshot } from './use-download-panel-screenshot';
 import { PanelVizSection } from './viz';
-import { usePanelVizFeatures } from '~/components/panel/panel-render/panel-viz-features';
+
+function useUpdateEchartsOptions(vizType: string) {
+  const [echartsOptions, setEchartsOptions] = useState<EChartsOption | null>(null);
+  useEffect(() => {
+    setEchartsOptions(null);
+  }, [vizType]);
+
+  useEffect(() => {
+    console.log(echartsOptions);
+  }, [echartsOptions]);
+
+  return {
+    echartsOptions,
+    setEchartsOptions,
+  };
+}
 
 interface IPanelBase {
   panel: PanelRenderModelInstance;
@@ -24,6 +41,8 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
   const { withAddon, withPanelTitle } = usePanelVizFeatures();
   const OptionalAddon = withAddon ? PanelAddonProvider : React.Fragment;
+  const { echartsOptions, setEchartsOptions } = useUpdateEchartsOptions(panel.viz.type);
+
   return (
     <PanelContextProvider
       value={{
@@ -32,6 +51,8 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
         loading: panel.dataLoading,
         errors: panel.queryErrors,
         downloadPanelScreenshot,
+        echartsOptions,
+        setEchartsOptions,
       }}
     >
       <Box
