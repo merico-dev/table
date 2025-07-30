@@ -31,6 +31,7 @@ type MetricQueryPayload = {
     stepKeyFormat: 'YYYY-MM-DD';
   };
   useDefaultValues?: boolean;
+  extraCalculations?: string[];
 };
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
@@ -264,6 +265,11 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       filters,
       groupBys: config.groupBys,
     };
+
+    // Include extraCalculations if any are selected
+    if (config.extraCalculations && config.extraCalculations.length > 0) {
+      ret.extraCalculations = config.extraCalculations;
+    }
     if (config.useDefaultValues) {
       ret.useDefaultValues = true;
     }
