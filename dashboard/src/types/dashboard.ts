@@ -97,7 +97,7 @@ export type DashboardContentDBType = {
   update_time: string;
 };
 
-export type AdditionalPanelMenuItem = {
+export type PanelMenuItem = {
   order: number;
   render: (props: { echartsOptions: EChartsOption | null; inEditMode: boolean }) => ReactNode;
 };

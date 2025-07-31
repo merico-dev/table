@@ -26,7 +26,7 @@ import { registerThemes } from '~/styles/register-themes';
 import { registerECharts } from '~/utils';
 import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
-import { AdditionalPanelMenuItem, DashboardContentDBType, IDashboard } from '../types/dashboard';
+import { PanelMenuItem, DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, EditorSpotlight, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
@@ -69,7 +69,7 @@ interface IDashboardProps {
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
   onExit: OnExitCallback;
   lang: string;
-  additionalPanelMenuItems?: AdditionalPanelMenuItem[];
+  additionalPanelMenuItems?: PanelMenuItem[];
 }
 
 export interface IDashboardModel {

@@ -28,7 +28,7 @@ import { IDashboardConfig } from '..';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { CustomizeScreenshotContext } from '../contexts/customize-screenshot-context';
-import { AdditionalPanelMenuItem, DashboardContentDBType, IDashboard } from '../types/dashboard';
+import { PanelMenuItem, DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
 
@@ -49,7 +49,7 @@ export interface IReadOnlyDashboard {
   onActiveTabChange?: (tab: TabInfo | null) => void;
   lang: string;
   onScreenshot?: (canvas: HTMLCanvasElement) => void;
-  additionalPanelMenuItems?: AdditionalPanelMenuItem[];
+  additionalPanelMenuItems?: PanelMenuItem[];
 }
 
 const _ReadOnlyDashboard = ({

@@ -1,8 +1,8 @@
 import React from 'react';
-import { AdditionalPanelMenuItem } from '~/types';
+import { PanelMenuItem } from '~/types';
 
 export interface IAdditionalPanelMenuItemsContext {
-  items: AdditionalPanelMenuItem[];
+  items: PanelMenuItem[];
 }
 
 const initialContext = {
