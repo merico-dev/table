@@ -2,21 +2,19 @@ import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
+import { removeTrendingBasedCalculations } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
 import { IContentRenderModel } from '~/dashboard-render';
 import {
   DashboardFilterType,
   DashboardStateVariableOptions,
   DataSourceType,
+  type IQueryMeta,
   MericoMetricQueryMetaInstance,
   MericoMetricType,
   QueryMeta,
-  type IQueryMeta,
 } from '~/model';
 import { typeAssert } from '~/types/utils';
-import { explainHTTPRequest } from '~/utils';
-import { explainSQL } from '~/utils';
-import { DependencyInfo, UsageRegs } from '~/utils';
-import { removeTrendingBasedCalculations } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
+import { DependencyInfo, explainHTTPRequest, explainSQL, UsageRegs } from '~/utils';
 
 type MetricQueryPayload = {
   id: string;
@@ -34,6 +32,21 @@ type MetricQueryPayload = {
   useDefaultValues?: boolean;
   extraCalculations?: string[];
 };
+
+// Helper function to format date range for timeQuery
+function formatDateRangeForTimeQuery(
+  range: any[],
+  timezone: string,
+  stepKeyFormat: string,
+): { start: string; end: string } | null {
+  if (Array.isArray(range) && range.length === 2) {
+    return {
+      start: dayjs(range[0]).tz(timezone).format(stepKeyFormat),
+      end: dayjs(range[1]).tz(timezone).format(stepKeyFormat),
+    };
+  }
+  return null;
+}
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
   get rootModel(): any {
@@ -242,9 +255,15 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       const v = _.get(payload, curr.variable);
       const t = _.get(types, curr.variable);
       const d = curr.dimension;
-      if (t === DashboardFilterType.DateRange || t === DashboardFilterType.MericoDateRange) {
+      if (t === DashboardFilterType.DateRange) {
         const allNumber = v.every((d: string) => Number.isFinite(Number(d)));
         const between = allNumber ? v.map((d: string) => Number(d)) : v;
+        acc[d] = {
+          between,
+        };
+      } else if (t === DashboardFilterType.MericoDateRange) {
+        const allNumber = v.value.every((d: string) => Number.isFinite(Number(d)));
+        const between = allNumber ? v.value.map((d: string) => Number(d)) : v;
         acc[d] = {
           between,
         };
@@ -280,19 +299,39 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     const { range_variable, unit_variable } = config.timeQuery;
     const stepKeyFormat = 'YYYY-MM-DD';
     const timezone = 'PRC';
+    const unitVariableType = _.get(types, unit_variable);
+    const rangeVariableType = _.get(types, range_variable);
+    let unitOfTime = _.get(payload, unit_variable, '');
+
+    // If unit_variable is of merico-date-range type, use filter.step as unitOfTime
+    if (unitVariableType === DashboardFilterType.MericoDateRange) {
+      unitOfTime = _.get(payload, `${unit_variable}.step`, '');
+    }
+
     const timeQuery: MetricQueryPayload['timeQuery'] = {
       start: '',
       end: '',
-      unitOfTime: _.get(payload, unit_variable, ''),
+      unitOfTime,
       unitNumber: 1,
       timezone: 'PRC',
       stepKeyFormat,
     };
     if (range_variable) {
-      const range = _.get(payload, range_variable);
-      if (Array.isArray(range) && range.length === 2) {
-        timeQuery.start = dayjs(range[0]).tz(timezone).format(stepKeyFormat);
-        timeQuery.end = dayjs(range[1]).tz(timezone).format(stepKeyFormat);
+      // If range_variable is of merico-date-range type, use payload.range_variable.value as range
+      if (rangeVariableType === DashboardFilterType.MericoDateRange) {
+        const range = _.get(payload, `${range_variable}.value`);
+        const formattedRange = formatDateRangeForTimeQuery(range, timezone, stepKeyFormat);
+        if (formattedRange) {
+          timeQuery.start = formattedRange.start;
+          timeQuery.end = formattedRange.end;
+        }
+      } else {
+        const range = _.get(payload, range_variable);
+        const formattedRange = formatDateRangeForTimeQuery(range, timezone, stepKeyFormat);
+        if (formattedRange) {
+          timeQuery.start = formattedRange.start;
+          timeQuery.end = formattedRange.end;
+        }
       }
     }
 
