@@ -26,11 +26,5 @@ function getPanelBorderStyle(panel: PanelRenderModelInstance) {
 
 export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const panelStyle = getPanelBorderStyle(panel);
-  return (
-    <PanelRenderBase
-      panel={panel}
-      panelStyle={panelStyle}
-      dropdownContent={<PanelDropdownMenu view={view} title={panel.name} />}
-    />
-  );
+  return <PanelRenderBase panel={panel} panelStyle={panelStyle} dropdownContent={<PanelDropdownMenu view={view} />} />;
 });

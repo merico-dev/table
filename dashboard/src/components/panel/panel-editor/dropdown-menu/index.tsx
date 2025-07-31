@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { ViewMetaInstance } from '~/model';
 import { PanelDropdownMenuItems } from './items';
 
-export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInstance; title: string }) => {
+export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
   return (
     <>
       <Menu withinPortal trigger="hover">
