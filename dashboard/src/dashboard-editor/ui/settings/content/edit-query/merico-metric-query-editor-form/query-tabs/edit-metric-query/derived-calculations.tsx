@@ -124,10 +124,6 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
   // Track previous timeQuery state to detect when it changes from enabled to disabled
   const prevTimeQueryEnabled = useRef(config.timeQuery.enabled);
 
-  if (!config.id) {
-    return null;
-  }
-
   useEffect(() => {
     if (prevTimeQueryEnabled.current && !config.timeQuery.enabled) {
       // TimeQuery was just disabled, remove trending-based calculations
@@ -141,6 +137,10 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
     // Update the previous state
     prevTimeQueryEnabled.current = config.timeQuery.enabled;
   }, [config.timeQuery.enabled]);
+
+  if (!config.id) {
+    return null;
+  }
 
   if (loading) {
     return (
