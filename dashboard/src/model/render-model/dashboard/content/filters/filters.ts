@@ -9,7 +9,7 @@ import {
   FilterMeta,
   FilterValuesType,
   TDashboardStateItem,
-  type DashboardFilterType,
+  DashboardFilterType,
   type IFilterMeta,
 } from '~/model';
 import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
@@ -56,7 +56,10 @@ export const FiltersRenderModel = types
       Object.entries(self.values).forEach(([k, v]) => {
         ret[k] = v;
         const f = this.findByKey(k);
-        if (f && f.config._name === 'date-range') {
+        if (
+          f &&
+          (f.config._name === DashboardFilterType.DateRange || f.config._name === DashboardFilterType.MericoDateRange)
+        ) {
           ret[k] = f.config.dateStringsValue;
         }
       });
