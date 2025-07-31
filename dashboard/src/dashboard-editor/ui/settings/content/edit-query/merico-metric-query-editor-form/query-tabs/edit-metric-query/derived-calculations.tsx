@@ -50,13 +50,13 @@ const generateAvailableOptions = (
     .filter(([key]) => extraCalculations.includes(key))
     .map(([value, data]) => {
       const isTimeQueryDisabled = !timeQueryEnabled;
-      const requiresWindowConfig = data.requireWindowConfig;
-      const shouldBeDisabled = isTimeQueryDisabled && requiresWindowConfig;
+
+      const shouldBeDisabled = isTimeQueryDisabled && data.requireTrendingDateCol;
 
       let label = data.name;
 
       // Append window config to label for window-based calculations
-      if (requiresWindowConfig && windowConfig) {
+      if (data.requireWindowConfig && windowConfig) {
         const calculationName = calculationNames[windowConfig.calculation] || windowConfig.calculation;
         const directionText = windowConfig.direction === 'forward' ? '向前' : '向后';
         label = `${data.name} · ${calculationName} · ${windowConfig.n} 个步长 · ${directionText}`;
