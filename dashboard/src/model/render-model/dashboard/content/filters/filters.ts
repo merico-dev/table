@@ -1,16 +1,16 @@
 import _ from 'lodash';
 import { type IObservableArray } from 'mobx';
-import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
+import { getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { FilterModelSnapshotOut } from '~/dashboard-editor';
 import { IContentRenderModel } from '~/dashboard-render';
 import {
-  CURRENT_SCHEMA_VERSION,
   ContextRecordType,
+  CURRENT_SCHEMA_VERSION,
+  DashboardFilterType,
   FilterMeta,
   FilterValuesType,
-  TDashboardStateItem,
-  DashboardFilterType,
   type IFilterMeta,
+  TDashboardStateItem,
 } from '~/model';
 import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
 import { typeAssert } from '~/types/utils';
@@ -56,10 +56,7 @@ export const FiltersRenderModel = types
       Object.entries(self.values).forEach(([k, v]) => {
         ret[k] = v;
         const f = this.findByKey(k);
-        if (
-          f &&
-          (f.config._name === DashboardFilterType.DateRange || f.config._name === DashboardFilterType.MericoDateRange)
-        ) {
+        if (f && f.config._name === DashboardFilterType.DateRange) {
           ret[k] = f.config.dateStringsValue;
         }
       });
