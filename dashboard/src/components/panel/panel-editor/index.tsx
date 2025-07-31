@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { PanelRenderModelInstance, ViewMetaInstance } from '~/model';
-import { PanelDropdownMenu } from './dropdown-menu';
 import { PanelRenderBase } from '../panel-render/panel-render-base';
+import { PanelDropdownMenuItems } from './dropdown-menu-items';
 
 interface IPanel {
   view: ViewMetaInstance;
@@ -26,5 +26,7 @@ function getPanelBorderStyle(panel: PanelRenderModelInstance) {
 
 export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const panelStyle = getPanelBorderStyle(panel);
-  return <PanelRenderBase panel={panel} panelStyle={panelStyle} dropdownContent={<PanelDropdownMenu view={view} />} />;
+  return (
+    <PanelRenderBase panel={panel} panelStyle={panelStyle} dropdownContent={<PanelDropdownMenuItems view={view} />} />
+  );
 });

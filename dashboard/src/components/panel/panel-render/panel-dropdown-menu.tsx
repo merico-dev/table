@@ -1,10 +1,9 @@
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconDotsVertical } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { ViewMetaInstance } from '~/model';
-import { PanelDropdownMenuItems } from './items';
+import { ReactNode } from 'react';
 
-export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
+export const PanelDropdownMenu = observer(({ children }: { children: ReactNode }) => {
   return (
     <>
       <Menu withinPortal trigger="hover">
@@ -21,9 +20,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
             <IconDotsVertical size={14} style={{ width: '70%', height: '70%' }} />
           </ActionIcon>
         </Menu.Target>
-        <Menu.Dropdown>
-          <PanelDropdownMenuItems view={view} />
-        </Menu.Dropdown>
+        <Menu.Dropdown>{children}</Menu.Dropdown>
       </Menu>
     </>
   );
