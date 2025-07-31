@@ -16,19 +16,23 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
+import { useAdditionalPanelMenuItems, useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { QueryMenuItems } from './query-menu-items';
 
-export const PanelDropdownMenuItems = observer(({ view }: { view: ViewMetaInstance }) => {
+type Props = {
+  view: ViewMetaInstance;
+};
+
+export const PanelDropdownMenuItems = observer(({ view }: Props) => {
   const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const modals = useModals();
 
-  const { panel, downloadPanelScreenshot } = useEditPanelContext();
+  const { panel, downloadPanelScreenshot, echartsOptions } = useEditPanelContext();
   const { id } = panel;
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
@@ -63,6 +67,8 @@ export const PanelDropdownMenuItems = observer(({ view }: { view: ViewMetaInstan
     viewPanelInFullScreen(id);
   }, [id, viewPanelInFullScreen]);
   const showFullScreenOption = !inFullScreen && view.type !== EViewComponentType.Modal;
+
+  const { items: additionalItems } = useAdditionalPanelMenuItems();
   return (
     <>
       <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
@@ -106,6 +112,7 @@ export const PanelDropdownMenuItems = observer(({ view }: { view: ViewMetaInstan
       <Menu.Item color="red" onClick={remove} leftSection={<IconTrash size={14} />}>
         {t('common.actions.delete')}
       </Menu.Item>
+      {additionalItems.map((item) => item.render({ echartsOptions, inEditMode: true }))}
     </>
   );
 });

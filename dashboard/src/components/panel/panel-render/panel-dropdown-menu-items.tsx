@@ -5,13 +5,20 @@ import { IconArrowsMaximize, IconCamera, IconDownload, IconRefresh } from '@tabl
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { useAdditionalPanelMenuItems } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useRenderPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 
-export const PanelDropdownMenuItems = observer(({ view }: { view: ViewMetaInstance }) => {
+type Props = {
+  view: ViewMetaInstance;
+};
+
+export const PanelDropdownMenuItems = observer(({ view }: Props) => {
   const { t } = useTranslation();
-  const { panel, downloadPanelScreenshot } = useRenderPanelContext();
+  const { panel, downloadPanelScreenshot, echartsOptions } = useRenderPanelContext();
+  const { items: additionalItems } = useAdditionalPanelMenuItems();
+
   const { id } = panel;
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
@@ -36,6 +43,7 @@ export const PanelDropdownMenuItems = observer(({ view }: { view: ViewMetaInstan
           {t('common.actions.enter_fullscreen')}
         </Menu.Item>
       )}
+      {additionalItems.map((item) => item.render({ echartsOptions, inEditMode: false }))}
     </>
   );
 });

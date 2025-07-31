@@ -8,6 +8,8 @@ import {
   SQLSnippetMetaSnapshotIn,
   LayoutSetMetaSnapshotOut,
 } from '~/model';
+import { ReactNode } from 'react';
+import { EChartsOption } from 'echarts';
 
 export interface IVizConfig {
   type: string;
@@ -93,4 +95,9 @@ export type DashboardContentDBType = {
   content: TDashboardContent | null;
   create_time: string;
   update_time: string;
+};
+
+export type AdditionalPanelMenuItem = {
+  order: number;
+  render: (props: { echartsOptions: EChartsOption | null; inEditMode: boolean }) => ReactNode;
 };
