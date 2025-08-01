@@ -17,6 +17,7 @@ import { OpenTabVisualization } from './open-tab-visualization';
 import { OpenTabInteraction } from './open-tab-interaction';
 import { DeletePanel } from './delete-panel';
 import { Duplicate } from './duplicate';
+import { useQueryItems } from './use-query-items';
 
 export const useItems = (view: ViewMetaInstance) => {
   const { t } = useTranslation();
@@ -24,6 +25,8 @@ export const useItems = (view: ViewMetaInstance) => {
   const panelID = panel.id;
   const viewID = view.id;
   const { items: additionalItems } = useAdditionalPanelMenuItems();
+
+  const queryItems = useQueryItems(view);
 
   return useMemo(() => {
     const ret: PanelMenuItem[] = [
@@ -47,7 +50,7 @@ export const useItems = (view: ViewMetaInstance) => {
         order: 400,
         render: () => <EnterFullScreen view={view} />,
       },
-      // TODO: query items
+      ...queryItems,
       {
         order: 600,
         render: () => <Divider label={t('common.actions.edit')} labelPosition="center" />,
@@ -85,5 +88,5 @@ export const useItems = (view: ViewMetaInstance) => {
     ];
 
     return ret.sort((a, b) => a.order - b.order);
-  }, [additionalItems]);
+  }, [queryItems, additionalItems]);
 };
