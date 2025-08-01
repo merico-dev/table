@@ -14,15 +14,15 @@ export const useItems = (view: ViewMetaInstance) => {
     const ret: PanelMenuItem[] = [
       {
         order: 10,
-        render: Refresh,
+        render: () => <Refresh />,
       },
       {
         order: 20,
-        render: DownloadData,
+        render: () => <DownloadData />,
       },
       {
         order: 30,
-        render: DownloadScreenshot,
+        render: () => <DownloadScreenshot />,
       },
       {
         order: 50,
