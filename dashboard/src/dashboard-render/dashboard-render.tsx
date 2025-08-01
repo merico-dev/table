@@ -10,6 +10,8 @@ import { createPluginContext, PluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewRender } from '~/components/view';
 import {
+  AdditionalPanelMenuItemsContext,
+  AdditionalPanelMenuItemsContextProvider,
   ContentModelContextProvider,
   DashboardModelContextProvider,
   DashboardThemeContextProvider,
@@ -26,7 +28,7 @@ import { IDashboardConfig } from '..';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { CustomizeScreenshotContext } from '../contexts/customize-screenshot-context';
-import { DashboardContentDBType, IDashboard } from '../types/dashboard';
+import { PanelMenuItem, DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
 
@@ -47,6 +49,7 @@ export interface IReadOnlyDashboard {
   onActiveTabChange?: (tab: TabInfo | null) => void;
   lang: string;
   onScreenshot?: (canvas: HTMLCanvasElement) => void;
+  additionalPanelMenuItems?: PanelMenuItem[];
 }
 
 const _ReadOnlyDashboard = ({
@@ -63,6 +66,7 @@ const _ReadOnlyDashboard = ({
   onActiveTabChange,
   lang,
   onScreenshot,
+  additionalPanelMenuItems,
 }: IReadOnlyDashboard) => {
   configureAPIClient(config);
 
@@ -141,32 +145,34 @@ const _ReadOnlyDashboard = ({
           <ModalsProvider>
             <DatesProvider>
               <DashboardThemeContextProvider value={{ renderSearchButton: config.renderSearchButton }}>
-                <DashboardModelContextProvider value={model}>
-                  <ContentModelContextProvider value={model.content}>
-                    <FullScreenPanelContext.Provider
-                      value={{
-                        fullScreenPanelID,
-                        setFullScreenPanelID,
-                      }}
-                    >
-                      <LayoutStateContext.Provider
+                <AdditionalPanelMenuItemsContextProvider value={{ items: additionalPanelMenuItems ?? [] }}>
+                  <DashboardModelContextProvider value={model}>
+                    <ContentModelContextProvider value={model.content}>
+                      <FullScreenPanelContext.Provider
                         value={{
-                          inEditMode: false,
+                          fullScreenPanelID,
+                          setFullScreenPanelID,
                         }}
                       >
-                        <Box className={`${className} dashboard-root`}>
-                          <PluginContext.Provider value={pluginContext}>
-                            <ServiceLocatorProvider configure={configureServices}>
-                              {model.content.views.visibleViews.map((view) => (
-                                <DashboardViewRender key={view.id} view={view} />
-                              ))}
-                            </ServiceLocatorProvider>
-                          </PluginContext.Provider>
-                        </Box>
-                      </LayoutStateContext.Provider>
-                    </FullScreenPanelContext.Provider>
-                  </ContentModelContextProvider>
-                </DashboardModelContextProvider>
+                        <LayoutStateContext.Provider
+                          value={{
+                            inEditMode: false,
+                          }}
+                        >
+                          <Box className={`${className} dashboard-root`}>
+                            <PluginContext.Provider value={pluginContext}>
+                              <ServiceLocatorProvider configure={configureServices}>
+                                {model.content.views.visibleViews.map((view) => (
+                                  <DashboardViewRender key={view.id} view={view} />
+                                ))}
+                              </ServiceLocatorProvider>
+                            </PluginContext.Provider>
+                          </Box>
+                        </LayoutStateContext.Provider>
+                      </FullScreenPanelContext.Provider>
+                    </ContentModelContextProvider>
+                  </DashboardModelContextProvider>
+                </AdditionalPanelMenuItemsContextProvider>
               </DashboardThemeContextProvider>
             </DatesProvider>
           </ModalsProvider>

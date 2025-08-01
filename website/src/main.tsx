@@ -14,7 +14,7 @@ import './index.css';
 import { AccountsPage } from './pages/account-page';
 import { APIKeyPage } from './pages/api-key-page';
 import { DashboardEditorPage } from './pages/dashboard-editor-page';
-import { DashboardPage } from './pages/dashboard-page';
+import { DashboardRenderPage } from './pages/dashboard-render-page';
 import { DataSourcePage } from './pages/data-source-page';
 import { LoginPage } from './pages/login-page';
 import { SQLSnippetPage } from './pages/sql-snippet-page';
@@ -41,8 +41,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/" element={<RequireAuth />}>
                   <Route path="/" element={<SocketClientFrame />}>
                     <Route path="/" element={<App />}>
-                      <Route path="dashboard/:id" element={<DashboardPage />} />
-                      <Route path="*" element={<DashboardPage />} />
+                      <Route path="dashboard/:id" element={<DashboardRenderPage />} />
+                      <Route path="*" element={<DashboardRenderPage />} />
                     </Route>
                     <Route path="/dashboard/:id/edit" element={<DashboardEditorFrame />}>
                       <Route path="" element={<DashboardEditorPage />} />

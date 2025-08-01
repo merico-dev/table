@@ -1,6 +1,6 @@
 import useUrlState from '@ahooksjs/use-url-state';
-import { ReadOnlyDashboard } from '@devtable/dashboard';
-import { LoadingOverlay } from '@mantine/core';
+import { PanelMenuItem, ReadOnlyDashboard } from '@devtable/dashboard';
+import { Divider, LoadingOverlay, Menu } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -12,6 +12,25 @@ import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
 import { DashboardIsEmpty } from './placeholder';
 import { useLanguageContext } from '../../contexts';
+
+const DownloadChartData: PanelMenuItem['render'] = ({ echartsOptions }) => {
+  return <Menu.Item onClick={() => console.log(echartsOptions)}>下载图表数据</Menu.Item>;
+};
+
+const items = [
+  {
+    order: 11,
+    render: () => <Divider color="red" variant="dashed" />,
+  },
+  {
+    order: 12,
+    render: DownloadChartData,
+  },
+  {
+    order: 13,
+    render: () => <Divider color="red" variant="dashed" />,
+  },
+];
 
 export const DashboardPageContent = observer(() => {
   const { lang } = useLanguageContext();
@@ -73,6 +92,7 @@ export const DashboardPageContent = observer(() => {
           fullScreenPanelID={search.full_screen_panel_id}
           setFullScreenPanelID={setFullScreenPanelID}
           lang={lang}
+          additionalPanelMenuItems={items}
           // onFilterValuesChange={console.log}
         />
       </ErrorBoundary>
