@@ -17,15 +17,15 @@ export const useItems = (view: ViewMetaInstance) => {
         render: () => <Refresh />,
       },
       {
-        order: 20,
+        order: 100,
         render: () => <DownloadData />,
       },
       {
-        order: 30,
+        order: 300,
         render: () => <DownloadScreenshot />,
       },
       {
-        order: 50,
+        order: 400,
         render: () => <EnterFullScreen view={view} />,
       },
       ...additionalItems,
