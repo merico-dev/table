@@ -1,5 +1,5 @@
 import useUrlState from '@ahooksjs/use-url-state';
-import { AdditionalPanelMenuItem, ReadOnlyDashboard } from '@devtable/dashboard';
+import { PanelMenuItem, ReadOnlyDashboard } from '@devtable/dashboard';
 import { Divider, LoadingOverlay, Menu } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -13,7 +13,7 @@ import './content.css';
 import { DashboardIsEmpty } from './placeholder';
 import { useLanguageContext } from '../../contexts';
 
-const DownloadChartData: AdditionalPanelMenuItem['render'] = ({ echartsOptions }) => {
+const DownloadChartData: PanelMenuItem['render'] = ({ echartsOptions }) => {
   return <Menu.Item onClick={() => console.log(echartsOptions)}>下载图表数据</Menu.Item>;
 };
 
