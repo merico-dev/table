@@ -14,6 +14,11 @@ import { OpenTabPanel } from './open-tab-panel';
 import { OpenTabVariable } from './open-tab-variable';
 import { OpenTabVisualization } from './open-tab-visualization';
 import { QueryMenuItems } from './query-menu-items';
+import { Refresh } from '../../panel-render/dropdown-menu-items/refresh';
+import { DownloadData } from '../../panel-render/dropdown-menu-items/download-data';
+import { DownloadScreenshot } from '../../panel-render/dropdown-menu-items/download-screenshot';
+import { DownloadSchema } from '../../panel-render/dropdown-menu-items/download-schema';
+import { EnterFullScreen } from '../../panel-render/dropdown-menu-items/enter-fullscreen';
 
 const useItems = (view: ViewMetaInstance) => {
   const items = useMemo(() => {}, []);
@@ -27,37 +32,18 @@ type Props = {
 export const PanelDropdownMenuItems = observer(({ view }: Props) => {
   const { t } = useTranslation();
 
-  const { panel, downloadPanelScreenshot, echartsOptions } = useEditPanelContext();
+  const { panel, echartsOptions } = useEditPanelContext();
   const panelID = panel.id;
   const viewID = view.id;
-
-  const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
-
-  const enterFullScreen = React.useCallback(() => {
-    viewPanelInFullScreen(panelID);
-  }, [panelID, viewPanelInFullScreen]);
-  const showFullScreenOption = !inFullScreen && view.type !== EViewComponentType.Modal;
 
   const { items: additionalItems } = useAdditionalPanelMenuItems();
   return (
     <>
-      <Menu.Item onClick={panel.refreshData} leftSection={<IconRefresh size={14} />}>
-        {t('common.actions.refresh')}
-      </Menu.Item>
-      <Menu.Item onClick={panel.downloadData} leftSection={<IconDownload size={14} />}>
-        {t('common.actions.download_data')}
-      </Menu.Item>
-      <Menu.Item onClick={panel.downloadSchema} leftSection={<IconCode size={14} />}>
-        {t('common.actions.download_schema')}
-      </Menu.Item>
-      <Menu.Item onClick={downloadPanelScreenshot} leftSection={<IconCamera size={14} />}>
-        {t('common.actions.download_screenshot')}
-      </Menu.Item>
-      {showFullScreenOption && (
-        <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />} disabled>
-          {t('common.actions.enter_fullscreen')}
-        </Menu.Item>
-      )}
+      <Refresh />
+      <DownloadData />
+      <DownloadSchema />
+      <DownloadScreenshot />
+      <EnterFullScreen view={view} />
 
       <QueryMenuItems view={view} />
 
