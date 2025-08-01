@@ -99,5 +99,10 @@ export type DashboardContentDBType = {
 
 export type PanelMenuItem = {
   order: number;
-  render: (props: { echartsOptions: EChartsOption | null; inEditMode: boolean }) => ReactNode;
+  render: (props: {
+    echartsOptions: EChartsOption | null;
+    inEditMode: boolean;
+    panelID: string;
+    viewID: string;
+  }) => ReactNode;
 };
