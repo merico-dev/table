@@ -6,11 +6,11 @@ import { DateRangeValue, DateRangeValue_Value } from '~/model';
 type Props = {
   value: DateRangeValue;
   onChange: (v: DateRangeValue) => void;
-  close: () => void;
+  onClose: () => void;
   max_days: number;
   allowSingleDateInRange: boolean;
 };
-export const Calendar = ({ value, onChange, close, max_days, allowSingleDateInRange }: Props) => {
+export const Calendar = ({ value, onChange, onClose, max_days, allowSingleDateInRange }: Props) => {
   const v = value.value;
   const [begin, end] = v;
   const dateLeft = useMemo(() => {
@@ -42,7 +42,7 @@ export const Calendar = ({ value, onChange, close, max_days, allowSingleDateInRa
     const [b, e] = value;
     onChange({ value, shortcut: null });
     if (b && e) {
-      close();
+      onClose();
     }
   };
 

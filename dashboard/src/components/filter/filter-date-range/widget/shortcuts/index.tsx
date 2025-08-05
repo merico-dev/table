@@ -4,11 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { DateRangeValue } from '~/model';
 import { GetRange, getShortcutsInGroups } from './shortcuts';
 
-export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void }) => {
+type Props = {
+  onChange: (v: DateRangeValue) => void;
+  onClose: () => void;
+};
+
+export const Shortcuts = ({ onChange, onClose }: Props) => {
   const { t, i18n } = useTranslation();
   const getClickHandler = (getRange: GetRange) => () => {
     const range = getRange();
     onChange(range);
+    onClose();
   };
   const shortcutGroups = useMemo(() => getShortcutsInGroups(), []);
   const useFullLabel = i18n.language === 'zh';
