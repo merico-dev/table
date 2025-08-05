@@ -44,7 +44,6 @@
 }
 .end :global(.mantine-Input-input[data-disabled]) {
   background-color: transparent;
-  background-image: linear-gradient(to right, #fff 0%, #f1f3f5 30%);
   opacity: 1;
 }
 .end :global(.mantine-Input-input[data-disabled]::placeholder) {

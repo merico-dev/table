@@ -78,7 +78,7 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
           leftSection={<IconMinus size={16} onClick={open} />}
           placeholder={t('filter.widget.date_range.end_date')}
           readOnly
-          disabled={!begin || disabled}
+          disabled={disabled}
           value={endStr}
           onFocus={open}
           styles={getInputStyles(opened)}
