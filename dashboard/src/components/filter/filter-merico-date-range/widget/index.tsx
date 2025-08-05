@@ -27,7 +27,7 @@ type Props = {
 };
 export const MericoDateRangeWidget = ({ label, required, value, onChange, inputFormat, disabled }: Props) => {
   const { t } = useTranslation();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close: onClose }] = useDisclosure(false);
 
   const [begin, end] = value.value;
   const beginStr = begin ? dayjs(begin).format(inputFormat) : '';
@@ -54,7 +54,7 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
   };
 
   return (
-    <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
+    <Popover opened={opened} onClose={onClose} position="bottom-start" shadow="md">
       <Group justify="flex-start" align="text-anchor" wrap="nowrap" gap={0} sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
@@ -96,8 +96,8 @@ export const MericoDateRangeWidget = ({ label, required, value, onChange, inputF
         />
       </Group>
       <Popover.Dropdown p="sm">
-        <Calendar value={value} onChange={handleCalendarChange} close={close} />
-        <Shortcuts onChange={onChange} step={value.step} />
+        <Calendar value={value} onChange={handleCalendarChange} onClose={onClose} />
+        <Shortcuts onChange={onChange} step={value.step} onClose={onClose} />
       </Popover.Dropdown>
     </Popover>
   );

@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { MericoDateRangeValue } from '~/model';
 import { GetRange, getMericoShortcutsInGroups } from './shortcuts';
 
-type Props = { step: string; onChange: (v: MericoDateRangeValue) => void };
+type Props = { step: string; onChange: (v: MericoDateRangeValue) => void; onClose: () => void };
 
-export const Shortcuts = ({ onChange, step }: Props) => {
+export const Shortcuts = ({ onChange, step, onClose }: Props) => {
   const { t, i18n } = useTranslation();
   const getClickHandler = (getRange: GetRange) => () => {
     const range = getRange(step);
     onChange(range);
+    onClose();
   };
   const shortcutGroups = useMemo(() => getMericoShortcutsInGroups(step), [step]);
   const useFullLabel = i18n.language === 'zh';
