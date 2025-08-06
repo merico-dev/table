@@ -236,7 +236,10 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     group: 'this_so_far',
     getRange: () => {
       const now = Date.now();
-      return { value: [dayjs(now).startOf('week').toDate(), dayjs(now).toDate()], shortcut: 'this week so far' };
+      return {
+        value: [dayjs(now).startOf('week').toDate(), dayjs(now).endOf('day').toDate()],
+        shortcut: 'this week so far',
+      };
     },
   },
   {
@@ -245,7 +248,10 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     group: 'this_so_far',
     getRange: () => {
       const now = Date.now();
-      return { value: [dayjs(now).startOf('month').toDate(), dayjs(now).toDate()], shortcut: 'this month so far' };
+      return {
+        value: [dayjs(now).startOf('month').toDate(), dayjs(now).endOf('day').toDate()],
+        shortcut: 'this month so far',
+      };
     },
   },
   {
@@ -254,7 +260,10 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     group: 'this_so_far',
     getRange: () => {
       const now = Date.now();
-      return { value: [dayjs(now).startOf('year').toDate(), dayjs(now).toDate()], shortcut: 'this year so far' };
+      return {
+        value: [dayjs(now).startOf('year').toDate(), dayjs(now).endOf('day').toDate()],
+        shortcut: 'this year so far',
+      };
     },
   },
 ];
