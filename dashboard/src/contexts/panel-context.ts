@@ -3,17 +3,15 @@ import React from 'react';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelRenderModelInstance } from '~/model';
 
-type PanelContextType<T = PanelModelInstance | PanelRenderModelInstance | null> = {
-  panel: T;
+const PanelContext = React.createContext<{
+  panel: PanelModelInstance | PanelRenderModelInstance | null;
   data: TPanelData;
   loading: boolean;
   errors: string[];
   downloadPanelScreenshot: () => void;
   echartsOptions: EChartsOption | null;
   setEchartsOptions: (v: EChartsOption | null) => void;
-};
-
-const PanelContext = React.createContext<PanelContextType<null>>({
+}>({
   panel: null,
   data: {},
   loading: false,
@@ -30,7 +28,15 @@ function usePanelContext<T = PanelRenderModelInstance>() {
   if (!c.panel) {
     throw new Error('Please use PanelContextProvider');
   }
-  return c as PanelContextType<T>;
+  return c as {
+    panel: T;
+    data: TPanelData;
+    loading: boolean;
+    errors: string[];
+    downloadPanelScreenshot: () => {};
+    echartsOptions: null;
+    setEchartsOptions: (v: EChartsOption | null) => {};
+  };
 }
 
 export const useRenderPanelContext = () => usePanelContext<PanelRenderModelInstance>();
