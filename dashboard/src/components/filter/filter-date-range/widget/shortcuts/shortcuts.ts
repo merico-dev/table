@@ -16,12 +16,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'yesterday',
     group: 'last',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(1, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(1, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'yesterday',
       };
     },
@@ -31,12 +28,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'last week',
     group: 'last',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(1, 'week').startOf('week').toDate(),
-          dayjs(now).subtract(1, 'week').endOf('week').toDate(),
-        ],
+        value: [now.subtract(1, 'week').startOf('week').toDate(), now.subtract(1, 'week').endOf('week').toDate()],
         shortcut: 'last week',
       };
     },
@@ -46,12 +40,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'last month',
     group: 'last',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(1, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: [now.subtract(1, 'month').startOf('month').toDate(), now.subtract(1, 'month').endOf('month').toDate()],
         shortcut: 'last month',
       };
     },
@@ -61,12 +52,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'last 2 months',
     group: 'last',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(2, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: [now.subtract(2, 'month').startOf('month').toDate(), now.subtract(1, 'month').endOf('month').toDate()],
         shortcut: 'last 2 months',
       };
     },
@@ -76,12 +64,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'last 3 months',
     group: 'last',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(3, 'month').startOf('month').toDate(),
-          dayjs(now).subtract(1, 'month').endOf('month').toDate(),
-        ],
+        value: [now.subtract(3, 'month').startOf('month').toDate(), now.subtract(1, 'month').endOf('month').toDate()],
         shortcut: 'last 3 months',
       };
     },
@@ -91,12 +76,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'last year',
     group: 'last',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(1, 'year').startOf('year').toDate(),
-          dayjs(now).subtract(1, 'year').endOf('year').toDate(),
-        ],
+        value: [now.subtract(1, 'year').startOf('year').toDate(), now.subtract(1, 'year').endOf('year').toDate()],
         shortcut: 'last year',
       };
     },
@@ -106,12 +88,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'recent 7 days',
     group: 'recent',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(7, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(7, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'recent 7 days',
       };
     },
@@ -121,12 +100,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'recent 30 days',
     group: 'recent',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(30, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(30, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'recent 30 days',
       };
     },
@@ -136,12 +112,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'recent 60 days',
     group: 'recent',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(60, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(60, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'recent 60 days',
       };
     },
@@ -151,12 +124,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'recent 90 days',
     group: 'recent',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(90, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(90, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'recent 90 days',
       };
     },
@@ -166,12 +136,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'recent 180 days',
     group: 'recent',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(180, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(180, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'recent 180 days',
       };
     },
@@ -181,12 +148,9 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'recent 365 days',
     group: 'recent',
     getRange: () => {
-      const now = Date.now();
+      const now = dayjs();
       return {
-        value: [
-          dayjs(now).subtract(365, 'day').startOf('day').toDate(),
-          dayjs(now).subtract(1, 'day').endOf('day').toDate(),
-        ],
+        value: [now.subtract(365, 'day').startOf('day').toDate(), now.subtract(1, 'day').endOf('day').toDate()],
         shortcut: 'recent 365 days',
       };
     },
@@ -196,8 +160,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'today',
     group: 'this',
     getRange: () => {
-      const now = Date.now();
-      return { value: [dayjs(now).startOf('day').toDate(), dayjs(now).endOf('day').toDate()], shortcut: 'today' };
+      const now = dayjs();
+      return { value: [now.startOf('day').toDate(), now.endOf('day').toDate()], shortcut: 'today' };
     },
   },
   {
@@ -205,8 +169,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'this week',
     group: 'this',
     getRange: () => {
-      const now = Date.now();
-      return { value: [dayjs(now).startOf('week').toDate(), dayjs(now).endOf('week').toDate()], shortcut: 'this week' };
+      const now = dayjs();
+      return { value: [now.startOf('week').toDate(), now.endOf('week').toDate()], shortcut: 'this week' };
     },
   },
   {
@@ -214,11 +178,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'this month',
     group: 'this',
     getRange: () => {
-      const now = Date.now();
-      return {
-        value: [dayjs(now).startOf('month').toDate(), dayjs(now).endOf('month').toDate()],
-        shortcut: 'this month',
-      };
+      const now = dayjs();
+      return { value: [now.startOf('month').toDate(), now.endOf('month').toDate()], shortcut: 'this month' };
     },
   },
   {
@@ -226,8 +187,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'this year',
     group: 'this',
     getRange: () => {
-      const now = Date.now();
-      return { value: [dayjs(now).startOf('year').toDate(), dayjs(now).endOf('year').toDate()], shortcut: 'this year' };
+      const now = dayjs();
+      return { value: [now.startOf('year').toDate(), now.endOf('year').toDate()], shortcut: 'this year' };
     },
   },
   {
@@ -235,11 +196,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'this week so far',
     group: 'this_so_far',
     getRange: () => {
-      const now = Date.now();
-      return {
-        value: [dayjs(now).startOf('week').toDate(), dayjs(now).endOf('day').toDate()],
-        shortcut: 'this week so far',
-      };
+      const now = dayjs();
+      return { value: [now.startOf('week').toDate(), now.endOf('day').toDate()], shortcut: 'this week so far' };
     },
   },
   {
@@ -247,11 +205,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'this month so far',
     group: 'this_so_far',
     getRange: () => {
-      const now = Date.now();
-      return {
-        value: [dayjs(now).startOf('month').toDate(), dayjs(now).endOf('day').toDate()],
-        shortcut: 'this month so far',
-      };
+      const now = dayjs();
+      return { value: [now.startOf('month').toDate(), now.endOf('day').toDate()], shortcut: 'this month so far' };
     },
   },
   {
@@ -259,11 +214,8 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     value: 'this year so far',
     group: 'this_so_far',
     getRange: () => {
-      const now = Date.now();
-      return {
-        value: [dayjs(now).startOf('year').toDate(), dayjs(now).endOf('day').toDate()],
-        shortcut: 'this year so far',
-      };
+      const now = dayjs();
+      return { value: [now.startOf('year').toDate(), now.endOf('day').toDate()], shortcut: 'this year so far' };
     },
   },
 ];
