@@ -3,7 +3,7 @@ import React from 'react';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelRenderModelInstance } from '~/model';
 
-type PanelContextType<T> = {
+type PanelContextType<T = PanelModelInstance | PanelRenderModelInstance | null> = {
   panel: T;
   data: TPanelData;
   loading: boolean;
@@ -13,7 +13,7 @@ type PanelContextType<T> = {
   setEchartsOptions: (v: EChartsOption | null) => void;
 };
 
-const PanelContext = React.createContext<PanelContextType<PanelModelInstance | PanelRenderModelInstance | null>>({
+const PanelContext = React.createContext<PanelContextType<null>>({
   panel: null,
   data: {},
   loading: false,
