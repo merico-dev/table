@@ -1,17 +1,17 @@
 import axios from 'axios';
-import _, { get } from 'lodash';
+import _, { get, map } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { queryByHTTP, queryBySQL, QueryFailureError, runMetricQuery } from '~/api-caller';
+import { queryByHTTP, queryBySQL, runMetricQuery } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { DataSourceMetaModelInstance } from '~/model/meta-model';
 import { DBQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/db-query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 import { AnyObject } from '~/types';
-import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
-import { MuteQueryModel, type IMuteQueryModel } from './mute-query';
 import { typeAssert } from '~/types/utils';
-import { DataSourceMetaModelInstance } from '~/model/meta-model';
-import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
+import { type IMuteQueryModel, MuteQueryModel } from './mute-query';
 
 type QueryStateType = 'idle' | 'loading' | 'error';
 
@@ -216,7 +216,8 @@ export const QueryRenderModel = types
           );
           const result = postProcessWithDataSource(self.datasource, response);
           const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardStateValues);
-          self.data = data.data;
+
+          self.data = sortRowKeys(data.data);
           self.state = 'idle';
           self.error = null;
         } catch (error) {
@@ -382,3 +383,27 @@ export type QueryUsageType =
       label: string;
       views: [];
     };
+
+/**
+ * Sort result rows
+ * @param data
+ */
+function sortRowKeys(data: any) {
+  if ('sortedColumns' in data && 'result' in data) {
+    const sortedColumns = new Set<string>(data.sortedColumns);
+
+    return map(data.result, (item: Record<string, any>) => {
+      const row: Record<string, any> = {};
+      for (const orderedKey of sortedColumns) {
+        row[orderedKey] = item[orderedKey];
+      }
+      for (const key in item) {
+        if (!sortedColumns.has(key)) {
+          row[key] = item[key];
+        }
+      }
+      return row;
+    });
+  }
+  return data;
+}
