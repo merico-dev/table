@@ -22,10 +22,6 @@ function useUpdateEchartsOptions(vizType: string) {
     setEchartsOptions(null);
   }, [vizType]);
 
-  useEffect(() => {
-    console.log(echartsOptions);
-  }, [echartsOptions]);
-
   return {
     echartsOptions,
     setEchartsOptions,

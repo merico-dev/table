@@ -8,16 +8,16 @@ import { getEndOf, getStartOf } from './utils';
 type Props = {
   value: MericoDateRangeValue;
   onChange: (v: DateRangeValue_Value) => void;
-  close: () => void;
+  onClose: () => void;
 };
-export const Calendar = ({ value, onChange, close }: Props) => {
+export const Calendar = ({ value, onChange, onClose }: Props) => {
   const handleRangeChange = (v: DateRangeValue_Value) => {
     const [b, e] = v;
     const begin = getStartOf(b, value.step);
     const end = getEndOf(e, value.step);
     onChange([begin?.toDate() ?? null, end?.toDate() ?? null]);
     if (b && e) {
-      close();
+      onClose();
     }
   };
 

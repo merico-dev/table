@@ -35,14 +35,14 @@ export const DateRangeWidget = ({
   disabled,
 }: Props) => {
   const { t } = useTranslation();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close: onClose }] = useDisclosure(false);
 
   const [begin, end] = value.value;
   const beginStr = begin ? dayjs(begin).format(inputFormat) : '';
   const endStr = end ? dayjs(end).format(inputFormat) : '';
 
   return (
-    <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
+    <Popover opened={opened} onClose={onClose} position="bottom-start" shadow="md">
       <Group justify="flex-start" grow wrap="nowrap" gap={0} w="288px" sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
@@ -111,11 +111,11 @@ export const DateRangeWidget = ({
         <Calendar
           value={value}
           onChange={onChange}
-          close={close}
+          onClose={onClose}
           allowSingleDateInRange={allowSingleDateInRange}
           max_days={max_days}
         />
-        <Shortcuts onChange={onChange} />
+        <Shortcuts onChange={onChange} onClose={onClose} />
       </Popover.Dropdown>
     </Popover>
   );

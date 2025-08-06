@@ -1,4 +1,4 @@
-import { Checkbox, Group, Select } from '@mantine/core';
+import { Checkbox, Group, Select, Text } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
@@ -92,13 +92,17 @@ export const FilterEditorMericoDateRange = observer(({ filter }: Props) => {
           value={localValue}
           onChange={handleDefaultValueChange}
           valueFormat={config.inputFormat}
-          required={config.required}
           allowSingleDateInRange
           numberOfColumns={2}
           w="50%"
           disabled={!!config.default_shortcut}
         />
       </Group>
+      {config.required && !config.default_shortcut && config.default_value.every((d) => !d) && (
+        <Text size="xs" mt={-10} ta="center">
+          快捷方式与具体日期范围二选一，且必填
+        </Text>
+      )}
       <CustomDefaultValueEditor filter={filter} />
     </>
   );
