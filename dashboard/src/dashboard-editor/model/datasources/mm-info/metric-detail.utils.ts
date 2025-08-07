@@ -4,56 +4,28 @@ import {
   DerivedMetric,
   DimensionColDataType,
   DimensionInfo,
+  IDerivedCalculationMetadata,
   MetricDetail,
   MetricSourceCol,
 } from './metric-detail.types';
-
-const TrendingCalculationTypeSet = new Set(['yoy_ratio', 'step_ratio', 'span_steps_calculation']);
-const DerivedCalculationLabelMap = {
-  accumulate: '累计计算',
-  yoy_ratio: '年同比率（yoy）',
-  step_ratio: '环比率',
-  span_steps_calculation: '移动计算',
-  percentage_total: '总占',
-} as const;
 
 export function parseData(data: MetricDetail) {
   if ('cols' in data) {
     const { cols } = data as DerivedMetric;
     const trendingDateCol = cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null;
-    const requireTrendingReason = TrendingCalculationTypeSet.has(data.calculation)
-      ? `当前指标涉及 ${_.get(
-          DerivedCalculationLabelMap,
-          data.calculation!,
-          data.calculation,
-        )}，缺少时序则无法展示有效结果。
-`
-      : '';
     return {
       filters: cols.filter((c) => c.type === 'filter').map((c) => c.metricSourceCol),
       groupBys: cols.filter((c) => c.type === 'group_by').map((c) => c.metricSourceCol),
       trendingDateCol,
       supportTrending: !!trendingDateCol,
-      requireTrendingReason,
     };
   }
-
-  const calcs = _.uniq(data.derivedMetrics.map((it) => it.calculation)).filter((calc) =>
-    TrendingCalculationTypeSet.has(calc),
-  );
-  const requireTrendingReason =
-    data.supportTrending && calcs.length > 0
-      ? `当前指标涉及 ${calcs
-          .map((it) => _.get(DerivedCalculationLabelMap, it, it))
-          .join('、')}，缺少时序则无法展示有效结果。`
-      : '';
 
   return {
     filters: data.filters,
     groupBys: data.groupBys,
     trendingDateCol: null,
     supportTrending: data.supportTrending,
-    requireTrendingReason, // supportTrending, then requireTrending
   };
 }
 
@@ -146,4 +118,135 @@ export function makeGroupByColOptions(cols: Array<CombinedMetricCol | MetricSour
     }),
   }));
   return ret;
+}
+
+export const calculationOptionsMap = new Map<string, IDerivedCalculationMetadata>([
+  [
+    'accumulate',
+    {
+      name: '累计计算',
+      description: '按指定的聚合方式，依次计算指标值的累计值。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: false,
+    },
+  ],
+  [
+    'yoyRatio',
+    {
+      name: '年同比率（yoy）',
+      description: '对比当前年份与上一个年份同期指标值的变化率。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'stepRatio',
+    {
+      name: '环比率',
+      description: '对比当前步长与上一个步长指标值的变化率。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'stepSpansRatio',
+    {
+      name: '移动计算',
+      description: '按设定的窗口沿时序对指标值进行滚动计算。',
+      requireWindowConfig: true,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'percentage',
+    {
+      name: '总占比',
+      description: '总占比 = 当前值 / 总值。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: false,
+    },
+  ],
+  [
+    'percentage_accumulate',
+    {
+      name: '累计占比',
+      description: '按聚合规则计算各项占比，再依次计算占比率的累计值，如帕累托的累计占比值。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: false,
+    },
+  ],
+  [
+    'accumulate_yoyRatio',
+    {
+      name: '累计年同比',
+      description: '按聚合规则累加数据，再与上一年同期累计值对比得出变化率。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'yoyRatio_accumulate',
+    {
+      name: '年同比累计',
+      description: '先计算各步长指标相对上一年同期的同比率，再依次计算同比率的累计值。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'stepRatio_accumulate',
+    {
+      name: '环比累计',
+      description: '先计算各步长指标相对上一步长的环比率，再依次计算环比率的累计值。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'percentage_yoyRatio',
+    {
+      name: '占比年同比',
+      description: '按聚合规则计算各项占比，再与去年同期占比对比得出变化率。',
+      requireWindowConfig: false,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'yoyRatio_stepSpansRatio',
+    {
+      name: '年同比移动计算',
+      description: '先计算各步长指标相对上一年同期的同比率，再按移动设置沿时序滚动计算。',
+      requireWindowConfig: true,
+      requireTrendingDateCol: true,
+    },
+  ],
+  [
+    'stepRatio_stepSpansRatio',
+    {
+      name: '环比移动计算',
+      description: '先计算各步长指标相对上一步长的环比率，再按移动设置沿时序滚动计算。',
+      requireWindowConfig: true,
+      requireTrendingDateCol: true,
+    },
+  ],
+]);
+
+/**
+ * Remove trending-based calculations from the list when timeQuery is disabled
+ * @param currentCalculations The current list of calculations
+ * @param timeQueryEnabled Whether timeQuery is enabled
+ * @returns Filtered list of calculations without trending-based ones if timeQuery is disabled
+ */
+export function removeTrendingBasedCalculations(currentCalculations: string[], timeQueryEnabled: boolean): string[] {
+  // If timeQuery is enabled, return all calculations
+  if (timeQueryEnabled) {
+    return currentCalculations;
+  }
+
+  // Get trending-based calculations from calculationOptionsMap
+  const trendingBasedCalculations = Array.from(calculationOptionsMap.entries())
+    .filter(([_, data]) => data.requireTrendingDateCol)
+    .map(([key]) => key);
+
+  return currentCalculations.filter((calc) => !trendingBasedCalculations.includes(calc));
 }
