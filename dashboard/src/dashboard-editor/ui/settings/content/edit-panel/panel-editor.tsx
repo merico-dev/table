@@ -126,7 +126,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         loading,
         errors: panel.queryErrors,
         downloadPanelScreenshot: () => {},
-        echartsOptions: null,
+        getEchartsOptions: () => null,
         setEchartsOptions: () => {},
       }}
     >
