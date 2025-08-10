@@ -58,6 +58,7 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
     >
       <Box
         id={panel.id}
+        data-testid="panel-root"
         className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
         ref={ref}
         p={0}
