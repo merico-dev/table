@@ -14,7 +14,11 @@ import { DashboardIsEmpty } from './placeholder';
 import { useLanguageContext } from '../../contexts';
 
 const DownloadChartData: PanelMenuItem['render'] = ({ getEchartsOptions }) => {
-  return <Menu.Item onClick={() => console.log(getEchartsOptions())}>下载图表数据</Menu.Item>;
+  return (
+    <Menu.Item key="download-echarts-options" onClick={() => console.log(getEchartsOptions())}>
+      下载图表数据
+    </Menu.Item>
+  );
 };
 
 const items = [
