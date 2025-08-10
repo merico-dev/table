@@ -9,7 +9,7 @@ const PanelContext = React.createContext<{
   loading: boolean;
   errors: string[];
   downloadPanelScreenshot: () => void;
-  echartsOptions: EChartsOption | null;
+  getEchartsOptions: () => EChartsOption | null;
   setEchartsOptions: (v: EChartsOption | null) => void;
 }>({
   panel: null,
@@ -17,7 +17,7 @@ const PanelContext = React.createContext<{
   loading: false,
   errors: [],
   downloadPanelScreenshot: () => {},
-  echartsOptions: null,
+  getEchartsOptions: () => null,
   setEchartsOptions: () => {},
 });
 
@@ -34,7 +34,7 @@ function usePanelContext<T = PanelRenderModelInstance>() {
     loading: boolean;
     errors: string[];
     downloadPanelScreenshot: () => {};
-    echartsOptions: null;
+    getEchartsOptions: () => EChartsOption | null;
     setEchartsOptions: (v: EChartsOption | null) => {};
   };
 }

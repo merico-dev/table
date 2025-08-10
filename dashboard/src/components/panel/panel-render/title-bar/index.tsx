@@ -10,7 +10,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
     return null;
   }
   return (
-    <Group grow justify="center" className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
+    <Group data-testid="panel-title-bar" grow justify="center" className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
       <Text size="sm" ta="center" lineClamp={1} className="panel-title-text">
         {name}
       </Text>

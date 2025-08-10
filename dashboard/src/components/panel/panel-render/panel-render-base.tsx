@@ -2,7 +2,7 @@ import { Box } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
 import { EChartsOption } from 'echarts';
 import { observer } from 'mobx-react-lite';
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { usePanelVizFeatures } from '~/components/panel/panel-render/panel-viz-features';
 import { PanelAddonProvider } from '~/components/plugins/panel-addon';
 import { PanelContextProvider } from '~/contexts/panel-context';
@@ -17,14 +17,18 @@ import { doesVizRequiresData } from '../utils';
 import { PanelDropdownMenu } from './panel-dropdown-menu';
 
 function useUpdateEchartsOptions(vizType: string) {
-  const [echartsOptions, setEchartsOptions] = useState<EChartsOption | null>(null);
+  const ref = useRef<EChartsOption | null>(null);
+  const setEchartsOptions = useCallback((options: EChartsOption | null) => {
+    ref.current = options;
+  }, []);
+
   useEffect(() => {
-    setEchartsOptions(null);
+    ref.current = null;
   }, [vizType]);
 
   return {
-    echartsOptions,
-    setEchartsOptions,
+    getEchartsOptions: () => ref.current,
+    setEchartsOptions: setEchartsOptions,
   };
 }
 
@@ -40,7 +44,7 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
   const { withAddon, withPanelTitle } = usePanelVizFeatures();
   const OptionalAddon = withAddon ? PanelAddonProvider : React.Fragment;
-  const { echartsOptions, setEchartsOptions } = useUpdateEchartsOptions(panel.viz.type);
+  const { getEchartsOptions, setEchartsOptions } = useUpdateEchartsOptions(panel.viz.type);
   const { inEditMode } = useContext(LayoutStateContext);
   const showDropdownMenu = inEditMode || doesVizRequiresData(panel.viz.type);
 
@@ -52,12 +56,13 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
         loading: panel.dataLoading,
         errors: panel.queryErrors,
         downloadPanelScreenshot,
-        echartsOptions,
+        getEchartsOptions,
         setEchartsOptions,
       }}
     >
       <Box
         id={panel.id}
+        data-testid="panel-root"
         className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
         ref={ref}
         p={0}

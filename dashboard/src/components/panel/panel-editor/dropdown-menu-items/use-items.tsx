@@ -32,56 +32,56 @@ export const useItems = (view: ViewMetaInstance) => {
     const ret: PanelMenuItem[] = [
       {
         order: 10,
-        render: () => <Refresh />,
+        render: () => <Refresh key="refresh" />,
       },
       {
         order: 100,
-        render: () => <DownloadData />,
+        render: () => <DownloadData key="download-data" />,
       },
       {
         order: 200,
-        render: () => <DownloadSchema />,
+        render: () => <DownloadSchema key="download-schema" />,
       },
       {
         order: 300,
-        render: () => <DownloadScreenshot />,
+        render: () => <DownloadScreenshot key="download-screenshot" />,
       },
       {
         order: 400,
-        render: () => <EnterFullScreen view={view} />,
+        render: () => <EnterFullScreen key="enter-full-screen" view={view} />,
       },
       ...queryItems,
       {
         order: 600,
-        render: () => <Divider label={t('common.actions.edit')} labelPosition="center" />,
+        render: () => <Divider key="edit-divider" label={t('common.actions.edit')} labelPosition="center" />,
       },
       {
         order: 700,
-        render: () => <OpenTabPanel panelID={panelID} viewID={viewID} />,
+        render: () => <OpenTabPanel key="open-tab-panel" panelID={panelID} viewID={viewID} />,
       },
       {
         order: 800,
-        render: () => <OpenTabVariable panelID={panelID} viewID={viewID} />,
+        render: () => <OpenTabVariable key="open-tab-variable" panelID={panelID} viewID={viewID} />,
       },
       {
         order: 900,
-        render: () => <OpenTabVisualization panelID={panelID} viewID={viewID} />,
+        render: () => <OpenTabVisualization key="open-tab-visualization" panelID={panelID} viewID={viewID} />,
       },
       {
         order: 1000,
-        render: () => <OpenTabInteraction panelID={panelID} viewID={viewID} />,
+        render: () => <OpenTabInteraction key="open-tab-interaction" panelID={panelID} viewID={viewID} />,
       },
       {
         order: 1100,
-        render: () => <Divider label={t('common.actions.actions')} labelPosition="center" />,
+        render: () => <Divider key="actions-divider" label={t('common.actions.actions')} labelPosition="center" />,
       },
       {
         order: 1200,
-        render: () => <Duplicate panelID={panelID} viewID={viewID} />,
+        render: () => <Duplicate key="duplicate" panelID={panelID} viewID={viewID} />,
       },
       {
         order: 1300,
-        render: () => <DeletePanel panelID={panelID} viewID={viewID} />,
+        render: () => <DeletePanel key="delete-panel" panelID={panelID} viewID={viewID} />,
       },
 
       ...additionalItems,

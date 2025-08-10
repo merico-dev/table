@@ -13,8 +13,12 @@ import './content.css';
 import { DashboardIsEmpty } from './placeholder';
 import { useLanguageContext } from '../../contexts';
 
-const DownloadChartData: PanelMenuItem['render'] = ({ echartsOptions }) => {
-  return <Menu.Item onClick={() => console.log(echartsOptions)}>下载图表数据</Menu.Item>;
+const DownloadChartData: PanelMenuItem['render'] = ({ getEchartsOptions }) => {
+  return (
+    <Menu.Item key="download-echarts-options" onClick={() => console.log(getEchartsOptions())}>
+      下载图表数据
+    </Menu.Item>
+  );
 };
 
 const items = [

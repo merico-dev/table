@@ -14,19 +14,19 @@ export const useItems = (view: ViewMetaInstance) => {
     const ret: PanelMenuItem[] = [
       {
         order: 10,
-        render: () => <Refresh />,
+        render: () => <Refresh key="refresh" />,
       },
       {
         order: 100,
-        render: () => <DownloadData />,
+        render: () => <DownloadData key="download-data" />,
       },
       {
         order: 300,
-        render: () => <DownloadScreenshot />,
+        render: () => <DownloadScreenshot key="download-screenshot" />,
       },
       {
         order: 400,
-        render: () => <EnterFullScreen view={view} />,
+        render: () => <EnterFullScreen key="enter-full-screen" view={view} />,
       },
       ...additionalItems,
     ];
