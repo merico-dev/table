@@ -10,7 +10,6 @@ type Props = {
 
 export const PanelDropdownMenuItems = observer(({ view }: Props) => {
   const { getEchartsOptions, panel } = useRenderPanelContext();
-  const echartsOptions = getEchartsOptions();
   const items = useItems(view);
-  return items.map((item) => item.render({ echartsOptions, inEditMode: true, panelID: panel.id, viewID: view.id }));
+  return items.map((item) => item.render({ getEchartsOptions, inEditMode: true, panelID: panel.id, viewID: view.id }));
 });
