@@ -71,7 +71,6 @@ const TrendingDateSettings = observer(({ queryModel }: Props) => {
                 queryModel={queryModel}
                 value={config.timeQuery.unit_variable}
                 onChange={config.setUnitVariable}
-                usedKeys={config.usedTimeQueryVariableSet}
               />
             </Group>
           </Table.Td>

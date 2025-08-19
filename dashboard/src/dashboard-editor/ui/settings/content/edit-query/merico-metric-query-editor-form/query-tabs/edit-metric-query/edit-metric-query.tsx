@@ -4,6 +4,7 @@ import { QueryModelInstance } from '~/dashboard-editor/model';
 import { LinkMetricsToVariables } from './link-metrics-to-variables';
 import { LinkMetricsToTimeAndStep } from './link-metrics-to-time-and-step';
 import { SetGroupByMetrics } from './set-groupby-metrics';
+import { DerivedCalculations } from './derived-calculations';
 import { MericoMetricQueryMetaInstance } from '~/model';
 import { useEffect } from 'react';
 
@@ -44,6 +45,7 @@ export const EditMetricQuery = observer(({ queryModel }: Props) => {
       <LinkMetricsToVariables queryModel={queryModel} />
       <LinkMetricsToTimeAndStep queryModel={queryModel} />
       <SetGroupByMetrics queryModel={queryModel} />
+      <DerivedCalculations queryModel={queryModel} />
     </Stack>
   );
 });
