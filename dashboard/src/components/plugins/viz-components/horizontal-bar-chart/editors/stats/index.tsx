@@ -4,10 +4,10 @@ import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CustomRichTextEditor } from '~/components/widgets';
 import { useEditPanelContext } from '~/contexts';
-import { ICartesianChartConf } from '../../type';
+import { IHorizontalBarChartConf } from '../../type';
 
 type Props = {
-  control: Control<ICartesianChartConf, $TSFixMe>;
+  control: Control<IHorizontalBarChartConf, $TSFixMe>;
 };
 
 export const StatsField = observer(({ control }: Props) => {

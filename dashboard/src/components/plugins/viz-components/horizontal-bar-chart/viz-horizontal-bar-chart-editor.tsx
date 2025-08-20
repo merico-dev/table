@@ -11,6 +11,7 @@ import { SeriesField } from './editors/series';
 import { XAxesField } from './editors/x-axes';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
+import { StatsField } from './editors/stats';
 
 export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -45,6 +46,7 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="X Axes">{t('chart.x_axis.labels')}</Tabs.Tab>
             <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
             <Tabs.Tab value="Series">{t('chart.series.label')}</Tabs.Tab>
+            <Tabs.Tab value="Stats">{t('chart.stats.label')}</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
           </Tabs.List>
 
@@ -58,6 +60,10 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Series">
             <SeriesField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Stats">
+            <StatsField control={control} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Lines">

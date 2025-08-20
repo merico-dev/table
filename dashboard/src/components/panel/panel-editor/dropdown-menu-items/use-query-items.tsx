@@ -22,11 +22,17 @@ export const useQueryItems = (view: ViewMetaInstance) => {
     return [
       {
         order: 500,
-        render: () => <Divider label={t(queries.length > 1 ? 'query.labels' : 'query.label')} labelPosition="center" />,
+        render: () => (
+          <Divider
+            key="data-divider"
+            label={t(queries.length > 1 ? 'query.labels' : 'query.label')}
+            labelPosition="center"
+          />
+        ),
       },
       {
         order: 501,
-        render: () => <OpenTabData panelID={panel.id} viewID={view.id} />,
+        render: () => <OpenTabData key="open-tab-data" panelID={panel.id} viewID={view.id} />,
       },
       ...queries.map((q, i) => ({
         order: 502 + i,
