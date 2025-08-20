@@ -1,17 +1,16 @@
 import { Stack } from '@mantine/core';
-import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { observer } from 'mobx-react-lite';
+import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CustomRichTextEditor } from '~/components/widgets';
-import { ICartesianChartConf } from '../../type';
-import { observer } from 'mobx-react-lite';
 import { useEditPanelContext } from '~/contexts';
+import { ICartesianChartConf } from '../../type';
 
 type Props = {
   control: Control<ICartesianChartConf, $TSFixMe>;
-  watch: UseFormWatch<ICartesianChartConf>;
 };
 
-export const StatsField = observer(({ control, watch }: Props) => {
+export const StatsField = observer(({ control }: Props) => {
   const { panel } = useEditPanelContext();
   const { t } = useTranslation();
   return (

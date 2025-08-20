@@ -87,7 +87,7 @@ function Editor({ conf, setConf, context }: EditorProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="Stats">
-            <StatsField control={control} watch={watch} />
+            <StatsField control={control} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Lines">
