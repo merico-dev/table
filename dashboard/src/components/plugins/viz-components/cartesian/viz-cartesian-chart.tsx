@@ -1,23 +1,21 @@
+import { useLatest } from 'ahooks';
 import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
-import { useLatest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useStorageData } from '~/components/plugins/hooks';
+import { useHandleChartRenderFinished, useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable, parseRichTextContent } from '~/utils';
-import { useRenderContentModelContext } from '../../../../contexts';
+import { ITemplateVariable } from '~/utils';
 import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { notifyVizRendered } from '~/components/plugins/viz-components/viz-instance-api';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -119,27 +117,7 @@ export const VizCartesianChart = observer(({ context, instance }: VizViewProps) 
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
 
-  const contentModel = useRenderContentModelContext();
-
-  function handleChartRenderFinished(chartOptions: unknown) {
-    const statsAboveViz = parseRichTextContent(
-      conf.stats.top,
-      context.variables,
-      contentModel.payloadForViz,
-      context.data,
-    );
-    const statsBelowViz = parseRichTextContent(
-      conf.stats.bottom,
-      context.variables,
-      contentModel.payloadForViz,
-      context.data,
-    );
-    notifyVizRendered(instance, {
-      ...(chartOptions as object),
-      statsAboveViz,
-      statsBelowViz,
-    });
-  }
+  const handleChartRenderFinished = useHandleChartRenderFinished(conf.stats, context, instance);
 
   return (
     <DefaultVizBox width={width} height={height}>
