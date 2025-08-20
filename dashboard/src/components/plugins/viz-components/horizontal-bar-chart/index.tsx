@@ -47,10 +47,15 @@ function v3(legacyConf: any): IHorizontalBarChartConf {
     series: newSeries,
   };
 }
+function v4(legacyConf: any): IHorizontalBarChartConf {
+  const { stats = { bottom: '', top: '' } } = legacyConf;
+  return {
+    ...legacyConf,
+    stats,
+  };
+}
 
 class VizHorizontalBarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
-
   configVersions(): void {
     this.version(1, (data: any) => {
       return {
@@ -74,7 +79,16 @@ class VizHorizontalBarChartMigrator extends VersionBasedMigrator {
         config: v3(config),
       };
     });
+    this.version(4, (data) => {
+      const { config } = data;
+      return {
+        ...data,
+        version: 4,
+        config: v4(config),
+      };
+    });
   }
+  readonly VERSION = 4;
 }
 
 type ConfigType = {
@@ -89,7 +103,7 @@ export const HorizontalBarChartVizComponent: VizComponent = {
   name: 'horizontalBarChart',
   viewRender: VizHorizontalBarChart,
   configRender: VizHorizontalBarChartEditor,
-  createConfig: (): ConfigType => ({ version: 3, config: _.cloneDeep(DEFAULT_CONFIG) as IHorizontalBarChartConf }),
+  createConfig: (): ConfigType => ({ version: 4, config: _.cloneDeep(DEFAULT_CONFIG) as IHorizontalBarChartConf }),
   triggers: [ClickHorizontalBarChartSeries],
   translation,
 };

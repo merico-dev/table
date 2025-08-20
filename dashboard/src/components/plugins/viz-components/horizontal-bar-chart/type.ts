@@ -74,6 +74,10 @@ export interface IHorizontalBarChartConf {
     nameAlignment: EChartsNameTextAlign;
   };
   series: IHorizontalBarChartSeriesItem[];
+  stats: {
+    top: string;
+    bottom: string;
+  };
   tooltip: {
     metrics: IEchartsTooltipMetric[];
   };
@@ -103,6 +107,7 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
     nameAlignment: 'center',
   },
   series: [],
+  stats: { bottom: '', top: '' },
   tooltip: {
     metrics: [],
   },
