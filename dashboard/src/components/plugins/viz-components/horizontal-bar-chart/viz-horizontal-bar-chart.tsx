@@ -1,18 +1,19 @@
+import { useLatest } from 'ahooks';
+import { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useStorageData } from '~/components/plugins/hooks';
+import { useHandleChartRenderFinished, useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
-import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
+import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
+import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
-import { notifyVizRendered } from '../viz-instance-api';
-import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 
 type ClickSeriesParamsType = {
   type: 'click';
@@ -24,23 +25,17 @@ type ClickSeriesParamsType = {
   value: string; // string-typed number
 };
 
-function Chart({
-  conf,
-  data,
-  width,
-  height,
-  interactionManager,
-  variables,
-  instance,
-}: {
+type ChartProps = {
   conf: IHorizontalBarChartConf;
   data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
-  instance: VizInstance;
-}) {
+  onChartRenderFinished: (chartOptions: unknown) => void;
+};
+
+function Chart({ conf, data, width, height, interactionManager, variables, onChartRenderFinished }: ChartProps) {
   const rowDataMap = useRowDataMap(data, conf.y_axis.data_key);
 
   const triggers = useTriggerSnapshotList<IHorizontalBarChartConf>(
@@ -58,18 +53,20 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
-  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
-  const handleFinished = React.useCallback(() => {
-    const chart = echartsInstanceRef.current?.getEchartsInstance();
-    if (!chart) return;
-    notifyVizRendered(instance, chart.getOption());
-  }, [instance]);
+  const echartsRef = React.useRef<EChartsInstance>();
+  const onRenderFinishedRef = useLatest(onChartRenderFinished);
+  const handleEChartsFinished = useCallback(() => {
+    onRenderFinishedRef.current(echartsRef.current?.getOption());
+  }, []);
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
-      finished: handleFinished,
+      finished: handleEChartsFinished,
     };
   }, [handleSeriesClick]);
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
@@ -83,9 +80,9 @@ function Chart({
     <ReactEChartsCore
       echarts={echarts}
       option={option}
-      ref={echartsInstanceRef}
       style={{ width, height }}
       onEvents={onEvents}
+      onChartReady={handleChartReady}
       notMerge
       theme="merico-light"
     />
@@ -109,11 +106,13 @@ export function VizHorizontalBarChart({ context, instance }: VizViewProps) {
   const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
   const finalWidth = getBoxContentWidth(width);
 
+  const handleChartRenderFinished = useHandleChartRenderFinished(conf.stats, context, instance);
+
   return (
     <DefaultVizBox width={width} height={height}>
       <StatsAroundViz onHeightChange={setTopStatsHeight} value={conf.stats.top} context={context} />
       <Chart
-        instance={instance}
+        onChartRenderFinished={handleChartRenderFinished}
         variables={variables}
         width={finalWidth}
         height={finalHeight}
