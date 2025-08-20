@@ -1,7 +1,7 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
@@ -12,6 +12,7 @@ import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 import { notifyVizRendered } from '../viz-instance-api';
+import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 
 type ClickSeriesParamsType = {
   type: 'click';
@@ -74,6 +75,10 @@ function Chart({
     return getOption(conf, data, variables);
   }, [conf, data]);
 
+  if (!width || !height) {
+    return null;
+  }
+
   return (
     <ReactEChartsCore
       echarts={echarts}
@@ -98,21 +103,25 @@ export function VizHorizontalBarChart({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
-  if (!width || !height) {
-    return null;
-  }
+  const [topStatsHeight, setTopStatsHeight] = useState(0);
+  const [bottomStatsHeight, setBottomStatsHeight] = useState(0);
+
+  const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
+  const finalWidth = getBoxContentWidth(width);
 
   return (
     <DefaultVizBox width={width} height={height}>
+      <StatsAroundViz onHeightChange={setTopStatsHeight} value={conf.stats.top} context={context} />
       <Chart
         instance={instance}
         variables={variables}
-        width={getBoxContentWidth(width)}
-        height={getBoxContentHeight(height)}
+        width={finalWidth}
+        height={finalHeight}
         data={data}
         conf={conf}
         interactionManager={interactionManager}
       />
+      <StatsAroundViz onHeightChange={setBottomStatsHeight} value={conf.stats.bottom} context={context} />
     </DefaultVizBox>
   );
 }
