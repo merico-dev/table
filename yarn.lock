@@ -1652,7 +1652,7 @@ __metadata:
     "@emotion/serialize": 1.3.2
     "@emotion/utils": 1.4.1
     "@faker-js/faker": 7.6.0
-    "@json2csv/whatwg": 7.0.3
+    "@json2csv/whatwg": 7.0.6
     "@mantine/code-highlight": 7.17.8
     "@mantine/core": 7.17.8
     "@mantine/dates": 7.17.8
@@ -3111,30 +3111,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@json2csv/formatters@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "@json2csv/formatters@npm:7.0.3"
-  checksum: 283ae93eda527a25f0dedbfe3350f06a2c35c925da293e92a54b31fba979fa9afc39de2b3766012e52f8f8539bfa0468eb25081370d8728f93bf5cb8d08a9a8f
+"@json2csv/formatters@npm:^7.0.6":
+  version: 7.0.6
+  resolution: "@json2csv/formatters@npm:7.0.6"
+  checksum: 9589566ea925f19597664f7a253624f4392c0b5da4bca709cbca188761c9d8068e275e26829d3bc0b386ad1872295acf2c5d4da097026fd3ac4423690c5eff9b
   languageName: node
   linkType: hard
 
-"@json2csv/plainjs@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "@json2csv/plainjs@npm:7.0.3"
+"@json2csv/plainjs@npm:^7.0.6":
+  version: 7.0.6
+  resolution: "@json2csv/plainjs@npm:7.0.6"
   dependencies:
-    "@json2csv/formatters": ^7.0.3
-    "@streamparser/json": ^0.0.17
-    lodash.get: ^4.4.2
-  checksum: 34d0d9558494f530938bf4a259c65413bb069bd4ab66f6c56e1e46e02c20d35f68b3c994e2784aeae81dc365e59b22be2d2d88a11a0777b168a76ebf68f350f7
+    "@json2csv/formatters": ^7.0.6
+    "@streamparser/json": ^0.0.20
+  checksum: e02ba6e5ea554493c60f4767a93d21a7c61a377591e6cb0e0768aeeeef82c4b3adb5c0decc4c70077bf1ff30015379aea32f97f8e6e781672184b30de1f9bc78
   languageName: node
   linkType: hard
 
-"@json2csv/whatwg@npm:7.0.3":
-  version: 7.0.3
-  resolution: "@json2csv/whatwg@npm:7.0.3"
+"@json2csv/whatwg@npm:7.0.6":
+  version: 7.0.6
+  resolution: "@json2csv/whatwg@npm:7.0.6"
   dependencies:
-    "@json2csv/plainjs": ^7.0.3
-  checksum: b0ed9f0b99ac539abe7777c67f3aeb69bca408e7dc16d8d867af83913f90d21cad269920678f3b3721671e2646d40e3244367b3e33024da6152677adde4a9e5a
+    "@json2csv/plainjs": ^7.0.6
+  checksum: e1f2a27f15ef084a39b2af9a07d341af1da9454dee2e175b10e2aacbc2cbc0005c76bb4cf3f2cf3e1d261a39d2d92716df14210a7eb2d1bafbf2477345a1c798
   languageName: node
   linkType: hard
 
@@ -4073,10 +4072,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@streamparser/json@npm:^0.0.17":
-  version: 0.0.17
-  resolution: "@streamparser/json@npm:0.0.17"
-  checksum: 5e1cb2113d3393b5858a2d32133ba9efed2ea732100f9967c50ec6104bc4d4948546d3263cbdb6b69185a49420dc216fb5f341b38eaad57293d6693357036c46
+"@streamparser/json@npm:^0.0.20":
+  version: 0.0.20
+  resolution: "@streamparser/json@npm:0.0.20"
+  checksum: fd17c94c03411cc852512bd196a9ea2e85a3404391b64525384821d3b04b1cd03f5899d51da135a4bf9d88185acb5de42d1a99a9ea440d652555ef70e0a9a081
   languageName: node
   linkType: hard
 
