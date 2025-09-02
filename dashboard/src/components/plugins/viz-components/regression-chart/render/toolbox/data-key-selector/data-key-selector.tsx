@@ -8,14 +8,22 @@ type Props = Omit<NativeSelectProps, 'value' | 'onChange'> & {
   onChange: (v: string) => void;
   clearable?: boolean;
   queryID?: string;
+  unsetKey?: string;
 };
 
 export const DataKeySelector = observer(
   forwardRef<HTMLSelectElement, Props>((props, ref) => {
-    const { value, onChange, queryID, clearable = false, ...restProps } = props;
+    const {
+      value,
+      onChange,
+      queryID,
+      clearable = false,
+      unsetKey = 'data.data_field.selector.options.unset',
+      ...restProps
+    } = props;
     const { panel } = useEditPanelContext();
     const options = React.useMemo(() => {
-      return panel.dataFieldOptionGroups(value, clearable, queryID);
+      return panel.dataFieldOptionGroups(value, clearable, unsetKey, queryID);
     }, [value, clearable, queryID]);
 
     if (options.length === 0) {

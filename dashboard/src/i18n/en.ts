@@ -550,6 +550,14 @@ export const en = {
       preview_data: 'Preview Data',
       empty_data: 'Empty Data',
       requires_data: 'Requires data',
+      data_field: {
+        selector: {
+          options: {
+            unset: 'Unset',
+            default: 'Default',
+          },
+        },
+      },
     },
     data_source: {
       label: 'Data Source',
