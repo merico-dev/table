@@ -550,6 +550,14 @@ export const zh = {
       preview_data: '预览数据',
       empty_data: '无数据',
       requires_data: '请先关联查询',
+      data_field: {
+        selector: {
+          options: {
+            unset: '未设置',
+            default: '默认',
+          },
+        },
+      },
     },
     data_source: {
       label: '数据源',

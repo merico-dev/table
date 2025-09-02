@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/components/plugins/colors';
 import { InstanceMigrator } from '~/components/plugins/instance-migrator';
-import { token } from '~/components/plugins/service/service-locator';
 import { PanelAddonManager } from '~/components/plugins/panel-addon';
+import { token } from '~/components/plugins/service/service-locator';
 
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import {
@@ -20,9 +20,15 @@ import { PluginManager } from './plugin-manager';
 import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { ButtonVizComponent } from './viz-components/button';
+import { CalendarHeatmapVizComponent } from './viz-components/calendar-heatmap';
 import { CartesianVizComponent } from './viz-components/cartesian';
 import { FunnelVizComponent } from './viz-components/funnel';
 import { HeatmapVizComponent } from './viz-components/heatmap';
+import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-chart';
+import { MericoEstimationChartVizComponent } from './viz-components/merico-estimation-chart';
+import { MericoHeatmapVizComponent } from './viz-components/merico-heatmap';
+import { VizMericoLinearGaugeVizComponent } from './viz-components/merico-linear-gauge';
+import { MericoStatsVizComponent } from './viz-components/merico-stats';
 import { ParetoChartVizComponent } from './viz-components/pareto-chart';
 import { PieChartVizComponent } from './viz-components/pie-chart';
 import { RadarChartVizComponent } from './viz-components/radar-chart';
@@ -33,14 +39,9 @@ import { StatsVizComponent } from './viz-components/stats';
 import { SunburstVizComponent } from './viz-components/sunburst';
 import { TableVizComponent } from './viz-components/table';
 import { TextVizComponent } from './viz-components/text';
+import { VizDashboardStateVizComponent } from './viz-components/viz-dashboard-state';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
-import { CalendarHeatmapVizComponent } from './viz-components/calendar-heatmap';
-import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-chart';
-import { MericoEstimationChartVizComponent } from './viz-components/merico-estimation-chart';
-import { MericoStatsVizComponent } from './viz-components/merico-stats';
-import { MericoHeatmapVizComponent } from './viz-components/merico-heatmap';
-import { VizDashboardStateVizComponent } from './viz-components/viz-dashboard-state';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -139,6 +140,7 @@ export const vizList = [
   MericoEstimationChartVizComponent,
   MericoHeatmapVizComponent,
   MericoStatsVizComponent,
+  VizMericoLinearGaugeVizComponent,
   ButtonVizComponent,
   VizDashboardStateVizComponent,
 ];

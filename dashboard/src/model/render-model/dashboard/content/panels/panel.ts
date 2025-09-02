@@ -147,7 +147,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
         })
         .flat();
     },
-    dataFieldOptions(selected: TDataKey, clearable: boolean, queryID?: string) {
+    dataFieldOptions(selected: TDataKey, clearable: boolean, unsetKey: string, queryID?: string) {
       let options = [...this.realDataFieldOptions];
       if (queryID) {
         options = options.filter((o) => o.group_id === queryID);
@@ -165,12 +165,18 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       }
 
       if (clearable) {
-        options.unshift({ label: 'unset', value: '', group: '', group_id: '', disabled: false });
+        options.unshift({
+          label: unsetKey,
+          value: '',
+          group: '',
+          group_id: '',
+          disabled: false,
+        });
       }
       return options;
     },
-    dataFieldOptionGroups(selected: TDataKey, clearable: boolean, queryID?: string) {
-      const options = this.dataFieldOptions(selected, clearable, queryID);
+    dataFieldOptionGroups(selected: TDataKey, clearable: boolean, unsetKey: string, queryID?: string) {
+      const options = this.dataFieldOptions(selected, clearable, unsetKey, queryID);
       const ret = Object.entries(_.groupBy(options, 'group')).map(([group, items]) => {
         return {
           group,

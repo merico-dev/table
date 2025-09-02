@@ -1,7 +1,8 @@
-import { Box, Group, HoverCard, Select, Text, TextInput } from '@mantine/core';
+import { Box, Group, HoverCard, MantineSize, Select, Text, TextInput } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts';
 import { getSelectChangeHandler } from '~/utils/mantine';
 
@@ -12,8 +13,11 @@ interface IDataFieldSelector {
   onChange: (v: string) => void;
   clearable?: boolean;
   sx?: EmotionSx;
+  size?: MantineSize;
   queryID?: string;
   description?: string;
+  placeholder?: string;
+  unsetKey?: string;
 }
 
 export const DataFieldSelector = observer(
@@ -27,15 +31,23 @@ export const DataFieldSelector = observer(
         onChange,
         queryID,
         clearable = false,
+        unsetKey = 'data.data_field.selector.options.unset',
         sx,
         ...restProps
       }: IDataFieldSelector,
       ref: React.ForwardedRef<HTMLInputElement>,
     ) => {
+      const { t } = useTranslation();
       const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
-        return panel.dataFieldOptionGroups(value, clearable, queryID);
-      }, [value, clearable, queryID]);
+        return panel.dataFieldOptionGroups(value, clearable, unsetKey, queryID).map((o) => ({
+          ...o,
+          items: o.items.map((item) => ({
+            ...item,
+            label: t(item.label),
+          })),
+        }));
+      }, [value, clearable, queryID, t]);
 
       if (options.length === 0) {
         const v = panel.explainDataKey(value);
