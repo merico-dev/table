@@ -1,1 +1,1 @@
-export * from './pie-color-map-editor';
+export * from './sections-editor';
