@@ -10,7 +10,28 @@ export interface IVizMericoLinearGaugeConf {
 
 export const getDefaultConfig = () => {
   const config: IVizMericoLinearGaugeConf = {
-    sections: [],
+    sections: [
+      {
+        name: '较差',
+        color: '#b30024',
+        minKey: '',
+      },
+      {
+        name: '一般',
+        color: '#e69500',
+        minKey: '',
+      },
+      {
+        name: '良好',
+        color: '#74add1',
+        minKey: '',
+      },
+      {
+        name: '优秀',
+        color: '#238e68',
+        minKey: '',
+      },
+    ],
   };
   return config;
 };
