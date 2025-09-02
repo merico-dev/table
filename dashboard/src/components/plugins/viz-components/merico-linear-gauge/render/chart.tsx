@@ -3,6 +3,7 @@ import { IMericoLinearGaugeConf } from '../type';
 import { getOption } from './option';
 import { Center, Group, Text } from '@mantine/core';
 import classes from './chart.module.css';
+import { IconArrowUp } from '@tabler/icons-react';
 
 type Props = {
   conf: IMericoLinearGaugeConf;
@@ -31,6 +32,12 @@ export function Chart({ conf, data, width, height }: Props) {
             <Text size="xs" className={classes.min}>
               {section.min}
             </Text>
+          ) : null}
+          {section.pointer ? (
+            <IconArrowUp
+              className={`${classes.pointer} ${section.pointer_equal ? classes.pointer_equal : ''}`}
+              stroke={1.5}
+            />
           ) : null}
         </Center>
       ))}

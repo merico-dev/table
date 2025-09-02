@@ -19,3 +19,15 @@
 .name {
   text-shadow: 0 0 3px #fff;
 }
+
+.pointer {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 100%);
+}
+
+.pointer_equal {
+  left: 0;
+  bottom: -24px;
+}
