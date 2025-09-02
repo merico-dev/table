@@ -1,10 +1,16 @@
+export type MericoLinearGaugeSection = {
+  name: string;
+  color: string;
+  minKey: string; // zero | dataKey
+};
+
 export interface IVizMericoLinearGaugeConf {
-  hello: string;
+  sections: MericoLinearGaugeSection[];
 }
 
 export const getDefaultConfig = () => {
   const config: IVizMericoLinearGaugeConf = {
-    hello: 'world',
+    sections: [],
   };
   return config;
 };
