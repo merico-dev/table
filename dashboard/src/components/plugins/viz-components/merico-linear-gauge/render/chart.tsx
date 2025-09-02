@@ -24,7 +24,9 @@ export function Chart({ conf, data, width, height }: Props) {
     <Group justify="flex-start" grow wrap="nowrap" gap={0} pt="sm" mah={height} w={width}>
       {option.sections.map((section) => (
         <Center key={section.name} className={classes.section} style={{ backgroundColor: section.color }}>
-          <Text size="sm">{section.name}</Text>
+          <Text size="sm" className={classes.name}>
+            {section.name}
+          </Text>
           {section.min > 0 ? (
             <Text size="xs" className={classes.min}>
               {section.min}
