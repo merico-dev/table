@@ -6,6 +6,10 @@ export type MericoLinearGaugeSection = {
 
 export interface IVizMericoLinearGaugeConf {
   sections: MericoLinearGaugeSection[];
+  stats: {
+    top: string;
+    bottom: string;
+  };
 }
 
 export const getDefaultConfig = () => {
@@ -32,6 +36,10 @@ export const getDefaultConfig = () => {
         minKey: '',
       },
     ],
+    stats: {
+      top: '',
+      bottom: '',
+    },
   };
   return config;
 };
