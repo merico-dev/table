@@ -5,20 +5,20 @@ import { Controller, useForm } from 'react-hook-form';
 import { useStorageData } from '~/components/plugins';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../../editor-components';
-import { getDefaultConfig, IVizMericoLinearGaugeConf } from '../type';
+import { getDefaultConfig, IMericoLinearGaugeConf } from '../type';
 import { SectionsEditor } from './sections-editor';
 import { CustomRichTextEditor } from '~/components/widgets';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 
 export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
-  const { value: confValue, set: setConf } = useStorageData<IVizMericoLinearGaugeConf>(context.instanceData, 'config');
+  const { value: confValue, set: setConf } = useStorageData<IMericoLinearGaugeConf>(context.instanceData, 'config');
   const { t } = useTranslation();
   const { variables } = context;
   const data = context.data;
-  const conf: IVizMericoLinearGaugeConf = useMemo(() => _.defaultsDeep({}, confValue, getDefaultConfig()), [confValue]);
+  const conf: IMericoLinearGaugeConf = useMemo(() => _.defaultsDeep({}, confValue, getDefaultConfig()), [confValue]);
 
-  const form = useForm<IVizMericoLinearGaugeConf>({
+  const form = useForm<IMericoLinearGaugeConf>({
     defaultValues: conf,
   });
   const { handleSubmit, formState, reset } = form;

@@ -1,0 +1,17 @@
+.section {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--mantine-color-black);
+  user-select: none;
+  position: relative;
+}
+.section:not(:last-child) {
+  border-right: none;
+}
+
+.min {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translate(-50%, 150%);
+}

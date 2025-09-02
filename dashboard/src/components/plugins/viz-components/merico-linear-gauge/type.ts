@@ -4,7 +4,7 @@ export type MericoLinearGaugeSection = {
   minKey: string; // zero | dataKey
 };
 
-export interface IVizMericoLinearGaugeConf {
+export interface IMericoLinearGaugeConf {
   value: string;
   sections: MericoLinearGaugeSection[];
   stats: {
@@ -14,27 +14,27 @@ export interface IVizMericoLinearGaugeConf {
 }
 
 export const getDefaultConfig = () => {
-  const config: IVizMericoLinearGaugeConf = {
+  const config: IMericoLinearGaugeConf = {
     value: '',
     sections: [
       {
         name: '较差',
-        color: '#b30024',
+        color: '#ff0034',
         minKey: '',
       },
       {
         name: '一般',
-        color: '#e69500',
+        color: '#ffc04d',
         minKey: '',
       },
       {
         name: '良好',
-        color: '#74add1',
+        color: '#adcfe4',
         minKey: '',
       },
       {
         name: '优秀',
-        color: '#238e68',
+        color: '#32cb95',
         minKey: '',
       },
     ],

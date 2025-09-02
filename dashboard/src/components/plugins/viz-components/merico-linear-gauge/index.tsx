@@ -2,12 +2,12 @@ import { VizComponent } from '~/types/plugin';
 import { VizMericoLinearGaugeMigrator } from './migrator';
 import { VizMericoLinearGauge } from './render/viz-merico-linear-gauge';
 import { translation } from './translation';
-import { getDefaultConfig, IVizMericoLinearGaugeConf } from './type';
+import { getDefaultConfig, IMericoLinearGaugeConf } from './type';
 import { VizMericoLinearGaugeEditor } from './editor';
 
 type ConfigType = {
   version: number;
-  config: IVizMericoLinearGaugeConf;
+  config: IMericoLinearGaugeConf;
 };
 
 export const VizMericoLinearGaugeVizComponent: VizComponent = {
