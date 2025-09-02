@@ -6,15 +6,15 @@ import { AnyObject } from '~/types';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../../editor-components';
 import { useStorageData } from '~/components/plugins';
-import { getDefaultConfig, IVizLinearGaugeConf } from '../type';
+import { getDefaultConfig, IVizMericoLinearGaugeConf } from '../type';
 
-export function VizLinearGaugeEditor({ context }: VizConfigProps) {
-  const { value: confValue, set: setConf } = useStorageData<IVizLinearGaugeConf>(context.instanceData, 'config');
+export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
+  const { value: confValue, set: setConf } = useStorageData<IVizMericoLinearGaugeConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data;
-  const conf: IVizLinearGaugeConf = useMemo(() => _.defaultsDeep({}, confValue, getDefaultConfig()), [confValue]);
+  const conf: IVizMericoLinearGaugeConf = useMemo(() => _.defaultsDeep({}, confValue, getDefaultConfig()), [confValue]);
 
-  const { control, handleSubmit, watch, getValues, formState, reset } = useForm<IVizLinearGaugeConf>({
+  const { control, handleSubmit, watch, getValues, formState, reset } = useForm<IVizMericoLinearGaugeConf>({
     defaultValues: conf,
   });
   useEffect(() => {

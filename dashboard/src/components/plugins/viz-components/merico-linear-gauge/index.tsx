@@ -1,0 +1,22 @@
+import { VizComponent } from '~/types/plugin';
+import { VizMericoLinearGaugeMigrator } from './migrator';
+import { VizMericoLinearGauge } from './render/viz-merico-linear-gauge';
+import { translation } from './translation';
+import { getDefaultConfig, IVizMericoLinearGaugeConf } from './type';
+import { VizMericoLinearGaugeEditor } from './editor';
+
+type ConfigType = {
+  version: number;
+  config: IVizMericoLinearGaugeConf;
+};
+
+export const VizMericoLinearGaugeVizComponent: VizComponent = {
+  displayName: 'viz.merico_linear_gauge.viz_name',
+  displayGroup: 'chart.groups.merico_suite',
+  migrator: new VizMericoLinearGaugeMigrator(),
+  name: 'merico_linear_gauge',
+  viewRender: VizMericoLinearGauge,
+  configRender: VizMericoLinearGaugeEditor,
+  createConfig: (): ConfigType => ({ version: 1, config: getDefaultConfig() }),
+  translation,
+};

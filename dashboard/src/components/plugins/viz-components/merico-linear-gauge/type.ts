@@ -1,9 +1,9 @@
-export interface IVizLinearGaugeConf {
+export interface IVizMericoLinearGaugeConf {
   hello: string;
 }
 
 export const getDefaultConfig = () => {
-  const config: IVizLinearGaugeConf = {
+  const config: IVizMericoLinearGaugeConf = {
     hello: 'world',
   };
   return config;

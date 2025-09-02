@@ -4,7 +4,7 @@ import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator'
 //   return prev;
 // }
 
-export class VizLinearGaugeMigrator extends VersionBasedMigrator {
+export class VizMericoLinearGaugeMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: any) => {
       return {
