@@ -94,7 +94,15 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, data }: Prop
           onClick={setTouched}
           error={touched && !row.color}
         />
-        <DataFieldSelector label="" placeholder="区间最小值" onChange={changeMinKey} value={row.minKey} />
+        <DataFieldSelector
+          label=""
+          placeholder={t('viz.merico_linear_gauge.sections.min_key_placeholder')}
+          onChange={changeMinKey}
+          value={row.minKey}
+          clearable
+          unsetKey="viz.merico_linear_gauge.sections.min_key.zero"
+          size="xs"
+        />
       </Group>
       <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
         <CloseButton onClick={handleRemove} size="sm" />

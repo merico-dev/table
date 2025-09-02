@@ -39,7 +39,7 @@ export const SelectPalette = ({ value, onChange }: Props) => {
       newValue.push({
         name: '',
         color: colors[j],
-        minKey: 'zero',
+        minKey: '',
       });
     }
     onChange(newValue);
