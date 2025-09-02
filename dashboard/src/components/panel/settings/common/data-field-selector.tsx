@@ -14,6 +14,7 @@ interface IDataFieldSelector {
   sx?: EmotionSx;
   queryID?: string;
   description?: string;
+  placeholder?: string;
 }
 
 export const DataFieldSelector = observer(
