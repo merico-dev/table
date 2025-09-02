@@ -11,6 +11,7 @@ const en = {
       },
       add: 'Add a section',
     },
+    value: 'Value',
   },
 };
 
@@ -25,6 +26,7 @@ const zh = {
       },
       add: '增加一个区间',
     },
+    value: '值',
   },
 };
 

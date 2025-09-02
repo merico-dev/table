@@ -5,6 +5,7 @@ export type MericoLinearGaugeSection = {
 };
 
 export interface IVizMericoLinearGaugeConf {
+  value: string;
   sections: MericoLinearGaugeSection[];
   stats: {
     top: string;
@@ -14,6 +15,7 @@ export interface IVizMericoLinearGaugeConf {
 
 export const getDefaultConfig = () => {
   const config: IVizMericoLinearGaugeConf = {
+    value: '',
     sections: [
       {
         name: '较差',

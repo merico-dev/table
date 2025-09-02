@@ -1,4 +1,4 @@
-import { Stack } from '@mantine/core';
+import { Divider, Stack } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import { getDefaultConfig, IVizMericoLinearGaugeConf } from '../type';
 import { SectionsEditor } from './sections-editor';
 import { CustomRichTextEditor } from '~/components/widgets';
 import { useTranslation } from 'react-i18next';
+import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 
 export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IVizMericoLinearGaugeConf>(context.instanceData, 'config');
@@ -24,8 +25,6 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
   useEffect(() => {
     form.reset(conf);
   }, [conf]);
-
-  const sections = form.watch();
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
@@ -43,6 +42,12 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
               {...field}
             />
           )}
+        />
+        <Divider />
+        <Controller
+          name="value"
+          control={form.control}
+          render={({ field }) => <DataFieldSelector label={t('viz.merico_linear_gauge.value')} {...field} clearable />}
         />
         <Controller
           name="sections"
