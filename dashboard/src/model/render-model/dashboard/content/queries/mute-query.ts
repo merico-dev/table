@@ -1,6 +1,6 @@
 import { ComboboxItem, ComboboxItemGroup } from '@mantine/core';
 import dayjs from 'dayjs';
-import _ from 'lodash';
+import _, { omit } from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { removeTrendingBasedCalculations } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
 import { IContentRenderModel } from '~/dashboard-render';
@@ -21,6 +21,7 @@ type MetricQueryPayload = {
   type: MericoMetricType;
   filters: Record<string, { eq: string } | { in: Array<string> } | { between: [number, number] | any[] }>;
   groupBys: string[];
+  variables?: Record<string, unknown>;
   timeQuery?: {
     start: string;
     end: string;
@@ -46,6 +47,53 @@ function formatDateRangeForTimeQuery(
     };
   }
   return null;
+}
+
+// Helper to construct timeQuery from range/unit variables and payload
+function buildTimeQuery(
+  range_variable: string | null | undefined,
+  unit_variable: string | null | undefined,
+  payload: any,
+  types: Record<string, DashboardFilterType | undefined>,
+  timezone = 'PRC',
+  stepKeyFormat: 'YYYY-MM-DD' = 'YYYY-MM-DD',
+): MetricQueryPayload['timeQuery'] {
+  const unitVariableType = unit_variable ? _.get(types, unit_variable) : undefined;
+  const rangeVariableType = range_variable ? _.get(types, range_variable) : undefined;
+
+  let unitOfTime: string = unit_variable ? _.get(payload, unit_variable, '') : '';
+  if (unitVariableType === DashboardFilterType.MericoDateRange && unit_variable) {
+    unitOfTime = _.get(payload, `${unit_variable}.step`, '');
+  }
+
+  const timeQuery: MetricQueryPayload['timeQuery'] = {
+    start: '',
+    end: '',
+    unitOfTime,
+    unitNumber: 1,
+    timezone,
+    stepKeyFormat,
+  };
+
+  if (range_variable) {
+    if (rangeVariableType === DashboardFilterType.MericoDateRange) {
+      const range = _.get(payload, `${range_variable}.value`);
+      const formattedRange = formatDateRangeForTimeQuery(range, timezone, stepKeyFormat);
+      if (formattedRange) {
+        timeQuery.start = formattedRange.start;
+        timeQuery.end = formattedRange.end;
+      }
+    } else {
+      const range = _.get(payload, range_variable);
+      const formattedRange = formatDateRangeForTimeQuery(range, timezone, stepKeyFormat);
+      if (formattedRange) {
+        timeQuery.start = formattedRange.start;
+        timeQuery.end = formattedRange.end;
+      }
+    }
+  }
+
+  return timeQuery;
 }
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
@@ -251,6 +299,18 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     const payload = this.payload;
     const types = { filters: self.contentModel.filters.keysToTypes };
     const config = self.config as MericoMetricQueryMetaInstance;
+    const variables = omit(
+      Object.fromEntries(
+        config.sqlVariables.map((v) => {
+          const sqlVar = v.sqlVar;
+          const variable = v.variable;
+          const value = _.get(payload, variable);
+          return [sqlVar, value];
+        }),
+      ),
+      ['date_range', 'step'],
+    );
+    console.log('MMS var', variables);
     const filters = config.filters.reduce((acc, curr) => {
       const v = _.get(payload, curr.variable);
       const t = _.get(types, curr.variable);
@@ -284,7 +344,14 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       type: config.type as MericoMetricType,
       filters,
       groupBys: config.groupBys,
+      variables,
     };
+
+    // sql metric time query
+    const timeQueryBindingForSql = config.sqlVariables.find((it) => ['date_range', 'step'].includes(it.sqlVar));
+    if (timeQueryBindingForSql) {
+      ret.timeQuery = buildTimeQuery(timeQueryBindingForSql.variable, timeQueryBindingForSql.variable, payload, types);
+    }
 
     // Include extraCalculations if any are selected
     if (config.extraCalculations && config.extraCalculations.length > 0) {
@@ -297,45 +364,8 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return ret;
     }
     const { range_variable, unit_variable } = config.timeQuery;
-    const stepKeyFormat = 'YYYY-MM-DD';
-    const timezone = 'PRC';
-    const unitVariableType = _.get(types, unit_variable);
-    const rangeVariableType = _.get(types, range_variable);
-    let unitOfTime = _.get(payload, unit_variable, '');
 
-    // If unit_variable is of merico-date-range type, use filter.step as unitOfTime
-    if (unitVariableType === DashboardFilterType.MericoDateRange) {
-      unitOfTime = _.get(payload, `${unit_variable}.step`, '');
-    }
-
-    const timeQuery: MetricQueryPayload['timeQuery'] = {
-      start: '',
-      end: '',
-      unitOfTime,
-      unitNumber: 1,
-      timezone: 'PRC',
-      stepKeyFormat,
-    };
-    if (range_variable) {
-      // If range_variable is of merico-date-range type, use payload.range_variable.value as range
-      if (rangeVariableType === DashboardFilterType.MericoDateRange) {
-        const range = _.get(payload, `${range_variable}.value`);
-        const formattedRange = formatDateRangeForTimeQuery(range, timezone, stepKeyFormat);
-        if (formattedRange) {
-          timeQuery.start = formattedRange.start;
-          timeQuery.end = formattedRange.end;
-        }
-      } else {
-        const range = _.get(payload, range_variable);
-        const formattedRange = formatDateRangeForTimeQuery(range, timezone, stepKeyFormat);
-        if (formattedRange) {
-          timeQuery.start = formattedRange.start;
-          timeQuery.end = formattedRange.end;
-        }
-      }
-    }
-
-    ret.timeQuery = timeQuery;
+    ret.timeQuery = buildTimeQuery(range_variable, unit_variable, payload, types);
 
     return ret;
   },

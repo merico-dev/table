@@ -1,8 +1,10 @@
 import { Center, Overlay, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceModelInstance } from '../../../../../../../model/datasources/datasource';
 import { LinkMetricsToVariables } from './link-metrics-to-variables';
 import { LinkMetricsToTimeAndStep } from './link-metrics-to-time-and-step';
+import { LinkSqlMetricsToVariables } from './link-sql-metrics-to-variables';
 import { SetGroupByMetrics } from './set-groupby-metrics';
 import { DerivedCalculations } from './derived-calculations';
 import { MericoMetricQueryMetaInstance } from '~/model';
@@ -31,6 +33,11 @@ export const EditMetricQuery = observer(({ queryModel }: Props) => {
     queryModel.setRunBy(newRunBy);
   }, [config.usedFilterVariableSet, config.usedTimeQueryVariableSet, queryModel.run_by]);
 
+  const ds = queryModel.datasource as DataSourceModelInstance;
+  const mmInfo = ds.mericoMetricInfo;
+  const metric = mmInfo.metricDetail;
+  const isSqlMetricSelected = metric.metricType === 'sql';
+
   return (
     <Stack gap={16} pos="relative">
       {!metricID && (
@@ -42,10 +49,16 @@ export const EditMetricQuery = observer(({ queryModel }: Props) => {
           </Center>
         </Overlay>
       )}
-      <LinkMetricsToVariables queryModel={queryModel} />
-      <LinkMetricsToTimeAndStep queryModel={queryModel} />
-      <SetGroupByMetrics queryModel={queryModel} />
-      <DerivedCalculations queryModel={queryModel} />
+      {isSqlMetricSelected ? (
+        <LinkSqlMetricsToVariables queryModel={queryModel} />
+      ) : (
+        <>
+          <LinkMetricsToVariables queryModel={queryModel} />
+          <LinkMetricsToTimeAndStep queryModel={queryModel} />
+          <SetGroupByMetrics queryModel={queryModel} />
+          <DerivedCalculations queryModel={queryModel} />
+        </>
+      )}
     </Stack>
   );
 });

@@ -10,6 +10,7 @@ import {
   removeTrendingBasedCalculations,
 } from '~/dashboard-editor/model/datasources/mm-info/metric-detail.utils';
 import { MericoMetricQueryMetaInstance } from '~/model';
+import { CombinedMetric, DerivedMetric } from '../../../../../../../model/datasources/mm-info';
 
 interface IWindowConfig {
   calculation: string;
@@ -166,15 +167,16 @@ export const DerivedCalculations = observer(({ queryModel }: Props) => {
     );
   }
 
-  if (metricDetail.hasData && metricDetail.data) {
-    const extraCalculations = metricDetail.data.extraCalculations;
+  const data = metricDetail.data as CombinedMetric | DerivedMetric;
+  if (metricDetail.hasData && data) {
+    const extraCalculations = data.extraCalculations;
 
     if (!extraCalculations || extraCalculations.length === 0) {
       return null;
     }
 
     // Parse window config for display
-    const windowConfig = parseWindowConfig(metricDetail.data.extraCalculationConfig);
+    const windowConfig = parseWindowConfig(data.extraCalculationConfig);
 
     // Generate available options for the multi-select
     const availableOptions = generateAvailableOptions(extraCalculations, windowConfig, config.timeQuery.enabled);

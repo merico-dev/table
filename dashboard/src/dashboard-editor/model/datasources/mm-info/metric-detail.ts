@@ -20,12 +20,16 @@ function getURLByType(type: 'derived' | 'combined', id: string) {
   if (type === 'combined') {
     return `/api/metric_management/combined_metric/${id}`;
   }
+  if (type === 'sql') {
+    return `/api/metric_management/sql_metric/${id}`;
+  }
   throw new Error(`Unexpected metric type[${type}]`);
 }
 
 export const MetricDetailModel = types
   .model({
     data: types.optional(types.frozen<MetricDetail | null>(), null),
+    variables: types.optional(types.frozen<string[]>(), []),
     filters: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
     groupBys: types.optional(types.frozen<Array<CombinedMetricCol | MetricSourceCol>>(), []),
     trendingDateCol: types.optional(types.frozen<MetricSourceCol | null>(), null),
@@ -107,8 +111,9 @@ export const MetricDetailModel = types
         );
         const result = postProcessWithDataSource(self.mmInfo.dataSource, response);
         const data = _.cloneDeep(result.data);
-        const { filters, groupBys, trendingDateCol, supportTrending } = parseData(result.data);
+        const { filters, groupBys, trendingDateCol, supportTrending, variables } = parseData(result.data);
         self.data = data;
+        self.variables = variables;
         self.filters = filters;
         self.groupBys = groupBys;
         self.supportTrending = supportTrending;

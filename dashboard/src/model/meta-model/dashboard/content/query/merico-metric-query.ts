@@ -1,9 +1,56 @@
+import type { IObservableArray } from 'mobx';
 import { destroy, getParent, Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { IQueryRenderModel } from '~/model/render-model';
+import { typeAssert } from '~/types/utils';
 import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
-import { typeAssert } from '~/types/utils';
-import type { IObservableArray } from 'mobx';
-import { IQueryRenderModel } from '~/model/render-model';
+
+const SqlMetricVariableMeta = types
+  .model('SqlMetricVariableMeta', {
+    sqlVar: types.optional(types.string, ''),
+    variable: types.optional(types.string, ''),
+  })
+  .views((self) => ({
+    get allEmpty() {
+      return !self.sqlVar && !self.variable;
+    },
+    get json() {
+      const { sqlVar, variable } = self;
+      return { sqlVar, variable };
+    },
+  }))
+  .actions((self) => ({
+    removeSelf() {
+      const p = getParent(self, 2) as any;
+      p.removeSqlVariable(self);
+    },
+    setSqlVar(v: string | null) {
+      self.sqlVar = v ?? '';
+      if (self.allEmpty) {
+        this.removeSelf();
+      }
+    },
+    setVariable(v: string | null) {
+      self.variable = v ?? '';
+      if (self.allEmpty) {
+        this.removeSelf();
+      }
+    },
+  }));
+
+type SqlMetricVariableMetaInstance = Instance<typeof SqlMetricVariableMeta>;
+
+export type ISqlMetricVariableMeta = {
+  sqlVar: string;
+  variable: string;
+  allEmpty: boolean;
+  json: { sqlVar: string; variable: string };
+  removeSelf(): void;
+  setSqlVar(v: string | null): void;
+  setVariable(v: string | null): void;
+};
+
+typeAssert.shouldExtends<ISqlMetricVariableMeta, SqlMetricVariableMetaInstance>();
 
 const MetricFilterColMeta = types
   .model('MetricFilterColMeta', {
@@ -52,15 +99,16 @@ export type IMetricFilterColMeta = {
 
 typeAssert.shouldExtends<IMetricFilterColMeta, MetricFilterColMetaInstance>();
 
-export type MericoMetricType = 'derived' | 'combined';
+export type MericoMetricType = 'derived' | 'combined' | 'sql';
 
 export const MericoMetricQueryMeta = types
   .model('MericoMetricQueryMeta', {
     _type: types.literal(DataSourceType.MericoMetricSystem),
     id: types.optional(types.string, ''),
-    type: types.optional(types.enumeration<MericoMetricType>('MetricType', ['derived', 'combined']), 'derived'),
+    type: types.optional(types.enumeration<MericoMetricType>('MetricType', ['derived', 'combined', 'sql']), 'derived'),
     filters: types.optional(types.array(MetricFilterColMeta), []),
     groupBys: types.optional(types.array(types.string), []),
+    sqlVariables: types.optional(types.array(SqlMetricVariableMeta), []),
     timeQuery: types.model({
       enabled: types.optional(types.boolean, false),
       range_variable: types.optional(types.string, ''),
@@ -79,7 +127,7 @@ export const MericoMetricQueryMeta = types
       return !!self.id;
     },
     get json() {
-      const { id, type, filters, groupBys, timeQuery, useDefaultValues, extraCalculations, _type } = self;
+      const { id, type, filters, groupBys, timeQuery, useDefaultValues, extraCalculations, _type, sqlVariables } = self;
       return shallowToJS({
         id,
         type,
@@ -88,8 +136,12 @@ export const MericoMetricQueryMeta = types
         timeQuery,
         useDefaultValues,
         extraCalculations,
+        sqlVariables,
         _type,
       });
+    },
+    get usedSqlVariables() {
+      return new Set(self.sqlVariables.map((it) => it.sqlVar));
     },
     get usedFilterDimensionKeys() {
       const keys = self.filters.map((f) => f.dimension).filter((k) => !!k);
@@ -117,6 +169,7 @@ export const MericoMetricQueryMeta = types
       self.timeQuery.unit_variable = '';
       self.useDefaultValues = false;
       self.extraCalculations.length = 0;
+      self.sqlVariables.length = 0;
       if ('data' in self.query) {
         self.query.setData([]);
         self.query.setError(null);
@@ -129,7 +182,7 @@ export const MericoMetricQueryMeta = types
       self.id = v;
     },
     setType(type: string) {
-      if (type !== 'derived' && type !== 'combined') {
+      if (type !== 'derived' && type !== 'combined' && type !== 'sql') {
         return;
       }
       self.type = type;
@@ -147,6 +200,17 @@ export const MericoMetricQueryMeta = types
     },
     removeFilter(filter: MetricFilterColMetaInstance) {
       destroy(filter);
+    },
+    addSqlVariable(sqlVar: string, variable: string) {
+      self.sqlVariables.push(
+        SqlMetricVariableMeta.create({
+          sqlVar,
+          variable,
+        }),
+      );
+    },
+    removeSqlVariable(sqlVariable: SqlMetricVariableMetaInstance) {
+      destroy(sqlVariable);
     },
     setGroupBys(v: string[]) {
       self.groupBys.length = 0;
@@ -182,9 +246,10 @@ export interface IMericoMetricQueryMeta {
   // Properties
   _type: DataSourceType.MericoMetricSystem;
   id: string;
-  type: 'derived' | 'combined';
+  type: 'derived' | 'combined' | 'sql';
   filters: IObservableArray<IMetricFilterColMeta>;
   groupBys: IObservableArray<string>;
+  sqlVariables: IObservableArray<ISqlMetricVariableMeta>;
   timeQuery: {
     enabled: boolean;
     range_variable: string;
@@ -200,7 +265,7 @@ export interface IMericoMetricQueryMeta {
   readonly valid: boolean;
   readonly json: {
     id: string;
-    type: 'derived' | 'combined';
+    type: 'derived' | 'combined' | 'sql';
     filters: Array<{
       dimension: string;
       variable: string;
@@ -213,6 +278,7 @@ export interface IMericoMetricQueryMeta {
       timezone: string;
       stepKeyFormat: string;
     };
+    sqlVariables: IObservableArray<ISqlMetricVariableMeta>;
     useDefaultValues: boolean;
     extraCalculations: IObservableArray<string>;
     _type: DataSourceType.MericoMetricSystem;
@@ -221,6 +287,7 @@ export interface IMericoMetricQueryMeta {
   readonly usedFilterVariableSet: Set<string>;
   readonly usedTimeQueryVariableSet: Set<string>;
   readonly groupByValues: string[];
+  readonly usedSqlVariables: Set<string>;
 
   // Actions
   reset(): void;
@@ -234,6 +301,8 @@ export interface IMericoMetricQueryMeta {
   setTimeQueryEnabled(v: boolean): void;
   setUseDefaultValues(v: boolean): void;
   setExtraCalculations(v: string[]): void;
+  addSqlVariable(sqlVar: string, variable: string): void;
+  removeSqlVariable(sqlVariable: ISqlMetricVariableMeta): void;
 }
 
 typeAssert.shouldExtends<IMericoMetricQueryMeta, MericoMetricQueryMetaInstance>();

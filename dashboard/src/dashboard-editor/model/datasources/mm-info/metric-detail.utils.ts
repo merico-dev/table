@@ -14,6 +14,7 @@ export function parseData(data: MetricDetail) {
     const { cols } = data as DerivedMetric;
     const trendingDateCol = cols.find((c) => c.type === 'trending_date_col')?.metricSourceCol ?? null;
     return {
+      variables: [],
       filters: cols.filter((c) => c.type === 'filter').map((c) => c.metricSourceCol),
       groupBys: cols.filter((c) => c.type === 'group_by').map((c) => c.metricSourceCol),
       trendingDateCol,
@@ -21,7 +22,17 @@ export function parseData(data: MetricDetail) {
     };
   }
 
+  if ('variables' in data) {
+    return {
+      variables: data.variables as string[],
+      filters: [],
+      groupBys: [],
+      trendingDateCol: null,
+      supportTrending: data.variables.includes('date_range'),
+    };
+  }
   return {
+    variables: [],
     filters: data.filters,
     groupBys: data.groupBys,
     trendingDateCol: null,

@@ -1,10 +1,10 @@
-import { Combobox, Group, Loader, MultiSelect, MultiSelectProps, Stack, Switch, Text } from '@mantine/core';
+import { Group, Loader, MultiSelect, MultiSelectProps, Stack, Switch, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { DimensionColDataType } from '~/dashboard-editor/model/datasources/mm-info';
-import { DimensionIcon } from './dimension-selector/dimension-icon';
 import { MericoMetricQueryMetaInstance } from '~/model';
+import { DimensionIcon } from './dimension-selector/dimension-icon';
 
 const SelectorStyles = {
   label: {

@@ -60,7 +60,14 @@ export type CombinedMetric = {
   extraCalculationConfig: string;
 };
 
-export type MetricDetail = DerivedMetric | CombinedMetric;
+export interface SqlMetric {
+  id: string;
+  name: string;
+  description: string;
+  variables: string[];
+}
+
+export type MetricDetail = DerivedMetric | CombinedMetric | SqlMetric;
 
 interface IDerivedCalculationMetadata {
   name: string;
