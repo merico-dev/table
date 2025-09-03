@@ -125,8 +125,11 @@ export const ViewTabsConfig = types
       };
       self.tabs.push(v);
     },
-    removeTab(index: number) {
-      self.tabs.splice(index, 1);
+    removeTab(id: string) {
+      const match = self.tabs.find((t) => t.id === id);
+      if (match) {
+        self.tabs.remove(match);
+      }
     },
   }));
 
@@ -165,7 +168,7 @@ export interface IViewTabsConfig {
     }>,
   ): void;
   addTab(): void;
-  removeTab(index: number): void;
+  removeTab(id: string): void;
 }
 
 typeAssert.shouldExtends<IViewTabsConfig, Instance<typeof ViewTabsConfig>>();

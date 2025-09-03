@@ -60,13 +60,16 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
 
   const config = view.config as ViewTabsConfigInstance;
 
-  const remove = (index: number) =>
+  const remove = (id: string) =>
     modals.openConfirmModal({
       title: `${t('view.component.tabs.tab.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        config.removeTab(index);
+        config.removeTab(id);
+        if (defaultTab) {
+          view.setTab(defaultTab);
+        }
       },
       confirmProps: { color: 'red' },
       zIndex: 320,
@@ -140,7 +143,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   mt={20}
                   variant="subtle"
                   color="red"
-                  onClick={() => remove(i)}
+                  onClick={() => remove(tab.id)}
                   disabled={onlyOneTabLeft}
                   leftSection={<IconTrash size={14} />}
                 >
