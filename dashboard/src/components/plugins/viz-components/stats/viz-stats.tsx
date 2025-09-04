@@ -19,6 +19,12 @@ const verticalAlignments = {
   bottom: 'flex-end',
 };
 
+const transformOrigins = {
+  top: 'top center',
+  center: 'center center',
+  bottom: 'bottom center',
+};
+
 function getWrapperSx(triggersCount: number) {
   const ret: EmotionSx = {
     flexGrow: 1,
@@ -108,6 +114,9 @@ export const Render = observer(({ context, instance }: RenderProps) => {
             },
             content: {
               height,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: verticalAlignments[conf.vertical_align],
               '&.mantine-RichTextEditor-content .ProseMirror': {
                 margin: '0 auto',
                 padding: 0,
@@ -116,7 +125,7 @@ export const Render = observer(({ context, instance }: RenderProps) => {
                 height: 'auto',
                 maxWidth: '100%',
                 maxHeight: '100%',
-                transformOrigin: 'top center',
+                transformOrigin: transformOrigins[conf.vertical_align],
               },
               '&.mantine-RichTextEditor-content .ProseMirror > p': {
                 fontSize: 'initial',
