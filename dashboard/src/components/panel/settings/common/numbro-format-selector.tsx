@@ -70,7 +70,7 @@ interface INumbroFormatSelector {
 function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
   const { t } = useTranslation();
   const changeOutput = (output: TNumberFormat['output']) => {
-    onChange({ ...value, output });
+    onChange({ ...value, output, absolute: false, average: false, trimMantissa: false, mantissa: 0 });
   };
   const changeMantissa = (mantissa: TNumberFormat['mantissa'] | string) => {
     if (typeof mantissa === 'string') {
