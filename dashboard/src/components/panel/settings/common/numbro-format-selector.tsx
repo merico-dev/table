@@ -80,13 +80,13 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };
-  const changeTrimMantissa = (event: $TSFixMe) => {
+  const changeTrimMantissa: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange({ ...value, trimMantissa: event.currentTarget.checked });
   };
-  const changeAverage = (event: $TSFixMe) => {
+  const changeAverage: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange({ ...value, average: event.currentTarget.checked });
   };
-  const changeAbsolute = (event: $TSFixMe) => {
+  const changeAbsolute: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const payload = { ...value, absolute: event.currentTarget.checked };
     onChange(payload);
   };
