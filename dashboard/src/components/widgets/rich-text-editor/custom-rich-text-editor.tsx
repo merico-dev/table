@@ -14,9 +14,8 @@ import TableRow from '@tiptap/extension-table-row';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
-import { Extensions, useEditor } from '@tiptap/react';
+import { EditorEvents, Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useBoolean } from 'ahooks';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -112,24 +111,36 @@ export const CustomRichTextEditor = forwardRef(
       return ret;
     }, [inPanelContext]);
 
-    const [focused, { setTrue, setFalse }] = useBoolean(false);
-
     const [content, setContent] = useState(value);
+
+    const submit = () => {
+      onChange(content);
+      onSubmit?.();
+    };
+
+    const autoSubmitIfAllowed = () => {
+      if (autoSubmit) {
+        submit();
+      }
+    };
+
+    const onUpdate = ({ editor }: EditorEvents['update']) => {
+      const newContent = editor.getHTML();
+      setContent(newContent);
+    };
 
     const editor = useEditor({
       extensions,
       content: value,
-      onUpdate: ({ editor }) => {
-        const newContent = editor.getHTML();
-        setContent(newContent);
-      },
+      onUpdate,
       onCreate: ({ editor }) => {
         editor.view.dom.setAttribute('spellcheck', 'false');
         editor.view.dom.setAttribute('autocomplete', 'off');
         editor.view.dom.setAttribute('autocapitalize', 'off');
       },
-      onFocus: setTrue,
-      onBlur: setFalse,
+      onFocus: () => {},
+      onBlur: autoSubmitIfAllowed,
+      onDestroy: autoSubmitIfAllowed,
     });
 
     useEffect(() => {
@@ -137,18 +148,7 @@ export const CustomRichTextEditor = forwardRef(
       editor?.commands.setContent(value);
     }, [value]);
 
-    const submit = () => {
-      onChange(content);
-      onSubmit?.();
-    };
     const changed = value !== content;
-
-    useEffect(() => {
-      if (!autoSubmit || !focused) {
-        return;
-      }
-      submit();
-    }, [autoSubmit, changed, focused]);
 
     const finalStyles = useMemo(() => {
       return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...RTEContentStyle } }, styles);
