@@ -70,7 +70,7 @@ interface INumbroFormatSelector {
 function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
   const { t } = useTranslation();
   const changeOutput = (output: TNumberFormat['output']) => {
-    onChange({ ...value, output });
+    onChange({ ...value, output, absolute: false, average: false, trimMantissa: false, mantissa: 0 });
   };
   const changeMantissa = (mantissa: TNumberFormat['mantissa'] | string) => {
     if (typeof mantissa === 'string') {
@@ -80,13 +80,13 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };
-  const changeTrimMantissa = (event: $TSFixMe) => {
+  const changeTrimMantissa: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange({ ...value, trimMantissa: event.currentTarget.checked });
   };
-  const changeAverage = (event: $TSFixMe) => {
+  const changeAverage: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange({ ...value, average: event.currentTarget.checked });
   };
-  const changeAbsolute = (event: $TSFixMe) => {
+  const changeAbsolute: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const payload = { ...value, absolute: event.currentTarget.checked };
     onChange(payload);
   };
