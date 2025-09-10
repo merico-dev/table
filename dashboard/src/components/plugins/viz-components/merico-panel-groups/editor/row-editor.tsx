@@ -2,15 +2,19 @@ import { useSortable } from '@dnd-kit/react/sortable';
 import {
   ActionIcon,
   Badge,
+  Box,
+  Button,
+  Card,
   Center,
   CloseButton,
   ComboboxData,
   Flex,
   Group,
   MultiSelect,
+  Stack,
   TextInput,
 } from '@mantine/core';
-import { IconGripVertical } from '@tabler/icons-react';
+import { IconGripVertical, IconTrash } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import { MericoPanelGroupItem } from '../type';
@@ -33,11 +37,6 @@ type Props = {
 export const RowEditor = ({ row, index, handleChange, handleRemove, panelOptions }: Props) => {
   const { t } = useTranslation();
   const [touched, { setTrue: setTouched }] = useBoolean(false);
-  const [hovering, { setTrue, setFalse }] = useBoolean(false);
-  const { ref, handleRef } = useSortable({
-    id: row.id,
-    index,
-  });
 
   const changeName = (name: string) => {
     handleChange({
@@ -61,27 +60,7 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, panelOptions
   };
 
   return (
-    <Flex
-      ref={ref}
-      gap="sm"
-      justify="flex-start"
-      align="center"
-      direction="row"
-      wrap="nowrap"
-      onMouseEnter={setTrue}
-      onMouseLeave={setFalse}
-    >
-      <Center style={{ minWidth: '30px', maxWidth: '30px', flex: 0 }}>
-        {hovering ? (
-          <ActionIcon size="xs" ref={handleRef} variant="subtle">
-            <IconGripVertical />
-          </ActionIcon>
-        ) : (
-          <Badge size="sm" variant="light">
-            {index + 1}
-          </Badge>
-        )}
-      </Center>
+    <Stack gap="xs" p="xs" style={{ border: '1px solid var(--mantine-color-gray-4)', borderRadius: '2px' }}>
       <Group grow wrap="nowrap" style={{ flex: 1 }}>
         <TextInput
           size="xs"
@@ -97,21 +76,29 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, panelOptions
           placeholder={t('viz.merico_panel_groups.groups.comment')}
           onChange={(e) => changeComment(e.currentTarget.value)}
         />
-        <MultiSelect
-          label=""
-          placeholder={t('viz.merico_panel_groups.groups.panel_ids')}
-          onChange={changePanelIDs}
-          value={row.panelIDs}
-          clearable
-          size="xs"
-          data={panelOptions}
-          maxDropdownHeight={500}
-          comboboxProps={{ width: 300, position: 'bottom-start' }}
-        />
       </Group>
-      <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
-        <CloseButton onClick={handleRemove} size="sm" />
-      </div>
-    </Flex>
+      <MultiSelect
+        label=""
+        placeholder={t('viz.merico_panel_groups.groups.panel_ids')}
+        onChange={changePanelIDs}
+        value={row.panelIDs}
+        clearable
+        size="xs"
+        data={panelOptions}
+        maxDropdownHeight={500}
+        comboboxProps={{ width: 300, position: 'bottom-start' }}
+      />
+      <Button
+        variant="subtle"
+        color="red"
+        size="xs"
+        ml="auto"
+        mt="md"
+        leftSection={<IconTrash size={14} />}
+        onClick={handleRemove}
+      >
+        删除这一组
+      </Button>
+    </Stack>
   );
 };
