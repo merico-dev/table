@@ -24,8 +24,14 @@ export function VizMericoPanelGroupsEditor({ context }: VizConfigProps) {
     form.reset(conf);
   }, [conf]);
 
+  const filterAndSubmit = (newConf: VizMericoPanelGroupsConf) => {
+    const filtered = newConf;
+    filtered.groups = filtered.groups.filter((g) => g.panelIDs.length > 0 || !!g.name.trim() || !!g.comment.trim());
+    setConf(filtered);
+  };
+
   return (
-    <form onSubmit={handleSubmit(setConf)}>
+    <form onSubmit={handleSubmit(filterAndSubmit)}>
       <VizConfigBanner canSubmit={formState.isDirty} />
       <Stack gap="lg" pt="xs" px="xs">
         <Controller
