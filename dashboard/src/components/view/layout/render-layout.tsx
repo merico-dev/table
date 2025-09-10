@@ -29,6 +29,10 @@ export const RenderLayout = observer(({ view, className = 'layout' }: IRenderLay
       onBreakpointChange={contentModel.layouts.setCurrentBreakpoint}
     >
       {layoutItems.map((l) => {
+        if (l.panel.usingGhostViz) {
+          return null;
+        }
+
         return (
           <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
             <PanelRender view={view} panel={l.panel} />

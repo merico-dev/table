@@ -15,6 +15,7 @@ import { downloadJSON } from '~/utils/download';
 import { QueryRenderModelInstance } from '../queries';
 import { IPanelRenderModel } from './types';
 import _ from 'lodash';
+import { MericoPanelGroupsVizComponent } from '~/components/plugins/viz-components/merico-panel-groups';
 
 export type VariableValueMap = Record<string, string | number>;
 export type VariableAggValueMap = Record<string, string | number>;
@@ -44,6 +45,9 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
         return this.firstQuery.data;
       }
       return [];
+    },
+    get usingGhostViz() {
+      return self.viz.type === MericoPanelGroupsVizComponent.name;
     },
     queryByID(queryID: string): QueryRenderModelInstance | undefined {
       return this.queries.find((q) => q.id === queryID);
