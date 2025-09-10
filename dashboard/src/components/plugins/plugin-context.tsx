@@ -42,6 +42,7 @@ import { TextVizComponent } from './viz-components/text';
 import { VizDashboardStateVizComponent } from './viz-components/viz-dashboard-state';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
+import { MericoPanelGroupsVizComponent } from './viz-components/merico-panel-groups';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -140,6 +141,7 @@ export const vizList = [
   MericoEstimationChartVizComponent,
   MericoHeatmapVizComponent,
   MericoStatsVizComponent,
+  MericoPanelGroupsVizComponent,
   VizMericoLinearGaugeVizComponent,
   ButtonVizComponent,
   VizDashboardStateVizComponent,

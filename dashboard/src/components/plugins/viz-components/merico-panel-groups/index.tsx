@@ -10,7 +10,7 @@ type ConfigType = {
   config: VizMericoPanelGroupsConf;
 };
 
-export const VizMericoPanelGroupsVizComponent: VizComponent = {
+export const MericoPanelGroupsVizComponent: VizComponent = {
   displayName: 'viz.merico_panel_groups.viz_name',
   displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoPanelGroupsMigrator(),
