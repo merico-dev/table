@@ -3,6 +3,7 @@ import { TranslationPatch } from '~/types/plugin';
 const en = {
   merico_panel_groups: {
     viz_name: 'Merico Panel Groups',
+    render: '"Merico Panel Groups" is a ghost viz, the whole panel will not shown in dashboard',
     groups: {
       label: 'Groups',
       add: 'Add a group',
@@ -16,6 +17,7 @@ const en = {
 const zh = {
   merico_panel_groups: {
     viz_name: '思码逸卡片组',
+    render: '在使用看板时，思码逸卡片组不会参与渲染',
     groups: {
       label: '卡片组',
       add: '增加一组',
