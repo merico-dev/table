@@ -1,9 +1,22 @@
 import { useSortable } from '@dnd-kit/react/sortable';
-import { ActionIcon, Badge, Center, CloseButton, Flex, Group, MultiSelect, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Badge,
+  Center,
+  CloseButton,
+  ComboboxData,
+  Flex,
+  Group,
+  MultiSelect,
+  TextInput,
+} from '@mantine/core';
 import { IconGripVertical } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import { MericoPanelGroupItem } from '../type';
+import { observer } from 'mobx-react-lite';
+import { useEditContentModelContext } from '~/contexts';
+import { useMemo } from 'react';
 
 type RowFieldItem = {
   id: string;
@@ -14,12 +27,12 @@ type Props = {
   handleChange: (v: RowFieldItem) => void;
   handleRemove: () => void;
   index: number;
-  data: TPanelData;
+  panelOptions: ComboboxData;
 };
-export const RowEditor = ({ row, index, handleChange, handleRemove, data }: Props) => {
+
+export const RowEditor = ({ row, index, handleChange, handleRemove, panelOptions }: Props) => {
   const { t } = useTranslation();
-  const [nameTouched, { setTrue: setNameTouched }] = useBoolean(false);
-  const [commentTouched, { setTrue: setCommentTouched }] = useBoolean(false);
+  const [touched, { setTrue: setTouched }] = useBoolean(false);
   const [hovering, { setTrue, setFalse }] = useBoolean(false);
   const { ref, handleRef } = useSortable({
     id: row.id,
@@ -75,16 +88,14 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, data }: Prop
           value={row.name}
           placeholder={t('viz.merico_panel_groups.groups.name')}
           onChange={(e) => changeName(e.currentTarget.value)}
-          onClick={setNameTouched}
-          error={nameTouched && !row.name}
+          onClick={setTouched}
+          error={touched && !row.name}
         />
         <TextInput
           size="xs"
           value={row.comment}
           placeholder={t('viz.merico_panel_groups.groups.comment')}
           onChange={(e) => changeComment(e.currentTarget.value)}
-          onClick={setCommentTouched}
-          error={commentTouched && !row.comment}
         />
         <MultiSelect
           label=""
@@ -93,6 +104,9 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, data }: Prop
           value={row.panelIDs}
           clearable
           size="xs"
+          data={panelOptions}
+          maxDropdownHeight={500}
+          comboboxProps={{ width: 300, position: 'bottom-start' }}
         />
       </Group>
       <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
