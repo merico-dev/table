@@ -1722,6 +1722,7 @@ __metadata:
     i18next-browser-languagedetector: ^7.2.0
     intl-pluralrules: ^2.0.1
     js-base64: 3.7.5
+    js-yaml: ^4.1.0
     jsdom: ^20.0.0
     jsdom-testing-mocks: ^1.5.0
     jszip: 3.10.1

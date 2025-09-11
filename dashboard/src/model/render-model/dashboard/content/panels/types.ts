@@ -10,6 +10,7 @@ export interface IPanelRenderModel extends IPanelMeta {
   readonly queries: QueryRenderModelInstance[];
   readonly firstQuery: QueryRenderModelInstance | null;
   readonly firstQueryData: Array<string[] | number[] | Record<string, unknown>>;
+  readonly usingGhostViz: boolean;
   readonly data: TPanelData;
   readonly variableStrings: Record<string, ReactNode>;
   readonly variableAggValueMap: VariableAggValueMap;
