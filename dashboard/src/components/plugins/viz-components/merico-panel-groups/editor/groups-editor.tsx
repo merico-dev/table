@@ -6,6 +6,7 @@ import { useEditContentModelContext } from '~/contexts';
 import { MericoPanelGroupItem } from '../type';
 import { AddARow } from './add-a-row';
 import { RowEditor } from './row-editor';
+import { GetGroupsFromYAML } from './get-groups-from-yaml';
 
 type Props = {
   value: MericoPanelGroupItem[];
@@ -27,6 +28,9 @@ export const GroupsEditor = forwardRef<HTMLDivElement, Props>(({ value, onChange
 
   const append = (v: MericoPanelGroupItem) => {
     onChange([...value, v]);
+  };
+  const replace = (v: MericoPanelGroupItem[]) => {
+    onChange(v);
   };
   const remove = (index: number) => {
     const newValue = [...value];
@@ -57,6 +61,7 @@ export const GroupsEditor = forwardRef<HTMLDivElement, Props>(({ value, onChange
         <Text size="sm" fw="500" mb={-4}>
           {t('viz.merico_panel_groups.groups.label')}
         </Text>
+        <GetGroupsFromYAML onSubmit={replace} />
       </Group>
       {rows.map((r, index) => (
         <RowEditor

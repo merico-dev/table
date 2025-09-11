@@ -10,6 +10,13 @@ const en = {
       name: 'Name',
       comment: 'Remark',
       panel_ids: 'Panels',
+      yaml: {
+        button: 'Import from YAML',
+        modal_title: 'Import from YAML',
+        label: 'YAML content',
+        submit: 'Submit',
+        error_title: 'Failed',
+      },
     },
   },
 };
@@ -24,6 +31,13 @@ const zh = {
       name: '名称',
       comment: '备注',
       panel_ids: '卡片',
+      yaml: {
+        button: '从YAML导入',
+        modal_title: '从YAML导入',
+        label: 'YAML内容',
+        submit: '提交',
+        error_title: '解析失败',
+      },
     },
   },
 };
