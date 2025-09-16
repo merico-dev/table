@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CustomRichTextEditor } from '~/components/widgets';
+import { RichTextEditorModal } from '~/components/widgets';
 import { useEditPanelContext } from '~/contexts';
 import { IHorizontalBarChartConf } from '../../type';
 
@@ -19,12 +19,11 @@ export const StatsField = observer(({ control }: Props) => {
         name="stats.top"
         control={control}
         render={({ field }) => (
-          <CustomRichTextEditor
+          <RichTextEditorModal
             key={`${panel.id}.stats.top`}
+            initialValue={field.value}
+            onChange={field.onChange}
             label={t('chart.stats.template.above_chart')}
-            styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
-            autoSubmit
-            {...field}
           />
         )}
       />
@@ -32,12 +31,11 @@ export const StatsField = observer(({ control }: Props) => {
         name="stats.bottom"
         control={control}
         render={({ field }) => (
-          <CustomRichTextEditor
+          <RichTextEditorModal
             key={`${panel.id}.stats.bottom`}
+            initialValue={field.value}
+            onChange={field.onChange}
             label={t('chart.stats.template.under_chart')}
-            styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
-            autoSubmit
-            {...field}
           />
         )}
       />
