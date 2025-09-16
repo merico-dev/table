@@ -1,8 +1,8 @@
-import { Stack } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CustomRichTextEditor } from '~/components/widgets';
+import { CustomRichTextEditor, RichTextEditorModal } from '~/components/widgets';
 import { useEditPanelContext } from '~/contexts';
 import { ICartesianChartConf } from '../../type';
 
@@ -19,26 +19,32 @@ export const StatsField = observer(({ control }: Props) => {
         name="stats.top"
         control={control}
         render={({ field }) => (
-          <CustomRichTextEditor
-            key={`${panel.id}.stats.top`}
-            label={t('chart.stats.template.above_chart')}
-            styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
-            autoSubmit
-            {...field}
-          />
+          <Stack gap={4} key={`${panel.id}.stats.top`}>
+            <Text size="sm" fw="bold">
+              {t('chart.stats.template.above_chart')}
+            </Text>
+            <RichTextEditorModal
+              initialValue={field.value}
+              onChange={field.onChange}
+              label={t('chart.stats.template.above_chart')}
+            />
+          </Stack>
         )}
       />
       <Controller
         name="stats.bottom"
         control={control}
         render={({ field }) => (
-          <CustomRichTextEditor
-            key={`${panel.id}.stats.bottom`}
-            label={t('chart.stats.template.under_chart')}
-            styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
-            autoSubmit
-            {...field}
-          />
+          <Stack gap={4} key={`${panel.id}.stats.bottom`}>
+            <Text size="sm" fw="bold">
+              {t('chart.stats.template.under_chart')}
+            </Text>
+            <RichTextEditorModal
+              initialValue={field.value}
+              onChange={field.onChange}
+              label={t('chart.stats.template.under_chart')}
+            />
+          </Stack>
         )}
       />
     </Stack>
