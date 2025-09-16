@@ -1,4 +1,4 @@
-import { Button, Modal } from '@mantine/core';
+import { Button, Modal, Stack, Text } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import { CustomRichTextEditor } from './custom-rich-text-editor';
@@ -14,9 +14,14 @@ export const RichTextEditorModal = ({ initialValue, onChange, label }: Props) =>
   const [opened, { setTrue: open, setFalse: onClose }] = useBoolean(false);
   return (
     <>
-      <Button variant="light" size="xs" onClick={open} disabled={opened}>
-        {t('common.actions.edit_rich_text')}
-      </Button>
+      <Stack gap={4}>
+        <Text size="sm" fw="bold">
+          {t('chart.stats.template.above_chart')}
+        </Text>
+        <Button variant="light" size="xs" onClick={open} disabled={opened}>
+          {t('common.actions.edit_rich_text')}
+        </Button>
+      </Stack>
       <Modal
         opened={opened}
         onClose={onClose}
