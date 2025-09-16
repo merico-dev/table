@@ -1,4 +1,4 @@
-import { Divider, Select, Stack } from '@mantine/core';
+import { Divider, Group, Select, Stack } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -56,26 +56,28 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
           )}
         />
         <Divider />
-        <Controller
-          name="order"
-          control={form.control}
-          render={({ field }) => (
-            <Select
-              label={t('viz.merico_linear_gauge.order.label')}
-              size="xs"
-              data={orderOptions}
-              {...field}
-              clearable
-            />
-          )}
-        />
-        <Controller
-          name="value"
-          control={form.control}
-          render={({ field }) => (
-            <DataFieldSelector label={t('viz.merico_linear_gauge.value')} size="xs" {...field} clearable />
-          )}
-        />
+        <Group grow wrap="nowrap">
+          <Controller
+            name="value"
+            control={form.control}
+            render={({ field }) => (
+              <DataFieldSelector label={t('viz.merico_linear_gauge.value')} size="xs" {...field} clearable />
+            )}
+          />
+          <Controller
+            name="order"
+            control={form.control}
+            render={({ field }) => (
+              <Select
+                label={t('viz.merico_linear_gauge.order.label')}
+                size="xs"
+                data={orderOptions}
+                {...field}
+                clearable
+              />
+            )}
+          />
+        </Group>
         <Controller
           name="sections"
           control={form.control}
