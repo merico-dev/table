@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { autorun, comparer, computed } from 'mobx';
+import { useEffect, useState } from 'react';
+
 import { useDashboardContext } from '../../contexts';
 import {
   DashboardFilterType,
@@ -20,20 +22,34 @@ const NOT_AVAILABLE = 'N/A';
  */
 export function useVisibleFilters(): IFormattedFilter[] {
   const model = useDashboardContext();
-  const visibleViews = model.content.views.visibleViews;
-  return useMemo(() => {
-    const viewIds = visibleViews.map((it) => {
-      if (it.type === EViewComponentType.Tabs) {
-        return it.tabView?.view_id;
-      }
-      return it.id;
+  const [visibleFilters, setVisibleFilters] = useState<IFormattedFilter[]>([]);
+  useEffect(() => {
+    const calc = computed(
+      () => {
+        const visibleViews = model.content.views.visibleViews;
+        const viewIds = visibleViews.map((it) => {
+          if (it.type === EViewComponentType.Tabs) {
+            return it.tabView?.view_id;
+          }
+          return it.id;
+        });
+        const filters = viewIds
+          .filter(Boolean)
+          .flatMap((it) => model.content.filters.visibleInView(it!))
+          .filter(Boolean);
+
+        return filters.map((it) => formatFilter(it));
+      },
+      {
+        equals: comparer.structural,
+      },
+    );
+    const dispose = autorun(() => {
+      setVisibleFilters(calc.get());
     });
-    const filters = viewIds
-      .filter(Boolean)
-      .flatMap((it) => model.content.filters.visibleInView(it!))
-      .filter(Boolean);
-    return filters.map((it) => formatFilter(it));
-  }, [visibleViews]);
+    return () => dispose();
+  }, [model]);
+  return visibleFilters;
 }
 
 export interface IFormattedFilter {
