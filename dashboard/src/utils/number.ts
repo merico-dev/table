@@ -20,6 +20,14 @@ export const defaultNumberFormat: TNumberFormat = {
   absolute: false,
 };
 
+export const getDefaultNumberFormat = (): TNumberFormat => ({
+  mantissa: 0,
+  output: 'number',
+  trimMantissa: false,
+  average: false,
+  absolute: false,
+});
+
 export function formatNumber(number: string | number | null, { absolute, ...format }: TNumberFormat): string {
   if (number === null) {
     return String(number);
