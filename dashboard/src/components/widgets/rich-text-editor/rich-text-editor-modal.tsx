@@ -16,7 +16,7 @@ export const RichTextEditorModal = ({ initialValue, onChange, label }: Props) =>
     <>
       <Stack gap={4}>
         <Text size="sm" fw="bold">
-          {t('chart.stats.template.above_chart')}
+          {label}
         </Text>
         <Button variant="light" size="xs" onClick={open} disabled={opened}>
           {t('common.actions.edit_rich_text')}
