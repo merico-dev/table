@@ -4,6 +4,7 @@ import { getOption } from './option';
 import { Center, Group, Text } from '@mantine/core';
 import classes from './chart.module.css';
 import { IconArrowUp } from '@tabler/icons-react';
+import { formatNumber } from '~/utils';
 
 type Props = {
   conf: IMericoLinearGaugeConf;
@@ -34,7 +35,7 @@ export function Chart({ conf, data, width, height }: Props) {
           </Text>
           {section.min > 0 ? (
             <Text size="xs" className={classes.min}>
-              {section.min}
+              {formatNumber(section.min, conf.format)}
             </Text>
           ) : null}
           {section.pointer ? (
