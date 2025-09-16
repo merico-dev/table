@@ -75,10 +75,11 @@ interface ICustomRichTextEditor {
   label: string;
   autoSubmit?: boolean;
   onSubmit?: () => void;
+  onCancel?: () => void;
 }
 
 export const CustomRichTextEditor = forwardRef(
-  ({ value, onChange, styles = {}, label, autoSubmit, onSubmit }: ICustomRichTextEditor, ref: any) => {
+  ({ value, onChange, styles = {}, label, autoSubmit, onSubmit, onCancel }: ICustomRichTextEditor, ref: any) => {
     const { t } = useTranslation();
     const inPanelContext = useIsInEditPanelContext();
     const extensions: Extensions = useMemo(() => {
@@ -158,13 +159,15 @@ export const CustomRichTextEditor = forwardRef(
       return null;
     }
 
+    const withCancel = !!onCancel;
+
     return (
       <Stack gap={4} sx={{ flexGrow: 1, position: 'relative' }}>
         <Group align="center">
           <Text size={'14px'} fw={500}>
             {label}
           </Text>
-          {!autoSubmit && (
+          {!withCancel && (
             <Button
               variant="filled"
               color="blue"
@@ -231,6 +234,23 @@ export const CustomRichTextEditor = forwardRef(
           </RichTextEditor.Toolbar>
           <RichTextEditor.Content />
         </RichTextEditor>
+        {withCancel && (
+          <Group justify="space-between" pt="md">
+            <Button variant="default" size="xs" onClick={onCancel}>
+              {t('common.actions.cancel')}
+            </Button>
+            <Button
+              variant="filled"
+              color="blue"
+              size="xs"
+              disabled={!changed}
+              onClick={submit}
+              leftSection={<IconDeviceFloppy size={16} />}
+            >
+              {t('common.actions.save_changes')}
+            </Button>
+          </Group>
+        )}
       </Stack>
     );
   },
