@@ -10,6 +10,7 @@ import { SectionsEditor } from './sections-editor';
 import { CustomRichTextEditor, RichTextEditorModal } from '~/components/widgets';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 
 export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoLinearGaugeConf>(context.instanceData, 'config');
@@ -82,6 +83,12 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
           name="sections"
           control={form.control}
           render={({ field }) => <SectionsEditor {...field} data={data} />}
+        />
+        <Divider />
+        <Controller
+          name={'format'}
+          control={form.control}
+          render={({ field }) => <NumbroFormatSelector {...field} />}
         />
       </Stack>
     </form>
