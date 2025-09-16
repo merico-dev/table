@@ -16,6 +16,7 @@ import { QueryRenderModelInstance } from '../queries';
 import { IPanelRenderModel } from './types';
 import _ from 'lodash';
 import { MericoPanelGroupsVizComponent } from '~/components/plugins/viz-components/merico-panel-groups';
+import { ComboboxItem } from '@mantine/core';
 
 export type VariableValueMap = Record<string, string | number>;
 export type VariableAggValueMap = Record<string, string | number>;
@@ -151,11 +152,27 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
         })
         .flat();
     },
-    dataFieldOptions(selected: TDataKey, clearable: boolean, unsetKey: string, queryID?: string) {
+    dataFieldOptions({
+      selected,
+      clearable,
+      unsetKey,
+      queryID,
+      additional_options,
+    }: {
+      selected: TDataKey;
+      clearable: boolean;
+      unsetKey: string;
+      queryID?: string;
+      additional_options?: ComboboxItem[];
+    }) {
       let options = [...this.realDataFieldOptions];
       if (queryID) {
         options = options.filter((o) => o.group_id === queryID);
       }
+
+      additional_options?.forEach((o) => {
+        options.unshift({ label: o.label, value: o.value, group: '', group_id: '', disabled: false });
+      });
       if (selected && !options.find((o) => o.value === selected)) {
         const s = parseDataKey(selected);
         const q = this.queryByID(s.queryID);
@@ -179,8 +196,20 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       }
       return options;
     },
-    dataFieldOptionGroups(selected: TDataKey, clearable: boolean, unsetKey: string, queryID?: string) {
-      const options = this.dataFieldOptions(selected, clearable, unsetKey, queryID);
+    dataFieldOptionGroups({
+      selected,
+      clearable,
+      unsetKey,
+      queryID,
+      additional_options,
+    }: {
+      selected: TDataKey;
+      clearable: boolean;
+      unsetKey: string;
+      queryID?: string;
+      additional_options?: ComboboxItem[];
+    }) {
+      const options = this.dataFieldOptions({ selected, clearable, unsetKey, queryID, additional_options });
       const ret = Object.entries(_.groupBy(options, 'group')).map(([group, items]) => {
         return {
           group,
