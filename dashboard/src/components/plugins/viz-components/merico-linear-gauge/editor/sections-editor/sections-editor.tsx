@@ -49,6 +49,18 @@ export const SectionsEditor = forwardRef<HTMLDivElement, Props>(({ value, onChan
     onChange(newRows.map((v) => _.omit(v, 'id')));
   };
 
+  const additional_options = useMemo(() => {
+    return [
+      {
+        label: t('viz.merico_linear_gauge.sections.min_key.infinity'),
+        value: 'positive_infinity',
+      },
+      {
+        label: t('viz.merico_linear_gauge.sections.min_key.negative_infinity'),
+        value: 'negative_infinity',
+      },
+    ];
+  }, [t]);
   return (
     <Stack ref={ref} pt={4}>
       <Group justify="space-between">
@@ -65,7 +77,7 @@ export const SectionsEditor = forwardRef<HTMLDivElement, Props>(({ value, onChan
             handleChange={getChangeHandler(index)}
             handleRemove={() => remove(index)}
             index={index}
-            data={data}
+            additional_options={additional_options}
           />
         ))}
       </DragDropProvider>

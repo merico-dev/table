@@ -1,10 +1,20 @@
 import { useSortable } from '@dnd-kit/react/sortable';
-import { ActionIcon, Badge, Center, CloseButton, ColorInput, Flex, Group, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Badge,
+  Center,
+  CloseButton,
+  ColorInput,
+  ComboboxItem,
+  Flex,
+  Group,
+  TextInput,
+} from '@mantine/core';
 import { IconGripVertical } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { useTranslation } from 'react-i18next';
-import { MericoLinearGaugeSection } from '../../type';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { MericoLinearGaugeSection } from '../../type';
 
 type RowFieldItem = {
   id: string;
@@ -15,9 +25,9 @@ type Props = {
   handleChange: (v: RowFieldItem) => void;
   handleRemove: () => void;
   index: number;
-  data: TPanelData;
+  additional_options: ComboboxItem[];
 };
-export const RowEditor = ({ row, index, handleChange, handleRemove, data }: Props) => {
+export const RowEditor = ({ row, index, handleChange, handleRemove, additional_options }: Props) => {
   const { t } = useTranslation();
   const [touched, { setTrue: setTouched }] = useBoolean(false);
   const [hovering, { setTrue, setFalse }] = useBoolean(false);
@@ -102,6 +112,7 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, data }: Prop
           clearable
           unsetKey="viz.merico_linear_gauge.sections.min_key.zero"
           size="xs"
+          additional_options={additional_options}
         />
       </Group>
       <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
