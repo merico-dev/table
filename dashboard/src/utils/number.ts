@@ -13,17 +13,17 @@ export type TNumberFormat = TNumbroFormat & {
 };
 
 export const defaultNumberFormat: TNumberFormat = {
-  mantissa: 0,
+  mantissa: 2,
   output: 'number',
-  trimMantissa: false,
+  trimMantissa: true,
   average: false,
   absolute: false,
 };
 
 export const getDefaultNumberFormat = (): TNumberFormat => ({
-  mantissa: 0,
+  mantissa: 2,
   output: 'number',
-  trimMantissa: false,
+  trimMantissa: true,
   average: false,
   absolute: false,
 });
