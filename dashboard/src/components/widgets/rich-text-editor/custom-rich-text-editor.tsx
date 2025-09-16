@@ -73,13 +73,12 @@ interface ICustomRichTextEditor {
   onChange: (v: string) => void;
   styles?: RichTextEditorProps['styles'];
   label: string;
-  autoSubmit?: boolean;
   onSubmit?: () => void;
   onCancel?: () => void;
 }
 
 export const CustomRichTextEditor = forwardRef(
-  ({ value, onChange, styles = {}, label, autoSubmit, onSubmit, onCancel }: ICustomRichTextEditor, ref: any) => {
+  ({ value, onChange, styles = {}, label, onSubmit, onCancel }: ICustomRichTextEditor, ref: any) => {
     const { t } = useTranslation();
     const inPanelContext = useIsInEditPanelContext();
     const extensions: Extensions = useMemo(() => {
@@ -119,12 +118,6 @@ export const CustomRichTextEditor = forwardRef(
       onSubmit?.();
     };
 
-    const autoSubmitIfAllowed = () => {
-      if (autoSubmit) {
-        submit();
-      }
-    };
-
     const onUpdate = ({ editor }: EditorEvents['update']) => {
       const newContent = editor.getHTML();
       setContent(newContent);
@@ -139,9 +132,6 @@ export const CustomRichTextEditor = forwardRef(
         editor.view.dom.setAttribute('autocomplete', 'off');
         editor.view.dom.setAttribute('autocapitalize', 'off');
       },
-      onFocus: () => {},
-      onBlur: autoSubmitIfAllowed,
-      onDestroy: autoSubmitIfAllowed,
     });
 
     useEffect(() => {
