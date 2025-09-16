@@ -7,7 +7,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../../editor-components';
 import { getDefaultConfig, IMericoLinearGaugeConf } from '../type';
 import { SectionsEditor } from './sections-editor';
-import { CustomRichTextEditor } from '~/components/widgets';
+import { CustomRichTextEditor, RichTextEditorModal } from '~/components/widgets';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 
@@ -34,12 +34,11 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
           name="stats.top"
           control={form.control}
           render={({ field }) => (
-            <CustomRichTextEditor
-              key={'stats.top'}
+            <RichTextEditorModal
+              key="stats.top"
+              initialValue={field.value}
+              onChange={field.onChange}
               label={t('chart.stats.template.above_chart')}
-              styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
-              autoSubmit
-              {...field}
             />
           )}
         />

@@ -1,15 +1,15 @@
 import { Stack } from '@mantine/core';
 import { defaults } from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
-import { CustomRichTextEditor } from '~/components/widgets';
+import { RichTextEditorModal } from '~/components/widgets';
+import { useEditPanelContext } from '~/contexts';
 import { VizConfigProps } from '~/types/plugin';
 import { VerticalAlignSelector, VizConfigBanner } from '../../editor-components';
 import { IVizStatsConf } from './type';
-import { observer } from 'mobx-react-lite';
-import { useEditPanelContext } from '~/contexts';
 
 type StorageData = ReturnType<typeof useStorageData<IVizStatsConf>>;
 
@@ -43,12 +43,11 @@ const Editor = observer(({ conf, setConf }: EditorProps) => {
           name="content"
           control={control}
           render={({ field }) => (
-            <CustomRichTextEditor
-              {...field}
-              key={panel.id}
-              styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
+            <RichTextEditorModal
+              key={`${panel.id}.content.label`}
+              initialValue={field.value}
+              onChange={field.onChange}
               label={t('rich_text.content.label')}
-              autoSubmit
             />
           )}
         />
