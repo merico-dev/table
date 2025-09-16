@@ -361,6 +361,7 @@ export const zh = {
         add_an_option: '新增选项',
         edit: '编辑',
         end_editing: '结束编辑 <0>{{name}}</0>',
+        edit_rich_text: '编辑富文本内容',
       },
       tabs: {
         variant: {
