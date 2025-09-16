@@ -2,15 +2,15 @@ import { Divider, Group, Select, Stack } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { useStorageData } from '~/components/plugins';
+import { RichTextEditorModal } from '~/components/widgets';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../../editor-components';
 import { getDefaultConfig, IMericoLinearGaugeConf } from '../type';
 import { SectionsEditor } from './sections-editor';
-import { CustomRichTextEditor, RichTextEditorModal } from '~/components/widgets';
-import { useTranslation } from 'react-i18next';
-import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
-import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 
 export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoLinearGaugeConf>(context.instanceData, 'config');
@@ -88,7 +88,7 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
         <Controller
           name={'format'}
           control={form.control}
-          render={({ field }) => <NumbroFormatSelector {...field} />}
+          render={({ field }) => <NumbroFormatSelector size="xs" {...field} />}
         />
       </Stack>
     </form>
