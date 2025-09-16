@@ -17,6 +17,6 @@ export const VizMericoLinearGaugeVizComponent: VizComponent = {
   name: 'merico_linear_gauge',
   viewRender: VizMericoLinearGauge,
   configRender: VizMericoLinearGaugeEditor,
-  createConfig: (): ConfigType => ({ version: 1, config: getDefaultConfig() }),
+  createConfig: (): ConfigType => ({ version: 2, config: getDefaultConfig() }),
   translation,
 };

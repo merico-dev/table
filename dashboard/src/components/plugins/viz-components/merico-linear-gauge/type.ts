@@ -1,3 +1,5 @@
+import { defaultNumberFormat, getDefaultNumberFormat, TNumberFormat } from '~/utils';
+
 export type MericoLinearGaugeSection = {
   name: string;
   color: string;
@@ -6,6 +8,8 @@ export type MericoLinearGaugeSection = {
 
 export interface IMericoLinearGaugeConf {
   value: string;
+  format: TNumberFormat;
+  order: 'asc' | 'desc';
   sections: MericoLinearGaugeSection[];
   stats: {
     top: string;
@@ -16,6 +20,8 @@ export interface IMericoLinearGaugeConf {
 export const getDefaultConfig = () => {
   const config: IMericoLinearGaugeConf = {
     value: '',
+    order: 'asc',
+    format: getDefaultNumberFormat(),
     sections: [
       {
         name: '较差',

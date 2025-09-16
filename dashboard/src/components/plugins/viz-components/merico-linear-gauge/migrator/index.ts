@@ -1,8 +1,11 @@
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
+import { IMericoLinearGaugeConf } from '../type';
+import { getDefaultNumberFormat } from '~/utils';
 
-// function v2(prev: AnyObject): IVizLinearGaugeConf {
-//   return prev;
-// }
+function v2(legacy: any): IMericoLinearGaugeConf {
+  const { order = 'asc', format = getDefaultNumberFormat(), ...rest } = legacy;
+  return { ...rest, order, format };
+}
 
 export class VizMericoLinearGaugeMigrator extends VersionBasedMigrator {
   configVersions(): void {
@@ -12,14 +15,14 @@ export class VizMericoLinearGaugeMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    //     this.version(2, (data) => {
-    //       const { config } = data;
-    //       return {
-    //         ...data,
-    //         version: 2,
-    //         config: v2(config),
-    //       };
-    //     });
+    this.version(2, (data) => {
+      const { config } = data;
+      return {
+        ...data,
+        version: 2,
+        config: v2(config),
+      };
+    });
   }
-  readonly VERSION = 1;
+  readonly VERSION = 2;
 }
