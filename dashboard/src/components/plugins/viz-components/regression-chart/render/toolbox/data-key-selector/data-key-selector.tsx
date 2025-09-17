@@ -23,7 +23,7 @@ export const DataKeySelector = observer(
     } = props;
     const { panel } = useEditPanelContext();
     const options = React.useMemo(() => {
-      return panel.dataFieldOptionGroups(value, clearable, unsetKey, queryID);
+      return panel.dataFieldOptionGroups({ selected: value, clearable, unsetKey, queryID });
     }, [value, clearable, queryID]);
 
     if (options.length === 0) {

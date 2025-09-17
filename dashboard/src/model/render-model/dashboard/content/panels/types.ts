@@ -4,6 +4,7 @@ import { IContentRenderModel } from '../../../../../dashboard-render';
 import type { IPanelMeta } from '../../../../meta-model';
 import { type IQueryRenderModel, QueryRenderModelInstance } from '../queries';
 import { VariableAggValueMap, VariableStyleMap, VariableValueMap } from './panel';
+import { ComboboxItem } from '@mantine/core';
 
 export interface IPanelRenderModel extends IPanelMeta {
   readonly contentModel: IContentRenderModel;
@@ -35,16 +36,20 @@ export interface IPanelRenderModel extends IPanelMeta {
   };
 
   downloadSchema(): void;
-  dataFieldOptions(
-    selected: TDataKey,
-    clearable: boolean,
-    queryID?: string,
-  ): { label: string; value: string; group: string; group_id: string; disabled: boolean }[];
-  dataFieldOptionGroups(
-    selected: TDataKey,
-    clearable: boolean,
-    queryID?: string,
-  ): { group: string; items: { label: string; value: string; group_id: string; disabled: boolean }[] }[];
+  dataFieldOptions(props: {
+    selected: TDataKey;
+    clearable: boolean;
+    unsetKey: string;
+    queryID?: string;
+    additional_options?: ComboboxItem[];
+  }): { label: string; value: string; group: string; group_id: string; disabled: boolean }[];
+  dataFieldOptionGroups(props: {
+    selected: TDataKey;
+    clearable: boolean;
+    unsetKey: string;
+    queryID?: string;
+    additional_options?: ComboboxItem[];
+  }): { group: string; items: { label: string; value: string; group_id: string; disabled: boolean }[] }[];
 }
 
 export interface IPanelsRenderModel {

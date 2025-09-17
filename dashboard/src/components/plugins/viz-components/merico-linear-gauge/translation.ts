@@ -8,6 +8,8 @@ const en = {
       min_key: {
         placeholder: 'Min value',
         zero: 'Zero',
+        infinity: 'Infinity',
+        negative_infinity: 'Negative Infinity',
       },
       add: 'Add a section',
     },
@@ -28,6 +30,8 @@ const zh = {
       min_key: {
         placeholder: '区间最小值',
         zero: '零',
+        infinity: '正无穷',
+        negative_infinity: '负无穷',
       },
       add: '增加一个区间',
     },

@@ -2,15 +2,30 @@ import _ from 'lodash';
 import { extractData } from '~/utils';
 import { IMericoLinearGaugeConf } from '../type';
 
+function getMin(data: TPanelData, minKey: string) {
+  if (!minKey) {
+    return 0;
+  }
+  switch (minKey) {
+    case 'infinity':
+      return Number.POSITIVE_INFINITY;
+    case 'negative_infinity':
+      return Number.NEGATIVE_INFINITY;
+    default:
+      return _.get(extractData(data, minKey), '0', 'null');
+  }
+}
+
 export const getOption = (conf: IMericoLinearGaugeConf, data: TPanelData) => {
   const { order } = conf;
   const ret = {
     value: _.get(extractData(data, conf.value), '0', 'null'),
     sections: conf.sections.map((section) => {
+      const min = getMin(data, section.minKey);
       return {
         name: section.name,
         color: section.color,
-        min: !section.minKey ? 0 : _.get(extractData(data, section.minKey), '0', 'null'),
+        min,
         pointer: false,
         pointer_equal: false,
       };
