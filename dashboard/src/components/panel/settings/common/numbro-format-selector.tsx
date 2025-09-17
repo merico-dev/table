@@ -1,4 +1,16 @@
-import { Box, Button, Collapse, Group, NumberInput, Select, Stack, Switch, Table, Text } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Collapse,
+  Group,
+  MantineSize,
+  NumberInput,
+  Select,
+  Stack,
+  Switch,
+  Table,
+  Text,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React from 'react';
@@ -62,12 +74,13 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
   );
 }
 
-interface INumbroFormatSelector {
+type Props = {
   value: TNumberFormat;
   onChange: (v: TNumberFormat) => void;
-}
+  size?: MantineSize;
+};
 
-function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
+function _NumbroFormatSelector({ value, onChange, size }: Props, ref: $TSFixMe) {
   const { t } = useTranslation();
   const changeOutput = (output: TNumberFormat['output']) => {
     onChange({ ...value, output, absolute: false, average: false, trimMantissa: false, mantissa: 0 });
@@ -95,6 +108,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
       <Group grow>
         <Select
           label={t('numbro.format.label')}
+          size={size}
           data={[
             { label: '1234', value: 'number' },
             { label: '99%', value: 'percent' },
@@ -112,6 +126,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
               </Text>
             </Stack>
           }
+          size={size}
           checked={value.absolute}
           onChange={changeAbsolute}
           sx={{ flexGrow: 1 }}
@@ -126,6 +141,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
               </Text>
             </Stack>
           }
+          size={size}
           checked={value.average}
           onChange={changeAverage}
           disabled={value.output !== 'number'}
@@ -136,6 +152,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
       <Group grow>
         <NumberInput
           label={t('numbro.format.mantissa')}
+          size={size}
           defaultValue={0}
           min={0}
           step={1}
@@ -152,6 +169,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
               </Text>
             </Stack>
           }
+          size={size}
           checked={value.trimMantissa}
           onChange={changeTrimMantissa}
           disabled={value.mantissa === 0}

@@ -1,15 +1,16 @@
-import { Divider, Stack } from '@mantine/core';
+import { Divider, Group, Select, Stack } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { useStorageData } from '~/components/plugins';
+import { RichTextEditorModal } from '~/components/widgets';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../../editor-components';
 import { getDefaultConfig, IMericoLinearGaugeConf } from '../type';
 import { SectionsEditor } from './sections-editor';
-import { CustomRichTextEditor, RichTextEditorModal } from '~/components/widgets';
-import { useTranslation } from 'react-i18next';
-import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 
 export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoLinearGaugeConf>(context.instanceData, 'config');
@@ -25,6 +26,19 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
   useEffect(() => {
     form.reset(conf);
   }, [conf]);
+
+  const orderOptions = useMemo(() => {
+    return [
+      {
+        label: t('viz.merico_linear_gauge.order.asc'),
+        value: 'asc',
+      },
+      {
+        label: t('viz.merico_linear_gauge.order.desc'),
+        value: 'desc',
+      },
+    ];
+  }, [t]);
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
@@ -43,15 +57,38 @@ export function VizMericoLinearGaugeEditor({ context }: VizConfigProps) {
           )}
         />
         <Divider />
-        <Controller
-          name="value"
-          control={form.control}
-          render={({ field }) => <DataFieldSelector label={t('viz.merico_linear_gauge.value')} {...field} clearable />}
-        />
+        <Group grow wrap="nowrap">
+          <Controller
+            name="value"
+            control={form.control}
+            render={({ field }) => (
+              <DataFieldSelector label={t('viz.merico_linear_gauge.value')} size="xs" {...field} clearable />
+            )}
+          />
+          <Controller
+            name="order"
+            control={form.control}
+            render={({ field }) => (
+              <Select
+                label={t('viz.merico_linear_gauge.order.label')}
+                size="xs"
+                data={orderOptions}
+                {...field}
+                clearable
+              />
+            )}
+          />
+        </Group>
         <Controller
           name="sections"
           control={form.control}
           render={({ field }) => <SectionsEditor {...field} data={data} />}
+        />
+        <Divider />
+        <Controller
+          name={'format'}
+          control={form.control}
+          render={({ field }) => <NumbroFormatSelector size="xs" {...field} />}
         />
       </Stack>
     </form>

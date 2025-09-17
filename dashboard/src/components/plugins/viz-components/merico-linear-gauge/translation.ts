@@ -12,6 +12,11 @@ const en = {
       add: 'Add a section',
     },
     value: 'Value',
+    order: {
+      label: 'Order',
+      asc: 'Ascending',
+      desc: 'Descending',
+    },
   },
 };
 
@@ -27,6 +32,11 @@ const zh = {
       add: '增加一个区间',
     },
     value: '值',
+    order: {
+      label: '顺序',
+      asc: '升序',
+      desc: '降序',
+    },
   },
 };
 
