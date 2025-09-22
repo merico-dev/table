@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { Instance, SnapshotIn, flow, getParent, getRoot, types } from 'mobx-state-tree';
 import { IObservableArray } from 'mobx';
+import { Instance, SnapshotIn, flow, getParent, getRoot, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
-import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
-import { IContentRenderModel } from '../../../../../dashboard-render';
-import { QueryRenderModel, QueryRenderModelInstance, type IQueryRenderModel } from './query';
 import { TransformQueryMetaInstance } from '~/model/meta-model/dashboard/content/query/transform-query';
 import { typeAssert } from '~/types/utils';
+import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
+import { IContentRenderModel } from '../../../../../dashboard-render';
+import { QueryRenderModel, type IQueryRenderModel } from './query';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -65,7 +65,7 @@ export const QueriesRenderModel = types
         }
       });
 
-      this.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
+      this.findByIDSet(new Set(queryIDs)).forEach((q: IQueryRenderModel) => {
         const config = q.config as TransformQueryMetaInstance;
         if (!q.isTransform || config.dep_query_ids.length === 0) {
           return;
@@ -81,7 +81,7 @@ export const QueriesRenderModel = types
       return this.visibleQueryIDSet.has(queryID);
     },
     addTransformDepQueryIDs(targetSet: Set<string>, excludeSet?: Set<string>) {
-      this.findByIDSet(targetSet).forEach((q: QueryRenderModelInstance) => {
+      this.findByIDSet(targetSet).forEach((q: IQueryRenderModel) => {
         const config = q.config as TransformQueryMetaInstance;
         if (!q.isTransform || config.dep_query_ids.length === 0) {
           return;

@@ -3,7 +3,7 @@ import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
-import { DataSourceType, QueryRenderModelInstance } from '~/model';
+import { DataSourceType, IQueryRenderModel } from '~/model';
 
 export const AddAQuery = observer(() => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export const AddAQuery = observer(() => {
         _type: DataSourceType.Postgresql,
         sql: '',
       },
-    } as QueryRenderModelInstance;
+    } as IQueryRenderModel;
     model.content.queries.append(v);
     model.editor.setPath(['_QUERIES_', id]);
   };

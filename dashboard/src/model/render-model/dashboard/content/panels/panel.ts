@@ -1,4 +1,7 @@
+import { ComboboxItem } from '@mantine/core';
+import _ from 'lodash';
 import { getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
+import { MericoPanelGroupsVizComponent } from '~/components/plugins/viz-components/merico-panel-groups';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
 import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
@@ -12,11 +15,8 @@ import {
   variablesToStrings,
 } from '~/utils';
 import { downloadJSON } from '~/utils/download';
-import { QueryRenderModelInstance } from '../queries';
+import { IQueryRenderModel } from '../queries';
 import { IPanelRenderModel } from './types';
-import _ from 'lodash';
-import { MericoPanelGroupsVizComponent } from '~/components/plugins/viz-components/merico-panel-groups';
-import { ComboboxItem } from '@mantine/core';
 
 export type VariableValueMap = Record<string, string | number>;
 export type VariableAggValueMap = Record<string, string | number>;
@@ -32,10 +32,10 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
   },
 }))
   .views((self) => ({
-    get queries(): QueryRenderModelInstance[] {
+    get queries(): IQueryRenderModel[] {
       return self.contentModel.queries.findByIDSet(self.queryIDSet);
     },
-    get firstQuery(): QueryRenderModelInstance | null {
+    get firstQuery(): IQueryRenderModel | null {
       if (this.queries.length > 0) {
         return this.queries[0];
       }
@@ -50,7 +50,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     get usingGhostViz() {
       return self.viz.type === MericoPanelGroupsVizComponent.name;
     },
-    queryByID(queryID: string): QueryRenderModelInstance | undefined {
+    queryByID(queryID: string): IQueryRenderModel | undefined {
       return this.queries.find((q) => q.id === queryID);
     },
     get data() {
