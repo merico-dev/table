@@ -1,15 +1,15 @@
+import { ComboboxItem } from '@mantine/core';
 import type { IObservableArray } from 'mobx';
 import type { ReactNode } from 'react';
 import { IContentRenderModel } from '../../../../../dashboard-render';
 import type { IPanelMeta } from '../../../../meta-model';
-import { type IQueryRenderModel, QueryRenderModelInstance } from '../queries';
+import { type IQueryRenderModel } from '../queries';
 import { VariableAggValueMap, VariableStyleMap, VariableValueMap } from './panel';
-import { ComboboxItem } from '@mantine/core';
 
 export interface IPanelRenderModel extends IPanelMeta {
   readonly contentModel: IContentRenderModel;
-  readonly queries: QueryRenderModelInstance[];
-  readonly firstQuery: QueryRenderModelInstance | null;
+  readonly queries: IQueryRenderModel[];
+  readonly firstQuery: IQueryRenderModel | null;
   readonly firstQueryData: Array<string[] | number[] | Record<string, unknown>>;
   readonly usingGhostViz: boolean;
   readonly data: TPanelData;
