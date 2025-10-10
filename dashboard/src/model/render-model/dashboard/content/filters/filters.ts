@@ -10,6 +10,7 @@ import {
   FilterMeta,
   FilterValuesType,
   type IFilterMeta,
+  MericoDateRangeValue,
   TDashboardStateItem,
 } from '~/model';
 import type { TSelectOption } from '~/model/meta-model/dashboard/content/filter/widgets/select-base';
@@ -58,6 +59,12 @@ export const FiltersRenderModel = types
         const f = this.findByKey(k);
         if (f && f.config._name === DashboardFilterType.DateRange) {
           ret[k] = f.config.dateStringsValue;
+        }
+        if (f && f.config._name === DashboardFilterType.MericoDateRange) {
+          ret[k] = {
+            ...(v as MericoDateRangeValue),
+            value: f.config.dateStringsValue,
+          };
         }
       });
       return ret;
