@@ -8,6 +8,8 @@ const TempOperationOrders: Record<string, number> = {
   'builtin:op:set_filter_values': 3,
   'builtin:op:open_view': 4,
   'builtin:op:open-link': 5,
+  'builtin:op:switch_tab': 6,
+  'builtin:op:scroll_to_panel': 7,
 };
 export class AttachmentInstanceManager<T extends { id: string }> {
   protected attachmentStorage: PluginStorage;
