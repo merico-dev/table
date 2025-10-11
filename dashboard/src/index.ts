@@ -24,6 +24,7 @@ export type OnFiltersSubmit = (props?: { force?: boolean }) => void;
 export type RenderSearchButtonProps = {
   disabled: boolean;
   onSubmit: OnFiltersSubmit;
+  stale: boolean;
 };
 
 export interface IDashboardConfig {
