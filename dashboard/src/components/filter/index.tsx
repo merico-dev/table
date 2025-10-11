@@ -37,7 +37,12 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
 
   const content = useRenderContentModelContext();
 
-  const { control, handleSubmit, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = useForm({
     defaultValues: content.filters.values,
     // make sure the preview value is updated when filters are changed
     reValidateMode: 'onBlur',
@@ -106,7 +111,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
           </Group>
           {!allAutoSubmit && (
             <Group sx={{ alignSelf: 'flex-end' }}>
-              <SearchButton disabled={searchButtonDisabled} onSubmit={submit} />
+              <SearchButton disabled={searchButtonDisabled} onSubmit={submit} stale={isDirty} />
             </Group>
           )}
         </Group>

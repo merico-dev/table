@@ -4,15 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { useDashboardThemeContext } from '~/contexts';
 import { RenderSearchButtonProps } from '~/index';
 
-export const SearchButton = ({ disabled, onSubmit }: RenderSearchButtonProps) => {
+export const SearchButton = ({ disabled, onSubmit, stale }: RenderSearchButtonProps) => {
   const { t } = useTranslation();
   const { renderSearchButton } = useDashboardThemeContext();
   if (renderSearchButton) {
-    return renderSearchButton({ disabled, onSubmit });
+    return renderSearchButton({ disabled, onSubmit, stale });
   }
   return (
     <Button.Group>
-      <Button color="blue" size="sm" onClick={() => onSubmit()} disabled={disabled}>
+      <Button color="blue" size="sm" onClick={() => onSubmit()} disabled={disabled} data-stale={stale || undefined}>
         {t('common.actions.search')}
       </Button>
       <Menu trigger="hover" disabled={disabled} position="bottom-end">
@@ -21,6 +21,7 @@ export const SearchButton = ({ disabled, onSubmit }: RenderSearchButtonProps) =>
             disabled={disabled}
             color="blue"
             px="xs"
+            data-stale={stale || undefined}
             style={{ borderLeft: `1px solid ${disabled ? 'white' : 'var(--mantine-color-gray-4)'}` }}
           >
             <IconChevronDown size={16} />
