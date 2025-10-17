@@ -5,7 +5,7 @@ export function getReferenceAreas(
   variableValueMap: Record<string, string | number>,
 ) {
   return reference_areas.map((r) => ({
-    name: '',
+    name: r.name,
     type: 'line',
     hide_in_legend: true,
     data: [],
