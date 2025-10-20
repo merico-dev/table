@@ -1,5 +1,5 @@
-import { Box, NativeSelect, Pagination } from '@mantine/core';
-import { useCallback, useMemo } from 'react';
+import { NativeSelect, Pagination } from '@mantine/core';
+import { useMemo } from 'react';
 
 type Props = {
   page: number;
@@ -46,16 +46,5 @@ export const HeatmapPagination = (props: Props) => {
     return null;
   }
 
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 'calc(1rem + 5px)',
-        right: 'calc(1rem + 5px)',
-        zIndex: 2,
-      }}
-    >
-      {props.width > 600 ? <FullPagination {...props} /> : <SelectorPagination {...props} />}
-    </Box>
-  );
+  return <>{props.width > 600 ? <FullPagination {...props} /> : <SelectorPagination {...props} />}</>;
 };
