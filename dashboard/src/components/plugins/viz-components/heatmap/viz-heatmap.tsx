@@ -9,7 +9,6 @@ import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, parseDataKey } from '~/utils';
-import { PanelTopRightActionsPortal } from '~/components/panel/panel-render/top-right-actions';
 import { HeatmapPagination } from './heatmap-pagination';
 import { getOption } from './option';
 import { useHeatmapGroupedData } from './render/use-heatmap-grouped-data';
@@ -114,9 +113,7 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   return (
     <DefaultVizBox width={width} height={height}>
       {conf.pagination.page_size > 0 && (
-        <PanelTopRightActionsPortal>
-          <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
-        </PanelTopRightActionsPortal>
+        <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
       )}
       <Chart
         instance={instance}

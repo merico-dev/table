@@ -16,7 +16,6 @@ import { doesVizRequiresData } from '../utils';
 import { PanelDropdownMenu } from './panel-dropdown-menu';
 import { PanelTopRightActions } from './top-right-actions';
 import { PanelAddonProvider } from './panel-addon-context';
-import { ChartControlsProvider } from './chart-controls-context';
 
 function useUpdateEchartsOptions(vizType: string) {
   const ref = useRef<EChartsOption | null>(null);
@@ -45,7 +44,6 @@ const baseStyle: EmotionSx = { border: '1px solid #e9ecef' };
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
   const { withAddon, withPanelTitle } = usePanelVizFeatures();
-  const chartControlsSlotId = `chart-controls-slot-${useId()}`;
   const panelAddonSlotId = withAddon ? `panel-addon-slot-${useId()}` : null;
   const { getEchartsOptions, setEchartsOptions } = useUpdateEchartsOptions(panel.viz.type);
   const { inEditMode } = useContext(LayoutStateContext);
@@ -63,37 +61,34 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
         setEchartsOptions,
       }}
     >
-      <ChartControlsProvider chartControlsSlotId={chartControlsSlotId}>
-        <PanelAddonProvider addonSlotId={panelAddonSlotId || undefined}>
-          <Box
-            id={panel.id}
-            data-testid="panel-root"
-            className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
-            ref={ref}
-            p={0}
-            sx={{
-              ...baseStyle,
-              ...panelStyle,
-            }}
-          >
-            {withPanelTitle && (
-              <>
-                <Box className="panel-description-popover-wrapper">
-                  <DescriptionPopover />
-                </Box>
-                <PanelTitleBar />
-              </>
-            )}
-            <PanelTopRightActions
-              dropdownContent={<PanelDropdownMenu>{dropdownContent}</PanelDropdownMenu>}
-              showDropdownMenu={showDropdownMenu}
-              chartControlsSlotId={chartControlsSlotId}
-              panelAddonSlotId={panelAddonSlotId}
-            />
-            <PanelVizSection panel={panel} />
-          </Box>
-        </PanelAddonProvider>
-      </ChartControlsProvider>
+      <PanelAddonProvider addonSlotId={panelAddonSlotId || undefined}>
+        <Box
+          id={panel.id}
+          data-testid="panel-root"
+          className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
+          ref={ref}
+          p={0}
+          sx={{
+            ...baseStyle,
+            ...panelStyle,
+          }}
+        >
+          {withPanelTitle && (
+            <>
+              <Box className="panel-description-popover-wrapper">
+                <DescriptionPopover />
+              </Box>
+              <PanelTitleBar />
+            </>
+          )}
+          <PanelTopRightActions
+            dropdownContent={<PanelDropdownMenu>{dropdownContent}</PanelDropdownMenu>}
+            showDropdownMenu={showDropdownMenu}
+            panelAddonSlotId={panelAddonSlotId}
+          />
+          <PanelVizSection panel={panel} />
+        </Box>
+      </PanelAddonProvider>
     </PanelContextProvider>
   );
 });
