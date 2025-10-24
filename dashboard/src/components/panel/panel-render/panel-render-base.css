@@ -34,6 +34,15 @@
   left: 16px;
   top: 16px;
 }
+
+.panel-top-right-actions {
+  top: 0;
+  right: 0;
+}
+.panel-root.panel-root--show-title .panel-top-right-actions {
+  top: 16px;
+  right: 16px;
+}
 .panel-root .panel-viz-section {
   height: 100%;
 }

@@ -2,9 +2,8 @@ import { Box } from '@mantine/core';
 import { EmotionSx } from '@mantine/emotion';
 import { EChartsOption } from 'echarts';
 import { observer } from 'mobx-react-lite';
-import React, { ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect, useId, useRef, useState } from 'react';
 import { usePanelVizFeatures } from '~/components/panel/panel-render/panel-viz-features';
-import { PanelAddonProvider } from '~/components/plugins/panel-addon';
 import { PanelContextProvider } from '~/contexts/panel-context';
 import { PanelRenderModelInstance } from '~/model';
 import { DescriptionPopover } from './description-popover';
@@ -15,6 +14,8 @@ import { PanelVizSection } from './viz';
 import { LayoutStateContext } from '~/contexts';
 import { doesVizRequiresData } from '../utils';
 import { PanelDropdownMenu } from './panel-dropdown-menu';
+import { PanelTopRightActions } from './top-right-actions';
+import { PanelAddonProvider } from './panel-addon-context';
 
 function useUpdateEchartsOptions(vizType: string) {
   const ref = useRef<EChartsOption | null>(null);
@@ -43,7 +44,7 @@ const baseStyle: EmotionSx = { border: '1px solid #e9ecef' };
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
   const { withAddon, withPanelTitle } = usePanelVizFeatures();
-  const OptionalAddon = withAddon ? PanelAddonProvider : React.Fragment;
+  const panelAddonSlotId = withAddon ? `panel-addon-slot-${useId()}` : null;
   const { getEchartsOptions, setEchartsOptions } = useUpdateEchartsOptions(panel.viz.type);
   const { inEditMode } = useContext(LayoutStateContext);
   const showDropdownMenu = inEditMode || doesVizRequiresData(panel.viz.type);
@@ -60,30 +61,34 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
         setEchartsOptions,
       }}
     >
-      <Box
-        id={panel.id}
-        data-testid="panel-root"
-        className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
-        ref={ref}
-        p={0}
-        sx={{
-          ...baseStyle,
-          ...panelStyle,
-        }}
-      >
-        <OptionalAddon>
+      <PanelAddonProvider addonSlotId={panelAddonSlotId || undefined}>
+        <Box
+          id={panel.id}
+          data-testid="panel-root"
+          className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
+          ref={ref}
+          p={0}
+          sx={{
+            ...baseStyle,
+            ...panelStyle,
+          }}
+        >
           {withPanelTitle && (
             <>
               <Box className="panel-description-popover-wrapper">
                 <DescriptionPopover />
               </Box>
-              {showDropdownMenu && <PanelDropdownMenu>{dropdownContent}</PanelDropdownMenu>}
               <PanelTitleBar />
             </>
           )}
+          <PanelTopRightActions
+            dropdownContent={<PanelDropdownMenu>{dropdownContent}</PanelDropdownMenu>}
+            showDropdownMenu={showDropdownMenu}
+            panelAddonSlotId={panelAddonSlotId}
+          />
           <PanelVizSection panel={panel} />
-        </OptionalAddon>
-      </Box>
+        </Box>
+      </PanelAddonProvider>
     </PanelContextProvider>
   );
 });
