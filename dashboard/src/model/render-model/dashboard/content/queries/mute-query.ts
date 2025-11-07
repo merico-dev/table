@@ -32,6 +32,7 @@ type MetricQueryPayload = {
   };
   useDefaultValues?: boolean;
   extraCalculations?: string[];
+  semanticKey?: string;
 };
 
 // Helper function to format date range for timeQuery
@@ -345,6 +346,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       filters,
       groupBys: config.groupBys,
       variables,
+      semanticKey: config.semanticKey,
     };
 
     // sql metric time query

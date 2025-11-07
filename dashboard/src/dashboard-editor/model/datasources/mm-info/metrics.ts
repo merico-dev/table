@@ -12,6 +12,8 @@ export type MetricBriefInfo = {
   name: string;
   description: string;
   type: 'derived' | 'combined';
+  isPreset: boolean;
+  semanticKey: string;
 };
 
 export const MetricsModel = types

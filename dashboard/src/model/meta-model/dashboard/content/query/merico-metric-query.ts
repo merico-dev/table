@@ -118,6 +118,10 @@ export const MericoMetricQueryMeta = types
     }),
     useDefaultValues: types.optional(types.boolean, false),
     extraCalculations: types.optional(types.array(types.string), []),
+    /**
+     * If the metric is preset, this field will be set to the semantic key of the metric.
+     */
+    semanticKey: types.optional(types.string, ''),
   })
   .views((self) => ({
     get query() {
@@ -127,7 +131,18 @@ export const MericoMetricQueryMeta = types
       return !!self.id;
     },
     get json() {
-      const { id, type, filters, groupBys, timeQuery, useDefaultValues, extraCalculations, _type, sqlVariables } = self;
+      const {
+        id,
+        type,
+        filters,
+        groupBys,
+        timeQuery,
+        useDefaultValues,
+        extraCalculations,
+        _type,
+        sqlVariables,
+        semanticKey,
+      } = self;
       return shallowToJS({
         id,
         type,
@@ -137,6 +152,7 @@ export const MericoMetricQueryMeta = types
         useDefaultValues,
         extraCalculations,
         sqlVariables,
+        semanticKey,
         _type,
       });
     },
@@ -170,6 +186,7 @@ export const MericoMetricQueryMeta = types
       self.useDefaultValues = false;
       self.extraCalculations.length = 0;
       self.sqlVariables.length = 0;
+      self.semanticKey = '';
       if ('data' in self.query) {
         self.query.setData([]);
         self.query.setError(null);
@@ -180,6 +197,9 @@ export const MericoMetricQueryMeta = types
         this.reset();
       }
       self.id = v;
+    },
+    setSemanticKey(v: string) {
+      self.semanticKey = v;
     },
     setType(type: string) {
       if (type !== 'derived' && type !== 'combined' && type !== 'sql') {
@@ -259,6 +279,7 @@ export interface IMericoMetricQueryMeta {
   };
   useDefaultValues: boolean;
   extraCalculations: IObservableArray<string>;
+  semanticKey: string;
 
   // Views
   readonly query: IQueryRenderModel;
@@ -281,6 +302,7 @@ export interface IMericoMetricQueryMeta {
     sqlVariables: IObservableArray<ISqlMetricVariableMeta>;
     useDefaultValues: boolean;
     extraCalculations: IObservableArray<string>;
+    semanticKey: string;
     _type: DataSourceType.MericoMetricSystem;
   };
   readonly usedFilterDimensionKeys: Set<string>;
@@ -303,6 +325,7 @@ export interface IMericoMetricQueryMeta {
   setExtraCalculations(v: string[]): void;
   addSqlVariable(sqlVar: string, variable: string): void;
   removeSqlVariable(sqlVariable: ISqlMetricVariableMeta): void;
+  setSemanticKey(v: string): void;
 }
 
 typeAssert.shouldExtends<IMericoMetricQueryMeta, MericoMetricQueryMetaInstance>();
