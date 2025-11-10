@@ -71,6 +71,8 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
       value: d.id,
       description: d.description,
       type: d.type,
+      semanticKey: d.semanticKey,
+      isPreset: d.isPreset,
     }));
   }, [metrics.data]);
 
@@ -83,6 +85,9 @@ export const SelectMetric = observer(({ queryModel }: Props) => {
       mmInfo.selectMetric(id);
       config.setID(id);
       config.setType(option.type);
+      if (option.isPreset) {
+        config.setSemanticKey(option.semanticKey);
+      }
     },
     [mmInfo, config],
   );
