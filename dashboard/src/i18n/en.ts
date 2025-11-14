@@ -328,6 +328,7 @@ export const en = {
       max: 'Max',
       invalid: 'Invalid',
       data_field: 'Data Field',
+      id_field: 'ID Field',
       name_data_field: 'Name Data Field',
       value_data_field: 'Value Data Field',
       color_data_field: 'Color Data Field',

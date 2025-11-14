@@ -29,6 +29,14 @@ export function XAxisField({ control, watch }: IXAxisField) {
             <DataFieldSelector label={t('common.data_field')} required sx={{ flex: 1 }} {...field} />
           )}
         />
+
+        <Controller
+          name="x_axis.id_key"
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector label={t('common.id_field')} sx={{ flex: 1 }} {...field} />
+          )}
+        />
       </Group>
       <Divider mb={-15} label={t('chart.axis.tick_label')} labelPosition="center" />
       <Group grow wrap="nowrap">

@@ -1,14 +1,15 @@
+import { get, isEmpty } from 'lodash';
 import { ITemplateVariable, parseDataKey } from '~/utils';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
+import { getVariableValueMap } from '../../cartesian/option/utils/variables';
 import { IParetoChartConf } from '../type';
+import { getReferenceLines } from './reference_lines';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { BarData } from './types';
 import { getFormatters } from './utils';
 import { getXAxis } from './x-axis';
 import { getYAxes } from './y-axes';
-import { getReferenceLines } from './reference_lines';
-import { getVariableValueMap } from '../../cartesian/option/utils/variables';
-import { BarData } from './types';
 
 const getGrid = () => {
   return {
@@ -31,14 +32,16 @@ export function getOption(conf: IParetoChartConf, data: TPanelData, variables: I
       grid: getGrid(),
     };
   }
-  const x = parseDataKey(x_axis.data_key);
+  const xAxisIdKey = isEmpty(x_axis.id_key) ? x_axis.data_key : x_axis.id_key;
+  const x = parseDataKey(xAxisIdKey);
+  const xAxisLabel = parseDataKey(x_axis.data_key);
   const y = parseDataKey(data_key);
   if (x.queryID !== y.queryID) {
     throw new Error('Please use the same query for X & Y axis');
   }
-  const barData = data[x.queryID]
-    .map((d) => [d[x.columnKey], Number(d[y.columnKey])])
-    .sort((a, b) => b[1] - a[1]) as BarData;
+  const barData = buildBarData(data[x.queryID], x.columnKey, xAxisLabel.columnKey, y.columnKey).sort(
+    (a, b) => b[1] - a[1],
+  ) as BarData;
 
   const xAxisData = barData.map((d) => d[0]);
   const option = {
@@ -53,4 +56,41 @@ export function getOption(conf: IParetoChartConf, data: TPanelData, variables: I
     grid: getGrid(),
   };
   return option;
+}
+
+export function buildBarData(data: TQueryData, xAxisIdKey: string, xAxisLabelKey: string, yAxisValueKey: string) {
+  const xAxisCategories = new Map<string, number>();
+
+  function tryGetValidCategory(category: string, recordId?: string) {
+    const existing = xAxisCategories.get(category);
+    if (existing != null) {
+      if (!isEmpty(recordId) && category !== recordId) {
+        const categoryWithId = `${category} (${recordId})`;
+        const existingWithId = xAxisCategories.get(categoryWithId);
+        if (existingWithId != null) {
+          xAxisCategories.set(categoryWithId, existingWithId + 1);
+          return `${category} (${recordId}) (${existingWithId + 1})`;
+        } else {
+          xAxisCategories.set(categoryWithId, 0);
+          return categoryWithId;
+        }
+      } else {
+        xAxisCategories.set(category, existing + 1);
+        return `${category} (${existing + 1})`;
+      }
+    } else {
+      xAxisCategories.set(category, 0);
+      return category;
+    }
+  }
+
+  const barData: [x: string, y: number][] = [];
+
+  for (const record of data) {
+    let category = get(record, xAxisLabelKey);
+    const recordId = get(record, xAxisIdKey);
+    category = tryGetValidCategory(category, recordId);
+    barData.push([category, Number(get(record, yAxisValueKey))]);
+  }
+  return barData;
 }

@@ -328,6 +328,7 @@ export const zh = {
       max: '最大值',
       invalid: '无效的',
       data_field: '数据字段',
+      id_field: 'ID 字段',
       name_data_field: '名称字段',
       value_data_field: '值字段',
       color_data_field: '颜色字段',
