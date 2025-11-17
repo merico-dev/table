@@ -22,27 +22,19 @@ jobs:
       VITE_API_BASE_URL: '/devtable-api/'
       VITE_WEBSITE_BASE_URL: '/devtable/website/'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v3
       - run: yarn exec nx affected --target=check --parallel=3
-      - name: debug local cache
-        run: |
-          ls -al ./node_modules/.cache/nx
-          cat ./node_modules/.cache/nx/run.json
       - run: yarn exec nx affected --target=test --parallel=3 --configuration=ci
-      - run: yarn exec nx run-many -t build -p website api --parallel=3
-      - name: debug local cache
-        run: |
-          ls -al ./node_modules/.cache/nx
-          cat ./node_modules/.cache/nx/run.json
+      - run: yarn exec nx run-many -t build -p website api dashboard settings-form --parallel=3
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +42,64 @@ jobs:
           path: |
             website/dist
             api/_build
+            dashboard/dist
+            settings-form/dist
+
+  publish_npm:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for OIDC
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Ensure npm 11.5.1 or later is installed
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - run: yarn install --frozen-lockfile
+
+      # Download build artifacts from build job
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+
+      # Check if dashboard version is already published
+      - name: Check dashboard version on npm
+        id: check_dashboard
+        continue-on-error: true
+        run: yarn exec nx run dashboard:is-published
+
+      # Check if settings-form version is already published
+      - name: Check settings-form version on npm
+        id: check_settings_form
+        continue-on-error: true
+        run: yarn exec nx run settings-form:is-published
+
+      # Publish dashboard to npm
+      - name: Publish dashboard to npm
+        if: steps.check_dashboard.outcome == 'success' && github.ref == 'refs/heads/main'
+        run: |
+          cd dashboard
+          npm publish --provenance --access public
+
+      # Publish settings-form to npm
+      - name: Publish settings-form to npm
+        if: steps.check_settings_form.outcome == 'success' && github.ref == 'refs/heads/main'
+        run: |
+          cd settings-form
+          npm publish --provenance --access public
 
   # only runs on the main branch or tags
   build_images:
