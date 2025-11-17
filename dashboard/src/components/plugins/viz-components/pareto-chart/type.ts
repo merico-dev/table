@@ -22,6 +22,10 @@ export interface IParetoChartConf {
   x_axis: {
     name: string;
     data_key: string;
+    /**
+     * Identify records with same data_key
+     */
+    id_key: string;
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
@@ -53,6 +57,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
   x_axis: {
     name: 'X Axis',
     data_key: '',
+    id_key: '',
     axisLabel: {
       rotate: 0,
       formatter: getDefaultXAxisLabelFormatter(),
