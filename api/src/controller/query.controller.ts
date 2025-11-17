@@ -39,10 +39,18 @@ export class QueryController implements interfaces.Controller {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { type, key, query, content_id, query_id, params, env, refresh_cache } = req.body as QueryRequest;
       const needToDecodeQuery = type !== 'http' && type !== 'merico_metric_system';
+      let decodedQuery = query;
+      if (needToDecodeQuery) {
+        // convention for encoded SQL which would be confused by query request
+        const trimmedQuery = typeof query === 'string' && query.startsWith('t') && query.endsWith('b')
+          ? query.slice(1, -1)
+          : query;
+        decodedQuery = decode(trimmedQuery);
+      }
       const result = await this.queryService.query(
         type,
         key,
-        needToDecodeQuery ? decode(query) : query,
+        decodedQuery,
         content_id,
         query_id,
         params,
