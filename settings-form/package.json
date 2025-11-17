@@ -1,6 +1,6 @@
 {
   "name": "@devtable/settings-form",
-  "version": "14.57.5-0",
+  "version": "14.57.5",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -78,6 +78,5 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "stableVersion": "14.57.4"
+  }
 }
