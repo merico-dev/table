@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "is-published": {
+      "implementation": "./src/executors/is-published/executor",
+      "schema": "./src/executors/is-published/schema.json",
+      "description": "is-published executor"
+    }
+  }
+}

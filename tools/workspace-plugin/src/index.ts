@@ -39,6 +39,12 @@ function registerProjectTargets(projectFilePath) {
       },
       dependsOn: ['^build'],
     },
+    'is-published': {
+      executor: 'workspace-plugin:is-published',
+      options: {
+        packageJson: projectDir('package.json'),
+      },
+    },
   };
 }
 
