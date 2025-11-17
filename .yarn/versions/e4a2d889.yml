@@ -1,5 +1,3 @@
-releases:
-  "@devtable/settings-form": patch
-
 undecided:
   - "@devtable/root"
+  - "@devtable/settings-form"
