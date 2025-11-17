@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "IsPublished executor",
+  "description": "Check if a package version is published on npm and fail if it is",
+  "type": "object",
+  "properties": {
+    "packageJson": {
+      "type": "string",
+      "description": "Path to the package.json file"
+    }
+  },
+  "required": ["packageJson"]
+}
