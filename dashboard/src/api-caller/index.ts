@@ -15,7 +15,8 @@ export type QueryFailureError = {
 };
 
 function consistencyCheck(before: string, after: string) {
-  const v = decode(after);
+  const trimmedAfter = after.startsWith('t') && after.endsWith('b') ? after.slice(1, -1) : after;
+  const v = decode(trimmedAfter);
   if (v === before) {
     return;
   }
@@ -41,7 +42,8 @@ export async function queryBySQL({ query, name, payload, additionals }: IQueryBy
 
   const formattedSQL = formatSQL(sql, payload);
   const processedSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
-  const finalSQL = encode(processedSQL);
+  // convention for encoded SQL which would be confused by query request
+  const finalSQL = `t${encode(processedSQL)}b`;
   consistencyCheck(processedSQL, finalSQL);
   let data = await APIClient.query(signal)({ type, key, query: finalSQL, ...additionals }, { params: { name } });
   data = postProcessSQLQuery(post_process, data, payloadToDashboardStateValues(payload));
