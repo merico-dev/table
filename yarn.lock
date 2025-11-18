@@ -1710,7 +1710,7 @@ __metadata:
     d3-array: 3.2.4
     d3-regression: 1.3.10
     d3-scale: 4.0.2
-    dayjs: 1.11.9
+    dayjs: 1.11.19
     dom-to-image-more: 3.1.6
     echarts: 5.4.1
     echarts-for-react: 3.0.2
@@ -1891,7 +1891,7 @@ __metadata:
     d3-array: 3.2.4
     d3-regression: 1.3.10
     d3-scale: 4.0.2
-    dayjs: 1.11.9
+    dayjs: 1.11.19
     echarts: 5.4.1
     echarts-for-react: 3.0.2
     echarts-gl: 2.0.9
@@ -8444,6 +8444,13 @@ __metadata:
   dependencies:
     time-zone: ^1.0.0
   checksum: f9cfcd1b15dfeabab15c0b9d18eb9e4e2d9d4371713564178d46a8f91ad577a290b5178b80050718d02d9c0cf646f8a875011e12d1ed05871e9f72c72c8a8fe6
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:1.11.19":
+  version: 1.11.19
+  resolution: "dayjs@npm:1.11.19"
+  checksum: dfafcca2c67cc6e542fd880d77f1d91667efd323edc28f0487b470b184a11cc97696163ed5be1142ea2a031045b27a0d0555e72f60a63275e0e0401ac24bea5d
   languageName: node
   linkType: hard
 
