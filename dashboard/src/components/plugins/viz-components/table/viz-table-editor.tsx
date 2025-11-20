@@ -98,7 +98,6 @@ export function VizTableEditor({ context }: VizConfigProps) {
         <Tabs.Panel value="Tree">
           <TreeField control={control} watch={watch} />
         </Tabs.Panel>
-
       </Tabs>
     </form>
   );

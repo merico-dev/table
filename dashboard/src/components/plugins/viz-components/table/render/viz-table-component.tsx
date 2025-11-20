@@ -1,16 +1,15 @@
 import { ActionIcon, Table, TableProps } from '@mantine/core';
-import { get } from 'lodash';
 import { IconArrowBarToRight } from '@tabler/icons-react';
 import {
   createColumnHelper,
   getCoreRowModel,
   getExpandedRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
-  PaginationState,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import React, { useCallback, useMemo, useState } from 'react';
+import { get } from 'lodash';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeadCell } from '~/components/plugins/viz-components/table/components/head-cell';
 import { baseTableSX, useTableStyles } from '~/components/plugins/viz-components/table/viz-table.styles';
@@ -20,6 +19,7 @@ import { parseDataKeyOrColumnKey } from '~/utils';
 import { IColumnConf, ITableConf, ValueType } from '../type';
 import { PaginationOrRowCount } from './pagination-and-row-count';
 import { TableBody } from './table-body';
+import { TableBodyPaginated } from './table-body-paginated';
 import { useCellRenderer } from './use-cell-renderer';
 import { useGetCellContext } from './use-get-cell-context';
 
@@ -63,11 +63,6 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     }));
   }, [use_raw_columns, ignored_column_keys, columns, queryData]);
 
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: conf.pagination.page_size,
-  });
-
   const getCellContext = useGetCellContext({
     getColIndex: useCallback((cell) => finalColumns.indexOf(cell.column.columnDef.meta as IColumnConf), [finalColumns]),
     vizManager: context.vizManager,
@@ -95,29 +90,28 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     });
   }, [finalColumns, createCellRenderer]);
 
-  const data = useMemo(() => {
-    const { pageIndex, pageSize } = pagination;
-    if (pageSize === 0) {
-      return queryData;
-    }
-    return queryData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-  }, [queryData, pagination]);
-
-  const pageCount = Math.ceil(queryData.length / pagination.pageSize);
   const table = useReactTable<AnyObject>({
-    data,
+    data: queryData,
     columns: tableColumns,
     columnResizeMode: 'onChange',
+    getSubRows: conf.sub_rows_column_key ? (row) => get(row, conf.sub_rows_column_key!) : undefined,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: conf.pagination.page_size > 0 ? getPaginationRowModel() : undefined,
     getExpandedRowModel: getExpandedRowModel(),
-    getSubRows: conf.sub_rows_column_key ? (row) => get(row, conf.sub_rows_column_key!) : undefined,
   });
-  const { rows } = table.getRowModel();
+
+  useEffect(() => {
+    if (conf.pagination.page_size > 0) {
+      table.setPageSize(conf.pagination.page_size);
+    } else {
+      table.resetPagination();
+    }
+  }, [conf.pagination.page_size]);
+  const rows = table.getRowModel().rows;
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const totalRows = rows.length;
-  const showInfoBar = totalRows > 0;
+  const showInfoBar = rows.length > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
 
@@ -128,13 +122,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
       data-enable-scrollbar
       className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
     >
-      <PaginationOrRowCount
-        classes={classes}
-        pagination={pagination}
-        totalRows={totalRows}
-        setPagination={setPagination}
-        pageCount={pageCount}
-      />
+      <PaginationOrRowCount classes={classes} table={table} pageSize={conf.pagination.page_size} />
       <Table sx={{ ...baseTableSX, maxHeight: tableHeight }} {...(rest as TableProps)} striped={conf.striped}>
         <Table.Thead className={classes.thead} style={{ top: theadTop }}>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -157,7 +145,11 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
             </Table.Tr>
           ))}
         </Table.Thead>
-        <TableBody tableContainerRef={tableContainerRef} rows={rows} />
+        {conf.pagination.page_size > 0 ? (
+          <TableBodyPaginated rows={rows} />
+        ) : (
+          <TableBody tableContainerRef={tableContainerRef} rows={rows} />
+        )}
       </Table>
     </div>
   );
