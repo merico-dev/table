@@ -1,10 +1,13 @@
-import { ActionIcon, Box, Table, TableProps, Text } from '@mantine/core';
+import { ActionIcon, Table, TableProps } from '@mantine/core';
+import { get } from 'lodash';
+import { IconArrowBarToRight } from '@tabler/icons-react';
 import {
-  PaginationState,
-  SortingState,
   createColumnHelper,
   getCoreRowModel,
+  getExpandedRowModel,
   getSortedRowModel,
+  PaginationState,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -15,11 +18,10 @@ import { AnyObject } from '~/types';
 import { VizInstance, VizViewContext } from '~/types/plugin';
 import { parseDataKeyOrColumnKey } from '~/utils';
 import { IColumnConf, ITableConf, ValueType } from '../type';
-import { CellValue } from './cell-value';
-import { TableBody } from './table-body';
-import { useGetCellContext } from './use-get-cell-context';
-import { IconArrowBarToRight } from '@tabler/icons-react';
 import { PaginationOrRowCount } from './pagination-and-row-count';
+import { TableBody } from './table-body';
+import { useCellRenderer } from './use-cell-renderer';
+import { useGetCellContext } from './use-get-cell-context';
 
 type IVizTableComponent = {
   queryData: TQueryData;
@@ -61,28 +63,29 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     }));
   }, [use_raw_columns, ignored_column_keys, columns, queryData]);
 
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: conf.pagination.page_size,
+  });
+
   const getCellContext = useGetCellContext({
     getColIndex: useCallback((cell) => finalColumns.indexOf(cell.column.columnDef.meta as IColumnConf), [finalColumns]),
     vizManager: context.vizManager,
     instance: instance,
   });
 
+  const { createCellRenderer } = useCellRenderer({
+    conf,
+    getCellContext,
+  });
+
   const tableColumns = useMemo(() => {
     const columnHelper = createColumnHelper<AnyObject>();
-    const valueCols = finalColumns.map((c) => {
+
+    return finalColumns.map((c, index) => {
       const k = parseDataKeyOrColumnKey(c.value_field);
       return columnHelper.accessor(k.columnKey, {
-        cell: (cell) => {
-          return (
-            <CellValue
-              tableCellContext={getCellContext(cell.cell)}
-              value={cell.getValue()}
-              type={c.value_type}
-              row_data={cell.row.original}
-              {...c}
-            />
-          );
-        },
+        cell: createCellRenderer(c, index === 0),
         header: c.label,
         enableSorting: true,
         meta: c,
@@ -90,14 +93,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
         minSize: typeof c.width === 'number' ? c.width : undefined,
       });
     });
-    return valueCols;
-  }, [finalColumns, getCellContext]);
-
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: conf.pagination.page_size,
-  });
+  }, [finalColumns, createCellRenderer]);
 
   const data = useMemo(() => {
     const { pageIndex, pageSize } = pagination;
@@ -110,19 +106,17 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
   const pageCount = Math.ceil(queryData.length / pagination.pageSize);
   const table = useReactTable<AnyObject>({
     data,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
     columns: tableColumns,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    getSubRows: conf.sub_rows_column_key ? (row) => get(row, conf.sub_rows_column_key!) : undefined,
   });
   const { rows } = table.getRowModel();
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const totalRows = queryData.length;
+  const totalRows = rows.length;
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;

@@ -44,6 +44,11 @@ const en = {
         'Option <1>Use original data columns</1> is enabled, you have to address trigger column by its data field',
       column_data_field: 'Column data field',
     },
+    tree: {
+      label: 'Tree',
+      sub_rows_key: 'Sub Rows Key',
+      sub_rows_key_hint: 'Specify the key of sub rows in the tree-like data structure',
+    },
   },
 };
 
@@ -89,6 +94,11 @@ const zh = {
       choose_a_column: '选择列',
       why_column_data_field: '选项 <1>使用数据本身的列</1> 已开启，只能通过填写数据字段来指定触发动作的列',
       column_data_field: '列的数据字段',
+    },
+    tree: {
+      label: '树形结构',
+      sub_rows_key: '子行键名',
+      sub_rows_key_hint: '指定树形数据结构中子行的键名',
     },
   },
 };
