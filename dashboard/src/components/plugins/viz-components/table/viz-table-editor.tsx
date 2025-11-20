@@ -12,6 +12,7 @@ import { ColumnsField } from './editors/columns';
 import { StylingFields } from './editors/styling';
 import { DEFAULT_CONFIG, ITableConf } from './type';
 import { PaginationField } from './editors/pagination';
+import { TreeField } from './editors/tree';
 
 // FIXME: migrator to version 2 in index.ts doesn't work
 function tempMigration({ columns, ...rest }: ITableConf) {
@@ -68,6 +69,7 @@ export function VizTableEditor({ context }: VizConfigProps) {
           <Tabs.Tab value="Columns">{t('viz.table.column.labels')}</Tabs.Tab>
           <Tabs.Tab value="Style">{t('style.label')}</Tabs.Tab>
           <Tabs.Tab value="Pagination">{t('common.pagination.label')}</Tabs.Tab>
+          <Tabs.Tab value="Tree">{t('viz.table.tree.label')}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Columns">
@@ -92,6 +94,9 @@ export function VizTableEditor({ context }: VizConfigProps) {
         </Tabs.Panel>
         <Tabs.Panel value="Pagination">
           <PaginationField control={control} watch={watch} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Tree">
+          <TreeField control={control} watch={watch} />
         </Tabs.Panel>
       </Tabs>
     </form>

@@ -20,13 +20,10 @@ export default ({ mode }) => {
   return defineConfig({
     base: env.VITE_WEBSITE_BASE_URL,
     plugins: [
-      // @ts-expect-error PluginOption
       react(),
-      // @ts-expect-error PluginOption
       tsconfigPaths({
         projects: ['./', workspace('dashboard'), workspace('settings-form')],
       }),
-      // @ts-expect-error PluginOption
       viteStaticCopy({
         targets: [
           {

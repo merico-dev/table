@@ -48,6 +48,10 @@ export interface ITableConf {
   striped: boolean;
   highlightOnHover: boolean;
   pagination: TVizTablePagination;
+  /**
+   * specify the key of sub rows of the tree-like object
+   */
+  sub_rows_column_key?: string;
 }
 
 export const DEFAULT_CELL_FUNC_CONTENT = ['function text({ value, row_data }, utils) {', '    return value', '}'].join(

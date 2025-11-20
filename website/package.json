@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "version": "14.57.2",
   "scripts": {
-    "dev": "vite",
+    "dev": "yarn run -T vite",
     "preview": "vite preview"
   },
   "dependencies": {
