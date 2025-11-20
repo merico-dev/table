@@ -8,7 +8,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { get } from 'lodash';
+import { useUpdate } from 'ahooks';
+import { get, isArray } from 'lodash';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeadCell } from '~/components/plugins/viz-components/table/components/head-cell';
@@ -35,6 +36,7 @@ type IVizTableComponent = {
 export function VizTableComponent({ queryData, width, height, conf, context, instance }: IVizTableComponent) {
   const { t } = useTranslation();
   const { use_raw_columns, ignored_column_keys, columns, ...rest } = conf;
+  const render = useUpdate();
 
   const { classes, cx } = useTableStyles();
 
@@ -90,16 +92,33 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     });
   }, [finalColumns, createCellRenderer]);
 
+  const subRowsField = conf.sub_rows_column_key
+    ? parseDataKeyOrColumnKey(conf.sub_rows_column_key).columnKey
+    : undefined;
   const table = useReactTable<AnyObject>({
     data: queryData,
     columns: tableColumns,
     columnResizeMode: 'onChange',
-    getSubRows: conf.sub_rows_column_key ? (row) => get(row, conf.sub_rows_column_key!) : undefined,
+    getSubRows: subRowsField
+      ? (row) => {
+          const subRows = get(row, subRowsField);
+          if (isArray(subRows)) {
+            return subRows;
+          }
+          return undefined;
+        }
+      : undefined,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: conf.pagination.page_size > 0 ? getPaginationRowModel() : undefined,
     getExpandedRowModel: getExpandedRowModel(),
   });
+
+  useEffect(() => {
+    // hack: clear row model cache
+    delete table._getCoreRowModel;
+    render();
+  }, [conf.sub_rows_column_key]);
 
   useEffect(() => {
     if (conf.pagination.page_size > 0) {
