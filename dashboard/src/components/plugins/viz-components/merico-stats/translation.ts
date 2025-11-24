@@ -21,6 +21,14 @@ const en = {
       postfix_content: 'Postfix Content',
       postfix_filter: 'Postfix Filter',
     },
+    click_merico_stats: {
+      trigger: 'Click Merico Stats',
+      trigger_with_name: 'Click Merico Stats: {{name}}',
+      metric_name_label: 'Metric Name',
+      metric_name_placeholder: 'Leave empty to match all metrics',
+      metric_name_description:
+        'Only trigger when clicking a metric with this name. Leave empty to trigger for any metric.',
+    },
   },
 };
 
@@ -44,6 +52,13 @@ const zh = {
       },
       postfix_content: '后缀文案',
       postfix_filter: '筛选器',
+    },
+    click_merico_stats: {
+      trigger: '点击思码逸数据指标',
+      trigger_with_name: '点击思码逸数据指标: {{name}}',
+      metric_name_label: '指标名称',
+      metric_name_placeholder: '留空以匹配所有指标',
+      metric_name_description: '仅在点击具有此名称的指标时触发。留空则对任何指标触发。',
     },
   },
 };
