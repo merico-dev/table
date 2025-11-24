@@ -5,6 +5,7 @@ import { VizMericoStats } from './render';
 import { VizMericoStatsEditor } from './viz-merico-stats-editor';
 import { v2 } from './migrators';
 import { translation } from './translation';
+import { ClickMericoStats } from './triggers';
 
 class VizMericoStatsMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
@@ -41,5 +42,6 @@ export const MericoStatsVizComponent: VizComponent = {
     version: 2,
     config: DEFAULT_CONFIG,
   }),
+  triggers: [ClickMericoStats],
   translation,
 };
