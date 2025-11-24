@@ -1,4 +1,6 @@
 {
+  "name": "settings-form",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "targets": {
     "dev": {
@@ -8,6 +10,5 @@
       },
       "dependsOn": ["^build"]
     }
-  },
-  "name": "settings-form"
+  }
 }

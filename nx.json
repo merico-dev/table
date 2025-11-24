@@ -1,33 +1,41 @@
 {
   "namedInputs": {
     "shared": ["{workspaceRoot}/yarn.lock", "{workspaceRoot}/package.json"],
-    "default": [
-      "{projectRoot}/**/*",
-      "!{projectRoot}/dist/**/*",
-      "!{projectRoot}/_build/**/*",
-      "shared"
-    ]
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
-      "options": {
-        "cacheableOperations": ["build", "check"],
-        "accessToken": "NGU3YTM0NjMtOWQwOS00ZjM3LWE3NGEtZWJlNWJhMGFjYzZlfHJlYWQtb25seQ=="
-      }
-    }
+    "default": ["{projectRoot}/**/*", "!{projectRoot}/dist/**/*", "!{projectRoot}/_build/**/*", "shared"]
   },
   "extends": "nx/presets/npm.json",
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "test": {
       "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
+    },
+    "check": {
+      "cache": true
+    },
+    "@nx/jest:jest": {
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "@nx/eslint:lint": {
+      "cache": true,
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/tools/eslint-rules/**/*"]
     }
   },
   "affected": {
     "defaultBase": "main"
   },
-  "plugins": ["workspace-plugin"]
+  "plugins": ["workspace-plugin"],
+  "nxCloudAccessToken": "NGU3YTM0NjMtOWQwOS00ZjM3LWE3NGEtZWJlNWJhMGFjYzZlfHJlYWQtb25seQ=="
 }

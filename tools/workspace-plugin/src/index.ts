@@ -10,7 +10,7 @@ function registerProjectTargets(projectFilePath) {
   }
   return {
     lint: {
-      executor: '@nx/linter:eslint',
+      executor: '@nx/eslint:eslint',
       options: {
         lintFilePatterns: [
           projectDir('src/**/*.ts'),

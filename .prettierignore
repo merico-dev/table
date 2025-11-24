@@ -3,3 +3,4 @@
 api/swagger
 *.json
 *.html
+/.nx/cache

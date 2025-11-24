@@ -1,11 +1,9 @@
 {
+  "name": "website",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "options": {
-        "command": "vite build",
-        "cwd": "website"
-      },
       "inputs": [
         "default",
         "^default",
@@ -16,8 +14,12 @@
           "env": "VITE_WEBSITE_BASE_URL"
         }
       ],
-      "outputs": ["website/dist"],
-      "dependsOn": ["^build"]
+      "outputs": ["{projectRoot}/dist"],
+      "dependsOn": ["^build"],
+      "options": {
+        "commands": ["vite build"],
+        "cwd": "website"
+      }
     },
     "dev": {
       "executor": "nx:run-script",
@@ -53,6 +55,5 @@
         }
       }
     }
-  },
-  "name": "website"
+  }
 }
