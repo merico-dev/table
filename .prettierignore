@@ -4,3 +4,4 @@ api/swagger
 *.json
 *.html
 /.nx/cache
+/.nx/workspace-data
