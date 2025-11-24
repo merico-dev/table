@@ -49,7 +49,7 @@
     "tslib": "^2.3.0",
     "vitest": "^0.34.6"
   },
-  "packageManager": "yarn@3.6.1",
+  "packageManager": "yarn@4.12.0",
   "resolutions": {
     "dayjs@1.11.9": "patch:dayjs@npm%3A1.11.9#./.yarn/patches/dayjs-npm-1.11.9-c47d327b7c.patch",
     "dayjs@^1.9.1": "patch:dayjs@npm%3A1.11.9#./.yarn/patches/dayjs-npm-1.11.9-c47d327b7c.patch",
