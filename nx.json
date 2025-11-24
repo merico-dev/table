@@ -33,9 +33,8 @@
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/tools/eslint-rules/**/*"]
     }
   },
-  "affected": {
-    "defaultBase": "main"
-  },
   "plugins": ["workspace-plugin"],
-  "nxCloudAccessToken": "NGU3YTM0NjMtOWQwOS00ZjM3LWE3NGEtZWJlNWJhMGFjYzZlfHJlYWQtb25seQ=="
+  "nxCloudAccessToken": "NGU3YTM0NjMtOWQwOS00ZjM3LWE3NGEtZWJlNWJhMGFjYzZlfHJlYWQtb25seQ==",
+  "useInferencePlugins": false,
+  "defaultBase": "main"
 }
