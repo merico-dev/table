@@ -36,5 +36,6 @@
   "plugins": ["workspace-plugin"],
   "nxCloudAccessToken": "NGU3YTM0NjMtOWQwOS00ZjM3LWE3NGEtZWJlNWJhMGFjYzZlfHJlYWQtb25seQ==",
   "useInferencePlugins": false,
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "useLegacyCache": true
 }
