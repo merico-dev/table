@@ -20191,6 +20191,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"workspace-plugin@workspace:tools/workspace-plugin":
+  version: 0.0.0-use.local
+  resolution: "workspace-plugin@workspace:tools/workspace-plugin"
+  languageName: unknown
+  linkType: soft
+
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0, wrap-ansi@npm:^7.0.0":
   version: 7.0.0
   resolution: "wrap-ansi@npm:7.0.0"
