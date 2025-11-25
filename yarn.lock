@@ -1967,7 +1967,7 @@ __metadata:
     "@tiptap/starter-kit": "npm:^v2.14.0"
     "@types/chroma-js": "npm:^2.1.4"
     "@types/crypto-js": "npm:v4.1.1"
-    "@types/d3-array": "npm:3.2.1"
+    "@types/d3-array": "npm:3.2.2"
     "@types/d3-scale": "npm:4.0.9"
     "@types/file-saver": "npm:2.0.5"
     "@types/lodash": "npm:^4.14.182"
@@ -5468,10 +5468,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-array@npm:3.2.1":
-  version: 3.2.1
-  resolution: "@types/d3-array@npm:3.2.1"
-  checksum: 10/4a9ecacaa859cff79e10dcec0c79053f027a4749ce0a4badeaff7400d69a9c44eb8210b147916b6ff5309be049030e7d68a0e333294ff3fa11c44aa1af4ba458
+"@types/d3-array@npm:3.2.2":
+  version: 3.2.2
+  resolution: "@types/d3-array@npm:3.2.2"
+  checksum: 10/1afebd05b688cafaaea295f765b409789f088b274b8a7ca40a4bc2b79760044a898e06a915f40bbc59cf39eabdd2b5d32e960b136fc025fd05c9a9d4435614c6
   languageName: node
   linkType: hard
 
