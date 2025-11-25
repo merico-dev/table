@@ -60,7 +60,7 @@ export const cryptSign = (params: { [propName: string]: any }, appsecret: string
   temp += `&key=${appsecret}`;
   const buffer = Buffer.from(temp);
   const crypt = crypto.createHash('MD5');
-  crypt.update(buffer);
+  crypt.update(buffer as any);
   return crypt.digest('hex').toUpperCase();
 };
 

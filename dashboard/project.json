@@ -1,18 +1,24 @@
 {
+  "name": "dashboard",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "dev": {
       "executor": "nx:run-script",
       "options": {
         "script": "dev-build"
       },
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "exit 0"
       },
-      "dependsOn": ["vitest"]
+      "dependsOn": [
+        "vitest"
+      ]
     },
     "vitest": {
       "executor": "nx:run-commands",
@@ -24,6 +30,12 @@
         "ci": {
           "command": "yarn exec vitest --run"
         }
+      }
+    },
+    "check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo noop, build runs type-checking automatically"
       }
     },
     "cypress": {
@@ -38,6 +50,5 @@
         }
       }
     }
-  },
-  "name": "dashboard"
+  }
 }

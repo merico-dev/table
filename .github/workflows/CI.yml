@@ -10,9 +10,14 @@ on:
   pull_request:
     branches: ['main']
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     strategy:
       matrix:
@@ -30,10 +35,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+      # Cache Nx
+      - name: Cache Nx
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nx-
       - run: yarn install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v3
-      - run: yarn exec nx affected --target=check --parallel=3
-      - run: yarn exec nx affected --target=test --parallel=3 --configuration=ci
+      - run: yarn exec nx affected --target=check,test --configuration=ci
       - run: yarn exec nx run-many -t build -p website api dashboard settings-form --parallel=3
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
@@ -66,6 +78,15 @@ jobs:
       # Ensure npm 11.5.1 or later is installed
       - name: Update npm
         run: npm install -g npm@latest
+
+      # Cache Nx
+      - name: Cache Nx
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/nx
+          key: ${{ runner.os }}-nx-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nx-
 
       - run: yarn install --frozen-lockfile
 

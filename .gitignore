@@ -41,3 +41,5 @@ api/src/fs_cache
 api/.jest_cache
 api/coverage*
 api/yarn.lock
+.nx/cache
+.nx/workspace-data

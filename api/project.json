@@ -1,14 +1,16 @@
 {
+  "name": "api",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "options": {
-        "cwd": "api",
-        "command": "gulp build"
-      },
       "inputs": ["{projectRoot}/**/*", "!{projectRoot}/_build/**/*"],
-      "outputs": ["api/_build"],
-      "dependsOn": ["^build"]
+      "outputs": ["{projectRoot}/_build"],
+      "dependsOn": ["^build"],
+      "options": {
+        "commands": ["gulp build"],
+        "cwd": "api"
+      }
     },
     "dev": {
       "executor": "nx:run-script",
@@ -17,6 +19,5 @@
       },
       "dependsOn": ["^dev"]
     }
-  },
-  "name": "api"
+  }
 }
