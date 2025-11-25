@@ -41,7 +41,8 @@ jobs:
             ${{ runner.os }}-nx-
       - run: yarn install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v3
-      - run: yarn exec nx affected --target=check,test
+      - run: yarn exec nx affected --target=check --parallel=3
+      - run: yarn exec nx affected --target=test --parallel=4
       - run: yarn exec nx run-many -t build -p website api dashboard settings-form --parallel=3
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
