@@ -25,6 +25,11 @@ import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
 import { ColorPickerControl } from './color-picker-control';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 import { ChooseFontSize, FontSize } from './font-size-extension';
+import { InteractionBlock } from './interaction-block-node';
+import {
+  ClearInteractionBlockControl,
+  InteractionBlockControl,
+} from './interaction-block-node/interaction-block-control';
 
 const RTEContentStyle: EmotionSx = {
   'dynamic-color': {
@@ -78,7 +83,7 @@ interface ICustomRichTextEditor {
 }
 
 export const CustomRichTextEditor = forwardRef(
-  ({ value, onChange, styles = {}, label, onSubmit, onCancel }: ICustomRichTextEditor, ref: any) => {
+  ({ value, onChange, styles = {}, label, onSubmit, onCancel }: ICustomRichTextEditor) => {
     const { t } = useTranslation();
     const inPanelContext = useIsInEditPanelContext();
     const extensions: Extensions = useMemo(() => {
@@ -104,6 +109,7 @@ export const CustomRichTextEditor = forwardRef(
         Color,
         FontSize,
         DynamicColorMark,
+        InteractionBlock,
       ];
       if (inPanelContext) {
         ret.push(ColorMappingMark);
@@ -176,6 +182,10 @@ export const CustomRichTextEditor = forwardRef(
             {inPanelContext && <ColorMappingControl editor={editor} />}
             <RichTextEditor.ControlsGroup>
               <DynamicColorControl editor={editor} />
+            </RichTextEditor.ControlsGroup>
+            <RichTextEditor.ControlsGroup>
+              <InteractionBlockControl />
+              <ClearInteractionBlockControl />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
               <RichTextEditor.Bold />

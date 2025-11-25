@@ -359,6 +359,7 @@ export const en = {
         delete: 'Delete',
         cancel: 'Cancel',
         confirm: 'Confirm',
+        apply: 'Apply',
         add_an_option: 'Add an Option',
         edit: 'Edit',
         end_editing: 'End editing <0>{{name}}</0>',
