@@ -16,10 +16,9 @@
     ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
     "paths": {
       "workspace-plugin": [
-        "tools/workspace-plugin/src/index.ts"
+        "./src/index.ts"
       ]
     }
   },

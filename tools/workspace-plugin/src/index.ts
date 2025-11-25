@@ -34,7 +34,7 @@ export const createNodesV2: CreateNodesV2 = [
                   check: {
                     executor: 'nx:run-commands',
                     options: {
-                      commands: [`yarn tsc --noEmit -p ${projectRoot}/tsconfig.json`],
+                      commands: [`yarn tsgo --noEmit -p ${projectRoot}/tsconfig.json`],
                     },
                     inputs: ['default', '^default'],
                     dependsOn: ['build', '^build'],
