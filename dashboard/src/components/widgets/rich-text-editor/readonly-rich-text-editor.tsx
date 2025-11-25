@@ -23,6 +23,7 @@ import { getEmptyDashboardStateValues } from '~/utils';
 import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
+import { InteractionBlock } from './interaction-block-node';
 
 interface IReadonlyRichText {
   value: string;
@@ -61,6 +62,7 @@ export const ReadonlyRichText = forwardRef<HTMLDivElement, IReadonlyRichText>(
         Color,
         FontSize,
         DynamicColorMark,
+        InteractionBlock,
       ];
       if (inPanelContext) {
         ret.push(ColorMappingMark);

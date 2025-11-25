@@ -5,6 +5,7 @@ import { DEFAULT_CONFIG, IRichTextConf } from './type';
 import { VizRichText } from './viz-rich-text';
 import { VizRichTextEditor } from './viz-rich-text-editor';
 import { translation } from './translation';
+import { ClickRichTextBlock } from './triggers';
 
 class VizRichTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -36,5 +37,6 @@ export const RichTextVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IRichTextConf,
     };
   },
+  triggers: [ClickRichTextBlock],
   translation,
 };

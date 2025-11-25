@@ -359,6 +359,7 @@ export const zh = {
         delete: '删除',
         cancel: '取消',
         confirm: '确认',
+        apply: '应用',
         add_an_option: '新增选项',
         edit: '编辑',
         end_editing: '结束编辑 <0>{{name}}</0>',

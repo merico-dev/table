@@ -72,4 +72,17 @@ export const CommonHTMLContentStyle: EmotionSx = {
     color: '#3D3E45',
     margin: '0 0 14px',
   },
+  'div[data-interaction-block-id]': {
+    position: 'relative',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    transition: 'all 0.2s ease',
+    width: 'fit-content',
+  },
+  'div[data-interaction-block-id]:hover': {
+    backgroundColor: 'rgba(59, 130, 246, 0.08)',
+  },
+  '[contenteditable=false] div[data-interaction-block-id]:hover': {
+    cursor: 'pointer',
+  },
 };
