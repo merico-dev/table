@@ -1968,7 +1968,7 @@ __metadata:
     "@types/chroma-js": "npm:^2.1.4"
     "@types/crypto-js": "npm:v4.1.1"
     "@types/d3-array": "npm:3.2.1"
-    "@types/d3-scale": "npm:4.0.8"
+    "@types/d3-scale": "npm:4.0.9"
     "@types/file-saver": "npm:2.0.5"
     "@types/lodash": "npm:^4.14.182"
     "@types/react": "npm:^18.0.0"
@@ -5636,12 +5636,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-scale@npm:4.0.8":
-  version: 4.0.8
-  resolution: "@types/d3-scale@npm:4.0.8"
+"@types/d3-scale@npm:4.0.9":
+  version: 4.0.9
+  resolution: "@types/d3-scale@npm:4.0.9"
   dependencies:
     "@types/d3-time": "npm:*"
-  checksum: 10/376e4f2199ee6db70906651587a4521976920fa5eaa847a976c434e7a8171cbfeeab515cc510c5130b1f64fcf95b9750a7fd21dfc0a40fc3398641aa7dd4e7e2
+  checksum: 10/2cae90a5e39252ae51388f3909ffb7009178582990462838a4edd53dd7e2e08121b38f0d2e1ac0e28e41167e88dea5b99e064ca139ba917b900a8020cf85362f
   languageName: node
   linkType: hard
 
