@@ -2043,7 +2043,7 @@ __metadata:
     "@swc/core": "npm:1.5.29"
     "@swc/helpers": "npm:0.5.17"
     "@types/jest": "npm:29.5.14"
-    "@types/node": "npm:18.19.99"
+    "@types/node": "npm:18.19.130"
     "@typescript-eslint/eslint-plugin": "npm:7.18.0"
     "@typescript-eslint/parser": "npm:7.18.0"
     "@typescript/native-preview": "npm:^7.0.0-dev.20251124.1"
@@ -6072,12 +6072,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.19.99":
-  version: 18.19.99
-  resolution: "@types/node@npm:18.19.99"
+"@types/node@npm:18.19.130":
+  version: 18.19.130
+  resolution: "@types/node@npm:18.19.130"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10/1707c7ba81d3c3e40c40f453d4b9153b1bf071f4652ff538c5e79edc0d72a24d969092290cab68220dcd076b8d80de70c33862a7d673e303a5d66d21431f0e09
+  checksum: 10/ebb85c6edcec78df926de27d828ecbeb1b3d77c165ceef95bfc26e171edbc1924245db4eb2d7d6230206fe6b1a1f7665714fe1c70739e9f5980d8ce31af6ef82
   languageName: node
   linkType: hard
 
