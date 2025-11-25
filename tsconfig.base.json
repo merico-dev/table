@@ -10,6 +10,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
+    "baseUrl": "./",
     "lib": [
       "es2020",
       "dom"
@@ -18,7 +19,7 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "workspace-plugin": [
-        "./src/index.ts"
+        "./tools/workspace-plugin/src/index.ts"
       ]
     }
   },

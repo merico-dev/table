@@ -45,6 +45,14 @@
       "options": {
         "jestConfig": "tools/workspace-plugin/jest.config.ts"
       }
+    },
+    "check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "yarn tsc --noEmit -p tools/workspace-plugin/tsconfig.lib.json"
+        ]
+      }
     }
   },
   "tags": []
