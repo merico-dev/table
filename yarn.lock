@@ -1996,7 +1996,7 @@ __metadata:
     i18next: "npm:^23.10.1"
     i18next-browser-languagedetector: "npm:^7.2.0"
     intl-pluralrules: "npm:^2.0.1"
-    js-base64: "npm:3.7.5"
+    js-base64: "npm:3.7.8"
     js-yaml: "npm:^4.1.0"
     jsdom: "npm:^20.0.0"
     jsdom-testing-mocks: "npm:^1.5.0"
@@ -13812,7 +13812,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-base64@npm:3.7.5, js-base64@npm:^3.7.5":
+"js-base64@npm:3.7.8":
+  version: 3.7.8
+  resolution: "js-base64@npm:3.7.8"
+  checksum: 10/4baa9a222bc094b072933e4894735653b59992477c731879784e3112f21862b08dd5c56b8b23b0b8e43bc5bb514d957621d1892a6c58950f29e12b731fe087b6
+  languageName: node
+  linkType: hard
+
+"js-base64@npm:^3.7.5":
   version: 3.7.5
   resolution: "js-base64@npm:3.7.5"
   checksum: 10/97642fdef112cb99aed25a092156029e2f44cef0e4e3bf64dba0b6f8d85b9f4ee80b65ab8fa11a051dfcd09133bcd96c130167afdf90e4e4b21933632157a4f9
