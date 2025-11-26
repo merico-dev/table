@@ -1988,7 +1988,7 @@ __metadata:
     dayjs: "npm:1.11.9"
     dom-to-image-more: "npm:3.1.6"
     echarts: "npm:5.4.1"
-    echarts-for-react: "npm:3.0.2"
+    echarts-for-react: "npm:3.0.5"
     echarts-gl: "npm:2.0.9"
     eventemitter2: "npm:^6.4.6"
     file-saver: "npm:2.0.5"
@@ -2168,7 +2168,7 @@ __metadata:
     d3-scale: "npm:4.0.2"
     dayjs: "npm:1.11.9"
     echarts: "npm:5.4.1"
-    echarts-for-react: "npm:3.0.2"
+    echarts-for-react: "npm:3.0.5"
     echarts-gl: "npm:2.0.9"
     eventemitter2: "npm:^6.4.6"
     highlight.js: "npm:^11.8.0"
@@ -9695,16 +9695,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"echarts-for-react@npm:3.0.2":
-  version: 3.0.2
-  resolution: "echarts-for-react@npm:3.0.2"
+"echarts-for-react@npm:3.0.5":
+  version: 3.0.5
+  resolution: "echarts-for-react@npm:3.0.5"
   dependencies:
     fast-deep-equal: "npm:^3.1.3"
     size-sensor: "npm:^1.0.1"
   peerDependencies:
-    echarts: ^3.0.0 || ^4.0.0 || ^5.0.0
+    echarts: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
     react: ^15.0.0 || >=16.0.0
-  checksum: 10/be9107e7c174fd8105d12e15c1ae4bbb828c4ca9a66ef99eec1660fc0c5db92e652f69a81c5c11c2b7b826b13ae79260569a6d74aea965ae4f31f0b4d18462e9
+  checksum: 10/9961cc60ceee1df7d193a18ca834d1e44a96faeeb84d43f215d84b8129664d980a9e9585a092b6a81734bbbb45a71e6e35c474870148130ba7f5013a33837bfc
   languageName: node
   linkType: hard
 
