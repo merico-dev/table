@@ -52,17 +52,12 @@ function InteractionBlockModal({ opened, onClose, editor }: InteractionBlockModa
   }, [opened]);
 
   return (
-    <Modal
-      opened={opened}
-      zIndex={1200}
-      onClose={handleCancel}
-      title={t('rich_text_editor.interaction_block.modal_title')}
-    >
+    <Modal opened={opened} zIndex={1200} onClose={handleCancel} title={t('rich_text.interaction_block.modal_title')}>
       <Stack gap="md">
         <TextInput
-          label={t('rich_text_editor.interaction_block.block_id_label')}
-          description={t('rich_text_editor.interaction_block.block_id_description')}
-          placeholder={t('rich_text_editor.interaction_block.block_id_placeholder')}
+          label={t('rich_text.interaction_block.block_id_label')}
+          description={t('rich_text.interaction_block.block_id_description')}
+          placeholder={t('rich_text.interaction_block.block_id_placeholder')}
           value={blockId}
           onChange={(e) => setBlockId(e.currentTarget.value)}
           onKeyDown={(e) => {
@@ -103,8 +98,8 @@ export function InteractionBlockControl() {
       <RichTextEditor.Control
         onClick={handleControlClick}
         active={isActive}
-        aria-label={t('rich_text_editor.interaction_block.toggle_tooltip')}
-        title={t('rich_text_editor.interaction_block.toggle_tooltip')}
+        aria-label={t('rich_text.interaction_block.toggle_tooltip')}
+        title={t('rich_text.interaction_block.toggle_tooltip')}
       >
         <IconHandClick stroke={1.5} size={16} />
       </RichTextEditor.Control>
@@ -131,8 +126,8 @@ export function ClearInteractionBlockControl() {
     <RichTextEditor.Control
       onClick={handleClearClick}
       disabled={!isActive}
-      aria-label={t('rich_text_editor.interaction_block.clear_tooltip')}
-      title={t('rich_text_editor.interaction_block.clear_tooltip')}
+      aria-label={t('rich_text.interaction_block.clear_tooltip')}
+      title={t('rich_text.interaction_block.clear_tooltip')}
     >
       <IconHandOff stroke={1.5} size={16} />
     </RichTextEditor.Control>

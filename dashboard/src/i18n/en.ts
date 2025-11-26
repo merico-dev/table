@@ -659,6 +659,14 @@ export const en = {
           var: 'Max value variable',
         },
       },
+      interaction_block: {
+        modal_title: 'Configure Interaction Block',
+        block_id_label: 'Block ID',
+        block_id_description: 'Unique identifier for this interaction block',
+        block_id_placeholder: 'Enter block ID',
+        toggle_tooltip: 'Toggle interaction block settings',
+        clear_tooltip: 'Clear interaction block',
+      },
     },
     chart: {
       chart_config: 'Chart Config',

@@ -659,6 +659,14 @@ export const zh = {
           var: '动态最大值（优先）',
         },
       },
+      interaction_block: {
+        modal_title: '配置交互块',
+        block_id_label: '块ID',
+        block_id_description: '此交互块的唯一标识符',
+        block_id_placeholder: '输入块ID',
+        toggle_tooltip: '切换交互块设置',
+        clear_tooltip: '清除交互块',
+      },
     },
     chart: {
       chart_config: '图表设置',
