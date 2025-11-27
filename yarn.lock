@@ -1937,7 +1937,7 @@ __metadata:
     "@mantine/notifications": "npm:7.17.8"
     "@mantine/spotlight": "npm:7.17.8"
     "@mantine/tiptap": "npm:7.17.8"
-    "@monaco-editor/react": "npm:4.6.0"
+    "@monaco-editor/react": "npm:4.7.0"
     "@tabler/icons-react": "npm:2.25.0"
     "@tanstack/react-table": "npm:8.10.0"
     "@tanstack/react-virtual": "npm:3.10.8"
@@ -2083,7 +2083,7 @@ __metadata:
     "@mantine/hooks": "npm:7.17.8"
     "@mantine/modals": "npm:7.17.8"
     "@mantine/notifications": "npm:7.17.8"
-    "@monaco-editor/react": "npm:4.6.0"
+    "@monaco-editor/react": "npm:4.7.0"
     "@tabler/icons-react": "npm:2.25.0"
     "@types/crypto-js": "npm:v4.1.1"
     "@types/lodash": "npm:^4.14.182"
@@ -3805,27 +3805,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monaco-editor/loader@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "@monaco-editor/loader@npm:1.4.0"
+"@monaco-editor/loader@npm:^1.5.0":
+  version: 1.7.0
+  resolution: "@monaco-editor/loader@npm:1.7.0"
   dependencies:
     state-local: "npm:^1.0.6"
-  peerDependencies:
-    monaco-editor: ">= 0.21.0 < 1"
-  checksum: 10/32ad01de015fc187450aa1cc0aa763af167664b6a61efcb9e1523a0f51ca5d0b35ba11ed95889edd6d774dfe98f196ef58f1607243abcbdd3d6d743f82ba8285
+  checksum: 10/7ee7406f0a7036e2638430d151c65593dcce88e3f344e2e19556c284c23c1b51d5edb08b8c15a6454aaa62f5af459a296db76b9543686e2ea5037c54723d2f2d
   languageName: node
   linkType: hard
 
-"@monaco-editor/react@npm:4.6.0":
-  version: 4.6.0
-  resolution: "@monaco-editor/react@npm:4.6.0"
+"@monaco-editor/react@npm:4.7.0":
+  version: 4.7.0
+  resolution: "@monaco-editor/react@npm:4.7.0"
   dependencies:
-    "@monaco-editor/loader": "npm:^1.4.0"
+    "@monaco-editor/loader": "npm:^1.5.0"
   peerDependencies:
     monaco-editor: ">= 0.25.0 < 1"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/e32724ebcc2fc81e91169d69eff8533e15a595c13156ec57965238a0f0afa67e2ed2abbf735a57cfaae15430bbc905b016b644bf7383a82d607501d557a6dd82
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/d72392c4ed6faf8d830ba43421461e1b767b5978edba0739457d7781aa9533c66982be7f59bb156a77a2b578eddfb4711f50e0d84f0f0d25d28b5ab11140f5cc
   languageName: node
   linkType: hard
 

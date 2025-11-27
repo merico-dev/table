@@ -62,7 +62,7 @@
     "@mantine/notifications": "7.17.8",
     "@mantine/spotlight": "7.17.8",
     "@mantine/tiptap": "7.17.8",
-    "@monaco-editor/react": "4.6.0",
+    "@monaco-editor/react": "4.7.0",
     "@tabler/icons-react": "2.25.0",
     "@tanstack/react-table": "8.10.0",
     "@tanstack/react-virtual": "3.10.8",
