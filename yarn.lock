@@ -3707,9 +3707,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@messageformat/core@npm:^3.0.0":
-  version: 3.2.0
-  resolution: "@messageformat/core@npm:3.2.0"
+"@messageformat/core@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@messageformat/core@npm:3.4.0"
   dependencies:
     "@messageformat/date-skeleton": "npm:^1.0.0"
     "@messageformat/number-skeleton": "npm:^1.0.0"
@@ -3717,7 +3717,7 @@ __metadata:
     "@messageformat/runtime": "npm:^3.0.1"
     make-plural: "npm:^7.0.0"
     safe-identifier: "npm:^0.4.1"
-  checksum: 10/ece3d0bf72121e9bd863d2db648d1fd16177ef9ed18c7778c49743568dfb5a4bb53cc19054a363d0345758ecce48dc2a44a725fc03a36dedd49e4958f6858eee
+  checksum: 10/a75745bb36715a6460623610646de56e52e0642b4b87dcfe074c3d47561042ea7e1bea13fac137808bc1e2807f456691b0ad315d4dbc93d05d943b306738c384
   languageName: node
   linkType: hard
 
@@ -5901,9 +5901,9 @@ __metadata:
   linkType: hard
 
 "@types/i18n@npm:^0.13.10":
-  version: 0.13.10
-  resolution: "@types/i18n@npm:0.13.10"
-  checksum: 10/4b6c84536bf891d07fb1b1daf2e8d66889d0c317dc3c2b653d65a922ee3df3cef93b811b71e46dfb6483a95beb1515a7c82bf3f0fb05d54084ac519ff93f706d
+  version: 0.13.12
+  resolution: "@types/i18n@npm:0.13.12"
+  checksum: 10/37fafabce4973ac0be008c5401bd159397dbaa2dab720323d1624a0580c1dce3416186981417c7d6558b90dd44947ccdb2ec4da663894ffba57a6239a5d4f4d2
   languageName: node
   linkType: hard
 
@@ -7880,13 +7880,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"boolean@npm:^3.1.4":
-  version: 3.2.0
-  resolution: "boolean@npm:3.2.0"
-  checksum: 10/d28a49dcaeef7fe10cf9fdf488214d3859f07350be8f5caa0c73ec621baf20650e5da6523262e5ce9221909519d4261c16d8430a5bf307fee9ef0e170cdb29f3
-  languageName: node
-  linkType: hard
-
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -9243,7 +9236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^4.3.1, debug@npm:^4.4.0, debug@npm:^4.4.1":
+"debug@npm:^4.3.1, debug@npm:^4.4.0, debug@npm:^4.4.1, debug@npm:^4.4.3":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -10608,12 +10601,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-printf@npm:^1.6.9":
-  version: 1.6.9
-  resolution: "fast-printf@npm:1.6.9"
-  dependencies:
-    boolean: "npm:^3.1.4"
-  checksum: 10/fbb20bf41eccf7771441226f17d5488fecdf84977092628b2863be38ae1c482ca41e70fc1d8517b9f18ee3c9014cdbdb677812de711765796656d4f9df07bd5f
+"fast-printf@npm:^1.6.10":
+  version: 1.6.10
+  resolution: "fast-printf@npm:1.6.10"
+  checksum: 10/6849a660f4f416a47261043d3e48b451b081d1103d56a2ef9e9cf19d68dd9a55d9376b4e3f055ac6d86c2c56e31c82d7112b77aff7a4ed2c697a0e0ce6caa581
   languageName: node
   linkType: hard
 
@@ -12073,16 +12064,16 @@ __metadata:
   linkType: hard
 
 "i18n@npm:^0.15.1":
-  version: 0.15.1
-  resolution: "i18n@npm:0.15.1"
+  version: 0.15.3
+  resolution: "i18n@npm:0.15.3"
   dependencies:
-    "@messageformat/core": "npm:^3.0.0"
-    debug: "npm:^4.3.3"
-    fast-printf: "npm:^1.6.9"
-    make-plural: "npm:^7.0.0"
+    "@messageformat/core": "npm:^3.4.0"
+    debug: "npm:^4.4.3"
+    fast-printf: "npm:^1.6.10"
+    make-plural: "npm:^7.4.0"
     math-interval-parser: "npm:^2.0.1"
     mustache: "npm:^4.2.0"
-  checksum: 10/d2e46e8d79a65405cf71cb6c9b0adf553fe30db3f1bad7102b380c7b9115b76c0a8c5947400654d9c4d49054a3e66dd657cf4ebf6b43fd918140ec889b0914c4
+  checksum: 10/cf9ddbfde7694d3e2af60a6e04ec153eba08587127bf11eabbb4b7546e0cee68ace8b4decd5072973fa38ee0f40a83bbf057c51f64096b783edb4f7c6cf96e43
   languageName: node
   linkType: hard
 
@@ -14630,6 +14621,13 @@ __metadata:
   version: 7.3.0
   resolution: "make-plural@npm:7.3.0"
   checksum: 10/2c101bf053e97dc28aeea66fbb1ed8d2fd9b0c2ba3f1625720888122bf9a5c01675af55fea736f601a06d56283a0fa59844b437ebd73878c587ff75f26a13fb0
+  languageName: node
+  linkType: hard
+
+"make-plural@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "make-plural@npm:7.4.0"
+  checksum: 10/1a6d17a08074bbeb27ffbfc1bf21ec9ef325980b8facaa11b0b0b1c9cb9f1b1407ae424f685be2927dd0a297b65023fd6005534c4f1fa8e2bf6936aa392d3ed4
   languageName: node
   linkType: hard
 
