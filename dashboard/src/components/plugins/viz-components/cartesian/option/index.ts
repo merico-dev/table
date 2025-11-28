@@ -1,7 +1,8 @@
-import _, { defaultsDeep } from 'lodash';
+import { defaultsDeep } from 'lodash';
 import { ITemplateVariable } from '~/utils';
 import { getEchartsDataZoomOption } from '../editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { ICartesianChartConf } from '../type';
+import { IAxisLabels } from './get-axis-labels';
 import { getGrid } from './grid';
 import { getLegend } from './legend';
 import { getRegressionConfs } from './regression';
@@ -11,7 +12,6 @@ import { getLabelFormatters } from './utils/label-formatter';
 import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
-import { extractData } from '~/utils';
 
 const defaultOption = {
   xAxis: [
@@ -33,21 +33,25 @@ const defaultOption = {
   ],
 };
 
-export function getOption(conf: ICartesianChartConf, data: TPanelData, variables: ITemplateVariable[]) {
+export function getOption(
+  conf: ICartesianChartConf,
+  data: TPanelData,
+  variables: ITemplateVariable[],
+  xAxisLabels: IAxisLabels,
+) {
   // preparation
   const variableValueMap = getVariableValueMap(data, variables);
   const labelFormatters = getLabelFormatters(conf);
-  const xAxisData = _.uniq(extractData(data, conf.x_axis_data_key));
 
   // options
-  const series = getSeries(conf, xAxisData, data, labelFormatters, variables, variableValueMap);
-  const regressionSeries = getRegressionConfs(conf, data);
+  const series = getSeries(conf, xAxisLabels, data, labelFormatters, variables, variableValueMap);
+  const regressionSeries = getRegressionConfs(conf, data, xAxisLabels);
 
   const customOptions = {
-    xAxis: getXAxes(conf, xAxisData),
+    xAxis: getXAxes(conf, xAxisLabels),
     yAxis: getYAxes(conf, labelFormatters, series),
     series: [...series, ...regressionSeries],
-    tooltip: getTooltip(conf, data, series, labelFormatters),
+    tooltip: getTooltip(conf, data, series, xAxisLabels, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(conf, series),
     dataZoom: getEchartsDataZoomOption(conf.dataZoom),

@@ -6,6 +6,7 @@ import {
 } from '~/components/plugins/common-echarts-fields/regression-line';
 import { ICartesianChartConf, IRegressionConf } from '../type';
 import { extractData, extractFullQueryData, parseDataKey } from '~/utils';
+import { IAxisLabels } from './get-axis-labels';
 
 function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
   const { transform, plot } = reg;
@@ -30,7 +31,11 @@ function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: 
   return series;
 }
 
-export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, rawData: TPanelData) {
+export function getRegressionConfs(
+  { regressions = [] }: ICartesianChartConf,
+  rawData: TPanelData,
+  xAxisLabels: IAxisLabels,
+) {
   const regressionSeries: IRegressionSeriesItem[] = [];
   if (Object.keys(rawData).length === 0) {
     return regressionSeries;
@@ -43,7 +48,7 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
 
   regressions.forEach((reg) => {
     const { name, group_by_key } = reg;
-    if (!group_by_key || group_by_key === x_axis_data_key) {
+    if (!group_by_key || group_by_key === xAxisLabels.axisKey) {
       const columnData = extractData(rawData, reg.y_axis_data_key);
       const data = columnData.map((d, i) => [i, Number(d)]);
       getAndApplyConf(reg, name, '', data);

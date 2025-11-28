@@ -95,6 +95,10 @@ export interface ICartesianReferenceArea {
 
 export interface ICartesianChartConf {
   x_axis_data_key: string;
+  /**
+   * Only works when x_axis.type === 'category'
+   */
+  x_axis_id_key?: string;
   x_axis_name: string;
   y_axes: IYAxisConf[];
   x_axis: {

@@ -10,10 +10,11 @@ import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils';
+import { extractFullQueryData, ITemplateVariable } from '~/utils';
 import { StatsAroundViz } from '../../common-echarts-fields/stats-around-viz';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
+import { getAxisLabels } from './option/get-axis-labels';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 
@@ -44,7 +45,11 @@ function Chart({
   variables: ITemplateVariable[];
   onChartRenderFinished: (chartOptions: unknown) => void;
 }) {
-  const rowDataMap = useRowDataMap(data, conf.x_axis_data_key);
+  const xAxisLabels = useMemo(() => {
+    const fullData = extractFullQueryData(data, conf.x_axis_id_key ?? conf.x_axis_data_key);
+    return getAxisLabels(conf, fullData);
+  }, [conf, data]);
+  const rowDataMap = useRowDataMap(data, conf.x_axis_id_key ?? conf.x_axis_data_key);
 
   const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
 
@@ -59,8 +64,8 @@ function Chart({
   );
 
   const option = React.useMemo(() => {
-    return getOption(conf, data, variables);
-  }, [conf, data]);
+    return getOption(conf, data, variables, xAxisLabels);
+  }, [conf, data, xAxisLabels]);
 
   const echartsRef = React.useRef<EChartsInstance>();
   const onRenderFinishedRef = useLatest(onChartRenderFinished);
