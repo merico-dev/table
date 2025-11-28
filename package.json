@@ -19,7 +19,7 @@
     "@nx/workspace": "20.8.3",
     "@swc-node/register": "1.9.2",
     "@swc/cli": "0.6.0",
-    "@swc/core": "1.5.29",
+    "@swc/core": "1.15.3",
     "@types/jest": "29.5.14",
     "@types/node": "18.19.130",
     "@typescript-eslint/eslint-plugin": "7.18.0",
