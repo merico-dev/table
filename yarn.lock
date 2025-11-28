@@ -2039,7 +2039,7 @@ __metadata:
     "@nx/plugin": "npm:20.8.3"
     "@nx/workspace": "npm:20.8.3"
     "@swc-node/register": "npm:1.9.2"
-    "@swc/cli": "npm:0.6.0"
+    "@swc/cli": "npm:0.7.9"
     "@swc/core": "npm:1.5.29"
     "@swc/helpers": "npm:0.5.17"
     "@types/jest": "npm:29.5.14"
@@ -4593,19 +4593,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/cli@npm:0.6.0":
-  version: 0.6.0
-  resolution: "@swc/cli@npm:0.6.0"
+"@swc/cli@npm:0.7.9":
+  version: 0.7.9
+  resolution: "@swc/cli@npm:0.7.9"
   dependencies:
     "@swc/counter": "npm:^0.1.3"
     "@xhmikosr/bin-wrapper": "npm:^13.0.5"
     commander: "npm:^8.3.0"
-    fast-glob: "npm:^3.2.5"
     minimatch: "npm:^9.0.3"
     piscina: "npm:^4.3.1"
     semver: "npm:^7.3.8"
     slash: "npm:3.0.0"
     source-map: "npm:^0.7.3"
+    tinyglobby: "npm:^0.2.13"
   peerDependencies:
     "@swc/core": ^1.2.66
     chokidar: ^4.0.1
@@ -4616,7 +4616,7 @@ __metadata:
     spack: bin/spack.js
     swc: bin/swc.js
     swcx: bin/swcx.js
-  checksum: 10/a5a3fbf6d664c7d43a12a506e07ff9e10752da3446d0d92bdb454d39f212eed6b23ea49707856896a74213f747b0154d3a2423a85e08189e33939719c08c7bb2
+  checksum: 10/b138d2a7c85320b1075891f2442ed261d1c3afe3518549829c1211ac1063b29237b5c51db65511b69a6d5fc828cc4425bc4107d9e6a8be0dff8a05da06fc8218
   languageName: node
   linkType: hard
 
@@ -10558,7 +10558,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.5, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.9":
   version: 3.3.0
   resolution: "fast-glob@npm:3.3.0"
   dependencies:
@@ -19072,7 +19072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.12":
+"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.13":
   version: 0.2.15
   resolution: "tinyglobby@npm:0.2.15"
   dependencies:
