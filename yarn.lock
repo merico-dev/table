@@ -1966,7 +1966,7 @@ __metadata:
     "@tiptap/react": "npm:^v2.14.0"
     "@tiptap/starter-kit": "npm:^v2.14.0"
     "@types/chroma-js": "npm:^2.1.4"
-    "@types/crypto-js": "npm:v4.1.1"
+    "@types/crypto-js": "npm:4.2.2"
     "@types/d3-array": "npm:3.2.2"
     "@types/d3-scale": "npm:4.0.9"
     "@types/file-saver": "npm:2.0.5"
@@ -2085,7 +2085,7 @@ __metadata:
     "@mantine/notifications": "npm:7.17.8"
     "@monaco-editor/react": "npm:4.6.0"
     "@tabler/icons-react": "npm:2.25.0"
-    "@types/crypto-js": "npm:v4.1.1"
+    "@types/crypto-js": "npm:4.2.2"
     "@types/lodash": "npm:^4.14.182"
     "@types/react": "npm:^18.0.0"
     "@types/react-dom": "npm:^18.0.0"
@@ -5500,17 +5500,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/crypto-js@npm:4.2.2":
+  version: 4.2.2
+  resolution: "@types/crypto-js@npm:4.2.2"
+  checksum: 10/a40fc5a9219fd33f54ba3e094c5e5ab2904d3106681a76f1029bb038976591e9c8959099963bf4474fde21c2d8d00c1f896445206a3a58f85588f9cb1bd96a9a
+  languageName: node
+  linkType: hard
+
 "@types/crypto-js@npm:^4.2.1":
   version: 4.2.1
   resolution: "@types/crypto-js@npm:4.2.1"
   checksum: 10/413a3de36ff916fd796aac6069dc4afba26c3add11c2570eff43f98eb86e34ed8fa2693636743d13685f038f9d3a21e3327b33e3a06c3cb332be5ca64b802925
-  languageName: node
-  linkType: hard
-
-"@types/crypto-js@npm:v4.1.1":
-  version: 4.1.1
-  resolution: "@types/crypto-js@npm:4.1.1"
-  checksum: 10/822e798b97ef6f8f4d3114151547c90569b253356e3fb2f6d9bf44c072148a1e9a90685b439cced0374d72fc9c187bf25a77d64d42493c472850e9ea21eb2cbd
   languageName: node
   linkType: hard
 
