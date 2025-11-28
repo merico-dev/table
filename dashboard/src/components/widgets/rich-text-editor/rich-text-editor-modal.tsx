@@ -1,6 +1,7 @@
 import { Button, Modal, Stack, Text } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { useTranslation } from 'react-i18next';
+
 import { CustomRichTextEditor } from './custom-rich-text-editor';
 
 type Props = {
@@ -23,6 +24,12 @@ export const RichTextEditorModal = ({ initialValue, onChange, label }: Props) =>
         </Button>
       </Stack>
       <Modal
+        styles={{
+          root: {
+            position: 'relative',
+            zIndex: 300, // overlay z-index
+          },
+        }}
         opened={opened}
         onClose={onClose}
         withinPortal

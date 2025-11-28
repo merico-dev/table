@@ -905,6 +905,7 @@ export const en = {
         delete: 'Delete this X Axis',
         x_axis_name: 'X Axis Name',
         x_axis_data_field: 'X Axis Data Field',
+        x_axis_id_field: 'X Axis Id Field',
         x_axis_type: 'X Axis Type',
         layout: 'Layout',
         position: {

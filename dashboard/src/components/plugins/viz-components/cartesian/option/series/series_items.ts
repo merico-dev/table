@@ -1,12 +1,13 @@
 import { cloneDeep } from 'lodash';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { IAxisLabels } from '../get-axis-labels';
 import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { getEChartsSymbolSize } from './get-echarts-symbol-size';
 import { DataTemplateType } from './types';
 import _ from 'lodash';
 
 export function getSeriesItemOrItems(
-  { x_axis_data_key, x_axis }: ICartesianChartConf,
+  { x_axis }: ICartesianChartConf,
   {
     y_axis_data_key,
     yAxisIndex,
@@ -28,6 +29,7 @@ export function getSeriesItemOrItems(
   data: TPanelData,
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
+  xAxisLabels: IAxisLabels,
 ) {
   const valueTypedXAxis = x_axis.type !== 'category';
   const seriesItem: $TSFixMe = {
@@ -41,7 +43,7 @@ export function getSeriesItemOrItems(
     yAxisIndex,
     stack,
     color,
-    symbolSize: getEChartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
+    symbolSize: getEChartsSymbolSize(symbolSize, data, xAxisLabels.axisKey, variableValueMap),
     hide_in_legend,
     labelLayout: {
       hideOverlap: true,
@@ -75,12 +77,12 @@ export function getSeriesItemOrItems(
       align: 'right',
     };
   }
-  if (!group_by_key || group_by_key === x_axis_data_key) {
+  if (!group_by_key || group_by_key === xAxisLabels.axisKey) {
     seriesItem.data = makeOneSeriesData({
       dataTemplate,
       data,
       aggregation_on_value,
-      x_axis_data_key,
+      x_axis_data_key: xAxisLabels.axisKey,
       y_axis_data_key,
       valueTypedXAxis,
     });
@@ -89,7 +91,7 @@ export function getSeriesItemOrItems(
   const groupedData = makeGroupedSeriesData({
     group_by_key,
     data,
-    x_axis_data_key,
+    x_axis_data_key: xAxisLabels.axisKey,
     y_axis_data_key,
   });
 

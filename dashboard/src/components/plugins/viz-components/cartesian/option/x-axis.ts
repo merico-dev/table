@@ -1,9 +1,10 @@
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { ICartesianChartConf } from '../type';
-import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { IAxisLabels } from './get-axis-labels';
 
-export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
+export function getXAxes(conf: ICartesianChartConf, xAxisLabels: IAxisLabels) {
+  const xAxisData = xAxisLabels.axisData;
   const { overflow, ...axisLabel } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   const xDataEmpty = xAxisData.length === 0;
@@ -17,7 +18,7 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
       axisLabel: {
         ...axisLabel,
         ...overflowOption,
-        formatter: getEchartsXAxisLabel(axisLabel.formatter),
+        formatter: xAxisLabels.labelFormatter,
       },
     }),
   ];

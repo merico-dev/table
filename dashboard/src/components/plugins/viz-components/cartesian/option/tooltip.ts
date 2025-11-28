@@ -2,19 +2,19 @@ import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { ICartesianChartConf } from '../type';
+import { IAxisLabels } from './get-axis-labels';
 import { IEchartsSeriesItem } from './utils/types';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { extractData, formatNumber, readColumnIgnoringQuery } from '~/utils';
+import { extractData, formatNumber } from '~/utils';
 import _ from 'lodash';
-import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
-function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
+function getXAxisLabel(params: AnyObject[], xAxisLabels: IAxisLabels) {
   const basis = params.find((p) => p.axisDim === 'x' && p.axisId === 'main-x-axis');
   if (!basis) {
     return '';
   }
   const { axisValue, axisIndex } = basis;
-  return getEchartsXAxisLabel(conf.x_axis.axisLabel.formatter)(axisValue, axisIndex);
+  return xAxisLabels.labelFormatter(axisValue, axisIndex);
 }
 
 const formatAdditionalMetric = (v: number) => {
@@ -30,6 +30,7 @@ export function getTooltip(
   conf: ICartesianChartConf,
   data: TPanelData,
   series: IEchartsSeriesItem[],
+  xAxisLabels: IAxisLabels,
   labelFormatters: Record<string, (p: $TSFixMe) => string>,
 ) {
   const yAxisIndexMap = series.reduce((ret, { yAxisIndex, name }) => {
@@ -106,7 +107,7 @@ export function getTooltip(
       lines.push(...additionalMetrics);
 
       const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip);
-      const xAxisLabel = getXAxisLabel(arr, conf);
+      const xAxisLabel = getXAxisLabel(arr, xAxisLabels);
       return `
       <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
         <div style="${xAxisLabelStyle}">${xAxisLabel}</div>

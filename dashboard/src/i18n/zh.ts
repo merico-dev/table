@@ -905,6 +905,7 @@ export const zh = {
         delete: '删除这条X轴',
         x_axis_name: 'X轴名称',
         x_axis_data_field: 'X轴数据字段',
+        x_axis_id_field: 'X轴 ID 字段',
         x_axis_type: 'X轴类型',
         layout: '布局',
         position: {

@@ -6,8 +6,8 @@ import { Trans, useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
-import { ICartesianChartConf } from '../../type';
 import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { ICartesianChartConf } from '../../type';
 
 //https://echarts.apache.org/zh/option.html#xAxis.type
 const XAxisTypeLabel = () => {
@@ -43,7 +43,7 @@ interface IXAxisField {
 }
 export function XAxisField({ control, watch }: IXAxisField) {
   const { t, i18n } = useTranslation();
-  watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);
+  const [, , x_axis] = watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);
 
   const XAxisTypeOptions = useMemo(
     () => [
@@ -76,6 +76,20 @@ export function XAxisField({ control, watch }: IXAxisField) {
             <Select label={<XAxisTypeLabel />} required data={XAxisTypeOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
+        {x_axis.type === 'category' && (
+          <Controller
+            name="x_axis_id_key"
+            control={control}
+            render={({ field }) => (
+              <DataFieldSelector
+                label={t('chart.x_axis.x_axis_id_field')}
+                sx={{ flex: 1 }}
+                {...field}
+                value={field.value as string}
+              />
+            )}
+          />
+        )}
       </Group>
       <Divider mb={-15} label={t('chart.axis.tick_label')} labelPosition="center" />
       <Group grow wrap="nowrap">
