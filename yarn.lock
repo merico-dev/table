@@ -20222,16 +20222,16 @@ __metadata:
   linkType: hard
 
 "vite-plugin-static-copy@npm:^0.17.0":
-  version: 0.17.0
-  resolution: "vite-plugin-static-copy@npm:0.17.0"
+  version: 0.17.1
+  resolution: "vite-plugin-static-copy@npm:0.17.1"
   dependencies:
     chokidar: "npm:^3.5.3"
     fast-glob: "npm:^3.2.11"
     fs-extra: "npm:^11.1.0"
     picocolors: "npm:^1.0.0"
   peerDependencies:
-    vite: ^3.0.0 || ^4.0.0
-  checksum: 10/96a1ada9c82fc2c65a30ab8e23b61336d72dcbd3dc1426b6d5d5ac7245e23cb3bfacfd3e641c174fd28c38381d7f3eeb854294fd04648bb0b3c293127a37eea2
+    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+  checksum: 10/53762f6504ea65148d92603b0e01ea7c67008d6c1adab2cc5575c0d76d8f456e5b4a88c9379376ed6415bea1348042b2648a1a91f6a3a92ab87f49ec80471855
   languageName: node
   linkType: hard
 
