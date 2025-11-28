@@ -65,7 +65,7 @@
     "@monaco-editor/react": "4.6.0",
     "@tabler/icons-react": "2.25.0",
     "@tanstack/react-table": "8.10.0",
-    "@tanstack/react-virtual": "3.10.8",
+    "@tanstack/react-virtual": "3.13.12",
     "@tiptap/core": "^v2.14.0",
     "@tiptap/extension-code-block": "^v2.14.0",
     "@tiptap/extension-code-block-lowlight": "^v2.14.0",
