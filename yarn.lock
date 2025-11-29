@@ -1938,7 +1938,7 @@ __metadata:
     "@mantine/spotlight": "npm:7.17.8"
     "@mantine/tiptap": "npm:7.17.8"
     "@monaco-editor/react": "npm:4.6.0"
-    "@tabler/icons-react": "npm:2.25.0"
+    "@tabler/icons-react": "npm:2.47.0"
     "@tanstack/react-table": "npm:8.10.0"
     "@tanstack/react-virtual": "npm:3.10.8"
     "@testing-library/cypress": "npm:^9.0.0"
@@ -2084,7 +2084,7 @@ __metadata:
     "@mantine/modals": "npm:7.17.8"
     "@mantine/notifications": "npm:7.17.8"
     "@monaco-editor/react": "npm:4.6.0"
-    "@tabler/icons-react": "npm:2.25.0"
+    "@tabler/icons-react": "npm:2.47.0"
     "@types/crypto-js": "npm:4.2.2"
     "@types/lodash": "npm:^4.14.182"
     "@types/react": "npm:^18.0.0"
@@ -2130,7 +2130,7 @@ __metadata:
     "@mantine/notifications": "npm:7.17.8"
     "@mantine/tiptap": "npm:7.17.8"
     "@swc/helpers": "npm:0.4.14"
-    "@tabler/icons-react": "npm:2.25.0"
+    "@tabler/icons-react": "npm:2.47.0"
     "@tanstack/react-table": "npm:8.10.0"
     "@tanstack/react-virtual": "npm:3.10.8"
     "@tiptap/core": "npm:^v2.14.0"
@@ -4775,22 +4775,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tabler/icons-react@npm:2.25.0":
-  version: 2.25.0
-  resolution: "@tabler/icons-react@npm:2.25.0"
+"@tabler/icons-react@npm:2.47.0":
+  version: 2.47.0
+  resolution: "@tabler/icons-react@npm:2.47.0"
   dependencies:
-    "@tabler/icons": "npm:2.25.0"
+    "@tabler/icons": "npm:2.47.0"
     prop-types: "npm:^15.7.2"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/91cc9b32cdc490b11e43e54439fcc1040089d4653e4b8684396cabd008f994eb260f23513111e48a0014fc0cf5675fddc59e25c76f2d67300d89a81f6b340ba0
+  checksum: 10/8e3cb9ff71d443f31569176f8d10c55bfdc53d5a762c8133472b8729d8d135380161a7af2cba6ac22b1416030326cf363e33467f5e314933526d8efa34feb222
   languageName: node
   linkType: hard
 
-"@tabler/icons@npm:2.25.0":
-  version: 2.25.0
-  resolution: "@tabler/icons@npm:2.25.0"
-  checksum: 10/5158005250aed7f0785b70342ff652a420b0588426f5dd1aa66f6fec74ea711db035e6f5ed2629e8a1ddf5d8587e743a75f91d276598ada6d76aabcc99132f8e
+"@tabler/icons@npm:2.47.0":
+  version: 2.47.0
+  resolution: "@tabler/icons@npm:2.47.0"
+  checksum: 10/1bf27e9c1fecdd6a80f8ff94e89c49890ae85ca0baf91fe3b28f9325a54a509281a5859beb0197f1833ba58a2af71c9ebaf025ad37f0e562d305982812d1de13
   languageName: node
   linkType: hard
 
