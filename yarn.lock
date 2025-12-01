@@ -5977,10 +5977,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/js-cookie@npm:^2.x.x":
-  version: 2.2.7
-  resolution: "@types/js-cookie@npm:2.2.7"
-  checksum: 10/851f47e94ca1fc43661d8f51614d67a613e7810c91b876d0a3b311ce72f7df800107fd02a08cb6948184e12c120b4f058edca2f50424d8798bdcffd6627281e3
+"@types/js-cookie@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "@types/js-cookie@npm:3.0.6"
+  checksum: 10/272d551687547445cb210213c73e72e0e5d58ad73e2e444a65d688b8ff9425529779ee0cd6492aaa1f070161916d4254ef2b1a76d64179100437f60749d094ef
   languageName: node
   linkType: hard
 
@@ -7015,49 +7015,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ahooks-v3-count@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "ahooks-v3-count@npm:1.0.0"
-  checksum: 10/3974d94b7cbe0694e18811dee5cfe507a740ecc2875e4bca204d30dfcf0a637a2035d3c296a1b873fc25aa14c4134e805ecc64d4dc2f5d0fb645090bb826771d
-  languageName: node
-  linkType: hard
-
-"ahooks@npm:^3.3.11":
-  version: 3.7.11
-  resolution: "ahooks@npm:3.7.11"
+"ahooks@npm:^3.3.11, ahooks@npm:^3.4.1":
+  version: 3.9.6
+  resolution: "ahooks@npm:3.9.6"
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
+    "@types/js-cookie": "npm:^3.0.6"
     dayjs: "npm:^1.9.1"
     intersection-observer: "npm:^0.12.0"
-    js-cookie: "npm:^2.x.x"
+    js-cookie: "npm:^3.0.5"
     lodash: "npm:^4.17.21"
     react-fast-compare: "npm:^3.2.2"
     resize-observer-polyfill: "npm:^1.5.1"
     screenfull: "npm:^5.0.0"
     tslib: "npm:^2.4.1"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/557ac98e8a59a396bb06c2da224d1fae10846bed4165322c13869a3799b5d0fa1fd6aca1b8c5a73c6a97df9a837be1b842ef2dfaa6a2eb4a6397649a81c64671
-  languageName: node
-  linkType: hard
-
-"ahooks@npm:^3.4.1":
-  version: 3.7.8
-  resolution: "ahooks@npm:3.7.8"
-  dependencies:
-    "@babel/runtime": "npm:^7.21.0"
-    "@types/js-cookie": "npm:^2.x.x"
-    ahooks-v3-count: "npm:^1.0.0"
-    dayjs: "npm:^1.9.1"
-    intersection-observer: "npm:^0.12.0"
-    js-cookie: "npm:^2.x.x"
-    lodash: "npm:^4.17.21"
-    resize-observer-polyfill: "npm:^1.5.1"
-    screenfull: "npm:^5.0.0"
-    tslib: "npm:^2.4.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/8683644b9e6d07619c41d3197e0876dbf66e08c75595f52f8e3415b7583632d5cf81ba67d090faf31fe960d69f491e3a0ee14f1826df68f0c7fad73451c6acbd
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/912b0402523b663a55100210f6c4f24a4efb5febe9e42b74f6d20311b1615f496d054ea37fb83bc9bb905a0289a0f496d3c30674edb767bd4cd7562da40b795d
   languageName: node
   linkType: hard
 
@@ -13799,10 +13774,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-cookie@npm:^2.x.x":
-  version: 2.2.1
-  resolution: "js-cookie@npm:2.2.1"
-  checksum: 10/4387f5f5691cb96ca9ff8852c589d3012b53f484fda68630a39e20cabc6c5b740f09225e23233ba56cd9de6ebe300a23d20b2c7315f10c309ad5a89fd8c4990b
+"js-cookie@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "js-cookie@npm:3.0.5"
+  checksum: 10/366494b1630b9fb8abaef3659748db5dfd52c58c6fc3459b9f0a03b492593bc1b01c6dfcc066b46f6413c28edb3a00cc68fb61ea8cdf6991bedf1f100f8a389d
   languageName: node
   linkType: hard
 
