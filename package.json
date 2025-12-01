@@ -26,7 +26,7 @@
     "@typescript-eslint/parser": "7.18.0",
     "@typescript/native-preview": "^7.0.0-dev.20251124.1",
     "@vitejs/plugin-react": "^4.1.0",
-    "@vitest/ui": "^0.30.1",
+    "@vitest/ui": "^0.34.0",
     "change-case": "^4.1.2",
     "eslint": "8.57.1",
     "husky": "^8.0.0",
