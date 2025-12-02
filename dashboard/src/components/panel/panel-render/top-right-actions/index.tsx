@@ -14,22 +14,26 @@ export const PanelTopRightActions = observer(({ dropdownContent, showDropdownMen
 
   const showDropdown = withPanelTitle && showDropdownMenu;
 
+  const hasTopRightActions = panelAddonSlotId || dropdownContent;
   return (
-    <Group
-      className="panel-top-right-actions"
-      gap="xs"
-      wrap="nowrap"
-      justify="flex-end"
-      pos="absolute"
-      sx={{
-        zIndex: 410,
-      }}
-    >
-      {/* Panel addons portal target */}
-      {withAddon && panelAddonSlotId && <div id={panelAddonSlotId}></div>}
+    <>
+      {hasTopRightActions && <div className="panel-top-right-actions-placeholder"></div>}
+      <Group
+        className="panel-top-right-actions"
+        gap="xs"
+        wrap="nowrap"
+        justify="flex-end"
+        pos="absolute"
+        sx={{
+          zIndex: 410,
+        }}
+      >
+        {/* Panel addons portal target */}
+        {withAddon && panelAddonSlotId && <div id={panelAddonSlotId}></div>}
 
-      {/* Panel dropdown menu */}
-      {showDropdown && dropdownContent}
-    </Group>
+        {/* Panel dropdown menu */}
+        {showDropdown && dropdownContent}
+      </Group>
+    </>
   );
 });

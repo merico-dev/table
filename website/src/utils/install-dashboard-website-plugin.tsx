@@ -1,6 +1,6 @@
 import { IPanelAddonRenderProps, pluginManager, useVisibleFilters } from '@devtable/dashboard';
 import { ActionIcon, Tooltip } from '@mantine/core';
-import { IconBug, IconCode } from '@tabler/icons-react';
+import { IconCode } from '@tabler/icons-react';
 import React from 'react';
 
 export const PrintEChartsOptionAddon = ({ viz, isInEditMode }: IPanelAddonRenderProps) => {
@@ -20,22 +20,20 @@ export const PrintEChartsOptionAddon = ({ viz, isInEditMode }: IPanelAddonRender
     return null;
   }
   return (
-    <div style={{ position: 'absolute', bottom: 2, right: 2, zIndex: 400 }}>
-      <Tooltip label="Print ECharts option to console">
-        <ActionIcon
-          onClick={(ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-            console.log('debug', renderOptions, 'filters', formattedFilters);
-          }}
-          size="sm"
-          variant="white"
-          color="gray"
-        >
-          <IconCode />
-        </ActionIcon>
-      </Tooltip>
-    </div>
+    <Tooltip label="Print ECharts option to console">
+      <ActionIcon
+        onClick={(ev) => {
+          ev.stopPropagation();
+          ev.preventDefault();
+          console.log('debug', renderOptions, 'filters', formattedFilters);
+        }}
+        variant="subtle"
+        color="black"
+        size="md"
+      >
+        <IconCode size={14} style={{ width: '70%', height: '70%' }} />
+      </ActionIcon>
+    </Tooltip>
   );
 };
 pluginManager.install({

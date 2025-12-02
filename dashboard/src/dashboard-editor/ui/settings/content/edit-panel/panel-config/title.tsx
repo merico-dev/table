@@ -17,7 +17,6 @@ export const EditTitle = observer(() => {
           label={t('panel.show_title')}
           sx={{ userSelect: 'none' }}
         />
-        <Checkbox size="sm" checked disabled label={t('panel.use_name_as_title')} />
       </Group>
     </Stack>
   );

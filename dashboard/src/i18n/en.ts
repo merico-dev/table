@@ -403,7 +403,7 @@ export const en = {
       panel_name: 'Panel Name',
       panel_description: 'Description',
       panel_description_click: 'Click to see description',
-      show_title: 'Show title',
+      show_title: 'Show as Panel title',
       use_name_as_title: 'Use name as title',
       settings: {
         change_view: 'Move into Another View',

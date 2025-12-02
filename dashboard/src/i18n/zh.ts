@@ -403,7 +403,7 @@ export const zh = {
       panel_name: '卡片名',
       panel_description: '卡片描述',
       panel_description_click: '点击查看卡片描述',
-      show_title: '展示卡片标题',
+      show_title: '作为卡片标题展示',
       use_name_as_title: '使用卡片名作为标题',
       settings: {
         change_view: '移至另一个视图下',
