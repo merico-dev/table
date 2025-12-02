@@ -43,6 +43,11 @@
   top: 16px;
   right: 16px;
 }
+
+.panel-root .panel-top-right-actions-placeholder {
+  width: 1px;
+  height: 24px;
+}
 .panel-root .panel-viz-section {
   height: 100%;
 }
