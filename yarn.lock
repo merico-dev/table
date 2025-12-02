@@ -8840,9 +8840,9 @@ __metadata:
   linkType: hard
 
 "constrained-editor-plugin@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "constrained-editor-plugin@npm:1.3.0"
-  checksum: 10/e50e0844a43c94b3f7cd0a5c75b129099d0a049e6df3b25a31089f99c246669682bdcac8816755144cc80d7bc857be79cdd96f1b6002b26193ae7df20e7bd548
+  version: 1.4.0
+  resolution: "constrained-editor-plugin@npm:1.4.0"
+  checksum: 10/a3069547da1b94d9bf693e887c1fabb63616270727150a12694568d46af84ad7fc3a67b4acdb427569f882016819529aec1cd47a78efbea25e1d182fd382e11a
   languageName: node
   linkType: hard
 
