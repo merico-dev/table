@@ -14,10 +14,8 @@ export const PanelTopRightActions = observer(({ dropdownContent, showDropdownMen
 
   const showDropdown = withPanelTitle && showDropdownMenu;
 
-  const hasTopRightActions = panelAddonSlotId || dropdownContent;
   return (
     <>
-      {hasTopRightActions && <div className="panel-top-right-actions-placeholder"></div>}
       <Group
         className="panel-top-right-actions"
         gap="xs"
