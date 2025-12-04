@@ -23,7 +23,7 @@ export const EnterFullScreen = observer(({ view }: { view: ViewMetaInstance }) =
   }
 
   return (
-    <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />} disabled>
+    <Menu.Item onClick={enterFullScreen} leftSection={<IconArrowsMaximize size={14} />}>
       {t('common.actions.enter_fullscreen')}
     </Menu.Item>
   );
