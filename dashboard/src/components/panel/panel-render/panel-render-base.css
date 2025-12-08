@@ -50,8 +50,16 @@
 }
 
 .panel-root:not(.panel-root--show-title)
+  .panel-top-right-actions:has(div[id^='panel-addon-slot-'])
+  ~ .panel-viz-section {
+  margin-top: 16px;
+  height: calc(100% - 16px);
+}
+
+.panel-root:not(.panel-root--show-title)
   .panel-top-right-actions:has(div[id^='panel-addon-slot-']:empty)
   ~ .panel-viz-section {
+  margin-top: 0;
   height: 100%;
 }
 
