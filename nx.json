@@ -36,5 +36,8 @@
   },
   "plugins": ["workspace-plugin"],
   "useInferencePlugins": false,
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "release": {
+    "projects": ["dashboard", "settings-form", "api"]
+  }
 }
