@@ -667,6 +667,9 @@ export const en = {
         toggle_tooltip: 'Toggle interaction block settings',
         clear_tooltip: 'Clear interaction block',
       },
+      line_height: {
+        label: 'Line Height',
+      },
     },
     chart: {
       chart_config: 'Chart Config',

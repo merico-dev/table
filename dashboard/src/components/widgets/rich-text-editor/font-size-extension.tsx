@@ -51,7 +51,7 @@ export const FontSize = Extension.create<FontSizeOptions>({
               }
 
               return {
-                style: `font-size: ${attributes.fontSize}; line-height: 1.2;  overflow: auto`,
+                style: `font-size: ${attributes.fontSize}; overflow: auto`,
               };
             },
           },

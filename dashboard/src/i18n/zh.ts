@@ -667,6 +667,9 @@ export const zh = {
         toggle_tooltip: '切换交互块设置',
         clear_tooltip: '清除交互块',
       },
+      line_height: {
+        label: '行高',
+      },
     },
     chart: {
       chart_config: '图表设置',

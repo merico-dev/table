@@ -30,6 +30,7 @@ import {
   ClearInteractionBlockControl,
   InteractionBlockControl,
 } from './interaction-block-node/interaction-block-control';
+import { LineHeightControl, LineHeightMark } from './line-height-mark';
 
 const RTEContentStyle: EmotionSx = {
   'dynamic-color': {
@@ -108,6 +109,7 @@ export const CustomRichTextEditor = forwardRef(
         TextStyle,
         Color,
         FontSize,
+        LineHeightMark,
         DynamicColorMark,
         InteractionBlock,
       ];
@@ -231,6 +233,7 @@ export const CustomRichTextEditor = forwardRef(
             </RichTextEditor.ControlsGroup>
 
             <ChooseFontSize editor={editor} />
+            <LineHeightControl editor={editor} />
           </RichTextEditor.Toolbar>
           <RichTextEditor.Content />
         </RichTextEditor>
