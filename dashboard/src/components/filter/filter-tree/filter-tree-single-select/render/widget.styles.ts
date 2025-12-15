@@ -150,9 +150,10 @@ export default createStyles((theme, { radius = 4, width, name }: TreeSelectWidge
         backgroundColor: '#f1f3f5',
       },
       '&.rc-tree-select-tree-treenode-selected': {
-        '.rc-tree-select-tree-iconEle .checkbox-icon .checkmark-checked': {
-          stroke: 'rgb(64, 192, 87)',
-          animation: 'check 200ms linear forwards',
+        backgroundColor: '#e7f5ff',
+        '.rc-tree-select-tree-node-content-wrapper': {
+          color: '#228be6',
+          fontWeight: 500,
         },
       },
       '&.rc-tree-select-tree-treenode-disabled': {
