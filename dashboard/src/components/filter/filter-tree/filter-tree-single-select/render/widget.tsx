@@ -4,7 +4,6 @@ import TreeSelect from 'rc-tree-select';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { SwitcherIcon } from '../../common/switcher-icon';
-import { TreeIcon } from '../../common/tree-icon';
 import useStyles from './widget.styles';
 
 // DefaultProps adds system props support (margin, padding, sx, unstyled, styles and classNames).
@@ -62,8 +61,6 @@ export const FilterTreeSingleSelectWidget = ({
         treeLine
         // @ts-expect-error rc-tree-selecct's TreeNodeProps
         switcherIcon={SwitcherIcon}
-        // @ts-expect-error rc-tree-selecct's TreeNodeProps
-        treeIcon={TreeIcon}
         value={value}
         treeData={treeData}
         notFoundContent={<ErrorMessageOrNotFound errorMessage={errorMessage} />}
