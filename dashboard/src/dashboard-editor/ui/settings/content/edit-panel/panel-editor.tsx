@@ -181,9 +181,11 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         </Tabs.Panel>
 
         <Tabs.Panel value="Variables">
-          <WithPreview>
-            <VariablesEditor />
-          </WithPreview>
+          <ErrorBoundary>
+            <WithPreview>
+              <VariablesEditor />
+            </WithPreview>
+          </ErrorBoundary>
         </Tabs.Panel>
 
         <Tabs.Panel value="Visualization">
