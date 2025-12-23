@@ -1,7 +1,7 @@
-import { Badge, Checkbox, CloseButton, Divider, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
+import { Badge, Checkbox, CloseButton, Divider, Flex, Group, MantineRadius, Stack, Text, Tooltip } from '@mantine/core';
 import { TreeItem } from 'performant-array-to-tree';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { SwitcherIcon } from '../../common/switcher-icon';
@@ -10,6 +10,8 @@ import useStyles from './widget.styles';
 import { useSelectAll } from './use-select-all';
 import { EmotionStyles } from '@mantine/emotion';
 import _ from 'lodash';
+import { SelectedItemsPanel } from './selected-items-panel';
+import { useTreePaths } from './use-tree-paths';
 
 const DropdownHeaderStyles: EmotionStyles = {
   root: {
@@ -64,6 +66,23 @@ export const FilterTreeSelectWidget = ({
   const selectAll = useSelectAll(treeData, value, onChange, treeCheckStrictly);
   const [keyword, setKeyword] = useState('');
 
+  // Build hierarchical paths for selected items
+  const treePaths = useTreePaths(treeData, value);
+
+  // Handle individual item removal
+  const handleRemoveItem = useCallback(
+    (valueToRemove: string) => {
+      const newValue = value.filter((item) => item.value !== valueToRemove);
+      onChange(newValue);
+    },
+    [value, onChange],
+  );
+
+  // Handle clear all
+  const handleClearAll = useCallback(() => {
+    onChange([]);
+  }, [onChange]);
+
   return (
     <Stack gap={3}>
       <Group justify="space-between">
@@ -112,20 +131,36 @@ export const FilterTreeSelectWidget = ({
         searchValue={keyword}
         onSearch={setKeyword}
         dropdownRender={(menu) => (
-          <>
-            {selectAll.allValueSet.size > 0 && !keyword && (
-              <Group px="xs" pt={8} pb={8} onClick={selectAll.toggleSelectAll} styles={DropdownHeaderStyles}>
-                <Checkbox
-                  size="xs"
-                  checked={selectAll.allSelected}
-                  onChange={_.noop}
-                  label={t('common.actions.select_all')}
-                />
-              </Group>
-            )}
-            <Divider />
-            {menu}
-          </>
+          <Flex gap={0} direction="row">
+            {/* Left Panel: Tree */}
+            <Stack gap={0} style={{ flex: '1 1 60%', minWidth: 0 }}>
+              {selectAll.allValueSet.size > 0 && !keyword && (
+                <Group px="xs" pt={8} pb={8} onClick={selectAll.toggleSelectAll} styles={DropdownHeaderStyles}>
+                  <Checkbox
+                    size="xs"
+                    checked={selectAll.allSelected}
+                    onChange={_.noop}
+                    label={t('common.actions.select_all')}
+                  />
+                </Group>
+              )}
+              <Divider />
+              {menu}
+            </Stack>
+
+            <Divider orientation="vertical" />
+
+            {/* Right Panel: Selected Items */}
+            <Stack gap={0} style={{ flex: '0 0 40%', minWidth: 250 }}>
+              <SelectedItemsPanel
+                selectedItems={value}
+                itemPaths={treePaths}
+                onRemoveItem={handleRemoveItem}
+                onClearAll={handleClearAll}
+                height={510}
+              />
+            </Stack>
+          </Flex>
         )}
       />
     </Stack>

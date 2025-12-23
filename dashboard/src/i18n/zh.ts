@@ -76,6 +76,8 @@ export const zh = {
         },
         tree_select: {
           strictly: '枝叶节点不相关，各选各的',
+          selected_items: '已选项',
+          no_items_selected: '无已选项',
         },
         tree_single_select: {
           select_first_option_by_default: '默认选中第一个选项',
