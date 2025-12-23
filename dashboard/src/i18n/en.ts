@@ -76,6 +76,8 @@ export const en = {
         },
         tree_select: {
           strictly: 'Parent and children nodes are not associated',
+          selected_items: 'Selected Items',
+          no_items_selected: 'No items selected',
         },
         tree_single_select: {
           select_first_option_by_default: 'Select the first option by default',
