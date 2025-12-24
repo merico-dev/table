@@ -75,7 +75,7 @@ export const VizRichText = observer(({ context, instance }: VizViewProps) => {
   }
 
   return (
-    <div onClick={handleClick}>
+    <div onClick={handleClick} style={{ height: '100%', overflow: 'auto' }}>
       <ReadonlyRichText
         value={content}
         styles={{
