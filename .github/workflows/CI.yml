@@ -158,7 +158,7 @@ jobs:
       - name: Get version from api/package.json
         id: get_version
         run: |
-          VERSION=$(node -p "require('./api/package.json').version")
+          VERSION=v$(node -p "require('./api/package.json').version")
           echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
           echo "Using version: ${VERSION}"
 
