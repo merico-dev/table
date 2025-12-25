@@ -12,7 +12,7 @@ export default async function runExecutor(options: IsDockerPublishedExecutorSche
     const packageJsonContent = readFileSync(packageJsonPath, 'utf-8');
     const pkg = JSON.parse(packageJsonContent);
 
-    const version = pkg.version;
+    const version = 'v' + pkg.version;
 
     if (!version) {
       console.error('package.json must contain a "version" field');
