@@ -18,6 +18,22 @@
         "script": "dev"
       },
       "dependsOn": ["^dev"]
+    },
+    "is-docker-published-api": {
+      "executor": "workspace-plugin:is-docker-published",
+      "options": {
+        "packageJson": "api/package.json",
+        "registry": "registry.cn-hongkong.aliyuncs.com",
+        "imageName": "merico/table"
+      }
+    },
+    "is-docker-published-website": {
+      "executor": "workspace-plugin:is-docker-published",
+      "options": {
+        "packageJson": "api/package.json",
+        "registry": "registry.cn-hongkong.aliyuncs.com",
+        "imageName": "merico/table-website"
+      }
     }
   }
 }

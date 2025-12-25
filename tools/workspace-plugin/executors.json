@@ -4,6 +4,11 @@
       "implementation": "./src/executors/is-published/executor",
       "schema": "./src/executors/is-published/schema.json",
       "description": "is-published executor"
+    },
+    "is-docker-published": {
+      "implementation": "./src/executors/is-docker-published/executor",
+      "schema": "./src/executors/is-docker-published/schema.json",
+      "description": "is-docker-published executor"
     }
   }
 }

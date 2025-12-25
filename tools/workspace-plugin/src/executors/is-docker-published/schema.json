@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "IsDockerPublished executor",
+  "description": "Check if a Docker image version is published to a registry and fail if it is",
+  "type": "object",
+  "properties": {
+    "packageJson": {
+      "type": "string",
+      "description": "Path to the package.json file to read version from"
+    },
+    "registry": {
+      "type": "string",
+      "description": "Docker registry URL"
+    },
+    "imageName": {
+      "type": "string",
+      "description": "Docker image name (without registry prefix)"
+    }
+  },
+  "required": ["packageJson", "registry", "imageName"]
+}
