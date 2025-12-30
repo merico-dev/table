@@ -6,3 +6,4 @@ export * from './color-mapping-editor';
 export * from './color-type';
 export * from './flex';
 export * from './field-array-tabs';
+export * from './name-color-map-editor';

@@ -3,7 +3,7 @@ import { IconInfoCircle } from '@tabler/icons-react';
 import { Control, UseFormWatch } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import { FieldArrayTabs } from '~/components/plugins/editor-components';
-import { IRadarChartConf, TAdditionalSeriesItem } from '../../type';
+import { getDefaultRadarSeriesStyle, IRadarChartConf, TAdditionalSeriesItem } from '../../type';
 import { AdditionalSeriesItemField } from './additional-series-item';
 
 type Props = {
@@ -20,6 +20,10 @@ export function AdditionalSeriesField({ control, watch }: Props) {
       id,
       name_key: '',
       color_key: '',
+      style: {
+        ...getDefaultRadarSeriesStyle(),
+        color: '',
+      },
     };
     return item;
   };

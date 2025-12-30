@@ -22,6 +22,8 @@ const en = {
       show_background: 'Show background',
       show_value_label: 'Show value label',
       color_field: 'Color Field',
+      series_style: 'Series Style',
+      area_opacity: 'Area Opacity',
     },
     click_series: {
       label: 'Click radar chart series',
@@ -51,6 +53,8 @@ const zh = {
       show_background: '显示背景',
       show_value_label: '显示标签文案',
       color_field: '颜色字段',
+      series_style: '系列样式',
+      area_opacity: '区域透明度',
     },
     click_series: {
       label: '点击雷达系列',
