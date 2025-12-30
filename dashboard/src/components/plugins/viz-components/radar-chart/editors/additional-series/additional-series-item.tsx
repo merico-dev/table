@@ -3,6 +3,7 @@ import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { IRadarChartConf } from '../../type';
+import { AdditionalSeriesStyleField } from '../additional-series-style-field';
 
 type Props = {
   control: Control<IRadarChartConf, $TSFixMe>;
@@ -42,6 +43,7 @@ export function AdditionalSeriesItemField({ control, index }: Props) {
           )}
         />
       </Stack>
+      <AdditionalSeriesStyleField control={control} index={index} />
     </Stack>
   );
 }

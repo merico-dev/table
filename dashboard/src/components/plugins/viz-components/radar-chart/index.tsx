@@ -3,7 +3,7 @@ import { defaultNumberFormat } from '~/utils';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
-import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
+import { DEFAULT_CONFIG, getDefaultRadarSeriesStyle, IRadarChartConf, IRadarChartDimension } from './type';
 import { VizRadarChart } from './viz-radar-chart';
 import { VizRadarChartEditor } from './viz-radar-chart-editor';
 import { translation } from './translation';
@@ -89,8 +89,43 @@ function v7(legacyConf: $TSFixMe): IRadarChartConf {
   return ret;
 }
 
+function v8(legacyConf: $TSFixMe): IRadarChartConf {
+  const { additional_series = [], ...rest } = legacyConf;
+  return {
+    ...rest,
+    main_series_style: legacyConf.main_series_style ?? getDefaultRadarSeriesStyle(),
+    additional_series: additional_series.map((s: $TSFixMe) => ({
+      ...s,
+      style: s.style ?? getDefaultRadarSeriesStyle(),
+    })),
+  };
+}
+
+function v9(legacyConf: $TSFixMe): IRadarChartConf {
+  const { main_series_style = {}, additional_series = [], ...rest } = legacyConf;
+  // Remove color from main_series_style
+  const { color: _mainColor, ...mainStyleRest } = main_series_style;
+  return {
+    ...rest,
+    color_field: '',
+    color: { map: [] },
+    main_series_style: {
+      lineStyle: mainStyleRest.lineStyle ?? { type: 'solid', width: 1 },
+      areaStyle: mainStyleRest.areaStyle ?? { opacity: 0.4 },
+    },
+    // Keep color in additional series style
+    additional_series: additional_series.map((s: $TSFixMe) => ({
+      ...s,
+      style: {
+        ...s.style,
+        color: s.style?.color ?? '',
+      },
+    })),
+  };
+}
+
 class VizRadarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 7;
+  readonly VERSION = 9;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -123,6 +158,14 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 7, config: v7(config) };
     });
+    this.version(8, (data) => {
+      const { config } = data;
+      return { ...data, version: 8, config: v8(config) };
+    });
+    this.version(9, (data) => {
+      const { config } = data;
+      return { ...data, version: 9, config: v9(config) };
+    });
   }
 }
 
@@ -137,7 +180,7 @@ export const RadarChartVizComponent: VizComponent = {
     version: number;
     config: IRadarChartConf;
   } => ({
-    version: 7,
+    version: 9,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickRadarChartSeries],

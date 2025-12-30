@@ -798,7 +798,7 @@ export const zh = {
             label: '类型',
             solid: '实线',
             dashed: '方虚线',
-            dotted: '圆点虚线',
+            dotted: '点虚线',
           },
           line_width: '线宽',
           step: {

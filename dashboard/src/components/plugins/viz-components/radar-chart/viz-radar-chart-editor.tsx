@@ -1,15 +1,19 @@
-import { Checkbox, Group, Stack, Tabs } from '@mantine/core';
+import { Checkbox, Divider, Group, Stack, Tabs } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
+import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { useEditPanelContext } from '~/contexts';
+import { extractData } from '~/utils';
 
 import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { VizConfigBanner } from '../../editor-components';
+import { NameColorMapEditor, VizConfigBanner } from '../../editor-components';
 import { AdditionalSeriesField } from './editors/additional-series';
 import { DimensionsField } from './editors/dimensions';
+import { RadarSeriesStyleField } from './editors/series-style-field';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 
 export function VizRadarChartEditor({ context }: VizConfigProps) {
@@ -26,7 +30,16 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
     reset(conf);
   }, [conf]);
 
-  watch(['series_name_key', 'background', 'label']);
+  const [color_field] = watch(['series_name_key', 'background', 'label', 'main_series_style', 'color_field', 'color']);
+
+  const { panel } = useEditPanelContext();
+  const names = useMemo(() => {
+    if (!color_field) {
+      return [];
+    }
+    const data = extractData(panel.data, color_field);
+    return _.uniq(data);
+  }, [color_field, panel.data]);
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
@@ -62,30 +75,46 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="style" p="md">
-            <Group grow wrap="nowrap">
+            <Stack gap="md">
+              <Group grow wrap="nowrap">
+                <Controller
+                  name="background.enabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      label={t('viz.radar_chart.style.show_background')}
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.currentTarget.checked)}
+                    />
+                  )}
+                />
+                <Controller
+                  name="label.enabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      label={t('viz.radar_chart.style.show_value_label')}
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.currentTarget.checked)}
+                    />
+                  )}
+                />
+              </Group>
+              <RadarSeriesStyleField control={control} path="main_series_style" />
+              <Divider label={t('chart.color.label')} labelPosition="center" variant="dashed" />
               <Controller
-                name="background.enabled"
+                name="color_field"
                 control={control}
                 render={({ field }) => (
-                  <Checkbox
-                    label={t('viz.radar_chart.style.show_background')}
-                    checked={field.value}
-                    onChange={(event) => field.onChange(event.currentTarget.checked)}
-                  />
+                  <DataFieldSelector label={t('common.color_data_field')} clearable sx={{ flex: 1 }} {...field} />
                 )}
               />
               <Controller
-                name="label.enabled"
+                name="color.map"
                 control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    label={t('viz.radar_chart.style.show_value_label')}
-                    checked={field.value}
-                    onChange={(event) => field.onChange(event.currentTarget.checked)}
-                  />
-                )}
+                render={({ field }) => <NameColorMapEditor names={names} {...field} />}
               />
-            </Group>
+            </Stack>
           </Tabs.Panel>
           <Tabs.Panel value="additional_series" p="md">
             <AdditionalSeriesField control={control} watch={watch} />

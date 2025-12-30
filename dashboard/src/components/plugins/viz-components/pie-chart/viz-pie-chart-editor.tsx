@@ -6,10 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { FieldArrayTabs, VizConfigBanner } from '../../editor-components';
+import { FieldArrayTabs, NameColorMapEditor, VizConfigBanner } from '../../editor-components';
 import { RadiusSlider } from './editors';
 import { IPieChartConf } from './type';
-import { PieColorMapEditor } from './editors/pie-color-map-editor';
 import { useEditPanelContext } from '~/contexts';
 import { extractData } from '~/utils';
 import _ from 'lodash';
@@ -115,7 +114,7 @@ function Editor({ conf, setConf, context }: EditorProps) {
           <Controller
             control={control}
             name="color.map"
-            render={({ field }) => <PieColorMapEditor names={names} {...field} />}
+            render={({ field }) => <NameColorMapEditor names={names} {...field} />}
           />
         </Stack>
       </form>

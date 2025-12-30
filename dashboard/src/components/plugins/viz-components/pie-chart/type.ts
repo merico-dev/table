@@ -1,5 +1,6 @@
 import { getDefaultSeriesOrder, SeriesOrder } from '../../common-echarts-fields/series-order';
 import { getDefaultSeriesUnit, SeriesUnitType } from '../../common-echarts-fields/series-unit';
+import { NameColorMapRow } from '../../editor-components/name-color-map-editor';
 
 export type PieChartOthersSector = {
   label: string | null;
@@ -11,10 +12,7 @@ export const getDefaultOthersSector = () => ({
   threshold: null,
 });
 
-export type NameColorMapRow = {
-  name: string;
-  color: string;
-};
+export type { NameColorMapRow };
 export interface IPieChartConf {
   label_field: TDataKey;
   value_field: TDataKey;
