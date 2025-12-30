@@ -1,41 +1,39 @@
 import { useSortable } from '@dnd-kit/react/sortable';
-import { ActionIcon, Autocomplete, Badge, Center, CloseButton, ColorInput, Flex, Group } from '@mantine/core';
+import { ActionIcon, Autocomplete, Badge, Center, CloseButton, Flex, Group } from '@mantine/core';
+import { ColorPickerPopoverForViz } from '~/components/widgets/color-picker-popover/color-picker-popover-for-viz';
 import { IconGripVertical } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NameColorMapRow } from './types';
 
-type RowFieldItem = {
-  id: string;
-} & NameColorMapRow;
-
 type NameColorMapRowProps = {
-  row: RowFieldItem;
-  handleChange: (v: RowFieldItem) => void;
-  handleRemove: () => void;
+  field: NameColorMapRow & { id: string };
+  update: (index: number, data: NameColorMapRow) => void;
+  remove: (index: number) => void;
   index: number;
   names: string[];
 };
 
-export const RowEditor = ({ row, index, handleChange, handleRemove, names }: NameColorMapRowProps) => {
+export const RowEditor = memo(({ field, index, update, remove, names }: NameColorMapRowProps) => {
   const { t } = useTranslation();
   const [touched, { setTrue: setTouched }] = useBoolean(false);
   const [hovering, { setTrue, setFalse }] = useBoolean(false);
   const { ref, handleRef } = useSortable({
-    id: row.id,
+    id: field.id,
     index,
   });
 
   const changeName = (name: string) => {
-    handleChange({
-      ...row,
+    update(index, {
       name,
+      color: field.color,
     });
   };
 
   const changeColor = (color: string) => {
-    handleChange({
-      ...row,
+    update(index, {
+      name: field.name,
       color,
     });
   };
@@ -65,34 +63,23 @@ export const RowEditor = ({ row, index, handleChange, handleRemove, names }: Nam
       <Group grow wrap="nowrap" style={{ flex: 1 }}>
         <Autocomplete
           size="xs"
-          value={row.name}
+          value={field.name}
           placeholder={t('viz.pie_chart.color.map.name')}
           onChange={changeName}
           onClick={setTouched}
-          error={touched && !row.name}
+          error={touched && !field.name}
           data={names}
           maxDropdownHeight={500}
         />
-        <ColorInput
-          styles={{
-            root: {
-              flexGrow: 1,
-            },
-          }}
-          popoverProps={{
-            withinPortal: true,
-            zIndex: 340,
-          }}
-          size="xs"
-          value={row.color}
+        <ColorPickerPopoverForViz
+          value={field.color}
           onChange={changeColor}
-          onClick={setTouched}
-          error={touched && !row.color}
+          label={t('viz.pie_chart.color.map.color')}
         />
       </Group>
       <div style={{ minWidth: '40px', maxWidth: '40px', flex: 0 }}>
-        <CloseButton onClick={handleRemove} size="sm" />
+        <CloseButton onClick={() => remove(index)} size="sm" />
       </div>
     </Flex>
   );
-};
+});

@@ -1,6 +1,6 @@
 import { Box, Button, Combobox, Menu } from '@mantine/core';
-import _ from 'lodash';
 import numbro from 'numbro';
+import { FieldValues, UseFieldArrayReplace } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { NameColorMapRow } from './types';
 import { ColorMapPalettes } from './palette';
@@ -11,7 +11,7 @@ function getBackgroundImage(colors: string[]) {
     return '';
   }
   const format: numbro.Format = { output: 'percent', mantissa: 4, trimMantissa: true };
-  const step = _.divide(1, len);
+  const step = 1 / len;
   const stops: string[] = [];
   colors.forEach((c, i) => {
     stops.push(`${c} ${numbro(i * step).format(format)}`);
@@ -22,25 +22,25 @@ function getBackgroundImage(colors: string[]) {
 }
 
 type Props = {
-  value: NameColorMapRow[];
-  onChange: (v: NameColorMapRow[]) => void;
+  fields: (NameColorMapRow & { id: string })[];
+  replace: UseFieldArrayReplace<FieldValues, string>;
 };
 
-export const SelectPalette = ({ value, onChange }: Props) => {
+export const SelectPalette = ({ fields, replace }: Props) => {
   const { t } = useTranslation();
 
   const applyPalette = (colors: string[]) => {
-    const newValue = value.map((v, i) => ({
-      name: v.name,
-      color: colors[i],
+    const newValue = fields.map((f, i) => ({
+      name: f.name,
+      color: colors[i] ?? f.color,
     }));
-    for (let j = newValue.length - 1; j < colors.length; j++) {
+    for (let j = newValue.length; j < colors.length; j++) {
       newValue.push({
         name: '',
         color: colors[j],
       });
     }
-    onChange(newValue);
+    replace(newValue);
   };
 
   return (

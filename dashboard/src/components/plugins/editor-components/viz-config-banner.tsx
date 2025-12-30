@@ -1,5 +1,7 @@
 import { ActionIcon, Group, Text } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
+import React, { memo } from 'react';
+import { Control, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -18,3 +20,13 @@ export function VizConfigBanner({ canSubmit, buttonRef }: Props) {
     </Group>
   );
 }
+
+type FormVizConfigBannerProps = {
+  control: Control<$TSFixMe>;
+  buttonRef?: React.RefObject<HTMLButtonElement>;
+};
+
+export const FormVizConfigBanner = memo(({ control, buttonRef }: FormVizConfigBannerProps) => {
+  const { isDirty, isValid } = useFormState({ control });
+  return <VizConfigBanner canSubmit={isDirty && isValid} buttonRef={buttonRef} />;
+});

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Control, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FieldArrayTabs } from '~/components/plugins/editor-components';
@@ -10,7 +11,7 @@ interface IDimensionsField {
   watch: UseFormWatch<IRadarChartConf>;
 }
 
-export function DimensionsField({ control, watch }: IDimensionsField) {
+export const DimensionsField = memo(function DimensionsField({ control, watch }: IDimensionsField) {
   const { t } = useTranslation();
 
   const getItem = () => {
@@ -45,4 +46,4 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
       </FieldArrayTabs>
     </>
   );
-}
+});

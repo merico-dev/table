@@ -1,4 +1,5 @@
 import { Divider, Group, NumberInput, Stack } from '@mantine/core';
+import { memo } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
@@ -9,7 +10,7 @@ type Props = {
   path: 'main_series_style';
 };
 
-export function RadarSeriesStyleField({ control, path }: Props) {
+export const RadarSeriesStyleField = memo(function RadarSeriesStyleField({ control, path }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -46,4 +47,4 @@ export function RadarSeriesStyleField({ control, path }: Props) {
       />
     </Stack>
   );
-}
+});
