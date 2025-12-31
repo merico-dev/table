@@ -10,7 +10,7 @@ import { extractData } from '~/utils';
 import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { NameColorMapEditor, VizConfigBanner } from '../../editor-components';
+import { FormVizConfigBanner, NameColorMapEditor } from '../../editor-components';
 import { AdditionalSeriesField } from './editors/additional-series';
 import { DimensionsField } from './editors/dimensions';
 import { RadarSeriesStyleField } from './editors/series-style-field';
@@ -22,7 +22,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   const { variables } = context;
   const conf: IRadarChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { control, handleSubmit, watch, reset, formState } = useForm<IRadarChartConf>({
+  const { control, handleSubmit, watch, reset } = useForm<IRadarChartConf>({
     defaultValues: conf,
     mode: 'all',
   });
@@ -44,7 +44,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack gap="xs">
-        <VizConfigBanner canSubmit={formState.isDirty && formState.isValid} />
+        <FormVizConfigBanner control={control} />
         <Tabs defaultValue="series">
           <Tabs.List>
             <Tabs.Tab value="series">{t('chart.series.label')}</Tabs.Tab>
@@ -109,11 +109,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
                   <DataFieldSelector label={t('common.color_data_field')} clearable sx={{ flex: 1 }} {...field} />
                 )}
               />
-              <Controller
-                name="color.map"
-                control={control}
-                render={({ field }) => <NameColorMapEditor names={names} {...field} />}
-              />
+              <NameColorMapEditor control={control} name="color.map" names={names} />
             </Stack>
           </Tabs.Panel>
           <Tabs.Panel value="additional_series" p="md">

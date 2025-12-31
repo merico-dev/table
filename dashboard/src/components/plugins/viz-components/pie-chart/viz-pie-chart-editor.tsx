@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { FieldArrayTabs, NameColorMapEditor, VizConfigBanner } from '../../editor-components';
+import { FieldArrayTabs, FormVizConfigBanner, NameColorMapEditor } from '../../editor-components';
 import { RadiusSlider } from './editors';
 import { IPieChartConf } from './type';
 import { useEditPanelContext } from '~/contexts';
@@ -26,7 +26,7 @@ function Editor({ conf, setConf, context }: EditorProps) {
   const { t } = useTranslation();
   const defaultValues: IPieChartConf = useMemo(() => defaults({}, conf), [conf]);
 
-  const { control, handleSubmit, watch, formState, reset } = useForm<IPieChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, reset } = useForm<IPieChartConf>({ defaultValues });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
@@ -45,7 +45,7 @@ function Editor({ conf, setConf, context }: EditorProps) {
   return (
     <Stack gap="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={formState.isDirty} />
+        <FormVizConfigBanner control={control} />
         <Stack mt="md" gap="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <Group grow wrap="nowrap">
             <Controller
@@ -111,11 +111,7 @@ function Editor({ conf, setConf, context }: EditorProps) {
             render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
 
-          <Controller
-            control={control}
-            name="color.map"
-            render={({ field }) => <NameColorMapEditor names={names} {...field} />}
-          />
+          <NameColorMapEditor control={control} name="color.map" names={names} />
         </Stack>
       </form>
     </Stack>

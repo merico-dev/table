@@ -1,8 +1,7 @@
 import { ActionIcon, ColorPicker, Group, Popover, SimpleGrid, Stack, useMantineTheme } from '@mantine/core';
-import { RichTextEditor } from '@mantine/tiptap';
 import { IconCircleOff, IconX } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorInput } from './color-input';
 
@@ -58,15 +57,15 @@ export const ColorPickerPopover = ({ Trigger, value, onChange, clear }: Props) =
     shouldClose && close();
   };
 
-  const handleColorInputChange = useCallback((value: string) => {
+  const handleColorInputChange = (value: string) => {
     setColor(value, false);
     setShouldUpdateInput(false);
-  }, []);
+  };
 
-  const handleColorPickerChange = useCallback((value: string) => {
+  const handleColorPickerChange = (value: string) => {
     setColor(value, false);
     setShouldUpdateInput(true);
-  }, []);
+  };
 
   const unsetColor = () => {
     clear();
