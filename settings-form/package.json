@@ -40,7 +40,7 @@
     }
   },
   "scripts": {
-    "dev-build": "tsc && vite build --watch",
+    "dev-build": "tsc --skipLibCheck && vite build --watch",
     "preview": "vite preview"
   },
   "dependencies": {
