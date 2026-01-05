@@ -1793,7 +1793,7 @@ describe('QueryRequest', () => {
           value: undefined,
           property: 'type',
           children: [],
-          constraints: { isIn: 'type must be one of the following values: postgresql, mysql, http' },
+          constraints: { isIn: 'type must be one of the following values: postgresql, mysql, http, merico_metric_system' },
         },
         {
           target: {},
