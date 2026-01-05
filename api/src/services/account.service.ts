@@ -58,11 +58,11 @@ export class AccountService {
   ) {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const where: { [field: string]: string }[] = [];
-    if (name !== undefined && account.name !== name) {
-      where.push({ name });
+    if (name !== undefined && account.name !== name.toLowerCase()) {
+      where.push({ name: name.toLowerCase() });
     }
-    if (email !== undefined && account.email !== email) {
-      where.push({ email });
+    if (email !== undefined && account.email !== email.toLowerCase()) {
+      where.push({ email: email.toLowerCase() });
     }
     if (where.length && (await accountRepo.exist({ where }))) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
@@ -71,7 +71,8 @@ export class AccountService {
 
   async login(name: string, password: string, locale: string): Promise<AccountLoginResponse> {
     const account = await AccountService.accountDetailsQuery()
-      .where('account.name = :name or account.email = :name', { name })
+      .where('LOWER(account.name) = LOWER(:name)', { name })
+      .orWhere('LOWER(account.email) = LOWER(:name)', { name })
       .getRawOne<AccountAPIModel & { password: string }>();
     if (!account) {
       throw new ApiError(INVALID_CREDENTIALS, { message: translate('ACCOUNT_INVALID_CREDENTIALS', locale) });
@@ -130,7 +131,7 @@ export class AccountService {
   ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const roleRepo = dashboardDataSource.getRepository(Role);
-    const where = [{ name }, { email }];
+    const where = [{ name: name.toLowerCase() }, { email: email?.toLowerCase() }];
     if (await accountRepo.exist({ where })) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
     }
@@ -138,8 +139,8 @@ export class AccountService {
       throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
     const account = new Account();
-    account.name = name;
-    account.email = email === undefined ? null : email;
+    account.name = name.toLowerCase();
+    account.email = email === undefined ? null : email.toLowerCase();
     account.role_id = role_id;
     account.password = await bcrypt.hash(password, SALT_ROUNDS);
     const { id } = await accountRepo.save(account);
@@ -176,8 +177,8 @@ export class AccountService {
     if (account.role_id === FIXED_ROLE_TYPES.SUPERADMIN) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SUPERADMIN', locale) });
     }
-    account.name = name ?? account.name;
-    account.email = email === undefined ? account.email : email;
+    account.name = name === undefined ? account.name : name.toLowerCase();
+    account.email = email === undefined ? account.email : email.toLowerCase();
     await accountRepo.save(account);
     const result = await AccountService.accountDetailsQuery()
       .where('account.id = :id', { id })
@@ -214,8 +215,8 @@ export class AccountService {
       }
       account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     }
-    account.name = name === undefined ? account.name : name;
-    account.email = email === undefined ? account.email : email;
+    account.name = name === undefined ? account.name : name.toLowerCase();
+    account.email = email === undefined ? account.email : email.toLowerCase();
     account.role_id = role_id === undefined ? account.role_id : role_id;
     await accountRepo.save(account);
     const result = await AccountService.accountDetailsQuery()
