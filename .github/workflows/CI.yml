@@ -121,9 +121,7 @@ jobs:
           cd settings-form
           npm publish --provenance --access public
 
-  # only runs on the main branch or tags
   build_images:
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
     steps:
