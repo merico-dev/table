@@ -50,21 +50,35 @@ export class AccountService {
     }
   }
 
+  /**
+   * Check if an account with the given name or email already exists (case-insensitive).
+   * @param excludeAccountId - Exclude this account from the check (for update scenarios)
+   */
   private async _checkAccountExists(
     name: string | undefined,
     email: string | undefined,
-    account: Account,
+    excludeAccountId: string | undefined,
     locale: string,
   ) {
     const accountRepo = dashboardDataSource.getRepository(Account);
-    const where: { [field: string]: string }[] = [];
-    if (name !== undefined && account.name !== name.toLowerCase()) {
-      where.push({ name: name.toLowerCase() });
+    const qb = accountRepo.createQueryBuilder('account');
+    const params: { name?: string; email?: string } = {};
+
+    if (name !== undefined) {
+      qb.orWhere('LOWER(account.name) = LOWER(:name)');
+      params.name = name;
     }
-    if (email !== undefined && account.email !== email.toLowerCase()) {
-      where.push({ email: email.toLowerCase() });
+    if (email !== undefined) {
+      qb.orWhere('LOWER(account.email) = LOWER(:email)');
+      params.email = email;
     }
-    if (where.length && (await accountRepo.exist({ where }))) {
+
+    if (name === undefined && email === undefined) {
+      return;
+    }
+
+    const existingAccount = await qb.setParameters(params).getOne();
+    if (existingAccount && existingAccount.id !== excludeAccountId) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
     }
   }
@@ -131,16 +145,13 @@ export class AccountService {
   ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const roleRepo = dashboardDataSource.getRepository(Role);
-    const where = [{ name: name.toLowerCase() }, { email: email?.toLowerCase() }];
-    if (await accountRepo.exist({ where })) {
-      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
-    }
+    await this._checkAccountExists(name, email, undefined, locale);
     if (!(await roleRepo.exist({ where: { id: role_id } }))) {
       throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
     const account = new Account();
-    account.name = name.toLowerCase();
-    account.email = email === undefined ? null : email.toLowerCase();
+    account.name = name;
+    account.email = email === undefined ? null : email;
     account.role_id = role_id;
     account.password = await bcrypt.hash(password, SALT_ROUNDS);
     const { id } = await accountRepo.save(account);
@@ -160,6 +171,10 @@ export class AccountService {
     return omitFields(result, ['password']);
   }
 
+  /**
+   * Update current user's own profile (name and email only).
+   * Used by account UPDATE permission - users can only modify themselves.
+   */
   async update(
     id: string,
     name: string | undefined,
@@ -173,12 +188,12 @@ export class AccountService {
       const role = await roleRepo.findOneByOrFail({ id: account.role_id });
       return { ...omitFields(account, ['password']), permissions: role.permissions };
     }
-    await this._checkAccountExists(name, email, account, locale);
+    await this._checkAccountExists(name, email, account.id, locale);
     if (account.role_id === FIXED_ROLE_TYPES.SUPERADMIN) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SUPERADMIN', locale) });
     }
-    account.name = name === undefined ? account.name : name.toLowerCase();
-    account.email = email === undefined ? account.email : email.toLowerCase();
+    account.name = name ?? account.name;
+    account.email = email === undefined ? account.email : email;
     await accountRepo.save(account);
     const result = await AccountService.accountDetailsQuery()
       .where('account.id = :id', { id })
@@ -186,6 +201,10 @@ export class AccountService {
     return omitFields(result, ['password']);
   }
 
+  /**
+   * Admin edit other users' profile (name, email, role, and reset password).
+   * Used by account MANAGE permission - admins can modify other accounts but not themselves.
+   */
   async edit(
     id: string,
     name: string | undefined,
@@ -208,15 +227,15 @@ export class AccountService {
     if (role_id && !(await dashboardDataSource.getRepository(Role).exist({ where: { id: role_id } }))) {
       throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
-    await this._checkAccountExists(name, email, account, locale);
+    await this._checkAccountExists(name, email, account.id, locale);
     if (reset_password) {
       if (!new_password) {
         throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EMPTY_RESET_PASSWORD', locale) });
       }
       account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     }
-    account.name = name === undefined ? account.name : name.toLowerCase();
-    account.email = email === undefined ? account.email : email.toLowerCase();
+    account.name = name === undefined ? account.name : name;
+    account.email = email === undefined ? account.email : email;
     account.role_id = role_id === undefined ? account.role_id : role_id;
     await accountRepo.save(account);
     const result = await AccountService.accountDetailsQuery()

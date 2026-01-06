@@ -18,7 +18,7 @@ import Role from '../models/role';
 
 @injectable()
 export class ApiService {
-  static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | undefined> {
+  static async verifyApiKey(authentication: Authentication | undefined, rest: Record<string, unknown>): Promise<ApiKeyModel | undefined> {
     if (!authentication || !authentication.app_id) {
       return;
     }
@@ -80,15 +80,19 @@ export class ApiService {
 
   async createKey(name: string, role_id: string, locale: string): Promise<{ app_id: string; app_secret: string }> {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
-    const normalizedName = name.toLowerCase();
-    if (await apiKeyRepo.exist({ where: { name: normalizedName, is_preset: false } })) {
+    const existingKey = await apiKeyRepo
+      .createQueryBuilder('apikey')
+      .where('LOWER(apikey.name) = LOWER(:name)', { name })
+      .andWhere('apikey.is_preset = :is_preset', { is_preset: false })
+      .getOne();
+    if (existingKey) {
       throw new ApiError(BAD_REQUEST, { message: translate('APIKEY_NAME_ALREADY_EXISTS', locale) });
     }
     if (!(await dashboardDataSource.getRepository(Role).exist({ where: { id: role_id } }))) {
       throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
     const apiKey = new ApiKey();
-    apiKey.name = normalizedName;
+    apiKey.name = name;
     apiKey.role_id = role_id;
     apiKey.app_id = crypto.randomBytes(8).toString('hex');
     apiKey.app_secret = crypto.randomBytes(16).toString('hex');
