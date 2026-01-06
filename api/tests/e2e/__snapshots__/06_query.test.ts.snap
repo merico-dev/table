@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryController queryStructure query_type = TABLES 1`] = `
+[
+  {
+    "table_name": "account",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "api_key",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "config",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "custom_function",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "dashboard",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "dashboard_changelog",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "dashboard_content",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "dashboard_content_changelog",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "dashboard_permission",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "data_source",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "job",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "role",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "schema_migrations",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+  {
+    "table_name": "sql_snippet",
+    "table_schema": "public",
+    "table_type": "BASE TABLE",
+  },
+]
+`;

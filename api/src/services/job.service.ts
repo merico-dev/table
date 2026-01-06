@@ -228,7 +228,7 @@ export class JobService {
       }
       jobs = await jobRepo
         .createQueryBuilder('job')
-        .where('type = :type', { type: JobType.RENAME_DATASOURCE })
+        .where('type = :type', { type: JobType.FIX_DASHBOARD_PERMISSION })
         .andWhere('status = :status', { status: JobStatus.INIT })
         .orderBy('create_time', 'ASC')
         .getMany();

@@ -48,14 +48,14 @@ describe('QueryController', () => {
               id: 'pgQuery',
               type: 'postgresql',
               key: 'preset',
-              sql: 'SELECT ${sql_snippets.role_columns} FROM role WHERE id = ${filters.role_id} AND ${context.true}',
+              config: { _type: 'postgresql', sql: 'SELECT ${sql_snippets.role_columns} FROM role WHERE id = ${filters.role_id} AND ${context.true}' },
               pre_process: '',
             },
             {
               id: 'httpGetQuery',
               type: 'http',
               key: 'jsonplaceholder_renamed',
-              sql: '',
+              config: { _type: 'http', react_to: [] },
               pre_process:
                 'function build_request({ context, filters }, utils) {\n const data = {};\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "GET",\n    url: "/posts/1",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
             },
@@ -63,7 +63,7 @@ describe('QueryController', () => {
               id: 'httpPostQuery',
               type: 'http',
               key: 'jsonplaceholder_renamed',
-              sql: '',
+              config: { _type: 'http', react_to: [] },
               pre_process:
                 'function build_request({ context, filters }, utils) {\n const data = { "title": "foo", "body": "bar", "userId": 1 };\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "POST",\n    url: "/posts",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
             },
@@ -71,7 +71,7 @@ describe('QueryController', () => {
               id: 'httpPutQuery',
               type: 'http',
               key: 'jsonplaceholder_renamed',
-              sql: '',
+              config: { _type: 'http', react_to: [] },
               pre_process:
                 'function build_request({ context, filters }, utils) {\n const data = { "id": 1, "title": "foo", "body": "bar", "userId": 1 };\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "PUT",\n    url: "/posts/1",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
             },
@@ -79,7 +79,7 @@ describe('QueryController', () => {
               id: 'httpDeleteQuery',
               type: 'http',
               key: 'jsonplaceholder_renamed',
-              sql: '',
+              config: { _type: 'http', react_to: [] },
               pre_process:
                 'function build_request({ context, filters }, utils) {\n const data = {};\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "DELETE",\n    url: "/posts/1",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
             },
@@ -238,13 +238,10 @@ describe('QueryController', () => {
         .post('/query/structure')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-
-      expect(response.body.length).toEqual(222);
-      expect(response.body[212]).toMatchObject({
-        table_schema: 'public',
-        table_name: 'dashboard',
-        table_type: 'BASE TABLE',
-      });
+      // Filter to only public schema tables to avoid version-specific system table counts
+      const publicTables = response.body.filter((t: any) => t.table_schema === 'public');
+      expect(publicTables.length).toEqual(14);
+      expect(publicTables).toMatchSnapshot();
     });
 
     it('query_type = COLUMNS', async () => {

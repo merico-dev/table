@@ -148,10 +148,12 @@ export class DataSourceService {
     const source = new Source(configuration);
     try {
       await source.initialize();
+      await source.destroy();
     } catch (error) {
-      const message = error.message ?? translate('DATASOURCE_CONNECTION_TEST_FAILED', locale);
-      throw new ApiError(BAD_REQUEST, { message });
+      // Log the original error for debugging purposes
+      console.error('Database connection test failed:', error.message);
+      // Always use the generic error message to avoid exposing internal connection details
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_CONNECTION_TEST_FAILED', locale) });
     }
-    await source.destroy();
   }
 }

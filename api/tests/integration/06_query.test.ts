@@ -127,12 +127,9 @@ describe('QueryService', () => {
   describe('queryStructure', () => {
     it('TABLES', async () => {
       const results = await queryService.queryStructure('TABLES', 'postgresql', 'pg', '', '');
-      expect(results.length).toEqual(222);
-      expect(results[212]).toMatchObject({
-        table_schema: 'public',
-        table_name: 'dashboard',
-        table_type: 'BASE TABLE',
-      });
+      const tablesInPublicSchema = results.filter((result) => result.table_schema === 'public');
+      expect(tablesInPublicSchema.length).toEqual(14);
+      expect(tablesInPublicSchema).toMatchSnapshot();
     });
 
     it('COLUMNS', async () => {
