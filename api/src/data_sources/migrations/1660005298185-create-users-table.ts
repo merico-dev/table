@@ -6,8 +6,8 @@ export class createUsersTable1660005298185 implements MigrationInterface {
       `CREATE TABLE account
         (
           id uuid NOT NULL DEFAULT gen_random_uuid(),
-          name citext NOT NULL,
-          email citext DEFAULT NULL,
+          name VARCHAR NOT NULL,
+          email VARCHAR DEFAULT NULL,
           password VARCHAR NOT NULL,
           role_id SMALLINT NOT NULL DEFAULT 10,
           create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,

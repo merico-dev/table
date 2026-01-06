@@ -6,7 +6,7 @@ export class createApiKeysTable1667183651604 implements MigrationInterface {
       `CREATE TABLE api_key
         (
           id uuid NOT NULL DEFAULT gen_random_uuid(),
-          name citext NOT NULL,
+          name VARCHAR NOT NULL,
           key VARCHAR NOT NULL,
           domain VARCHAR NOT NULL,
           role_id SMALLINT NOT NULL DEFAULT 10,
