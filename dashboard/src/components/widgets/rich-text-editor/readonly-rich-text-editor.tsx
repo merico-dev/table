@@ -24,6 +24,7 @@ import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
 import { InteractionBlock } from './interaction-block-node';
+import { LineHeightMark } from './line-height-mark';
 
 interface IReadonlyRichText {
   value: string;
@@ -61,6 +62,7 @@ export const ReadonlyRichText = forwardRef<HTMLDivElement, IReadonlyRichText>(
         TextStyle,
         Color,
         FontSize,
+        LineHeightMark,
         DynamicColorMark,
         InteractionBlock,
       ];

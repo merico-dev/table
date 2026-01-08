@@ -38,32 +38,17 @@ export const LineHeightMark = Mark.create({
     return [
       {
         tag: 'line-height',
-        getAttrs: (node: string | HTMLElement) => {
-          if (typeof node === 'string') {
-            console.debug(node);
-            return false;
-          }
-
-          return [node.getAttribute(AttrKey)];
+        getAttrs: (element) => {
+          const lineHeight = element.getAttribute(AttrKey);
+          console.log('parse html', lineHeight);
+          return lineHeight ? { [AttrKey]: lineHeight } : false;
         },
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    const lineHeight = HTMLAttributes[AttrKey];
-    if (lineHeight) {
-      // Apply line-height as inline style
-      return [
-        'span',
-        {
-          ...HTMLAttributes,
-          style: `line-height: ${lineHeight}`,
-        },
-        0,
-      ];
-    }
-    return ['span', HTMLAttributes, 0];
+    return ['line-height', { ...HTMLAttributes, style: `line-height: ${HTMLAttributes[AttrKey]}` }, 0];
   },
 
   addCommands() {
