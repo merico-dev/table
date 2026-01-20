@@ -3,7 +3,7 @@ import { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHandleChartRenderFinished, useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
@@ -55,15 +55,19 @@ function Chart({ conf, data, width, height, interactionManager, variables, onCha
 
   const echartsRef = React.useRef<EChartsInstance>();
   const onRenderFinishedRef = useLatest(onChartRenderFinished);
-  const handleEChartsFinished = useCallback(() => {
-    onRenderFinishedRef.current(echartsRef.current?.getOption());
-  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
+
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
-      finished: handleEChartsFinished,
     };
   }, [handleSeriesClick]);
+
   const handleChartReady = (echartsInstance: EChartsInstance) => {
     echartsRef.current = echartsInstance;
   };

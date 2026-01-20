@@ -1,7 +1,9 @@
+import { useLatest } from 'ahooks';
+import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
@@ -60,28 +62,41 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
-  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
-  const handleFinished = useCallback(() => {
-    const chart = echartsInstanceRef.current?.getEchartsInstance();
-    if (!chart) return;
-    notifyVizRendered(instance, chart.getOption());
-  }, [instance]);
-  const onEvents = useMemo(() => {
-    return {
-      click: handleHeatBlockClick,
-      finished: handleFinished,
-    };
-  }, [handleHeatBlockClick, handleFinished]);
+  const handleChartRenderFinished = useCallback(
+    (chartOptions: unknown) => {
+      notifyVizRendered(instance, chartOptions);
+    },
+    [instance],
+  );
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
   }, [conf, data]);
 
+  const echartsRef = React.useRef<EChartsInstance>();
+  const onRenderFinishedRef = useLatest(handleChartRenderFinished);
+
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleHeatBlockClick,
+    };
+  }, [handleHeatBlockClick]);
+
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
+
   return (
     <ReactEChartsCore
       echarts={echarts}
       option={option}
-      ref={echartsInstanceRef}
+      onChartReady={handleChartReady}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge

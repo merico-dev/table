@@ -57,7 +57,6 @@ jobs:
             settings-form/dist
 
   publish_npm:
-    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -109,17 +108,29 @@ jobs:
 
       # Publish dashboard to npm
       - name: Publish dashboard to npm
-        if: steps.check_dashboard.outcome == 'success' && github.ref == 'refs/heads/main'
+        if: steps.check_dashboard.outcome == 'success'
         run: |
           cd dashboard
-          npm publish --provenance --access public
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *"-"* ]]; then
+            TAG_FLAG="--tag next"
+          else
+            TAG_FLAG=""
+          fi
+          npm publish --provenance --access public $TAG_FLAG
 
       # Publish settings-form to npm
       - name: Publish settings-form to npm
-        if: steps.check_settings_form.outcome == 'success' && github.ref == 'refs/heads/main'
+        if: steps.check_settings_form.outcome == 'success'
         run: |
           cd settings-form
-          npm publish --provenance --access public
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *"-"* ]]; then
+            TAG_FLAG="--tag next"
+          else
+            TAG_FLAG=""
+          fi
+          npm publish --provenance --access public $TAG_FLAG
 
   build_images:
     needs: build

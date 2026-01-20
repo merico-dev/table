@@ -1,7 +1,9 @@
+import { useLatest } from 'ahooks';
+import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { defaults } from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { VizInstance, VizViewProps } from '~/types/plugin';
@@ -26,23 +28,29 @@ function Chart({
     return getOption(conf, data);
   }, [conf, data]);
 
-  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
-  const handleFinished = React.useCallback(() => {
-    const chart = echartsInstanceRef.current?.getEchartsInstance();
-    if (!chart) return;
-    notifyVizRendered(instance, chart.getOption());
-  }, [instance]);
-  const onEvents = useMemo(
-    () => ({
-      finished: handleFinished,
-    }),
-    [handleFinished],
+  const handleChartRenderFinished = useCallback(
+    (chartOptions: unknown) => {
+      notifyVizRendered(instance, chartOptions);
+    },
+    [instance],
   );
+
+  const echartsRef = React.useRef<EChartsInstance>();
+  const onRenderFinishedRef = useLatest(handleChartRenderFinished);
+
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
+
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
 
   return (
     <ReactEChartsCore
-      ref={echartsInstanceRef}
-      onEvents={onEvents}
+      onChartReady={handleChartReady}
       echarts={echarts}
       option={option}
       style={{ width, height }}

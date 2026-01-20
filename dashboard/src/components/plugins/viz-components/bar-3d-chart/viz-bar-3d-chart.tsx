@@ -1,8 +1,10 @@
+import { useLatest } from 'ahooks';
+import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
 import * as echarts from 'echarts/core';
 import { defaults, get, maxBy, minBy } from 'lodash';
-import { useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
@@ -38,17 +40,15 @@ export function VizBar3dChart({ context, instance }: VizViewProps) {
     };
   }, [queryData, z]);
 
-  const echartsInstanceRef = useRef<ReactEChartsCore>(null);
-  const handleEvents = useMemo(
-    () => ({
-      finished: () => {
-        const chart = echartsInstanceRef.current?.getEchartsInstance();
-        if (!chart) return;
-        notifyVizRendered(instance, chart.getOption());
-      },
-    }),
-    [],
+  const echartsRef = useRef<EChartsInstance>();
+  const handleChartRenderFinished = useCallback(
+    (chartOptions: unknown) => {
+      notifyVizRendered(instance, chartOptions);
+    },
+    [instance],
   );
+  const onRenderFinishedRef = useLatest(handleChartRenderFinished);
+
   const option = {
     tooltip: {},
     backgroundColor: '#fff',
@@ -100,6 +100,16 @@ export function VizBar3dChart({ context, instance }: VizViewProps) {
     ],
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
+
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
+
   if (!conf) {
     return null;
   }
@@ -108,11 +118,10 @@ export function VizBar3dChart({ context, instance }: VizViewProps) {
     <DefaultVizBox width={width} height={height}>
       <ReactEChartsCore
         echarts={echarts}
-        ref={echartsInstanceRef}
+        onChartReady={handleChartReady}
         option={option}
         style={getBoxContentStyle(width, height)}
         notMerge
-        onEvents={handleEvents}
         theme="merico-light"
       />
     </DefaultVizBox>
