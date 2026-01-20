@@ -1,7 +1,9 @@
+import { useLatest } from 'ahooks';
+import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { defaults } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
@@ -61,36 +63,48 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
-  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
   const contentModel = useRenderContentModelContext();
-  const handleFinished = React.useCallback(() => {
-    const chart = echartsInstanceRef.current?.getEchartsInstance();
-    if (!chart) return;
-    const statsAboveViz = parseRichTextContent(conf.stats.top, variables, contentModel.payloadForViz, data);
-    const statsBelowViz = parseRichTextContent(conf.stats.bottom, variables, contentModel.payloadForViz, data);
-    notifyVizRendered(instance, {
-      ...chart.getOption(),
-      statsAboveViz,
-      statsBelowViz,
-    });
-  }, [instance]);
-
-  const onEvents = useMemo(() => {
-    return {
-      click: handleSeriesClick,
-      finished: handleFinished,
-    };
-  }, [handleSeriesClick, handleFinished]);
+  const handleChartRenderFinished = useCallback(
+    (chartOptions: unknown) => {
+      const statsAboveViz = parseRichTextContent(conf.stats.top, variables, contentModel.payloadForViz, data);
+      const statsBelowViz = parseRichTextContent(conf.stats.bottom, variables, contentModel.payloadForViz, data);
+      notifyVizRendered(instance, {
+        ...chartOptions,
+        statsAboveViz,
+        statsBelowViz,
+      });
+    },
+    [instance, conf.stats.top, conf.stats.bottom, variables, contentModel.payloadForViz, data],
+  );
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
   }, [conf, data]);
 
+  const echartsRef = React.useRef<EChartsInstance>();
+  const onRenderFinishedRef = useLatest(handleChartRenderFinished);
+
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleSeriesClick,
+    };
+  }, [handleSeriesClick]);
+
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
+
   return (
     <ReactEChartsCore
       echarts={echarts}
       option={option}
-      ref={echartsInstanceRef}
+      onChartReady={handleChartReady}
       style={{ width, height }}
       onEvents={onEvents}
       notMerge

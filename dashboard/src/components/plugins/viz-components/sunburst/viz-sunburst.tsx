@@ -1,7 +1,9 @@
+import { useLatest } from 'ahooks';
+import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { defaults } from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
@@ -18,20 +20,27 @@ export function VizSunburst({ context, instance }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
 
-  const echartsInstanceRef = React.useRef<ReactEChartsCore>(null);
-  const handleFinished = React.useCallback(() => {
-    const chart = echartsInstanceRef.current?.getEchartsInstance();
-    if (!chart) return;
-    notifyVizRendered(instance, chart.getOption());
-  }, [instance]);
-  const onEvents = useMemo(
-    () => ({
-      finished: handleFinished,
-    }),
-    [handleFinished],
+  const handleChartRenderFinished = useCallback(
+    (chartOptions: unknown) => {
+      notifyVizRendered(instance, chartOptions);
+    },
+    [instance],
   );
 
   const option = useMemo(() => getOption(conf, data, variables), [conf, data, variables]);
+
+  const echartsRef = React.useRef<EChartsInstance>();
+  const onRenderFinishedRef = useLatest(handleChartRenderFinished);
+
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
+
+  const handleChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
 
   if (!width || !height) {
     return null;
@@ -41,8 +50,7 @@ export function VizSunburst({ context, instance }: VizViewProps) {
       <ReactEChartsCore
         echarts={echarts}
         option={option}
-        ref={echartsInstanceRef}
-        onEvents={onEvents}
+        onChartReady={handleChartReady}
         style={getBoxContentStyle(width, height)}
         notMerge
         theme="merico-light"
