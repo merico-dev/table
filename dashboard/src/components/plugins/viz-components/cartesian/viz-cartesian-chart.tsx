@@ -69,13 +69,14 @@ function Chart({
 
   const echartsRef = React.useRef<EChartsInstance>();
   const onRenderFinishedRef = useLatest(onChartRenderFinished);
-  const handleEChartsFinished = useCallback(() => {
-    onRenderFinishedRef.current(echartsRef.current?.getOption());
-  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
-      finished: handleEChartsFinished,
     };
   }, [handleSeriesClick]);
 
