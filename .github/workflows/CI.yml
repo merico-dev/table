@@ -111,14 +111,26 @@ jobs:
         if: steps.check_dashboard.outcome == 'success'
         run: |
           cd dashboard
-          npm publish --provenance --access public
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *"-"* ]]; then
+            TAG_FLAG="--tag next"
+          else
+            TAG_FLAG=""
+          fi
+          npm publish --provenance --access public $TAG_FLAG
 
       # Publish settings-form to npm
       - name: Publish settings-form to npm
         if: steps.check_settings_form.outcome == 'success'
         run: |
           cd settings-form
-          npm publish --provenance --access public
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *"-"* ]]; then
+            TAG_FLAG="--tag next"
+          else
+            TAG_FLAG=""
+          fi
+          npm publish --provenance --access public $TAG_FLAG
 
   build_images:
     needs: build
