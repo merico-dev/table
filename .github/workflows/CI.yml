@@ -108,14 +108,14 @@ jobs:
 
       # Publish dashboard to npm
       - name: Publish dashboard to npm
-        if: steps.check_dashboard.outcome == 'success' && github.ref == 'refs/heads/main'
+        if: steps.check_dashboard.outcome == 'success'
         run: |
           cd dashboard
           npm publish --provenance --access public
 
       # Publish settings-form to npm
       - name: Publish settings-form to npm
-        if: steps.check_settings_form.outcome == 'success' && github.ref == 'refs/heads/main'
+        if: steps.check_settings_form.outcome == 'success'
         run: |
           cd settings-form
           npm publish --provenance --access public
