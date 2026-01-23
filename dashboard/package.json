@@ -64,7 +64,7 @@
     "@mantine/tiptap": "7.17.8",
     "@monaco-editor/react": "4.6.0",
     "@tabler/icons-react": "2.47.0",
-    "@tanstack/react-table": "8.10.0",
+    "@tanstack/react-table": "8.21.3",
     "@tanstack/react-virtual": "3.13.12",
     "@tiptap/core": "^v2.14.0",
     "@tiptap/extension-code-block": "^v2.14.0",
