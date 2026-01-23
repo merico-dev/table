@@ -96,7 +96,7 @@
     "d3-scale": "4.0.2",
     "dayjs": "1.11.9",
     "dom-to-image-more": "3.1.6",
-    "echarts": "5.4.1",
+    "echarts": "5.6.0",
     "echarts-for-react": "3.0.2",
     "echarts-gl": "2.0.9",
     "eventemitter2": "^6.4.6",
