@@ -1986,7 +1986,7 @@ __metadata:
     d3-regression: "npm:1.3.10"
     d3-scale: "npm:4.0.2"
     dayjs: "npm:1.11.9"
-    dom-to-image-more: "npm:3.1.6"
+    dom-to-image-more: "npm:3.7.2"
     echarts: "npm:5.4.1"
     echarts-for-react: "npm:3.0.2"
     echarts-gl: "npm:2.0.9"
@@ -9635,10 +9635,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-to-image-more@npm:3.1.6":
-  version: 3.1.6
-  resolution: "dom-to-image-more@npm:3.1.6"
-  checksum: 10/bfc1552f93a7fc4891ffe6236cb09f0388da6f0487ceffdd89768408393873eaa79b5e75b450938707ed244521d106273564ce09eea0ff1b6100a86fc4d9ec06
+"dom-to-image-more@npm:3.7.2":
+  version: 3.7.2
+  resolution: "dom-to-image-more@npm:3.7.2"
+  checksum: 10/dadb481e1825b7e4e6354207f8d698fff1382d934e5197b597d7ba3cd36c43bad11a38dbb66ddaabac94d12a73f043a5c761861ed49a07e338b175b6c23fab2e
   languageName: node
   linkType: hard
 
