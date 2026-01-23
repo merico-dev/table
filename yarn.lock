@@ -5607,9 +5607,9 @@ __metadata:
   linkType: hard
 
 "@types/chroma-js@npm:^2.1.4":
-  version: 2.4.0
-  resolution: "@types/chroma-js@npm:2.4.0"
-  checksum: 10/a12bbfaba27a45dcd11bbe526f315498d5b8b1be346f53bd85554e67a01ff61b6ff2f3605105ef4b142a24f1a3e59cdf2ad086a5c7b5744ff693c224c6e90f3a
+  version: 2.4.5
+  resolution: "@types/chroma-js@npm:2.4.5"
+  checksum: 10/8b4eeb55ff122d758a598a014f5e7ad14bbc5cfe45ce10a907f33b3d4082e1921655bc83dbaf6728886f4344ee78301b2934ad319656845208ee0164a90a5051
   languageName: node
   linkType: hard
 
@@ -8412,9 +8412,9 @@ __metadata:
   linkType: hard
 
 "chroma-js@npm:^2.4.2":
-  version: 2.4.2
-  resolution: "chroma-js@npm:2.4.2"
-  checksum: 10/2fb16f4189de7818abf9e4d61ab3afc76d4013ebdef36982105c41df834dc5050b04afff1b9559914edab384b39cbe61b26cbdcd4142d39532b1b0f2a2f14f76
+  version: 2.6.0
+  resolution: "chroma-js@npm:2.6.0"
+  checksum: 10/245f0a0b1da7c4cedf30e490db9ab4e9e71fde207cbe1ca05e25ef5ba517df2509b96b29d2c168786237c8162a03dccea38721c4927249cd1d5c5fe0184fc13c
   languageName: node
   linkType: hard
 
