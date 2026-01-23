@@ -8447,18 +8447,18 @@ __metadata:
   linkType: hard
 
 "class-validator-jsonschema@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "class-validator-jsonschema@npm:5.0.0"
+  version: 5.1.0
+  resolution: "class-validator-jsonschema@npm:5.1.0"
   dependencies:
     lodash.groupby: "npm:^4.6.0"
     lodash.merge: "npm:^4.6.2"
     openapi3-ts: "npm:^3.0.0"
-    reflect-metadata: "npm:^0.1.13"
-    tslib: "npm:^2.4.1"
+    reflect-metadata: "npm:^0.2.2"
+    tslib: "npm:^2.8.1"
   peerDependencies:
     class-transformer: ^0.4.0 || ^0.5.0
     class-validator: ^0.14.0
-  checksum: 10/c1a297ef2e3f7d8cf93210c79527806810346e3d4baad5c46c3d93c59de92a7d4fbf19b81d22b559759354a6d9b8df72d739e2deb5d995f05e9d416b711eb0c7
+  checksum: 10/6b21f525af561ff3bc89d1f06f050bd8bb481a71c74b7e13ed2cec806b62e5e35f41138caafc0d0711fe234dbad798b5fbc7ffc1864fb62fc9b190ab373564a7
   languageName: node
   linkType: hard
 
@@ -17569,6 +17569,13 @@ __metadata:
   version: 0.1.13
   resolution: "reflect-metadata@npm:0.1.13"
   checksum: 10/732570da35d2d96f8fdd5aac60fb263aa92f6512eaded5962b052bd9e90f22a9dec5aaf0d7ff4bfe97646c9530e8444e8435c2d80b24d0bdf938b5d47f6f5b83
+  languageName: node
+  linkType: hard
+
+"reflect-metadata@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "reflect-metadata@npm:0.2.2"
+  checksum: 10/1c93f9ac790fea1c852fde80c91b2760420069f4862f28e6fae0c00c6937a56508716b0ed2419ab02869dd488d123c4ab92d062ae84e8739ea7417fae10c4745
   languageName: node
   linkType: hard
 
