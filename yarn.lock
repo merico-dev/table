@@ -1987,7 +1987,7 @@ __metadata:
     d3-scale: "npm:4.0.2"
     dayjs: "npm:1.11.9"
     dom-to-image-more: "npm:3.1.6"
-    echarts: "npm:5.4.1"
+    echarts: "npm:5.6.0"
     echarts-for-react: "npm:3.0.2"
     echarts-gl: "npm:2.0.9"
     eventemitter2: "npm:^6.4.6"
@@ -2167,7 +2167,7 @@ __metadata:
     d3-regression: "npm:1.3.10"
     d3-scale: "npm:4.0.2"
     dayjs: "npm:1.11.9"
-    echarts: "npm:5.4.1"
+    echarts: "npm:5.6.0"
     echarts-for-react: "npm:3.0.2"
     echarts-gl: "npm:2.0.9"
     eventemitter2: "npm:^6.4.6"
@@ -9802,13 +9802,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"echarts@npm:5.4.1":
-  version: 5.4.1
-  resolution: "echarts@npm:5.4.1"
+"echarts@npm:5.6.0":
+  version: 5.6.0
+  resolution: "echarts@npm:5.6.0"
   dependencies:
     tslib: "npm:2.3.0"
-    zrender: "npm:5.4.1"
-  checksum: 10/b5476800910a18746cb2f69f00179bd21e7f2fa8677732555a6eb85de6489e2ea0972a79e6a26fb8cf6ab21d52b98efef0b673f1488810c1ed577df585b49aae
+    zrender: "npm:5.6.1"
+  checksum: 10/e73344abb777fd8401c0b89a5d83b65c7a81a11540e2047d51f4aae9419baf4dc2524a5d9561f9ca0fe8d6b432c58b7a1d518f2a4338041046506db8257a1332
   languageName: node
   linkType: hard
 
@@ -20995,12 +20995,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zrender@npm:5.4.1":
-  version: 5.4.1
-  resolution: "zrender@npm:5.4.1"
+"zrender@npm:5.6.1":
+  version: 5.6.1
+  resolution: "zrender@npm:5.6.1"
   dependencies:
     tslib: "npm:2.3.0"
-  checksum: 10/f5b45df1132e400ae689cfee39f5a2ca19bcbfc19610daeeceb485b12c38871b0cf6f8d13120a33e166735d13a35c4e1ad34b806f1bfc33cc4f470a390ec02fe
+  checksum: 10/25dfd476be243f051614f131675855d184eb05e8b9a39dc41146a3a553a17aad5ceba77e166d525be9c4adc2bb237c56dfdfb3456667940bbeddb05eef3deac7
   languageName: node
   linkType: hard
 
