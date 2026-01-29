@@ -56,12 +56,6 @@ function Chart({ conf, data, width, height, interactionManager, variables, onCha
   const echartsRef = React.useRef<EChartsInstance>();
   const onRenderFinishedRef = useLatest(onChartRenderFinished);
 
-  useEffect(() => {
-    setTimeout(() => {
-      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
-    }, 100);
-  }, [option]);
-
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
@@ -75,6 +69,12 @@ function Chart({ conf, data, width, height, interactionManager, variables, onCha
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
   }, [conf, data]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      onRenderFinishedRef.current?.(echartsRef.current?.getOption());
+    }, 100);
+  }, [option]);
 
   if (!width || !height) {
     return null;

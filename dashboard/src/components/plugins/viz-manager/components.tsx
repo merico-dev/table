@@ -1,8 +1,10 @@
 import { omit } from 'lodash';
+import { useEffect } from 'react';
 import { VizConfigContext, VizContext, VizInstance, VizViewContext } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { IPanelInfo, IVizManager } from './types';
+import { notifyPanelLoaded } from '../viz-components/viz-instance-api';
 
 function createCommonContext(
   instance: VizInstance,
@@ -53,6 +55,9 @@ export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
     ...createCommonContext(instance, data, vizManager, variables),
     viewport: { width: measure.w, height: measure.h },
   };
+  useEffect(() => {
+    notifyPanelLoaded(instance, data);
+  }, [data, instance]);
   const Comp = comp.viewRender;
   return <Comp context={context} instance={instance} {...omit(props, ['panel', 'vizManager', 'data'])} />;
 };

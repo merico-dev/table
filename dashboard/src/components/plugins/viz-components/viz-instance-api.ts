@@ -1,5 +1,5 @@
-import { VizInstance } from '~/types/plugin';
 import { IPanelInfo } from '~/components/plugins';
+import { VizInstance } from '~/types/plugin';
 
 /**
  * Emit viz rendered event
@@ -20,8 +20,21 @@ export interface IVizRenderedPayload {
  * @param callback
  */
 export function onVizRendered(instance: VizInstance, callback: (data: unknown) => void) {
-  instance.messageChannels.getChannel('viz').on('rendered', callback);
+  const channel = instance.messageChannels.getChannel('viz');
+  channel.on('rendered', callback);
   return () => {
-    instance.messageChannels.getChannel('viz').off('rendered', callback);
+    channel.off('rendered', callback);
+  };
+}
+
+export function notifyPanelLoaded(instance: VizInstance, data: unknown) {
+  instance.messageChannels.getChannel('panel').emit('loaded', data);
+}
+
+export function onPanelLoaded(instance: VizInstance, callback: (data: unknown) => void) {
+  const channel = instance.messageChannels.getChannel('panel');
+  channel.on('loaded', callback);
+  return () => {
+    channel.off('loaded', callback);
   };
 }
