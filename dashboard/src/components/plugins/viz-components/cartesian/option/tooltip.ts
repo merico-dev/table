@@ -74,7 +74,7 @@ export function getTooltip(
         <tr>
           <td>${marker}</td>
           <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
-          <td style="text-align: left; padding: 0 2px 0 1em;">
+          <td style="text-align: right; padding: 0 2px 0 1em;">
             ${formatter({ value })}
           </td>
           <th style="text-align: left; padding: 0;">
@@ -97,7 +97,7 @@ export function getTooltip(
           <td />
           <th style="text-align: right; padding: 0 1em;">${m.name}</th>
           ${metricValues.map((v) => {
-            return `<td style="text-align: left; padding: 0 2px 0 1em;" >${formatAdditionalMetric(v)}</td>`;
+            return `<td style="text-align: right; padding: 0 2px 0 1em;" >${formatAdditionalMetric(v)}</td>`;
           })}
           <th style="text-align: left; padding: 0;">
             ${unit ?? ''}
